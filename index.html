@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa; }
+    .main-title { text-align: center; color: #333; margin-bottom: 10px; font-size: 2.5em; }
+    .subtitle { text-align: center; color: #555; margin-bottom: 20px; font-size: 1.2em; }
+    .container { display: flex; flex-wrap: wrap; gap: 20px; max-width: 1400px; margin: 0 auto; }
+    .chart-area { flex: 3; min-width: 600px; height: 700px; position: relative; }
+    .sidebar { flex: 1; min-width: 320px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow-y: auto; max-height: 700px; }
+    .status-badge { font-size: 2.5em; margin: 20px 0; padding: 15px; border-radius: 12px; text-align: center; }
+    .price-item { margin: 15px 0; padding: 12px; border-bottom: 1px solid #eee; font-size: 1.1em; }
+    .price-item:last-child { border-bottom: none; }
+    .price-item a { color: #1e88e5; text-decoration: none; font-weight: bold; }
+    .price-item a:hover { text-decoration: underline; }
+    #alertBox, #sellAdvice, #previousCalls, #predictionAccuracy { margin: 20px auto; padding: 15px; border-radius: 8px; max-width: 800px; font-weight: bold; font-size: 1.2em; }
+    #sellAdvice { background: #ffebee; color: #c62828; }
+    #previousCalls { background: #f0f0f0; text-align: left; }
+    #predictionAccuracy { background: #f0f0f0; text-align: center; }
+    #confidenceGauge { width: 160px; height: 160px; margin: 20px auto; }
+    .phase-bar { height: 40px; width: 100%; margin: 15px 0; border-radius: 6px; overflow: hidden; display: flex; }
+    .phase-segment { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; }
+    .loading { color: #777; font-style: italic; text-align: center; }
+    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; } }
+  </style>
+</head>
+<body>
+  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
+  <p class="subtitle">One simple line shows when money is flowing to bottoms or tops — easy to understand in 5 minutes</p>
+
+  <div class="container">
+    <div class="chart-area">
+      <div class="phase-bar">
+        <div class="phase-segment" style="background:#ff9800;">Euphoria</div>
+        <div class="phase-segment" style="background:#ffeb3b;">Thrill/Retail</div>
+        <div class="phase-segment" style="background:#8bc34a;">Belief/Breakout</div>
+        <div class="phase-segment" style="background:#ffeb3b;">Hope</div>
+        <div class="phase-segment" style="background:#f44336;">Current</div>
+      </div>
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <div class="sidebar">
+      <div id="statusBadge" class="status-badge">Loading...</div>
+      <div id="sellAdvice">Sell Advice: Loading...</div>
+      <h3>Current Prices & Charts</h3>
+      <div id="prices"><div class="loading">Loading live crypto prices...</div></div>
+      <div id="previousCalls"><strong>Previous Calls:</strong> Loading...</div>
+    </div>
+  </div>
+
+  <div id="alertBox"></div>
+  <div id="predictionsBox"></div>
+  <div id="predictionAccuracy">Prediction vs Live: Updating...</div>
+
+  <script>
+    // === MAIN CHART ===
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    const labels = ['2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11', '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01', '2027-04', '2027-07', '2027-10', '2028-01']; // 2 years ahead
+    const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null]; // Historical only
+    const predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10]; // 2-year forecast example
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: 'Flow Cycle Index (Historical)', data: predictorIndex, borderColor: 'blue', tension: 0.2, fill: false },
+          { label: 'Predicted Index (2-Year Forecast)', data: predictionData, borderColor: 'gray', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { min: 0, max: 100 } }
+      }
+    });
+
+    // === LIVE CRYPTO PRICES ===
+    async function fetchLiveData() {
+      try {
+        const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
+        const cgData = await cgRes.json();
+
+        const pricesDiv = document.getElementById('prices');
+        pricesDiv.innerHTML = '';
+
+        const liveAssets = [
+          { name: 'Bitcoin (BTC)', price: `$${cgData[0].current_price.toLocaleString()}`, change: `${cgData[0].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bitcoin/' },
+          { name: 'Ethereum (ETH)', price: `$${cgData[1].current_price.toLocaleString()}`, change: `${cgData[1].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/ethereum/' },
+          { name: 'Solana (SOL)', price: `$${cgData[2].current_price.toLocaleString()}`, change: `${cgData[2].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/solana/' },
+          { name: 'BNB (BNB)', price: `$${cgData[3].current_price.toLocaleString()}`, change: `${cgData[3].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bnb/' }
+        ];
+
+        liveAssets.forEach(asset => {
+          const div = document.createElement('div');
+          div.className = 'price-item';
+          div.innerHTML = `
+            <strong>${asset.name}</strong><br>
+            <span style="font-size:1.4em;">${asset.price}</span> 
+            <span style="color:${asset.change.includes('+') ? 'green' : 'red'};">${asset.change}</span><br>
+            <a href="${asset.link}" target="_blank">Live Chart →</a>
+          `;
+          pricesDiv.appendChild(div);
+        });
+      } catch (e) {
+        document.getElementById('prices').innerHTML = '<p style="color:red;">Live prices failed (refresh)</p>';
+      }
+    }
+    fetchLiveData();
+
+    // === LOCALSTORAGE ===
+    function saveCall(type, value) {
+      const timestamp = new Date().toLocaleString();
+      const callData = { type, timestamp, value };
+      let calls = JSON.parse(localStorage.getItem('flowCalls')) || [];
+      calls.unshift(callData);
+      if (calls.length > 5) calls = calls.slice(0, 5);
+      localStorage.setItem('flowCalls', JSON.stringify(calls));
+      updatePreviousCalls();
+    }
+
+    function updatePreviousCalls() {
+      const calls = JSON.parse(localStorage.getItem('flowCalls')) || [];
+      const div = document.getElementById('previousCalls');
+      div.innerHTML = '<strong>Previous Calls:</strong><br>';
+      if (calls.length === 0) {
+        div.innerHTML += 'No calls recorded yet.';
+      } else {
+        calls.forEach(call => {
+          div.innerHTML += `<strong>${call.type} Call</strong>: ${call.timestamp} – Index ${call.value}<br>`;
+        });
+      }
+    }
+    updatePreviousCalls();
+
+    // === ALERTS & SELL ADVICE ===
+    const currentIndex = predictorIndex[predictorIndex.length - 10];
+    const alertBox = document.getElementById('alertBox');
+    const sellAdvice = document.getElementById('sellAdvice');
+    const statusBadge = document.getElementById('statusBadge');
+    const predictionsBox = document.getElementById('predictionsBox');
+    const predictionAccuracy = document.getElementById('predictionAccuracy');
+
+    let msg = 'Current: Neutral flow.';
+    let sellMsg = 'Sell Advice: Hold or buy dips.';
+    let badge = '🟡 WATCHING';
+    let badgeColor = '#ffeb3b';
+    let predictions = 'Predicted Top: April–July 2026 | Bottom: August–November 2026';
+    let accuracy = 'Prediction vs Live: No deviation yet (forecast to Jan 2028)';
+
+    if (currentIndex < 30) {
+      msg = 'Bottom Alert: Fear low – like Nov 2025 – buy time!';
+      sellMsg = 'Sell Advice: Too early – consider buying.';
+      badge = '🟢 BUY ZONE';
+      badgeColor = '#4caf50';
+      saveCall('Bottom', currentIndex);
+    } else if (currentIndex > 90) {
+      msg = 'Heavy Sell Alert: Euphoria peak – full sell now!';
+      sellMsg = 'Sell Advice: You should be 100% out now.';
+      badge = '🔴 FULL SELL';
+      badgeColor = '#f44336';
+      saveCall('Top', currentIndex);
+    } else if (currentIndex > 80) {
+      msg = 'Sell Alert: Euphoria building – start selling.';
+      sellMsg = 'Sell Advice: You should be 50–80% out now.';
+      badge = '🟠 START SELLING';
+      badgeColor = '#ff9800';
+      saveCall('Top Warning', currentIndex);
+    }
+
+    alertBox.innerHTML = `<strong>Flow Cycle Alert:</strong> ${msg}`;
+    alertBox.style.background = badgeColor === '#4caf50' ? '#e8f5e9' : badgeColor === '#f44336' ? '#ffebee' : '#fff';
+
+    sellAdvice.innerHTML = sellMsg;
+    sellAdvice.style.background = badgeColor === '#4caf50' ? '#e8f5e9' : badgeColor === '#f44336' ? '#ffebee' : '#fff3e0';
+
+    statusBadge.innerHTML = badge;
+    statusBadge.style.background = badgeColor;
+    statusBadge.style.color = 'white';
+
+    predictionsBox.innerHTML = `<strong>Current Predictions:</strong> ${predictions}`;
+
+    predictionAccuracy.innerHTML = accuracy;
+  </script>
+</body>
+</html>
