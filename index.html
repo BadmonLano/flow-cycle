@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0"></script>
   <style>
     body { 
       font-family: system-ui, -apple-system, sans-serif; 
@@ -65,7 +64,6 @@
       text-align: center; 
       font-weight: 700; 
       box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
-      transition: all 0.3s ease; 
     }
     .price-item { 
       margin: 20px 0; 
@@ -78,21 +76,21 @@
       transform: translateY(-4px); 
       box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
     }
-    #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { 
+    #alertBox, #sellAdvice, #previousCalls, #predictionAccuracy { 
       margin: 30px 0; 
       padding: 20px; 
       border-radius: 12px; 
       font-size: 1.4em; 
       box-shadow: 0 6px 25px rgba(0,0,0,0.4); 
     }
-    #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
+    #sellAdvice { background: #2c0e0e; color: #ff6b6b; }
     #previousCalls { background: #161b22; border: 1px solid #30363d; }
     #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
     #confidenceGauge { width: 200px; height: 200px; margin: 30px auto; }
     .phase-bar { height: 40px; width: 100%; margin: 0 0 20px 0; border-radius: 12px; overflow: hidden; display: flex; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
     .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; } .chart-area { height: 500px; } .sidebar { max-height: none; } }
+    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
 <body>
@@ -113,11 +111,10 @@
 
     <div class="sidebar">
       <div id="statusBadge" class="status-badge">Loading...</div>
-      <div id="actionAdvice">What you should do right now: Loading...</div>
+      <div id="sellAdvice">Sell Advice: Loading...</div>
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
-      <div id="previousBottoms"><strong>Previous Bottom Calls:</strong> Loading...</div>
-      <div id="previousTops"><strong>Previous Top Calls:</strong> Loading...</div>
+      <div id="previousCalls"><strong>Previous Calls:</strong> Loading...</div>
     </div>
   </div>
 
@@ -126,27 +123,13 @@
   <div id="predictionAccuracy">Prediction vs Live: Updating...</div>
 
   <script>
-    // === MAIN CHART ===
     const ctx = document.getElementById('myChart').getContext('2d');
 
     const labels = ['2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11', '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01', '2027-04', '2027-07', '2027-10', '2028-01'];
     const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
+    const predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
 
-    // Dynamic prediction (adjusts based on recent historical movement)
-    let predictionData = [];
-    if (predictorIndex.length > 5) {
-      const recent = predictorIndex.slice(-5).filter(v => v !== null); // Last 5 historical values
-      let last = recent[recent.length - 1];
-      for (let i = 0; i < 18; i++) { // 2 years (24 months, but monthly steps)
-        last = last * (1 + (Math.random() * 0.2 - 0.1)); // Random walk simulation for example (replace with real forecast logic)
-        last = Math.min(100, Math.max(0, last));
-        predictionData.push(last);
-      }
-    } else {
-      predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
-    }
-
-    new Chart(ctx, {
+    const chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -158,32 +141,25 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: { 
-          y: { min: 0, max: 100, grid: { color: '#30363d' } }, 
-          x: { grid: { color: '#30363d' } }
+        scales: {
+          x: { 
+            type: 'time', 
+            time: { unit: 'month' }, 
+            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12 },
+            title: { display: true, text: 'Time' }
+          },
+          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
           zoom: {
             zoom: {
-              wheel: { enabled: true, modifierKey: 'ctrl' },
+              wheel: { enabled: true },
               pinch: { enabled: true },
-              mode: 'xy' // Allow y-axis zoom too
+              mode: 'xy'
             },
             pan: {
               enabled: true,
-              mode: 'xy' // Allow y-axis pan too
-            }
-          },
-          crosshair: {
-            line: {
-              color: '#ffffff33',
-              width: 1
-            },
-            sync: {
-              enabled: true
-            },
-            zoom: {
-              enabled: false
+              mode: 'xy'
             }
           },
           annotation: {
@@ -214,7 +190,19 @@
       }
     });
 
-    // === LIVE PRICES ===
+    // Time scale buttons
+    document.querySelectorAll('.time-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const scale = btn.dataset.scale;
+        chart.options.scales.x.time.unit = scale === '15m' ? 'minute' : scale === '1h' ? 'hour' : scale === '4h' ? 'hour' : scale === 'day' ? 'day' : scale === 'month' ? 'month' : 'year';
+        chart.options.scales.x.ticks.maxTicksLimit = scale === '15m' ? 20 : scale === '1h' ? 24 : scale === '4h' ? 12 : scale === 'day' ? 30 : scale === 'month' ? 12 : 5;
+        chart.update();
+      });
+    });
+
+    // Live prices fetch
     async function fetchLiveData() {
       try {
         const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
