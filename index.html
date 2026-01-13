@@ -7,98 +7,116 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
   <style>
     body { 
-      font-family: 'Segoe UI', system-ui, sans-serif; 
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
       margin: 0; 
       background: #0d1117; 
       color: #c9d1d9; 
-      line-height: 1.5; 
+      line-height: 1.6; 
     }
     .main-title { 
       text-align: center; 
       color: #58a6ff; 
-      margin: 20px 0 5px; 
-      font-size: 2.8em; 
-      font-weight: 600; 
+      margin: 30px 0 10px; 
+      font-size: 3em; 
+      font-weight: 700; 
     }
     .subtitle { 
       text-align: center; 
       color: #8b949e; 
       margin-bottom: 30px; 
-      font-size: 1.1em; 
+      font-size: 1.3em; 
     }
     .container { 
       display: flex; 
       flex-wrap: wrap; 
       gap: 30px; 
-      max-width: 1500px; 
+      max-width: 1600px; 
       margin: 0 auto; 
       padding: 0 20px; 
     }
     .chart-area { 
       flex: 3; 
       min-width: 700px; 
-      height: 750px; 
+      height: 800px; 
       background: #161b22; 
-      border-radius: 12px; 
-      padding: 20px; 
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4); 
+      border-radius: 16px; 
+      padding: 25px; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
     }
     .sidebar { 
       flex: 1; 
       min-width: 340px; 
       background: #161b22; 
       padding: 25px; 
-      border-radius: 12px; 
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4); 
+      border-radius: 16px; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
       overflow-y: auto; 
-      max-height: 750px; 
+      max-height: 800px; 
     }
     .status-badge { 
-      font-size: 2.8em; 
-      margin: 0 0 25px; 
-      padding: 18px; 
-      border-radius: 12px; 
+      font-size: 3em; 
+      margin: 0 0 30px; 
+      padding: 20px; 
+      border-radius: 16px; 
       text-align: center; 
-      font-weight: bold; 
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5); 
+      font-weight: 700; 
+      box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
+      transition: all 0.3s ease; 
     }
     .price-item { 
-      margin: 18px 0; 
-      padding: 15px; 
-      border-radius: 8px; 
+      margin: 20px 0; 
+      padding: 18px; 
+      border-radius: 12px; 
       background: #21262d; 
       transition: all 0.2s; 
     }
     .price-item:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 6px 20px rgba(0,0,0,0.3); 
+      transform: translateY(-4px); 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
     }
-    .price-item strong { color: #c9d1d9; }
-    .price-item a { color: #58a6ff; }
+    .price-item strong { color: #c9d1d9; font-size: 1.3em; }
+    .price-item a { color: #58a6ff; font-size: 1.1em; }
     #alertBox, #sellAdvice, #previousCalls, #predictionAccuracy { 
-      margin: 25px 0; 
-      padding: 18px; 
-      border-radius: 10px; 
-      font-size: 1.3em; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+      margin: 30px 0; 
+      padding: 20px; 
+      border-radius: 12px; 
+      font-size: 1.4em; 
+      box-shadow: 0 6px 25px rgba(0,0,0,0.4); 
     }
     #sellAdvice { background: #2c0e0e; color: #ff6b6b; }
-    #previousCalls { background: #161b22; border: 1px solid #30363d; }
-    #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
-    #confidenceGauge { width: 180px; height: 180px; margin: 25px auto; }
-    .phase-bar { height: 36px; width: 100%; margin: 0 0 15px 0; border-radius: 6px; overflow: hidden; display: flex; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-    .phase-segment { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; }
-    .loading { color: #8b949e; font-style: italic; text-align: center; margin: 20px 0; }
+    #previousCalls, #predictionAccuracy { background: #161b22; border: 1px solid #30363d; }
+    #confidenceGauge { width: 200px; height: 200px; margin: 30px auto; }
+    .phase-bar { 
+      height: 40px; 
+      width: 100%; 
+      margin: 0 0 20px 0; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      display: flex; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5); 
+    }
+    .phase-segment { 
+      flex: 1; 
+      position: relative; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: bold; 
+      color: white; 
+      text-shadow: 1px 1px 3px black; 
+      transition: all 0.3s; 
+    }
+    .phase-segment.current { box-shadow: inset 0 0 20px rgba(255,255,255,0.3); }
+    .loading { color: #8b949e; font-style: italic; text-align: center; margin: 30px 0; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; } }
   </style>
 </head>
 <body>
   <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-  <p class="subtitle">Track money flows, phases, and signals in one clean view — from bottoms to blow-offs</p>
+  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs. Understand in 5 minutes.</p>
 
   <div class="container">
     <div class="chart-area">
@@ -116,7 +134,7 @@
       <div id="statusBadge" class="status-badge">Loading...</div>
       <div id="sellAdvice">Sell Advice: Loading...</div>
       <h3>Live Prices & Charts</h3>
-      <div id="prices"><div class="loading">Loading live crypto prices...</div></div>
+      <div id="prices"><div class="loading">Loading live prices...</div></div>
       <div id="previousCalls"><strong>Previous Calls:</strong> Loading...</div>
     </div>
   </div>
@@ -145,11 +163,21 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: { y: { min: 0, max: 100, grid: { color: '#30363d' } }, x: { grid: { color: '#30363d' } } },
+        scales: {
+          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index (Low = Buy, High = Sell)' } },
+          x: { type: 'time', time: { unit: 'month' } }
+        },
         plugins: {
           zoom: {
-            zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
-            pan: { enabled: true, mode: 'x' }
+            zoom: {
+              wheel: { enabled: true, modifierKey: 'ctrl' },
+              pinch: { enabled: true },
+              mode: 'x'
+            },
+            pan: {
+              enabled: true,
+              mode: 'x'
+            }
           },
           annotation: {
             annotations: [
