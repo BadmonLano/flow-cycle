@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0"></script>
   <style>
     body { 
       font-family: system-ui, -apple-system, sans-serif; 
@@ -21,14 +20,14 @@
       text-align: center; 
       color: #58a6ff; 
       margin: 20px 0 5px; 
-      font-size: 2.2em; 
+      font-size: 2.5em; 
       font-weight: 700; 
     }
     .subtitle { 
       text-align: center; 
       color: #8b949e; 
-      margin-bottom: 15px; 
-      font-size: 1em; 
+      margin-bottom: 20px; 
+      font-size: 1.1em; 
     }
     .container { 
       display: flex; 
@@ -46,7 +45,29 @@
       border-radius: 12px; 
       padding: 15px; 
       box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
+      position: relative; 
     }
+    .drawing-toolbar { 
+      position: absolute; 
+      left: 10px; 
+      top: 50px; 
+      background: #21262d; 
+      border-radius: 8px; 
+      padding: 10px 5px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+    }
+    .tool-icon { 
+      cursor: pointer; 
+      font-size: 1.5em; 
+      padding: 8px; 
+      border-radius: 6px; 
+      transition: all 0.2s; 
+    }
+    .tool-icon.active { background: #58a6ff; color: white; }
+    .tool-icon:hover { background: #30363d; }
     .sidebar { 
       flex: 1; 
       min-width: 300px; 
@@ -95,6 +116,17 @@
     .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
     .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
     .open .collapsible-content { display: block; }
+    .phase-toggle { 
+      background: #21262d; 
+      color: #c9d1d9; 
+      border: 1px solid #30363d; 
+      padding: 10px 15px; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      margin-bottom: 15px; 
+      transition: all 0.2s; 
+    }
+    .phase-toggle.active { background: #58a6ff; color: white; border-color: #58a6ff; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -104,14 +136,21 @@
 
   <div class="container">
     <div class="chart-area">
-      <div class="phase-bar">
-        <div class="phase-segment" style="background:#ff6b6b;">Euphoria</div>
-        <div class="phase-segment" style="background:#ffab91;">Thrill/Retail</div>
-        <div class="phase-segment" style="background:#8bc34a;">Belief/Breakout</div>
-        <div class="phase-segment" style="background:#fff176;">Hope</div>
-        <div class="phase-segment" style="background:#4caf50;">Current</div>
+      <div class="drawing-toolbar">
+        <div class="tool-icon" data-tool="crosshair" title="Crosshair">+ </div>
+        <div class="tool-icon" data-tool="line" title="Line"> - </div>
+        <div class="tool-icon" data-tool="horizontal" title="Horizontal Line"> = </div>
+        <div class="tool-icon" data-tool="trend" title="Trend Line"> / </div>
+        <div class="tool-icon" data-tool="fib" title="Fib Retracement"> F </div>
+        <div class="tool-icon" data-tool="rectangle" title="Rectangle"> [] </div>
+        <div class="tool-icon" data-tool="text" title="Text"> T </div>
+        <div class="tool-icon" data-tool="magnet" title="Magnet Snap"> M </div>
+        <div class="tool-icon" data-tool="lock" title="Lock Editing"> L </div>
+        <div class="tool-icon" data-tool="hide" title="Hide Drawings"> H </div>
+        <div class="tool-icon" data-tool="trash" title="Clear All"> 🗑 </div>
       </div>
       <canvas id="myChart"></canvas>
+      <button class="phase-toggle" id="togglePhaseBar">Toggle Phase Bar (On)</button>
     </div>
 
     <div class="sidebar">
@@ -227,6 +266,88 @@
           }
         }
       }
+    });
+
+    // === DRAWING TOOL ===
+    let activeTool = 'crosshair'; // Default
+    let drawing = false;
+    let startX, startY;
+    let drawings = JSON.parse(localStorage.getItem('drawings')) || [];
+
+    document.querySelectorAll('.tool-icon').forEach(icon => {
+      icon.addEventListener('click', () => {
+        document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
+        icon.classList.add('active');
+        activeTool = icon.dataset.tool;
+        if (activeTool === 'trash') {
+          drawings = [];
+          localStorage.setItem('drawings', JSON.stringify(drawings));
+          chart.update();
+        } else if (activeTool === 'hide') {
+          // Hide all drawings (toggle visibility)
+          chart.options.plugins.annotation.annotations.forEach(anno => {
+            if (anno.type === 'line') anno.display = !anno.display;
+          });
+          chart.update();
+        }
+      });
+    });
+
+    ctx.canvas.addEventListener('mousedown', (e) => {
+      if (activeTool === 'line' || activeTool === 'trend' || activeTool === 'horizontal' || activeTool === 'rectangle') {
+        const rect = ctx.canvas.getBoundingClientRect();
+        startX = e.clientX - rect.left;
+        startY = e.clientY - rect.top;
+        drawing = true;
+      }
+    });
+
+    ctx.canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      const rect = ctx.canvas.getBoundingClientRect();
+      const endX = e.clientX - rect.left;
+      const endY = e.clientY - rect.top;
+      // Preview line
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = 0.6;
+      ctx.stroke();
+    });
+
+    ctx.canvas.addEventListener('mouseup', (e) => {
+      if (!drawing) return;
+      const rect = ctx.canvas.getBoundingClientRect();
+      const endX = e.clientX - rect.left;
+      const endY = e.clientY - rect.top;
+      drawings.push({ startX, startY, endX, endY });
+      localStorage.setItem('drawings', JSON.stringify(drawings));
+      drawing = false;
+      chart.update();
+    });
+
+    ctx.canvas.addEventListener('dblclick', () => {
+      drawings = [];
+      localStorage.setItem('drawings', JSON.stringify(drawings));
+      chart.update();
+    });
+
+    // Redraw saved drawings
+    drawings.forEach(d => {
+      chart.options.plugins.annotation.annotations.push({
+        type: 'line',
+        xMin: d.startX,
+        xMax: d.endX,
+        yMin: d.startY,
+        yMax: d.endY,
+        borderColor: 'white',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        label: { enabled: false }
+      });
     });
 
     // === LIVE PRICES ===
