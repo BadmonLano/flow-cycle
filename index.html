@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0"></script>
   <style>
     body { 
       font-family: system-ui, -apple-system, sans-serif; 
@@ -15,6 +16,7 @@
       background: #0d1117; 
       color: #c9d1d9; 
       line-height: 1.5; 
+      font-size: 1em; /* Keep font size the same as before */
     }
     .top-menu { 
       background: #0d1117; 
@@ -23,45 +25,25 @@
       display: flex; 
       gap: 20px; 
       align-items: center; 
+      font-size: 1.1em; 
     }
     .menu-item { 
       color: #58a6ff; 
       cursor: pointer; 
-      font-size: 1.1em; 
-      transition: all 0.2s; 
+      transition: color 0.2s; 
     }
     .menu-item:hover { color: white; }
-    .container { 
+    .main-container { 
       display: grid; 
-      grid-template-columns: 60px 1fr 300px; 
-      grid-template-rows: auto 200px; 
+      grid-template-columns: 1fr 250px; 
+      grid-template-rows: auto 150px; 
       gap: 15px; 
-      max-width: 1600px; 
+      max-width: 1400px; 
       margin: 0 auto; 
       padding: 15px; 
     }
-    .drawing-toolbar { 
-      grid-column: 1 / 2; 
-      grid-row: 1 / 2; 
-      background: #161b22; 
-      border-radius: 8px; 
-      padding: 10px; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 15px; 
-      align-items: center; 
-    }
-    .tool-icon { 
-      cursor: pointer; 
-      font-size: 1.4em; 
-      padding: 8px; 
-      border-radius: 6px; 
-      transition: all 0.2s; 
-    }
-    .tool-icon.active { background: #58a6ff; color: white; }
-    .tool-icon:hover { background: #30363d; }
     .chart-main { 
-      grid-column: 2 / 3; 
+      grid-column: 1 / 2; 
       grid-row: 1 / 2; 
       height: 400px; 
       background: #161b22; 
@@ -69,16 +51,17 @@
       padding: 15px; 
       box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
     }
-    .order-book { 
-      grid-column: 3 / 4; 
+    .sidebar { 
+      grid-column: 2 / 3; 
       grid-row: 1 / 3; 
       background: #161b22; 
-      border-radius: 8px; 
       padding: 15px; 
+      border-radius: 8px; 
       box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
+      overflow-y: auto; 
     }
     .bottom-panels { 
-      grid-column: 1 / 3; 
+      grid-column: 1 / 2; 
       grid-row: 2 / 3; 
       display: flex; 
       gap: 15px; 
@@ -86,12 +69,28 @@
     .panel { 
       flex: 1; 
       background: #161b22; 
-      border-radius: 8px; 
       padding: 15px; 
+      border-radius: 8px; 
       box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
+      min-height: 100px; 
     }
+    .tab-bar { 
+      display: flex; 
+      gap: 10px; 
+      margin-bottom: 10px; 
+    }
+    .tab { 
+      background: #21262d; 
+      padding: 8px 15px; 
+      border-radius: 6px; 
+      cursor: pointer; 
+      transition: all 0.2s; 
+    }
+    .tab.active { background: #58a6ff; color: white; }
+    .tab:hover { background: #30363d; }
+    .panel-content { min-height: 50px; }
     .status-badge { 
-      font-size: 2em; 
+      font-size: 1.8em; 
       margin: 0 0 15px; 
       padding: 10px; 
       border-radius: 8px; 
@@ -120,62 +119,81 @@
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
     #previousCalls { background: #161b22; border: 1px solid #30363d; }
     #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
-    #confidenceGauge { width: 150px; height: 150px; margin: 20px auto; }
-    .phase-bar { height: 30px; width: 100%; margin: 0 0 15px 0; border-radius: 8px; overflow: hidden; display: flex; box-shadow: 0 3px 15px rgba(0,0,0,0.5); }
+    #confidenceGauge { width: 150px; height: 150px; margin: 15px auto; }
+    .phase-bar { height: 30px; width: 100%; margin: 0 0 10px 0; border-radius: 8px; overflow: hidden; display: flex; box-shadow: 0 3px 15px rgba(0,0,0,0.5); }
     .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; }
     .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
     .collapsible-section { margin: 10px 0; }
     .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
     .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
     .open .collapsible-content { display: block; }
-    .drawing-toggle { 
+    .drawing-toolbar { 
       background: #21262d; 
-      color: #c9d1d9; 
-      border: 1px solid #30363d; 
-      padding: 10px 15px; 
       border-radius: 8px; 
+      padding: 10px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+      align-items: center; 
+    }
+    .tool-icon { 
       cursor: pointer; 
-      margin-bottom: 15px; 
+      font-size: 1.5em; 
+      padding: 8px; 
+      border-radius: 6px; 
       transition: all 0.2s; 
     }
-    .drawing-toggle.active { background: #58a6ff; color: white; border-color: #58a6ff; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
+    .tool-icon.active { background: #58a6ff; color: white; }
+    .tool-icon:hover { background: #30363d; }
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .drawing-toolbar { grid-column: 1 / 2; grid-row: 1 / 2; position: absolute; left: 10px; top: 60px; } .sidebar { order: 3; } .chart-main { order: 1; grid-column: 1 / 4; } .bottom-panels { order: 2; grid-column: 1 / 4; flex-direction: column; } }
   </style>
 </head>
 <body>
-  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
+  <div class="top-menu">
+    <div class="menu-item">Trading</div>
+    <div class="menu-item">Darkles</div>
+    <div class="menu-item">Markle</div>
+    <div class="menu-item">Hotlis</div>
+    <div class="menu-item">Warrlis</div>
+    <div class="menu-item">Secd</div>
+    <div class="menu-item">Markets</div>
+  </div>
 
-  <div class="container">
-    <div class="chart-area">
-      <div class="drawing-toolbar">
-        <div class="tool-icon" data-tool="crosshair" title="Crosshair"> + </div>
-        <div class="tool-icon" data-tool="line" title="Line"> - </div>
-        <div class="tool-icon" data-tool="horizontal" title="Horizontal Line"> = </div>
-        <div class="tool-icon" data-tool="trend" title="Trend Line"> / </div>
-        <div class="tool-icon" data-tool="fib" title="Fib Retracement"> F </div>
-        <div class="tool-icon" data-tool="rectangle" title="Rectangle"> [] </div>
-        <div class="tool-icon" data-tool="text" title="Text"> T </div>
-        <div class="tool-icon" data-tool="magnet" title="Magnet Snap"> M </div>
-        <div class="tool-icon" data-tool="lock" title="Lock Editing"> L </div>
-        <div class="tool-icon" data-tool="hide" title="Hide Drawings"> H </div>
-        <div class="tool-icon" data-tool="trash" title="Clear All"> 🗑 </div>
-      </div>
+  <div class="main-container">
+    <div class="drawing-toolbar">
+      <div class="tool-icon" data-tool="crosshair" title="Crosshair">+ </div>
+      <div class="tool-icon" data-tool="line" title="Line"> - </div>
+      <div class="tool-icon" data-tool="horizontal" title="Horizontal Line"> = </div>
+      <div class="tool-icon" data-tool="trend" title="Trend Line"> / </div>
+      <div class="tool-icon" data-tool="fib" title="Fib Retracement"> F </div>
+      <div class="tool-icon" data-tool="rectangle" title="Rectangle"> [] </div>
+      <div class="tool-icon" data-tool="text" title="Text"> T </div>
+      <div class="tool-icon" data-tool="magnet" title="Magnet Snap"> M </div>
+      <div class="tool-icon" data-tool="lock" title="Lock Editing"> L </div>
+      <div class="tool-icon" data-tool="hide" title="Hide Drawings"> H </div>
+      <div class="tool-icon" data-tool="trash" title="Clear All"> 🗑 </div>
+    </div>
+    <div class="chart-main">
       <canvas id="myChart"></canvas>
     </div>
-
-    <div class="sidebar">
-      <div id="statusBadge" class="status-badge">Loading...</div>
-      <div id="actionAdvice">What you should do right now: Loading...</div>
-      <h3>Live Prices & Charts</h3>
-      <div id="prices"><div class="loading">Loading live prices...</div></div>
-      <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls (click to expand)</div>
-        <div id="previousBottoms" class="collapsible-content"><strong>Loading...</strong></div>
-      </div>
-      <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls (click to expand)</div>
-        <div id="previousTops" class="collapsible-content"><strong>Loading...</strong></div>
+    <div class="order-book">
+      <h3>Order Book</h3>
+      <p>Placeholder for order book data</p>
+      <p>Buy/Sell orders would go here</p>
+    </div>
+    <div class="bottom-panels">
+      <div class="panel">
+        <div class="tab-bar">
+          <div class="tab active">Transactions</div>
+          <div class="tab">My Holdings</div>
+          <div class="tab">Top Traders</div>
+          <div class="tab">Holders</div>
+          <div class="tab">Bubble Maps</div>
+          <div class="tab">Orders</div>
+          <div class="tab">Dev Token</div>
+        </div>
+        <div class="panel-content">Placeholder for transactions data</div>
       </div>
     </div>
   </div>
@@ -337,7 +355,7 @@
     }
     updatePreviousCalls();
 
-    // === ALERTS & SELL ADVICE ===
+    // === ALERTS & ACTION ADVICE ===
     const currentIndex = predictorIndex[predictorIndex.length - 10];
     const alertBox = document.getElementById('alertBox');
     const actionAdvice = document.getElementById('actionAdvice');
