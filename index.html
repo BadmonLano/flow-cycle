@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0"></script>
   <style>
     body { 
       font-family: system-ui, -apple-system, sans-serif; 
@@ -95,6 +94,17 @@
     .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; font-weight: bold; transition: all 0.2s; }
     .collapsible-content { display: none; padding: 10px; background: #161b22; border-radius: 0 0 8px 8px; }
     .open .collapsible-content { display: block; }
+    .drawing-toggle { 
+      background: #21262d; 
+      color: #c9d1d9; 
+      border: 1px solid #30363d; 
+      padding: 10px 15px; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      margin-bottom: 20px; 
+      transition: all 0.2s; 
+    }
+    .drawing-toggle.active { background: #58a6ff; color: white; border-color: #58a6ff; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -112,6 +122,7 @@
         <div class="phase-segment" style="background:#4caf50;">Current</div>
       </div>
       <canvas id="myChart"></canvas>
+      <button class="drawing-toggle" id="toggleDrawing">Toggle Drawing Mode (Off)</button>
     </div>
 
     <div class="sidebar">
@@ -229,12 +240,21 @@
       }
     });
 
-    // Drawing tool (click + drag to draw lines)
+    // === DRAWING TOOL ===
+    let drawingEnabled = false;
     let drawing = false;
     let startX, startY;
     let drawings = JSON.parse(localStorage.getItem('drawings')) || [];
 
+    const toggleDrawingBtn = document.getElementById('toggleDrawing');
+    toggleDrawingBtn.addEventListener('click', () => {
+      drawingEnabled = !drawingEnabled;
+      toggleDrawingBtn.textContent = drawingEnabled ? 'Drawing Mode: On (click to toggle off)' : 'Drawing Mode: Off (click to toggle on)';
+      toggleDrawingBtn.classList.toggle('active', drawingEnabled);
+    });
+
     ctx.canvas.addEventListener('mousedown', (e) => {
+      if (!drawingEnabled) return;
       const rect = ctx.canvas.getBoundingClientRect();
       startX = e.clientX - rect.left;
       startY = e.clientY - rect.top;
@@ -246,7 +266,7 @@
       const rect = ctx.canvas.getBoundingClientRect();
       const endX = e.clientX - rect.left;
       const endY = e.clientY - rect.top;
-      // Preview line (not saved yet)
+      // Preview line
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       ctx.beginPath();
       ctx.moveTo(startX, startY);
@@ -258,7 +278,7 @@
     });
 
     ctx.canvas.addEventListener('mouseup', (e) => {
-      if (!drawing) return;
+      if (!drawingEnabled || !drawing) return;
       const rect = ctx.canvas.getBoundingClientRect();
       const endX = e.clientX - rect.left;
       const endY = e.clientY - rect.top;
@@ -269,23 +289,26 @@
     });
 
     ctx.canvas.addEventListener('dblclick', () => {
+      if (!drawingEnabled) return;
       drawings = [];
       localStorage.setItem('drawings', JSON.stringify(drawings));
       chart.update();
     });
 
-    // Redraw saved drawings on chart update
-    chart.options.plugins.annotation.annotations.push(...drawings.map(d => ({
-      type: 'line',
-      xMin: d.startX,
-      xMax: d.endX,
-      yMin: d.startY,
-      yMax: d.endY,
-      borderColor: 'white',
-      borderWidth: 2,
-      borderDash: [5, 5],
-      label: { enabled: false }
-    })));
+    // Redraw saved drawings
+    drawings.forEach(d => {
+      chart.options.plugins.annotation.annotations.push({
+        type: 'line',
+        xMin: d.startX,
+        xMax: d.endX,
+        yMin: d.startY,
+        yMax: d.endY,
+        borderColor: 'white',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        label: { enabled: false }
+      });
+    });
 
     // Rest of your script (fetchLiveData, localStorage calls, alerts, sell advice, etc.) remains the same as previous version
     // ... paste your existing fetchLiveData, saveCall, updatePreviousCalls, alerts, sell advice, etc. here ...
