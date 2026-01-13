@@ -14,18 +14,20 @@
       margin: 0; 
       background: #0d1117; 
       color: #c9d1d9; 
+      line-height: 1.6; 
     }
     .main-title { 
       text-align: center; 
       color: #58a6ff; 
       margin: 30px 0 10px; 
-      font-size: 2.8em; 
+      font-size: 3em; 
       font-weight: 700; 
     }
     .subtitle { 
       text-align: center; 
       color: #8b949e; 
-      margin-bottom: 20px; 
+      margin-bottom: 30px; 
+      font-size: 1.3em; 
     }
     .container { 
       display: flex; 
@@ -38,30 +40,11 @@
     .chart-area { 
       flex: 3; 
       min-width: 700px; 
-      height: 750px; 
+      height: 800px; 
       background: #161b22; 
       border-radius: 16px; 
       padding: 25px; 
       box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
-    }
-    .time-buttons { 
-      margin-bottom: 15px; 
-      text-align: center; 
-    }
-    .time-btn { 
-      background: #21262d; 
-      color: #c9d1d9; 
-      border: 1px solid #30363d; 
-      padding: 8px 14px; 
-      margin: 0 4px; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      transition: all 0.2s; 
-    }
-    .time-btn:hover, .time-btn.active { 
-      background: #58a6ff; 
-      color: white; 
-      border-color: #58a6ff; 
     }
     .sidebar { 
       flex: 1; 
@@ -71,16 +54,17 @@
       border-radius: 16px; 
       box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
       overflow-y: auto; 
-      max-height: 750px; 
+      max-height: 800px; 
     }
     .status-badge { 
-      font-size: 2.8em; 
-      margin: 0 0 25px; 
+      font-size: 3em; 
+      margin: 0 0 30px; 
       padding: 20px; 
       border-radius: 16px; 
       text-align: center; 
       font-weight: 700; 
       box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
+      transition: all 0.3s ease; 
     }
     .price-item { 
       margin: 20px 0; 
@@ -94,36 +78,29 @@
       box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
     }
     #alertBox, #sellAdvice, #previousCalls, #predictionAccuracy { 
-      margin: 25px 0; 
-      padding: 18px; 
+      margin: 30px 0; 
+      padding: 20px; 
       border-radius: 12px; 
-      font-size: 1.3em; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+      font-size: 1.4em; 
+      box-shadow: 0 6px 25px rgba(0,0,0,0.4); 
     }
     #sellAdvice { background: #2c0e0e; color: #ff6b6b; }
     #previousCalls { background: #161b22; border: 1px solid #30363d; }
     #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
     #confidenceGauge { width: 200px; height: 200px; margin: 30px auto; }
-    .phase-bar { height: 36px; width: 100%; margin: 0 0 20px 0; border-radius: 12px; overflow: hidden; display: flex; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; }
+    .phase-bar { height: 40px; width: 100%; margin: 0 0 20px 0; border-radius: 12px; overflow: hidden; display: flex; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; transition: all 0.3s; }
+    .phase-segment.current { box-shadow: inset 0 0 20px rgba(255,255,255,0.3); }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; } }
   </style>
 </head>
 <body>
   <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
+  <p class="subtitle">Track money flows, phases, and signals in one clean view — from bottoms to blow-offs</p>
 
   <div class="container">
     <div class="chart-area">
-      <div class="time-buttons">
-        <button class="time-btn" data-scale="15m">15m</button>
-        <button class="time-btn" data-scale="1h">1h</button>
-        <button class="time-btn" data-scale="4h">4h</button>
-        <button class="time-btn active" data-scale="day">Daily</button>
-        <button class="time-btn" data-scale="month">Monthly</button>
-        <button class="time-btn" data-scale="year">Yearly</button>
-      </div>
       <div class="phase-bar">
         <div class="phase-segment" style="background:#ff6b6b;">Euphoria</div>
         <div class="phase-segment" style="background:#ffab91;">Thrill/Retail</div>
@@ -148,13 +125,14 @@
   <div id="predictionAccuracy">Prediction vs Live: Updating...</div>
 
   <script>
+    // === MAIN CHART ===
     const ctx = document.getElementById('myChart').getContext('2d');
 
     const labels = ['2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11', '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01', '2027-04', '2027-07', '2027-10', '2028-01'];
     const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
     const predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
 
-    const chart = new Chart(ctx, {
+    new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -166,14 +144,9 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: {
-          x: { 
-            type: 'time', 
-            time: { unit: 'month' }, 
-            title: { display: true, text: 'Time' },
-            ticks: { maxRotation: 45, minRotation: 45, autoSkip: true, maxTicksLimit: 12 }
-          },
-          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+        scales: { 
+          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index (Low = Buy, High = Sell)' } },
+          x: { type: 'time', time: { unit: 'month' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12 } }
         },
         plugins: {
           zoom: {
@@ -190,28 +163,135 @@
           annotation: {
             annotations: [
               { type: 'box', xMin: '2026-04', xMax: '2026-07', yMin: 80, yMax: 100, backgroundColor: 'rgba(255,0,0,0.15)', borderColor: 'red' },
-              { type: 'label', content: 'Predicted Top', xValue: '2026-05', yValue: 90, backgroundColor: 'red', color: 'white' },
+              { type: 'label', content: 'Predicted Top Window', xValue: '2026-05', yValue: 90, backgroundColor: 'red', color: 'white' },
               { type: 'label', content: 'Bottom', xValue: '2025-11-22', yValue: 10, backgroundColor: 'green', color: 'white' }
             ]
+          },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function(tooltipItem) {
+                const value = tooltipItem.raw;
+                let phase = 'Neutral';
+                if (value < 20) phase = 'Panic/Capitulation';
+                else if (value < 40) phase = 'Anger/Depression';
+                else if (value < 60) phase = 'Disbelief/Hope';
+                else if (value < 80) phase = 'Optimism/Belief';
+                else phase = 'Thrill/Euphoria';
+                return `Index: ${value} (${phase})`;
+              }
+            }
           }
         }
       }
     });
 
-    // Time scale buttons
-    document.querySelectorAll('.time-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const scale = btn.dataset.scale;
-        chart.options.scales.x.time.unit = scale === '15m' ? 'minute' : scale === '1h' ? 'hour' : scale === '4h' ? 'hour' : scale === 'day' ? 'day' : scale === 'month' ? 'month' : 'year';
-        chart.options.scales.x.ticks.maxTicksLimit = scale === '15m' ? 20 : scale === '1h' ? 24 : scale === '4h' ? 12 : scale === 'day' ? 30 : scale === 'month' ? 12 : 5;
-        chart.update();
-      });
-    });
+    // === LIVE PRICES ===
+    async function fetchLiveData() {
+      try {
+        const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
+        const cgData = await cgRes.json();
 
-    // Rest of the code (fetchLiveData, localStorage, alerts, etc.) remains the same as previous version
-    // Paste your existing fetchLiveData, saveCall, updatePreviousCalls, alerts, etc. here...
+        const pricesDiv = document.getElementById('prices');
+        pricesDiv.innerHTML = '';
+
+        const liveAssets = [
+          { name: 'Bitcoin (BTC)', price: `$${cgData[0].current_price.toLocaleString()}`, change: `${cgData[0].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bitcoin/' },
+          { name: 'Ethereum (ETH)', price: `$${cgData[1].current_price.toLocaleString()}`, change: `${cgData[1].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/ethereum/' },
+          { name: 'Solana (SOL)', price: `$${cgData[2].current_price.toLocaleString()}`, change: `${cgData[2].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/solana/' },
+          { name: 'BNB (BNB)', price: `$${cgData[3].current_price.toLocaleString()}`, change: `${cgData[3].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bnb/' }
+        ];
+
+        liveAssets.forEach(asset => {
+          const div = document.createElement('div');
+          div.className = 'price-item';
+          div.innerHTML = `
+            <strong>${asset.name}</strong><br>
+            <span style="font-size:1.4em;">${asset.price}</span> 
+            <span style="color:${asset.change.includes('+') ? '#56d364' : '#f85149'};">${asset.change}</span><br>
+            <a href="${asset.link}" target="_blank">Live Chart →</a>
+          `;
+          pricesDiv.appendChild(div);
+        });
+      } catch (e) {
+        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed (refresh page)</p>';
+      }
+    }
+    fetchLiveData();
+
+    // === LOCALSTORAGE ===
+    function saveCall(type, value) {
+      const timestamp = new Date().toLocaleString();
+      const callData = { type, timestamp, value };
+      let calls = JSON.parse(localStorage.getItem('flowCalls')) || [];
+      calls.unshift(callData);
+      if (calls.length > 5) calls = calls.slice(0, 5);
+      localStorage.setItem('flowCalls', JSON.stringify(calls));
+      updatePreviousCalls();
+    }
+
+    function updatePreviousCalls() {
+      const calls = JSON.parse(localStorage.getItem('flowCalls')) || [];
+      const div = document.getElementById('previousCalls');
+      div.innerHTML = '<strong>Previous Calls:</strong><br>';
+      if (calls.length === 0) {
+        div.innerHTML += 'No calls recorded yet.';
+      } else {
+        calls.forEach(call => {
+          div.innerHTML += `<strong>${call.type} Call</strong>: ${call.timestamp} – Index ${call.value}<br>`;
+        });
+      }
+    }
+    updatePreviousCalls();
+
+    // === ALERTS & SELL ADVICE ===
+    const currentIndex = predictorIndex[predictorIndex.length - 10];
+    const alertBox = document.getElementById('alertBox');
+    const sellAdvice = document.getElementById('sellAdvice');
+    const statusBadge = document.getElementById('statusBadge');
+    const predictionsBox = document.getElementById('predictionsBox');
+    const predictionAccuracy = document.getElementById('predictionAccuracy');
+
+    let msg = 'Current: Neutral flow.';
+    let sellMsg = 'Sell Advice: Hold or buy dips.';
+    let badge = '🟡 WATCHING';
+    let badgeColor = '#ffeb3b';
+    let predictions = 'Predicted Top: April–July 2026 | Bottom: August–November 2026';
+    let accuracy = 'Prediction vs Live: No deviation yet (forecast to Jan 2028)';
+
+    if (currentIndex < 30) {
+      msg = 'Bottom Alert: Fear low – like Nov 2025 – buy time!';
+      sellMsg = 'Sell Advice: Too early – consider buying.';
+      badge = '🟢 BUY ZONE';
+      badgeColor = '#4caf50';
+      saveCall('Bottom', currentIndex);
+    } else if (currentIndex > 90) {
+      msg = 'Heavy Sell Alert: Euphoria peak – full sell now!';
+      sellMsg = 'Sell Advice: You should be 100% out now.';
+      badge = '🔴 FULL SELL';
+      badgeColor = '#f44336';
+      saveCall('Top', currentIndex);
+    } else if (currentIndex > 80) {
+      msg = 'Sell Alert: Euphoria building – start selling.';
+      sellMsg = 'Sell Advice: You should be 50–80% out now.';
+      badge = '🟠 START SELLING';
+      badgeColor = '#ff9800';
+      saveCall('Top Warning', currentIndex);
+    }
+
+    alertBox.innerHTML = `<strong>Flow Cycle Alert:</strong> ${msg}`;
+    alertBox.style.background = badgeColor === '#4caf50' ? '#0e4429' : badgeColor === '#f44336' ? '#2c0e0e' : '#161b22';
+
+    sellAdvice.innerHTML = sellMsg;
+    sellAdvice.style.background = badgeColor === '#4caf50' ? '#0e4429' : badgeColor === '#f44336' ? '#2c0e0e' : '#161b22';
+
+    statusBadge.innerHTML = badge;
+    statusBadge.style.background = badgeColor;
+    statusBadge.style.color = 'white';
+
+    predictionsBox.innerHTML = `<strong>Current Predictions:</strong> ${predictions}`;
+
+    predictionAccuracy.innerHTML = accuracy;
   </script>
 </body>
 </html>
