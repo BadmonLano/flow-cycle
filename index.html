@@ -16,12 +16,12 @@
       background: #0d1117; 
       color: #c9d1d9; 
       line-height: 1.5; 
-      font-size: 1em; /* Keep font size the same */
+      font-size: 1em; 
     }
     .main-title { 
       text-align: center; 
       color: #58a6ff; 
-      margin: 20px 0 5px; 
+      margin: 15px 0 5px; 
       font-size: 2.5em; 
       font-weight: 700; 
     }
@@ -29,106 +29,130 @@
       text-align: center; 
       color: #8b949e; 
       margin-bottom: 15px; 
-      font-size: 1.1em; 
+      font-size: 1em; 
     }
     .container { 
       display: flex; 
       flex-wrap: wrap; 
-      gap: 20px; 
+      gap: 15px; 
       max-width: 1400px; 
       margin: 0 auto; 
-      padding: 0 15px; 
+      padding: 0 10px; 
     }
     .chart-area { 
       flex: 3; 
       min-width: 600px; 
-      height: 600px; 
+      height: 500px; 
       background: #161b22; 
-      border-radius: 12px; 
-      padding: 15px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
-    }
-    .sidebar { 
-      flex: 1; 
-      min-width: 300px; 
-      background: #161b22; 
-      padding: 15px; 
-      border-radius: 12px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
-      overflow-y: auto; 
-      max-height: 600px; 
-    }
-    .status-badge { 
-      font-size: 2em; 
-      margin: 0 0 15px; 
+      border-radius: 8px; 
       padding: 10px; 
-      border-radius: 8px; 
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6); 
+      position: relative; 
+    }
+    .time-buttons { 
       text-align: center; 
-      font-weight: 700; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      margin-bottom: 10px; 
     }
-    .price-item { 
-      margin: 10px 0; 
-      padding: 12px; 
-      border-radius: 8px; 
+    .time-btn { 
       background: #21262d; 
+      color: #c9d1d9; 
+      border: 1px solid #30363d; 
+      padding: 6px 12px; 
+      margin: 0 3px; 
+      border-radius: 6px; 
+      cursor: pointer; 
       transition: all 0.2s; 
+      font-size: 0.9em; 
     }
-    .price-item:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4); 
+    .time-btn:hover, .time-btn.active { 
+      background: #58a6ff; 
+      color: white; 
+      border-color: #58a6ff; 
     }
-    #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { 
-      margin: 15px 0; 
-      padding: 12px; 
-      border-radius: 8px; 
-      font-size: 1.1em; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
-    }
-    #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
-    #previousCalls { background: #161b22; border: 1px solid #30363d; }
-    #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
-    #confidenceGauge { width: 150px; height: 150px; margin: 20px auto; }
-    .phase-bar { height: 30px; width: 100%; margin: 0 0 15px 0; border-radius: 8px; overflow: hidden; display: flex; box-shadow: 0 3px 15px rgba(0,0,0,0.5); }
-    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; }
-    .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
-    .collapsible-section { margin: 10px 0; }
-    .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-    .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
-    .open .collapsible-content { display: block; }
     .drawing-toolbar { 
       position: absolute; 
-      left: 10px; 
-      top: 50px; 
+      left: 5px; 
+      top: 40px; 
       background: #21262d; 
-      border-radius: 8px; 
-      padding: 10px 5px; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      border-radius: 6px; 
+      padding: 8px 4px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
       display: flex; 
       flex-direction: column; 
-      gap: 10px; 
+      gap: 8px; 
+      z-index: 10; 
     }
     .tool-icon { 
       cursor: pointer; 
-      font-size: 1.5em; 
-      padding: 8px; 
-      border-radius: 6px; 
+      font-size: 1.3em; 
+      padding: 6px; 
+      border-radius: 4px; 
       transition: all 0.2s; 
     }
     .tool-icon.active { background: #58a6ff; color: white; }
     .tool-icon:hover { background: #30363d; }
+    .sidebar { 
+      flex: 1; 
+      min-width: 280px; 
+      background: #161b22; 
+      padding: 10px; 
+      border-radius: 8px; 
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6); 
+      overflow-y: auto; 
+      max-height: 500px; 
+    }
+    .status-badge { 
+      font-size: 1.8em; 
+      margin: 0 0 10px; 
+      padding: 8px; 
+      border-radius: 6px; 
+      text-align: center; 
+      font-weight: 700; 
+      box-shadow: 0 3px 10px rgba(0,0,0,0.5); 
+    }
+    .price-item { 
+      margin: 8px 0; 
+      padding: 10px; 
+      border-radius: 6px; 
+      background: #21262d; 
+      transition: all 0.2s; 
+      font-size: 0.9em; 
+    }
+    .price-item:hover { 
+      transform: translateY(-1px); 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
+    }
+    #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { 
+      margin: 10px 0; 
+      padding: 10px; 
+      border-radius: 6px; 
+      font-size: 1em; 
+      box-shadow: 0 3px 10px rgba(0,0,0,0.4); 
+    }
+    #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
+    #previousCalls { background: #161b22; border: 1px solid #30363d; }
+    #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
+    #confidenceGauge { width: 130px; height: 130px; margin: 15px auto; }
+    .phase-bar { height: 25px; width: 100%; margin: 0 0 10px 0; border-radius: 6px; overflow: hidden; display: flex; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 1px black; font-size: 0.8em; }
+    .loading { color: #8b949e; text-align: center; margin: 10px 0; font-style: italic; font-size: 0.9em; }
+    .collapsible-section { margin: 8px 0; }
+    .collapsible-header { cursor: pointer; padding: 6px; background: #21262d; border-radius: 4px; font-weight: bold; transition: all 0.2s; font-size: 0.9em; }
+    .collapsible-content { display: none; padding: 6px; background: #161b22; border-radius: 0 0 4px 4px; font-size: 0.9em; }
+    .open .collapsible-content { display: block; }
     .phase-toggle { 
       background: #21262d; 
       color: #c9d1d9; 
       border: 1px solid #30363d; 
-      padding: 10px 15px; 
-      border-radius: 8px; 
+      padding: 8px 12px; 
+      border-radius: 6px; 
       cursor: pointer; 
-      margin-bottom: 15px; 
+      margin-bottom: 10px; 
       transition: all 0.2s; 
+      font-size: 0.9em; 
     }
     .phase-toggle.active { background: #58a6ff; color: white; border-color: #58a6ff; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
+    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 400px; } }
   </style>
 </head>
 <body>
@@ -137,18 +161,20 @@
 
   <div class="container">
     <div class="chart-area">
-      <div class="drawing-toolbar">
-        <div class="tool-icon" data-tool="crosshair" title="Crosshair"> + </div>
-        <div class="tool-icon" data-tool="line" title="Line"> - </div>
-        <div class="tool-icon" data-tool="horizontal" title="Horizontal Line"> = </div>
-        <div class="tool-icon" data-tool="trend" title="Trend Line"> / </div>
-        <div class="tool-icon" data-tool="fib" title="Fib Retracement"> F </div>
-        <div class="tool-icon" data-tool="rectangle" title="Rectangle"> [] </div>
-        <div class="tool-icon" data-tool="text" title="Text"> T </div>
-        <div class="tool-icon" data-tool="magnet" title="Magnet Snap"> M </div>
-        <div class="tool-icon" data-tool="lock" title="Lock Editing"> L </div>
-        <div class="tool-icon" data-tool="hide" title="Hide Drawings"> H </div>
-        <div class="tool-icon" data-tool="trash" title="Clear All"> 🗑 </div>
+      <div class="time-buttons">
+        <button class="time-btn" data-scale="15m">15m</button>
+        <button class="time-btn" data-scale="1h">1h</button>
+        <button class="time-btn" data-scale="4h">4h</button>
+        <button class="time-btn active" data-scale="day">Daily</button>
+        <button class="time-btn" data-scale="month">Monthly</button>
+        <button class="time-btn" data-scale="year">Yearly</button>
+      </div>
+      <div class="phase-bar">
+        <div class="phase-segment" style="background:#ff6b6b;">Euphoria</div>
+        <div class="phase-segment" style="background:#ffab91;">Thrill/Retail</div>
+        <div class="phase-segment" style="background:#8bc34a;">Belief/Breakout</div>
+        <div class="phase-segment" style="background:#fff176;">Hope</div>
+        <div class="phase-segment" style="background:#4caf50;">Current</div>
       </div>
       <canvas id="myChart"></canvas>
       <button class="phase-toggle" id="togglePhaseBar">Toggle Phase Bar (On)</button>
@@ -244,8 +270,8 @@
           annotation: {
             annotations: [
               { type: 'box', xMin: '2026-04', xMax: '2026-07', yMin: 80, yMax: 100, backgroundColor: 'rgba(255,0,0,0.15)', borderColor: 'red' },
-              { type: 'label', content: 'Predicted Top Window', xValue: '2026-05', yValue: 90, backgroundColor: 'red', color: 'white' },
-              { type: 'label', content: 'Bottom', xValue: '2025-11-22', yValue: 10, backgroundColor: 'green', color: 'white' }
+              { type: 'label', content: 'Predicted Top Window', xValue: '2026-05', yValue: 90, backgroundColor: 'red', color: 'white', position: 'end' },
+              { type: 'label', content: 'Bottom', xValue: '2025-11-22', yValue: 10, backgroundColor: 'green', color: 'white', position: 'end' }
             ]
           },
           tooltip: {
@@ -267,6 +293,18 @@
           }
         }
       }
+    });
+
+    // Time scale buttons
+    document.querySelectorAll('.time-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const scale = btn.dataset.scale;
+        chart.options.scales.x.time.unit = scale === '15m' ? 'minute' : scale === '1h' ? 'hour' : scale === '4h' ? 'hour' : scale === 'day' ? 'day' : scale === 'month' ? 'month' : 'year';
+        chart.options.scales.x.ticks.maxTicksLimit = scale === '15m' ? 20 : scale === '1h' ? 24 : scale === '4h' ? 12 : scale === 'day' ? 30 : scale === 'month' ? 12 : 5;
+        chart.update();
+      });
     });
 
     // === LIVE PRICES ===
