@@ -4,103 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
   <style>
     body { 
-      font-family: system-ui, -apple-system, sans-serif; 
       margin: 0; 
       background: #0d1117; 
       color: #c9d1d9; 
-      line-height: 1.5; 
+      font-family: system-ui, sans-serif; 
+      height: 100vh; 
+      overflow: hidden; 
     }
-    .main-title { 
+    .header { 
       text-align: center; 
-      color: #58a6ff; 
-      margin: 20px 0 5px; 
-      font-size: 2.5em; 
-      font-weight: 700; 
+      padding: 15px 0; 
+      background: #161b22; 
+      border-bottom: 1px solid #30363d; 
     }
-    .subtitle { 
-      text-align: center; 
-      color: #8b949e; 
-      margin-bottom: 20px; 
-      font-size: 1.1em; 
-    }
-    .container { 
+    .main-title { color: #58a6ff; font-size: 2.2em; margin: 0; }
+    .subtitle { color: #8b949e; font-size: 1em; margin: 5px 0 0; }
+    .layout { 
       display: flex; 
-      flex-wrap: wrap; 
-      gap: 20px; 
-      max-width: 1400px; 
-      margin: 0 auto; 
-      padding: 0 15px; 
+      height: calc(100vh - 80px); 
     }
-    .chart-area { 
+    .chart-container { 
       flex: 3; 
       min-width: 600px; 
-      height: 600px; 
-      background: #161b22; 
-      border-radius: 12px; 
-      padding: 15px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
       position: relative; 
+      background: #161b22; 
     }
+    #chart { width: 100%; height: 100%; }
+    .drawing-toolbar { 
+      position: absolute; 
+      left: 10px; 
+      top: 50px; 
+      background: #21262d; 
+      border-radius: 8px; 
+      padding: 10px 5px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+      z-index: 10; 
+    }
+    .tool-icon { 
+      cursor: pointer; 
+      font-size: 1.5em; 
+      padding: 8px; 
+      border-radius: 6px; 
+      transition: all 0.2s; 
+    }
+    .tool-icon.active { background: #58a6ff; color: white; }
+    .tool-icon:hover { background: #30363d; }
     .sidebar { 
       flex: 1; 
-      min-width: 300px; 
+      min-width: 280px; 
       background: #161b22; 
       padding: 15px; 
-      border-radius: 12px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
       overflow-y: auto; 
-      max-height: 600px; 
+      border-left: 1px solid #30363d; 
     }
     .status-badge { 
-      font-size: 2em; 
-      margin: 0 0 15px; 
-      padding: 10px; 
-      border-radius: 8px; 
+      font-size: 1.8em; 
+      padding: 8px; 
+      border-radius: 6px; 
       text-align: center; 
       font-weight: 700; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      margin-bottom: 15px; 
     }
     .price-item { 
       margin: 10px 0; 
-      padding: 12px; 
-      border-radius: 8px; 
+      padding: 10px; 
       background: #21262d; 
-      transition: all 0.2s; 
+      border-radius: 6px; 
     }
-    .price-item:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4); 
-    }
-    #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
-    .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
-    .collapsible-section { margin: 10px 0; }
+    .loading { color: #8b949e; text-align: center; font-style: italic; }
     .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
     .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
     .open .collapsible-content { display: block; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
 <body>
-  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
+  <div class="header">
+    <h1 class="main-title">Flow Cycle Index Dashboard</h1>
+    <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
+  </div>
 
-  <div class="container">
-    <div class="chart-area">
-      <!-- TradingView Widget BEGIN -->
-      <div class="tradingview-widget-container" style="height:100%;width:100%">
-        <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
-        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSD/" rel="noopener nofollow" target="_blank"><span class="blue-text">BTCUSD chart</span></a><span class="trademark"> by TradingView</span></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-        {
-          "symbol": "BTCUSD",
-          "theme": "dark",
-          "autosize": true
-        }
-        </script>
+  <div class="layout">
+    <div class="chart-container">
+      <div class="drawing-toolbar">
+        <div class="tool-icon" data-tool="crosshair" title="Crosshair">+</div>
+        <div class="tool-icon active" data-tool="line" title="Line">—</div>
+        <div class="tool-icon" data-tool="horizontal" title="Horizontal">—</div>
+        <div class="tool-icon" data-tool="trend" title="Trend">/</div>
+        <div class="tool-icon" data-tool="fib" title="Fib">F</div>
+        <div class="tool-icon" data-tool="rectangle" title="Rect">□</div>
+        <div class="tool-icon" data-tool="text" title="Text">T</div>
+        <div class="tool-icon" data-tool="trash" title="Clear">🗑</div>
       </div>
-      <!-- TradingView Widget END -->
+      <div id="chart"></div>
     </div>
 
     <div class="sidebar">
@@ -109,23 +110,91 @@
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls (click to expand)</div>
-        <div class="collapsible-content"><strong>No calls recorded yet.</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls</div>
+        <div class="collapsible-content"><strong>No calls yet</strong></div>
       </div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls (click to expand)</div>
-        <div class="collapsible-content"><strong>No calls recorded yet.</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls</div>
+        <div class="collapsible-content"><strong>No calls yet</strong></div>
       </div>
     </div>
   </div>
 
   <script>
+    // === LIGHTWEIGHT CHARTS ===
+    const chartElement = document.getElementById('chart');
+    const chart = LightweightCharts.createChart(chartElement, {
+      width: chartElement.clientWidth,
+      height: chartElement.clientHeight,
+      layout: {
+        background: { type: 'solid', color: '#0d1117' },
+        textColor: '#c9d1d9'
+      },
+      grid: {
+        vertLines: { color: '#30363d' },
+        horzLines: { color: '#30363d' }
+      },
+      crosshair: {
+        mode: LightweightCharts.CrosshairMode.Normal
+      },
+      rightPriceScale: {
+        borderColor: '#30363d'
+      },
+      timeScale: {
+        borderColor: '#30363d'
+      }
+    });
+
+    const historicalSeries = chart.addLineSeries({
+      color: '#58a6ff',
+      lineWidth: 2
+    });
+
+    const predictedSeries = chart.addLineSeries({
+      color: '#8b949e',
+      lineWidth: 2,
+      lineStyle: LightweightCharts.LineStyle.Dashed
+    });
+
+    // Your flow data (time + value)
+    const historicalData = [
+      { time: '2017-01', value: 40 },
+      { time: '2017-10', value: 45 },
+      { time: '2017-12', value: 95 },
+      { time: '2018-12', value: 10 },
+      { time: '2020-03', value: 10 },
+      { time: '2021-11', value: 90 },
+      { time: '2022-11', value: 15 },
+      { time: '2025-04', value: 25 },
+      { time: '2025-11', value: 10 },
+      { time: '2026-01', value: 51 }
+    ];
+    historicalSeries.setData(historicalData);
+
+    // Predicted (mock for now)
+    const predictedData = [
+      { time: '2026-01', value: 51 },
+      { time: '2026-04', value: 70 },
+      { time: '2026-07', value: 85 },
+      { time: '2026-10', value: 95 },
+      { time: '2027-01', value: 80 },
+      { time: '2027-04', value: 50 },
+      { time: '2027-07', value: 30 },
+      { time: '2027-10', value: 15 },
+      { time: '2028-01', value: 10 }
+    ];
+    predictedSeries.setData(predictedData);
+
+    // Resize on window change
+    window.addEventListener('resize', () => {
+      chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
+    });
+
+    // Live prices (your key)
     async function fetchLiveData() {
       try {
         const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
-          headers: {
-            'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz'
-          }
+          headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
         });
         if (!response.ok) throw new Error('API error');
         const data = await response.json();
@@ -138,7 +207,6 @@
             <strong>${coin.name}</strong><br>
             <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
             <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
-            <a href="https://coinmarketcap.com/currencies/${coin.id}/" target="_blank">Live Chart →</a>
           `;
           pricesDiv.appendChild(div);
         });
