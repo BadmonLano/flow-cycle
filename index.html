@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0"></script>
   <style>
     body { 
       font-family: system-ui, -apple-system, sans-serif; 
@@ -29,24 +28,24 @@
       text-align: center; 
       color: #8b949e; 
       margin-bottom: 15px; 
-      font-size: 1em; 
+      font-size: 1.1em; 
     }
     .container { 
       display: flex; 
       flex-wrap: wrap; 
-      gap: 15px; 
+      gap: 20px; 
       max-width: 1400px; 
       margin: 0 auto; 
-      padding: 0 10px; 
+      padding: 0 15px; 
     }
     .chart-area { 
       flex: 3; 
       min-width: 600px; 
-      height: 500px; 
+      height: 600px; 
       background: #161b22; 
-      border-radius: 8px; 
-      padding: 10px; 
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6); 
+      border-radius: 12px; 
+      padding: 15px; 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
       position: relative; 
     }
     .time-buttons { 
@@ -74,19 +73,19 @@
       left: 5px; 
       top: 40px; 
       background: #21262d; 
-      border-radius: 6px; 
-      padding: 8px 4px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
+      border-radius: 8px; 
+      padding: 10px 5px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
       display: flex; 
       flex-direction: column; 
-      gap: 8px; 
+      gap: 10px; 
       z-index: 10; 
     }
     .tool-icon { 
       cursor: pointer; 
-      font-size: 1.3em; 
-      padding: 6px; 
-      border-radius: 4px; 
+      font-size: 1.4em; 
+      padding: 8px; 
+      border-radius: 6px; 
       transition: all 0.2s; 
     }
     .tool-icon.active { background: #58a6ff; color: white; }
@@ -99,7 +98,7 @@
       border-radius: 8px; 
       box-shadow: 0 6px 20px rgba(0,0,0,0.6); 
       overflow-y: auto; 
-      max-height: 500px; 
+      max-height: 600px; 
     }
     .status-badge { 
       font-size: 1.8em; 
@@ -119,7 +118,7 @@
       font-size: 0.9em; 
     }
     .price-item:hover { 
-      transform: translateY(-1px); 
+      transform: translateY(-2px); 
       box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
     }
     #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { 
@@ -133,25 +132,11 @@
     #previousCalls { background: #161b22; border: 1px solid #30363d; }
     #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
     #confidenceGauge { width: 130px; height: 130px; margin: 15px auto; }
-    .phase-bar { height: 25px; width: 100%; margin: 0 0 10px 0; border-radius: 6px; overflow: hidden; display: flex; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 1px black; font-size: 0.8em; }
     .loading { color: #8b949e; text-align: center; margin: 10px 0; font-style: italic; font-size: 0.9em; }
     .collapsible-section { margin: 8px 0; }
     .collapsible-header { cursor: pointer; padding: 6px; background: #21262d; border-radius: 4px; font-weight: bold; transition: all 0.2s; font-size: 0.9em; }
     .collapsible-content { display: none; padding: 6px; background: #161b22; border-radius: 0 0 4px 4px; font-size: 0.9em; }
     .open .collapsible-content { display: block; }
-    .phase-toggle { 
-      background: #21262d; 
-      color: #c9d1d9; 
-      border: 1px solid #30363d; 
-      padding: 8px 12px; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      margin-bottom: 10px; 
-      transition: all 0.2s; 
-      font-size: 0.9em; 
-    }
-    .phase-toggle.active { background: #58a6ff; color: white; border-color: #58a6ff; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 400px; } }
   </style>
 </head>
@@ -169,15 +154,20 @@
         <button class="time-btn" data-scale="month">Monthly</button>
         <button class="time-btn" data-scale="year">Yearly</button>
       </div>
-      <div class="phase-bar">
-        <div class="phase-segment" style="background:#ff6b6b;">Euphoria</div>
-        <div class="phase-segment" style="background:#ffab91;">Thrill/Retail</div>
-        <div class="phase-segment" style="background:#8bc34a;">Belief/Breakout</div>
-        <div class="phase-segment" style="background:#fff176;">Hope</div>
-        <div class="phase-segment" style="background:#4caf50;">Current</div>
-      </div>
       <canvas id="myChart"></canvas>
-      <button class="phase-toggle" id="togglePhaseBar">Toggle Phase Bar (On)</button>
+      <div class="drawing-toolbar">
+        <div class="tool-icon" data-tool="crosshair" title="Crosshair"> + </div>
+        <div class="tool-icon" data-tool="line" title="Line"> - </div>
+        <div class="tool-icon" data-tool="horizontal" title="Horizontal Line"> = </div>
+        <div class="tool-icon" data-tool="trend" title="Trend Line"> / </div>
+        <div class="tool-icon" data-tool="fib" title="Fib Retracement"> F </div>
+        <div class="tool-icon" data-tool="rectangle" title="Rectangle"> [] </div>
+        <div class="tool-icon" data-tool="text" title="Text"> T </div>
+        <div class="tool-icon" data-tool="magnet" title="Magnet Snap"> M </div>
+        <div class="tool-icon" data-tool="lock" title="Lock Editing"> L </div>
+        <div class="tool-icon" data-tool="hide" title="Hide Drawings"> H </div>
+        <div class="tool-icon" data-tool="trash" title="Clear All"> 🗑 </div>
+      </div>
     </div>
 
     <div class="sidebar">
@@ -307,38 +297,123 @@
       });
     });
 
-    // === LIVE PRICES ===
+    // === LIVE PRICES (CoinGecko Premium API) ===
     async function fetchLiveData() {
+      const apiKey = 'CG-16CjgPwWeLeNVZnNRmrfXiUz'; // Your Premium key
+
       try {
-        const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-        const cgData = await cgRes.json();
+        const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
+          headers: {
+            'x-cg-pro-api-key': apiKey
+          }
+        });
+
+        if (!response.ok) throw new Error('API request failed');
+
+        const data = await response.json();
 
         const pricesDiv = document.getElementById('prices');
         pricesDiv.innerHTML = '';
 
-        const liveAssets = [
-          { name: 'Bitcoin (BTC)', price: `$${cgData[0].current_price.toLocaleString()}`, change: `${cgData[0].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bitcoin/' },
-          { name: 'Ethereum (ETH)', price: `$${cgData[1].current_price.toLocaleString()}`, change: `${cgData[1].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/ethereum/' },
-          { name: 'Solana (SOL)', price: `$${cgData[2].current_price.toLocaleString()}`, change: `${cgData[2].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/solana/' },
-          { name: 'BNB (BNB)', price: `$${cgData[3].current_price.toLocaleString()}`, change: `${cgData[3].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bnb/' }
-        ];
-
-        liveAssets.forEach(asset => {
+        data.forEach(coin => {
           const div = document.createElement('div');
           div.className = 'price-item';
           div.innerHTML = `
-            <strong>${asset.name}</strong><br>
-            <span style="font-size:1.4em;">${asset.price}</span> 
-            <span style="color:${asset.change.includes('+') ? '#56d364' : '#f85149'};">${asset.change}</span><br>
-            <a href="${asset.link}" target="_blank">Live Chart →</a>
+            <strong>${coin.name} (${coin.symbol.toUpperCase()})</strong><br>
+            <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
+            <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span><br>
+            <a href="https://coinmarketcap.com/currencies/${coin.id}/" target="_blank">Live Chart →</a>
           `;
           pricesDiv.appendChild(div);
         });
       } catch (e) {
-        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed (refresh page)</p>';
+        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — check key or refresh</p>';
+        console.error('Price fetch error:', e);
       }
     }
     fetchLiveData();
+
+    // === DRAWING TOOL ===
+    let activeTool = 'line'; // Default to line tool
+    let drawing = false;
+    let startX, startY;
+    let drawings = JSON.parse(localStorage.getItem('drawings')) || [];
+
+    document.querySelectorAll('.tool-icon').forEach(icon => {
+      icon.addEventListener('click', () => {
+        document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
+        icon.classList.add('active');
+        activeTool = icon.dataset.tool;
+        if (activeTool === 'trash') {
+          drawings = [];
+          localStorage.setItem('drawings', JSON.stringify(drawings));
+          chart.update();
+        } else if (activeTool === 'hide') {
+          // Toggle visibility of drawings
+          chart.options.plugins.annotation.annotations.forEach(anno => {
+            if (anno.type === 'line') anno.display = !anno.display;
+          });
+          chart.update();
+        }
+      });
+    });
+
+    ctx.canvas.addEventListener('mousedown', (e) => {
+      if (activeTool === 'line' || activeTool === 'horizontal' || activeTool === 'trend' || activeTool === 'rectangle') {
+        const rect = ctx.canvas.getBoundingClientRect();
+        startX = e.clientX - rect.left;
+        startY = e.clientY - rect.top;
+        drawing = true;
+      }
+    });
+
+    ctx.canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      const rect = ctx.canvas.getBoundingClientRect();
+      const endX = e.clientX - rect.left;
+      const endY = e.clientY - rect.top;
+      // Preview line
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = 0.6;
+      ctx.stroke();
+    });
+
+    ctx.canvas.addEventListener('mouseup', (e) => {
+      if (!drawing) return;
+      const rect = ctx.canvas.getBoundingClientRect();
+      const endX = e.clientX - rect.left;
+      const endY = e.clientY - rect.top;
+      drawings.push({ startX, startY, endX, endY, tool: activeTool });
+      localStorage.setItem('drawings', JSON.stringify(drawings));
+      drawing = false;
+      chart.update();
+    });
+
+    ctx.canvas.addEventListener('dblclick', () => {
+      drawings = [];
+      localStorage.setItem('drawings', JSON.stringify(drawings));
+      chart.update();
+    });
+
+    // Redraw saved drawings
+    drawings.forEach(d => {
+      chart.options.plugins.annotation.annotations.push({
+        type: 'line',
+        xMin: d.startX,
+        xMax: d.endX,
+        yMin: d.startY,
+        yMax: d.endY,
+        borderColor: 'white',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        label: { enabled: false }
+      });
+    });
 
     // === LOCALSTORAGE ===
     function saveCall(type, value) {
