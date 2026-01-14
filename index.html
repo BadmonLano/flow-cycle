@@ -4,196 +4,149 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
-  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
   <style>
     body { 
+      font-family: system-ui, -apple-system, sans-serif; 
       margin: 0; 
       background: #0d1117; 
       color: #c9d1d9; 
-      font-family: system-ui, sans-serif; 
-      height: 100vh; 
-      overflow: hidden; 
+      line-height: 1.5; 
     }
-    .header { 
+    .main-title { 
       text-align: center; 
-      padding: 15px 0; 
-      background: #161b22; 
-      border-bottom: 1px solid #30363d; 
+      color: #58a6ff; 
+      margin: 20px 0 5px; 
+      font-size: 2.5em; 
+      font-weight: 700; 
     }
-    .main-title { color: #58a6ff; font-size: 2.2em; margin: 0; }
-    .subtitle { color: #8b949e; font-size: 1em; margin: 5px 0 0; }
-    .layout { 
+    .subtitle { 
+      text-align: center; 
+      color: #8b949e; 
+      margin-bottom: 20px; 
+      font-size: 1.1em; 
+    }
+    .container { 
       display: flex; 
-      height: calc(100vh - 80px); 
+      flex-wrap: wrap; 
+      gap: 20px; 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      padding: 0 15px; 
     }
-    .chart-container { 
+    .chart-area { 
       flex: 3; 
       min-width: 600px; 
-      position: relative; 
+      height: 600px; 
       background: #161b22; 
+      border-radius: 12px; 
+      padding: 15px; 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
+      position: relative; 
     }
-    #chart { width: 100%; height: 100%; }
-    .time-bar { 
-      position: absolute; 
-      top: 10px; 
-      left: 50%; 
-      transform: translateX(-50%); 
-      background: rgba(33, 38, 45, 0.9); 
-      padding: 6px 12px; 
-      border-radius: 8px; 
-      z-index: 10; 
-    }
-    .time-btn { 
-      background: transparent; 
-      border: none; 
-      color: #c9d1d9; 
-      padding: 4px 8px; 
-      margin: 0 4px; 
-      cursor: pointer; 
-      font-size: 0.9em; 
-    }
-    .time-btn.active { color: #58a6ff; font-weight: bold; }
     .sidebar { 
       flex: 1; 
-      min-width: 280px; 
+      min-width: 300px; 
       background: #161b22; 
       padding: 15px; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
       overflow-y: auto; 
-      border-left: 1px solid #30363d; 
+      max-height: 600px; 
     }
     .status-badge { 
-      font-size: 1.8em; 
-      padding: 8px; 
-      border-radius: 6px; 
+      font-size: 2em; 
+      margin: 0 0 15px; 
+      padding: 10px; 
+      border-radius: 8px; 
       text-align: center; 
       font-weight: 700; 
-      margin-bottom: 15px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
     }
     .price-item { 
       margin: 10px 0; 
-      padding: 10px; 
+      padding: 12px; 
+      border-radius: 8px; 
       background: #21262d; 
-      border-radius: 6px; 
+      transition: all 0.2s; 
     }
-    .loading { color: #8b949e; text-align: center; font-style: italic; }
+    .price-item:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4); 
+    }
+    #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
+    .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
+    .collapsible-section { margin: 10px 0; }
+    .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
+    .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
+    .open .collapsible-content { display: block; }
+    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-    <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
-  </div>
+  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
+  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
 
-  <div class="layout">
-    <div class="chart-container">
-      <div class="time-bar">
-        <button class="time-btn" data-time="15m">15m</button>
-        <button class="time-btn" data-time="1h">1h</button>
-        <button class="time-btn" data-time="4h">4h</button>
-        <button class="time-btn active" data-time="1d">Daily</button>
-        <button class="time-btn" data-time="1w">Weekly</button>
-        <button class="time-btn" data-time="1M">Monthly</button>
+  <div class="container">
+    <div class="chart-area">
+      <!-- TradingView Widget BEGIN -->
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/BTCUSD/" rel="noopener nofollow" target="_blank"><span class="blue-text">BTCUSD chart</span></a><span class="trademark"> by TradingView</span></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+        {
+          "symbol": "BTCUSD",
+          "theme": "dark",
+          "autosize": true
+        }
+        </script>
       </div>
-      <div id="chart"></div>
+      <!-- TradingView Widget END -->
     </div>
 
     <div class="sidebar">
-      <div id="statusBadge" class="status-badge">Loading...</div>
-      <div id="actionAdvice">What you should do right now: Loading...</div>
+      <div id="statusBadge" class="status-badge">🟡 WATCHING</div>
+      <div id="actionAdvice">What you should do right now: Hold or buy dips.</div>
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls</div>
-        <div class="collapsible-content"><strong>No calls yet</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls (click to expand)</div>
+        <div class="collapsible-content"><strong>No calls recorded yet.</strong></div>
       </div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls</div>
-        <div class="collapsible-content"><strong>No calls yet</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls (click to expand)</div>
+        <div class="collapsible-content"><strong>No calls recorded yet.</strong></div>
       </div>
     </div>
   </div>
 
   <script>
-    // === TRADINGVIEW LIGHTWEIGHT CHART ===
-    const chartElement = document.getElementById('chart');
-    const chart = LightweightCharts.createChart(chartElement, {
-      width: chartElement.clientWidth,
-      height: chartElement.clientHeight,
-      layout: {
-        background: { type: 'solid', color: '#161b22' },
-        textColor: '#c9d1d9',
-      },
-      grid: {
-        vertLines: { color: '#30363d' },
-        horzLines: { color: '#30363d' },
-      },
-      timeScale: {
-        timeVisible: true,
-        secondsVisible: false,
-      },
-      rightPriceScale: {
-        borderColor: '#30363d',
-      },
-      crosshair: {
-        mode: LightweightCharts.CrosshairMode.Normal,
-        vertLine: { color: '#ffffff33', width: 1 },
-        horzLine: { color: '#ffffff33', width: 1 },
-      },
-    });
-
-    const candlestickSeries = chart.addCandlestickSeries({
-      upColor: '#26a69a',
-      downColor: '#ef5350',
-      borderVisible: false,
-      wickUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
-    });
-
-    // Mock data (replace with real from CoinGecko)
-    const mockData = [
-      { time: '2025-01-01', open: 50, high: 60, low: 40, close: 55 },
-      { time: '2025-01-02', open: 55, high: 70, low: 50, close: 65 },
-      { time: '2025-01-03', open: 65, high: 75, low: 60, close: 70 },
-      // Add more...
-    ];
-    candlestickSeries.setData(mockData);
-
-    // Volume series
-    const volumeSeries = chart.addHistogramSeries({
-      color: '#26a69a',
-      priceFormat: { type: 'volume' },
-      priceScaleId: 'volume',
-      scaleMargins: { top: 0.8, bottom: 0 },
-    });
-    volumeSeries.priceScale().applyOptions({ scaleMargins: { top: 0.8, bottom: 0 } });
-    volumeSeries.setData([
-      { time: '2025-01-01', value: 1000, color: '#26a69a' },
-      { time: '2025-01-02', value: 1500, color: '#ef5350' },
-    ]);
-
-    // Time scale buttons
-    document.querySelectorAll('.time-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        // Here you would fetch new data for the selected time frame
-        console.log('Time frame changed to:', btn.dataset.time);
-      });
-    });
-
-    // Resize chart on window resize
-    window.addEventListener('resize', () => {
-      chart.applyOptions({
-        width: chartElement.clientWidth,
-        height: chartElement.clientHeight,
-      });
-    });
-
-    // Status
-    document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
-    document.getElementById('statusBadge').style.background = '#ffeb3b';
-    document.getElementById('statusBadge').style.color = 'white';
-    document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
+    async function fetchLiveData() {
+      try {
+        const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
+          headers: {
+            'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz'
+          }
+        });
+        if (!response.ok) throw new Error('API error');
+        const data = await response.json();
+        const pricesDiv = document.getElementById('prices');
+        pricesDiv.innerHTML = '';
+        data.forEach(coin => {
+          const div = document.createElement('div');
+          div.className = 'price-item';
+          div.innerHTML = `
+            <strong>${coin.name}</strong><br>
+            <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
+            <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
+            <a href="https://coinmarketcap.com/currencies/${coin.id}/" target="_blank">Live Chart →</a>
+          `;
+          pricesDiv.appendChild(div);
+        });
+      } catch (e) {
+        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
+      }
+    }
+    fetchLiveData();
   </script>
 </body>
 </html>
