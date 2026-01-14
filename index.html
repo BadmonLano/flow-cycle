@@ -9,143 +9,30 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
   <style>
-    body { 
-      font-family: system-ui, -apple-system, sans-serif; 
-      margin: 0; 
-      background: #0d1117; 
-      color: #c9d1d9; 
-      line-height: 1.5; 
-      font-size: 1em; 
-    }
-    .main-title { 
-      text-align: center; 
-      color: #58a6ff; 
-      margin: 20px 0 5px; 
-      font-size: 2.5em; 
-      font-weight: 700; 
-    }
-    .subtitle { 
-      text-align: center; 
-      color: #8b949e; 
-      margin-bottom: 15px; 
-      font-size: 1.1em; 
-    }
-    .container { 
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 20px; 
-      max-width: 1400px; 
-      margin: 0 auto; 
-      padding: 0 15px; 
-    }
-    .chart-area { 
-      flex: 3; 
-      min-width: 600px; 
-      height: 600px; 
-      background: #161b22; 
-      border-radius: 12px; 
-      padding: 15px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
-      position: relative; 
-    }
-    .time-buttons { 
-      text-align: center; 
-      margin-bottom: 10px; 
-    }
-    .time-btn { 
-      background: #21262d; 
-      color: #c9d1d9; 
-      border: 1px solid #30363d; 
-      padding: 6px 12px; 
-      margin: 0 3px; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      transition: all 0.2s; 
-    }
-    .time-btn:hover, .time-btn.active { 
-      background: #58a6ff; 
-      color: white; 
-      border-color: #58a6ff; 
-    }
-    .drawing-toolbar { 
-      position: absolute; 
-      left: 0; 
-      top: 40px; 
-      background: #21262d; 
-      border-radius: 8px; 
-      padding: 10px 5px; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
-      display: flex; 
-      flex-direction: column; 
-      gap: 10px; 
-      z-index: 10; 
-    }
-    .tool-icon { 
-      cursor: pointer; 
-      font-size: 1.5em; 
-      padding: 8px; 
-      border-radius: 6px; 
-      transition: all 0.2s; 
-    }
+    body { margin: 0; background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif; }
+    .main-title { text-align: center; color: #58a6ff; margin: 20px 0 5px; font-size: 2.5em; font-weight: 700; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 15px; font-size: 1.1em; }
+    .container { display: flex; flex-wrap: wrap; gap: 20px; max-width: 1400px; margin: 0 auto; padding: 0 15px; }
+    .chart-area { flex: 3; min-width: 600px; height: 600px; background: #161b22; border-radius: 12px; padding: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); position: relative; }
+    .time-buttons { text-align: center; margin-bottom: 10px; }
+    .time-btn { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 6px 12px; margin: 0 3px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .time-btn:hover, .time-btn.active { background: #58a6ff; color: white; border-color: #58a6ff; }
+    .drawing-toolbar { position: absolute; left: 0; top: 40px; background: #21262d; border-radius: 8px; padding: 10px 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 10px; z-index: 10; }
+    .tool-icon { cursor: pointer; font-size: 1.5em; padding: 8px; border-radius: 6px; transition: all 0.2s; }
     .tool-icon.active { background: #58a6ff; color: white; }
     .tool-icon:hover { background: #30363d; }
-    .sidebar { 
-      flex: 1; 
-      min-width: 300px; 
-      background: #161b22; 
-      padding: 15px; 
-      border-radius: 12px; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
-      overflow-y: auto; 
-      max-height: 600px; 
-    }
-    .status-badge { 
-      font-size: 2em; 
-      margin: 0 0 15px; 
-      padding: 10px; 
-      border-radius: 8px; 
-      text-align: center; 
-      font-weight: 700; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
-    }
-    .price-item { 
-      margin: 10px 0; 
-      padding: 12px; 
-      border-radius: 8px; 
-      background: #21262d; 
-      transition: all 0.2s; 
-    }
-    .price-item:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4); 
-    }
-    #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { 
-      margin: 15px 0; 
-      padding: 12px; 
-      border-radius: 8px; 
-      font-size: 1.1em; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
-    }
+    .sidebar { flex: 1; min-width: 300px; background: #161b22; padding: 15px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); overflow-y: auto; max-height: 600px; }
+    .status-badge { font-size: 2em; margin: 0 0 15px; padding: 10px; border-radius: 8px; text-align: center; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    .price-item { margin: 10px 0; padding: 12px; border-radius: 8px; background: #21262d; transition: all 0.2s; }
+    .price-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+    #prices, #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { margin: 15px 0; padding: 12px; border-radius: 8px; font-size: 1.1em; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
     #previousCalls { background: #161b22; border: 1px solid #30363d; }
     #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
-    #confidenceGauge { width: 150px; height: 150px; margin: 20px auto; }
     .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
-    .collapsible-section { margin: 10px 0; }
     .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
     .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
     .open .collapsible-content { display: block; }
-    .phase-toggle { 
-      background: #21262d; 
-      color: #c9d1d9; 
-      border: 1px solid #30363d; 
-      padding: 10px 15px; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      margin-bottom: 15px; 
-      transition: all 0.2s; 
-    }
-    .phase-toggle.active { background: #58a6ff; color: white; border-color: #58a6ff; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -164,7 +51,16 @@
         <button class="time-btn" data-scale="year">Yearly</button>
       </div>
       <canvas id="myChart"></canvas>
-      <button class="phase-toggle" id="togglePhaseBar">Toggle Phase Bar (On)</button>
+      <div class="drawing-toolbar">
+        <div class="tool-icon active" data-tool="crosshair" title="Crosshair">+</div>
+        <div class="tool-icon" data-tool="line" title="Line">—</div>
+        <div class="tool-icon" data-tool="horizontal" title="Horizontal">—</div>
+        <div class="tool-icon" data-tool="trend" title="Trend">/</div>
+        <div class="tool-icon" data-tool="fib" title="Fib">F</div>
+        <div class="tool-icon" data-tool="rectangle" title="Rect">□</div>
+        <div class="tool-icon" data-tool="text" title="Text">T</div>
+        <div class="tool-icon" data-tool="trash" title="Clear">🗑</div>
+      </div>
     </div>
 
     <div class="sidebar">
@@ -173,29 +69,23 @@
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls (click to expand)</div>
-        <div id="previousBottoms" class="collapsible-content"><strong>Loading...</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls</div>
+        <div id="previousBottoms" class="collapsible-content"><strong>No calls yet</strong></div>
       </div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls (click to expand)</div>
-        <div id="previousTops" class="collapsible-content"><strong>Loading...</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls</div>
+        <div id="previousTops" class="collapsible-content"><strong>No calls yet</strong></div>
       </div>
     </div>
   </div>
 
-  <div id="alertBox"></div>
-  <div id="predictionsBox"></div>
-  <div id="predictionAccuracy">Prediction vs Live: Updating...</div>
-
   <script>
-    // === MAIN CHART ===
+    // === CHART SETUP ===
     const ctx = document.getElementById('myChart').getContext('2d');
-
     const labels = ['2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11', '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01', '2027-04', '2027-07', '2027-10', '2028-01'];
     const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
     let predictionData = [];
 
-    // Dynamic prediction (recalculates every load based on recent momentum)
     if (predictorIndex.length > 5) {
       const recent = predictorIndex.slice(-5).filter(v => v !== null);
       let last = recent[recent.length - 1];
@@ -222,172 +112,71 @@
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { 
-            type: 'time', 
-            time: { unit: 'month' }, 
-            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12 },
-            title: { display: true, text: 'Time' }
-          },
-          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+          x: { type: 'time', time: { unit: 'month' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12 } },
+          y: { min: 0, max: 100 }
         },
         plugins: {
-          zoom: {
-            zoom: {
-              wheel: { enabled: true },
-              pinch: { enabled: true },
-              mode: 'xy'
-            },
-            pan: {
-              enabled: true,
-              mode: 'xy'
-            }
-          },
-          crosshair: {
-            line: {
-              color: '#ffffff33',
-              width: 1
-            },
-            sync: {
-              enabled: true
-            },
-            zoom: {
-              enabled: false
-            }
-          },
-          annotation: {
-            annotations: [
-              { type: 'box', xMin: '2026-04', xMax: '2026-07', yMin: 80, yMax: 100, backgroundColor: 'rgba(255,0,0,0.15)', borderColor: 'red' },
-              { type: 'label', content: 'Predicted Top Window', xValue: '2026-05', yValue: 90, backgroundColor: 'red', color: 'white' },
-              { type: 'label', content: 'Bottom', xValue: '2025-11-22', yValue: 10, backgroundColor: 'green', color: 'white' }
-            ]
-          },
-          tooltip: {
-            enabled: true,
-            mode: 'index',
-            intersect: false,
-            callbacks: {
-              label: function(tooltipItem) {
-                const value = tooltipItem.raw;
-                let phase = 'Neutral';
-                if (value < 20) phase = 'Panic/Capitulation';
-                else if (value < 40) phase = 'Anger/Depression';
-                else if (value < 60) phase = 'Disbelief/Hope';
-                else if (value < 80) phase = 'Optimism/Belief';
-                else phase = 'Thrill/Euphoria';
-                return `Index: ${value} (${phase})`;
-              }
-            }
-          }
+          zoom: { zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'xy' }, pan: { enabled: true, mode: 'xy' } },
+          crosshair: { line: { color: '#ffffff33', width: 1 } },
+          tooltip: { mode: 'index', intersect: false }
         }
       }
+    });
+
+    // Time scale buttons
+    document.querySelectorAll('.time-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const scale = btn.dataset.scale;
+        chart.options.scales.x.time.unit = scale === '15m' ? 'minute' : scale === '1h' ? 'hour' : scale === '4h' ? 'hour' : scale === 'day' ? 'day' : scale === 'month' ? 'month' : 'year';
+        chart.update();
+      });
     });
 
     // === LIVE PRICES ===
     async function fetchLiveData() {
       try {
-        const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-        const cgData = await cgRes.json();
-
+        const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
+          headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
+        });
+        if (!response.ok) throw new Error('API error');
+        const data = await response.json();
         const pricesDiv = document.getElementById('prices');
         pricesDiv.innerHTML = '';
-
-        const liveAssets = [
-          { name: 'Bitcoin (BTC)', price: `$${cgData[0].current_price.toLocaleString()}`, change: `${cgData[0].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bitcoin/' },
-          { name: 'Ethereum (ETH)', price: `$${cgData[1].current_price.toLocaleString()}`, change: `${cgData[1].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/ethereum/' },
-          { name: 'Solana (SOL)', price: `$${cgData[2].current_price.toLocaleString()}`, change: `${cgData[2].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/solana/' },
-          { name: 'BNB (BNB)', price: `$${cgData[3].current_price.toLocaleString()}`, change: `${cgData[3].price_change_percentage_24h.toFixed(2)}%`, link: 'https://coinmarketcap.com/currencies/bnb/' }
-        ];
-
-        liveAssets.forEach(asset => {
+        data.forEach(coin => {
           const div = document.createElement('div');
           div.className = 'price-item';
           div.innerHTML = `
-            <strong>${asset.name}</strong><br>
-            <span style="font-size:1.4em;">${asset.price}</span> 
-            <span style="color:${asset.change.includes('+') ? '#56d364' : '#f85149'};">${asset.change}</span><br>
-            <a href="${asset.link}" target="_blank">Live Chart →</a>
+            <strong>${coin.name}</strong><br>
+            <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span>
+            <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
           `;
           pricesDiv.appendChild(div);
         });
       } catch (e) {
-        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed (refresh page)</p>';
+        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
       }
     }
     fetchLiveData();
 
-    // === LOCALSTORAGE ===
-    function saveCall(type, value) {
-      const timestamp = new Date().toLocaleString();
-      const callData = { type, timestamp, value };
-      let calls = JSON.parse(localStorage.getItem('flowCalls')) || [];
-      calls.unshift(callData);
-      if (calls.length > 5) calls = calls.slice(0, 5);
-      localStorage.setItem('flowCalls', JSON.stringify(calls));
-      updatePreviousCalls();
-    }
+    // === DRAWING TOOL ===
+    let activeTool = 'crosshair';
+    document.querySelectorAll('.tool-icon').forEach(icon => {
+      icon.addEventListener('click', () => {
+        document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
+        icon.classList.add('active');
+        activeTool = icon.dataset.tool;
+      });
+    });
 
-    function updatePreviousCalls() {
-      const calls = JSON.parse(localStorage.getItem('flowCalls')) || [];
-      const div = document.getElementById('previousCalls');
-      div.innerHTML = '<strong>Previous Calls:</strong><br>';
-      if (calls.length === 0) {
-        div.innerHTML += 'No calls recorded yet.';
-      } else {
-        calls.forEach(call => {
-          div.innerHTML += `<strong>${call.type} Call</strong>: ${call.timestamp} – Index ${call.value}<br>`;
-        });
-      }
-    }
-    updatePreviousCalls();
-
-    // === ALERTS & SELL ADVICE ===
-    const currentIndex = predictorIndex[predictorIndex.length - 10];
-    const alertBox = document.getElementById('alertBox');
-    const actionAdvice = document.getElementById('actionAdvice');
+    // === STATUS ===
     const statusBadge = document.getElementById('statusBadge');
-    const predictionsBox = document.getElementById('predictionsBox');
-    const predictionAccuracy = document.getElementById('predictionAccuracy');
-
-    let msg = 'Current: Neutral flow.';
-    let actionMsg = 'What you should do right now: Hold or buy dips.';
-    let badge = '🟡 WATCHING';
-    let badgeColor = '#ffeb3b';
-    let predictions = 'Predicted Top: April–July 2026 | Bottom: August–November 2026';
-    let accuracy = 'Prediction vs Live: No deviation yet (forecast to Jan 2028)';
-
-    if (currentIndex < 30) {
-      msg = 'Bottom Alert: Fear low – like Nov 2025 – buy time!';
-      actionMsg = 'What you should do right now: Consider buying.';
-      badge = '🟢 BUY ZONE';
-      badgeColor = '#4caf50';
-      saveCall('Bottom', currentIndex);
-    } else if (currentIndex > 90) {
-      msg = 'Heavy Sell Alert: Euphoria peak – full sell now!';
-      actionMsg = 'What you should do right now: You should be 100% out now.';
-      badge = '🔴 FULL SELL';
-      badgeColor = '#f44336';
-      saveCall('Top', currentIndex);
-    } else if (currentIndex > 80) {
-      msg = 'Sell Alert: Euphoria building – start selling.';
-      actionMsg = 'What you should do right now: You should be 50–80% out now.';
-      badge = '🟠 START SELLING';
-      badgeColor = '#ff9800';
-      saveCall('Top Warning', currentIndex);
-    }
-
-    alertBox.innerHTML = `<strong>Flow Cycle Alert:</strong> ${msg}`;
-    alertBox.style.background = badgeColor === '#4caf50' ? '#0e4429' : badgeColor === '#f44336' ? '#2c0e0e' : '#161b22';
-
-    actionAdvice.innerHTML = actionMsg;
-    actionAdvice.style.background = badgeColor === '#4caf50' ? '#0e4429' : badgeColor === '#f44336' ? '#2c0e0e' : '#161b22';
-
-    statusBadge.innerHTML = badge;
-    statusBadge.style.background = badgeColor;
+    statusBadge.innerHTML = '🟡 WATCHING';
+    statusBadge.style.background = '#ffeb3b';
     statusBadge.style.color = 'white';
 
-    predictionsBox.innerHTML = `<strong>Current Predictions:</strong> ${predictions}`;
-
-    predictionAccuracy.innerHTML = accuracy;
+    document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
   </script>
 </body>
 </html>
