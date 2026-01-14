@@ -4,63 +4,97 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
   <style>
-    body { margin: 0; background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif; }
-    .main-title { text-align: center; color: #58a6ff; margin: 20px 0 5px; font-size: 2.5em; font-weight: 700; }
-    .subtitle { text-align: center; color: #8b949e; margin-bottom: 15px; font-size: 1.1em; }
-    .container { display: flex; flex-wrap: wrap; gap: 20px; max-width: 1400px; margin: 0 auto; padding: 0 15px; }
-    .chart-area { flex: 3; min-width: 600px; height: 600px; background: #161b22; border-radius: 12px; padding: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); position: relative; }
-    .time-buttons { text-align: center; margin-bottom: 10px; }
-    .time-btn { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; padding: 6px 12px; margin: 0 3px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-    .time-btn:hover, .time-btn.active { background: #58a6ff; color: white; border-color: #58a6ff; }
-    .drawing-toolbar { position: absolute; left: 0; top: 40px; background: #21262d; border-radius: 8px; padding: 10px 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 10px; z-index: 10; }
-    .tool-icon { cursor: pointer; font-size: 1.5em; padding: 8px; border-radius: 6px; transition: all 0.2s; }
-    .tool-icon.active { background: #58a6ff; color: white; }
-    .tool-icon:hover { background: #30363d; }
-    .sidebar { flex: 1; min-width: 300px; background: #161b22; padding: 15px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); overflow-y: auto; max-height: 600px; }
-    .status-badge { font-size: 2em; margin: 0 0 15px; padding: 10px; border-radius: 8px; text-align: center; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-    .price-item { margin: 10px 0; padding: 12px; border-radius: 8px; background: #21262d; transition: all 0.2s; }
-    .price-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-    #prices, #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { margin: 15px 0; padding: 12px; border-radius: 8px; font-size: 1.1em; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-    #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
-    #previousCalls { background: #161b22; border: 1px solid #30363d; }
-    #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
-    .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
-    .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-    .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
-    .open .collapsible-content { display: block; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
+    body { 
+      margin: 0; 
+      background: #0d1117; 
+      color: #c9d1d9; 
+      font-family: system-ui, sans-serif; 
+      height: 100vh; 
+      overflow: hidden; 
+    }
+    .header { 
+      text-align: center; 
+      padding: 15px 0; 
+      background: #161b22; 
+      border-bottom: 1px solid #30363d; 
+    }
+    .main-title { color: #58a6ff; font-size: 2.2em; margin: 0; }
+    .subtitle { color: #8b949e; font-size: 1em; margin: 5px 0 0; }
+    .layout { 
+      display: flex; 
+      height: calc(100vh - 80px); 
+    }
+    .chart-container { 
+      flex: 3; 
+      min-width: 600px; 
+      position: relative; 
+      background: #161b22; 
+    }
+    #chart { width: 100%; height: 100%; }
+    .time-bar { 
+      position: absolute; 
+      top: 10px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      background: rgba(33, 38, 45, 0.9); 
+      padding: 6px 12px; 
+      border-radius: 8px; 
+      z-index: 10; 
+    }
+    .time-btn { 
+      background: transparent; 
+      border: none; 
+      color: #c9d1d9; 
+      padding: 4px 8px; 
+      margin: 0 4px; 
+      cursor: pointer; 
+      font-size: 0.9em; 
+    }
+    .time-btn.active { color: #58a6ff; font-weight: bold; }
+    .sidebar { 
+      flex: 1; 
+      min-width: 280px; 
+      background: #161b22; 
+      padding: 15px; 
+      overflow-y: auto; 
+      border-left: 1px solid #30363d; 
+    }
+    .status-badge { 
+      font-size: 1.8em; 
+      padding: 8px; 
+      border-radius: 6px; 
+      text-align: center; 
+      font-weight: 700; 
+      margin-bottom: 15px; 
+    }
+    .price-item { 
+      margin: 10px 0; 
+      padding: 10px; 
+      background: #21262d; 
+      border-radius: 6px; 
+    }
+    .loading { color: #8b949e; text-align: center; font-style: italic; }
   </style>
 </head>
 <body>
-  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
+  <div class="header">
+    <h1 class="main-title">Flow Cycle Index Dashboard</h1>
+    <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
+  </div>
 
-  <div class="container">
-    <div class="chart-area">
-      <div class="time-buttons">
-        <button class="time-btn" data-scale="15m">15m</button>
-        <button class="time-btn" data-scale="1h">1h</button>
-        <button class="time-btn" data-scale="4h">4h</button>
-        <button class="time-btn active" data-scale="day">Daily</button>
-        <button class="time-btn" data-scale="month">Monthly</button>
-        <button class="time-btn" data-scale="year">Yearly</button>
+  <div class="layout">
+    <div class="chart-container">
+      <div class="time-bar">
+        <button class="time-btn" data-time="15m">15m</button>
+        <button class="time-btn" data-time="1h">1h</button>
+        <button class="time-btn" data-time="4h">4h</button>
+        <button class="time-btn active" data-time="1d">Daily</button>
+        <button class="time-btn" data-time="1w">Weekly</button>
+        <button class="time-btn" data-time="1M">Monthly</button>
       </div>
-      <canvas id="myChart"></canvas>
-      <div class="drawing-toolbar">
-        <div class="tool-icon active" data-tool="crosshair" title="Crosshair">+</div>
-        <div class="tool-icon" data-tool="line" title="Line">—</div>
-        <div class="tool-icon" data-tool="horizontal" title="Horizontal">—</div>
-        <div class="tool-icon" data-tool="trend" title="Trend">/</div>
-        <div class="tool-icon" data-tool="fib" title="Fib">F</div>
-        <div class="tool-icon" data-tool="rectangle" title="Rect">□</div>
-        <div class="tool-icon" data-tool="text" title="Text">T</div>
-        <div class="tool-icon" data-tool="trash" title="Clear">🗑</div>
-      </div>
+      <div id="chart"></div>
     </div>
 
     <div class="sidebar">
@@ -70,125 +104,96 @@
       <div id="prices"><div class="loading">Loading live prices...</div></div>
       <div class="collapsible-section">
         <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls</div>
-        <div id="previousBottoms" class="collapsible-content"><strong>No calls yet</strong></div>
+        <div class="collapsible-content"><strong>No calls yet</strong></div>
       </div>
       <div class="collapsible-section">
         <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls</div>
-        <div id="previousTops" class="collapsible-content"><strong>No calls yet</strong></div>
+        <div class="collapsible-content"><strong>No calls yet</strong></div>
       </div>
     </div>
   </div>
 
   <script>
-  // === MAIN CHART ===
-  const ctx = document.getElementById('myChart').getContext('2d');
-
-  // Mock OHLC data for candlesticks (replace with real API later)
-  const candlestickData = [
-    { x: new Date('2025-01-01'), o: 50, h: 60, l: 40, c: 55 },
-    { x: new Date('2025-01-02'), o: 55, h: 70, l: 50, c: 65 },
-    { x: new Date('2025-01-03'), o: 65, h: 75, l: 60, c: 70 },
-    // Add more...
-  ];
-
-  const volumeData = [
-    { x: new Date('2025-01-01'), y: 1000 },
-    { x: new Date('2025-01-02'), y: 1500 },
-    { x: new Date('2025-01-03'), y: 2000 },
-  ];
-
-  const chart = new Chart(ctx, {
-    type: 'candlestick', // Requires chartjs-chart-financial plugin
-    data: {
-      datasets: [
-        { label: 'Price', data: candlestickData },
-        { label: 'Volume', type: 'bar', data: volumeData, yAxisID: 'volume' }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: { type: 'time', time: { unit: 'day' } },
-        y: { title: { display: true, text: 'Price' } },
-        volume: { position: 'right', title: { display: true, text: 'Volume' }, grid: { drawOnChartArea: false } }
+    // === TRADINGVIEW LIGHTWEIGHT CHART ===
+    const chartElement = document.getElementById('chart');
+    const chart = LightweightCharts.createChart(chartElement, {
+      width: chartElement.clientWidth,
+      height: chartElement.clientHeight,
+      layout: {
+        background: { type: 'solid', color: '#161b22' },
+        textColor: '#c9d1d9',
       },
-      plugins: {
-        zoom: { zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'xy' }, pan: { enabled: true, mode: 'xy' } },
-        crosshair: { line: { color: '#ffffff33', width: 1 } },
-        annotation: {
-          annotations: [
-            { type: 'line', xMin: new Date('2026-04'), xMax: new Date('2026-07'), yMin: 80, yMax: 100, borderColor: 'red', borderWidth: 2 }
-          ]
-        }
-      }
-    }
-  });
-
-  // Time scale buttons
-  document.querySelectorAll('.time-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const scale = btn.dataset.scale;
-      chart.options.scales.x.time.unit = scale;
-      chart.update();
+      grid: {
+        vertLines: { color: '#30363d' },
+        horzLines: { color: '#30363d' },
+      },
+      timeScale: {
+        timeVisible: true,
+        secondsVisible: false,
+      },
+      rightPriceScale: {
+        borderColor: '#30363d',
+      },
+      crosshair: {
+        mode: LightweightCharts.CrosshairMode.Normal,
+        vertLine: { color: '#ffffff33', width: 1 },
+        horzLine: { color: '#ffffff33', width: 1 },
+      },
     });
-  });
 
-  // Drawing toolbar
-  let activeTool = 'line';
-  document.querySelectorAll('.tool-icon').forEach(icon => {
-    icon.addEventListener('click', () => {
-      document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
-      icon.classList.add('active');
-      activeTool = icon.dataset.tool;
+    const candlestickSeries = chart.addCandlestickSeries({
+      upColor: '#26a69a',
+      downColor: '#ef5350',
+      borderVisible: false,
+      wickUpColor: '#26a69a',
+      wickDownColor: '#ef5350',
     });
-  });
 
-  // Simple drawing preview (expand later)
-  let drawing = false;
-  let startX, startY;
-  ctx.canvas.addEventListener('mousedown', e => {
-    if (activeTool === 'line') {
-      const rect = ctx.canvas.getBoundingClientRect();
-      startX = e.clientX - rect.left;
-      startY = e.clientY - rect.top;
-      drawing = true;
-    }
-  });
+    // Mock data (replace with real from CoinGecko)
+    const mockData = [
+      { time: '2025-01-01', open: 50, high: 60, low: 40, close: 55 },
+      { time: '2025-01-02', open: 55, high: 70, low: 50, close: 65 },
+      { time: '2025-01-03', open: 65, high: 75, low: 60, close: 70 },
+      // Add more...
+    ];
+    candlestickSeries.setData(mockData);
 
-  ctx.canvas.addEventListener('mousemove', e => {
-    if (!drawing) return;
-    const rect = ctx.canvas.getBoundingClientRect();
-    const endX = e.clientX - rect.left;
-    const endY = e.clientY - rect.top;
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.beginPath();
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(endX, endY);
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  });
-
-  ctx.canvas.addEventListener('mouseup', e => {
-    if (!drawing) return;
-    drawing = false;
-    const rect = ctx.canvas.getBoundingClientRect();
-    const endX = e.clientX - rect.left;
-    const endY = e.clientY - rect.top;
-    chart.options.plugins.annotation.annotations.push({
-      type: 'line',
-      xMin: startX,
-      xMax: endX,
-      yMin: startY,
-      yMax: endY,
-      borderColor: 'white',
-      borderWidth: 2
+    // Volume series
+    const volumeSeries = chart.addHistogramSeries({
+      color: '#26a69a',
+      priceFormat: { type: 'volume' },
+      priceScaleId: 'volume',
+      scaleMargins: { top: 0.8, bottom: 0 },
     });
-    chart.update();
-  });
-</script>
+    volumeSeries.priceScale().applyOptions({ scaleMargins: { top: 0.8, bottom: 0 } });
+    volumeSeries.setData([
+      { time: '2025-01-01', value: 1000, color: '#26a69a' },
+      { time: '2025-01-02', value: 1500, color: '#ef5350' },
+    ]);
+
+    // Time scale buttons
+    document.querySelectorAll('.time-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // Here you would fetch new data for the selected time frame
+        console.log('Time frame changed to:', btn.dataset.time);
+      });
+    });
+
+    // Resize chart on window resize
+    window.addEventListener('resize', () => {
+      chart.applyOptions({
+        width: chartElement.clientWidth,
+        height: chartElement.clientHeight,
+      });
+    });
+
+    // Status
+    document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
+    document.getElementById('statusBadge').style.background = '#ffeb3b';
+    document.getElementById('statusBadge').style.color = 'white';
+    document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
+  </script>
 </body>
 </html>
