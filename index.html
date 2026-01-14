@@ -128,7 +128,7 @@
         annotation: {
           annotations: [
             { type: 'box', xMin: '2026-04', xMax: '2026-07', yMin: 80, yMax: 100, backgroundColor: 'rgba(255,0,0,0.15)', borderColor: 'red' },
-            { type: 'label', content: 'Predicted Top Window', xValue: '2026-05', yValue: 75, backgroundColor: 'red', color: 'white', position: 'end' },
+            { type: 'label', content: 'Predicted Top Window', xValue: '2026-05', yValue: 70, backgroundColor: 'red', color: 'white', position: 'end' },
             { type: 'label', content: 'Bottom', xValue: '2025-11-22', yValue: 5, backgroundColor: 'green', color: 'white', position: 'end' }
           ]
         },
@@ -137,15 +137,19 @@
     }
   });
 
-  // Time scale buttons
+  // Time scale buttons (only day/month/year for now - no minute/hour errors)
   document.querySelectorAll('.time-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const scale = btn.dataset.scale;
-      chart.options.scales.x.time.unit = scale === '15m' ? 'minute' : scale === '1h' ? 'hour' : scale === '4h' ? 'hour' : scale === 'day' ? 'day' : scale === 'month' ? 'month' : 'year';
-      chart.update();
-      console.log('Time scale changed to:', scale); // Debug
+      if (scale === 'day' || scale === 'month' || scale === 'year') {
+        chart.options.scales.x.time.unit = scale;
+        chart.update();
+        console.log('Time scale changed to:', scale);
+      } else {
+        console.log('Granular scales (15m/1h/4h) skipped - no minute data yet');
+      }
     });
   });
 
@@ -156,12 +160,54 @@
       document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
       icon.classList.add('active');
       activeTool = icon.dataset.tool;
-      console.log('Tool selected:', activeTool); // Debug
+      console.log('Tool selected:', activeTool);
     });
   });
 
-  // Prices (already working)
-  // Status
+  // Simple drawing (line only for now)
+  let drawing = false;
+  let startPoint = null;
+  ctx.canvas.addEventListener('mousedown', e => {
+    if (activeTool === 'line') {
+      const rect = ctx.canvas.getBoundingClientRect();
+      startPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      drawing = true;
+    }
+  });
+
+  ctx.canvas.addEventListener('mousemove', e => {
+    if (!drawing) return;
+    const rect = ctx.canvas.getBoundingClientRect();
+    const endPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    // Preview line
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(startPoint.x, startPoint.y);
+    ctx.lineTo(endPoint.x, endPoint.y);
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  ctx.canvas.addEventListener('mouseup', e => {
+    if (!drawing) return;
+    drawing = false;
+    const rect = ctx.canvas.getBoundingClientRect();
+    const endPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    // Add permanent line (annotation)
+    chart.options.plugins.annotation.annotations.push({
+      type: 'line',
+      xMin: startPoint.x,
+      xMax: endPoint.x,
+      yMin: startPoint.y,
+      yMax: endPoint.y,
+      borderColor: 'white',
+      borderWidth: 2
+    });
+    chart.update();
+  });
+
+  // Status & advice (already working)
   document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
   document.getElementById('statusBadge').style.background = '#ffeb3b';
   document.getElementById('statusBadge').style.color = 'white';
