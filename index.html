@@ -121,100 +121,172 @@
   </div>
 
   <script>
-    // === LIGHTWEIGHT CHARTS ===
-    const chartElement = document.getElementById('chart');
-    const chart = LightweightCharts.createChart(chartElement, {
+  // === TRADINGVIEW LIGHTWEIGHT CHART ===
+  const chartElement = document.getElementById('chart');
+  const chart = LightweightCharts.createChart(chartElement, {
+    width: chartElement.clientWidth,
+    height: chartElement.clientHeight,
+    layout: {
+      background: { type: 'solid', color: '#0d1117' },
+      textColor: '#c9d1d9'
+    },
+    grid: {
+      vertLines: { color: '#30363d' },
+      horzLines: { color: '#30363d' }
+    },
+    crosshair: {
+      mode: LightweightCharts.CrosshairMode.Normal,
+      vertLine: { color: '#ffffff33', width: 1 },
+      horzLine: { color: '#ffffff33', width: 1 }
+    },
+    rightPriceScale: { borderColor: '#30363d' },
+    timeScale: { borderColor: '#30363d' }
+  });
+
+  // Historical flow line (blue)
+  const historicalSeries = chart.addLineSeries({
+    color: '#58a6ff',
+    lineWidth: 2,
+    title: 'Flow Cycle Index (Historical)'
+  });
+
+  // Predicted line (dashed gray)
+  const predictedSeries = chart.addLineSeries({
+    color: '#8b949e',
+    lineWidth: 2,
+    lineStyle: LightweightCharts.LineStyle.Dashed,
+    title: 'Predicted (2-Year Forecast)'
+  });
+
+  // Your flow data (time + value)
+  const historicalData = [
+    { time: '2017-01-01', value: 40 },
+    { time: '2017-10-01', value: 45 },
+    { time: '2017-12-01', value: 95 },
+    { time: '2018-12-01', value: 10 },
+    { time: '2020-03-01', value: 10 },
+    { time: '2021-11-01', value: 90 },
+    { time: '2022-11-01', value: 15 },
+    { time: '2025-04-01', value: 25 },
+    { time: '2025-11-01', value: 10 },
+    { time: '2026-01-01', value: 51 }
+  ];
+  historicalSeries.setData(historicalData);
+
+  // Predicted (extend 2 years)
+  const predictedData = [
+    { time: '2026-01-01', value: 51 },
+    { time: '2026-04-01', value: 70 },
+    { time: '2026-07-01', value: 85 },
+    { time: '2026-10-01', value: 95 },
+    { time: '2027-01-01', value: 80 },
+    { time: '2027-04-01', value: 50 },
+    { time: '2027-07-01', value: 30 },
+    { time: '2027-10-01', value: 15 },
+    { time: '2028-01-01', value: 10 }
+  ];
+  predictedSeries.setData(predictedData);
+
+  // Resize chart
+  window.addEventListener('resize', () => {
+    chart.applyOptions({
       width: chartElement.clientWidth,
-      height: chartElement.clientHeight,
-      layout: {
-        background: { type: 'solid', color: '#0d1117' },
-        textColor: '#c9d1d9'
-      },
-      grid: {
-        vertLines: { color: '#30363d' },
-        horzLines: { color: '#30363d' }
-      },
-      crosshair: {
-        mode: LightweightCharts.CrosshairMode.Normal
-      },
-      rightPriceScale: {
-        borderColor: '#30363d'
-      },
-      timeScale: {
-        borderColor: '#30363d'
-      }
+      height: chartElement.clientHeight
     });
+  });
 
-    const historicalSeries = chart.addLineSeries({
-      color: '#58a6ff',
-      lineWidth: 2
+  // Time scale buttons (zoom to range)
+  document.querySelectorAll('.time-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const scale = btn.dataset.time;
+      const now = new Date();
+      let from;
+      if (scale === '15m') from = new Date(now - 15 * 60 * 1000);
+      else if (scale === '1h') from = new Date(now - 60 * 60 * 1000);
+      else if (scale === '4h') from = new Date(now - 4 * 60 * 60 * 1000);
+      else if (scale === 'Daily') from = new Date(now - 24 * 60 * 60 * 1000);
+      else if (scale === 'Monthly') from = new Date(now - 30 * 24 * 60 * 60 * 1000);
+      else if (scale === 'Yearly') from = new Date(now - 365 * 24 * 60 * 60 * 1000);
+      else from = new Date('2017-01-01');
+
+      chart.timeScale().setVisibleRange({ from: from.getTime() / 1000, to: now.getTime() / 1000 });
     });
+  });
 
-    const predictedSeries = chart.addLineSeries({
-      color: '#8b949e',
-      lineWidth: 2,
-      lineStyle: LightweightCharts.LineStyle.Dashed
+  // Drawing toolbar (basic line)
+  let activeTool = 'line';
+  document.querySelectorAll('.tool-icon').forEach(icon => {
+    icon.addEventListener('click', () => {
+      document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
+      icon.classList.add('active');
+      activeTool = icon.dataset.tool;
     });
+  });
 
-    // Your flow data (time + value)
-    const historicalData = [
-      { time: '2017-01', value: 40 },
-      { time: '2017-10', value: 45 },
-      { time: '2017-12', value: 95 },
-      { time: '2018-12', value: 10 },
-      { time: '2020-03', value: 10 },
-      { time: '2021-11', value: 90 },
-      { time: '2022-11', value: 15 },
-      { time: '2025-04', value: 25 },
-      { time: '2025-11', value: 10 },
-      { time: '2026-01', value: 51 }
-    ];
-    historicalSeries.setData(historicalData);
-
-    // Predicted (mock for now)
-    const predictedData = [
-      { time: '2026-01', value: 51 },
-      { time: '2026-04', value: 70 },
-      { time: '2026-07', value: 85 },
-      { time: '2026-10', value: 95 },
-      { time: '2027-01', value: 80 },
-      { time: '2027-04', value: 50 },
-      { time: '2027-07', value: 30 },
-      { time: '2027-10', value: 15 },
-      { time: '2028-01', value: 10 }
-    ];
-    predictedSeries.setData(predictedData);
-
-    // Resize on window change
-    window.addEventListener('resize', () => {
-      chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
-    });
-
-    // Live prices (your key)
-    async function fetchLiveData() {
-      try {
-        const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
-          headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
-        });
-        if (!response.ok) throw new Error('API error');
-        const data = await response.json();
-        const pricesDiv = document.getElementById('prices');
-        pricesDiv.innerHTML = '';
-        data.forEach(coin => {
-          const div = document.createElement('div');
-          div.className = 'price-item';
-          div.innerHTML = `
-            <strong>${coin.name}</strong><br>
-            <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
-            <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
-          `;
-          pricesDiv.appendChild(div);
-        });
-      } catch (e) {
-        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
-      }
+  let drawing = false;
+  let startPoint = null;
+  chartElement.addEventListener('mousedown', e => {
+    if (activeTool === 'line') {
+      const rect = chartElement.getBoundingClientRect();
+      startPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      drawing = true;
     }
-    fetchLiveData();
-  </script>
+  });
+
+  chartElement.addEventListener('mousemove', e => {
+    if (!drawing) return;
+    const rect = chartElement.getBoundingClientRect();
+    const endPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    // Preview line (simple canvas overlay)
+    const tempCtx = chartElement.getContext('2d');
+    tempCtx.clearRect(0, 0, chartElement.width, chartElement.height);
+    tempCtx.beginPath();
+    tempCtx.moveTo(startPoint.x, startPoint.y);
+    tempCtx.lineTo(endPoint.x, endPoint.y);
+    tempCtx.strokeStyle = 'white';
+    tempCtx.lineWidth = 2;
+    tempCtx.stroke();
+  });
+
+  chartElement.addEventListener('mouseup', e => {
+    if (!drawing) return;
+    drawing = false;
+    const rect = chartElement.getBoundingClientRect();
+    const endPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    // Add permanent line
+    chart.addLineSeries().setData([
+      { time: chart.timeScale().getVisibleRange().from, value: startPoint.y },
+      { time: chart.timeScale().getVisibleRange().to, value: endPoint.y }
+    ]);
+  });
+
+  // Live prices (your key)
+  async function fetchLiveData() {
+    try {
+      const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
+        headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
+      });
+      if (!response.ok) throw new Error('API error');
+      const data = await response.json();
+      const pricesDiv = document.getElementById('prices');
+      pricesDiv.innerHTML = '';
+      data.forEach(coin => {
+        const div = document.createElement('div');
+        div.className = 'price-item';
+        div.innerHTML = `
+          <strong>${coin.name}</strong><br>
+          <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
+          <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
+        `;
+        pricesDiv.appendChild(div);
+      });
+    } catch (e) {
+      document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
+    }
+  }
+  fetchLiveData();
+</script>
 </body>
 </html>
