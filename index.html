@@ -11,31 +11,21 @@
       background: #0d1117; 
       color: #c9d1d9; 
       font-family: system-ui, sans-serif; 
-      height: 100vh; 
-      overflow: hidden; 
     }
     .header { 
       text-align: center; 
-      padding: 15px 0; 
+      padding: 20px 0; 
       background: #161b22; 
       border-bottom: 1px solid #30363d; 
     }
-    .main-title { color: #58a6ff; font-size: 2.2em; margin: 0; }
-    .subtitle { color: #8b949e; font-size: 1em; margin: 5px 0 0; }
-    .layout { 
-      display: flex; 
-      height: calc(100vh - 80px); 
-    }
-    .chart-container { 
-      flex: 3; 
-      min-width: 600px; 
-      position: relative; 
-      background: #161b22; 
-    }
+    .main-title { color: #58a6ff; font-size: 2.5em; margin: 0; }
+    .subtitle { color: #8b949e; font-size: 1.1em; margin: 5px 0 0; }
+    .layout { display: flex; height: calc(100vh - 90px); }
+    .chart-container { flex: 3; min-width: 600px; position: relative; background: #161b22; }
     #chart { width: 100%; height: 100%; }
     .drawing-toolbar { 
       position: absolute; 
-      left: 10px; 
+      left: 5px; 
       top: 50px; 
       background: #21262d; 
       border-radius: 8px; 
@@ -57,28 +47,28 @@
     .tool-icon:hover { background: #30363d; }
     .sidebar { 
       flex: 1; 
-      min-width: 280px; 
+      min-width: 300px; 
       background: #161b22; 
-      padding: 15px; 
+      padding: 20px; 
       overflow-y: auto; 
       border-left: 1px solid #30363d; 
     }
     .status-badge { 
-      font-size: 1.8em; 
-      padding: 8px; 
-      border-radius: 6px; 
+      font-size: 2em; 
+      padding: 10px; 
+      border-radius: 8px; 
       text-align: center; 
       font-weight: 700; 
-      margin-bottom: 15px; 
+      margin-bottom: 20px; 
     }
     .price-item { 
       margin: 10px 0; 
-      padding: 10px; 
+      padding: 12px; 
       background: #21262d; 
-      border-radius: 6px; 
+      border-radius: 8px; 
     }
-    .loading { color: #8b949e; text-align: center; font-style: italic; }
-    .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
+    .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
+    .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; }
     .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
     .open .collapsible-content { display: block; }
   </style>
@@ -92,8 +82,8 @@
   <div class="layout">
     <div class="chart-container">
       <div class="drawing-toolbar">
-        <div class="tool-icon" data-tool="crosshair" title="Crosshair">+</div>
-        <div class="tool-icon active" data-tool="line" title="Line">—</div>
+        <div class="tool-icon active" data-tool="crosshair" title="Crosshair">+</div>
+        <div class="tool-icon" data-tool="line" title="Line">—</div>
         <div class="tool-icon" data-tool="horizontal" title="Horizontal">—</div>
         <div class="tool-icon" data-tool="trend" title="Trend">/</div>
         <div class="tool-icon" data-tool="fib" title="Fib">F</div>
@@ -121,172 +111,108 @@
   </div>
 
   <script>
-  // === TRADINGVIEW LIGHTWEIGHT CHART ===
-  const chartElement = document.getElementById('chart');
-  const chart = LightweightCharts.createChart(chartElement, {
-    width: chartElement.clientWidth,
-    height: chartElement.clientHeight,
-    layout: {
-      background: { type: 'solid', color: '#0d1117' },
-      textColor: '#c9d1d9'
-    },
-    grid: {
-      vertLines: { color: '#30363d' },
-      horzLines: { color: '#30363d' }
-    },
-    crosshair: {
-      mode: LightweightCharts.CrosshairMode.Normal,
-      vertLine: { color: '#ffffff33', width: 1 },
-      horzLine: { color: '#ffffff33', width: 1 }
-    },
-    rightPriceScale: { borderColor: '#30363d' },
-    timeScale: { borderColor: '#30363d' }
-  });
-
-  // Historical flow line (blue)
-  const historicalSeries = chart.addLineSeries({
-    color: '#58a6ff',
-    lineWidth: 2,
-    title: 'Flow Cycle Index (Historical)'
-  });
-
-  // Predicted line (dashed gray)
-  const predictedSeries = chart.addLineSeries({
-    color: '#8b949e',
-    lineWidth: 2,
-    lineStyle: LightweightCharts.LineStyle.Dashed,
-    title: 'Predicted (2-Year Forecast)'
-  });
-
-  // Your flow data (time + value)
-  const historicalData = [
-    { time: '2017-01-01', value: 40 },
-    { time: '2017-10-01', value: 45 },
-    { time: '2017-12-01', value: 95 },
-    { time: '2018-12-01', value: 10 },
-    { time: '2020-03-01', value: 10 },
-    { time: '2021-11-01', value: 90 },
-    { time: '2022-11-01', value: 15 },
-    { time: '2025-04-01', value: 25 },
-    { time: '2025-11-01', value: 10 },
-    { time: '2026-01-01', value: 51 }
-  ];
-  historicalSeries.setData(historicalData);
-
-  // Predicted (extend 2 years)
-  const predictedData = [
-    { time: '2026-01-01', value: 51 },
-    { time: '2026-04-01', value: 70 },
-    { time: '2026-07-01', value: 85 },
-    { time: '2026-10-01', value: 95 },
-    { time: '2027-01-01', value: 80 },
-    { time: '2027-04-01', value: 50 },
-    { time: '2027-07-01', value: 30 },
-    { time: '2027-10-01', value: 15 },
-    { time: '2028-01-01', value: 10 }
-  ];
-  predictedSeries.setData(predictedData);
-
-  // Resize chart
-  window.addEventListener('resize', () => {
-    chart.applyOptions({
+    // === LIGHTWEIGHT CHARTS (TradingView-style) ===
+    const chartElement = document.getElementById('chart');
+    const chart = LightweightCharts.createChart(chartElement, {
       width: chartElement.clientWidth,
-      height: chartElement.clientHeight
+      height: chartElement.clientHeight,
+      layout: {
+        background: { type: 'solid', color: '#0d1117' },
+        textColor: '#c9d1d9'
+      },
+      grid: {
+        vertLines: { color: '#30363d' },
+        horzLines: { color: '#30363d' }
+      },
+      crosshair: {
+        mode: LightweightCharts.CrosshairMode.Normal,
+        vertLine: { color: '#ffffff33', width: 1 },
+        horzLine: { color: '#ffffff33', width: 1 }
+      },
+      rightPriceScale: { borderColor: '#30363d' },
+      timeScale: { borderColor: '#30363d' }
     });
-  });
 
-  // Time scale buttons (zoom to range)
-  document.querySelectorAll('.time-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const scale = btn.dataset.time;
-      const now = new Date();
-      let from;
-      if (scale === '15m') from = new Date(now - 15 * 60 * 1000);
-      else if (scale === '1h') from = new Date(now - 60 * 60 * 1000);
-      else if (scale === '4h') from = new Date(now - 4 * 60 * 60 * 1000);
-      else if (scale === 'Daily') from = new Date(now - 24 * 60 * 60 * 1000);
-      else if (scale === 'Monthly') from = new Date(now - 30 * 24 * 60 * 60 * 1000);
-      else if (scale === 'Yearly') from = new Date(now - 365 * 24 * 60 * 60 * 1000);
-      else from = new Date('2017-01-01');
-
-      chart.timeScale().setVisibleRange({ from: from.getTime() / 1000, to: now.getTime() / 1000 });
+    // Historical line (blue)
+    const historicalSeries = chart.addLineSeries({
+      color: '#58a6ff',
+      lineWidth: 2,
+      title: 'Flow Cycle Index (Historical)'
     });
-  });
 
-  // Drawing toolbar (basic line)
-  let activeTool = 'line';
-  document.querySelectorAll('.tool-icon').forEach(icon => {
-    icon.addEventListener('click', () => {
-      document.querySelectorAll('.tool-icon').forEach(i => i.classList.remove('active'));
-      icon.classList.add('active');
-      activeTool = icon.dataset.tool;
+    // Predicted line (dashed gray)
+    const predictedSeries = chart.addLineSeries({
+      color: '#8b949e',
+      lineWidth: 2,
+      lineStyle: LightweightCharts.LineStyle.Dashed,
+      title: 'Predicted (2-Year Forecast)'
     });
-  });
 
-  let drawing = false;
-  let startPoint = null;
-  chartElement.addEventListener('mousedown', e => {
-    if (activeTool === 'line') {
-      const rect = chartElement.getBoundingClientRect();
-      startPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-      drawing = true;
+    // Your flow data
+    const historicalData = [
+      { time: '2017-01-01', value: 40 },
+      { time: '2017-10-01', value: 45 },
+      { time: '2017-12-01', value: 95 },
+      { time: '2018-12-01', value: 10 },
+      { time: '2020-03-01', value: 10 },
+      { time: '2021-11-01', value: 90 },
+      { time: '2022-11-01', value: 15 },
+      { time: '2025-04-01', value: 25 },
+      { time: '2025-11-01', value: 10 },
+      { time: '2026-01-01', value: 51 }
+    ];
+    historicalSeries.setData(historicalData);
+
+    // Predicted data
+    const predictedData = [
+      { time: '2026-01-01', value: 51 },
+      { time: '2026-04-01', value: 70 },
+      { time: '2026-07-01', value: 85 },
+      { time: '2026-10-01', value: 95 },
+      { time: '2027-01-01', value: 80 },
+      { time: '2027-04-01', value: 50 },
+      { time: '2027-07-01', value: 30 },
+      { time: '2027-10-01', value: 15 },
+      { time: '2028-01-01', value: 10 }
+    ];
+    predictedSeries.setData(predictedData);
+
+    // Resize chart
+    window.addEventListener('resize', () => {
+      chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
+    });
+
+    // Live prices
+    async function fetchLiveData() {
+      try {
+        const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
+          headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
+        });
+        if (!response.ok) throw new Error('API error');
+        const data = await response.json();
+        const pricesDiv = document.getElementById('prices');
+        pricesDiv.innerHTML = '';
+        data.forEach(coin => {
+          const div = document.createElement('div');
+          div.className = 'price-item';
+          div.innerHTML = `
+            <strong>${coin.name}</strong><br>
+            <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
+            <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
+          `;
+          pricesDiv.appendChild(div);
+        });
+      } catch (e) {
+        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
+      }
     }
-  });
+    fetchLiveData();
 
-  chartElement.addEventListener('mousemove', e => {
-    if (!drawing) return;
-    const rect = chartElement.getBoundingClientRect();
-    const endPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    // Preview line (simple canvas overlay)
-    const tempCtx = chartElement.getContext('2d');
-    tempCtx.clearRect(0, 0, chartElement.width, chartElement.height);
-    tempCtx.beginPath();
-    tempCtx.moveTo(startPoint.x, startPoint.y);
-    tempCtx.lineTo(endPoint.x, endPoint.y);
-    tempCtx.strokeStyle = 'white';
-    tempCtx.lineWidth = 2;
-    tempCtx.stroke();
-  });
-
-  chartElement.addEventListener('mouseup', e => {
-    if (!drawing) return;
-    drawing = false;
-    const rect = chartElement.getBoundingClientRect();
-    const endPoint = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    // Add permanent line
-    chart.addLineSeries().setData([
-      { time: chart.timeScale().getVisibleRange().from, value: startPoint.y },
-      { time: chart.timeScale().getVisibleRange().to, value: endPoint.y }
-    ]);
-  });
-
-  // Live prices (your key)
-  async function fetchLiveData() {
-    try {
-      const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
-        headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
-      });
-      if (!response.ok) throw new Error('API error');
-      const data = await response.json();
-      const pricesDiv = document.getElementById('prices');
-      pricesDiv.innerHTML = '';
-      data.forEach(coin => {
-        const div = document.createElement('div');
-        div.className = 'price-item';
-        div.innerHTML = `
-          <strong>${coin.name}</strong><br>
-          <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
-          <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
-        `;
-        pricesDiv.appendChild(div);
-      });
-    } catch (e) {
-      document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
-    }
-  }
-  fetchLiveData();
-</script>
+    // Status
+    document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
+    document.getElementById('statusBadge').style.background = '#ffeb3b';
+    document.getElementById('statusBadge').style.color = 'white';
+    document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
+  </script>
 </body>
 </html>
