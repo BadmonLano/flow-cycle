@@ -81,45 +81,25 @@
   </div>
 
   <script>
-    // === LIGHTWEIGHT CHARTS (Daily only, last 7 days default) ===
     const chartElement = document.getElementById('chart');
     const chart = LightweightCharts.createChart(chartElement, {
       width: chartElement.clientWidth,
       height: chartElement.clientHeight,
-      layout: {
-        background: { type: 'solid', color: '#0d1117' },
-        textColor: '#c9d1d9'
-      },
-      grid: {
-        vertLines: { color: '#30363d' },
-        horzLines: { color: '#30363d' }
-      },
-      crosshair: {
-        mode: LightweightCharts.CrosshairMode.Normal,
-        vertLine: { color: '#ffffff33', width: 1 },
-        horzLine: { color: '#ffffff33', width: 1 }
-      },
+      layout: { background: { type: 'solid', color: '#0d1117' }, textColor: '#c9d1d9' },
+      grid: { vertLines: { color: '#30363d' }, horzLines: { color: '#30363d' } },
+      crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
       rightPriceScale: { borderColor: '#30363d' },
       timeScale: { borderColor: '#30363d', timeVisible: true, secondsVisible: false }
     });
 
-    // Historical line (blue)
-    const historicalSeries = chart.addLineSeries({
+    const series = chart.addLineSeries({
       color: '#58a6ff',
       lineWidth: 2,
-      title: 'Flow Cycle Index (Historical)'
-    });
-
-    // Predicted line (dashed gray)
-    const predictedSeries = chart.addLineSeries({
-      color: '#8b949e',
-      lineWidth: 2,
-      lineStyle: LightweightCharts.LineStyle.Dashed,
-      title: 'Predicted (2-Year Forecast)'
+      title: 'Flow Cycle Index'
     });
 
     // Your flow data (daily timestamps)
-    const historicalData = [
+    const data = [
       { time: '2017-01-01', value: 40 },
       { time: '2017-10-01', value: 45 },
       { time: '2017-12-01', value: 95 },
@@ -131,37 +111,23 @@
       { time: '2025-11-01', value: 10 },
       { time: '2026-01-01', value: 51 }
     ];
-    historicalSeries.setData(historicalData);
+    series.setData(data);
 
-    // Predicted (extend 2 years, daily for scrollability)
-    const predictedData = [
-      { time: '2026-01-01', value: 51 },
-      { time: '2026-04-01', value: 70 },
-      { time: '2026-07-01', value: 85 },
-      { time: '2026-10-01', value: 95 },
-      { time: '2027-01-01', value: 80 },
-      { time: '2027-04-01', value: 50 },
-      { time: '2027-07-01', value: 30 },
-      { time: '2027-10-01', value: 15 },
-      { time: '2028-01-01', value: 10 }
-    ];
-    predictedSeries.setData(predictedData);
-
-    // Default zoom: last 7 days (mock last date as today)
-    const now = new Date();
-    const sevenDaysAgo = new Date(now);
-    sevenDaysAgo.setDate(now.getDate() - 7);
+    // Default view: last 7 days (assume last date is recent)
+    const lastDate = new Date('2026-01-01');
+    const sevenDaysAgo = new Date(lastDate);
+    sevenDaysAgo.setDate(lastDate.getDate() - 7);
     chart.timeScale().setVisibleRange({
-      from: sevenDaysAgo.getTime() / 1000,
-      to: now.getTime() / 1000
+      from: sevenDaysAgo.toISOString().split('T')[0],
+      to: lastDate.toISOString().split('T')[0]
     });
+
+    // Allow scrolling/zooming back
+    chart.timeScale().fitContent();
 
     // Resize chart
     window.addEventListener('resize', () => {
-      chart.applyOptions({
-        width: chartElement.clientWidth,
-        height: chartElement.clientHeight
-      });
+      chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
     });
 
     // Live prices (your key)
