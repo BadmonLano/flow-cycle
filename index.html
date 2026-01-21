@@ -4,15 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
-  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <style>
     body { 
       margin: 0; 
       background: #0d1117; 
       color: #c9d1d9; 
       font-family: system-ui, sans-serif; 
-      height: 100vh; 
-      overflow: hidden; 
     }
     .header { 
       text-align: center; 
@@ -23,8 +22,8 @@
     .main-title { color: #58a6ff; font-size: 2.5em; margin: 0; }
     .subtitle { color: #8b949e; font-size: 1.1em; margin: 5px 0 0; }
     .layout { display: flex; height: calc(100vh - 90px); }
-    .chart-container { flex: 3; min-width: 600px; position: relative; background: #161b22; }
-    #chart { width: 100%; height: 100%; }
+    .chart-container { flex: 3; min-width: 600px; background: #161b22; padding: 15px; }
+    #myChart { width: 100%; height: 100%; }
     .sidebar { 
       flex: 1; 
       min-width: 300px; 
@@ -61,7 +60,7 @@
 
   <div class="layout">
     <div class="chart-container">
-      <div id="chart"></div>
+      <canvas id="myChart"></canvas>
     </div>
 
     <div class="sidebar">
@@ -81,56 +80,68 @@
   </div>
 
   <script>
-    const chartElement = document.getElementById('chart');
-    const chart = LightweightCharts.createChart(chartElement, {
-      width: chartElement.clientWidth,
-      height: chartElement.clientHeight,
-      layout: { background: { type: 'solid', color: '#0d1117' }, textColor: '#c9d1d9' },
-      grid: { vertLines: { color: '#30363d' }, horzLines: { color: '#30363d' } },
-      crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-      rightPriceScale: { borderColor: '#30363d' },
-      timeScale: { borderColor: '#30363d', timeVisible: true, secondsVisible: false }
-    });
+    const ctx = document.getElementById('myChart').getContext('2d');
 
-    const series = chart.addLineSeries({
-      color: '#58a6ff',
-      lineWidth: 2,
-      title: 'Flow Cycle Index'
-    });
-
-    // Your flow data (daily timestamps)
-    const data = [
-      { time: '2017-01-01', value: 40 },
-      { time: '2017-10-01', value: 45 },
-      { time: '2017-12-01', value: 95 },
-      { time: '2018-12-01', value: 10 },
-      { time: '2020-03-01', value: 10 },
-      { time: '2021-11-01', value: 90 },
-      { time: '2022-11-01', value: 15 },
-      { time: '2025-04-01', value: 25 },
-      { time: '2025-11-01', value: 10 },
-      { time: '2026-01-01', value: 51 }
+    const labels = [
+      '2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11',
+      '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01',
+      '2027-04', '2027-07', '2027-10', '2028-01'
     ];
-    series.setData(data);
 
-    // Default view: last 7 days (assume last date is recent)
-    const lastDate = new Date('2026-01-01');
-    const sevenDaysAgo = new Date(lastDate);
-    sevenDaysAgo.setDate(lastDate.getDate() - 7);
-    chart.timeScale().setVisibleRange({
-      from: sevenDaysAgo.toISOString().split('T')[0],
-      to: lastDate.toISOString().split('T')[0]
+    const flowData = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
+
+    // Fill nulls with last known value for smooth line
+    let lastValue = 51;
+    const cleanedData = flowData.map(v => {
+      if (v === null) return lastValue;
+      lastValue = v;
+      return v;
     });
 
-    // Allow scrolling/zooming back
-    chart.timeScale().fitContent();
+    // Predicted continuation (2 years)
+    const predictionData = [51, 70, 85, 95, 80, 50, 30, 15, 10];
 
-    // Resize chart
-    window.addEventListener('resize', () => {
-      chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Flow Cycle Index',
+            data: cleanedData,
+            borderColor: '#58a6ff',
+            backgroundColor: 'rgba(88, 166, 255, 0.1)',
+            tension: 0.2,
+            fill: true
+          },
+          {
+            label: 'Predicted (2-Year Forecast)',
+            data: [...Array(labels.length - predictionData.length).fill(null), ...predictionData],
+            borderColor: '#8b949e',
+            borderDash: [5, 5],
+            tension: 0.2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: 'Date' } },
+          y: { title: { display: true, text: 'Index Value' }, min: 0, max: 100 }
+        },
+        plugins: {
+          legend: { position: 'top', labels: { color: '#c9d1d9' } },
+          tooltip: { mode: 'index', intersect: false }
+        }
+      }
     });
 
-    // Live prices (your key)
+    // Auto-zoom to last 7 points (days) but allow scroll back
+    chart.options.scales.x.min = labels[labels.length - 7];
+    chart.update();
+
+    // Live prices
     async function fetchLiveData() {
       try {
         const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
