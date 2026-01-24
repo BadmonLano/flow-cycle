@@ -20,80 +20,82 @@
     .main-title { 
       text-align: center; 
       color: #58a6ff; 
-      margin: 30px 0 10px; 
-      font-size: 3em; 
+      margin: 20px 0 5px; 
+      font-size: 2.5em; 
       font-weight: 700; 
     }
     .subtitle { 
       text-align: center; 
       color: #8b949e; 
-      margin-bottom: 30px; 
-      font-size: 1.3em; 
+      margin-bottom: 15px; 
+      font-size: 1.1em; 
     }
     .container { 
       display: flex; 
       flex-wrap: wrap; 
-      gap: 30px; 
-      max-width: 1600px; 
+      gap: 20px; 
+      max-width: 1400px; 
       margin: 0 auto; 
-      padding: 0 20px; 
+      padding: 0 15px; 
     }
     .chart-area { 
       flex: 3; 
-      min-width: 700px; 
-      height: 800px; 
+      min-width: 600px; 
+      height: 600px; 
       background: #161b22; 
-      border-radius: 16px; 
-      padding: 25px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
+      border-radius: 12px; 
+      padding: 15px; 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
     }
     .sidebar { 
       flex: 1; 
-      min-width: 340px; 
+      min-width: 300px; 
       background: #161b22; 
-      padding: 25px; 
-      border-radius: 16px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
+      padding: 15px; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6); 
       overflow-y: auto; 
-      max-height: 800px; 
+      max-height: 600px; 
     }
     .status-badge { 
-      font-size: 3em; 
-      margin: 0 0 30px; 
-      padding: 20px; 
-      border-radius: 16px; 
+      font-size: 2em; 
+      margin: 0 0 15px; 
+      padding: 10px; 
+      border-radius: 8px; 
       text-align: center; 
       font-weight: 700; 
-      box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+      transition: all 0.3s ease; 
     }
     .price-item { 
-      margin: 20px 0; 
-      padding: 18px; 
-      border-radius: 12px; 
+      margin: 10px 0; 
+      padding: 12px; 
+      border-radius: 8px; 
       background: #21262d; 
       transition: all 0.2s; 
     }
     .price-item:hover { 
-      transform: translateY(-4px); 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4); 
     }
     #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { 
-      margin: 30px 0; 
-      padding: 20px; 
-      border-radius: 12px; 
-      font-size: 1.4em; 
-      box-shadow: 0 6px 25px rgba(0,0,0,0.4); 
+      margin: 15px 0; 
+      padding: 12px; 
+      border-radius: 8px; 
+      font-size: 1.1em; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
     }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
     #previousCalls { background: #161b22; border: 1px solid #30363d; }
     #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
-    #confidenceGauge { width: 200px; height: 200px; margin: 30px auto; }
-    .phase-bar { height: 40px; width: 100%; margin: 0 0 20px 0; border-radius: 12px; overflow: hidden; display: flex; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; }
-    .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
-    .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; margin: 10px 0; }
-    .collapsible-content { display: none; padding: 10px; }
-    .collapsible-section.open .collapsible-content { display: block; }
+    #confidenceGauge { width: 150px; height: 150px; margin: 20px auto; }
+    .phase-bar { height: 30px; width: 100%; margin: 0 0 15px 0; border-radius: 8px; overflow: hidden; display: flex; box-shadow: 0 3px 15px rgba(0,0,0,0.5); }
+    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; }
+    .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
+    .collapsible-section { margin: 15px 0; }
+    .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; font-weight: bold; transition: all 0.2s; }
+    .collapsible-content { display: none; padding: 10px; background: #161b22; border-radius: 0 0 8px 8px; }
+    .open .collapsible-content { display: block; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -141,7 +143,7 @@
     const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
     const predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
 
-    const chart = new Chart(ctx, {
+    new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -214,19 +216,7 @@
       }
     });
 
-    // Time scale buttons
-    document.querySelectorAll('.time-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const scale = btn.dataset.scale;
-        chart.options.scales.x.time.unit = scale === '15m' ? 'minute' : scale === '1h' ? 'hour' : scale === '4h' ? 'hour' : scale === 'day' ? 'day' : scale === 'month' ? 'month' : 'year';
-        chart.options.scales.x.ticks.maxTicksLimit = scale === '15m' ? 20 : scale === '1h' ? 24 : scale === '4h' ? 12 : scale === 'day' ? 30 : scale === 'month' ? 12 : 5;
-        chart.update();
-      });
-    });
-
-    // Live prices fetch
+    // === LIVE PRICES ===
     async function fetchLiveData() {
       try {
         const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
