@@ -4,18 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
-  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <style>
-    body { margin: 0; background: #0d1117; color: #c9d1d9; font-family: system-ui, sans-serif; height: 100vh; overflow: hidden; }
-    .header { text-align: center; padding: 20px 0; background: #161b22; border-bottom: 1px solid #30363d; }
+    body { 
+      margin: 0; 
+      background: #0d1117; 
+      color: #c9d1d9; 
+      font-family: system-ui, sans-serif; 
+    }
+    .header { 
+      text-align: center; 
+      padding: 20px 0; 
+      background: #161b22; 
+      border-bottom: 1px solid #30363d; 
+    }
     .main-title { color: #58a6ff; font-size: 2.5em; margin: 0; }
     .subtitle { color: #8b949e; font-size: 1.1em; margin: 5px 0 0; }
-    .layout { display: flex; height: calc(100vh - 90px); }
-    .chart-container { flex: 3; min-width: 600px; position: relative; background: #161b22; }
-    #chart { width: 100%; height: 100%; }
-    .sidebar { flex: 1; min-width: 300px; background: #161b22; padding: 20px; overflow-y: auto; border-left: 1px solid #30363d; }
-    .status-badge { font-size: 2em; padding: 10px; border-radius: 8px; text-align: center; font-weight: 700; margin-bottom: 20px; }
-    .price-item { margin: 10px 0; padding: 12px; background: #21262d; border-radius: 8px; }
+    .container { 
+      display: flex; 
+      height: calc(100vh - 90px); 
+      max-width: 1400px; 
+      margin: 0 auto; 
+    }
+    .chart-area { 
+      flex: 3; 
+      background: #161b22; 
+      padding: 20px; 
+    }
+    .sidebar { 
+      flex: 1; 
+      background: #161b22; 
+      padding: 20px; 
+      overflow-y: auto; 
+      border-left: 1px solid #30363d; 
+      min-width: 300px; 
+    }
+    .status-badge { 
+      font-size: 2em; 
+      padding: 10px; 
+      border-radius: 8px; 
+      text-align: center; 
+      font-weight: 700; 
+      margin-bottom: 20px; 
+    }
+    .price-item { 
+      margin: 10px 0; 
+      padding: 12px; 
+      background: #21262d; 
+      border-radius: 8px; 
+    }
     .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
     .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; }
     .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
@@ -24,132 +62,4 @@
 </head>
 <body>
   <div class="header">
-    <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-    <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
-  </div>
-
-  <div class="layout">
-    <div class="chart-container">
-      <div id="chart"></div>
-    </div>
-
-    <div class="sidebar">
-      <div id="statusBadge" class="status-badge">🟡 WATCHING</div>
-      <div id="actionAdvice">What you should do right now: Hold or buy dips.</div>
-      <h3>Live Prices & Charts</h3>
-      <div id="prices"><div class="loading">Loading live prices...</div></div>
-      <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls</div>
-        <div class="collapsible-content"><strong>No calls yet</strong></div>
-      </div>
-      <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls</div>
-        <div class="collapsible-content"><strong>No calls yet</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const chartElement = document.getElementById('chart');
-    const chart = LightweightCharts.createChart(chartElement, {
-      width: chartElement.clientWidth,
-      height: chartElement.clientHeight,
-      layout: { background: { type: 'solid', color: '#0d1117' }, textColor: '#c9d1d9' },
-      grid: { vertLines: { color: '#30363d' }, horzLines: { color: '#30363d' } },
-      crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-      rightPriceScale: { borderColor: '#30363d' },
-      timeScale: { borderColor: '#30363d', timeVisible: true, secondsVisible: false }
-    });
-
-    const historicalSeries = chart.addLineSeries({
-      color: '#58a6ff',
-      lineWidth: 2,
-      title: 'Flow Cycle Index (Historical)'
-    });
-
-    const predictedSeries = chart.addLineSeries({
-      color: '#8b949e',
-      lineWidth: 2,
-      lineStyle: LightweightCharts.LineStyle.Dashed,
-      title: 'Predicted (2-Year Forecast)'
-    });
-
-    // Your flow data
-    const historicalData = [
-      { time: '2017-01-01', value: 40 },
-      { time: '2017-10-01', value: 45 },
-      { time: '2017-12-01', value: 95 },
-      { time: '2018-12-01', value: 10 },
-      { time: '2020-03-01', value: 10 },
-      { time: '2021-11-01', value: 90 },
-      { time: '2022-11-01', value: 15 },
-      { time: '2025-04-01', value: 25 },
-      { time: '2025-11-01', value: 10 },
-      { time: '2026-01-01', value: 51 }
-    ];
-    historicalSeries.setData(historicalData);
-
-    const predictedData = [
-      { time: '2026-01-01', value: 51 },
-      { time: '2026-04-01', value: 70 },
-      { time: '2026-07-01', value: 85 },
-      { time: '2026-10-01', value: 95 },
-      { time: '2027-01-01', value: 80 },
-      { time: '2027-04-01', value: 50 },
-      { time: '2027-07-01', value: 30 },
-      { time: '2027-10-01', value: 15 },
-      { time: '2028-01-01', value: 10 }
-    ];
-    predictedSeries.setData(predictedData);
-
-    // Default zoom: last 30 days
-    const now = new Date();
-    const thirtyDaysAgo = new Date(now);
-    thirtyDaysAgo.setDate(now.getDate() - 30);
-    chart.timeScale().setVisibleRange({
-      from: thirtyDaysAgo.getTime() / 1000,
-      to: now.getTime() / 1000
-    });
-
-    // Enable scrolling/pan back to 2017
-    chart.applyOptions({ handleScroll: true, handleScale: true });
-
-    // Resize chart
-    window.addEventListener('resize', () => {
-      chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
-    });
-
-    // Live prices
-    async function fetchLiveData() {
-      try {
-        const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
-          headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
-        });
-        if (!response.ok) throw new Error('API error');
-        const data = await response.json();
-        const pricesDiv = document.getElementById('prices');
-        pricesDiv.innerHTML = '';
-        data.forEach(coin => {
-          const div = document.createElement('div');
-          div.className = 'price-item';
-          div.innerHTML = `
-            <strong>${coin.name}</strong><br>
-            <span style="font-size:1.4em;">$${coin.current_price.toLocaleString()}</span> 
-            <span style="color:${coin.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${coin.price_change_percentage_24h.toFixed(2)}%</span>
-          `;
-          pricesDiv.appendChild(div);
-        });
-      } catch (e) {
-        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
-      }
-    }
-    fetchLiveData();
-
-    // Status
-    document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
-    document.getElementById('statusBadge').style.background = '#ffeb3b';
-    document.getElementById('statusBadge').style.color = 'white';
-    document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
-  </script>
-</body>
-</html>
+    <h1
