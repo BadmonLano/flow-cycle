@@ -9,27 +9,111 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
-    .main-title { text-align: center; color: #58a6ff; margin: 30px 0 10px; font-size: 3em; font-weight: 700; }
-    .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; font-size: 1.3em; }
-    .container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1600px; margin: 0 auto; padding: 0 20px; }
-    .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-    .sidebar { flex: 1; min-width: 340px; background: #161b22; padding: 25px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-y: auto; max-height: 800px; }
-    .status-badge { font-size: 2em; margin: 0 0 30px; padding: 15px; border-radius: 16px; text-align: center; font-weight: 700; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-    .price-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
-    .price-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    body { 
+      font-family: system-ui, -apple-system, sans-serif; 
+      margin: 0; 
+      background: #0d1117; 
+      color: #c9d1d9; 
+      line-height: 1.6; 
+    }
+    .main-title { 
+      text-align: center; 
+      color: #58a6ff; 
+      margin: 30px 0 10px; 
+      font-size: 3em; 
+      font-weight: 700; 
+    }
+    .subtitle { 
+      text-align: center; 
+      color: #8b949e; 
+      margin-bottom: 30px; 
+      font-size: 1.3em; 
+    }
+    .container { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 30px; 
+      max-width: 1600px; 
+      margin: 0 auto; 
+      padding: 0 20px; 
+    }
+    .chart-area { 
+      flex: 3; 
+      min-width: 700px; 
+      height: 800px; 
+      background: #161b22; 
+      border-radius: 16px; 
+      padding: 25px; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
+    }
+    .sidebar { 
+      flex: 1; 
+      min-width: 340px; 
+      background: #161b22; 
+      padding: 25px; 
+      border-radius: 16px; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
+      overflow-y: auto; 
+      max-height: 800px; 
+    }
+    .status-badge { 
+      font-size: 2em; 
+      margin: 0 0 30px; 
+      padding: 15px; 
+      border-radius: 16px; 
+      text-align: center; 
+      font-weight: 700; 
+      box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
+    }
+    .price-item { 
+      margin: 20px 0; 
+      padding: 18px; 
+      border-radius: 12px; 
+      background: #21262d; 
+      transition: all 0.2s; 
+    }
+    .price-item:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
+    }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
     .collapsible-section { margin: 15px 0; }
     .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; font-weight: bold; transition: all 0.2s; }
     .collapsible-content { display: none; padding: 10px; background: #161b22; border-radius: 0 0 8px 8px; }
     .open .collapsible-content { display: block; }
-    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow: hidden; background: #1f2937; position: relative; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-    .progress-fill { height: 100%; width: 0%; background: linear-gradient(to right, #10b981, #34d399, #22c55e); transition: width 2s ease-out; position: absolute; top: 0; left: 0; z-index: 1; }
-    .phase-labels { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; z-index: 2; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; }
-    .phase-labels span { text-align: center; flex: 1; }
+    .phase-bar { 
+      height: 60px; 
+      width: 100%; 
+      margin: 0 0 25px 0; 
+      border-radius: 16px; 
+      overflow: hidden; 
+      background: #1f2937; 
+      display: flex; 
+      box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
+    }
+    .phase-segment { 
+      flex: 1; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: bold; 
+      color: white; 
+      text-shadow: 1px 1px 3px black; 
+      font-size: 0.9em; 
+      transition: all 0.3s; 
+    }
+    .phase-segment:hover { 
+      transform: scale(1.05); 
+      box-shadow: inset 0 0 15px rgba(255,255,255,0.4); 
+    }
+    .current-phase { 
+      background: #22c55e !important; 
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.5); 
+      font-size: 1.1em; 
+      font-weight: 900; 
+    }
     .euphoria { color: #ff6b6b !important; font-weight: 900; }
-    .current-phase { background: #22c55e !important; font-size: 1.1em; font-weight: 900; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -40,22 +124,19 @@
   <div class="container">
     <div class="chart-area">
       <div class="phase-bar">
-        <div class="progress-fill" id="progressFill"></div>
-        <div class="phase-labels">
-          <span>Complacency</span>
-          <span>Anxiety</span>
-          <span>Denial</span>
-          <span>Panic</span>
-          <span>Capitulation</span>
-          <span>Anger</span>
-          <span>Depression</span>
-          <span>Disbelief</span>
-          <span>Hope</span>
-          <span>Optimism</span>
-          <span>Belief</span>
-          <span>Thrill</span>
-          <span class="euphoria">Euphoria</span>
-        </div>
+        <div class="phase-segment">Complacency</div>
+        <div class="phase-segment">Anxiety</div>
+        <div class="phase-segment">Denial</div>
+        <div class="phase-segment">Panic</div>
+        <div class="phase-segment">Capitulation</div>
+        <div class="phase-segment">Anger</div>
+        <div class="phase-segment">Depression</div>
+        <div class="phase-segment">Disbelief</div>
+        <div class="phase-segment">Hope</div>
+        <div class="phase-segment">Optimism</div>
+        <div class="phase-segment">Belief</div>
+        <div class="phase-segment">Thrill</div>
+        <div class="phase-segment euphoria">Euphoria</div>
       </div>
       <canvas id="myChart"></canvas>
     </div>
@@ -97,13 +178,15 @@
       predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
     }
 
+    const paddedPrediction = Array(labels.length - predictionData.length).fill(null).concat(predictionData);
+
     const chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
         datasets: [
           { label: 'Flow Cycle Index (Historical)', data: predictorIndex, borderColor: '#58a6ff', tension: 0.2, fill: false },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionData, borderColor: '#8b949e', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
+          { label: 'Predicted Index (2-Year Forecast)', data: paddedPrediction, borderColor: '#8b949e', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
         ]
       },
       options: {
@@ -143,20 +226,8 @@
       }
     });
 
-    // === PHASE BAR + STATUS ===
+    // === SIMPLE PHASE HIGHLIGHT (no crashing progress bar) ===
     const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
-    const progressPercent = Math.min(100, Math.max(0, currentIndex));
-
-    // Green fill animation (safe version)
-    const progressFill = document.getElementById('progressFill');
-    if (progressFill) {
-      progressFill.style.width = '0%';
-      setTimeout(() => {
-        progressFill.style.width = `${progressPercent}%`;
-      }, 800); // Slightly longer delay to ensure DOM is ready
-    }
-
-    // Map current index to phase (Complacency start → Euphoria end)
     let currentPhase = 'Complacency';
     if (currentIndex > 10) currentPhase = 'Anxiety';
     if (currentIndex > 20) currentPhase = 'Denial';
@@ -171,14 +242,21 @@
     if (currentIndex > 90) currentPhase = 'Thrill';
     if (currentIndex > 95) currentPhase = 'Euphoria';
 
-    // Update badge (shortened)
-    document.getElementById('statusBadge').innerHTML = `🟡 ${currentPhase}`;
+    // Highlight current phase in bar
+    const segments = document.querySelectorAll('.phase-bar .phase-segment');
+    segments.forEach(span => {
+      if (span.textContent.trim() === currentPhase) {
+        span.classList.add('current-phase');
+      }
+    });
+
+    // Update status badge
+    document.getElementById('statusBadge').innerHTML = `🟡 WATCHING - ${currentPhase}`;
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
-    document.getElementById('statusBadge').style.fontSize = '1.8em';
 
     // Force Euphoria red
-    const euphoriaSpan = document.querySelector('.phase-labels span:last-child');
+    const euphoriaSpan = document.querySelector('.phase-bar .phase-segment:last-child');
     if (euphoriaSpan) {
       euphoriaSpan.style.color = '#ff6b6b';
       euphoriaSpan.style.fontWeight = '900';
