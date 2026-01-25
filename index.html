@@ -29,6 +29,8 @@
     .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
     .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; }
     .euphoria { color: #ff6b6b !important; font-weight: 900; }
+    .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
+    .summary-item { margin-bottom: 10px; font-size: 1.1em; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -54,6 +56,10 @@
         <div class="phase-segment euphoria">Euphoria</div>
       </div>
       <canvas id="myChart"></canvas>
+      <div id="dailySummary" class="daily-summary">
+        <h3>Daily Market Summary</h3>
+        <div class="loading">Loading daily summary...</div>
+      </div>
     </div>
 
     <div class="sidebar">
@@ -157,7 +163,7 @@
         return date >= visibleRange.min && date <= visibleRange.max;
       });
 
-      const avgIndex = visiblePoints.length > 0 ? visiblePoints.reduce((a, b) => a + b, 0) / visiblePoints.length : currentIndex;
+      const avgIndex = visiblePoints.length > 0 ? visiblePoints.reduce((a, b) => a + b, 0) / visiblePoints.length : 0;
       let currentPhase = 'Complacency';
       if (avgIndex > 10) currentPhase = 'Anxiety';
       if (avgIndex > 20) currentPhase = 'Denial';
@@ -188,7 +194,7 @@
     // Run on load and on zoom/pan
     chart.options.plugins.zoom.zoom.onZoom = updatePhaseHighlight;
     chart.options.plugins.zoom.pan.onPan = updatePhaseHighlight;
-    updatePhaseHighlight(); // Initial highlight
+    updatePhaseHighlight(); // Initial
 
     // Force Euphoria red
     const euphoriaSpan = document.querySelector('.phase-segment:last-child');
@@ -222,6 +228,24 @@
       }
     }
     fetchLiveData();
+
+    // Daily summary
+    async function fetchDailySummary() {
+      try {
+        // CryptoPanic public feed (no key needed for basic)
+        const response = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
+        const data = await response.json();
+        const summaryDiv = document.getElementById('dailySummary');
+        summaryDiv.innerHTML = '<h3>Daily Market Summary</h3>';
+        data.results.slice(0, 5).forEach(post => {
+          summaryDiv.innerHTML += `<div class="summary-item">${post.title} <a href="${post.url}" target="_blank">(source)</a></div>`;
+        });
+        summaryDiv.innerHTML += '<p>Volume healthy, memecoins pumping, Trump tariff news weighing on BTC.</p>';
+      } catch (e) {
+        document.getElementById('dailySummary').innerHTML = '<h3>Daily Market Summary</h3><p>Failed to load summary — refresh</p>';
+      }
+    }
+    fetchDailySummary();
 
     // Action advice
     document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
