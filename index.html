@@ -89,35 +89,44 @@
     #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
     #confidenceGauge { width: 200px; height: 200px; margin: 30px auto; }
     .phase-bar { 
-      height: 50px; 
+      height: 60px; 
       width: 100%; 
       margin: 0 0 25px 0; 
       border-radius: 16px; 
       overflow: hidden; 
-      display: flex; 
-      background: linear-gradient(to right, #10b981, #34d399); /* Green loading bar gradient */
+      background: #1f2937; 
+      position: relative; 
       box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
     }
-    .phase-segment { 
-      flex: 1; 
+    .progress-fill { 
+      height: 100%; 
+      width: 0%; 
+      background: linear-gradient(to right, #10b981, #34d399, #22c55e); 
+      transition: width 1.5s ease-out; 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      z-index: 1; 
+    }
+    .phase-labels { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
       display: flex; 
       align-items: center; 
-      justify-content: center; 
+      justify-content: space-between; 
+      padding: 0 15px; 
+      z-index: 2; 
       font-weight: bold; 
       color: white; 
-      text-shadow: 1px 1px 4px black; 
+      text-shadow: 1px 1px 3px black; 
       font-size: 0.95em; 
-      transition: all 0.3s; 
     }
-    .phase-segment:hover { 
-      transform: scale(1.05); 
-      box-shadow: inset 0 0 15px rgba(255,255,255,0.4); 
-    }
-    .current-phase { 
-      background: #22c55e !important; /* Bright green highlight */
-      font-size: 1.1em; 
-      font-weight: 900; 
-      box-shadow: inset 0 0 20px rgba(255,255,255,0.5); 
+    .phase-labels span { 
+      text-align: center; 
+      flex: 1; 
     }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
     .collapsible-section { margin: 15px 0; }
@@ -134,19 +143,22 @@
   <div class="container">
     <div class="chart-area">
       <div class="phase-bar">
-        <div class="phase-segment">Disbelief</div>
-        <div class="phase-segment">Hope</div>
-        <div class="phase-segment">Optimism</div>
-        <div class="phase-segment">Belief</div>
-        <div class="phase-segment">Thrill</div>
-        <div class="phase-segment">Euphoria</div>
-        <div class="phase-segment">Complacency</div>
-        <div class="phase-segment">Anxiety</div>
-        <div class="phase-segment">Denial</div>
-        <div class="phase-segment">Panic</div>
-        <div class="phase-segment">Capitulation</div>
-        <div class="phase-segment">Anger</div>
-        <div class="phase-segment current-phase">Depression</div> <!-- Change 'current-phase' class to any phase you want highlighted -->
+        <div class="progress-fill" id="progressFill"></div>
+        <div class="phase-labels">
+          <span>Disbelief</span>
+          <span>Hope</span>
+          <span>Optimism</span>
+          <span>Belief</span>
+          <span>Thrill</span>
+          <span>Euphoria</span>
+          <span>Complacency</span>
+          <span>Anxiety</span>
+          <span>Denial</span>
+          <span>Panic</span>
+          <span>Capitulation</span>
+          <span>Anger</span>
+          <span>Depression</span>
+        </div>
       </div>
       <canvas id="myChart"></canvas>
     </div>
@@ -266,6 +278,37 @@
       }
     });
 
+    // === TIE PHASE BAR TO CHART ===
+    const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
+    const progressPercent = Math.min(100, Math.max(0, currentIndex)); // 0-100
+
+    // Animate green fill
+    const progressFill = document.getElementById('progressFill');
+    progressFill.style.width = '0%';
+    setTimeout(() => {
+      progressFill.style.width = `${progressPercent}%`;
+    }, 300); // small delay for animation
+
+    // Update status badge with current phase
+    let currentPhase = 'Neutral';
+    if (currentIndex < 10) currentPhase = 'Depression';
+    else if (currentIndex < 20) currentPhase = 'Anger';
+    else if (currentIndex < 30) currentPhase = 'Capitulation';
+    else if (currentIndex < 40) currentPhase = 'Panic';
+    else if (currentIndex < 50) currentPhase = 'Denial';
+    else if (currentIndex < 60) currentPhase = 'Anxiety';
+    else if (currentIndex < 70) currentPhase = 'Complacency';
+    else if (currentIndex < 80) currentPhase = 'Euphoria';
+    else if (currentIndex < 85) currentPhase = 'Thrill';
+    else if (currentIndex < 90) currentPhase = 'Belief';
+    else if (currentIndex < 95) currentPhase = 'Optimism';
+    else if (currentIndex < 100) currentPhase = 'Hope';
+    else currentPhase = 'Disbelief';
+
+    document.getElementById('statusBadge').innerHTML = `🟡 WATCHING - ${currentPhase}`;
+    document.getElementById('statusBadge').style.background = '#ffeb3b';
+    document.getElementById('statusBadge').style.color = 'white';
+
     // Live prices
     async function fetchLiveData() {
       try {
@@ -292,10 +335,7 @@
     }
     fetchLiveData();
 
-    // Status & advice
-    document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
-    document.getElementById('statusBadge').style.background = '#ffeb3b';
-    document.getElementById('statusBadge').style.color = 'white';
+    // Rest of your script (status, advice, etc.)
     document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
   </script>
 </body>
