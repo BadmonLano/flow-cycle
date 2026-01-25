@@ -117,12 +117,12 @@
       display: flex; 
       align-items: center; 
       justify-content: space-between; 
-      padding: 0 15px; 
+      padding: 0 10px; 
       z-index: 2; 
       font-weight: bold; 
       color: white; 
       text-shadow: 1px 1px 3px black; 
-      font-size: 0.95em; 
+      font-size: 0.85em; 
     }
     .phase-labels span { 
       text-align: center; 
@@ -145,12 +145,6 @@
       <div class="phase-bar">
         <div class="progress-fill" id="progressFill"></div>
         <div class="phase-labels">
-          <span>Disbelief</span>
-          <span>Hope</span>
-          <span>Optimism</span>
-          <span>Belief</span>
-          <span>Thrill</span>
-          <span>Euphoria</span>
           <span>Complacency</span>
           <span>Anxiety</span>
           <span>Denial</span>
@@ -158,6 +152,12 @@
           <span>Capitulation</span>
           <span>Anger</span>
           <span>Depression</span>
+          <span>Disbelief</span>
+          <span>Hope</span>
+          <span>Optimism</span>
+          <span>Belief</span>
+          <span>Thrill</span>
+          <span>Euphoria</span>
         </div>
       </div>
       <canvas id="myChart"></canvas>
@@ -278,7 +278,7 @@
       }
     });
 
-    // === TIE PHASE BAR TO CHART ===
+    // === PHASE BAR LOGIC ===
     const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
     const progressPercent = Math.min(100, Math.max(0, currentIndex)); // 0-100
 
@@ -287,24 +287,25 @@
     progressFill.style.width = '0%';
     setTimeout(() => {
       progressFill.style.width = `${progressPercent}%`;
-    }, 300); // small delay for animation
+    }, 300);
 
-    // Update status badge with current phase
+    // Map index to phase name
     let currentPhase = 'Neutral';
-    if (currentIndex < 10) currentPhase = 'Depression';
-    else if (currentIndex < 20) currentPhase = 'Anger';
-    else if (currentIndex < 30) currentPhase = 'Capitulation';
-    else if (currentIndex < 40) currentPhase = 'Panic';
-    else if (currentIndex < 50) currentPhase = 'Denial';
-    else if (currentIndex < 60) currentPhase = 'Anxiety';
-    else if (currentIndex < 70) currentPhase = 'Complacency';
-    else if (currentIndex < 80) currentPhase = 'Euphoria';
-    else if (currentIndex < 85) currentPhase = 'Thrill';
-    else if (currentIndex < 90) currentPhase = 'Belief';
-    else if (currentIndex < 95) currentPhase = 'Optimism';
-    else if (currentIndex < 100) currentPhase = 'Hope';
+    if (currentIndex <= 10) currentPhase = 'Depression';
+    else if (currentIndex <= 20) currentPhase = 'Anger';
+    else if (currentIndex <= 30) currentPhase = 'Capitulation';
+    else if (currentIndex <= 40) currentPhase = 'Panic';
+    else if (currentIndex <= 50) currentPhase = 'Denial';
+    else if (currentIndex <= 60) currentPhase = 'Anxiety';
+    else if (currentIndex <= 70) currentPhase = 'Complacency';
+    else if (currentIndex <= 80) currentPhase = 'Euphoria';
+    else if (currentIndex <= 85) currentPhase = 'Thrill';
+    else if (currentIndex <= 90) currentPhase = 'Belief';
+    else if (currentIndex <= 95) currentPhase = 'Optimism';
+    else if (currentIndex <= 98) currentPhase = 'Hope';
     else currentPhase = 'Disbelief';
 
+    // Update status badge with phase
     document.getElementById('statusBadge').innerHTML = `🟡 WATCHING - ${currentPhase}`;
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
@@ -335,7 +336,7 @@
     }
     fetchLiveData();
 
-    // Rest of your script (status, advice, etc.)
+    // Action advice
     document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
   </script>
 </body>
