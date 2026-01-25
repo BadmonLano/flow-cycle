@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0"></script>
   <style>
     body { 
       font-family: system-ui, -apple-system, sans-serif; 
@@ -123,7 +122,7 @@
       text-align: center; 
       flex: 1; 
     }
-    .euphoria { color: #ff6b6b !important; font-weight: 900; } /* Force Euphoria red */
+    .euphoria { color: #ff6b6b !important; font-weight: 900; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -178,7 +177,6 @@
     const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
     let predictionData = [];
 
-    // Dynamic prediction
     if (predictorIndex.length > 5) {
       const recent = predictorIndex.slice(-5).filter(v => v !== null);
       let last = recent[recent.length - 1];
@@ -223,15 +221,6 @@
             pan: {
               enabled: true,
               mode: 'xy'
-            }
-          },
-          crosshair: {
-            line: {
-              color: '#ffffff33',
-              width: 1
-            },
-            sync: {
-              enabled: true
             }
           },
           annotation: {
@@ -318,6 +307,7 @@
           pricesDiv.appendChild(div);
         });
       } catch (e) {
+        console.error('Price fetch error:', e);
         document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
       }
     }
