@@ -77,17 +77,12 @@
       transform: translateY(-4px); 
       box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
     }
-    #alertBox, #actionAdvice, #previousCalls, #predictionAccuracy { 
-      margin: 30px 0; 
-      padding: 20px; 
-      border-radius: 12px; 
-      font-size: 1.4em; 
-      box-shadow: 0 6px 25px rgba(0,0,0,0.4); 
-    }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; }
-    #previousCalls { background: #161b22; border: 1px solid #30363d; }
-    #predictionAccuracy { background: #161b22; border: 1px solid #30363d; text-align: center; }
-    #confidenceGauge { width: 200px; height: 200px; margin: 30px auto; }
+    .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
+    .collapsible-section { margin: 15px 0; }
+    .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; font-weight: bold; transition: all 0.2s; }
+    .collapsible-content { display: none; padding: 10px; background: #161b22; border-radius: 0 0 8px 8px; }
+    .open .collapsible-content { display: block; }
     .phase-bar { 
       height: 60px; 
       width: 100%; 
@@ -102,7 +97,7 @@
       height: 100%; 
       width: 0%; 
       background: linear-gradient(to right, #10b981, #34d399, #22c55e); 
-      transition: width 1.5s ease-out; 
+      transition: width 2s ease-out; 
       position: absolute; 
       top: 0; 
       left: 0; 
@@ -122,17 +117,13 @@
       font-weight: bold; 
       color: white; 
       text-shadow: 1px 1px 3px black; 
-      font-size: 0.85em; 
+      font-size: 0.9em; 
     }
     .phase-labels span { 
       text-align: center; 
       flex: 1; 
     }
-    .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
-    .collapsible-section { margin: 15px 0; }
-    .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; font-weight: bold; transition: all 0.2s; }
-    .collapsible-content { display: none; padding: 10px; background: #161b22; border-radius: 0 0 8px 8px; }
-    .open .collapsible-content { display: block; }
+    .euphoria { color: #ff6b6b !important; font-weight: 900; } /* Force Euphoria red */
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -157,7 +148,7 @@
           <span>Optimism</span>
           <span>Belief</span>
           <span>Thrill</span>
-          <span>Euphoria</span>
+          <span class="euphoria">Euphoria</span>
         </div>
       </div>
       <canvas id="myChart"></canvas>
@@ -179,10 +170,6 @@
     </div>
   </div>
 
-  <div id="alertBox"></div>
-  <div id="predictionsBox"></div>
-  <div id="predictionAccuracy">Prediction vs Live: Updating...</div>
-
   <script>
     // === MAIN CHART ===
     const ctx = document.getElementById('myChart').getContext('2d');
@@ -191,7 +178,7 @@
     const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
     let predictionData = [];
 
-    // Dynamic prediction (recalculates every load based on recent momentum)
+    // Dynamic prediction
     if (predictorIndex.length > 5) {
       const recent = predictorIndex.slice(-5).filter(v => v !== null);
       let last = recent[recent.length - 1];
@@ -245,9 +232,6 @@
             },
             sync: {
               enabled: true
-            },
-            zoom: {
-              enabled: false
             }
           },
           annotation: {
@@ -278,34 +262,33 @@
       }
     });
 
-    // === PHASE BAR LOGIC ===
+    // === PHASE BAR + ANIMATION + STATUS ===
     const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
-    const progressPercent = Math.min(100, Math.max(0, currentIndex)); // 0-100
+    const progressPercent = Math.min(100, Math.max(0, currentIndex));
 
     // Animate green fill
     const progressFill = document.getElementById('progressFill');
     progressFill.style.width = '0%';
     setTimeout(() => {
       progressFill.style.width = `${progressPercent}%`;
-    }, 300);
+    }, 500);
 
-    // Map index to phase name
-    let currentPhase = 'Neutral';
-    if (currentIndex <= 10) currentPhase = 'Depression';
-    else if (currentIndex <= 20) currentPhase = 'Anger';
-    else if (currentIndex <= 30) currentPhase = 'Capitulation';
-    else if (currentIndex <= 40) currentPhase = 'Panic';
-    else if (currentIndex <= 50) currentPhase = 'Denial';
-    else if (currentIndex <= 60) currentPhase = 'Anxiety';
-    else if (currentIndex <= 70) currentPhase = 'Complacency';
-    else if (currentIndex <= 80) currentPhase = 'Euphoria';
-    else if (currentIndex <= 85) currentPhase = 'Thrill';
-    else if (currentIndex <= 90) currentPhase = 'Belief';
-    else if (currentIndex <= 95) currentPhase = 'Optimism';
-    else if (currentIndex <= 98) currentPhase = 'Hope';
-    else currentPhase = 'Disbelief';
+    // Map current index to phase (Complacency start → Euphoria end)
+    let currentPhase = 'Complacency';
+    if (currentIndex > 10) currentPhase = 'Anxiety';
+    if (currentIndex > 20) currentPhase = 'Denial';
+    if (currentIndex > 30) currentPhase = 'Panic';
+    if (currentIndex > 40) currentPhase = 'Capitulation';
+    if (currentIndex > 50) currentPhase = 'Anger';
+    if (currentIndex > 60) currentPhase = 'Depression';
+    if (currentIndex > 70) currentPhase = 'Disbelief';
+    if (currentIndex > 75) currentPhase = 'Hope';
+    if (currentIndex > 80) currentPhase = 'Optimism';
+    if (currentIndex > 85) currentPhase = 'Belief';
+    if (currentIndex > 90) currentPhase = 'Thrill';
+    if (currentIndex > 95) currentPhase = 'Euphoria';
 
-    // Update status badge with phase
+    // Update status badge
     document.getElementById('statusBadge').innerHTML = `🟡 WATCHING - ${currentPhase}`;
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
