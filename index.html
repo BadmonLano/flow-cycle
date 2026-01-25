@@ -9,73 +9,15 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
   <style>
-    body { 
-      font-family: system-ui, -apple-system, sans-serif; 
-      margin: 0; 
-      background: #0d1117; 
-      color: #c9d1d9; 
-      line-height: 1.6; 
-    }
-    .main-title { 
-      text-align: center; 
-      color: #58a6ff; 
-      margin: 30px 0 10px; 
-      font-size: 3em; 
-      font-weight: 700; 
-    }
-    .subtitle { 
-      text-align: center; 
-      color: #8b949e; 
-      margin-bottom: 30px; 
-      font-size: 1.3em; 
-    }
-    .container { 
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 30px; 
-      max-width: 1600px; 
-      margin: 0 auto; 
-      padding: 0 20px; 
-    }
-    .chart-area { 
-      flex: 3; 
-      min-width: 700px; 
-      height: 800px; 
-      background: #161b22; 
-      border-radius: 16px; 
-      padding: 25px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
-    }
-    .sidebar { 
-      flex: 1; 
-      min-width: 340px; 
-      background: #161b22; 
-      padding: 25px; 
-      border-radius: 16px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6); 
-      overflow-y: auto; 
-      max-height: 800px; 
-    }
-    .status-badge { 
-      font-size: 2em; 
-      margin: 0 0 30px; 
-      padding: 15px; 
-      border-radius: 16px; 
-      text-align: center; 
-      font-weight: 700; 
-      box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
-    }
-    .price-item { 
-      margin: 20px 0; 
-      padding: 18px; 
-      border-radius: 12px; 
-      background: #21262d; 
-      transition: all 0.2s; 
-    }
-    .price-item:hover { 
-      transform: translateY(-4px); 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4); 
-    }
+    body { font-family: system-ui, sans-serif; margin: 0; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+    .main-title { text-align: center; color: #58a6ff; margin: 30px 0 10px; font-size: 3em; font-weight: 700; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; font-size: 1.3em; }
+    .container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1600px; margin: 0 auto; padding: 0 20px; }
+    .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .sidebar { flex: 1; min-width: 340px; background: #161b22; padding: 25px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-y: auto; max-height: 800px; }
+    .status-badge { font-size: 2em; margin: 0 0 30px; padding: 15px; border-radius: 16px; text-align: center; font-weight: 700; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+    .price-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
+    .price-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
     .collapsible-section { margin: 15px 0; }
@@ -102,6 +44,7 @@
       text-shadow: 1px 1px 3px black; 
       font-size: 0.9em; 
       transition: all 0.3s; 
+      border: 1px solid transparent; 
     }
     .phase-segment:hover { 
       transform: scale(1.05); 
@@ -109,6 +52,7 @@
     }
     .current-phase { 
       background: #22c55e !important; 
+      border: 3px solid #86efac; 
       box-shadow: inset 0 0 20px rgba(255,255,255,0.5); 
       font-size: 1.1em; 
       font-weight: 900; 
@@ -178,15 +122,13 @@
       predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
     }
 
-    const paddedPrediction = Array(labels.length - predictionData.length).fill(null).concat(predictionData);
-
     const chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
         datasets: [
           { label: 'Flow Cycle Index (Historical)', data: predictorIndex, borderColor: '#58a6ff', tension: 0.2, fill: false },
-          { label: 'Predicted Index (2-Year Forecast)', data: paddedPrediction, borderColor: '#8b949e', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
+          { label: 'Predicted Index (2-Year Forecast)', data: predictionData, borderColor: '#8b949e', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
         ]
       },
       options: {
@@ -226,7 +168,7 @@
       }
     });
 
-    // === SIMPLE PHASE HIGHLIGHT (no crashing progress bar) ===
+    // === SIMPLE CURRENT PHASE HIGHLIGHT ===
     const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
     let currentPhase = 'Complacency';
     if (currentIndex > 10) currentPhase = 'Anxiety';
@@ -243,20 +185,20 @@
     if (currentIndex > 95) currentPhase = 'Euphoria';
 
     // Highlight current phase in bar
-    const segments = document.querySelectorAll('.phase-bar .phase-segment');
-    segments.forEach(span => {
-      if (span.textContent.trim() === currentPhase) {
-        span.classList.add('current-phase');
+    const segments = document.querySelectorAll('.phase-segment');
+    segments.forEach(segment => {
+      if (segment.textContent.trim() === currentPhase) {
+        segment.classList.add('current-phase');
       }
     });
 
     // Update status badge
-    document.getElementById('statusBadge').innerHTML = `🟡 WATCHING - ${currentPhase}`;
+    document.getElementById('statusBadge').innerHTML = `🟡 ${currentPhase}`;
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
 
     // Force Euphoria red
-    const euphoriaSpan = document.querySelector('.phase-bar .phase-segment:last-child');
+    const euphoriaSpan = document.querySelector('.phase-segment:last-child');
     if (euphoriaSpan) {
       euphoriaSpan.style.color = '#ff6b6b';
       euphoriaSpan.style.fontWeight = '900';
