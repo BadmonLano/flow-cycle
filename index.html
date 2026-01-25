@@ -89,38 +89,29 @@
       border-radius: 16px; 
       overflow: hidden; 
       background: #1f2937; 
-      position: relative; 
+      display: flex; 
       box-shadow: 0 6px 25px rgba(0,0,0,0.5); 
     }
-    .progress-fill { 
-      height: 100%; 
-      width: 0%; 
-      background: linear-gradient(to right, #10b981, #34d399, #22c55e); 
-      transition: width 2s ease-out; 
-      position: absolute; 
-      top: 0; 
-      left: 0; 
-      z-index: 1; 
-    }
-    .phase-labels { 
-      position: absolute; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
+    .phase-segment { 
+      flex: 1; 
       display: flex; 
       align-items: center; 
-      justify-content: space-between; 
-      padding: 0 10px; 
-      z-index: 2; 
+      justify-content: center; 
       font-weight: bold; 
       color: white; 
       text-shadow: 1px 1px 3px black; 
       font-size: 0.9em; 
+      transition: all 0.3s; 
     }
-    .phase-labels span { 
-      text-align: center; 
-      flex: 1; 
+    .phase-segment:hover { 
+      transform: scale(1.05); 
+      box-shadow: inset 0 0 15px rgba(255,255,255,0.4); 
+    }
+    .current-phase { 
+      background: #22c55e !important; 
+      font-size: 1.1em; 
+      font-weight: 900; 
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.5); 
     }
     .euphoria { color: #ff6b6b !important; font-weight: 900; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
@@ -133,22 +124,19 @@
   <div class="container">
     <div class="chart-area">
       <div class="phase-bar">
-        <div class="progress-fill" id="progressFill"></div>
-        <div class="phase-labels">
-          <span>Complacency</span>
-          <span>Anxiety</span>
-          <span>Denial</span>
-          <span>Panic</span>
-          <span>Capitulation</span>
-          <span>Anger</span>
-          <span>Depression</span>
-          <span>Disbelief</span>
-          <span>Hope</span>
-          <span>Optimism</span>
-          <span>Belief</span>
-          <span>Thrill</span>
-          <span class="euphoria">Euphoria</span>
-        </div>
+        <div class="phase-segment">Complacency</div>
+        <div class="phase-segment">Anxiety</div>
+        <div class="phase-segment">Denial</div>
+        <div class="phase-segment">Panic</div>
+        <div class="phase-segment">Capitulation</div>
+        <div class="phase-segment">Anger</div>
+        <div class="phase-segment">Depression</div>
+        <div class="phase-segment">Disbelief</div>
+        <div class="phase-segment">Hope</div>
+        <div class="phase-segment">Optimism</div>
+        <div class="phase-segment">Belief</div>
+        <div class="phase-segment">Thrill</div>
+        <div class="phase-segment current-phase euphoria">Euphoria</div>
       </div>
       <canvas id="myChart"></canvas>
     </div>
@@ -177,7 +165,6 @@
     const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
     let predictionData = [];
 
-    // Dynamic prediction
     if (predictorIndex.length > 5) {
       const recent = predictorIndex.slice(-5).filter(v => v !== null);
       let last = recent[recent.length - 1];
@@ -191,7 +178,6 @@
       predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
     }
 
-    // Pad prediction with nulls to match labels length
     const paddedPrediction = Array(labels.length - predictionData.length).fill(null).concat(predictionData);
 
     const chart = new Chart(ctx, {
@@ -255,20 +241,8 @@
       }
     });
 
-    // === PHASE BAR + ANIMATION + STATUS ===
+    // === SIMPLE CURRENT PHASE HIGHLIGHT (No progress bar crash) ===
     const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
-    const progressPercent = Math.min(100, Math.max(0, currentIndex));
-
-    // Animate green fill
-    const progressFill = document.getElementById('progressFill');
-    if (progressFill) {
-      progressFill.style.width = '0%';
-      setTimeout(() => {
-        progressFill.style.width = `${progressPercent}%`;
-      }, 500);
-    }
-
-    // Map current index to phase (Complacency start → Euphoria end)
     let currentPhase = 'Complacency';
     if (currentIndex > 10) currentPhase = 'Anxiety';
     if (currentIndex > 20) currentPhase = 'Denial';
@@ -283,24 +257,31 @@
     if (currentIndex > 90) currentPhase = 'Thrill';
     if (currentIndex > 95) currentPhase = 'Euphoria';
 
-    // Update status badge (shortened text to avoid giant look)
-    document.getElementById('statusBadge').innerHTML = `🟡 ${currentPhase}`;
+    // Highlight current phase in bar
+    const segments = document.querySelectorAll('.phase-labels span');
+    segments.forEach((span, i) => {
+      if (span.textContent === currentPhase) {
+        span.classList.add('current-phase');
+      }
+    });
+
+    // Update status badge
+    document.getElementById('statusBadge').innerHTML = `🟡 WATCHING - ${currentPhase}`;
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
-    document.getElementById('statusBadge').style.fontSize = '1.8em'; // Smaller size
 
-    // Force Euphoria red and bold
+    // Force Euphoria red
     const euphoriaSpan = document.querySelector('.phase-labels span:last-child');
     if (euphoriaSpan) {
       euphoriaSpan.style.color = '#ff6b6b';
       euphoriaSpan.style.fontWeight = '900';
     }
 
-    // Live prices with timeout fallback
+    // Live prices with timeout + better error handling
     async function fetchLiveData() {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
 
         const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
           headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' },
