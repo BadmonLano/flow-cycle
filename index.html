@@ -168,7 +168,7 @@
       }
     });
 
-    // === SIMPLE CURRENT PHASE HIGHLIGHT ===
+    // === PHASE HIGHLIGHT BASED ON LAST REAL DATA POINT ===
     const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
     let currentPhase = 'Complacency';
     if (currentIndex > 10) currentPhase = 'Anxiety';
@@ -184,7 +184,7 @@
     if (currentIndex > 90) currentPhase = 'Thrill';
     if (currentIndex > 95) currentPhase = 'Euphoria';
 
-    // Highlight current phase in bar
+    // Highlight matching phase with green square
     const segments = document.querySelectorAll('.phase-segment');
     segments.forEach(segment => {
       if (segment.textContent.trim() === currentPhase) {
@@ -192,7 +192,7 @@
       }
     });
 
-    // Update status badge
+    // Yellow badge shows current phase from data
     document.getElementById('statusBadge').innerHTML = `🟡 ${currentPhase}`;
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
@@ -204,17 +204,14 @@
       euphoriaSpan.style.fontWeight = '900';
     }
 
-    // Live prices with debug
+    // Live prices
     async function fetchLiveData() {
       try {
-        console.log('Starting price fetch...');
         const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
           headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
         });
-        console.log('Response status:', response.status);
         if (!response.ok) throw new Error(`API error: ${response.status}`);
         const data = await response.json();
-        console.log('Prices data:', data);
         const pricesDiv = document.getElementById('prices');
         pricesDiv.innerHTML = '';
         data.forEach(coin => {
@@ -228,7 +225,6 @@
           pricesDiv.appendChild(div);
         });
       } catch (e) {
-        console.error('Price fetch error:', e);
         document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
       }
     }
