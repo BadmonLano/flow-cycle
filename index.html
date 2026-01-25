@@ -288,10 +288,14 @@
     if (currentIndex > 90) currentPhase = 'Thrill';
     if (currentIndex > 95) currentPhase = 'Euphoria';
 
-    // Update status badge
+    // Update status badge with phase
     document.getElementById('statusBadge').innerHTML = `🟡 WATCHING - ${currentPhase}`;
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
+
+    // Force Euphoria red
+    document.querySelector('.phase-labels span:last-child').style.color = '#ff6b6b';
+    document.querySelector('.phase-labels span:last-child').style.fontWeight = '900';
 
     // Live prices
     async function fetchLiveData() {
