@@ -155,47 +155,34 @@
       }
     });
 
-    // === PHASE HIGHLIGHT BASED ON VISIBLE RANGE ===
-    function updatePhaseHighlight() {
-      const minTime = chart.scales.x.min;
-      const maxTime = chart.scales.x.max;
-      const visiblePoints = predictorIndex.filter((_, i) => {
-        const date = new Date(labels[i]).getTime();
-        return date >= minTime && date <= maxTime;
-      });
+    // === PHASE HIGHLIGHT BASED ON LAST POINT ===
+    const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
+    let currentPhase = 'Complacency';
+    if (currentIndex > 10) currentPhase = 'Anxiety';
+    if (currentIndex > 20) currentPhase = 'Denial';
+    if (currentIndex > 30) currentPhase = 'Panic';
+    if (currentIndex > 40) currentPhase = 'Capitulation';
+    if (currentIndex > 50) currentPhase = 'Anger';
+    if (currentIndex > 60) currentPhase = 'Depression';
+    if (currentIndex > 70) currentPhase = 'Disbelief';
+    if (currentIndex > 75) currentPhase = 'Hope';
+    if (currentIndex > 80) currentPhase = 'Optimism';
+    if (currentIndex > 85) currentPhase = 'Belief';
+    if (currentIndex > 90) currentPhase = 'Thrill';
+    if (currentIndex > 95) currentPhase = 'Euphoria';
 
-      const avgIndex = visiblePoints.length > 0 ? visiblePoints.reduce((a, b) => a + b, 0) / visiblePoints.length : 0;
-      let currentPhase = 'Complacency';
-      if (avgIndex > 10) currentPhase = 'Anxiety';
-      if (avgIndex > 20) currentPhase = 'Denial';
-      if (avgIndex > 30) currentPhase = 'Panic';
-      if (avgIndex > 40) currentPhase = 'Capitulation';
-      if (avgIndex > 50) currentPhase = 'Anger';
-      if (avgIndex > 60) currentPhase = 'Depression';
-      if (avgIndex > 70) currentPhase = 'Disbelief';
-      if (avgIndex > 75) currentPhase = 'Hope';
-      if (avgIndex > 80) currentPhase = 'Optimism';
-      if (avgIndex > 85) currentPhase = 'Belief';
-      if (avgIndex > 90) currentPhase = 'Thrill';
-      if (avgIndex > 95) currentPhase = 'Euphoria';
+    // Highlight matching phase with green square
+    const segments = document.querySelectorAll('.phase-segment');
+    segments.forEach(segment => {
+      if (segment.textContent.trim() === currentPhase) {
+        segment.classList.add('current-phase');
+      }
+    });
 
-      // Highlight matching phase
-      const segments = document.querySelectorAll('.phase-segment');
-      segments.forEach(segment => segment.classList.remove('current-phase'));
-      segments.forEach(segment => {
-        if (segment.textContent.trim() === currentPhase) {
-          segment.classList.add('current-phase');
-        }
-      });
-
-      // Update badge
-      document.getElementById('statusBadge').innerHTML = `🟡 ${currentPhase}`;
-    }
-
-    // Run on load and on zoom/pan
-    chart.options.plugins.zoom.zoom.onZoom = updatePhaseHighlight;
-    chart.options.plugins.zoom.pan.onPan = updatePhaseHighlight;
-    updatePhaseHighlight(); // Initial
+    // Update status badge
+    document.getElementById('statusBadge').innerHTML = `🟡 ${currentPhase}`;
+    document.getElementById('statusBadge').style.background = '#ffeb3b';
+    document.getElementById('statusBadge').style.color = 'white';
 
     // Force Euphoria red
     const euphoriaSpan = document.querySelector('.phase-segment:last-child');
@@ -233,7 +220,6 @@
     // Daily summary
     async function fetchDailySummary() {
       try {
-        // CryptoPanic public feed (no key needed for basic)
         const response = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
         const data = await response.json();
         const summaryDiv = document.getElementById('dailySummary');
