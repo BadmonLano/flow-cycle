@@ -128,8 +128,28 @@
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { type: 'time', time: { unit: 'day' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12 }, title: { display: true, text: 'Time' } },
-          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+          x: { 
+            type: 'time', 
+            time: { unit: 'day' }, 
+            ticks: { 
+              maxRotation: 45, 
+              autoSkip: true, 
+              maxTicksLimit: 12, 
+              callback: function(value, index, values) {
+                const date = new Date(value);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+              }
+            }, 
+            title: { display: true, text: 'Time' }
+          },
+          y: { 
+            min: 0, 
+            max: 100, 
+            suggestedMin: 0, 
+            suggestedMax: 100, 
+            beginAtZero: true, 
+            title: { display: true, text: 'Flow Cycle Index' } 
+          }
         },
         plugins: {
           zoom: {
@@ -236,7 +256,6 @@
     // Daily summary
     async function fetchDailySummary() {
       try {
-        // CryptoPanic public feed (no key needed for basic)
         const response = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
         const data = await response.json();
         const summaryDiv = document.getElementById('dailySummary');
