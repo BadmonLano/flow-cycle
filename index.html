@@ -79,45 +79,119 @@
   <script>
     // === MAIN CHART ===
     const ctx = document.getElementById('myChart').getContext('2d');
-    const labels = ['2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11', '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01', '2027-04', '2027-07', '2027-10', '2028-01'];
-    const historicalData = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
-    
-    // Smoother prediction: start from last known, ramp to 95 peak then dip
-    let predictionData = historicalData.slice();
-    const lastKnown = 51;
-    const peakTarget = 95;
-    const peakIndex = 12; // 2026-10
-    for (let i = historicalData.length - 1; i < labels.length; i++) {
-      if (i < peakIndex) {
-        predictionData[i] = lastKnown + (peakTarget - lastKnown) * (i - 9) / (peakIndex - 9) + (Math.random() * 4 - 2);
+
+    // Convert labels to real dates for time scale (monthly)
+    const parseDate = (str) => {
+      const [year, month] = str.split('-').map(Number);
+      return new Date(year, month - 1, 1); // 1st of the month
+    };
+
+    const labelDates = [
+      '2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11',
+      '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01',
+      '2027-04', '2027-07', '2027-10', '2028-01'
+    ].map(parseDate);
+
+    const historicalValues = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
+
+    // Smooth 2-year prediction: ramp from current 51 to 95 peak (2026-10), then dip to ~10 by 2028-01
+    let predictionValues = historicalValues.slice();
+    const startIdx = historicalValues.findLastIndex(v => v !== null); // last real point
+    const peakIdx = labelDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9); // Oct 2026
+    const endIdx = labelDates.length - 1;
+
+    for (let i = startIdx + 1; i <= endIdx; i++) {
+      let target;
+      if (i <= peakIdx) {
+        // Ramp up to peak
+        const progress = (i - startIdx) / (peakIdx - startIdx);
+        target = 51 + (95 - 51) * progress;
       } else {
-        predictionData[i] = peakTarget - (peakTarget - 10) * (i - peakIndex) / (labels.length - peakIndex - 1) + (Math.random() * 5 - 2.5);
+        // Dip down after peak
+        const progress = (i - peakIdx) / (endIdx - peakIdx);
+        target = 95 - (95 - 10) * progress;
       }
-      predictionData[i] = Math.max(5, Math.min(100, Math.round(predictionData[i])));
+      // Add slight smooth variation
+      target += Math.sin(i * 0.8) * 3 - 1.5;
+      predictionValues[i] = Math.max(5, Math.min(100, Math.round(target)));
     }
 
     const chart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: labels,
+        labels: labelDates,
         datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: historicalData, borderColor: '#58a6ff', tension: 0.3, fill: false, pointRadius: 5, pointBackgroundColor: '#58a6ff' },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionData, borderColor: '#8b949e', borderDash: [6, 4], tension: 0.3, fill: false, pointRadius: 0 }
+          {
+            label: 'Flow Cycle Index (Historical)',
+            data: historicalValues,
+            borderColor: '#58a6ff',
+            backgroundColor: '#58a6ff',
+            tension: 0.3,
+            fill: false,
+            pointRadius: 5,
+            pointBackgroundColor: '#58a6ff'
+          },
+          {
+            label: 'Predicted Index (2-Year Forecast)',
+            data: predictionValues,
+            borderColor: '#8b949e',
+            borderDash: [6, 4],
+            tension: 0.3,
+            fill: false,
+            pointRadius: 0
+          }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { type: 'category', ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12 }, title: { display: true, text: 'Time' } },
-          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+          x: {
+            type: 'time',
+            time: {
+              unit: 'month',
+              displayFormats: { month: 'MMM yyyy' },
+              tooltipFormat: 'MMM yyyy'
+            },
+            ticks: {
+              maxRotation: 45,
+              autoSkip: true,
+              maxTicksLimit: 12
+            },
+            title: { display: true, text: 'Time' }
+          },
+          y: {
+            min: 0,
+            max: 100,
+            title: { display: true, text: 'Flow Cycle Index' }
+          }
         },
         plugins: {
-          zoom: { zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'xy' }, pan: { enabled: true, mode: 'xy' } },
+          zoom: {
+            zoom: { enabled: false }, // lock zoom
+            pan: { enabled: false }   // lock pan
+          },
           annotation: {
             annotations: {
-              topBox: { type: 'box', xMin: '2026-07', xMax: '2026-10', yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
-              bottomLabel: { type: 'label', xValue: '2025-11', yValue: 10, content: 'Recent Bottom', backgroundColor: '#22c55e', color: 'white' }
+              topBox: {
+                type: 'box',
+                xMin: new Date(2026, 6, 1), // Jul 2026
+                xMax: new Date(2026, 9, 1), // Oct 2026
+                yMin: 85,
+                yMax: 100,
+                backgroundColor: 'rgba(255,107,107,0.15)',
+                borderColor: '#ff6b6b',
+                borderWidth: 2,
+                label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' }
+              },
+              bottomLabel: {
+                type: 'label',
+                xValue: new Date(2025, 10, 1),
+                yValue: 10,
+                content: 'Recent Bottom',
+                backgroundColor: '#22c55e',
+                color: 'white'
+              }
             }
           },
           tooltip: {
@@ -135,8 +209,8 @@
       }
     });
 
-    // Phase logic (better mapping)
-    const currentIndex = historicalData.filter(v => v !== null).pop() || 51;
+    // Phase logic (aligned better to common cycles)
+    const currentIndex = historicalValues.filter(v => v !== null).pop() || 51;
     let currentPhase = 'Complacency';
     if (currentIndex >= 10) currentPhase = 'Anxiety';
     if (currentIndex >= 20) currentPhase = 'Denial';
@@ -159,16 +233,16 @@
     // Badge & advice
     const badge = document.getElementById('statusBadge');
     badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
-    badge.style.background = currentIndex > 80 ? '#ef4444' : currentIndex > 60 ? '#eab308' : '#22c55e';
+    badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
     badge.style.color = 'white';
 
     let advice = 'Hold or buy dips';
-    if (currentPhase.includes('Euphoria') || currentPhase.includes('Thrill')) advice = 'Trim/Sell strength — euphoria alert';
-    else if (currentPhase.includes('Panic') || currentPhase.includes('Capitulation')) advice = 'Load bags heavy — bottom vibes';
-    else if (currentPhase.includes('Hope') || currentPhase.includes('Belief')) advice = 'Accumulate dips — legs building';
+    if (currentPhase === 'Euphoria' || currentPhase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
+    else if (currentPhase === 'Panic' || currentPhase === 'Capitulation' || currentPhase === 'Depression') advice = 'Load bags heavy — bottom vibes';
+    else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
     document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
 
-    // Live prices (fallback if CG fails)
+    // Live prices fetch (with fallback)
     async function fetchLiveData() {
       try {
         const res = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
@@ -185,12 +259,12 @@
           div.appendChild(p);
         });
       } catch {
-        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — check key or refresh</p>';
+        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
       }
     }
     fetchLiveData();
 
-    // Daily summary fallback + rising filter
+    // Daily summary
     async function fetchDailySummary() {
       try {
         const res = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
@@ -201,7 +275,6 @@
         data.results?.slice(0,5).forEach(p => {
           sumDiv.innerHTML += `<div class="summary-item">${p.title} <a href="${p.url}" target="_blank" style="color:#58a6ff;">[source]</a></div>`;
         });
-        if (!data.results?.length) sumDiv.innerHTML += '<p>No rising news — market quiet?</p>';
       } catch {
         document.getElementById('dailySummary').innerHTML = '<h3>Daily Market Summary</h3><p>Failed to load — check connection</p>';
       }
