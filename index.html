@@ -82,37 +82,21 @@
     // === MAIN CHART ===
     const ctx = document.getElementById('myChart').getContext('2d');
 
-    const rawLabels = ['2017-01-01', '2017-10-01', '2017-12-01', '2018-12-01', '2020-03-01', '2021-11-01', '2022-11-01', '2025-04-01', '2025-11-01', '2026-01-01'];
-    const rawData = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51];
+    const labels = ['2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11', '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01', '2027-04', '2027-07', '2027-10', '2028-01'];
+    const predictorIndex = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
+    let predictionData = [];
 
-    // Interpolate daily points for smooth line
-    const labels = [];
-    const data = [];
-    for (let i = 0; i < rawLabels.length - 1; i++) {
-      const startDate = new Date(rawLabels[i]);
-      const endDate = new Date(rawLabels[i + 1]);
-      const startValue = rawData[i];
-      const endValue = rawData[i + 1];
-      const daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
-      for (let d = 0; d <= daysDiff; d++) {
-        const fraction = d / daysDiff;
-        const interpolatedValue = startValue + fraction * (endValue - startValue);
-        const interpolatedDate = new Date(startDate);
-        interpolatedDate.setDate(startDate.getDate() + d);
-        labels.push(interpolatedDate.toISOString().split('T')[0]);
-        data.push(Math.round(interpolatedValue));
+    if (predictorIndex.length > 5) {
+      const recent = predictorIndex.slice(-5).filter(v => v !== null);
+      let last = recent[recent.length - 1];
+      let momentum = (recent[recent.length - 1] - recent[0]) / recent.length;
+      for (let i = 0; i < 24; i++) {
+        last += momentum * (1 + (Math.random() * 0.1 - 0.05));
+        last = Math.min(100, Math.max(0, last));
+        predictionData.push(last);
       }
-    }
-
-    // Add prediction daily (24 months)
-    let lastValue = data[data.length - 1];
-    for (let i = 0; i < 730; i++) { // ~2 years daily
-      lastValue += (Math.random() * 2 - 1); // small daily change
-      lastValue = Math.max(0, Math.min(100, lastValue));
-      const nextDate = new Date(labels[labels.length - 1]);
-      nextDate.setDate(nextDate.getDate() + 1);
-      labels.push(nextDate.toISOString().split('T')[0]);
-      data.push(Math.round(lastValue));
+    } else {
+      predictionData = [null, null, null, null, null, null, null, null, null, null, 70, 85, 95, 80, 50, 30, 15, 10];
     }
 
     const chart = new Chart(ctx, {
@@ -120,8 +104,8 @@
       data: {
         labels: labels,
         datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: data, borderColor: '#58a6ff', tension: 0.2, fill: false },
-          { label: 'Predicted Index (2-Year Forecast)', data: data, borderColor: '#8b949e', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
+          { label: 'Flow Cycle Index (Historical)', data: predictorIndex, borderColor: '#58a6ff', tension: 0.2, fill: false },
+          { label: 'Predicted Index (2-Year Forecast)', data: predictionData, borderColor: '#8b949e', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
         ]
       },
       options: {
