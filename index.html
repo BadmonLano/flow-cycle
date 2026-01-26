@@ -83,7 +83,11 @@
   </div>
 
   <script>
-    // === MONTHLY DATES & DATA (unchanged) ===
+    // Global vars for phase/index (used in Grok & UI)
+    let currentIndex = 51;
+    let currentPhase = 'Anger'; // fallback
+
+    // === MONTHLY DATES & CHART (unchanged from last) ===
     function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
@@ -216,60 +220,59 @@
       }
     });
 
-    // === DYNAMIC INDEX FROM RECENT PRICES ===
-    let currentIndex = 51; // base from historical
-    async function updateDynamicIndex() {
+    // === DYNAMIC INDEX + PHASE UPDATE ===
+    async function updateDynamicIndexAndUI() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
-        if (!res.ok) return;
+        if (!res.ok) throw new Error();
         const data = await res.json();
         const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
         const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
         const avgMomentum = (btc30d + sol30d) / 2;
 
-        // Simple adjustment: + if green momentum, - if red; cap at ±20 points
         currentIndex = Math.max(10, Math.min(90, 51 + Math.round(avgMomentum / 5)));
 
-        // Phase & UI update
-        let phase = 'Complacency';
-        if (currentIndex >= 10) phase = 'Anxiety';
-        if (currentIndex >= 20) phase = 'Denial';
-        if (currentIndex >= 30) phase = 'Panic';
-        if (currentIndex >= 40) phase = 'Capitulation';
-        if (currentIndex >= 50) phase = 'Anger';
-        if (currentIndex >= 60) phase = 'Depression';
-        if (currentIndex >= 70) phase = 'Disbelief';
-        if (currentIndex >= 75) phase = 'Hope';
-        if (currentIndex >= 80) phase = 'Optimism';
-        if (currentIndex >= 85) phase = 'Belief';
-        if (currentIndex >= 90) phase = 'Thrill';
-        if (currentIndex >= 95) phase = 'Euphoria';
+        currentPhase = 'Complacency';
+        if (currentIndex >= 10) currentPhase = 'Anxiety';
+        if (currentIndex >= 20) currentPhase = 'Denial';
+        if (currentIndex >= 30) currentPhase = 'Panic';
+        if (currentIndex >= 40) currentPhase = 'Capitulation';
+        if (currentIndex >= 50) currentPhase = 'Anger';
+        if (currentIndex >= 60) currentPhase = 'Depression';
+        if (currentIndex >= 70) currentPhase = 'Disbelief';
+        if (currentIndex >= 75) currentPhase = 'Hope';
+        if (currentIndex >= 80) currentPhase = 'Optimism';
+        if (currentIndex >= 85) currentPhase = 'Belief';
+        if (currentIndex >= 90) currentPhase = 'Thrill';
+        if (currentIndex >= 95) currentPhase = 'Euphoria';
 
+        // Update phase bar
         document.querySelectorAll('.phase-segment').forEach(seg => {
-          seg.classList.toggle('current-phase', seg.textContent.trim() === phase);
+          seg.classList.toggle('current-phase', seg.textContent.trim() === currentPhase);
         });
 
+        // Update badge & advice
         const badge = document.getElementById('statusBadge');
-        badge.innerHTML = `🟡 ${phase.toUpperCase()}`;
+        badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
         badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
 
         let advice = 'Hold or buy dips';
-        if (phase === 'Euphoria' || phase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
-        else if (phase === 'Panic' || phase === 'Capitulation' || phase === 'Depression') advice = 'Load bags heavy — bottom vibes';
-        else if (phase === 'Hope' || phase === 'Belief' || phase === 'Optimism') advice = 'Accumulate dips — legs building';
+        if (currentPhase === 'Euphoria' || currentPhase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
+        else if (currentPhase === 'Panic' || currentPhase === 'Capitulation' || currentPhase === 'Depression') advice = 'Load bags heavy — bottom vibes';
+        else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
         document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
       } catch (e) {
-        console.log('Dynamic index failed, using base 51');
+        console.log('Dynamic update failed, using defaults');
       }
     }
-    updateDynamicIndex();
+    updateDynamicIndexAndUI();
 
-    // === GROK INSIGHT ===
-    const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY'; // <--- YOUR KEY HERE (never commit/push)
+    // === GROK INSIGHT (fixed scope) ===
+    const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY'; // REPLACE THIS
 
     async function getGrokInsight() {
       const respDiv = document.getElementById('grok-response');
-      respDiv.innerHTML = 'Grok thinking savage... 🔥';
+      respDiv.innerHTML = 'Grok cooking savage take... 🔥';
 
       try {
         const res = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -282,7 +285,7 @@
             model: 'grok-4-1-fast-reasoning',
             messages: [
               { role: 'system', content: 'You are a savage crypto trader with no filter. Give short, brutal, honest takes on market phases, memes, $GORK, and what Lano should do.' },
-              { role: 'user', content: `Current Flow Cycle Index at ~${currentIndex} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding. Blow-off top coming Q4 2026? What's the real move rn — buy dips, hold, trim? Keep it savage and short.` }
+              { role: 'user', content: `Current Flow Cycle Index ~${Math.round(currentIndex)} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding with volume up. Blow-off top in Q4 2026? Real move rn — buy dips, hold, trim? Keep it savage & short.` }
             ],
             temperature: 0.8,
             max_tokens: 200
@@ -293,13 +296,13 @@
         const data = await res.json();
         respDiv.innerHTML = data.choices[0].message.content.trim();
       } catch (err) {
-        respDiv.innerHTML = `Error: ${err.message}. Check key/balance or console.`;
+        respDiv.innerHTML = `Error: ${err.message}. Check key/balance/network/console.`;
       }
     }
 
     document.getElementById('grok-button').addEventListener('click', getGrokInsight);
 
-    // === $GORK CARD (DexScreener) ===
+    // === $GORK REAL FETCH (your pump.fun pair) ===
     async function fetchGorkData() {
       try {
         const res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
@@ -310,18 +313,18 @@
         card.innerHTML = `
           <strong>$GORK (Solana)</strong><br>
           <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
-          MC: $${(pair.marketCap / 1e6).toFixed(2)}M<br>
-          24h Vol: $${(pair.volume?.h24 / 1e3).toFixed(0)}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
-          Liq: $${(pair.liquidity?.usd / 1e3).toFixed(0)}K<br>
+          MC: $${(pair.marketCap / 1e6).toFixed(2) || 'N/A'}M<br>
+          24h Vol: $${(pair.volume?.h24 / 1e3).toFixed(0) || 'N/A'}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
+          Liq: $${(pair.liquidity?.usd / 1e3).toFixed(0) || 'N/A'}K<br>
           Buys/Sells (1h): ${pair.txns?.h1?.buys || '?'} / ${pair.txns?.h1?.sells || '?'}
         `;
       } catch {
-        document.getElementById('gorkCard').innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — refresh</p>';
+        document.getElementById('gorkCard').innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed — refresh or check pair</p>';
       }
     }
     fetchGorkData();
 
-    // Live prices (public endpoint)
+    // Live majors prices
     async function fetchLiveData() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
@@ -354,16 +357,23 @@
           <div class="summary-item">Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)</div>
           <div class="summary-item">BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%</div>
           <div class="summary-item">Total Volume 24h: $${g.total_volume.usd.toLocaleString()}</div>
-          <p style="margin-top:10px;">Meme supercycle heating, BTC dom fade incoming, Elon/Grok narrative revival possible in 2026. Hold dips in Anger/Belief.</p>
+          <p style="margin-top:10px;">Meme supercycle heating in 2026, BTC dom fade incoming, Elon/Grok narrative revival possible. Hold dips in Anger/Belief phase — $GORK rebounding.</p>
         `;
       } catch {
         sumDiv.innerHTML += `
           <p>Failed to load live data — fallback mode</p>
-          <p>2026 vibes: BTC holding $87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win.</p>
+          <p>2026 vibes: BTC holding $87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win. Watch for Elon nod.</p>
         `;
       }
     }
     fetchDailySummary();
+
+    // Optional: auto-refresh every 60s (uncomment to enable)
+    // setInterval(() => {
+    //   fetchLiveData();
+    //   fetchGorkData();
+    //   updateDynamicIndexAndUI();
+    // }, 60000);
   </script>
 </body>
 </html>
