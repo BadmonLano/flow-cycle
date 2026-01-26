@@ -77,68 +77,94 @@
   </div>
 
   <script>
-    // === MAIN CHART ===
-    const ctx = document.getElementById('myChart').getContext('2d');
+    // Helper: generate monthly dates from start to end
+    function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
+      const dates = [];
+      let current = new Date(startYear, startMonth - 1, 1);
+      const end = new Date(endYear, endMonth - 1, 1);
+      while (current <= end) {
+        dates.push(new Date(current));
+        current.setMonth(current.getMonth() + 1);
+      }
+      return dates;
+    }
 
-    // Convert labels to real dates for time scale (monthly)
-    const parseDate = (str) => {
-      const [year, month] = str.split('-').map(Number);
-      return new Date(year, month - 1, 1); // 1st of the month
+    const monthlyDates = generateMonthlyDates(2017, 1, 2028, 1);
+
+    // Known historical points (date string -> value)
+    const knownPoints = {
+      '2017-01': 40,
+      '2017-10': 45,
+      '2017-12': 95,
+      '2018-12': 10,
+      '2020-03': 10,
+      '2021-11': 90,
+      '2022-11': 15,
+      '2025-04': 25,
+      '2025-11': 10,
+      '2026-01': 51
     };
 
-    const labelDates = [
-      '2017-01', '2017-10', '2017-12', '2018-12', '2020-03', '2021-11', '2022-11',
-      '2025-04', '2025-11', '2026-01', '2026-04', '2026-07', '2026-10', '2027-01',
-      '2027-04', '2027-07', '2027-10', '2028-01'
-    ].map(parseDate);
+    // Interpolate historical monthly values (linear between known points)
+    const historicalMonthly = monthlyDates.map(date => {
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      if (knownPoints[key] !== undefined) return knownPoints[key];
 
-    const historicalValues = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51, null, null, null, null, null, null, null, null];
+      // Find previous and next known
+      let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
+      for (const k in knownPoints) {
+        const d = new Date(k + '-01');
+        if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
+        if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
+      }
+      if (!prevDate || !nextDate) return null; // before first or after last known
 
-    // Smooth 2-year prediction: ramp from current 51 to 95 peak (2026-10), then dip to ~10 by 2028-01
-    let predictionValues = historicalValues.slice();
-    const startIdx = historicalValues.findLastIndex(v => v !== null); // last real point
-    const peakIdx = labelDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9); // Oct 2026
-    const endIdx = labelDates.length - 1;
+      const t = (date - prevDate) / (nextDate - prevDate);
+      return Math.round(prevVal + t * (nextVal - prevVal));
+    });
+
+    // Prediction: monthly from Jan 2026 onward
+    const predictionMonthly = historicalMonthly.slice();
+    const startIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 0);
+    const peakIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9); // Oct 2026
+    const endIdx = monthlyDates.length - 1;
 
     for (let i = startIdx + 1; i <= endIdx; i++) {
       let target;
       if (i <= peakIdx) {
-        // Ramp up to peak
         const progress = (i - startIdx) / (peakIdx - startIdx);
         target = 51 + (95 - 51) * progress;
       } else {
-        // Dip down after peak
         const progress = (i - peakIdx) / (endIdx - peakIdx);
         target = 95 - (95 - 10) * progress;
       }
-      // Add slight smooth variation
-      target += Math.sin(i * 0.8) * 3 - 1.5;
-      predictionValues[i] = Math.max(5, Math.min(100, Math.round(target)));
+      target += Math.sin(i * 0.4) * 4 - 2; // gentle wave
+      predictionMonthly[i] = Math.max(5, Math.min(100, Math.round(target)));
     }
 
-    const chart = new Chart(ctx, {
+    const chart = new Chart(document.getElementById('myChart').getContext('2d'), {
       type: 'line',
       data: {
-        labels: labelDates,
+        labels: monthlyDates,
         datasets: [
           {
             label: 'Flow Cycle Index (Historical)',
-            data: historicalValues,
+            data: historicalMonthly,
             borderColor: '#58a6ff',
-            backgroundColor: '#58a6ff',
             tension: 0.3,
             fill: false,
-            pointRadius: 5,
-            pointBackgroundColor: '#58a6ff'
+            pointRadius: 0, // hide points for dense monthly
+            borderWidth: 2
           },
           {
             label: 'Predicted Index (2-Year Forecast)',
-            data: predictionValues,
+            data: predictionMonthly,
             borderColor: '#8b949e',
             borderDash: [6, 4],
             tension: 0.3,
             fill: false,
-            pointRadius: 0
+            pointRadius: 0,
+            borderWidth: 2
           }
         ]
       },
@@ -151,12 +177,12 @@
             time: {
               unit: 'month',
               displayFormats: { month: 'MMM yyyy' },
-              tooltipFormat: 'MMM yyyy'
+              tooltipFormat: 'MMMM yyyy'
             },
             ticks: {
               maxRotation: 45,
               autoSkip: true,
-              maxTicksLimit: 12
+              maxTicksLimit: 24 // show ~2 years worth, skip if crowded
             },
             title: { display: true, text: 'Time' }
           },
@@ -168,15 +194,15 @@
         },
         plugins: {
           zoom: {
-            zoom: { enabled: false }, // lock zoom
-            pan: { enabled: false }   // lock pan
+            zoom: { enabled: false },
+            pan: { enabled: false }
           },
           annotation: {
             annotations: {
               topBox: {
                 type: 'box',
-                xMin: new Date(2026, 6, 1), // Jul 2026
-                xMax: new Date(2026, 9, 1), // Oct 2026
+                xMin: new Date(2026, 6, 1),
+                xMax: new Date(2026, 9, 1),
                 yMin: 85,
                 yMax: 100,
                 backgroundColor: 'rgba(255,107,107,0.15)',
@@ -198,7 +224,7 @@
             mode: 'index',
             intersect: false,
             callbacks: {
-              label: (ctx) => {
+              label: ctx => {
                 const v = ctx.raw;
                 let phase = v < 20 ? 'Panic/Capitulation' : v < 40 ? 'Disbelief/Hope' : v < 60 ? 'Belief/Optimism' : v < 80 ? 'Thrill' : 'Euphoria';
                 return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${phase})`;
@@ -209,8 +235,8 @@
       }
     });
 
-    // Phase logic (aligned better to common cycles)
-    const currentIndex = historicalValues.filter(v => v !== null).pop() || 51;
+    // Current phase (using latest historical or prediction start)
+    const currentIndex = historicalMonthly[historicalMonthly.length - 1] || 51;
     let currentPhase = 'Complacency';
     if (currentIndex >= 10) currentPhase = 'Anxiety';
     if (currentIndex >= 20) currentPhase = 'Denial';
@@ -225,12 +251,10 @@
     if (currentIndex >= 90) currentPhase = 'Thrill';
     if (currentIndex >= 95) currentPhase = 'Euphoria';
 
-    // Highlight phase bar
     document.querySelectorAll('.phase-segment').forEach(seg => {
       if (seg.textContent.trim() === currentPhase) seg.classList.add('current-phase');
     });
 
-    // Badge & advice
     const badge = document.getElementById('statusBadge');
     badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
     badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
@@ -242,7 +266,7 @@
     else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
     document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
 
-    // Live prices fetch (with fallback)
+    // Live prices (unchanged)
     async function fetchLiveData() {
       try {
         const res = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
@@ -264,7 +288,7 @@
     }
     fetchLiveData();
 
-    // Daily summary
+    // Daily summary (unchanged)
     async function fetchDailySummary() {
       try {
         const res = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
