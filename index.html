@@ -51,6 +51,20 @@
     .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; }
     .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
     .open .collapsible-content { display: block; }
+    #grok-section { margin-top: 20px; background: #21262d; padding: 12px; border-radius: 8px; }
+    #grok-button { 
+      width: 100%; 
+      padding: 10px; 
+      background: #58a6ff; 
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      margin-bottom: 10px; 
+    }
+    #grok-button:hover { background: #1f6feb; }
+    #grok-response { color: #c9d1d9; white-space: pre-wrap; }
   </style>
 </head>
 <body>
@@ -67,6 +81,14 @@
     <div class="sidebar">
       <div id="statusBadge" class="status-badge">🟡 WATCHING</div>
       <div id="actionAdvice">What you should do right now: Hold or buy dips.</div>
+      
+      <!-- New Grok Insight Section -->
+      <div id="grok-section">
+        <h3>Grok Insight</h3>
+        <button id="grok-button">Get Grok Take</button>
+        <div id="grok-response">Click the button for savage market alpha from Grok 🔥</div>
+      </div>
+
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
       <div class="collapsible-section">
@@ -93,14 +115,12 @@
       timeScale: { borderColor: '#30363d', timeVisible: true, secondsVisible: false },
     });
 
-    // Historical line (blue solid)
     const historicalSeries = chart.addLineSeries({
       color: '#58a6ff',
       lineWidth: 2,
       title: 'Flow Cycle Index (Historical)'
     });
 
-    // Predicted line (dashed gray) - 2-year forecast
     const predictedSeries = chart.addLineSeries({
       color: '#8b949e',
       lineWidth: 2,
@@ -108,7 +128,6 @@
       title: 'Predicted (2-Year Forecast)'
     });
 
-    // Historical data
     const historicalData = [
       { time: '2017-01-01', value: 40 },
       { time: '2017-10-01', value: 45 },
@@ -123,7 +142,6 @@
     ];
     historicalSeries.setData(historicalData);
 
-    // Predicted data - full 2-year forecast visible
     const predictedData = [
       { time: '2026-01-01', value: 51 },
       { time: '2026-04-01', value: 70 },
@@ -137,8 +155,6 @@
     ];
     predictedSeries.setData(predictedData);
 
-    // Set wider visible range so the 2yr forecast shows by default
-    // From mid-2025 to end-2027 (adjust 'from' earlier if you want more history)
     const startDate = new Date('2025-06-01');
     const endDate = new Date('2027-12-31');
     chart.timeScale().setVisibleRange({
@@ -146,12 +162,10 @@
       to: endDate.getTime() / 1000
     });
 
-    // Resize handler
     window.addEventListener('resize', () => {
       chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
     });
 
-    // Live prices fetch (CoinGecko pro API - your key)
     async function fetchLiveData() {
       try {
         const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
@@ -177,11 +191,50 @@
     }
     fetchLiveData();
 
-    // Status badge (static for now)
     document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
     document.getElementById('statusBadge').style.background = '#ffeb3b';
     document.getElementById('statusBadge').style.color = 'white';
     document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
+
+    // === GROK API INTEGRATION ===
+    const apiKey = 'YOUR_NEW_KEY_HERE';  // PASTE YOUR FRESH, SECURE KEY HERE (never share this file)
+
+    async function getGrokInsight() {
+      const responseDiv = document.getElementById('grok-response');
+      responseDiv.innerHTML = 'Grok thinking... 🔥';
+
+      try {
+        const res = await fetch('https://api.x.ai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'grok-4-1-fast-reasoning',  // fast & cheap; change to 'grok-4-latest' if you want full power
+            messages: [
+              { role: 'system', content: 'You are a savage crypto trader with no filter. Give short, brutal, honest takes on market phases, memes, and $GORK.' },
+              { role: 'user', content: 'Current Flow Cycle Index at 51 in Belief phase (yellow). $GORK rebounding from ATL, volume up, Sol memes heating. Blow-off top coming Q2-Q4 2026? What should Lano do rn — buy dips, hold, trim? Keep it real and savage.' }
+            ],
+            temperature: 0.7,
+            max_tokens: 250
+          })
+        });
+
+        if (!res.ok) {
+          throw new Error(`API error: ${res.status}`);
+        }
+
+        const data = await res.json();
+        const reply = data.choices[0].message.content.trim();
+        responseDiv.innerHTML = reply;
+      } catch (err) {
+        console.error(err);
+        responseDiv.innerHTML = `Error: ${err.message}. Check key/balance or console.`;
+      }
+    }
+
+    document.getElementById('grok-button').addEventListener('click', getGrokInsight);
   </script>
 </body>
 </html>
