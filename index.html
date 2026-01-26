@@ -20,14 +20,13 @@
     .price-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
-    .grok-section { margin-top: 30px; background: #21262d; padding: 20px; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
-    #grok-button { 
-      width: 100%; padding: 14px; background: #8b5cf6; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; transition: all 0.2s; 
-    }
-    #grok-button:hover { background: #7c3aed; transform: translateY(-2px); }
-    #grok-response { margin-top: 15px; color: #e0e0e0; white-space: pre-wrap; line-height: 1.5; min-height: 60px; }
     .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
     .summary-item { margin-bottom: 10px; font-size: 1.1em; }
+    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow: hidden; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
+    .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
+    .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; transform: scale(1.08); }
+    .euphoria { color: #ff6b6b !important; font-weight: 900; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -54,7 +53,7 @@
       <canvas id="myChart"></canvas>
       <div id="dailySummary" class="daily-summary">
         <h3>Daily Market Summary</h3>
-        <div class="loading">Loading daily summary...</div>
+        <div class="loading">Loading...</div>
       </div>
     </div>
     <div class="sidebar">
@@ -62,18 +61,11 @@
       <div id="actionAdvice">What you should do right now: Loading...</div>
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
-
-      <!-- Grok Take Section -->
-      <div class="grok-section">
-        <h3>Grok Take</h3>
-        <button id="grok-button">Get Savage Insight</button>
-        <div id="grok-response">Click above for Grok's unfiltered take on current phase, $GORK rebound, blow-off signals, or whatever's on your mind 🔥</div>
-      </div>
     </div>
   </div>
 
   <script>
-    // === MAIN CHART (monthly data points) ===
+    // === MONTHLY DATES & DATA ===
     function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
@@ -139,25 +131,8 @@
       data: {
         labels: monthlyDates,
         datasets: [
-          {
-            label: 'Flow Cycle Index (Historical)',
-            data: historicalMonthly,
-            borderColor: '#58a6ff',
-            tension: 0.3,
-            fill: false,
-            pointRadius: 0,
-            borderWidth: 2
-          },
-          {
-            label: 'Predicted Index (2-Year Forecast)',
-            data: predictionMonthly,
-            borderColor: '#8b949e',
-            borderDash: [6, 4],
-            tension: 0.3,
-            fill: false,
-            pointRadius: 0,
-            borderWidth: 2
-          }
+          { label: 'Flow Cycle Index (Historical)', data: historicalMonthly, borderColor: '#58a6ff', tension: 0.3, fill: false, pointRadius: 0, borderWidth: 2 },
+          { label: 'Predicted Index (2-Year Forecast)', data: predictionMonthly, borderColor: '#8b949e', borderDash: [6, 4], tension: 0.3, fill: false, pointRadius: 0, borderWidth: 2 }
         ]
       },
       options: {
@@ -212,7 +187,7 @@
       }
     });
 
-    // Phase logic
+    // Current phase & UI updates (unchanged from last)
     const currentIndex = historicalMonthly.filter(v => v !== null).pop() || 51;
     let currentPhase = 'Complacency';
     if (currentIndex >= 10) currentPhase = 'Anxiety';
@@ -246,9 +221,7 @@
     // Live prices
     async function fetchLiveData() {
       try {
-        const res = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
-          headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
-        });
+        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
         if (!res.ok) throw new Error();
         const data = await res.json();
         const div = document.getElementById('prices');
@@ -265,64 +238,30 @@
     }
     fetchLiveData();
 
-    // Daily summary
+    // Daily summary - fallback to global market data + placeholder
     async function fetchDailySummary() {
+      const sumDiv = document.getElementById('dailySummary');
+      sumDiv.innerHTML = '<h3>Daily Market Summary</h3>';
       try {
-        const res = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
+        const res = await fetch('https://api.coingecko.com/api/v3/global');
         if (!res.ok) throw new Error();
         const data = await res.json();
-        const sumDiv = document.getElementById('dailySummary');
-        sumDiv.innerHTML = '<h3>Daily Market Summary</h3>';
-        data.results?.slice(0,5).forEach(p => {
-          sumDiv.innerHTML += `<div class="summary-item">${p.title} <a href="${p.url}" target="_blank" style="color:#58a6ff;">[source]</a></div>`;
-        });
+        const g = data.data;
+        sumDiv.innerHTML += `
+          <div class="summary-item">Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)</div>
+          <div class="summary-item">BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%</div>
+          <div class="summary-item">Total Volume 24h: $${g.total_volume.usd.toLocaleString()}</div>
+          <div class="summary-item">Active Cryptos: ${g.active_cryptocurrencies}</div>
+          <p style="margin-top:10px;">Meme flows strong, BTC holding support, watch for alt rotation.</p>
+        `;
       } catch {
-        document.getElementById('dailySummary').innerHTML = '<h3>Daily Market Summary</h3><p>Failed to load — check connection</p>';
+        sumDiv.innerHTML += `
+          <p>Failed to load live summary — check connection</p>
+          <p>Fallback: BTC dominance steady ~55%, meme volume up, potential altseason brewing in 2026. Hold dips in belief phase.</p>
+        `;
       }
     }
     fetchDailySummary();
-
-    // === GROK TAKE BUTTON ===
-    const apiKey = 'PASTE_YOUR_REAL_KEY_HERE_FOR_LOCAL_USE_ONLY'; // Replace with your secure key (local only, never commit!)
-
-    async function getGrokTake() {
-      const responseDiv = document.getElementById('grok-response');
-      responseDiv.innerHTML = 'Grok cooking savage take... 🔥';
-
-      try {
-        const res = await fetch('https://api.x.ai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: 'grok-4-1-fast-reasoning',
-            messages: [
-              {
-                role: 'system',
-                content: 'You are a no-filter crypto savage. Give short, brutal, honest takes on market phases, memes, $GORK, blow-offs, and trades. Be real, use slang, no corporate bs.'
-              },
-              {
-                role: 'user',
-                content: `Current Flow Cycle Index at ~${currentIndex} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding from ATL with volume pickup. What's the real play rn — load dips, hold tight, trim, or something else? Savage take on blow-off potential Q2-Q4 2026.`
-              }
-            ],
-            temperature: 0.8,
-            max_tokens: 300
-          })
-        });
-
-        if (!res.ok) throw new Error(`API error: ${res.status}`);
-        const data = await res.json();
-        responseDiv.innerHTML = data.choices[0].message.content.trim();
-      } catch (err) {
-        console.error(err);
-        responseDiv.innerHTML = `Error: ${err.message}. Check key/balance or console for details.`;
-      }
-    }
-
-    document.getElementById('grok-button').addEventListener('click', getGrokTake);
   </script>
 </body>
 </html>
