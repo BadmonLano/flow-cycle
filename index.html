@@ -20,15 +20,12 @@
     .price-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
-    .collapsible-section { margin: 15px 0; }
-    .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; font-weight: bold; transition: all 0.2s; }
-    .collapsible-content { display: none; padding: 10px; background: #161b22; border-radius: 0 0 8px 8px; }
-    .open .collapsible-content { display: block; }
-    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow: hidden; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
-    .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
-    .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; transform: scale(1.08); }
-    .euphoria { color: #ff6b6b !important; font-weight: 900; }
+    .grok-section { margin-top: 30px; background: #21262d; padding: 20px; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
+    #grok-button { 
+      width: 100%; padding: 14px; background: #8b5cf6; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1em; cursor: pointer; transition: all 0.2s; 
+    }
+    #grok-button:hover { background: #7c3aed; transform: translateY(-2px); }
+    #grok-response { margin-top: 15px; color: #e0e0e0; white-space: pre-wrap; line-height: 1.5; min-height: 60px; }
     .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
     .summary-item { margin-bottom: 10px; font-size: 1.1em; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
@@ -65,19 +62,18 @@
       <div id="actionAdvice">What you should do right now: Loading...</div>
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
-      <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls (click to expand)</div>
-        <div id="previousBottoms" class="collapsible-content"><strong>2025-11: Index ~10 (Panic) - ATL rebound start</strong></div>
-      </div>
-      <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls (click to expand)</div>
-        <div id="previousTops" class="collapsible-content"><strong>2025-05 ATH proxy: Index ~90+ (Euphoria) - Trimmed?</strong></div>
+
+      <!-- Grok Take Section -->
+      <div class="grok-section">
+        <h3>Grok Take</h3>
+        <button id="grok-button">Get Savage Insight</button>
+        <div id="grok-response">Click above for Grok's unfiltered take on current phase, $GORK rebound, blow-off signals, or whatever's on your mind 🔥</div>
       </div>
     </div>
   </div>
 
   <script>
-    // Helper: generate monthly dates from start to end
+    // === MAIN CHART (monthly data points) ===
     function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
@@ -91,7 +87,6 @@
 
     const monthlyDates = generateMonthlyDates(2017, 1, 2028, 1);
 
-    // Known historical points (date string -> value)
     const knownPoints = {
       '2017-01': 40,
       '2017-10': 45,
@@ -105,28 +100,25 @@
       '2026-01': 51
     };
 
-    // Interpolate historical monthly values (linear between known points)
     const historicalMonthly = monthlyDates.map(date => {
       const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       if (knownPoints[key] !== undefined) return knownPoints[key];
 
-      // Find previous and next known
       let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
       for (const k in knownPoints) {
         const d = new Date(k + '-01');
         if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
         if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
       }
-      if (!prevDate || !nextDate) return null; // before first or after last known
+      if (!prevDate || !nextDate) return null;
 
       const t = (date - prevDate) / (nextDate - prevDate);
       return Math.round(prevVal + t * (nextVal - prevVal));
     });
 
-    // Prediction: monthly from Jan 2026 onward
-    const predictionMonthly = historicalMonthly.slice();
+    let predictionMonthly = historicalMonthly.slice();
     const startIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 0);
-    const peakIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9); // Oct 2026
+    const peakIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9);
     const endIdx = monthlyDates.length - 1;
 
     for (let i = startIdx + 1; i <= endIdx; i++) {
@@ -138,7 +130,7 @@
         const progress = (i - peakIdx) / (endIdx - peakIdx);
         target = 95 - (95 - 10) * progress;
       }
-      target += Math.sin(i * 0.4) * 4 - 2; // gentle wave
+      target += Math.sin(i * 0.4) * 4 - 2;
       predictionMonthly[i] = Math.max(5, Math.min(100, Math.round(target)));
     }
 
@@ -153,7 +145,7 @@
             borderColor: '#58a6ff',
             tension: 0.3,
             fill: false,
-            pointRadius: 0, // hide points for dense monthly
+            pointRadius: 0,
             borderWidth: 2
           },
           {
@@ -174,29 +166,14 @@
         scales: {
           x: {
             type: 'time',
-            time: {
-              unit: 'month',
-              displayFormats: { month: 'MMM yyyy' },
-              tooltipFormat: 'MMMM yyyy'
-            },
-            ticks: {
-              maxRotation: 45,
-              autoSkip: true,
-              maxTicksLimit: 24 // show ~2 years worth, skip if crowded
-            },
+            time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
+            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
             title: { display: true, text: 'Time' }
           },
-          y: {
-            min: 0,
-            max: 100,
-            title: { display: true, text: 'Flow Cycle Index' }
-          }
+          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
-          zoom: {
-            zoom: { enabled: false },
-            pan: { enabled: false }
-          },
+          zoom: { zoom: { enabled: false }, pan: { enabled: false } },
           annotation: {
             annotations: {
               topBox: {
@@ -235,8 +212,8 @@
       }
     });
 
-    // Current phase (using latest historical or prediction start)
-    const currentIndex = historicalMonthly[historicalMonthly.length - 1] || 51;
+    // Phase logic
+    const currentIndex = historicalMonthly.filter(v => v !== null).pop() || 51;
     let currentPhase = 'Complacency';
     if (currentIndex >= 10) currentPhase = 'Anxiety';
     if (currentIndex >= 20) currentPhase = 'Denial';
@@ -266,7 +243,7 @@
     else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
     document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
 
-    // Live prices (unchanged)
+    // Live prices
     async function fetchLiveData() {
       try {
         const res = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
@@ -288,7 +265,7 @@
     }
     fetchLiveData();
 
-    // Daily summary (unchanged)
+    // Daily summary
     async function fetchDailySummary() {
       try {
         const res = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
@@ -304,6 +281,48 @@
       }
     }
     fetchDailySummary();
+
+    // === GROK TAKE BUTTON ===
+    const apiKey = 'PASTE_YOUR_REAL_KEY_HERE_FOR_LOCAL_USE_ONLY'; // Replace with your secure key (local only, never commit!)
+
+    async function getGrokTake() {
+      const responseDiv = document.getElementById('grok-response');
+      responseDiv.innerHTML = 'Grok cooking savage take... 🔥';
+
+      try {
+        const res = await fetch('https://api.x.ai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'grok-4-1-fast-reasoning',
+            messages: [
+              {
+                role: 'system',
+                content: 'You are a no-filter crypto savage. Give short, brutal, honest takes on market phases, memes, $GORK, blow-offs, and trades. Be real, use slang, no corporate bs.'
+              },
+              {
+                role: 'user',
+                content: `Current Flow Cycle Index at ~${currentIndex} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding from ATL with volume pickup. What's the real play rn — load dips, hold tight, trim, or something else? Savage take on blow-off potential Q2-Q4 2026.`
+              }
+            ],
+            temperature: 0.8,
+            max_tokens: 300
+          })
+        });
+
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        const data = await res.json();
+        responseDiv.innerHTML = data.choices[0].message.content.trim();
+      } catch (err) {
+        console.error(err);
+        responseDiv.innerHTML = `Error: ${err.message}. Check key/balance or console for details.`;
+      }
+    }
+
+    document.getElementById('grok-button').addEventListener('click', getGrokTake);
   </script>
 </body>
 </html>
