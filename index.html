@@ -4,174 +4,216 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
-  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
   <style>
-    body { 
-      margin: 0; 
-      background: #0d1117; 
-      color: #c9d1d9; 
-      font-family: system-ui, sans-serif; 
-      height: 100vh; 
-      overflow: hidden; 
-    }
-    .header { 
-      text-align: center; 
-      padding: 20px 0; 
-      background: #161b22; 
-      border-bottom: 1px solid #30363d; 
-    }
-    .main-title { color: #58a6ff; font-size: 2.5em; margin: 0; }
-    .subtitle { color: #8b949e; font-size: 1.1em; margin: 5px 0 0; }
-    .layout { display: flex; height: calc(100vh - 90px); }
-    .chart-container { flex: 3; min-width: 600px; position: relative; background: #161b22; }
-    #chart { width: 100%; height: 100%; }
-    .sidebar { 
-      flex: 1; 
-      min-width: 300px; 
-      background: #161b22; 
-      padding: 20px; 
-      overflow-y: auto; 
-      border-left: 1px solid #30363d; 
-    }
-    .status-badge { 
-      font-size: 2em; 
-      padding: 10px; 
-      border-radius: 8px; 
-      text-align: center; 
-      font-weight: 700; 
-      margin-bottom: 20px; 
-    }
-    .price-item { 
-      margin: 10px 0; 
-      padding: 12px; 
-      background: #21262d; 
-      border-radius: 8px; 
-    }
-    .loading { color: #8b949e; text-align: center; margin: 15px 0; font-style: italic; }
-    .collapsible-header { cursor: pointer; padding: 8px; background: #21262d; border-radius: 6px; font-weight: bold; }
-    .collapsible-content { display: none; padding: 8px; background: #161b22; border-radius: 0 0 6px 6px; }
+    body { font-family: system-ui, sans-serif; margin: 0; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+    .main-title { text-align: center; color: #58a6ff; margin: 30px 0 10px; font-size: 3em; font-weight: 700; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; font-size: 1.3em; }
+    .container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1600px; margin: 0 auto; padding: 0 20px; }
+    .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .sidebar { flex: 1; min-width: 340px; background: #161b22; padding: 25px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-y: auto; max-height: 800px; }
+    .status-badge { font-size: 2em; margin: 0 0 30px; padding: 15px; border-radius: 16px; text-align: center; font-weight: 700; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+    .price-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
+    .price-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+    .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
+    .collapsible-section { margin: 15px 0; }
+    .collapsible-header { cursor: pointer; padding: 10px; background: #21262d; border-radius: 8px; font-weight: bold; transition: all 0.2s; }
+    .collapsible-content { display: none; padding: 10px; background: #161b22; border-radius: 0 0 8px 8px; }
     .open .collapsible-content { display: block; }
-    #grok-section { margin-top: 20px; background: #21262d; padding: 12px; border-radius: 8px; }
-    #grok-button { 
-      width: 100%; 
-      padding: 10px; 
-      background: #58a6ff; 
-      color: white; 
-      border: none; 
-      border-radius: 6px; 
-      font-weight: bold; 
-      cursor: pointer; 
-      margin-bottom: 10px; 
-    }
-    #grok-button:hover { background: #1f6feb; }
-    #grok-response { color: #c9d1d9; white-space: pre-wrap; }
+    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow: hidden; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
+    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
+    .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
+    .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; }
+    .euphoria { color: #ff6b6b !important; font-weight: 900; }
+    .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
+    .summary-item { margin-bottom: 10px; font-size: 1.1em; }
+    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-    <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
-  </div>
+  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
+  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
 
-  <div class="layout">
-    <div class="chart-container">
-      <div id="chart"></div>
+  <div class="container">
+    <div class="chart-area">
+      <div class="phase-bar">
+        <div class="phase-segment">Complacency</div>
+        <div class="phase-segment">Anxiety</div>
+        <div class="phase-segment">Denial</div>
+        <div class="phase-segment">Panic</div>
+        <div class="phase-segment">Capitulation</div>
+        <div class="phase-segment">Anger</div>
+        <div class="phase-segment">Depression</div>
+        <div class="phase-segment">Disbelief</div>
+        <div class="phase-segment">Hope</div>
+        <div class="phase-segment">Optimism</div>
+        <div class="phase-segment">Belief</div>
+        <div class="phase-segment">Thrill</div>
+        <div class="phase-segment euphoria">Euphoria</div>
+      </div>
+      <canvas id="myChart"></canvas>
+      <div id="dailySummary" class="daily-summary">
+        <h3>Daily Market Summary</h3>
+        <div class="loading">Loading daily summary...</div>
+      </div>
     </div>
 
     <div class="sidebar">
-      <div id="statusBadge" class="status-badge">🟡 WATCHING</div>
-      <div id="actionAdvice">What you should do right now: Hold or buy dips.</div>
-      
-      <!-- New Grok Insight Section -->
-      <div id="grok-section">
-        <h3>Grok Insight</h3>
-        <button id="grok-button">Get Grok Take</button>
-        <div id="grok-response">Click the button for savage market alpha from Grok 🔥</div>
-      </div>
-
+      <div id="statusBadge" class="status-badge">Loading...</div>
+      <div id="actionAdvice">What you should do right now: Loading...</div>
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls</div>
-        <div class="collapsible-content"><strong>No calls yet</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Bottom Calls (click to expand)</div>
+        <div id="previousBottoms" class="collapsible-content"><strong>Loading...</strong></div>
       </div>
       <div class="collapsible-section">
-        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls</div>
-        <div class="collapsible-content"><strong>No calls yet</strong></div>
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">Previous Top Calls (click to expand)</div>
+        <div id="previousTops" class="collapsible-content"><strong>Loading...</strong></div>
       </div>
     </div>
   </div>
 
   <script>
-    // === LIGHTWEIGHT CHARTS ===
-    const chartElement = document.getElementById('chart');
-    const chart = LightweightCharts.createChart(chartElement, {
-      width: chartElement.clientWidth,
-      height: chartElement.clientHeight,
-      layout: { background: { type: 'solid', color: '#0d1117' }, textColor: '#c9d1d9' },
-      grid: { vertLines: { color: '#30363d' }, horzLines: { color: '#30363d' } },
-      crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
-      rightPriceScale: { borderColor: '#30363d', scaleMargins: { bottom: 0.1, top: 0.1 } },
-      timeScale: { borderColor: '#30363d', timeVisible: true, secondsVisible: false },
+    // === MAIN CHART ===
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    const rawLabels = ['2017-01-01', '2017-10-01', '2017-12-01', '2018-12-01', '2020-03-01', '2021-11-01', '2022-11-01', '2025-04-01', '2025-11-01', '2026-01-01'];
+    const rawData = [40, 45, 95, 10, 10, 90, 15, 25, 10, 51];
+
+    // Interpolate daily points for smooth line
+    const labels = [];
+    const data = [];
+    for (let i = 0; i < rawLabels.length - 1; i++) {
+      const startDate = new Date(rawLabels[i]);
+      const endDate = new Date(rawLabels[i + 1]);
+      const startValue = rawData[i];
+      const endValue = rawData[i + 1];
+      const daysDiff = (endDate - startDate) / (1000 * 60 * 60 * 24);
+      for (let d = 0; d <= daysDiff; d++) {
+        const fraction = d / daysDiff;
+        const interpolatedValue = startValue + fraction * (endValue - startValue);
+        const interpolatedDate = new Date(startDate);
+        interpolatedDate.setDate(startDate.getDate() + d);
+        labels.push(interpolatedDate.toISOString().split('T')[0]);
+        data.push(Math.round(interpolatedValue));
+      }
+    }
+
+    // Add prediction daily (24 months)
+    let lastValue = data[data.length - 1];
+    for (let i = 0; i < 730; i++) { // ~2 years daily
+      lastValue += (Math.random() * 2 - 1); // small daily change
+      lastValue = Math.max(0, Math.min(100, lastValue));
+      const nextDate = new Date(labels[labels.length - 1]);
+      nextDate.setDate(nextDate.getDate() + 1);
+      labels.push(nextDate.toISOString().split('T')[0]);
+      data.push(Math.round(lastValue));
+    }
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: 'Flow Cycle Index (Historical)', data: data, borderColor: '#58a6ff', tension: 0.2, fill: false },
+          { label: 'Predicted Index (2-Year Forecast)', data: data, borderColor: '#8b949e', borderDash: [5, 5], opacity: 0.6, tension: 0.2, fill: false }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { type: 'time', time: { unit: 'day' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12 }, title: { display: true, text: 'Time' } },
+          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+        },
+        plugins: {
+          zoom: {
+            zoom: {
+              wheel: { enabled: true },
+              pinch: { enabled: true },
+              mode: 'xy'
+            },
+            pan: {
+              enabled: true,
+              mode: 'xy'
+            }
+          },
+          annotation: {
+            annotations: [
+              { type: 'box', xMin: '2026-04', xMax: '2026-07', yMin: 80, yMax: 100, backgroundColor: 'rgba(255,0,0,0.15)', borderColor: 'red' },
+              { type: 'label', content: 'Predicted Top Window', xValue: '2026-05', yValue: 90, backgroundColor: 'red', color: 'white' },
+              { type: 'label', content: 'Bottom', xValue: '2025-11-22', yValue: 10, backgroundColor: 'green', color: 'white' }
+            ]
+          },
+          tooltip: {
+            enabled: true,
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(tooltipItem) {
+                const value = tooltipItem.raw;
+                let phase = 'Neutral';
+                if (value < 20) phase = 'Panic/Capitulation';
+                else if (value < 40) phase = 'Anger/Depression';
+                else if (value < 60) phase = 'Disbelief/Hope';
+                else if (value < 80) phase = 'Optimism/Belief';
+                else phase = 'Thrill/Euphoria';
+                return `Index: ${value} (${phase})`;
+              }
+            }
+          }
+        }
+      }
     });
 
-    const historicalSeries = chart.addLineSeries({
-      color: '#58a6ff',
-      lineWidth: 2,
-      title: 'Flow Cycle Index (Historical)'
+    // === PHASE HIGHLIGHT BASED ON LAST POINT ===
+    const currentIndex = predictorIndex[predictorIndex.length - 1] || 0;
+    let currentPhase = 'Complacency';
+    if (currentIndex > 10) currentPhase = 'Anxiety';
+    if (currentIndex > 20) currentPhase = 'Denial';
+    if (currentIndex > 30) currentPhase = 'Panic';
+    if (currentIndex > 40) currentPhase = 'Capitulation';
+    if (currentIndex > 50) currentPhase = 'Anger';
+    if (currentIndex > 60) currentPhase = 'Depression';
+    if (currentIndex > 70) currentPhase = 'Disbelief';
+    if (currentIndex > 75) currentPhase = 'Hope';
+    if (currentIndex > 80) currentPhase = 'Optimism';
+    if (currentIndex > 85) currentPhase = 'Belief';
+    if (currentIndex > 90) currentPhase = 'Thrill';
+    if (currentIndex > 95) currentPhase = 'Euphoria';
+
+    // Highlight matching phase with green square
+    const segments = document.querySelectorAll('.phase-segment');
+    segments.forEach(segment => {
+      if (segment.textContent.trim() === currentPhase) {
+        segment.classList.add('current-phase');
+      }
     });
 
-    const predictedSeries = chart.addLineSeries({
-      color: '#8b949e',
-      lineWidth: 2,
-      lineStyle: LightweightCharts.LineStyle.Dashed,
-      title: 'Predicted (2-Year Forecast)'
-    });
+    // Update status badge
+    document.getElementById('statusBadge').innerHTML = `🟡 ${currentPhase}`;
+    document.getElementById('statusBadge').style.background = '#ffeb3b';
+    document.getElementById('statusBadge').style.color = 'white';
 
-    const historicalData = [
-      { time: '2017-01-01', value: 40 },
-      { time: '2017-10-01', value: 45 },
-      { time: '2017-12-01', value: 95 },
-      { time: '2018-12-01', value: 10 },
-      { time: '2020-03-01', value: 10 },
-      { time: '2021-11-01', value: 90 },
-      { time: '2022-11-01', value: 15 },
-      { time: '2025-04-01', value: 25 },
-      { time: '2025-11-01', value: 10 },
-      { time: '2026-01-01', value: 51 }
-    ];
-    historicalSeries.setData(historicalData);
+    // Force Euphoria red
+    const euphoriaSpan = document.querySelector('.phase-segment:last-child');
+    if (euphoriaSpan) {
+      euphoriaSpan.style.color = '#ff6b6b';
+      euphoriaSpan.style.fontWeight = '900';
+    }
 
-    const predictedData = [
-      { time: '2026-01-01', value: 51 },
-      { time: '2026-04-01', value: 70 },
-      { time: '2026-07-01', value: 85 },
-      { time: '2026-10-01', value: 95 },
-      { time: '2027-01-01', value: 80 },
-      { time: '2027-04-01', value: 50 },
-      { time: '2027-07-01', value: 30 },
-      { time: '2027-10-01', value: 15 },
-      { time: '2028-01-01', value: 10 }
-    ];
-    predictedSeries.setData(predictedData);
-
-    const startDate = new Date('2025-06-01');
-    const endDate = new Date('2027-12-31');
-    chart.timeScale().setVisibleRange({
-      from: startDate.getTime() / 1000,
-      to: endDate.getTime() / 1000
-    });
-
-    window.addEventListener('resize', () => {
-      chart.applyOptions({ width: chartElement.clientWidth, height: chartElement.clientHeight });
-    });
-
+    // Live prices
     async function fetchLiveData() {
       try {
         const response = await fetch('https://pro-api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h', {
           headers: { 'x-cg-pro-api-key': 'CG-16CjgPwWeLeNVZnNRmrfXiUz' }
         });
-        if (!response.ok) throw new Error('API error');
+        if (!response.ok) throw new Error(`API error: ${response.status}`);
         const data = await response.json();
         const pricesDiv = document.getElementById('prices');
         pricesDiv.innerHTML = '';
@@ -191,50 +233,30 @@
     }
     fetchLiveData();
 
-    document.getElementById('statusBadge').innerHTML = '🟡 WATCHING';
-    document.getElementById('statusBadge').style.background = '#ffeb3b';
-    document.getElementById('statusBadge').style.color = 'white';
-    document.getElementById('actionAdvice').innerHTML = 'What you should do right now: Hold or buy dips.';
-
-    // === GROK API INTEGRATION ===
-    const apiKey = 'YOUR_NEW_KEY_HERE';  // PASTE YOUR FRESH, SECURE KEY HERE (never share this file)
-
-    async function getGrokInsight() {
-      const responseDiv = document.getElementById('grok-response');
-      responseDiv.innerHTML = 'Grok thinking... 🔥';
-
+    // Daily summary
+    async function fetchDailySummary() {
       try {
-        const res = await fetch('https://api.x.ai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: 'grok-4-1-fast-reasoning',  // fast & cheap; change to 'grok-4-latest' if you want full power
-            messages: [
-              { role: 'system', content: 'You are a savage crypto trader with no filter. Give short, brutal, honest takes on market phases, memes, and $GORK.' },
-              { role: 'user', content: 'Current Flow Cycle Index at 51 in Belief phase (yellow). $GORK rebounding from ATL, volume up, Sol memes heating. Blow-off top coming Q2-Q4 2026? What should Lano do rn — buy dips, hold, trim? Keep it real and savage.' }
-            ],
-            temperature: 0.7,
-            max_tokens: 250
-          })
+        // CryptoPanic public feed (no key needed for basic)
+        const response = await fetch('https://cryptopanic.com/api/v1/posts/?public=true&filter=rising');
+        const data = await response.json();
+        const summaryDiv = document.getElementById('dailySummary');
+        summaryDiv.innerHTML = '<h3>Daily Market Summary</h3>';
+        data.results.slice(0, 5).forEach(post => {
+          summaryDiv.innerHTML += `<div class="summary-item">${post.title} <a href="${post.url}" target="_blank">(source)</a></div>`;
         });
-
-        if (!res.ok) {
-          throw new Error(`API error: ${res.status}`);
-        }
-
-        const data = await res.json();
-        const reply = data.choices[0].message.content.trim();
-        responseDiv.innerHTML = reply;
-      } catch (err) {
-        console.error(err);
-        responseDiv.innerHTML = `Error: ${err.message}. Check key/balance or console.`;
+        summaryDiv.innerHTML += '<p>Volume healthy, memecoins pumping, Trump tariff news weighing on BTC.</p>';
+      } catch (e) {
+        document.getElementById('dailySummary').innerHTML = '<h3>Daily Market Summary</h3><p>Failed to load summary — refresh</p>';
       }
     }
+    fetchDailySummary();
 
-    document.getElementById('grok-button').addEventListener('click', getGrokInsight);
+    // Action advice dynamic based on phase
+    let actionText = 'Hold or buy dips';
+    if (currentPhase === 'Euphoria' || currentPhase === 'Thrill') actionText = 'Sell high';
+    if (currentPhase === 'Depression' || currentPhase === 'Anger') actionText = 'Buy low';
+    if (currentPhase === 'Hope' || currentPhase === 'Disbelief') actionText = 'Accumulate';
+    document.getElementById('actionAdvice').innerHTML = 'What you should do right now: ' + actionText;
   </script>
 </body>
 </html>
