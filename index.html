@@ -16,14 +16,18 @@
     .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
     .sidebar { flex: 1; min-width: 340px; background: #161b22; padding: 25px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-y: auto; max-height: 800px; }
     .status-badge { font-size: 2em; margin: 0 0 30px; padding: 15px; border-radius: 16px; text-align: center; font-weight: 700; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-    .price-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
-    .price-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+    .price-item, .gork-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
+    .price-item:hover, .gork-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
     .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
     .summary-item { margin-bottom: 10px; font-size: 1.1em; }
-    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow: hidden; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-    .phase-segment { flex: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
+    .grok-section { margin-top: 20px; background: #21262d; padding: 15px; border-radius: 12px; }
+    #grok-button { width: 100%; padding: 12px; background: #8b5cf6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    #grok-button:hover { background: #7c3aed; }
+    #grok-response { margin-top: 12px; white-space: pre-wrap; font-size: 1em; }
+    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow-x: auto; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); white-space: nowrap; }
+    .phase-segment { min-width: 80px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
     .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
     .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; transform: scale(1.08); }
     .euphoria { color: #ff6b6b !important; font-weight: 900; }
@@ -36,19 +40,19 @@
   <div class="container">
     <div class="chart-area">
       <div class="phase-bar">
-        <div class="phase-segment">Complacency</div>
-        <div class="phase-segment">Anxiety</div>
-        <div class="phase-segment">Denial</div>
-        <div class="phase-segment">Panic</div>
-        <div class="phase-segment">Capitulation</div>
-        <div class="phase-segment">Anger</div>
-        <div class="phase-segment">Depression</div>
-        <div class="phase-segment">Disbelief</div>
-        <div class="phase-segment">Hope</div>
-        <div class="phase-segment">Optimism</div>
-        <div class="phase-segment">Belief</div>
-        <div class="phase-segment">Thrill</div>
-        <div class="phase-segment euphoria">Euphoria</div>
+        <div class="phase-segment" title="Low fear, complacency">Complacency</div>
+        <div class="phase-segment" title="Rising uncertainty">Anxiety</div>
+        <div class="phase-segment" title="Refusal to accept downtrend">Denial</div>
+        <div class="phase-segment" title="Fear dominates">Panic</div>
+        <div class="phase-segment" title="Surrender phase">Capitulation</div>
+        <div class="phase-segment" title="FUD max, smart money in">Anger</div>
+        <div class="phase-segment" title="Hopelessness">Depression</div>
+        <div class="phase-segment" title="Skepticism lingers">Disbelief</div>
+        <div class="phase-segment" title="Light at end of tunnel">Hope</div>
+        <div class="phase-segment" title="Confidence building">Optimism</div>
+        <div class="phase-segment" title="Conviction strong">Belief</div>
+        <div class="phase-segment" title="FOMO kicks in">Thrill</div>
+        <div class="phase-segment euphoria" title="Peak greed">Euphoria</div>
       </div>
       <canvas id="myChart"></canvas>
       <div id="dailySummary" class="daily-summary">
@@ -59,13 +63,27 @@
     <div class="sidebar">
       <div id="statusBadge" class="status-badge">Loading...</div>
       <div id="actionAdvice">What you should do right now: Loading...</div>
+
+      <!-- Grok Insight -->
+      <div class="grok-section">
+        <h3>Grok Insight</h3>
+        <button id="grok-button">Get Grok Take 🔥</button>
+        <div id="grok-response">Click for savage alpha on current phase & $GORK...</div>
+      </div>
+
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
+
+      <!-- $GORK Card -->
+      <div id="gorkCard" class="gork-item">
+        <strong>$GORK (Solana)</strong><br>
+        <div class="loading">Loading $GORK data...</div>
+      </div>
     </div>
   </div>
 
   <script>
-    // === MONTHLY DATES & DATA ===
+    // === MONTHLY DATES & DATA (unchanged) ===
     function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
@@ -80,16 +98,8 @@
     const monthlyDates = generateMonthlyDates(2017, 1, 2028, 1);
 
     const knownPoints = {
-      '2017-01': 40,
-      '2017-10': 45,
-      '2017-12': 95,
-      '2018-12': 10,
-      '2020-03': 10,
-      '2021-11': 90,
-      '2022-11': 15,
-      '2025-04': 25,
-      '2025-11': 10,
-      '2026-01': 51
+      '2017-01': 40, '2017-10': 45, '2017-12': 95, '2018-12': 10, '2020-03': 10,
+      '2021-11': 90, '2022-11': 15, '2025-04': 25, '2025-11': 10, '2026-01': 51
     };
 
     const historicalMonthly = monthlyDates.map(date => {
@@ -131,8 +141,27 @@
       data: {
         labels: monthlyDates,
         datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: historicalMonthly, borderColor: '#58a6ff', tension: 0.3, fill: false, pointRadius: 0, borderWidth: 2 },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionMonthly, borderColor: '#8b949e', borderDash: [6, 4], tension: 0.3, fill: false, pointRadius: 0, borderWidth: 2 }
+          {
+            label: 'Flow Cycle Index (Historical)',
+            data: historicalMonthly,
+            borderColor: '#58a6ff',
+            backgroundColor: 'rgba(88,166,255,0.15)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 0,
+            borderWidth: 2
+          },
+          {
+            label: 'Predicted Index (2-Year Forecast)',
+            data: predictionMonthly,
+            borderColor: '#8b949e',
+            backgroundColor: 'rgba(139,148,158,0.1)',
+            borderDash: [6, 4],
+            fill: true,
+            tension: 0.3,
+            pointRadius: 0,
+            borderWidth: 2
+          }
         ]
       },
       options: {
@@ -187,38 +216,112 @@
       }
     });
 
-    // Current phase & UI updates (unchanged from last)
-    const currentIndex = historicalMonthly.filter(v => v !== null).pop() || 51;
-    let currentPhase = 'Complacency';
-    if (currentIndex >= 10) currentPhase = 'Anxiety';
-    if (currentIndex >= 20) currentPhase = 'Denial';
-    if (currentIndex >= 30) currentPhase = 'Panic';
-    if (currentIndex >= 40) currentPhase = 'Capitulation';
-    if (currentIndex >= 50) currentPhase = 'Anger';
-    if (currentIndex >= 60) currentPhase = 'Depression';
-    if (currentIndex >= 70) currentPhase = 'Disbelief';
-    if (currentIndex >= 75) currentPhase = 'Hope';
-    if (currentIndex >= 80) currentPhase = 'Optimism';
-    if (currentIndex >= 85) currentPhase = 'Belief';
-    if (currentIndex >= 90) currentPhase = 'Thrill';
-    if (currentIndex >= 95) currentPhase = 'Euphoria';
+    // === DYNAMIC INDEX FROM RECENT PRICES ===
+    let currentIndex = 51; // base from historical
+    async function updateDynamicIndex() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
+        if (!res.ok) return;
+        const data = await res.json();
+        const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
+        const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
+        const avgMomentum = (btc30d + sol30d) / 2;
 
-    document.querySelectorAll('.phase-segment').forEach(seg => {
-      if (seg.textContent.trim() === currentPhase) seg.classList.add('current-phase');
-    });
+        // Simple adjustment: + if green momentum, - if red; cap at ±20 points
+        currentIndex = Math.max(10, Math.min(90, 51 + Math.round(avgMomentum / 5)));
 
-    const badge = document.getElementById('statusBadge');
-    badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
-    badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
-    badge.style.color = 'white';
+        // Phase & UI update
+        let phase = 'Complacency';
+        if (currentIndex >= 10) phase = 'Anxiety';
+        if (currentIndex >= 20) phase = 'Denial';
+        if (currentIndex >= 30) phase = 'Panic';
+        if (currentIndex >= 40) phase = 'Capitulation';
+        if (currentIndex >= 50) phase = 'Anger';
+        if (currentIndex >= 60) phase = 'Depression';
+        if (currentIndex >= 70) phase = 'Disbelief';
+        if (currentIndex >= 75) phase = 'Hope';
+        if (currentIndex >= 80) phase = 'Optimism';
+        if (currentIndex >= 85) phase = 'Belief';
+        if (currentIndex >= 90) phase = 'Thrill';
+        if (currentIndex >= 95) phase = 'Euphoria';
 
-    let advice = 'Hold or buy dips';
-    if (currentPhase === 'Euphoria' || currentPhase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
-    else if (currentPhase === 'Panic' || currentPhase === 'Capitulation' || currentPhase === 'Depression') advice = 'Load bags heavy — bottom vibes';
-    else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
-    document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
+        document.querySelectorAll('.phase-segment').forEach(seg => {
+          seg.classList.toggle('current-phase', seg.textContent.trim() === phase);
+        });
 
-    // Live prices
+        const badge = document.getElementById('statusBadge');
+        badge.innerHTML = `🟡 ${phase.toUpperCase()}`;
+        badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
+
+        let advice = 'Hold or buy dips';
+        if (phase === 'Euphoria' || phase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
+        else if (phase === 'Panic' || phase === 'Capitulation' || phase === 'Depression') advice = 'Load bags heavy — bottom vibes';
+        else if (phase === 'Hope' || phase === 'Belief' || phase === 'Optimism') advice = 'Accumulate dips — legs building';
+        document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
+      } catch (e) {
+        console.log('Dynamic index failed, using base 51');
+      }
+    }
+    updateDynamicIndex();
+
+    // === GROK INSIGHT ===
+    const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY'; // <--- YOUR KEY HERE (never commit/push)
+
+    async function getGrokInsight() {
+      const respDiv = document.getElementById('grok-response');
+      respDiv.innerHTML = 'Grok thinking savage... 🔥';
+
+      try {
+        const res = await fetch('https://api.x.ai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'grok-4-1-fast-reasoning',
+            messages: [
+              { role: 'system', content: 'You are a savage crypto trader with no filter. Give short, brutal, honest takes on market phases, memes, $GORK, and what Lano should do.' },
+              { role: 'user', content: `Current Flow Cycle Index at ~${currentIndex} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding. Blow-off top coming Q4 2026? What's the real move rn — buy dips, hold, trim? Keep it savage and short.` }
+            ],
+            temperature: 0.8,
+            max_tokens: 200
+          })
+        });
+
+        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        const data = await res.json();
+        respDiv.innerHTML = data.choices[0].message.content.trim();
+      } catch (err) {
+        respDiv.innerHTML = `Error: ${err.message}. Check key/balance or console.`;
+      }
+    }
+
+    document.getElementById('grok-button').addEventListener('click', getGrokInsight);
+
+    // === $GORK CARD (DexScreener) ===
+    async function fetchGorkData() {
+      try {
+        const res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        const pair = data.pairs?.[0] || {};
+        const card = document.getElementById('gorkCard');
+        card.innerHTML = `
+          <strong>$GORK (Solana)</strong><br>
+          <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
+          MC: $${(pair.marketCap / 1e6).toFixed(2)}M<br>
+          24h Vol: $${(pair.volume?.h24 / 1e3).toFixed(0)}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
+          Liq: $${(pair.liquidity?.usd / 1e3).toFixed(0)}K<br>
+          Buys/Sells (1h): ${pair.txns?.h1?.buys || '?'} / ${pair.txns?.h1?.sells || '?'}
+        `;
+      } catch {
+        document.getElementById('gorkCard').innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — refresh</p>';
+      }
+    }
+    fetchGorkData();
+
+    // Live prices (public endpoint)
     async function fetchLiveData() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
@@ -238,7 +341,7 @@
     }
     fetchLiveData();
 
-    // Daily summary - fallback to global market data + placeholder
+    // Daily summary
     async function fetchDailySummary() {
       const sumDiv = document.getElementById('dailySummary');
       sumDiv.innerHTML = '<h3>Daily Market Summary</h3>';
@@ -251,13 +354,12 @@
           <div class="summary-item">Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)</div>
           <div class="summary-item">BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%</div>
           <div class="summary-item">Total Volume 24h: $${g.total_volume.usd.toLocaleString()}</div>
-          <div class="summary-item">Active Cryptos: ${g.active_cryptocurrencies}</div>
-          <p style="margin-top:10px;">Meme flows strong, BTC holding support, watch for alt rotation.</p>
+          <p style="margin-top:10px;">Meme supercycle heating, BTC dom fade incoming, Elon/Grok narrative revival possible in 2026. Hold dips in Anger/Belief.</p>
         `;
       } catch {
         sumDiv.innerHTML += `
-          <p>Failed to load live summary — check connection</p>
-          <p>Fallback: BTC dominance steady ~55%, meme volume up, potential altseason brewing in 2026. Hold dips in belief phase.</p>
+          <p>Failed to load live data — fallback mode</p>
+          <p>2026 vibes: BTC holding $87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win.</p>
         `;
       }
     }
