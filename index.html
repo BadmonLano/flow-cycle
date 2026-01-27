@@ -64,7 +64,6 @@
       <div id="statusBadge" class="status-badge">Loading...</div>
       <div id="actionAdvice">What you should do right now: Loading...</div>
 
-      <!-- Grok Insight -->
       <div class="grok-section">
         <h3>Grok Insight</h3>
         <button id="grok-button">Get Grok Take 🔥</button>
@@ -74,7 +73,6 @@
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
 
-      <!-- $GORK Card -->
       <div id="gorkCard" class="gork-item">
         <strong>$GORK (Solana)</strong><br>
         <div class="loading">Loading $GORK data...</div>
@@ -83,11 +81,9 @@
   </div>
 
   <script>
-    // Global vars for phase/index (used in Grok & UI)
     let currentIndex = 51;
-    let currentPhase = 'Anger'; // fallback
+    let currentPhase = 'Anger';
 
-    // === MONTHLY DATES & CHART (unchanged from last) ===
     function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
@@ -181,7 +177,10 @@
           y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
-          zoom: { zoom: { enabled: false }, pan: { enabled: false } },
+          zoom: {
+            zoom: { enabled: false },
+            pan: { enabled: false }
+          },
           annotation: {
             annotations: {
               topBox: {
@@ -220,7 +219,6 @@
       }
     });
 
-    // === DYNAMIC INDEX + PHASE UPDATE ===
     async function updateDynamicIndexAndUI() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
@@ -246,12 +244,10 @@
         if (currentIndex >= 90) currentPhase = 'Thrill';
         if (currentIndex >= 95) currentPhase = 'Euphoria';
 
-        // Update phase bar
         document.querySelectorAll('.phase-segment').forEach(seg => {
           seg.classList.toggle('current-phase', seg.textContent.trim() === currentPhase);
         });
 
-        // Update badge & advice
         const badge = document.getElementById('statusBadge');
         badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
         badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
@@ -267,8 +263,7 @@
     }
     updateDynamicIndexAndUI();
 
-    // === GROK INSIGHT (fixed scope) ===
-    const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY'; // REPLACE THIS
+    const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY';
 
     async function getGrokInsight() {
       const respDiv = document.getElementById('grok-response');
@@ -302,52 +297,51 @@
 
     document.getElementById('grok-button').addEventListener('click', getGrokInsight);
 
-    // === $GORK REAL FETCH (your pump.fun pair) ===
     async function fetchGorkData() {
-  const card = document.getElementById('gorkCard');
-  card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading $GORK data...</div>';
+      const card = document.getElementById('gorkCard');
+      card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading $GORK data...</div>';
 
-  try {
-    // Primary: DexScreener
-    let res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
-    if (!res.ok) throw new Error('DexScreener failed');
+      try {
+        // Primary: DexScreener
+        let res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
+        if (!res.ok) throw new Error('DexScreener HTTP error');
 
-    let data = await res.json();
-    let pair = data.pairs?.[0] || {}; // take top pair
+        let data = await res.json();
+        let pair = data.pairs?.[0] || {};
 
-    if (!pair.priceUsd) {
-      // Fallback: Birdeye (more reliable for pump.fun sometimes)
-      res = await fetch('https://public-api.birdeye.so/defi/token_overview?address=76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump', {
-        headers: { 'x-chain': 'solana', 'X-API-KEY': 'free_public_key' } // Birdeye allows public limited use
-      });
-      if (res.ok) {
-        data = await res.json();
-        pair = {
-          priceUsd: data.data?.value || null,
-          marketCap: data.data?.mc || null,
-          volume: { h24: data.data?.v24hUSD || null },
-          priceChange: { h24: data.data?.priceChange24h || null },
-          liquidity: { usd: data.data?.liquidity || null }
-        };
+        if (!pair.priceUsd) {
+          // Fallback: Birdeye public (no key needed for basic)
+          res = await fetch('https://public-api.birdeye.so/defi/token_overview?address=76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump', {
+            headers: { 'x-chain': 'solana' }
+          });
+          if (res.ok) {
+            data = await res.json();
+            pair = {
+              priceUsd: data.data?.value || null,
+              marketCap: data.data?.mc || null,
+              volume: { h24: data.data?.v24hUSD || null },
+              priceChange: { h24: data.data?.priceChange24h || null },
+              liquidity: { usd: data.data?.liquidity || null },
+              pairAddress: '76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump'
+            };
+          }
+        }
+
+        card.innerHTML = `
+          <strong>$GORK (Solana)</strong><br>
+          <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
+          MC: $${(pair.marketCap / 1e6)?.toFixed(2) || 'N/A'}M<br>
+          24h Vol: $${(pair.volume?.h24 / 1e3)?.toFixed(0) || 'N/A'}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
+          Liq: $${(pair.liquidity?.usd / 1e3)?.toFixed(0) || 'N/A'}K<br>
+          <a href="https://dexscreener.com/solana/${pair.pairAddress || '76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump'}" target="_blank" style="color:#58a6ff; font-size:0.9em;">View on DexScreener</a>
+        `;
+      } catch (err) {
+        console.error('GORK fetch error:', err);
+        card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection or try later</p>';
       }
     }
+    fetchGorkData();
 
-    card.innerHTML = `
-      <strong>$GORK (Solana)</strong><br>
-      <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
-      MC: $${(pair.marketCap / 1e6)?.toFixed(2) || 'N/A'}M<br>
-      24h Vol: $${(pair.volume?.h24 / 1e3)?.toFixed(0) || 'N/A'}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
-      Liq: $${(pair.liquidity?.usd / 1e3)?.toFixed(0) || 'N/A'}K<br>
-      <a href="https://dexscreener.com/solana/${pair.pairAddress || '76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump'}" target="_blank" style="color:#58a6ff;">View on DexScreener</a>
-    `;
-  } catch (err) {
-    console.error('GORK fetch error:', err);
-    card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — try refresh or check internet</p>';
-  }
-}
-fetchGorkData();
-
-    // Live majors prices
     async function fetchLiveData() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
@@ -367,7 +361,6 @@ fetchGorkData();
     }
     fetchLiveData();
 
-    // Daily summary
     async function fetchDailySummary() {
       const sumDiv = document.getElementById('dailySummary');
       sumDiv.innerHTML = '<h3>Daily Market Summary</h3>';
@@ -391,12 +384,21 @@ fetchGorkData();
     }
     fetchDailySummary();
 
-    // Optional: auto-refresh every 60s (uncomment to enable)
-    // setInterval(() => {
-    //   fetchLiveData();
-    //   fetchGorkData();
-    //   updateDynamicIndexAndUI();
-    // }, 60000);
+    // Auto-refresh everything every 60 seconds
+    setInterval(() => {
+      fetchLiveData();
+      fetchGorkData();
+      updateDynamicIndexAndUI();
+      fetchDailySummary();
+    }, 60000);
+
+    // Initial calls
+    updateDynamicIndexAndUI();
+    fetchGorkData();
+    fetchLiveData();
+    fetchDailySummary();
+
+    document.getElementById('grok-button').addEventListener('click', getGrokInsight);
   </script>
 </body>
 </html>
