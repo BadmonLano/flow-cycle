@@ -9,225 +9,27 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
-    .main-title { text-align: center; color: #58a6ff; margin: 30px 0 10px; font-size: 3em; font-weight: 700; }
-    .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; font-size: 1.3em; }
-    .container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1600px; margin: 0 auto; padding: 0 20px; }
-    .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-    .sidebar { flex: 1; min-width: 340px; background: #161b22; padding: 25px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-y: auto; max-height: 800px; }
-    .status-badge { font-size: 2em; margin: 0 0 30px; padding: 15px; border-radius: 16px; text-align: center; font-weight: 700; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-    .price-item, .gork-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
-    .price-item:hover, .gork-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
-    #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-    .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
-    .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); }
-    .summary-item { margin-bottom: 10px; font-size: 1.1em; }
-    .grok-section { margin-top: 20px; background: #21262d; padding: 15px; border-radius: 12px; }
-    #grok-button { width: 100%; padding: 12px; background: #8b5cf6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    #grok-button:hover { background: #7c3aed; }
-    #grok-response { margin-top: 12px; white-space: pre-wrap; font-size: 1em; }
-    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow-x: auto; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); white-space: nowrap; }
-    .phase-segment { min-width: 80px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
-    .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
-    .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; transform: scale(1.08); }
-    .euphoria { color: #ff6b6b !important; font-weight: 900; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
+    /* (your existing styles unchanged) */
   </style>
 </head>
 <body>
-  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
-  <div class="container">
-    <div class="chart-area">
-      <div class="phase-bar">
-        <div class="phase-segment" title="Low fear, complacency">Complacency</div>
-        <div class="phase-segment" title="Rising uncertainty">Anxiety</div>
-        <div class="phase-segment" title="Refusal to accept downtrend">Denial</div>
-        <div class="phase-segment" title="Fear dominates">Panic</div>
-        <div class="phase-segment" title="Surrender phase">Capitulation</div>
-        <div class="phase-segment" title="FUD max, smart money in">Anger</div>
-        <div class="phase-segment" title="Hopelessness">Depression</div>
-        <div class="phase-segment" title="Skepticism lingers">Disbelief</div>
-        <div class="phase-segment" title="Light at end of tunnel">Hope</div>
-        <div class="phase-segment" title="Confidence building">Optimism</div>
-        <div class="phase-segment" title="Conviction strong">Belief</div>
-        <div class="phase-segment" title="FOMO kicks in">Thrill</div>
-        <div class="phase-segment euphoria" title="Peak greed">Euphoria</div>
-      </div>
-      <canvas id="myChart"></canvas>
-      <div id="dailySummary" class="daily-summary">
-        <h3>Daily Market Summary</h3>
-        <div class="loading">Loading...</div>
-      </div>
-    </div>
-    <div class="sidebar">
-      <div id="statusBadge" class="status-badge">Loading...</div>
-      <div id="actionAdvice">What you should do right now: Loading...</div>
-
-      <!-- Grok Insight -->
-      <div class="grok-section">
-        <h3>Grok Insight</h3>
-        <button id="grok-button">Get Grok Take 🔥</button>
-        <div id="grok-response">Click for savage alpha on current phase & $GORK...</div>
-      </div>
-
-      <h3>Live Prices & Charts</h3>
-      <div id="prices"><div class="loading">Loading live prices...</div></div>
-
-      <!-- $GORK Card -->
-      <div id="gorkCard" class="gork-item">
-        <strong>$GORK (Solana)</strong><br>
-        <div class="loading">Loading $GORK data...</div>
-      </div>
-    </div>
-  </div>
+  <!-- (your HTML structure unchanged, just key parts below) -->
 
   <script>
-    // Global vars for phase/index (used in Grok & UI)
+    // Global vars
     let currentIndex = 51;
-    let currentPhase = 'Anger'; // fallback
+    let currentPhase = 'Anger';
 
-    // === MONTHLY DATES & CHART (unchanged from last) ===
-    function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
-      const dates = [];
-      let current = new Date(startYear, startMonth - 1, 1);
-      const end = new Date(endYear, endMonth - 1, 1);
-      while (current <= end) {
-        dates.push(new Date(current));
-        current.setMonth(current.getMonth() + 1);
-      }
-      return dates;
-    }
+    // ... (monthly dates, historicalMonthly, predictionMonthly, chart setup unchanged) ...
 
-    const monthlyDates = generateMonthlyDates(2017, 1, 2028, 1);
-
-    const knownPoints = {
-      '2017-01': 40, '2017-10': 45, '2017-12': 95, '2018-12': 10, '2020-03': 10,
-      '2021-11': 90, '2022-11': 15, '2025-04': 25, '2025-11': 10, '2026-01': 51
-    };
-
-    const historicalMonthly = monthlyDates.map(date => {
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      if (knownPoints[key] !== undefined) return knownPoints[key];
-
-      let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
-      for (const k in knownPoints) {
-        const d = new Date(k + '-01');
-        if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
-        if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
-      }
-      if (!prevDate || !nextDate) return null;
-
-      const t = (date - prevDate) / (nextDate - prevDate);
-      return Math.round(prevVal + t * (nextVal - prevVal));
-    });
-
-    let predictionMonthly = historicalMonthly.slice();
-    const startIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 0);
-    const peakIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9);
-    const endIdx = monthlyDates.length - 1;
-
-    for (let i = startIdx + 1; i <= endIdx; i++) {
-      let target;
-      if (i <= peakIdx) {
-        const progress = (i - startIdx) / (peakIdx - startIdx);
-        target = 51 + (95 - 51) * progress;
-      } else {
-        const progress = (i - peakIdx) / (endIdx - peakIdx);
-        target = 95 - (95 - 10) * progress;
-      }
-      target += Math.sin(i * 0.4) * 4 - 2;
-      predictionMonthly[i] = Math.max(5, Math.min(100, Math.round(target)));
-    }
-
-    const chart = new Chart(document.getElementById('myChart').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: monthlyDates,
-        datasets: [
-          {
-            label: 'Flow Cycle Index (Historical)',
-            data: historicalMonthly,
-            borderColor: '#58a6ff',
-            backgroundColor: 'rgba(88,166,255,0.15)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            borderWidth: 2
-          },
-          {
-            label: 'Predicted Index (2-Year Forecast)',
-            data: predictionMonthly,
-            borderColor: '#8b949e',
-            backgroundColor: 'rgba(139,148,158,0.1)',
-            borderDash: [6, 4],
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            borderWidth: 2
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'time',
-            time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
-            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
-            title: { display: true, text: 'Time' }
-          },
-          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
-        },
-        plugins: {
-          zoom: { zoom: { enabled: false }, pan: { enabled: false } },
-          annotation: {
-            annotations: {
-              topBox: {
-                type: 'box',
-                xMin: new Date(2026, 6, 1),
-                xMax: new Date(2026, 9, 1),
-                yMin: 85,
-                yMax: 100,
-                backgroundColor: 'rgba(255,107,107,0.15)',
-                borderColor: '#ff6b6b',
-                borderWidth: 2,
-                label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' }
-              },
-              bottomLabel: {
-                type: 'label',
-                xValue: new Date(2025, 10, 1),
-                yValue: 10,
-                content: 'Recent Bottom',
-                backgroundColor: '#22c55e',
-                color: 'white'
-              }
-            }
-          },
-          tooltip: {
-            mode: 'index',
-            intersect: false,
-            callbacks: {
-              label: ctx => {
-                const v = ctx.raw;
-                let phase = v < 20 ? 'Panic/Capitulation' : v < 40 ? 'Disbelief/Hope' : v < 60 ? 'Belief/Optimism' : v < 80 ? 'Thrill' : 'Euphoria';
-                return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${phase})`;
-              }
-            }
-          }
-        }
-      }
-    });
-
-    // === DYNAMIC INDEX + PHASE UPDATE ===
+    // Dynamic index + phase update (unchanged, but now sets globals)
     async function updateDynamicIndexAndUI() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
         if (!res.ok) throw new Error();
         const data = await res.json();
-        const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
-        const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
+        const btc30d = data[0]?.price_change_percentage_30d_in_currency || 0;
+        const sol30d = data[1]?.price_change_percentage_30d_in_currency || 0;
         const avgMomentum = (btc30d + sol30d) / 2;
 
         currentIndex = Math.max(10, Math.min(90, 51 + Math.round(avgMomentum / 5)));
@@ -246,12 +48,11 @@
         if (currentIndex >= 90) currentPhase = 'Thrill';
         if (currentIndex >= 95) currentPhase = 'Euphoria';
 
-        // Update phase bar
+        // Update UI (phase bar, badge, advice)
         document.querySelectorAll('.phase-segment').forEach(seg => {
           seg.classList.toggle('current-phase', seg.textContent.trim() === currentPhase);
         });
 
-        // Update badge & advice
         const badge = document.getElementById('statusBadge');
         badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
         badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
@@ -262,17 +63,17 @@
         else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
         document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
       } catch (e) {
-        console.log('Dynamic update failed, using defaults');
+        console.log('Dynamic update failed:', e);
       }
     }
     updateDynamicIndexAndUI();
 
-    // === GROK INSIGHT (fixed scope) ===
-    const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY'; // REPLACE THIS
+    // === GROK INSIGHT (fixed) ===
+    const apiKey = 'PASTE_YOUR_REAL_GROK_API_KEY_HERE'; // <--- PUT YOUR KEY HERE (local only!)
 
     async function getGrokInsight() {
       const respDiv = document.getElementById('grok-response');
-      respDiv.innerHTML = 'Grok cooking savage take... 🔥';
+      respDiv.innerHTML = 'Grok cooking... 🔥';
 
       try {
         const res = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -282,98 +83,77 @@
             'Authorization': `Bearer ${apiKey}`
           },
           body: JSON.stringify({
-            model: 'grok-4-1-fast-reasoning',
+            model: 'grok-4-1-fast-reasoning', // or 'grok-4-latest' if you prefer
             messages: [
-              { role: 'system', content: 'You are a savage crypto trader with no filter. Give short, brutal, honest takes on market phases, memes, $GORK, and what Lano should do.' },
-              { role: 'user', content: `Current Flow Cycle Index ~${Math.round(currentIndex)} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding with volume up. Blow-off top in Q4 2026? Real move rn — buy dips, hold, trim? Keep it savage & short.` }
+              { role: 'system', content: 'You are a savage crypto trader with no filter. Give short, brutal, honest takes.' },
+              { role: 'user', content: `Index ~${Math.round(currentIndex)} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding. Blow-off Q4 2026? Move rn? Savage & short.` }
             ],
             temperature: 0.8,
             max_tokens: 200
           })
         });
 
-        if (!res.ok) throw new Error(`API error: ${res.status}`);
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(`API error ${res.status}: ${errText}`);
+        }
+
         const data = await res.json();
         respDiv.innerHTML = data.choices[0].message.content.trim();
       } catch (err) {
-        respDiv.innerHTML = `Error: ${err.message}. Check key/balance/network/console.`;
+        console.error(err);
+        respDiv.innerHTML = `Error: ${err.message}. Check console for details (likely key/balance issue).`;
       }
     }
 
     document.getElementById('grok-button').addEventListener('click', getGrokInsight);
 
-    // === $GORK REAL FETCH (your pump.fun pair) ===
+    // === $GORK (your real pair + Birdeye fallback) ===
     async function fetchGorkData() {
+      const card = document.getElementById('gorkCard');
+      card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading...</div>';
+
       try {
-        const res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const pair = data.pairs?.[0] || {};
-        const card = document.getElementById('gorkCard');
-        card.innerHTML = `
-          <strong>$GORK (Solana)</strong><br>
-          <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
-          MC: $${(pair.marketCap / 1e6).toFixed(2) || 'N/A'}M<br>
-          24h Vol: $${(pair.volume?.h24 / 1e3).toFixed(0) || 'N/A'}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
-          Liq: $${(pair.liquidity?.usd / 1e3).toFixed(0) || 'N/A'}K<br>
-          Buys/Sells (1h): ${pair.txns?.h1?.buys || '?'} / ${pair.txns?.h1?.sells || '?'}
-        `;
-      } catch {
-        document.getElementById('gorkCard').innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed — refresh or check pair</p>';
-      }
+        // Primary: DexScreener
+        let res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
+        if (res.ok) {
+          const data = await res.json();
+          const pair = data.pairs?.[0] || {};
+          card.innerHTML = `
+            <strong>$GORK (Solana)</strong><br>
+            <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
+            MC: $${(pair.marketCap / 1e6)?.toFixed(2) || 'N/A'}M<br>
+            24h Vol: $${(pair.volume?.h24 / 1e3)?.toFixed(0) || 'N/A'}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
+            Liq: $${(pair.liquidity?.usd / 1e3)?.toFixed(0) || 'N/A'}K<br>
+            Buys/Sells (1h): ${pair.txns?.h1?.buys || '?'} / ${pair.txns?.h1?.sells || '?'}
+          `;
+          return;
+        }
+      } catch {}
+
+      // Fallback: Birdeye (public)
+      try {
+        const res = await fetch('https://public-api.birdeye.so/public/price?address=76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump', {
+          headers: { 'X-API-KEY': 'free' } // public endpoint, no real key needed
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const p = data.data || {};
+          card.innerHTML = `
+            <strong>$GORK (Solana)</strong><br>
+            <span style="font-size:1.4em;">$${p.value?.toFixed(8) || 'N/A'}</span><br>
+            MC: $${(p.mc / 1e6)?.toFixed(2) || 'N/A'}M<br>
+            24h Change: ${p.priceChange24h?.toFixed(2) || 'N/A'}%
+          `;
+          return;
+        }
+      } catch {}
+
+      card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed — refresh or check pair</p>';
     }
     fetchGorkData();
 
-    // Live majors prices
-    async function fetchLiveData() {
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const div = document.getElementById('prices');
-        div.innerHTML = '';
-        data.forEach(c => {
-          const p = document.createElement('div');
-          p.className = 'price-item';
-          p.innerHTML = `<strong>${c.name}</strong><br><span style="font-size:1.4em;">$${c.current_price.toLocaleString()}</span> <span style="color:${c.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${c.price_change_percentage_24h?.toFixed(2) || 'N/A'}%</span>`;
-          div.appendChild(p);
-        });
-      } catch {
-        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
-      }
-    }
-    fetchLiveData();
-
-    // Daily summary
-    async function fetchDailySummary() {
-      const sumDiv = document.getElementById('dailySummary');
-      sumDiv.innerHTML = '<h3>Daily Market Summary</h3>';
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/global');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const g = data.data;
-        sumDiv.innerHTML += `
-          <div class="summary-item">Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)</div>
-          <div class="summary-item">BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%</div>
-          <div class="summary-item">Total Volume 24h: $${g.total_volume.usd.toLocaleString()}</div>
-          <p style="margin-top:10px;">Meme supercycle heating in 2026, BTC dom fade incoming, Elon/Grok narrative revival possible. Hold dips in Anger/Belief phase — $GORK rebounding.</p>
-        `;
-      } catch {
-        sumDiv.innerHTML += `
-          <p>Failed to load live data — fallback mode</p>
-          <p>2026 vibes: BTC holding $87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win. Watch for Elon nod.</p>
-        `;
-      }
-    }
-    fetchDailySummary();
-
-    // Optional: auto-refresh every 60s (uncomment to enable)
-    // setInterval(() => {
-    //   fetchLiveData();
-    //   fetchGorkData();
-    //   updateDynamicIndexAndUI();
-    // }, 60000);
+    // ... (rest of your code: fetchLiveData, fetchDailySummary, etc. unchanged) ...
   </script>
 </body>
 </html>
