@@ -304,25 +304,48 @@
 
     // === $GORK REAL FETCH (your pump.fun pair) ===
     async function fetchGorkData() {
-      try {
-        const res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const pair = data.pairs?.[0] || {};
-        const card = document.getElementById('gorkCard');
-        card.innerHTML = `
-          <strong>$GORK (Solana)</strong><br>
-          <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
-          MC: $${(pair.marketCap / 1e6).toFixed(2) || 'N/A'}M<br>
-          24h Vol: $${(pair.volume?.h24 / 1e3).toFixed(0) || 'N/A'}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
-          Liq: $${(pair.liquidity?.usd / 1e3).toFixed(0) || 'N/A'}K<br>
-          Buys/Sells (1h): ${pair.txns?.h1?.buys || '?'} / ${pair.txns?.h1?.sells || '?'}
-        `;
-      } catch {
-        document.getElementById('gorkCard').innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed — refresh or check pair</p>';
+  const card = document.getElementById('gorkCard');
+  card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading $GORK data...</div>';
+
+  try {
+    // Primary: DexScreener
+    let res = await fetch('https://api.dexscreener.com/latest/dex/tokens/76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump');
+    if (!res.ok) throw new Error('DexScreener failed');
+
+    let data = await res.json();
+    let pair = data.pairs?.[0] || {}; // take top pair
+
+    if (!pair.priceUsd) {
+      // Fallback: Birdeye (more reliable for pump.fun sometimes)
+      res = await fetch('https://public-api.birdeye.so/defi/token_overview?address=76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump', {
+        headers: { 'x-chain': 'solana', 'X-API-KEY': 'free_public_key' } // Birdeye allows public limited use
+      });
+      if (res.ok) {
+        data = await res.json();
+        pair = {
+          priceUsd: data.data?.value || null,
+          marketCap: data.data?.mc || null,
+          volume: { h24: data.data?.v24hUSD || null },
+          priceChange: { h24: data.data?.priceChange24h || null },
+          liquidity: { usd: data.data?.liquidity || null }
+        };
       }
     }
-    fetchGorkData();
+
+    card.innerHTML = `
+      <strong>$GORK (Solana)</strong><br>
+      <span style="font-size:1.4em;">$${pair.priceUsd?.toFixed(8) || 'N/A'}</span><br>
+      MC: $${(pair.marketCap / 1e6)?.toFixed(2) || 'N/A'}M<br>
+      24h Vol: $${(pair.volume?.h24 / 1e3)?.toFixed(0) || 'N/A'}K (${pair.priceChange?.h24?.toFixed(2) || 'N/A'}%)<br>
+      Liq: $${(pair.liquidity?.usd / 1e3)?.toFixed(0) || 'N/A'}K<br>
+      <a href="https://dexscreener.com/solana/${pair.pairAddress || '76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump'}" target="_blank" style="color:#58a6ff;">View on DexScreener</a>
+    `;
+  } catch (err) {
+    console.error('GORK fetch error:', err);
+    card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — try refresh or check internet</p>';
+  }
+}
+fetchGorkData();
 
     // Live majors prices
     async function fetchLiveData() {
