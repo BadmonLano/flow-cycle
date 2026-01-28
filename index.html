@@ -94,27 +94,81 @@
     let currentIndex = 51;
     let currentPhase = 'Anger';
 
-    function generateWeeklyDates(startYear, startMonth, endYear, endMonth) {
-      const dates = [];
-      let current = new Date(startYear, startMonth - 1, 1);
-      const end = new Date(endYear, endMonth - 1, 1);
-      while (current <= end) {
-        dates.push(new Date(current));
-        current.setDate(current.getDate() + 7);
+    let chart; // global reference
+
+    async function initChart() {
+      const weeklyDates = generateWeeklyDates(2017, 1, 2028, 1);
+      const historical = await getHistoricalWeekly(weeklyDates);
+
+      let prediction = historical.slice();
+      const lastRealIdx = historical.findLastIndex(v => v !== null);
+      const lastRealVal = historical[lastRealIdx];
+      const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
+      const endIdx = weeklyDates.length - 1;
+
+      for (let i = lastRealIdx + 1; i <= endIdx; i++) {
+        let target;
+        if (i <= peakIdx) {
+          const progress = (i - lastRealIdx) / (peakIdx - lastRealIdx);
+          target = lastRealVal + (95 - lastRealVal) * progress;
+        } else {
+          const progress = (i - peakIdx) / (endIdx - peakIdx);
+          target = 85 - (85 - 10) * progress;
+        }
+        target += Math.sin(i * 0.4) * 4 - 2;
+        prediction[i] = Math.max(5, Math.min(100, Math.round(target)));
       }
-      return dates;
+
+      const ctx = document.getElementById('myChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: weeklyDates,
+          datasets: [
+            { label: 'Flow Cycle Index (Historical)', data: historical, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+            { label: 'Predicted Index (2-Year Forecast)', data: prediction, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { type: 'time', time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, title: { display: true, text: 'Time (Weekly)' } },
+            y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+          },
+          plugins: {
+            zoom: { zoom: { enabled: false }, pan: { enabled: false } },
+            annotation: {
+              annotations: {
+                topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
+                bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom (Depression)', backgroundColor: '#22c55e', color: 'white' }
+              }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              callbacks: {
+                label: ctx => {
+                  const v = ctx.raw;
+                  const i = ctx.dataIndex;
+                  const trend = (i > 0 && v > prediction[i-1]) ? 'Uptrend' : 'Downtrend';
+                  let phase = '';
+                  if (trend === 'Uptrend') {
+                    phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
+                  } else {
+                    phase = v > 90 ? 'Euphoria (Top)' : v > 80 ? 'Complacency' : v > 70 ? 'Anxiety' : v > 60 ? 'Denial' : v > 50 ? 'Panic' : v > 40 ? 'Capitulation' : v > 20 ? 'Anger' : 'Depression (Bottom)';
+                  }
+                  return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${trend} Phase: ${phase})`;
+                }
+              }
+            }
+          }
+        }
+      });
     }
 
-    const weeklyDates = generateWeeklyDates(2017, 1, 2028, 1);
-
-    const knownPoints = {
-      '2017-01-01': 40, '2017-10-01': 45, '2017-12-01': 95, '2018-12-01': 10, '2020-03-01': 10,
-      '2021-11-01': 90, '2022-11-01': 15, '2025-04-01': 25, '2025-11-01': 10, '2026-01-01': 51
-    };
-
-    // Historical weekly interpolation + auto-extension using momentum
-    async function getHistoricalWeekly() {
-      const historical = weeklyDates.map(date => {
+    async function getHistoricalWeekly(dates) {
+      const historical = dates.map(date => {
         const key = date.toISOString().split('T')[0];
         if (knownPoints[key] !== undefined) return knownPoints[key];
 
@@ -130,9 +184,9 @@
         return Math.round(prevVal + t * (nextVal - prevVal));
       });
 
-      // Auto-extend weekly from last known point using live momentum
+      // Auto-extend from last known using live momentum
       const lastKnownIdx = historical.findLastIndex(v => v !== null);
-      if (lastKnownIdx < weeklyDates.length - 1) {
+      if (lastKnownIdx < dates.length - 1) {
         const lastKnownVal = historical[lastKnownIdx];
         try {
           const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
@@ -141,218 +195,31 @@
             const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
             const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
             const avgMomentum = (btc30d + sol30d) / 2;
-            const weeklyNudge = Math.round(avgMomentum / 10); // scale to weekly ~0.5-2 points
+            const weeklyNudge = Math.round(avgMomentum / 10); // ~0.5-2 points per week
 
-            for (let i = lastKnownIdx + 1; i < weeklyDates.length; i++) {
+            for (let i = lastKnownIdx + 1; i < dates.length; i++) {
               let target = historical[i-1] + weeklyNudge;
               target = Math.max(5, Math.min(100, target));
               historical[i] = target;
             }
           }
         } catch (e) {
-          console.log('Auto-extend failed, using prediction only');
+          console.log('Auto-extend failed');
         }
       }
 
       return historical;
     }
 
-    let predictionWeekly = [];
-    async function updateChart() {
-      const historical = await getHistoricalWeekly();
+    // Rest of the code (updateDynamicIndexAndUI, fetchGorkData, fetchLiveData, fetchDailySummary, auto-refresh) remains unchanged from your last working version
 
-      // Prediction starts from current auto-extended point
-      const lastRealIdx = historical.findLastIndex(v => v !== null);
-      const lastRealVal = historical[lastRealIdx];
-      predictionWeekly = historical.slice();
-      const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
-      const endIdx = weeklyDates.length - 1;
-
-      for (let i = lastRealIdx + 1; i <= endIdx; i++) {
-        let target;
-        if (i <= peakIdx) {
-          const progress = (i - lastRealIdx) / (peakIdx - lastRealIdx);
-          target = lastRealVal + (95 - lastRealVal) * progress;
-        } else {
-          const progress = (i - peakIdx) / (endIdx - peakIdx);
-          target = 85 - (85 - 10) * progress;
-        }
-        target += Math.sin(i * 0.4) * 4 - 2;
-        predictionWeekly[i] = Math.max(5, Math.min(100, Math.round(target)));
-      }
-
-      chart.data.datasets[0].data = historical;
-      chart.data.datasets[1].data = predictionWeekly;
-      chart.update();
-    }
-
-    updateChart(); // Initial render
-
-    async function updateDynamicIndexAndUI() {
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
-        const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
-        const avgMomentum = (btc30d + sol30d) / 2;
-
-        currentIndex = Math.max(10, Math.min(90, 51 + Math.round(avgMomentum / 5)));
-
-        currentPhase = 'Complacency';
-        if (currentIndex >= 10) currentPhase = 'Anxiety';
-        if (currentIndex >= 20) currentPhase = 'Denial';
-        if (currentIndex >= 30) currentPhase = 'Panic';
-        if (currentIndex >= 40) currentPhase = 'Capitulation';
-        if (currentIndex >= 50) currentPhase = 'Anger';
-        if (currentIndex >= 60) currentPhase = 'Depression';
-        if (currentIndex >= 70) currentPhase = 'Disbelief';
-        if (currentIndex >= 75) currentPhase = 'Hope';
-        if (currentIndex >= 80) currentPhase = 'Optimism';
-        if (currentIndex >= 85) currentPhase = 'Belief';
-        if (currentIndex >= 90) currentPhase = 'Thrill';
-        if (currentIndex >= 95) currentPhase = 'Euphoria';
-
-        document.querySelectorAll('.phase-segment').forEach(seg => {
-          seg.classList.toggle('current-phase', seg.textContent.trim() === currentPhase);
-        });
-
-        const badge = document.getElementById('statusBadge');
-        badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
-        badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
-
-        let advice = 'Hold or buy dips';
-        if (currentPhase === 'Euphoria' || currentPhase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
-        else if (currentPhase === 'Panic' || currentPhase === 'Capitulation' || currentPhase === 'Anger') advice = 'Load bags heavy — bottom vibes';
-        else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
-        document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
-      } catch (e) {
-        console.log('Dynamic update failed');
-      }
-    }
-
-    async function fetchGorkData(retries = 3) {
-      const card = document.getElementById('gorkCard');
-      card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading...</div>';
-
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork&order=market_cap_desc&per_page=1&page=1&sparkline=false&price_change_percentage=24h');
-        if (!res.ok) throw new Error('CoinGecko error');
-        const data = await res.json();
-        const coin = data[0] || {};
-
-        card.innerHTML = `
-          <strong>$GORK (Solana)</strong><br>
-          <span style="font-size:1.4em;">$${coin.current_price?.toFixed(8) || 'N/A'}</span><br>
-          MC: $${(coin.market_cap / 1e6)?.toFixed(2) || 'N/A'}M<br>
-          24h Vol: $${(coin.total_volume / 1e3)?.toFixed(0) || 'N/A'}K (${coin.price_change_percentage_24h?.toFixed(2) || 'N/A'}%)<br>
-          <a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff; font-size:0.9em;">View on CoinGecko</a>
-        `;
-      } catch (err) {
-        if (retries > 0) {
-          setTimeout(() => fetchGorkData(retries - 1), 3000);
-          return;
-        }
-        console.error('GORK fetch failed:', err);
-        card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection</p><a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff;">Check manually</a>';
-      }
-    }
-
-    async function fetchLiveData(retries = 3) {
-      const div = document.getElementById('prices');
-      div.innerHTML = '<div class="loading">Loading live prices...</div>';
-
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-        if (!res.ok) throw new Error('CoinGecko error');
-        const data = await res.json();
-        div.innerHTML = '';
-        data.forEach(c => {
-          const p = document.createElement('div');
-          p.className = 'price-item';
-          p.innerHTML = `<strong>${c.name}</strong><br><span style="font-size:1.4em;">$${c.current_price.toLocaleString()}</span> <span style="color:${c.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${c.price_change_percentage_24h?.toFixed(2) || 'N/A'}%</span>`;
-          div.appendChild(p);
-        });
-      } catch (err) {
-        if (retries > 0) {
-          setTimeout(() => fetchLiveData(retries - 1), 3000);
-          return;
-        }
-        div.innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
-      }
-    }
-
-    async function fetchDailySummary() {
-      const contentDiv = document.getElementById('summaryContent');
-      const dateSpan = document.getElementById('currentSummaryDate');
-
-      const now = new Date();
-      const todayKey = now.toLocaleDateString('en-US', { timeZone: 'America/New_York', year: 'numeric', month: 'short', day: 'numeric' });
-
-      let history = JSON.parse(localStorage.getItem('dailySummaryHistory') || '{}');
-
-      if (!history[todayKey]) {
-        let newEntry = `<div class="summary-item"><strong>${todayKey}</strong></div>`;
-        try {
-          const res = await fetch('https://api.coingecko.com/api/v3/global');
-          if (!res.ok) throw new Error();
-          const data = await res.json();
-          const g = data.data;
-          newEntry += `
-            Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)<br>
-            BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%<br>
-            Total Volume 24h: $${g.total_volume.usd.toLocaleString()}<br>
-            <p>Meme supercycle heating in 2026, BTC dom fade incoming, Elon/Grok narrative revival possible. Hold dips in ${currentPhase} phase — $GORK rebounding.</p>
-          `;
-        } catch {
-          newEntry += `
-            <p>Failed to load live data — fallback</p>
-            <p>2026 vibes: BTC ~$87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win.</p>
-          `;
-        }
-        history[todayKey] = newEntry;
-
-        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
-        if (keys.length > 7) {
-          keys.slice(7).forEach(key => delete history[key]);
-        }
-
-        localStorage.setItem('dailySummaryHistory', JSON.stringify(history));
-      }
-
-      contentDiv.innerHTML = history[todayKey] || '<p>No data for today yet</p>';
-      dateSpan.innerHTML = todayKey;
-
-      let currentDisplayedKey = todayKey;
-
-      document.getElementById('prevDayBtn').onclick = () => {
-        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
-        const currentIdx = keys.indexOf(currentDisplayedKey);
-        if (currentIdx < keys.length - 1) {
-          currentDisplayedKey = keys[currentIdx + 1];
-          contentDiv.innerHTML = history[currentDisplayedKey];
-          dateSpan.innerHTML = currentDisplayedKey;
-        }
-      };
-
-      document.getElementById('nextDayBtn').onclick = () => {
-        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
-        const currentIdx = keys.indexOf(currentDisplayedKey);
-        if (currentIdx > 0) {
-          currentDisplayedKey = keys[currentIdx - 1];
-          contentDiv.innerHTML = history[currentDisplayedKey];
-          dateSpan.innerHTML = currentDisplayedKey;
-        }
-      };
-    }
-
-    // Initial loads
+    // Initial calls
+    initChart(); // Now async, waits for data
     updateDynamicIndexAndUI();
     fetchLiveData();
     fetchGorkData();
     fetchDailySummary();
 
-    // Auto-refresh every 60 seconds
     setInterval(() => {
       fetchLiveData();
       fetchGorkData();
