@@ -302,12 +302,14 @@
 
     document.getElementById('grok-button').addEventListener('click', getGrokInsight);
 
-    async function fetchGorkData() {
+    async function fetchGorkData(retries = 2) {
       const card = document.getElementById('gorkCard');
       card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading...</div>';
 
       try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork&order=market_cap_desc&per_page=1&page=1&sparkline=false&price_change_percentage=24h');
+        const proxy = 'https://proxy.cors.sh/';
+        const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork&order=market_cap_desc&per_page=1&page=1&sparkline=false&price_change_percentage=24h';
+        const res = await fetch(proxy + url);
         if (!res.ok) throw new Error('CG HTTP error');
         const data = await res.json();
         const coin = data[0] || {};
@@ -320,17 +322,25 @@
           <a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff; font-size:0.9em;">View on CoinGecko</a>
         `;
       } catch (err) {
-        console.error('GORK CG fetch error:', err);
+        if (retries > 0) {
+          setTimeout(() => fetchGorkData(retries - 1), 2000);
+          return;
+        }
+        console.error('GORK fetch failed after retries:', err);
         card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection</p><a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff;">Check manually</a>';
       }
     }
 
-    async function fetchLiveData() {
+    async function fetchLiveData(retries = 2) {
+      const div = document.getElementById('prices');
+      div.innerHTML = '<div class="loading">Loading live prices...</div>';
+
       try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-        if (!res.ok) throw new Error();
+        const proxy = 'https://proxy.cors.sh/';
+        const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h';
+        const res = await fetch(proxy + url);
+        if (!res.ok) throw new Error('CG HTTP error');
         const data = await res.json();
-        const div = document.getElementById('prices');
         div.innerHTML = '';
         data.forEach(c => {
           const p = document.createElement('div');
@@ -338,8 +348,12 @@
           p.innerHTML = `<strong>${c.name}</strong><br><span style="font-size:1.4em;">$${c.current_price.toLocaleString()}</span> <span style="color:${c.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${c.price_change_percentage_24h?.toFixed(2) || 'N/A'}%</span>`;
           div.appendChild(p);
         });
-      } catch {
-        document.getElementById('prices').innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
+      } catch (err) {
+        if (retries > 0) {
+          setTimeout(() => fetchLiveData(retries - 1), 2000);
+          return;
+        }
+        div.innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
       }
     }
 
