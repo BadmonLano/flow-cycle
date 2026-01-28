@@ -27,11 +27,9 @@
     .summary-controls { margin-bottom: 10px; text-align: center; }
     .summary-controls button { padding: 6px 12px; margin: 0 5px; background: #58a6ff; color: white; border: none; border-radius: 6px; cursor: pointer; }
     .summary-controls button:hover { background: #1f6feb; }
-    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow-x: auto; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); white-space: nowrap; }
-    .phase-segment { min-width: 80px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
-    .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
-    .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; transform: scale(1.08); }
-    .euphoria { color: #ff6b6b !important; font-weight: 900; }
+    .chart-info { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; font-size: 0.95em; line-height: 1.5; }
+    .chart-info h4 { margin: 0 0 10px; color: #58a6ff; }
+    .chart-info p { margin: 8px 0; }
     @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
   </style>
 </head>
@@ -78,6 +76,18 @@
       <div id="gorkCard" class="gork-item">
         <strong>$GORK (Solana)</strong><br>
         <div class="loading">Loading $GORK data...</div>
+      </div>
+
+      <!-- New Chart Description Section -->
+      <div class="chart-info">
+        <h4>Chart Methodology & Why It's Accurate</h4>
+        <p><strong>Data Sources</strong><br>
+        Historical points are manually selected from major crypto cycles (2017–2026), mapped to psych phases (0–100 scale) based on real market sentiment, volume spikes, and blow-off tops/bottoms. Examples: 2017-12 (95 = Euphoria peak), 2025-11 (10 = Panic bottom), current Jan 2026 (51 = Anger/Belief transition).</p>
+        <p><strong>Prediction Logic</strong><br>
+        The dashed gray line is a 2-year forecast starting from current index (~51). It ramps linearly + slight wave to ~95 (predicted euphoria top) around Oct 2026, then dips back to ~10 (next cycle bottom) by Jan 2028. This mirrors historical patterns: post-peak euphoria → sharp correction → new accumulation.</p>
+        <p><strong>Why Accurate for Tops?</strong><br>
+        Crypto markets are highly cyclical and sentiment-driven. High index (>85–95) has historically coincided with parabolic moves, extreme greed, and blow-off tops (e.g., 2017, 2021). The prediction assumes similar euphoria patterns in 2026 (meme supercycle, liquidity flood, potential Elon/Grok catalysts). It's not exact price prediction — it's a **psych cycle proxy** to spot when "top vibes" are forming so you can trim early.</p>
+        <p>Disclaimer: Not financial advice — markets are irrational, always DYOR.</p>
       </div>
     </div>
   </div>
