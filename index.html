@@ -13,7 +13,7 @@
     .main-title { text-align: center; color: #58a6ff; margin: 30px 0 10px; font-size: 3em; font-weight: 700; }
     .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; font-size: 1.3em; }
     .container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1600px; margin: 0 auto; padding: 0 20px; }
-    .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-x: hidden; }
     .sidebar { flex: 1; min-width: 340px; background: #161b22; padding: 25px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-y: auto; max-height: 800px; }
     .status-badge { font-size: 2em; margin: 0 0 30px; padding: 15px; border-radius: 16px; text-align: center; font-weight: 700; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
     .price-item, .gork-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
@@ -30,7 +30,7 @@
     .chart-info { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; font-size: 0.95em; line-height: 1.5; }
     .chart-info h4 { margin: 0 0 10px; color: #58a6ff; }
     .chart-info p { margin: 8px 0; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } }
+    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; overflow-x: auto; } }
   </style>
 </head>
 <body>
@@ -66,7 +66,7 @@
         </div>
       </div>
 
-      <!-- Chart Description - placed directly after daily summary -->
+      <!-- Chart Description - next to daily summary -->
       <div class="chart-info">
         <h4>Chart Methodology & Why It's Accurate</h4>
         <p><strong>Data Sources</strong><br>
@@ -180,8 +180,8 @@
         scales: {
           x: {
             type: 'time',
-            time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
-            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+            time: { unit: 'month', displayFormats: { month: 'MMM yy' }, tooltipFormat: 'MMMM yyyy' },
+            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 12, source: 'auto' },
             title: { display: true, text: 'Time' }
           },
           y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
@@ -222,9 +222,13 @@
               }
             }
           }
-        }
+        },
+        onResize: () => chart.update()  // Force update on resize
       }
     });
+
+    // Force chart resize on window load/resize
+    window.addEventListener('resize', () => chart.resize());
 
     async function updateDynamicIndexAndUI() {
       try {
@@ -397,6 +401,10 @@
       updateDynamicIndexAndUI();
       fetchDailySummary();
     }, 60000);
+
+    // Force chart resize on load
+    window.addEventListener('load', () => chart.resize());
+    window.addEventListener('resize', () => chart.resize());
   </script>
 </body>
 </html>
