@@ -27,11 +27,6 @@
     .summary-controls { margin-bottom: 10px; text-align: center; }
     .summary-controls button { padding: 6px 12px; margin: 0 5px; background: #58a6ff; color: white; border: none; border-radius: 6px; cursor: pointer; }
     .summary-controls button:hover { background: #1f6feb; }
-    .grok-section { margin-top: 20px; background: #21262d; padding: 15px; border-radius: 12px; }
-    #grok-button { width: 100%; padding: 12px; background: #8b5cf6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    #grok-button:hover { background: #7c3aed; }
-    #grok-button:disabled { background: #6b46c1; cursor: not-allowed; opacity: 0.7; }
-    #grok-response { margin-top: 12px; white-space: pre-wrap; font-size: 1em; }
     .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow-x: auto; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); white-space: nowrap; }
     .phase-segment { min-width: 80px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
     .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
@@ -77,12 +72,6 @@
       <div id="statusBadge" class="status-badge">Loading...</div>
       <div id="actionAdvice">What you should do right now: Loading...</div>
 
-      <div class="grok-section">
-        <h3>Grok Insight</h3>
-        <button id="grok-button">Get Grok Take 🔥</button>
-        <div id="grok-response">Click for savage alpha on current phase & $GORK (1 per day)</div>
-      </div>
-
       <h3>Live Prices & Charts</h3>
       <div id="prices"><div class="loading">Loading live prices...</div></div>
 
@@ -97,7 +86,6 @@
     let currentIndex = 51;
     let currentPhase = 'Anger';
 
-    // MONTHLY DATES & CHART
     function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
@@ -155,23 +143,64 @@
       data: {
         labels: monthlyDates,
         datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: historicalMonthly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionMonthly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
+          {
+            label: 'Flow Cycle Index (Historical)',
+            data: historicalMonthly,
+            borderColor: '#58a6ff',
+            backgroundColor: 'rgba(88,166,255,0.15)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 0,
+            borderWidth: 2
+          },
+          {
+            label: 'Predicted Index (2-Year Forecast)',
+            data: predictionMonthly,
+            borderColor: '#8b949e',
+            backgroundColor: 'rgba(139,148,158,0.1)',
+            borderDash: [6, 4],
+            fill: true,
+            tension: 0.3,
+            pointRadius: 0,
+            borderWidth: 2
+          }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, title: { display: true, text: 'Time' } },
+          x: {
+            type: 'time',
+            time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
+            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+            title: { display: true, text: 'Time' }
+          },
           y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
           zoom: { zoom: { enabled: false }, pan: { enabled: false } },
           annotation: {
             annotations: {
-              topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
-              bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom', backgroundColor: '#22c55e', color: 'white' }
+              topBox: {
+                type: 'box',
+                xMin: new Date(2026, 6, 1),
+                xMax: new Date(2026, 9, 1),
+                yMin: 85,
+                yMax: 100,
+                backgroundColor: 'rgba(255,107,107,0.15)',
+                borderColor: '#ff6b6b',
+                borderWidth: 2,
+                label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' }
+              },
+              bottomLabel: {
+                type: 'label',
+                xValue: new Date(2025, 10, 1),
+                yValue: 10,
+                content: 'Recent Bottom',
+                backgroundColor: '#22c55e',
+                color: 'white'
+              }
             }
           },
           tooltip: {
@@ -189,7 +218,6 @@
       }
     });
 
-    // DYNAMIC INDEX & UI
     async function updateDynamicIndexAndUI() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
@@ -233,59 +261,6 @@
       }
     }
 
-    // GROK INSIGHT - 1 REQUEST PER DAY
-    const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY';
-
-    async function getGrokInsight() {
-      const button = document.getElementById('grok-button');
-      const respDiv = document.getElementById('grok-response');
-
-      // Daily limit check (EST date)
-      const lastRequest = localStorage.getItem('lastGrokRequest');
-      const now = new Date();
-      const todayEST = now.toLocaleDateString('en-US', { timeZone: 'America/New_York' });
-
-      if (lastRequest === todayEST) {
-        respDiv.innerHTML = 'One Grok take per day — come back tomorrow 🔥<br>(Clear browser storage to reset)';
-        button.disabled = true;
-        button.style.opacity = '0.6';
-        button.style.cursor = 'not-allowed';
-        return;
-      }
-
-      respDiv.innerHTML = 'Grok cooking savage take... 🔥';
-      button.disabled = true;
-
-      try {
-        const res = await fetch('https://api.x.ai/v1/chat/completions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-          body: JSON.stringify({
-            model: 'grok-4-1-fast-reasoning',
-            messages: [
-              { role: 'system', content: 'You are a savage crypto trader with no filter. Give short, brutal, honest takes.' },
-              { role: 'user', content: `Current Flow Cycle Index ~${Math.round(currentIndex)} in ${currentPhase} phase. BTC ~$87k, SOL ~$122, $GORK rebounding. Blow-off top in Q4 2026? Move rn — buy dips, hold, trim? Savage & short.` }
-            ],
-            temperature: 0.8,
-            max_tokens: 200
-          })
-        });
-
-        if (!res.ok) throw new Error(`API error: ${res.status}`);
-        const data = await res.json();
-        respDiv.innerHTML = data.choices[0].message.content.trim();
-
-        // Save today's request
-        localStorage.setItem('lastGrokRequest', todayEST);
-      } catch (err) {
-        respDiv.innerHTML = `Error: ${err.message}. Check key/network/console.`;
-        button.disabled = false;
-      }
-    }
-
-    document.getElementById('grok-button').addEventListener('click', getGrokInsight);
-
-    // $GORK from CoinGecko
     async function fetchGorkData(retries = 3) {
       const card = document.getElementById('gorkCard');
       card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading...</div>';
@@ -313,7 +288,6 @@
       }
     }
 
-    // Live majors prices
     async function fetchLiveData(retries = 3) {
       const div = document.getElementById('prices');
       div.innerHTML = '<div class="loading">Loading live prices...</div>';
@@ -338,7 +312,6 @@
       }
     }
 
-    // Daily summary with 1-per-day + cycling
     async function fetchDailySummary() {
       const contentDiv = document.getElementById('summaryContent');
       const dateSpan = document.getElementById('currentSummaryDate');
@@ -416,8 +389,6 @@
       updateDynamicIndexAndUI();
       fetchDailySummary();
     }, 60000);
-
-    document.getElementById('grok-button').addEventListener('click', getGrokInsight);
   </script>
 </body>
 </html>
