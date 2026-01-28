@@ -140,7 +140,7 @@
             const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
             const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
             const avgMomentum = (btc30d + sol30d) / 2;
-            const weeklyNudge = Math.round(avgMomentum / 10); // ~0.5-2 points/week
+            const weeklyNudge = Math.round(avgMomentum / 10);
 
             for (let i = lastKnownIdx + 1; i < weeklyDates.length; i++) {
               let target = historical[i-1] + weeklyNudge;
