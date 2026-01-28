@@ -24,6 +24,9 @@
     .summary-item { margin-bottom: 10px; font-size: 1.1em; }
     .summary-entry { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #30363d; }
     .summary-timestamp { font-size: 0.9em; color: #8b949e; margin-bottom: 5px; }
+    .summary-controls { margin-bottom: 10px; text-align: center; }
+    .summary-controls button { padding: 6px 12px; margin: 0 5px; background: #58a6ff; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    .summary-controls button:hover { background: #1f6feb; }
     .grok-section { margin-top: 20px; background: #21262d; padding: 15px; border-radius: 12px; }
     #grok-button { width: 100%; padding: 12px; background: #8b5cf6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
     #grok-button:hover { background: #7c3aed; }
@@ -59,7 +62,14 @@
       <canvas id="myChart"></canvas>
       <div id="dailySummary" class="daily-summary">
         <h3>Daily Market Summary</h3>
-        <div class="loading">Loading...</div>
+        <div class="summary-controls">
+          <button id="prevDayBtn">Previous Day</button>
+          <span id="currentSummaryDate">Loading...</span>
+          <button id="nextDayBtn">Next Day</button>
+        </div>
+        <div id="summaryContent">
+          <div class="loading">Loading today's summary...</div>
+        </div>
       </div>
     </div>
     <div class="sidebar">
@@ -292,7 +302,6 @@
 
     document.getElementById('grok-button').addEventListener('click', getGrokInsight);
 
-    // === $GORK from CoinGecko - correct ID 'gork' ===
     async function fetchGorkData() {
       const card = document.getElementById('gorkCard');
       card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading...</div>';
@@ -312,7 +321,7 @@
         `;
       } catch (err) {
         console.error('GORK CG fetch error:', err);
-        card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection or CoinGecko status</p><a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff;">Check manually</a>';
+        card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection</p><a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff;">Check manually</a>';
       }
     }
 
@@ -335,45 +344,67 @@
     }
 
     async function fetchDailySummary() {
-      const sumDiv = document.getElementById('dailySummary');
+      const contentDiv = document.getElementById('summaryContent');
+      const dateSpan = document.getElementById('currentSummaryDate');
+
       const now = new Date();
-      const timestamp = now.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }) + ' EST';
+      const todayKey = now.toLocaleDateString('en-US', { timeZone: 'America/New_York', year: 'numeric', month: 'short', day: 'numeric' });
 
-      let history = JSON.parse(localStorage.getItem('dailySummaryHistory') || '[]');
+      let history = JSON.parse(localStorage.getItem('dailySummaryHistory') || '{}');
 
-      let newEntry = `<div class="summary-entry"><div class="summary-timestamp">${timestamp}</div>`;
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/global');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const g = data.data;
-        newEntry += `
-          Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)<br>
-          BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%<br>
-          Total Volume 24h: $${g.total_volume.usd.toLocaleString()}<br>
-          <p>Meme supercycle heating in 2026, BTC dom fade incoming, Elon/Grok narrative revival possible. Hold dips in ${currentPhase} phase — $GORK rebounding.</p>
-        `;
-      } catch {
-        newEntry += `
-          <p>Failed to load live data — fallback</p>
-          <p>2026 vibes: BTC ~$87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win.</p>
-        `;
+      if (!history[todayKey]) {
+        let newEntry = `<div class="summary-item"><strong>${todayKey}</strong></div>`;
+        try {
+          const res = await fetch('https://api.coingecko.com/api/v3/global');
+          if (!res.ok) throw new Error();
+          const data = await res.json();
+          const g = data.data;
+          newEntry += `
+            Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)<br>
+            BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%<br>
+            Total Volume 24h: $${g.total_volume.usd.toLocaleString()}<br>
+            <p>Meme supercycle heating in 2026, BTC dom fade incoming, Elon/Grok narrative revival possible. Hold dips in ${currentPhase} phase — $GORK rebounding.</p>
+          `;
+        } catch {
+          newEntry += `
+            <p>Failed to load live data — fallback</p>
+            <p>2026 vibes: BTC ~$87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win.</p>
+          `;
+        }
+        history[todayKey] = newEntry;
+
+        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
+        if (keys.length > 7) {
+          keys.slice(7).forEach(key => delete history[key]);
+        }
+
+        localStorage.setItem('dailySummaryHistory', JSON.stringify(history));
       }
-      newEntry += '</div>';
 
-      history.unshift(newEntry);
+      contentDiv.innerHTML = history[todayKey] || '<p>No data for today yet</p>';
+      dateSpan.innerHTML = todayKey;
 
-      const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      history = history.filter(entry => {
-        const match = entry.match(/<div class="summary-timestamp">(.*?)<\/div>/);
-        if (!match) return false;
-        const entryTime = new Date(match[1]).getTime();
-        return entryTime > oneWeekAgo;
-      });
+      let currentDisplayedKey = todayKey;
 
-      localStorage.setItem('dailySummaryHistory', JSON.stringify(history));
+      document.getElementById('prevDayBtn').onclick = () => {
+        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
+        const currentIdx = keys.indexOf(currentDisplayedKey);
+        if (currentIdx < keys.length - 1) {
+          currentDisplayedKey = keys[currentIdx + 1];
+          contentDiv.innerHTML = history[currentDisplayedKey];
+          dateSpan.innerHTML = currentDisplayedKey;
+        }
+      };
 
-      sumDiv.innerHTML = '<h3>Daily Market Summary</h3>' + history.join('');
+      document.getElementById('nextDayBtn').onclick = () => {
+        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
+        const currentIdx = keys.indexOf(currentDisplayedKey);
+        if (currentIdx > 0) {
+          currentDisplayedKey = keys[currentIdx - 1];
+          contentDiv.innerHTML = history[currentDisplayedKey];
+          dateSpan.innerHTML = currentDisplayedKey;
+        }
+      };
     }
 
     // Initial loads
