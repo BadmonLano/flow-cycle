@@ -21,7 +21,6 @@
     #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
     .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
     .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); display: flex; flex-wrap: wrap; gap: 20px; }
-    .summary-section { flex: 1; min-width: 300px; }
     .summary-item { margin-bottom: 10px; font-size: 1.1em; }
     .summary-entry { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #30363d; }
     .summary-timestamp { font-size: 0.9em; color: #8b949e; margin-bottom: 5px; }
@@ -58,19 +57,6 @@
         <div class="phase-segment euphoria" title="Peak greed">Euphoria</div>
       </div>
       <canvas id="myChart"></canvas>
-    </div>
-    <div class="sidebar">
-      <div id="statusBadge" class="status-badge">Loading...</div>
-      <div id="actionAdvice">What you should do right now: Loading...</div>
-
-      <h3>Live Prices & Charts</h3>
-      <div id="prices"><div class="loading">Loading live prices...</div></div>
-
-      <div id="gorkCard" class="gork-item">
-        <strong>$GORK (Solana)</strong><br>
-        <div class="loading">Loading $GORK data...</div>
-      </div>
-
       <div class="daily-summary">
         <div class="summary-section">
           <h3>Daily Market Summary</h3>
@@ -90,37 +76,49 @@
         </div>
       </div>
     </div>
+    <div class="sidebar">
+      <div id="statusBadge" class="status-badge">Loading...</div>
+      <div id="actionAdvice">What you should do right now: Loading...</div>
+
+      <h3>Live Prices & Charts</h3>
+      <div id="prices"><div class="loading">Loading live prices...</div></div>
+
+      <div id="gorkCard" class="gork-item">
+        <strong>$GORK (Solana)</strong><br>
+        <div class="loading">Loading $GORK data...</div>
+      </div>
+    </div>
   </div>
 
   <script>
     let currentIndex = 51;
     let currentPhase = 'Anger';
 
-    function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
+    function generateWeeklyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
       const end = new Date(endYear, endMonth - 1, 1);
       while (current <= end) {
         dates.push(new Date(current));
-        current.setMonth(current.getMonth() + 1);
+        current.setDate(current.getDate() + 7);
       }
       return dates;
     }
 
-    const monthlyDates = generateMonthlyDates(2017, 1, 2028, 1);
+    const weeklyDates = generateWeeklyDates(2017, 1, 2028, 1);
 
     const knownPoints = {
-      '2017-01': 40, '2017-10': 45, '2017-12': 95, '2018-12': 10, '2020-03': 10,
-      '2021-11': 90, '2022-11': 15, '2025-04': 25, '2025-11': 10, '2026-01': 51
+      '2017-01-01': 40, '2017-10-01': 45, '2017-12-01': 95, '2018-12-01': 10, '2020-03-01': 10,
+      '2021-11-01': 90, '2022-11-01': 15, '2025-04-01': 25, '2025-11-01': 10, '2026-01-01': 51
     };
 
-    const historicalMonthly = monthlyDates.map(date => {
-      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    const historicalWeekly = weeklyDates.map(date => {
+      const key = date.toISOString().split('T')[0];
       if (knownPoints[key] !== undefined) return knownPoints[key];
 
       let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
       for (const k in knownPoints) {
-        const d = new Date(k + '-01');
+        const d = new Date(k);
         if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
         if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
       }
@@ -130,10 +128,10 @@
       return Math.round(prevVal + t * (nextVal - prevVal));
     });
 
-    let predictionMonthly = historicalMonthly.slice();
-    const startIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 0);
-    const peakIdx = monthlyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9);
-    const endIdx = monthlyDates.length - 1;
+    let predictionWeekly = historicalWeekly.slice();
+    const startIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 0 && d.getDate() <= 7);
+    const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
+    const endIdx = weeklyDates.length - 1;
 
     for (let i = startIdx + 1; i <= endIdx; i++) {
       let target;
@@ -142,26 +140,31 @@
         target = 51 + (95 - 51) * progress;
       } else {
         const progress = (i - peakIdx) / (endIdx - peakIdx);
-        target = 85 - (85 - 10) * progress; // Downtrend: Complacency → Depression
+        target = 85 - (85 - 10) * progress;
       }
       target += Math.sin(i * 0.4) * 4 - 2;
-      predictionMonthly[i] = Math.max(5, Math.min(100, Math.round(target)));
+      predictionWeekly[i] = Math.max(5, Math.min(100, Math.round(target)));
     }
 
     const chart = new Chart(document.getElementById('myChart').getContext('2d'), {
       type: 'line',
       data: {
-        labels: monthlyDates,
+        labels: weeklyDates,
         datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: historicalMonthly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionMonthly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
+          { label: 'Flow Cycle Index (Historical)', data: historicalWeekly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+          { label: 'Predicted Index (2-Year Forecast)', data: predictionWeekly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, title: { display: true, text: 'Time' } },
+          x: {
+            type: 'time',
+            time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
+            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+            title: { display: true, text: 'Time (Weekly)' }
+          },
           y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
@@ -179,7 +182,7 @@
               label: ctx => {
                 const v = ctx.raw;
                 const i = ctx.dataIndex;
-                const trend = (i > 0 && v > predictionMonthly[i-1]) ? 'Uptrend' : 'Downtrend';
+                const trend = (i > 0 && v > predictionWeekly[i-1]) ? 'Uptrend' : 'Downtrend';
                 let phase = '';
                 if (trend === 'Uptrend') {
                   phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
