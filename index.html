@@ -143,64 +143,23 @@
       data: {
         labels: monthlyDates,
         datasets: [
-          {
-            label: 'Flow Cycle Index (Historical)',
-            data: historicalMonthly,
-            borderColor: '#58a6ff',
-            backgroundColor: 'rgba(88,166,255,0.15)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            borderWidth: 2
-          },
-          {
-            label: 'Predicted Index (2-Year Forecast)',
-            data: predictionMonthly,
-            borderColor: '#8b949e',
-            backgroundColor: 'rgba(139,148,158,0.1)',
-            borderDash: [6, 4],
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            borderWidth: 2
-          }
+          { label: 'Flow Cycle Index (Historical)', data: historicalMonthly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+          { label: 'Predicted Index (2-Year Forecast)', data: predictionMonthly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: {
-            type: 'time',
-            time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
-            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
-            title: { display: true, text: 'Time' }
-          },
+          x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, title: { display: true, text: 'Time' } },
           y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
           zoom: { zoom: { enabled: false }, pan: { enabled: false } },
           annotation: {
             annotations: {
-              topBox: {
-                type: 'box',
-                xMin: new Date(2026, 6, 1),
-                xMax: new Date(2026, 9, 1),
-                yMin: 85,
-                yMax: 100,
-                backgroundColor: 'rgba(255,107,107,0.15)',
-                borderColor: '#ff6b6b',
-                borderWidth: 2,
-                label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' }
-              },
-              bottomLabel: {
-                type: 'label',
-                xValue: new Date(2025, 10, 1),
-                yValue: 10,
-                content: 'Recent Bottom',
-                backgroundColor: '#22c55e',
-                color: 'white'
-              }
+              topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
+              bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom', backgroundColor: '#22c55e', color: 'white' }
             }
           },
           tooltip: {
@@ -293,14 +252,17 @@
       div.innerHTML = '<div class="loading">Loading live prices...</div>';
 
       try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-        if (!res.ok) throw new Error('CoinGecko error');
+        const res = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbols=["BTCUSDT","ETHUSDT","SOLUSDT","BNBUSDT"]');
+        if (!res.ok) throw new Error('Binance error');
         const data = await res.json();
         div.innerHTML = '';
-        data.forEach(c => {
+        const symbols = ['Bitcoin', 'Ethereum', 'Solana', 'BNB'];
+        data.forEach((c, idx) => {
+          const price = parseFloat(c.lastPrice).toLocaleString();
+          const change = parseFloat(c.priceChangePercent).toFixed(2);
           const p = document.createElement('div');
           p.className = 'price-item';
-          p.innerHTML = `<strong>${c.name}</strong><br><span style="font-size:1.4em;">$${c.current_price.toLocaleString()}</span> <span style="color:${c.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${c.price_change_percentage_24h?.toFixed(2) || 'N/A'}%</span>`;
+          p.innerHTML = `<strong>${symbols[idx]}</strong><br><span style="font-size:1.4em;">$${price}</span> <span style="color:${change >= 0 ? '#56d364' : '#f85149'};">${change}%</span>`;
           div.appendChild(p);
         });
       } catch (err) {
