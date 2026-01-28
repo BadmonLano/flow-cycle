@@ -105,17 +105,14 @@
       const recentDates = weeklyDates.filter(d => d >= sixMonthsAgo);
 
       try {
-        // Fetch BTC historical weekly prices (last 6 months)
         const btcRes = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=180&interval=weekly');
         const btcData = await btcRes.json();
         const btcPrices = btcData.prices || [];
 
-        // Same for SOL
         const solRes = await fetch('https://api.coingecko.com/api/v3/coins/solana/market_chart?vs_currency=usd&days=180&interval=weekly');
         const solData = await solRes.json();
         const solPrices = solData.prices || [];
 
-        // Calculate index for recent weeks
         for (let i = 0; i < recentDates.length; i++) {
           const date = recentDates[i];
           const btcPrice = btcPrices.find(([ts]) => new Date(ts).toDateString() === date.toDateString())?.[1] || null;
@@ -133,7 +130,6 @@
         console.log('Recent data extension failed:', e);
       }
 
-      // Prediction from current point
       let prediction = historical.slice();
       const lastRealIdx = historical.findLastIndex(v => v !== null);
       const lastRealVal = historical[lastRealIdx];
@@ -167,7 +163,12 @@
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            x: { type: 'time', time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, title: { display: true, text: 'Time (Weekly)' } },
+            x: {
+              type: 'time',
+              time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
+              ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+              title: { display: true, text: 'Time (Weekly)' }
+            },
             y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
           },
           plugins: {
@@ -199,20 +200,45 @@
           }
         }
       });
+      console.log('Chart initialized');
     }
 
-    // Load everything
-    loadDashboard();
+    async function getHistoricalWeekly(dates) {
+      const historical = dates.map(date => {
+        const key = date.toISOString().split('T')[0];
+        if (knownPoints[key] !== undefined) return knownPoints[key];
 
-    // Auto-refresh data every 60 seconds (chart will update on next load, but data stays fresh)
+        let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
+        for (const k in knownPoints) {
+          const d = new Date(k);
+          if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
+          if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
+        }
+        if (!prevDate || !nextDate) return null;
+
+        const t = (date - prevDate) / (nextDate - prevDate);
+        return Math.round(prevVal + t * (nextVal - prevVal));
+      });
+
+      return historical;
+    }
+
+    // Rest of functions (updateDynamicIndexAndUI, fetchGorkData, fetchLiveData, fetchDailySummary) remain as before
+    // ...
+
+    // Initial loads
+    loadDashboard();
+    updateDynamicIndexAndUI();
+    fetchLiveData();
+    fetchGorkData();
+    fetchDailySummary();
+
     setInterval(() => {
       fetchLiveData();
       fetchGorkData();
       updateDynamicIndexAndUI();
       fetchDailySummary();
     }, 60000);
-
-    // Rest of functions (updateDynamicIndexAndUI, fetchGorkData, fetchLiveData, fetchDailySummary) remain as before
   </script>
 </body>
 </html>
