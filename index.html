@@ -95,84 +95,25 @@
     let currentPhase = 'Anger';
     let chart;
 
-    async function initChart() {
-      const weeklyDates = generateWeeklyDates(2017, 1, 2028, 1);
-      const historical = await getHistoricalWeekly(weeklyDates);
-
-      let prediction = historical.slice();
-      const lastRealIdx = historical.findLastIndex(v => v !== null);
-      const lastRealVal = historical[lastRealIdx];
-      const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
-      const endIdx = weeklyDates.length - 1;
-
-      for (let i = lastRealIdx + 1; i <= endIdx; i++) {
-        let target;
-        if (i <= peakIdx) {
-          const progress = (i - lastRealIdx) / (peakIdx - lastRealIdx);
-          target = lastRealVal + (95 - lastRealVal) * progress;
-        } else {
-          const progress = (i - peakIdx) / (endIdx - peakIdx);
-          target = 85 - (85 - 10) * progress;
-        }
-        target += Math.sin(i * 0.4) * 4 - 2;
-        prediction[i] = Math.max(5, Math.min(100, Math.round(target)));
+    function generateWeeklyDates(startYear, startMonth, endYear, endMonth) {
+      const dates = [];
+      let current = new Date(startYear, startMonth - 1, 1);
+      const end = new Date(endYear, endMonth - 1, 1);
+      while (current <= end) {
+        dates.push(new Date(current));
+        current.setDate(current.getDate() + 7);
       }
-
-      const ctx = document.getElementById('myChart').getContext('2d');
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: weeklyDates,
-          datasets: [
-            { label: 'Flow Cycle Index (Historical + Live Extension)', data: historical, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
-            { label: 'Predicted Index (2-Year Forecast)', data: prediction, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              type: 'time',
-              time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
-              ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
-              title: { display: true, text: 'Time (Weekly)' }
-            },
-            y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
-          },
-          plugins: {
-            zoom: { zoom: { enabled: false }, pan: { enabled: false } },
-            annotation: {
-              annotations: {
-                topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
-                bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom (Depression)', backgroundColor: '#22c55e', color: 'white' }
-              }
-            },
-            tooltip: {
-              mode: 'index',
-              intersect: false,
-              callbacks: {
-                label: ctx => {
-                  const v = ctx.raw;
-                  const i = ctx.dataIndex;
-                  const trend = (i > 0 && v > prediction[i-1]) ? 'Uptrend' : 'Downtrend';
-                  let phase = '';
-                  if (trend === 'Uptrend') {
-                    phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
-                  } else {
-                    phase = v > 90 ? 'Euphoria (Top)' : v > 80 ? 'Complacency' : v > 70 ? 'Anxiety' : v > 60 ? 'Denial' : v > 50 ? 'Panic' : v > 40 ? 'Capitulation' : v > 20 ? 'Anger' : 'Depression (Bottom)';
-                  }
-                  return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${trend} Phase: ${phase})`;
-                }
-              }
-            }
-          }
-        }
-      });
+      return dates;
     }
 
-    async function getHistoricalWeekly(dates) {
-      const historical = dates.map(date => {
+    const knownPoints = {
+      '2017-01-01': 40, '2017-10-01': 45, '2017-12-01': 95, '2018-12-01': 10, '2020-03-01': 10,
+      '2021-11-01': 90, '2022-11-01': 15, '2025-04-01': 25, '2025-11-01': 10, '2026-01-01': 51
+    };
+
+    async function getHistoricalWeekly() {
+      const weeklyDates = generateWeeklyDates(2017, 1, 2028, 1);
+      const historical = weeklyDates.map(date => {
         const key = date.toISOString().split('T')[0];
         if (knownPoints[key] !== undefined) return knownPoints[key];
 
@@ -190,7 +131,7 @@
 
       // Auto-extend from last known using live momentum
       const lastKnownIdx = historical.findLastIndex(v => v !== null);
-      if (lastKnownIdx < dates.length - 1) {
+      if (lastKnownIdx < weeklyDates.length - 1) {
         const lastKnownVal = historical[lastKnownIdx];
         try {
           const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
@@ -199,9 +140,9 @@
             const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
             const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
             const avgMomentum = (btc30d + sol30d) / 2;
-            const weeklyNudge = Math.round(avgMomentum / 10); // ~0.5-2 points/week
+            const weeklyNudge = Math.round(avgMomentum / 10);
 
-            for (let i = lastKnownIdx + 1; i < dates.length; i++) {
+            for (let i = lastKnownIdx + 1; i < weeklyDates.length; i++) {
               let target = historical[i-1] + weeklyNudge;
               target = Math.max(5, Math.min(100, target));
               historical[i] = target;
@@ -212,7 +153,88 @@
         }
       }
 
-      return historical;
+      return { weeklyDates, historical };
+    }
+
+    async function initChart() {
+      try {
+        const { weeklyDates, historical } = await getHistoricalWeekly();
+
+        let prediction = historical.slice();
+        const lastRealIdx = historical.findLastIndex(v => v !== null);
+        const lastRealVal = historical[lastRealIdx];
+        const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
+        const endIdx = weeklyDates.length - 1;
+
+        for (let i = lastRealIdx + 1; i <= endIdx; i++) {
+          let target;
+          if (i <= peakIdx) {
+            const progress = (i - lastRealIdx) / (peakIdx - lastRealIdx);
+            target = lastRealVal + (95 - lastRealVal) * progress;
+          } else {
+            const progress = (i - peakIdx) / (endIdx - peakIdx);
+            target = 85 - (85 - 10) * progress;
+          }
+          target += Math.sin(i * 0.4) * 4 - 2;
+          prediction[i] = Math.max(5, Math.min(100, Math.round(target)));
+        }
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: weeklyDates,
+            datasets: [
+              { label: 'Flow Cycle Index (Historical + Live Extension)', data: historical, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+              { label: 'Predicted Index (2-Year Forecast)', data: prediction, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                type: 'time',
+                time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
+                ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+                title: { display: true, text: 'Time (Weekly)' }
+              },
+              y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+            },
+            plugins: {
+              zoom: { zoom: { enabled: false }, pan: { enabled: false } },
+              annotation: {
+                annotations: {
+                  topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
+                  bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom (Depression)', backgroundColor: '#22c55e', color: 'white' }
+                }
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+                callbacks: {
+                  label: ctx => {
+                    const v = ctx.raw;
+                    const i = ctx.dataIndex;
+                    const trend = (i > 0 && v > prediction[i-1]) ? 'Uptrend' : 'Downtrend';
+                    let phase = '';
+                    if (trend === 'Uptrend') {
+                      phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
+                    } else {
+                      phase = v > 90 ? 'Euphoria (Top)' : v > 80 ? 'Complacency' : v > 70 ? 'Anxiety' : v > 60 ? 'Denial' : v > 50 ? 'Panic' : v > 40 ? 'Capitulation' : v > 20 ? 'Anger' : 'Depression (Bottom)';
+                    }
+                    return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${trend} Phase: ${phase})`;
+                  }
+                }
+              }
+            }
+          }
+        });
+        console.log('Chart initialized successfully');
+      } catch (e) {
+        console.error('Chart init failed:', e);
+        document.getElementById('myChart').outerHTML = '<p style="color:#f85149; text-align:center; padding:20px;">Chart failed to load — refresh page</p>';
+      }
     }
 
     async function updateDynamicIndexAndUI() {
