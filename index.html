@@ -112,90 +112,138 @@
       '2021-11-01': 90, '2022-11-01': 15, '2025-04-01': 25, '2025-11-01': 10, '2026-01-01': 51
     };
 
-    const historicalWeekly = weeklyDates.map(date => {
-      const key = date.toISOString().split('T')[0];
-      if (knownPoints[key] !== undefined) return knownPoints[key];
+    async function getHistoricalWeekly() {
+      const historical = weeklyDates.map(date => {
+        const key = date.toISOString().split('T')[0];
+        if (knownPoints[key] !== undefined) return knownPoints[key];
 
-      let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
-      for (const k in knownPoints) {
-        const d = new Date(k);
-        if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
-        if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
+        let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
+        for (const k in knownPoints) {
+          const d = new Date(k);
+          if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
+          if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
+        }
+        if (!prevDate || !nextDate) return null;
+
+        const t = (date - prevDate) / (nextDate - prevDate);
+        return Math.round(prevVal + t * (nextVal - prevVal));
+      });
+
+      // Extend solid line with real recent weekly data
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+      const recentDates = weeklyDates.filter(d => d >= sixMonthsAgo);
+
+      try {
+        // Fetch BTC weekly prices (last 6 months)
+        const btcRes = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=180&interval=weekly');
+        const btcData = await btcRes.json();
+        const btcPrices = btcData.prices || [];
+
+        // Fetch SOL weekly prices
+        const solRes = await fetch('https://api.coingecko.com/api/v3/coins/solana/market_chart?vs_currency=usd&days=180&interval=weekly');
+        const solData = await solRes.json();
+        const solPrices = solData.prices || [];
+
+        // Calculate index for recent weeks
+        for (let i = 0; i < recentDates.length; i++) {
+          const date = recentDates[i];
+          const btcPrice = btcPrices.find(([ts]) => new Date(ts).toDateString() === date.toDateString())?.[1] || null;
+          const solPrice = solPrices.find(([ts]) => new Date(ts).toDateString() === date.toDateString())?.[1] || null;
+
+          if (btcPrice && solPrice) {
+            const avgPrice = (btcPrice + solPrice) / 2;
+            const momentum = (avgPrice - historical[i-1]) / historical[i-1] * 100 || 0;
+            let target = historical[i-1] + Math.round(momentum / 5);
+            target = Math.max(5, Math.min(100, target));
+            historical[i] = target;
+          }
+        }
+      } catch (e) {
+        console.log('Recent data extension failed:', e);
       }
-      if (!prevDate || !nextDate) return null;
 
-      const t = (date - prevDate) / (nextDate - prevDate);
-      return Math.round(prevVal + t * (nextVal - prevVal));
-    });
-
-    let predictionWeekly = historicalWeekly.slice();
-    const startIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 0 && d.getDate() <= 7);
-    const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
-    const endIdx = weeklyDates.length - 1;
-
-    for (let i = startIdx + 1; i <= endIdx; i++) {
-      let target;
-      if (i <= peakIdx) {
-        const progress = (i - startIdx) / (peakIdx - startIdx);
-        target = 51 + (95 - 51) * progress;
-      } else {
-        const progress = (i - peakIdx) / (endIdx - peakIdx);
-        target = 85 - (85 - 10) * progress;
-      }
-      target += Math.sin(i * 0.4) * 4 - 2;
-      predictionWeekly[i] = Math.max(5, Math.min(100, Math.round(target)));
+      return historical;
     }
 
-    const chart = new Chart(document.getElementById('myChart').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: weeklyDates,
-        datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: historicalWeekly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionWeekly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'time',
-            time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
-            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
-            title: { display: true, text: 'Time (Weekly)' }
-          },
-          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
+    async function updateChart() {
+      const historical = await getHistoricalWeekly();
+
+      // Prediction from current point
+      let prediction = historical.slice();
+      const lastRealIdx = historical.findLastIndex(v => v !== null);
+      const lastRealVal = historical[lastRealIdx];
+      const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
+      const endIdx = weeklyDates.length - 1;
+
+      for (let i = lastRealIdx + 1; i <= endIdx; i++) {
+        let target;
+        if (i <= peakIdx) {
+          const progress = (i - lastRealIdx) / (peakIdx - lastRealIdx);
+          target = lastRealVal + (95 - lastRealVal) * progress;
+        } else {
+          const progress = (i - peakIdx) / (endIdx - peakIdx);
+          target = 85 - (85 - 10) * progress;
+        }
+        target += Math.sin(i * 0.4) * 4 - 2;
+        prediction[i] = Math.max(5, Math.min(100, Math.round(target)));
+      }
+
+      const ctx = document.getElementById('myChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: weeklyDates,
+          datasets: [
+            { label: 'Flow Cycle Index (Historical + Weekly Extension)', data: historical, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+            { label: 'Predicted Index (2-Year Forecast)', data: prediction, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
+          ]
         },
-        plugins: {
-          zoom: { zoom: { enabled: false }, pan: { enabled: false } },
-          annotation: {
-            annotations: {
-              topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
-              bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom (Depression)', backgroundColor: '#22c55e', color: 'white' }
-            }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              type: 'time',
+              time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
+              ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+              title: { display: true, text: 'Time (Weekly)' }
+            },
+            y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
           },
-          tooltip: {
-            mode: 'index',
-            intersect: false,
-            callbacks: {
-              label: ctx => {
-                const v = ctx.raw;
-                const i = ctx.dataIndex;
-                const trend = (i > 0 && v > predictionWeekly[i-1]) ? 'Uptrend' : 'Downtrend';
-                let phase = '';
-                if (trend === 'Uptrend') {
-                  phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
-                } else {
-                  phase = v > 90 ? 'Euphoria (Top)' : v > 80 ? 'Complacency' : v > 70 ? 'Anxiety' : v > 60 ? 'Denial' : v > 50 ? 'Panic' : v > 40 ? 'Capitulation' : v > 20 ? 'Anger' : 'Depression (Bottom)';
+          plugins: {
+            zoom: { zoom: { enabled: false }, pan: { enabled: false } },
+            annotation: {
+              annotations: {
+                topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
+                bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom (Depression)', backgroundColor: '#22c55e', color: 'white' }
+              }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              callbacks: {
+                label: ctx => {
+                  const v = ctx.raw;
+                  const i = ctx.dataIndex;
+                  const trend = (i > 0 && v > prediction[i-1]) ? 'Uptrend' : 'Downtrend';
+                  let phase = '';
+                  if (trend === 'Uptrend') {
+                    phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
+                  } else {
+                    phase = v > 90 ? 'Euphoria (Top)' : v > 80 ? 'Complacency' : v > 70 ? 'Anxiety' : v > 60 ? 'Denial' : v > 50 ? 'Panic' : v > 40 ? 'Capitulation' : v > 20 ? 'Anger' : 'Depression (Bottom)';
+                  }
+                  return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${trend} Phase: ${phase})`;
                 }
-                return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${trend} Phase: ${phase})`;
               }
             }
           }
         }
-      }
-    });
+      });
+    }
+
+    // Load chart and data
+    loadDashboard();
 
     async function updateDynamicIndexAndUI() {
       try {
@@ -356,6 +404,7 @@
     }
 
     // Initial loads
+    loadDashboard();
     updateDynamicIndexAndUI();
     fetchLiveData();
     fetchGorkData();
