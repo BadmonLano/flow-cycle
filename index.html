@@ -128,14 +128,15 @@
     for (let i = startIdx + 1; i <= endIdx; i++) {
       let target;
       if (i <= peakIdx) {
+        // Uptrend: ramp to Euphoria
         const progress = (i - startIdx) / (peakIdx - startIdx);
         target = 51 + (95 - 51) * progress;
       } else {
+        // Downtrend: start at Complacency (85), then drop to Depression (10)
         const progress = (i - peakIdx) / (endIdx - peakIdx);
-        // Downtrend: start at Complacency (80-90), then drop to Depression (~10)
-        target = 85 - (85 - 10) * progress; // Jump to Complacency range first, then decline
+        target = 85 - (85 - 10) * progress;
       }
-      target += Math.sin(i * 0.4) * 4 - 2; // gentle variation
+      target += Math.sin(i * 0.4) * 4 - 2;
       predictionMonthly[i] = Math.max(5, Math.min(100, Math.round(target)));
     }
 
@@ -144,64 +145,23 @@
       data: {
         labels: monthlyDates,
         datasets: [
-          {
-            label: 'Flow Cycle Index (Historical)',
-            data: historicalMonthly,
-            borderColor: '#58a6ff',
-            backgroundColor: 'rgba(88,166,255,0.15)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            borderWidth: 2
-          },
-          {
-            label: 'Predicted Index (2-Year Forecast)',
-            data: predictionMonthly,
-            borderColor: '#8b949e',
-            backgroundColor: 'rgba(139,148,158,0.1)',
-            borderDash: [6, 4],
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            borderWidth: 2
-          }
+          { label: 'Flow Cycle Index (Historical)', data: historicalMonthly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+          { label: 'Predicted Index (2-Year Forecast)', data: predictionMonthly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: {
-            type: 'time',
-            time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
-            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
-            title: { display: true, text: 'Time' }
-          },
+          x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, title: { display: true, text: 'Time' } },
           y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
           zoom: { zoom: { enabled: false }, pan: { enabled: false } },
           annotation: {
             annotations: {
-              topBox: {
-                type: 'box',
-                xMin: new Date(2026, 6, 1),
-                xMax: new Date(2026, 9, 1),
-                yMin: 85,
-                yMax: 100,
-                backgroundColor: 'rgba(255,107,107,0.15)',
-                borderColor: '#ff6b6b',
-                borderWidth: 2,
-                label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' }
-              },
-              bottomLabel: {
-                type: 'label',
-                xValue: new Date(2025, 10, 1),
-                yValue: 10,
-                content: 'Recent Bottom (Depression)',
-                backgroundColor: '#22c55e',
-                color: 'white'
-              }
+              topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
+              bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom (Depression)', backgroundColor: '#22c55e', color: 'white' }
             }
           },
           tooltip: {
@@ -210,8 +170,15 @@
             callbacks: {
               label: ctx => {
                 const v = ctx.raw;
-                let phase = v < 20 ? 'Depression (Bottom)' : v < 40 ? 'Panic/Anger' : v < 60 ? 'Disbelief/Hope' : v < 80 ? 'Optimism/Belief' : v < 90 ? 'Complacency/Thrill' : 'Euphoria (Top)';
-                return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${phase})`;
+                const i = ctx.dataIndex;
+                const trend = (i > 0 && v > predictionMonthly[i-1]) ? 'Uptrend' : 'Downtrend';
+                let phase = '';
+                if (trend === 'Uptrend') {
+                  phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
+                } else {
+                  phase = v > 90 ? 'Euphoria (Top)' : v > 80 ? 'Complacency' : v > 70 ? 'Anxiety' : v > 60 ? 'Denial' : v > 50 ? 'Panic' : v > 40 ? 'Capitulation' : v > 20 ? 'Anger' : 'Depression (Bottom)';
+                }
+                return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${trend} Phase: ${phase})`;
               }
             }
           }
@@ -250,14 +217,12 @@
 
         const badge = document.getElementById('statusBadge');
         badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
-        badge.style.background = currentIndex >= 95 ? '#ef4444' : currentIndex >= 85 ? '#f59e0b' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
+        badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
 
         let advice = 'Hold or buy dips';
-        if (currentPhase === 'Euphoria') advice = 'Trim/Sell strength — euphoria alert';
-        else if (currentPhase === 'Thrill') advice = 'Hold tight — FOMO building';
-        else if (currentPhase === 'Panic' || currentPhase === 'Capitulation' || currentPhase === 'Depression') advice = 'Load bags heavy — bottom vibes';
+        if (currentPhase === 'Euphoria' || currentPhase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
+        else if (currentPhase === 'Panic' || currentPhase === 'Capitulation' || currentPhase === 'Anger') advice = 'Load bags heavy — bottom vibes';
         else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
-        else if (currentPhase === 'Complacency' || currentPhase === 'Anxiety' || currentPhase === 'Denial') advice = 'Watch for capitulation — early bottom signals';
         document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
       } catch (e) {
         console.log('Dynamic update failed');
