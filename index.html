@@ -86,7 +86,6 @@
     let currentIndex = 51;
     let currentPhase = 'Anger';
 
-    // === MONTHLY CHART DATA (unchanged) ===
     function generateMonthlyDates(startYear, startMonth, endYear, endMonth) {
       const dates = [];
       let current = new Date(startYear, startMonth - 1, 1);
@@ -144,23 +143,64 @@
       data: {
         labels: monthlyDates,
         datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: historicalMonthly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionMonthly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
+          {
+            label: 'Flow Cycle Index (Historical)',
+            data: historicalMonthly,
+            borderColor: '#58a6ff',
+            backgroundColor: 'rgba(88,166,255,0.15)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 0,
+            borderWidth: 2
+          },
+          {
+            label: 'Predicted Index (2-Year Forecast)',
+            data: predictionMonthly,
+            borderColor: '#8b949e',
+            backgroundColor: 'rgba(139,148,158,0.1)',
+            borderDash: [6, 4],
+            fill: true,
+            tension: 0.3,
+            pointRadius: 0,
+            borderWidth: 2
+          }
         ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { type: 'time', time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' }, ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 }, title: { display: true, text: 'Time' } },
+          x: {
+            type: 'time',
+            time: { unit: 'month', displayFormats: { month: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
+            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
+            title: { display: true, text: 'Time' }
+          },
           y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
         },
         plugins: {
           zoom: { zoom: { enabled: false }, pan: { enabled: false } },
           annotation: {
             annotations: {
-              topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
-              bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom', backgroundColor: '#22c55e', color: 'white' }
+              topBox: {
+                type: 'box',
+                xMin: new Date(2026, 6, 1),
+                xMax: new Date(2026, 9, 1),
+                yMin: 85,
+                yMax: 100,
+                backgroundColor: 'rgba(255,107,107,0.15)',
+                borderColor: '#ff6b6b',
+                borderWidth: 2,
+                label: { content: 'Predicted Blow-Off', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' }
+              },
+              bottomLabel: {
+                type: 'label',
+                xValue: new Date(2025, 10, 1),
+                yValue: 10,
+                content: 'Recent Bottom',
+                backgroundColor: '#22c55e',
+                color: 'white'
+              }
             }
           },
           tooltip: {
@@ -178,7 +218,6 @@
       }
     });
 
-    // === DYNAMIC INDEX & UI ===
     async function updateDynamicIndexAndUI() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
@@ -222,7 +261,6 @@
       }
     }
 
-    // === GROK INSIGHT ===
     const apiKey = 'PASTE_YOUR_GROK_API_KEY_HERE_LOCALLY_ONLY';
 
     async function getGrokInsight() {
@@ -254,13 +292,13 @@
 
     document.getElementById('grok-button').addEventListener('click', getGrokInsight);
 
-    // === $GORK from CoinGecko (public, stable) ===
+    // === $GORK from CoinGecko - correct ID 'gork' ===
     async function fetchGorkData() {
       const card = document.getElementById('gorkCard');
       card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading...</div>';
 
       try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork-2&order=market_cap_desc&per_page=1&page=1&sparkline=false&price_change_percentage=24h');
+        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork&order=market_cap_desc&per_page=1&page=1&sparkline=false&price_change_percentage=24h');
         if (!res.ok) throw new Error('CG HTTP error');
         const data = await res.json();
         const coin = data[0] || {};
@@ -270,15 +308,14 @@
           <span style="font-size:1.4em;">$${coin.current_price?.toFixed(8) || 'N/A'}</span><br>
           MC: $${(coin.market_cap / 1e6)?.toFixed(2) || 'N/A'}M<br>
           24h Vol: $${(coin.total_volume / 1e3)?.toFixed(0) || 'N/A'}K (${coin.price_change_percentage_24h?.toFixed(2) || 'N/A'}%)<br>
-          <a href="https://www.coingecko.com/en/coins/gork-2" target="_blank" style="color:#58a6ff; font-size:0.9em;">View on CoinGecko</a>
+          <a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff; font-size:0.9em;">View on CoinGecko</a>
         `;
       } catch (err) {
         console.error('GORK CG fetch error:', err);
-        card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection</p>';
+        card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection or CoinGecko status</p><a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff;">Check manually</a>';
       }
     }
 
-    // === LIVE MAJORS ===
     async function fetchLiveData() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
@@ -297,7 +334,6 @@
       }
     }
 
-    // === DAILY SUMMARY WITH HISTORY ===
     async function fetchDailySummary() {
       const sumDiv = document.getElementById('dailySummary');
       const now = new Date();
@@ -305,7 +341,6 @@
 
       let history = JSON.parse(localStorage.getItem('dailySummaryHistory') || '[]');
 
-      // Add new entry
       let newEntry = `<div class="summary-entry"><div class="summary-timestamp">${timestamp}</div>`;
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/global');
@@ -326,28 +361,28 @@
       }
       newEntry += '</div>';
 
-      // Add to history (newest first)
       history.unshift(newEntry);
 
-      // Keep only last 7 days
       const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
       history = history.filter(entry => {
-        const entryTime = new Date(entry.match(/<div class="summary-timestamp">(.*?)<\/div>/)?.[1] || '').getTime();
+        const match = entry.match(/<div class="summary-timestamp">(.*?)<\/div>/);
+        if (!match) return false;
+        const entryTime = new Date(match[1]).getTime();
         return entryTime > oneWeekAgo;
       });
 
       localStorage.setItem('dailySummaryHistory', JSON.stringify(history));
 
-      // Render all
       sumDiv.innerHTML = '<h3>Daily Market Summary</h3>' + history.join('');
     }
 
-    // Initial loads + auto-refresh
+    // Initial loads
     updateDynamicIndexAndUI();
     fetchLiveData();
     fetchGorkData();
     fetchDailySummary();
 
+    // Auto-refresh every 60 seconds
     setInterval(() => {
       fetchLiveData();
       fetchGorkData();
