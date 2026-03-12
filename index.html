@@ -1083,8 +1083,36 @@ async function init() {
   ]);
 }
 
+async function loadChartHistory() {
+  try {
+    const res = await fetch('data/chart_history.json');
+    const history = await res.json();
+    if (!history.length) return;
+
+    // merge historical hardcoded points with daily committed data
+    history.forEach(point => {
+      const d = new Date(point.date);
+      // find closest weekly index or append
+      const idx = weeklyDates.findIndex(wd =>
+        Math.abs(wd - d) < 4 * 24 * 3600 * 1000
+      );
+      if (idx >= 0) {
+        chart.data.datasets[0].data[idx] = point.index;
+      } else {
+        // append new point beyond hardcoded range
+        chart.data.labels.push(d);
+        chart.data.datasets[0].data.push(point.index);
+        chart.data.datasets[1].data.push(null);
+      }
+    });
+    chart.update('none');
+  } catch(e) { console.log('chart history load failed', e); }
+}
+
 init();
+loadChartHistory();
 setInterval(init, 60000);
+setInterval(loadChartHistory, 3600000); // reload chart history every hour
 </script>
 </body>
 </html>
