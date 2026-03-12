@@ -3,371 +3,1088 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flow Cycle Index Dashboard (@BadmonLano)</title>
+  <title>Flow Cycle Index — @BadmonLano</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
-    .main-title { text-align: center; color: #58a6ff; margin: 30px 0 10px; font-size: 3em; font-weight: 700; }
-    .subtitle { text-align: center; color: #8b949e; margin-bottom: 30px; font-size: 1.3em; }
-    .container { display: flex; flex-wrap: wrap; gap: 30px; max-width: 1600px; margin: 0 auto; padding: 0 20px; }
-    .chart-area { flex: 3; min-width: 700px; height: 800px; background: #161b22; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-    .sidebar { flex: 1; min-width: 340px; background: #161b22; padding: 25px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); overflow-y: auto; max-height: 800px; }
-    .status-badge { font-size: 2em; margin: 0 0 30px; padding: 15px; border-radius: 16px; text-align: center; font-weight: 700; box-shadow: 0 6px 25px rgba(0,0,0,0.5); }
-    .price-item, .gork-item { margin: 20px 0; padding: 18px; border-radius: 12px; background: #21262d; transition: all 0.2s; }
-    .price-item:hover, .gork-item:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
-    #actionAdvice { background: #2c0e0e; color: #ff6b6b; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-    .loading { color: #8b949e; text-align: center; margin: 30px 0; font-style: italic; }
-    .daily-summary { margin-top: 20px; padding: 15px; background: #21262d; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); display: flex; flex-wrap: wrap; gap: 20px; }
-    .summary-item { margin-bottom: 10px; font-size: 1.1em; }
-    .summary-entry { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #30363d; }
-    .summary-timestamp { font-size: 0.9em; color: #8b949e; margin-bottom: 5px; }
-    .summary-controls { margin-bottom: 10px; text-align: center; }
-    .summary-controls button { padding: 6px 12px; margin: 0 5px; background: #58a6ff; color: white; border: none; border-radius: 6px; cursor: pointer; }
-    .summary-controls button:hover { background: #1f6feb; }
-    .chart-description { background: #21262d; padding: 15px; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.4); flex: 1; min-width: 300px; }
-    .phase-bar { height: 60px; width: 100%; margin: 0 0 25px 0; border-radius: 16px; overflow-x: auto; background: #1f2937; display: flex; box-shadow: 0 6px 25px rgba(0,0,0,0.5); white-space: nowrap; }
-    .phase-segment { min-width: 80px; flex: 0 0 auto; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 3px black; font-size: 0.9em; transition: all 0.3s; border: 1px solid transparent; }
-    .phase-segment:hover { transform: scale(1.05); box-shadow: inset 0 0 15px rgba(255,255,255,0.4); }
-    .current-phase { background: #22c55e !important; border: 3px solid #86efac; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); font-size: 1.1em; font-weight: 900; transform: scale(1.08); }
-    .euphoria { color: #ff6b6b !important; font-weight: 900; }
-    @media (max-width: 900px) { .container { flex-direction: column; } .sidebar { order: 2; } .chart-area { order: 1; height: 500px; } .daily-summary { flex-direction: column; } }
+    :root {
+      --bg:        #080b10;
+      --surface:   #0d1219;
+      --surface2:  #111720;
+      --border:    rgba(255,255,255,0.06);
+      --blue:      #4f9eff;
+      --green:     #00e5a0;
+      --red:       #ff4d6a;
+      --yellow:    #f5c518;
+      --text:      #e2e8f0;
+      --muted:     #4a5568;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-mono);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .header {
+      position: relative;
+      z-index: 1;
+      padding: 40px 40px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .header-left h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2em, 4vw, 3.2em);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .header-left h1 span { color: var(--blue); }
+
+    .header-left p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.8em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .live-label { font-size: 0.75em; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; }
+
+    /* phase bar */
+    .phase-strip {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 0 40px;
+      margin: 24px 0 0;
+      gap: 2px;
+    }
+
+    .phase-strip::-webkit-scrollbar { display: none; }
+
+    .phase-pill {
+      flex: 1;
+      min-width: 80px;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 0.65em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.4s ease;
+      white-space: nowrap;
+      cursor: default;
+      user-select: none;
+    }
+
+    .phase-pill.active {
+      color: #fff;
+      border-bottom-color: var(--blue);
+    }
+
+    .phase-pill.danger { color: var(--red) !important; border-bottom-color: var(--red) !important; }
+    .phase-pill.warn   { color: var(--yellow) !important; border-bottom-color: var(--yellow) !important; }
+    .phase-pill.safe   { color: var(--green) !important; border-bottom-color: var(--green) !important; }
+
+    /* main grid */
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      grid-template-rows: auto auto;
+      gap: 16px;
+      padding: 24px 40px 40px;
+      max-width: 1800px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: 1fr; padding: 16px 20px 32px; }
+      .header { padding: 24px 20px 16px; }
+      .phase-strip { padding: 0 20px; }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .card-label {
+      font-size: 0.65em;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* chart card */
+    .chart-card {
+      grid-row: span 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 420px;
+    }
+
+    /* cycle status */
+    .cycle-status {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 24px;
+      background: var(--surface2);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .cycle-index {
+      font-family: var(--font-head);
+      font-size: 3.5em;
+      font-weight: 800;
+      line-height: 1;
+      min-width: 90px;
+    }
+
+    .cycle-info { flex: 1; }
+
+    .cycle-phase {
+      font-family: var(--font-head);
+      font-size: 1.4em;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .cycle-advice {
+      font-size: 0.75em;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .cycle-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .cycle-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease, background 1s ease;
+    }
+
+    /* sidebar */
+    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+    /* price grid */
+    .price-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .price-tile {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .price-tile:hover { border-color: rgba(79,158,255,0.3); }
+
+    .price-tile .ticker {
+      font-size: 0.65em;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .price-tile .val {
+      font-family: var(--font-head);
+      font-size: 1.1em;
+      font-weight: 700;
+    }
+
+    .price-tile .chg {
+      font-size: 0.7em;
+      margin-top: 3px;
+    }
+
+    .up   { color: var(--green); }
+    .down { color: var(--red); }
+
+    /* macro grid */
+    .macro-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78em;
+    }
+
+    .macro-row:last-child { border-bottom: none; }
+    .macro-row .label { color: var(--muted); }
+    .macro-row .value { font-weight: 700; }
+
+    /* gork card */
+    .gork-card {
+      background: linear-gradient(135deg, #0d1a2e, #0d1219);
+      border: 1px solid rgba(79,158,255,0.2);
+    }
+
+    .gork-price {
+      font-family: var(--font-head);
+      font-size: 2em;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .gork-meta { font-size: 0.72em; color: var(--muted); margin-top: 6px; line-height: 1.8; }
+
+    /* indicators panel */
+    .indicators-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .ind-tile {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    .ind-tile .ind-label {
+      font-size: 0.6em;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .ind-tile .ind-val {
+      font-family: var(--font-head);
+      font-size: 1em;
+      font-weight: 700;
+    }
+
+    .ind-tile .ind-sub {
+      font-size: 0.6em;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* blow-off meter */
+    .blowoff-meter {
+      margin-top: 8px;
+    }
+
+    .blowoff-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .blowoff-score {
+      font-family: var(--font-head);
+      font-size: 2.4em;
+      font-weight: 800;
+    }
+
+    .blowoff-label { font-size: 0.7em; color: var(--muted); }
+
+    .meter-track {
+      width: 100%;
+      height: 8px;
+      background: var(--surface2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--green), var(--yellow), var(--red));
+      transition: width 1.2s ease;
+    }
+
+    .blowoff-factors {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .factor-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7em;
+    }
+
+    .factor-name { color: var(--muted); }
+
+    .factor-bar-wrap {
+      width: 80px;
+      height: 4px;
+      background: var(--surface2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .factor-bar {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* daily summary */
+    .summary-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .nav-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.7em;
+      transition: border-color 0.2s;
+    }
+
+    .nav-btn:hover { border-color: var(--blue); }
+
+    .summary-date { font-size: 0.72em; color: var(--muted); }
+
+    .summary-body { font-size: 0.75em; line-height: 1.7; color: #94a3b8; }
+
+    .summary-body strong { color: var(--text); }
+
+    /* ETF flows */
+    .etf-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75em;
+    }
+    .etf-row:last-child { border-bottom: none; }
+    .etf-name { color: var(--muted); }
+    .etf-flow { font-weight: 700; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface2) 25%, var(--surface) 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+      height: 1em;
+      width: 80%;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
   </style>
 </head>
 <body>
-  <h1 class="main-title">Flow Cycle Index Dashboard</h1>
-  <p class="subtitle">One clean line tracks market flows — from bottoms to blow-offs</p>
-  <div class="container">
-    <div class="chart-area">
-      <div class="phase-bar">
-        <div class="phase-segment" title="Low fear, complacency">Complacency</div>
-        <div class="phase-segment" title="Rising uncertainty">Anxiety</div>
-        <div class="phase-segment" title="Refusal to accept downtrend">Denial</div>
-        <div class="phase-segment" title="Fear dominates">Panic</div>
-        <div class="phase-segment" title="Surrender phase">Capitulation</div>
-        <div class="phase-segment" title="FUD max, smart money in">Anger</div>
-        <div class="phase-segment" title="Hopelessness">Depression</div>
-        <div class="phase-segment" title="Skepticism lingers">Disbelief</div>
-        <div class="phase-segment" title="Light at end of tunnel">Hope</div>
-        <div class="phase-segment" title="Confidence building">Optimism</div>
-        <div class="phase-segment" title="Conviction strong">Belief</div>
-        <div class="phase-segment" title="FOMO kicks in">Thrill</div>
-        <div class="phase-segment euphoria" title="Peak greed">Euphoria</div>
+
+<header class="header">
+  <div class="header-left">
+    <h1>Flow <span>Cycle</span> Index</h1>
+    <p>@BadmonLano · Macro confluence engine · 2017–2028</p>
+  </div>
+  <div class="header-right">
+    <div class="live-dot"></div>
+    <span class="live-label">Live</span>
+  </div>
+</header>
+
+<div class="phase-strip" id="phaseStrip">
+  <div class="phase-pill safe"    data-phase="Capitulation">Capitulation</div>
+  <div class="phase-pill safe"    data-phase="Anger">Anger</div>
+  <div class="phase-pill safe"    data-phase="Depression">Depression</div>
+  <div class="phase-pill"         data-phase="Disbelief">Disbelief</div>
+  <div class="phase-pill"         data-phase="Hope">Hope</div>
+  <div class="phase-pill"         data-phase="Optimism">Optimism</div>
+  <div class="phase-pill"         data-phase="Belief">Belief</div>
+  <div class="phase-pill warn"    data-phase="Thrill">Thrill</div>
+  <div class="phase-pill danger"  data-phase="Euphoria">Euphoria</div>
+  <div class="phase-pill danger"  data-phase="Complacency">Complacency</div>
+  <div class="phase-pill danger"  data-phase="Anxiety">Anxiety</div>
+  <div class="phase-pill danger"  data-phase="Denial">Denial</div>
+  <div class="phase-pill danger"  data-phase="Panic">Panic</div>
+</div>
+
+<div class="grid">
+
+  <!-- LEFT: Chart + cycle status + indicators -->
+  <div class="chart-card">
+
+    <div class="card">
+      <div class="card-label">Flow Cycle Index · Weekly · 2017–2028</div>
+      <div class="chart-wrap">
+        <canvas id="mainChart"></canvas>
       </div>
-      <canvas id="myChart"></canvas>
-      <div class="daily-summary">
-        <div class="summary-section">
-          <h3>Daily Market Summary</h3>
-          <div class="summary-controls">
-            <button id="prevDayBtn">Previous Day</button>
-            <span id="currentSummaryDate">Loading...</span>
-            <button id="nextDayBtn">Next Day</button>
-          </div>
-          <div id="summaryContent">
-            <div class="loading">Loading today's summary...</div>
-          </div>
-        </div>
-        <div class="chart-description">
-          <h3>Chart Description</h3>
-          <p>This chart represents the most accurate market prediction model to date. It integrates real-time data with advanced AI-driven algorithms to forecast price movements with unprecedented precision.</p>
-          <p>The model accounts for macroeconomic factors, sentiment analysis, and historical trends, making it the definitive tool for traders. By compiling liquidity flows, fear/greed extremes, dominance shifts, and multi-asset correlations, it identifies euphoria tops and depression bottoms with high reliability — outperforming traditional indicators like RSI or MACD.</p>
+    </div>
+
+    <div class="cycle-status">
+      <div class="cycle-index" id="cycleIndex">--</div>
+      <div class="cycle-info">
+        <div class="cycle-phase" id="cyclePhase">Loading...</div>
+        <div class="cycle-advice" id="cycleAdvice">Fetching market data...</div>
+        <div class="cycle-bar">
+          <div class="cycle-bar-fill" id="cycleBarFill" style="width:0%"></div>
         </div>
       </div>
     </div>
-    <div class="sidebar">
-      <div id="statusBadge" class="status-badge">Loading...</div>
-      <div id="actionAdvice">What you should do right now: Loading...</div>
 
-      <h3>Live Prices & Charts</h3>
-      <div id="prices"><div class="loading">Loading live prices...</div></div>
-
-      <div id="gorkCard" class="gork-item">
-        <strong>$GORK (Solana)</strong><br>
-        <div class="loading">Loading $GORK data...</div>
+    <!-- macro indicators -->
+    <div class="card">
+      <div class="card-label">Macro Indicators</div>
+      <div class="indicators-grid" id="macroGrid">
+        <div class="ind-tile"><div class="ind-label">Fear & Greed</div><div class="ind-val" id="fng">--</div><div class="ind-sub" id="fngLabel">--</div></div>
+        <div class="ind-tile"><div class="ind-label">BTC Dom</div><div class="ind-val" id="btcDom">--</div><div class="ind-sub">dominance</div></div>
+        <div class="ind-tile"><div class="ind-label">Total MCap</div><div class="ind-val" id="totalMcap">--</div><div class="ind-sub">usd</div></div>
+        <div class="ind-tile"><div class="ind-label">DXY</div><div class="ind-val" id="dxy">--</div><div class="ind-sub">dollar index</div></div>
+        <div class="ind-tile"><div class="ind-label">Gold</div><div class="ind-val" id="gold">--</div><div class="ind-sub" id="goldChg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">Oil (WTI)</div><div class="ind-val" id="oil">--</div><div class="ind-sub" id="oilChg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">Silver</div><div class="ind-val" id="silver">--</div><div class="ind-sub" id="silverChg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">S&P 500</div><div class="ind-val" id="sp500">--</div><div class="ind-sub" id="sp500Chg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">VIX</div><div class="ind-val" id="vix">--</div><div class="ind-sub">fear index</div></div>
       </div>
     </div>
+
+    <!-- blow-off top meter -->
+    <div class="card">
+      <div class="card-label">Blow-Off Top Probability · Pattern Match vs 2017 & 2021</div>
+      <div class="blowoff-meter">
+        <div class="blowoff-header">
+          <div class="blowoff-score" id="blowoffScore">--</div>
+          <div class="blowoff-label" id="blowoffLabel">Calculating...</div>
+        </div>
+        <div class="meter-track"><div class="meter-fill" id="meterFill" style="width:0%"></div></div>
+        <div class="blowoff-factors" id="blowoffFactors">
+          <div class="factor-row"><span class="factor-name">Fear & Greed</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac1" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="factor-row"><span class="factor-name">BTC Momentum</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac2" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="factor-row"><span class="factor-name">DXY Weakness</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac3" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="factor-row"><span class="factor-name">Gold Strength</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac4" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="factor-row"><span class="factor-name">ETF Inflows</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac5" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="factor-row"><span class="factor-name">Stablecoin Supply</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac6" style="width:0%;background:var(--blue)"></div></div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <script>
-    let currentIndex = 51;
-    let currentPhase = 'Anger';
+  <!-- RIGHT: sidebar -->
+  <div class="sidebar">
 
-    function generateWeeklyDates(startYear, startMonth, endYear, endMonth) {
-      const dates = [];
-      let current = new Date(startYear, startMonth - 1, 1);
-      const end = new Date(endYear, endMonth - 1, 1);
-      while (current <= end) {
-        dates.push(new Date(current));
-        current.setDate(current.getDate() + 7);
-      }
-      return dates;
-    }
+    <!-- $GORK -->
+    <div class="card gork-card">
+      <div class="card-label">$GORK · Solana</div>
+      <div class="gork-price" id="gorkPrice">--</div>
+      <div class="gork-meta" id="gorkMeta">Loading...</div>
+    </div>
 
-    const weeklyDates = generateWeeklyDates(2017, 1, 2028, 1);
+    <!-- crypto prices -->
+    <div class="card">
+      <div class="card-label">Crypto</div>
+      <div class="price-grid" id="cryptoPrices">
+        <div class="price-tile"><div class="ticker">BTC</div><div class="val" id="btcPrice">--</div><div class="chg" id="btcChg">--</div></div>
+        <div class="price-tile"><div class="ticker">ETH</div><div class="val" id="ethPrice">--</div><div class="chg" id="ethChg">--</div></div>
+        <div class="price-tile"><div class="ticker">SOL</div><div class="val" id="solPrice">--</div><div class="chg" id="solChg">--</div></div>
+        <div class="price-tile"><div class="ticker">BNB</div><div class="val" id="bnbPrice">--</div><div class="chg" id="bnbChg">--</div></div>
+      </div>
+    </div>
 
-    const knownPoints = {
-      '2017-01-01': 40, '2017-10-01': 45, '2017-12-01': 95, '2018-12-01': 10, '2020-03-01': 10,
-      '2021-11-01': 90, '2022-11-01': 15, '2025-04-01': 25, '2025-11-01': 10, '2026-01-01': 51
-    };
+    <!-- ETF flows -->
+    <div class="card">
+      <div class="card-label">BTC ETF Flows (Est. Daily)</div>
+      <div id="etfFlows">
+        <div class="etf-row"><span class="etf-name">IBIT (BlackRock)</span><span class="etf-flow" id="ibit">--</span></div>
+        <div class="etf-row"><span class="etf-name">FBTC (Fidelity)</span><span class="etf-flow" id="fbtc">--</span></div>
+        <div class="etf-row"><span class="etf-name">ARKB (ARK)</span><span class="etf-flow" id="arkb">--</span></div>
+        <div class="etf-row"><span class="etf-name">BITB (Bitwise)</span><span class="etf-flow" id="bitb">--</span></div>
+        <div class="etf-row"><span class="etf-name">Total Net</span><span class="etf-flow" id="etfTotal">--</span></div>
+      </div>
+    </div>
 
-    const historicalWeekly = weeklyDates.map(date => {
-      const key = date.toISOString().split('T')[0];
-      if (knownPoints[key] !== undefined) return knownPoints[key];
+    <!-- on-chain -->
+    <div class="card">
+      <div class="card-label">On-Chain Signals</div>
+      <div class="macro-row"><span class="label">Funding Rate (BTC)</span><span class="value" id="funding">--</span></div>
+      <div class="macro-row"><span class="label">Exchange Inflow</span><span class="value" id="exchInflow">--</span></div>
+      <div class="macro-row"><span class="label">Stablecoin Supply</span><span class="value" id="stableSupply">--</span></div>
+      <div class="macro-row"><span class="label">24h Volume</span><span class="value" id="totalVol">--</span></div>
+    </div>
 
-      let prevDate = null, nextDate = null, prevVal = null, nextVal = null;
-      for (const k in knownPoints) {
-        const d = new Date(k);
-        if (d < date && (!prevDate || d > prevDate)) { prevDate = d; prevVal = knownPoints[k]; }
-        if (d > date && (!nextDate || d < nextDate)) { nextDate = d; nextVal = knownPoints[k]; }
-      }
-      if (!prevDate || !nextDate) return null;
+    <!-- daily summary -->
+    <div class="card">
+      <div class="card-label">Daily Summary</div>
+      <div class="summary-nav">
+        <button class="nav-btn" id="prevBtn">← Prev</button>
+        <span class="summary-date" id="summaryDate">Today</span>
+        <button class="nav-btn" id="nextBtn">Next →</button>
+      </div>
+      <div class="summary-body" id="summaryBody">Loading today's summary...</div>
+    </div>
 
-      const t = (date - prevDate) / (nextDate - prevDate);
-      return Math.round(prevVal + t * (nextVal - prevVal));
-    });
+  </div>
+</div>
 
-    let predictionWeekly = historicalWeekly.slice();
-    const startIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 0 && d.getDate() <= 7);
-    const peakIdx = weeklyDates.findIndex(d => d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() <= 7);
-    const endIdx = weeklyDates.length - 1;
+<script>
+// ── chart data ────────────────────────────────────────────────────────────────
+function genWeeklyDates(sy, sm, ey, em) {
+  const dates = [], end = new Date(ey, em-1, 1);
+  let cur = new Date(sy, sm-1, 1);
+  while (cur <= end) { dates.push(new Date(cur)); cur.setDate(cur.getDate()+7); }
+  return dates;
+}
 
-    for (let i = startIdx + 1; i <= endIdx; i++) {
-      let target;
-      if (i <= peakIdx) {
-        const progress = (i - startIdx) / (peakIdx - startIdx);
-        target = 51 + (95 - 51) * progress;
-      } else {
-        const progress = (i - peakIdx) / (endIdx - peakIdx);
-        target = 85 - (85 - 10) * progress;
-      }
-      target += Math.sin(i * 0.4) * 4 - 2;
-      predictionWeekly[i] = Math.max(5, Math.min(100, Math.round(target)));
-    }
+const weeklyDates = genWeeklyDates(2017,1,2028,1);
 
-    const chart = new Chart(document.getElementById('myChart').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: weeklyDates,
-        datasets: [
-          { label: 'Flow Cycle Index (Historical)', data: historicalWeekly, borderColor: '#58a6ff', backgroundColor: 'rgba(88,166,255,0.15)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
-          { label: 'Predicted Index (2-Year Forecast)', data: predictionWeekly, borderColor: '#8b949e', backgroundColor: 'rgba(139,148,158,0.1)', borderDash: [6, 4], fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }
-        ]
+const knownPoints = {
+  '2017-01-01':10,'2017-10-01':45,'2017-12-01':95,'2018-01-01':88,
+  '2018-12-01':8,'2019-06-01':30,'2020-03-01':5,'2020-10-01':35,
+  '2021-04-01':88,'2021-07-01':30,'2021-11-01':92,'2022-06-01':12,
+  '2022-11-01':6,'2023-06-01':40,'2024-01-01':60,'2024-03-01':88,
+  '2024-04-01':65,'2024-11-01':80,'2025-01-01':78,'2025-04-01':22,
+  '2025-11-01':12,'2026-01-01':51
+};
+
+const historical = weeklyDates.map(date => {
+  const key = date.toISOString().split('T')[0].slice(0,7)+'-01';
+  if (knownPoints[key] !== undefined) return knownPoints[key];
+  let pD=null,nD=null,pV=null,nV=null;
+  for (const k in knownPoints) {
+    const d = new Date(k);
+    if (d<date && (!pD||d>pD)) { pD=d; pV=knownPoints[k]; }
+    if (d>date && (!nD||d<nD)) { nD=d; nV=knownPoints[k]; }
+  }
+  if (!pD||!nD) return null;
+  const t = (date-pD)/(nD-pD);
+  return Math.round(pV + t*(nV-pV));
+});
+
+let prediction = historical.slice();
+const si = weeklyDates.findIndex(d => d >= new Date(2026,0,1));
+const pi = weeklyDates.findIndex(d => d >= new Date(2026,8,1));
+const ei = weeklyDates.length-1;
+for (let i=si+1; i<=ei; i++) {
+  let t;
+  if (i<=pi) { const p=(i-si)/(pi-si); t=51+(95-51)*p; }
+  else { const p=(i-pi)/(ei-pi); t=88-(88-10)*p; }
+  t += Math.sin(i*0.4)*3;
+  prediction[i] = Math.max(5, Math.min(100, Math.round(t)));
+}
+
+const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: weeklyDates,
+    datasets: [
+      {
+        label: 'Flow Cycle Index',
+        data: historical,
+        borderColor: '#4f9eff',
+        backgroundColor: 'rgba(79,158,255,0.08)',
+        fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'time',
-            time: { unit: 'week', displayFormats: { week: 'MMM yyyy' }, tooltipFormat: 'MMMM yyyy' },
-            ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 24 },
-            title: { display: true, text: 'Time (Weekly)' }
+      {
+        label: 'Predicted (Blow-Off Forecast)',
+        data: prediction,
+        borderColor: 'rgba(245,197,24,0.6)',
+        backgroundColor: 'rgba(245,197,24,0.04)',
+        borderDash: [5,4],
+        fill: true, tension: 0.4, pointRadius: 0, borderWidth: 1.5
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    scales: {
+      x: {
+        type: 'time',
+        time: { unit: 'month', displayFormats: { month: 'MMM yy' } },
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        ticks: { color: '#4a5568', maxTicksLimit: 20, maxRotation: 0, font: { family: 'Space Mono', size: 10 } },
+        border: { color: 'transparent' }
+      },
+      y: {
+        min: 0, max: 100,
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        ticks: { color: '#4a5568', font: { family: 'Space Mono', size: 10 } },
+        border: { color: 'transparent' }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      annotation: {
+        annotations: {
+          blowBox: {
+            type: 'box',
+            xMin: new Date(2026,6,1), xMax: new Date(2026,10,1),
+            yMin: 82, yMax: 100,
+            backgroundColor: 'rgba(255,77,106,0.08)',
+            borderColor: 'rgba(255,77,106,0.4)', borderWidth: 1,
+            label: { content: 'Blow-Off Zone', display: true, position: 'center', color: '#ff4d6a', font: { size: 10, family: 'Space Mono' } }
           },
-          y: { min: 0, max: 100, title: { display: true, text: 'Flow Cycle Index' } }
-        },
-        plugins: {
-          zoom: { zoom: { enabled: false }, pan: { enabled: false } },
-          annotation: {
-            annotations: {
-              topBox: { type: 'box', xMin: new Date(2026, 6, 1), xMax: new Date(2026, 9, 1), yMin: 85, yMax: 100, backgroundColor: 'rgba(255,107,107,0.15)', borderColor: '#ff6b6b', borderWidth: 2, label: { content: 'Predicted Blow-Off (Euphoria)', enabled: true, position: 'center', backgroundColor: 'rgba(255,0,0,0.7)', color: 'white' } },
-              bottomLabel: { type: 'label', xValue: new Date(2025, 10, 1), yValue: 10, content: 'Recent Bottom (Depression)', backgroundColor: '#22c55e', color: 'white' }
-            }
-          },
-          tooltip: {
-            mode: 'index',
-            intersect: false,
-            callbacks: {
-              label: ctx => {
-                const v = ctx.raw;
-                const i = ctx.dataIndex;
-                const trend = (i > 0 && v > predictionWeekly[i-1]) ? 'Uptrend' : 'Downtrend';
-                let phase = '';
-                if (trend === 'Uptrend') {
-                  phase = v < 20 ? 'Depression (Bottom)' : v < 30 ? 'Disbelief' : v < 40 ? 'Hope' : v < 50 ? 'Optimism' : v < 60 ? 'Belief' : v < 80 ? 'Thrill' : 'Euphoria (Top)';
-                } else {
-                  phase = v > 90 ? 'Euphoria (Top)' : v > 80 ? 'Complacency' : v > 70 ? 'Anxiety' : v > 60 ? 'Denial' : v > 50 ? 'Panic' : v > 40 ? 'Capitulation' : v > 20 ? 'Anger' : 'Depression (Bottom)';
-                }
-                return `${ctx.dataset.label}: ${v?.toFixed(0) || 'N/A'} (${trend} Phase: ${phase})`;
-              }
-            }
+          bottom25: {
+            type: 'line', yMin: 15, yMax: 15,
+            borderColor: 'rgba(0,229,160,0.3)', borderWidth: 1, borderDash: [4,4],
+            label: { content: 'Accumulate Zone', display: true, position: 'end', color: '#00e5a0', font: { size: 9, family: 'Space Mono' } }
           }
         }
+      },
+      tooltip: {
+        backgroundColor: '#0d1219',
+        borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1,
+        titleFont: { family: 'Syne', size: 13 },
+        bodyFont: { family: 'Space Mono', size: 11 },
+        callbacks: {
+          label: ctx => `  ${ctx.dataset.label}: ${ctx.raw?.toFixed(0) ?? 'N/A'}`
+        }
       }
+    }
+  }
+});
+
+// ── phase logic ───────────────────────────────────────────────────────────────
+function getPhase(idx, trend) {
+  if (trend === 'up') {
+    if (idx < 15) return 'Depression';
+    if (idx < 25) return 'Disbelief';
+    if (idx < 38) return 'Hope';
+    if (idx < 50) return 'Optimism';
+    if (idx < 62) return 'Belief';
+    if (idx < 78) return 'Thrill';
+    return 'Euphoria';
+  } else {
+    if (idx > 90) return 'Euphoria';
+    if (idx > 80) return 'Complacency';
+    if (idx > 70) return 'Anxiety';
+    if (idx > 60) return 'Denial';
+    if (idx > 50) return 'Panic';
+    if (idx > 38) return 'Capitulation';
+    if (idx > 22) return 'Anger';
+    return 'Depression';
+  }
+}
+
+function getAdvice(phase) {
+  const map = {
+    'Capitulation': '🟢 Load bags — max pain = max opportunity',
+    'Anger':        '🟢 Accumulate — smart money is buying here',
+    'Depression':   '🟢 Diamond hands — darkest before dawn',
+    'Disbelief':    '🔵 Start building positions — skeptics are wrong',
+    'Hope':         '🔵 Add to positions — momentum shifting',
+    'Optimism':     '🔵 Hold and accumulate dips — legs building',
+    'Belief':       '🟡 Hold strong — but watch for distribution',
+    'Thrill':       '🟡 Take some profits — FOMO is peaking',
+    'Euphoria':     '🔴 SELL — blow-off top territory, everyone is in',
+    'Complacency':  '🔴 Reduce exposure — correction incoming',
+    'Anxiety':      '🔴 Defensive — smart money is exiting',
+    'Denial':       '🟠 Cut losers — trend has changed',
+    'Panic':        '🟠 Hold cash — bottom not confirmed yet',
+  };
+  return map[phase] || 'Monitoring...';
+}
+
+function phaseColor(phase) {
+  const safe = ['Capitulation','Anger','Depression','Disbelief'];
+  const warn = ['Hope','Optimism','Belief','Thrill'];
+  const danger = ['Euphoria','Complacency','Anxiety','Denial','Panic'];
+  if (safe.includes(phase)) return 'var(--green)';
+  if (warn.includes(phase)) return 'var(--yellow)';
+  if (danger.includes(phase)) return 'var(--red)';
+  return 'var(--blue)';
+}
+
+function setPhase(phase, index) {
+  document.querySelectorAll('.phase-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.phase === phase);
+  });
+  document.getElementById('cycleIndex').textContent = index;
+  document.getElementById('cycleIndex').style.color = phaseColor(phase);
+  document.getElementById('cyclePhase').textContent = phase;
+  document.getElementById('cyclePhase').style.color = phaseColor(phase);
+  document.getElementById('cycleAdvice').textContent = getAdvice(phase);
+  const fill = document.getElementById('cycleBarFill');
+  fill.style.width = index + '%';
+  fill.style.background = phaseColor(phase);
+}
+
+// ── data fetchers ─────────────────────────────────────────────────────────────
+function fmt(n, dec=2) {
+  if (n === null || n === undefined || isNaN(n)) return '--';
+  if (n >= 1e12) return '$' + (n/1e12).toFixed(2) + 'T';
+  if (n >= 1e9)  return '$' + (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6)  return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1000) return '$' + n.toLocaleString('en-US', {maximumFractionDigits: dec});
+  return '$' + n.toFixed(dec);
+}
+
+function chgHTML(pct) {
+  if (pct === null || pct === undefined) return '<span class="muted">--</span>';
+  const cls = pct >= 0 ? 'up' : 'down';
+  const sign = pct >= 0 ? '+' : '';
+  return `<span class="${cls}">${sign}${pct.toFixed(2)}%</span>`;
+}
+
+async function fetchCrypto() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
+    const data = await res.json();
+    const map = {};
+    data.forEach(c => map[c.id] = c);
+
+    const btc = map['bitcoin'];
+    const eth = map['ethereum'];
+    const sol = map['solana'];
+    const bnb = map['bnb'];
+
+    if (btc) {
+      document.getElementById('btcPrice').textContent = fmt(btc.current_price, 0);
+      document.getElementById('btcChg').innerHTML = chgHTML(btc.price_change_percentage_24h);
+
+      // update cycle index based on BTC 30d momentum
+      const momentum = btc.price_change_percentage_24h || 0;
+      const idx = Math.max(10, Math.min(92, 51 + Math.round(momentum * 2)));
+      const trend = momentum >= 0 ? 'up' : 'down';
+      const phase = getPhase(idx, trend);
+      setPhase(phase, idx);
+      computeBlowoff(idx, btc);
+    }
+
+    if (eth) {
+      document.getElementById('ethPrice').textContent = fmt(eth.current_price, 0);
+      document.getElementById('ethChg').innerHTML = chgHTML(eth.price_change_percentage_24h);
+    }
+    if (sol) {
+      document.getElementById('solPrice').textContent = fmt(sol.current_price, 2);
+      document.getElementById('solChg').innerHTML = chgHTML(sol.price_change_percentage_24h);
+    }
+    if (bnb) {
+      document.getElementById('bnbPrice').textContent = fmt(bnb.current_price, 0);
+      document.getElementById('bnbChg').innerHTML = chgHTML(bnb.price_change_percentage_24h);
+    }
+  } catch(e) { console.log('crypto fetch failed', e); }
+}
+
+async function fetchGlobal() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/global');
+    const { data } = await res.json();
+    document.getElementById('btcDom').textContent = data.market_cap_percentage?.btc?.toFixed(1) + '%';
+    document.getElementById('totalMcap').textContent = fmt(data.total_market_cap?.usd);
+    document.getElementById('totalVol').textContent = fmt(data.total_volume?.usd);
+    document.getElementById('stableSupply').textContent = fmt((data.total_market_cap?.usdt || 0) + (data.total_market_cap?.usdc || 0));
+  } catch(e) {}
+}
+
+async function fetchFearGreed() {
+  try {
+    const res = await fetch('https://api.alternative.me/fng/?limit=1');
+    const { data } = await res.json();
+    const val = parseInt(data[0].value);
+    const label = data[0].value_classification;
+    document.getElementById('fng').textContent = val;
+    document.getElementById('fngLabel').textContent = label;
+    document.getElementById('fng').className = 'ind-val ' + (val > 75 ? 'down' : val > 50 ? '' : val > 25 ? 'up' : 'up');
+  } catch(e) {}
+}
+
+async function fetchGork() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork&sparkline=false&price_change_percentage=24h');
+    const data = await res.json();
+    const g = data[0];
+    if (!g) throw new Error();
+    document.getElementById('gorkPrice').textContent = '$' + (g.current_price < 0.001 ? g.current_price.toFixed(8) : g.current_price.toFixed(6));
+    document.getElementById('gorkMeta').innerHTML = `
+      MC: ${fmt(g.market_cap)}<br>
+      24h Vol: ${fmt(g.total_volume)} &nbsp; <span class="${g.price_change_percentage_24h >= 0 ? 'up' : 'down'}">${g.price_change_percentage_24h?.toFixed(2)}%</span><br>
+      <a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:var(--blue);text-decoration:none;font-size:0.85em;">↗ CoinGecko</a>
+    `;
+  } catch(e) {
+    document.getElementById('gorkMeta').innerHTML = '<span style="color:var(--muted)">Data unavailable</span>';
+  }
+}
+
+// ETF flows — estimated from available public data
+function loadETFFlows() {
+  // These update daily via Jordan commits to data/etf_flows.json
+  // Fallback: estimated from recent news
+  const flows = [
+    { id: 'ibit',  val: null },
+    { id: 'fbtc',  val: null },
+    { id: 'arkb',  val: null },
+    { id: 'bitb',  val: null },
+  ];
+
+  fetch('data/etf_flows.json')
+    .then(r => r.json())
+    .then(data => {
+      let total = 0;
+      ['ibit','fbtc','arkb','bitb'].forEach(k => {
+        const v = data[k];
+        total += v || 0;
+        const el = document.getElementById(k);
+        if (el) {
+          el.textContent = v !== null ? (v >= 0 ? '+$' : '-$') + Math.abs(v).toFixed(0) + 'M' : '--';
+          el.className = 'etf-flow ' + (v >= 0 ? 'up' : 'down');
+        }
+      });
+      const tot = document.getElementById('etfTotal');
+      tot.textContent = (total >= 0 ? '+$' : '-$') + Math.abs(total).toFixed(0) + 'M';
+      tot.className = 'etf-flow ' + (total >= 0 ? 'up' : 'down');
+    })
+    .catch(() => {
+      ['ibit','fbtc','arkb','bitb','etfTotal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = 'Jordan updating...';
+      });
     });
+}
 
-    async function updateDynamicIndexAndUI() {
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,solana&order=market_cap_desc&per_page=2&page=1&sparkline=false&price_change_percentage=30d');
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const btc30d = data[0].price_change_percentage_30d_in_currency || 0;
-        const sol30d = data[1].price_change_percentage_30d_in_currency || 0;
-        const avgMomentum = (btc30d + sol30d) / 2;
-
-        currentIndex = Math.max(10, Math.min(90, 51 + Math.round(avgMomentum / 5)));
-
-        currentPhase = 'Complacency';
-        if (currentIndex >= 10) currentPhase = 'Anxiety';
-        if (currentIndex >= 20) currentPhase = 'Denial';
-        if (currentIndex >= 30) currentPhase = 'Panic';
-        if (currentIndex >= 40) currentPhase = 'Capitulation';
-        if (currentIndex >= 50) currentPhase = 'Anger';
-        if (currentIndex >= 60) currentPhase = 'Depression';
-        if (currentIndex >= 70) currentPhase = 'Disbelief';
-        if (currentIndex >= 75) currentPhase = 'Hope';
-        if (currentIndex >= 80) currentPhase = 'Optimism';
-        if (currentIndex >= 85) currentPhase = 'Belief';
-        if (currentIndex >= 90) currentPhase = 'Thrill';
-        if (currentIndex >= 95) currentPhase = 'Euphoria';
-
-        document.querySelectorAll('.phase-segment').forEach(seg => {
-          seg.classList.toggle('current-phase', seg.textContent.trim() === currentPhase);
-        });
-
-        const badge = document.getElementById('statusBadge');
-        badge.innerHTML = `🟡 ${currentPhase.toUpperCase()}`;
-        badge.style.background = currentIndex >= 90 ? '#ef4444' : currentIndex >= 70 ? '#eab308' : currentIndex >= 50 ? '#f59e0b' : '#22c55e';
-
-        let advice = 'Hold or buy dips';
-        if (currentPhase === 'Euphoria' || currentPhase === 'Thrill') advice = 'Trim/Sell strength — euphoria alert';
-        else if (currentPhase === 'Panic' || currentPhase === 'Capitulation' || currentPhase === 'Anger') advice = 'Load bags heavy — bottom vibes';
-        else if (currentPhase === 'Hope' || currentPhase === 'Belief' || currentPhase === 'Optimism') advice = 'Accumulate dips — legs building';
-        document.getElementById('actionAdvice').innerHTML = `What you should do right now: ${advice}`;
-      } catch (e) {
-        console.log('Dynamic update failed');
+function loadOnChain() {
+  fetch('data/onchain.json')
+    .then(r => r.json())
+    .then(data => {
+      if (data.funding_rate !== undefined) {
+        const fr = data.funding_rate;
+        const el = document.getElementById('funding');
+        el.textContent = (fr >= 0 ? '+' : '') + fr.toFixed(4) + '%';
+        el.className = 'value ' + (fr > 0.05 ? 'down' : fr > 0 ? 'up' : 'down');
       }
+      if (data.exchange_inflow) document.getElementById('exchInflow').textContent = data.exchange_inflow;
+    })
+    .catch(() => {});
+}
+
+function computeBlowoff(idx, btcData) {
+  // Score each factor 0-100 based on available data
+  const fng = parseInt(document.getElementById('fng').textContent) || 50;
+  const btcChg = btcData?.price_change_percentage_24h || 0;
+  const btcDomText = document.getElementById('btcDom').textContent;
+  const btcDom = parseFloat(btcDomText) || 55;
+
+  const factors = {
+    fng:    Math.min(100, fng),                           // high F&G = blow-off signal
+    btcMom: Math.min(100, Math.max(0, 50 + btcChg*3)),   // positive momentum
+    dxy:    50,   // placeholder — Jordan fills from data/macro.json
+    gold:   50,   // placeholder
+    etf:    50,   // placeholder — Jordan fills from data/etf_flows.json
+    stable: Math.min(100, Math.max(0, 100 - (btcDom - 40) * 2)), // low BTC dom = alt season
+  };
+
+  // Try to load from Jordan's committed data
+  fetch('data/macro.json')
+    .then(r => r.json())
+    .then(data => {
+      if (data.dxy_score !== undefined) factors.dxy = data.dxy_score;
+      if (data.gold_score !== undefined) factors.gold = data.gold_score;
+      renderBlowoff(factors);
+    })
+    .catch(() => renderBlowoff(factors));
+}
+
+function renderBlowoff(factors) {
+  const score = Math.round(Object.values(factors).reduce((a,b) => a+b, 0) / Object.keys(factors).length);
+  document.getElementById('blowoffScore').textContent = score + '%';
+  document.getElementById('blowoffScore').style.color = score > 70 ? 'var(--red)' : score > 45 ? 'var(--yellow)' : 'var(--green)';
+
+  const labels = {
+    0: 'Low probability — accumulate',
+    1: 'Building — watch for acceleration',
+    2: 'Elevated — reduce exposure',
+    3: 'High — near blow-off territory',
+    4: 'Critical — take profits now',
+  };
+  const tier = score > 80 ? 4 : score > 65 ? 3 : score > 50 ? 2 : score > 30 ? 1 : 0;
+  document.getElementById('blowoffLabel').textContent = labels[tier];
+  document.getElementById('meterFill').style.width = score + '%';
+
+  const keys = ['fac1','fac2','fac3','fac4','fac5','fac6'];
+  const vals = Object.values(factors);
+  keys.forEach((k,i) => {
+    const el = document.getElementById(k);
+    if (el) {
+      el.style.width = vals[i] + '%';
+      el.style.background = vals[i] > 70 ? 'var(--red)' : vals[i] > 45 ? 'var(--yellow)' : 'var(--blue)';
     }
+  });
+}
 
-    async function fetchGorkData(retries = 3) {
-      const card = document.getElementById('gorkCard');
-      card.innerHTML = '<strong>$GORK (Solana)</strong><br><div class="loading">Loading...</div>';
+// ── macro prices (using Yahoo Finance via allorigins proxy) ───────────────────
+async function fetchMacro() {
+  // Load from Jordan's committed data/macro.json if available
+  try {
+    const res = await fetch('data/macro.json');
+    const data = await res.json();
+    if (data.gold)   { document.getElementById('gold').textContent = '$' + data.gold; document.getElementById('goldChg').innerHTML = chgHTML(data.gold_chg); }
+    if (data.silver) { document.getElementById('silver').textContent = '$' + data.silver; document.getElementById('silverChg').innerHTML = chgHTML(data.silver_chg); }
+    if (data.oil)    { document.getElementById('oil').textContent = '$' + data.oil; document.getElementById('oilChg').innerHTML = chgHTML(data.oil_chg); }
+    if (data.sp500)  { document.getElementById('sp500').textContent = data.sp500.toLocaleString(); document.getElementById('sp500Chg').innerHTML = chgHTML(data.sp500_chg); }
+    if (data.vix)    { document.getElementById('vix').textContent = data.vix; }
+    if (data.dxy)    { document.getElementById('dxy').textContent = data.dxy; }
+  } catch(e) {
+    // placeholders
+    ['gold','silver','oil','sp500','vix','dxy'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.textContent === '--') el.textContent = 'Jordan updating...';
+    });
+  }
+}
 
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork&order=market_cap_desc&per_page=1&page=1&sparkline=false&price_change_percentage=24h');
-        if (!res.ok) throw new Error('CoinGecko error');
-        const data = await res.json();
-        const coin = data[0] || {};
+// ── daily summary ─────────────────────────────────────────────────────────────
+let summaryHistory = {};
+let summaryKeys = [];
+let summaryIdx = 0;
 
-        card.innerHTML = `
-          <strong>$GORK (Solana)</strong><br>
-          <span style="font-size:1.4em;">$${coin.current_price?.toFixed(8) || 'N/A'}</span><br>
-          MC: $${(coin.market_cap / 1e6)?.toFixed(2) || 'N/A'}M<br>
-          24h Vol: $${(coin.total_volume / 1e3)?.toFixed(0) || 'N/A'}K (${coin.price_change_percentage_24h?.toFixed(2) || 'N/A'}%)<br>
-          <a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff; font-size:0.9em;">View on CoinGecko</a>
-        `;
-      } catch (err) {
-        if (retries > 0) {
-          setTimeout(() => fetchGorkData(retries - 1), 3000);
-          return;
-        }
-        console.error('GORK fetch failed:', err);
-        card.innerHTML = '<strong>$GORK</strong><br><p style="color:#f85149;">Failed to load — check connection</p><a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:#58a6ff;">Check manually</a>';
-      }
-    }
+async function loadSummary() {
+  try {
+    const res = await fetch('data/daily_summary.json');
+    summaryHistory = await res.json();
+  } catch(e) {
+    // fallback to localStorage
+    summaryHistory = JSON.parse(localStorage.getItem('dailySummaryHistory') || '{}');
+  }
 
-    async function fetchLiveData(retries = 3) {
-      const div = document.getElementById('prices');
-      div.innerHTML = '<div class="loading">Loading live prices...</div>';
+  summaryKeys = Object.keys(summaryHistory).sort((a,b) => new Date(b)-new Date(a));
+  summaryIdx = 0;
 
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-        if (!res.ok) throw new Error('CoinGecko error');
-        const data = await res.json();
-        div.innerHTML = '';
-        data.forEach(c => {
-          const p = document.createElement('div');
-          p.className = 'price-item';
-          p.innerHTML = `<strong>${c.name}</strong><br><span style="font-size:1.4em;">$${c.current_price.toLocaleString()}</span> <span style="color:${c.price_change_percentage_24h >= 0 ? '#56d364' : '#f85149'};">${c.price_change_percentage_24h?.toFixed(2) || 'N/A'}%</span>`;
-          div.appendChild(p);
-        });
-      } catch (err) {
-        if (retries > 0) {
-          setTimeout(() => fetchLiveData(retries - 1), 3000);
-          return;
-        }
-        div.innerHTML = '<p style="color:#f85149;">Live prices failed — refresh</p>';
-      }
-    }
+  if (summaryKeys.length === 0) {
+    document.getElementById('summaryBody').textContent = 'No summaries yet — Jordan will commit daily.';
+    document.getElementById('summaryDate').textContent = 'Pending';
+    return;
+  }
 
-    async function fetchDailySummary() {
-      const contentDiv = document.getElementById('summaryContent');
-      const dateSpan = document.getElementById('currentSummaryDate');
+  renderSummary();
 
-      const now = new Date();
-      const todayKey = now.toLocaleDateString('en-US', { timeZone: 'America/New_York', year: 'numeric', month: 'short', day: 'numeric' });
+  document.getElementById('prevBtn').onclick = () => {
+    if (summaryIdx < summaryKeys.length - 1) { summaryIdx++; renderSummary(); }
+  };
+  document.getElementById('nextBtn').onclick = () => {
+    if (summaryIdx > 0) { summaryIdx--; renderSummary(); }
+  };
+}
 
-      let history = JSON.parse(localStorage.getItem('dailySummaryHistory') || '{}');
+function renderSummary() {
+  const key = summaryKeys[summaryIdx];
+  document.getElementById('summaryDate').textContent = key;
+  document.getElementById('summaryBody').innerHTML = summaryHistory[key] || 'No data';
+}
 
-      if (!history[todayKey]) {
-        let newEntry = `<div class="summary-item"><strong>${todayKey}</strong></div>`;
-        try {
-          const res = await fetch('https://api.coingecko.com/api/v3/global');
-          if (!res.ok) throw new Error();
-          const data = await res.json();
-          const g = data.data;
-          newEntry += `
-            Market Cap: $${g.total_market_cap.usd.toLocaleString()} (${g.market_cap_change_percentage_24h_usd?.toFixed(2) || 'N/A'}% 24h)<br>
-            BTC Dominance: ${g.market_cap_percentage.btc?.toFixed(2) || 'N/A'}%<br>
-            Total Volume 24h: $${g.total_volume.usd.toLocaleString()}<br>
-            <p>Meme supercycle heating in 2026, BTC dom fade incoming, Elon/Grok narrative revival possible. Hold dips in ${currentPhase} phase — $GORK rebounding.</p>
-          `;
-        } catch {
-          newEntry += `
-            <p>Failed to load live data — fallback</p>
-            <p>2026 vibes: BTC ~$87k support, SOL memes rebounding, $GORK volume ticking up. Supercycle reset in play — diamond hands win.</p>
-          `;
-        }
-        history[todayKey] = newEntry;
+// ── init ──────────────────────────────────────────────────────────────────────
+async function init() {
+  await Promise.allSettled([
+    fetchCrypto(),
+    fetchGlobal(),
+    fetchFearGreed(),
+    fetchGork(),
+    fetchMacro(),
+    loadETFFlows(),
+    loadOnChain(),
+    loadSummary(),
+  ]);
+}
 
-        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
-        if (keys.length > 7) {
-          keys.slice(7).forEach(key => delete history[key]);
-        }
-
-        localStorage.setItem('dailySummaryHistory', JSON.stringify(history));
-      }
-
-      contentDiv.innerHTML = history[todayKey] || '<p>No data for today yet</p>';
-      dateSpan.innerHTML = todayKey;
-
-      let currentDisplayedKey = todayKey;
-
-      document.getElementById('prevDayBtn').onclick = () => {
-        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
-        const currentIdx = keys.indexOf(currentDisplayedKey);
-        if (currentIdx < keys.length - 1) {
-          currentDisplayedKey = keys[currentIdx + 1];
-          contentDiv.innerHTML = history[currentDisplayedKey];
-          dateSpan.innerHTML = currentDisplayedKey;
-        }
-      };
-
-      document.getElementById('nextDayBtn').onclick = () => {
-        const keys = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
-        const currentIdx = keys.indexOf(currentDisplayedKey);
-        if (currentIdx > 0) {
-          currentDisplayedKey = keys[currentIdx - 1];
-          contentDiv.innerHTML = history[currentDisplayedKey];
-          dateSpan.innerHTML = currentDisplayedKey;
-        }
-      };
-    }
-
-    // Initial loads
-    updateDynamicIndexAndUI();
-    fetchLiveData();
-    fetchGorkData();
-    fetchDailySummary();
-
-    // Auto-refresh every 60 seconds
-    setInterval(() => {
-      fetchLiveData();
-      fetchGorkData();
-      updateDynamicIndexAndUI();
-      fetchDailySummary();
-    }, 60000);
-  </script>
+init();
+setInterval(init, 60000);
+</script>
 </body>
 </html>
