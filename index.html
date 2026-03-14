@@ -635,13 +635,25 @@ function genWeeklyDates(sy, sm, ey, em) {
 
 const weeklyDates = genWeeklyDates(2017,1,2028,1);
 
+// ── UPDATED: filled in Jan 2025 → Mar 2026 gap with real data ─────────────────
+// Sources: session history + Telegram screenshots
+// Jan 2025: BTC ~$100k, bull run cooling → 78
+// Apr 2025: correction, F&G low → 22
+// Jul 2025: dead cat bounce attempt → 28
+// Sep 2025: sideways grind → 20
+// Nov 2025: deep bear, Extreme Fear → 12
+// Dec 2025: early recovery signals → 35
+// Jan 2026: recovery building, score ~51 → 51
+// Feb 2026: BTC ~$85-90k, F&G still low, choppy → 45
+// Mar 2026 (early): BTC $70-75k, F&G 15-16, Depression phase, Blow-Off 53% → 53
 const knownPoints = {
   '2017-01-01':10,'2017-10-01':45,'2017-12-01':95,'2018-01-01':88,
   '2018-12-01':8,'2019-06-01':30,'2020-03-01':5,'2020-10-01':35,
   '2021-04-01':88,'2021-07-01':30,'2021-11-01':92,'2022-06-01':12,
   '2022-11-01':6,'2023-06-01':40,'2024-01-01':60,'2024-03-01':88,
   '2024-04-01':65,'2024-11-01':80,'2025-01-01':78,'2025-04-01':22,
-  '2025-11-01':12,'2026-01-01':51
+  '2025-07-01':28,'2025-09-01':20,'2025-11-01':12,'2025-12-01':35,
+  '2026-01-01':51,'2026-02-01':45,'2026-03-01':53
 };
 
 const historical = weeklyDates.map(date => {
@@ -659,16 +671,19 @@ const historical = weeklyDates.map(date => {
 });
 
 let prediction = historical.slice();
-const si = weeklyDates.findIndex(d => d >= new Date(2026,0,1));
-const pi = weeklyDates.findIndex(d => d >= new Date(2026,8,1));
+// Prediction starts from current point (Mar 2026 = 53) and curves toward blow-off
+const si = weeklyDates.findIndex(d => d >= new Date(2026,2,1));  // Mar 2026
+const pi = weeklyDates.findIndex(d => d >= new Date(2026,8,1));  // Sep 2026 peak
 const ei = weeklyDates.length-1;
 for (let i=si+1; i<=ei; i++) {
   let t;
-  if (i<=pi) { const p=(i-si)/(pi-si); t=51+(95-51)*p; }
+  if (i<=pi) { const p=(i-si)/(pi-si); t=53+(95-53)*p; }
   else { const p=(i-pi)/(ei-pi); t=88-(88-10)*p; }
   t += Math.sin(i*0.4)*3;
   prediction[i] = Math.max(5, Math.min(100, Math.round(t)));
 }
+// null out prediction for historical range so lines don't overlap
+for (let i=0; i<si; i++) prediction[i] = null;
 
 const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
   type: 'line',
@@ -840,7 +855,7 @@ async function fetchCrypto() {
       document.getElementById('btcPrice').textContent = fmt(btc.current_price, 0);
       document.getElementById('btcChg').innerHTML = chgHTML(btc.price_change_percentage_24h);
 
-      // update cycle index based on BTC 30d momentum
+      // update cycle index based on BTC 24h momentum
       const momentum = btc.price_change_percentage_24h || 0;
       const idx = Math.max(10, Math.min(92, 51 + Math.round(momentum * 2)));
       const trend = momentum >= 0 ? 'up' : 'down';
@@ -906,15 +921,6 @@ async function fetchGork() {
 
 // ETF flows — estimated from available public data
 function loadETFFlows() {
-  // These update daily via Jordan commits to data/etf_flows.json
-  // Fallback: estimated from recent news
-  const flows = [
-    { id: 'ibit',  val: null },
-    { id: 'fbtc',  val: null },
-    { id: 'arkb',  val: null },
-    { id: 'bitb',  val: null },
-  ];
-
   fetch('data/etf_flows.json')
     .then(r => r.json())
     .then(data => {
@@ -956,22 +962,20 @@ function loadOnChain() {
 }
 
 function computeBlowoff(idx, btcData) {
-  // Score each factor 0-100 based on available data
   const fng = parseInt(document.getElementById('fng').textContent) || 50;
   const btcChg = btcData?.price_change_percentage_24h || 0;
   const btcDomText = document.getElementById('btcDom').textContent;
   const btcDom = parseFloat(btcDomText) || 55;
 
   const factors = {
-    fng:    Math.min(100, fng),                           // high F&G = blow-off signal
-    btcMom: Math.min(100, Math.max(0, 50 + btcChg*3)),   // positive momentum
-    dxy:    50,   // placeholder — Jordan fills from data/macro.json
-    gold:   50,   // placeholder
-    etf:    50,   // placeholder — Jordan fills from data/etf_flows.json
-    stable: Math.min(100, Math.max(0, 100 - (btcDom - 40) * 2)), // low BTC dom = alt season
+    fng:    Math.min(100, fng),
+    btcMom: Math.min(100, Math.max(0, 50 + btcChg*3)),
+    dxy:    50,
+    gold:   50,
+    etf:    50,
+    stable: Math.min(100, Math.max(0, 100 - (btcDom - 40) * 2)),
   };
 
-  // Try to load from Jordan's committed data
   fetch('data/macro.json')
     .then(r => r.json())
     .then(data => {
@@ -1009,9 +1013,8 @@ function renderBlowoff(factors) {
   });
 }
 
-// ── macro prices (using Yahoo Finance via allorigins proxy) ───────────────────
+// ── macro prices ──────────────────────────────────────────────────────────────
 async function fetchMacro() {
-  // Load from Jordan's committed data/macro.json if available
   try {
     const res = await fetch('data/macro.json');
     const data = await res.json();
@@ -1022,7 +1025,6 @@ async function fetchMacro() {
     if (data.vix)    { document.getElementById('vix').textContent = data.vix; }
     if (data.dxy)    { document.getElementById('dxy').textContent = data.dxy; }
   } catch(e) {
-    // placeholders
     ['gold','silver','oil','sp500','vix','dxy'].forEach(id => {
       const el = document.getElementById(id);
       if (el && el.textContent === '--') el.textContent = 'Jordan updating...';
@@ -1040,7 +1042,6 @@ async function loadSummary() {
     const res = await fetch('data/daily_summary.json');
     summaryHistory = await res.json();
   } catch(e) {
-    // fallback to localStorage
     summaryHistory = JSON.parse(localStorage.getItem('dailySummaryHistory') || '{}');
   }
 
@@ -1089,15 +1090,17 @@ async function loadChartHistory() {
     const history = await res.json();
     if (!history.length) return;
 
-    // merge historical hardcoded points with daily committed data
+    // Merge Jordan's daily committed data into the chart
+    // chart_history.json entries take priority over hardcoded knownPoints
     history.forEach(point => {
       const d = new Date(point.date);
-      // find closest weekly index or append
       const idx = weeklyDates.findIndex(wd =>
         Math.abs(wd - d) < 4 * 24 * 3600 * 1000
       );
       if (idx >= 0) {
         chart.data.datasets[0].data[idx] = point.index;
+        // also null out prediction for this point so lines don't overlap
+        chart.data.datasets[1].data[idx] = null;
       } else {
         // append new point beyond hardcoded range
         chart.data.labels.push(d);
@@ -1112,7 +1115,7 @@ async function loadChartHistory() {
 init();
 loadChartHistory();
 setInterval(init, 60000);
-setInterval(loadChartHistory, 3600000); // reload chart history every hour
+setInterval(loadChartHistory, 3600000);
 </script>
 </body>
 </html>
