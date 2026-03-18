@@ -1090,24 +1090,37 @@ async function loadChartHistory() {
     const history = await res.json();
     if (!history.length) return;
 
-    // Merge Jordan's daily committed data into the chart
-    // chart_history.json entries take priority over hardcoded knownPoints
+    // Each daily entry gets its own slot — fixes weekly collision bug
+    // Previously all 7 days in a week mapped to the same slot, only last one won
     history.forEach(point => {
       const d = new Date(point.date);
-      const idx = weeklyDates.findIndex(wd =>
-        Math.abs(wd - d) < 4 * 24 * 3600 * 1000
-      );
-      if (idx >= 0) {
-        chart.data.datasets[0].data[idx] = point.index;
-        // also null out prediction for this point so lines don't overlap
-        chart.data.datasets[1].data[idx] = null;
+
+      // 2-day tolerance to match existing weekly slots without collision
+      const existingIdx = chart.data.labels.findIndex(wd => {
+        return Math.abs(new Date(wd) - d) < 2 * 24 * 3600 * 1000;
+      });
+
+      if (existingIdx >= 0) {
+        chart.data.datasets[0].data[existingIdx] = point.index;
+        chart.data.datasets[1].data[existingIdx] = null;
       } else {
-        // append new point beyond hardcoded range
         chart.data.labels.push(d);
         chart.data.datasets[0].data.push(point.index);
         chart.data.datasets[1].data.push(null);
       }
     });
+
+    // sort everything by date so the line renders correctly
+    const combined = chart.data.labels.map((label, i) => ({
+      label,
+      hist: chart.data.datasets[0].data[i],
+      pred: chart.data.datasets[1].data[i],
+    })).sort((a, b) => new Date(a.label) - new Date(b.label));
+
+    chart.data.labels = combined.map(c => c.label);
+    chart.data.datasets[0].data = combined.map(c => c.hist);
+    chart.data.datasets[1].data = combined.map(c => c.pred);
+
     chart.update('none');
   } catch(e) { console.log('chart history load failed', e); }
 }
