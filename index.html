@@ -7,6 +7,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair@1.2.0/dist/chartjs-plugin-crosshair.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -476,6 +479,69 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
+
+    /* chart controls */
+    .chart-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tf-group {
+      display: flex;
+      gap: 4px;
+    }
+
+    .tf-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.65em;
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .tf-btn:hover { border-color: var(--blue); color: var(--text); }
+    .tf-btn.active { background: var(--blue); border-color: var(--blue); color: #000; font-weight: 700; }
+
+    .chart-actions { display: flex; gap: 6px; }
+
+    .chart-action-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.65em;
+      transition: all 0.2s;
+    }
+
+    .chart-action-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+    /* crosshair tooltip */
+    .chart-tooltip-custom {
+      position: absolute;
+      background: #0d1219;
+      border: 1px solid rgba(79,158,255,0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.7em;
+      pointer-events: none;
+      z-index: 100;
+      min-width: 160px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
   </style>
 </head>
 <body>
@@ -513,8 +579,20 @@
   <div class="chart-card">
 
     <div class="card">
-      <div class="card-label">Flow Cycle Index · Weekly · 2017–2028</div>
-      <div class="chart-wrap">
+      <div class="card-label">Flow Cycle Index · 2017–2028</div>
+      <div class="chart-controls">
+        <div class="tf-group">
+          <button class="tf-btn" onclick="setTimeframe(30)">1M</button>
+          <button class="tf-btn" onclick="setTimeframe(90)">3M</button>
+          <button class="tf-btn" onclick="setTimeframe(180)">6M</button>
+          <button class="tf-btn" onclick="setTimeframe(365)">1Y</button>
+          <button class="tf-btn active" onclick="setTimeframe(0)" id="tfAll">ALL</button>
+        </div>
+        <div class="chart-actions">
+          <button class="chart-action-btn" onclick="resetZoom()" title="Reset zoom">⊙ Reset</button>
+        </div>
+      </div>
+      <div class="chart-wrap" style="position:relative">
         <canvas id="mainChart"></canvas>
       </div>
     </div>
@@ -695,7 +773,11 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         data: historical,
         borderColor: '#4f9eff',
         backgroundColor: 'rgba(79,158,255,0.08)',
-        fill: true, tension: 0.4, pointRadius: 0, borderWidth: 2
+        fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#4f9eff',
+        pointHoverBorderColor: '#fff',
+        pointHoverBorderWidth: 2,
+        borderWidth: 2
       },
       {
         label: 'Predicted (Blow-Off Forecast)',
@@ -703,7 +785,9 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         borderColor: 'rgba(245,197,24,0.6)',
         backgroundColor: 'rgba(245,197,24,0.04)',
         borderDash: [5,4],
-        fill: true, tension: 0.4, pointRadius: 0, borderWidth: 1.5
+        fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 4,
+        pointHoverBackgroundColor: '#f5c518',
+        borderWidth: 1.5
       }
     ]
   },
@@ -746,16 +830,70 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
       },
       tooltip: {
         backgroundColor: '#0d1219',
-        borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1,
+        borderColor: 'rgba(79,158,255,0.3)', borderWidth: 1,
         titleFont: { family: 'Syne', size: 13 },
         bodyFont: { family: 'Space Mono', size: 11 },
+        padding: 12,
         callbacks: {
-          label: ctx => `  ${ctx.dataset.label}: ${ctx.raw?.toFixed(0) ?? 'N/A'}`
+          title: items => {
+            const d = new Date(items[0].parsed.x);
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          },
+          label: ctx => {
+            const val = ctx.raw;
+            if (val === null || val === undefined) return null;
+            const score = Math.round(val);
+            const trend = score > 50 ? 'up' : 'down';
+            const phase = getPhase(score, trend);
+            if (ctx.datasetIndex === 0) return [
+              `  Score: ${score}`,
+              `  Phase: ${phase}`,
+            ];
+            return `  Forecast: ${score}`;
+          },
+          afterBody: items => {
+            const idx = items[0].dataIndex;
+            const btc = chart._btcHistory?.[idx];
+            const fg = chart._fgHistory?.[idx];
+            const lines = [];
+            if (btc) lines.push(`  BTC: $${btc.toLocaleString()}`);
+            if (fg !== undefined) lines.push(`  F&G: ${fg}`);
+            return lines;
+          }
         }
-      }
+      },
+      zoom: {
+        zoom: {
+          wheel: { enabled: true, speed: 0.1 },
+          pinch: { enabled: true },
+          mode: 'x',
+          onZoom: () => updateActiveTfBtn(null),
+        },
+        pan: {
+          enabled: true,
+          mode: 'x',
+          threshold: 5,
+        },
+        limits: {
+          x: { min: 'original', max: 'original' },
+        }
+      },
+      crosshair: {
+        line: {
+          color: 'rgba(255,255,255,0.15)',
+          width: 1,
+          dashPattern: [4, 4],
+        },
+        sync: { enabled: false },
+        zoom: { enabled: false },
+      },
     }
   }
 });
+
+// store BTC + F&G history for tooltip
+chart._btcHistory = historical.map(() => null);
+chart._fgHistory  = historical.map(() => null);
 
 // ── phase logic ───────────────────────────────────────────────────────────────
 function getPhase(idx, trend) {
@@ -1070,6 +1208,44 @@ function renderSummary() {
   document.getElementById('summaryBody').innerHTML = summaryHistory[key] || 'No data';
 }
 
+// ── chart controls ───────────────────────────────────────────────────────────
+
+function setTimeframe(days) {
+  const now = new Date();
+  const allBtns = document.querySelectorAll('.tf-btn');
+  allBtns.forEach(b => b.classList.remove('active'));
+
+  if (days === 0) {
+    // ALL — reset to full view
+    chart.resetZoom();
+    document.getElementById('tfAll').classList.add('active');
+    return;
+  }
+
+  const minDate = new Date(now.getTime() - days * 24 * 3600 * 1000);
+  chart.zoomScale('x', {
+    min: minDate.getTime(),
+    max: now.getTime(),
+  }, 'default');
+
+  // mark active button
+  const btns = document.querySelectorAll('.tf-btn');
+  const labels = ['1M','3M','6M','1Y','ALL'];
+  const daysMap = [30, 90, 180, 365, 0];
+  const idx = daysMap.indexOf(days);
+  if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+}
+
+function resetZoom() {
+  chart.resetZoom();
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tfAll').classList.add('active');
+}
+
+function updateActiveTfBtn(days) {
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+}
+
 // ── init ──────────────────────────────────────────────────────────────────────
 async function init() {
   await Promise.allSettled([
@@ -1091,11 +1267,9 @@ async function loadChartHistory() {
     if (!history.length) return;
 
     // Each daily entry gets its own slot — fixes weekly collision bug
-    // Previously all 7 days in a week mapped to the same slot, only last one won
     history.forEach(point => {
       const d = new Date(point.date);
 
-      // 2-day tolerance to match existing weekly slots without collision
       const existingIdx = chart.data.labels.findIndex(wd => {
         return Math.abs(new Date(wd) - d) < 2 * 24 * 3600 * 1000;
       });
@@ -1103,23 +1277,31 @@ async function loadChartHistory() {
       if (existingIdx >= 0) {
         chart.data.datasets[0].data[existingIdx] = point.index;
         chart.data.datasets[1].data[existingIdx] = null;
+        if (point.btc) chart._btcHistory[existingIdx] = point.btc;
+        if (point.fg !== undefined) chart._fgHistory[existingIdx] = point.fg;
       } else {
         chart.data.labels.push(d);
         chart.data.datasets[0].data.push(point.index);
         chart.data.datasets[1].data.push(null);
+        chart._btcHistory.push(point.btc || null);
+        chart._fgHistory.push(point.fg !== undefined ? point.fg : null);
       }
     });
 
-    // sort everything by date so the line renders correctly
+    // sort everything by date
     const combined = chart.data.labels.map((label, i) => ({
       label,
       hist: chart.data.datasets[0].data[i],
       pred: chart.data.datasets[1].data[i],
+      btc:  chart._btcHistory[i],
+      fg:   chart._fgHistory[i],
     })).sort((a, b) => new Date(a.label) - new Date(b.label));
 
     chart.data.labels = combined.map(c => c.label);
     chart.data.datasets[0].data = combined.map(c => c.hist);
     chart.data.datasets[1].data = combined.map(c => c.pred);
+    chart._btcHistory = combined.map(c => c.btc);
+    chart._fgHistory  = combined.map(c => c.fg);
 
     chart.update('none');
   } catch(e) { console.log('chart history load failed', e); }
