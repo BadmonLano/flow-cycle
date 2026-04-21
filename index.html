@@ -18,10 +18,12 @@
       --surface:   #0d1219;
       --surface2:  #111720;
       --border:    rgba(255,255,255,0.06);
+      --border-hi: rgba(255,255,255,0.14);
       --blue:      #4f9eff;
       --green:     #00e5a0;
       --red:       #ff4d6a;
       --yellow:    #f5c518;
+      --purple:    #9f7aea;
       --text:      #e2e8f0;
       --muted:     #4a5568;
       --font-head: 'Syne', sans-serif;
@@ -38,7 +40,6 @@
       overflow-x: hidden;
     }
 
-    /* noise overlay */
     body::before {
       content: '';
       position: fixed;
@@ -94,14 +95,26 @@
       animation: pulse 2s infinite;
     }
 
+    .live-dot.stale { background: var(--yellow); box-shadow: 0 0 12px var(--yellow); }
+    .live-dot.down  { background: var(--red); box-shadow: 0 0 12px var(--red); animation: none; }
+
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.5; transform: scale(1.4); }
     }
 
     .live-label { font-size: 0.75em; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; }
+    .live-label.stale { color: var(--yellow); }
+    .live-label.down  { color: var(--red); }
 
-    /* phase bar */
+    .engine-ts {
+      font-size: 0.65em;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-left: 8px;
+    }
+
+    /* phase strip (preserved) */
     .phase-strip {
       position: relative;
       z-index: 1;
@@ -146,8 +159,7 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: 1fr 340px;
-      grid-template-rows: auto auto;
+      grid-template-columns: 1fr 360px;
       gap: 16px;
       padding: 24px 40px 40px;
       max-width: 1800px;
@@ -158,6 +170,13 @@
       .grid { grid-template-columns: 1fr; padding: 16px 20px 32px; }
       .header { padding: 24px 20px 16px; }
       .phase-strip { padding: 0 20px; }
+    }
+
+    .chart-col, .sidebar-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
     }
 
     .card {
@@ -185,20 +204,127 @@
       background: var(--border);
     }
 
-    /* chart card */
-    .chart-card {
-      grid-row: span 2;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    .card-label-action {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--blue);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin-left: auto;
     }
 
+    .card-label-action::after { content: none; }
+    .card-label-action:hover { color: var(--green); }
+
+    /* chart */
     .chart-wrap {
       position: relative;
-      height: 420px;
+      height: 460px;
     }
 
-    /* cycle status */
+    /* chart controls */
+    .chart-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tf-group {
+      display: flex;
+      gap: 4px;
+    }
+
+    .tf-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.65em;
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .tf-btn:hover { border-color: var(--blue); color: var(--text); }
+    .tf-btn.active { background: var(--blue); border-color: var(--blue); color: #000; font-weight: 700; }
+
+    .chart-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chart-action-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.65em;
+      transition: all 0.2s;
+    }
+
+    .chart-action-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+    .chart-action-btn.on {
+      background: rgba(79,158,255,0.15);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    /* overlay toggles panel */
+    .overlay-toggles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .toggle-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.65em;
+      color: var(--muted);
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .toggle-chip:hover { border-color: var(--border-hi); color: var(--text); }
+
+    .toggle-chip.on {
+      border-color: currentColor;
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .toggle-chip .swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .toggle-chip .tlabel { flex: 1; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* cycle status (preserved) */
     .cycle-status {
       display: flex;
       align-items: center;
@@ -248,10 +374,243 @@
       transition: width 1s ease, background 1s ease;
     }
 
-    /* sidebar */
-    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+    /* ═══════════════════════════════════════════════════════════════════════════
+       NEW v2 PANELS
+       ═══════════════════════════════════════════════════════════════════════════ */
 
-    /* price grid */
+    /* brain consensus panel */
+    .brain-card {
+      border: 1px solid rgba(79,158,255,0.18);
+      background: linear-gradient(135deg, rgba(79,158,255,0.05), var(--surface));
+    }
+
+    .brain-headline {
+      font-family: var(--font-head);
+      font-size: 1.1em;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .brain-narrative {
+      font-size: 0.78em;
+      line-height: 1.6;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+
+    .brain-signals {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .brain-sig-tile {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .brain-sig-tile .sig-label {
+      font-size: 0.6em;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .brain-sig-tile .sig-val {
+      font-family: var(--font-head);
+      font-size: 0.95em;
+      font-weight: 700;
+    }
+
+    .brain-sig-tile .sig-meta {
+      font-size: 0.65em;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .sig-val.long_aggressive, .sig-val.long { color: var(--green); }
+    .sig-val.hold { color: var(--text); }
+    .sig-val.caution, .sig-val.reduce { color: var(--yellow); }
+    .sig-val.short { color: var(--red); }
+
+    .recon-hint {
+      font-size: 0.7em;
+      color: var(--muted);
+      padding: 10px 12px;
+      background: var(--surface2);
+      border-left: 2px solid var(--blue);
+      border-radius: 4px;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    .recon-hint strong {
+      color: var(--text);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    /* pattern match panel */
+    .pattern-match {
+      margin-top: 12px;
+    }
+
+    .pattern-match-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 0.72em;
+    }
+
+    .pattern-match-row .pm-name {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pattern-match-row .pm-score {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.95em;
+    }
+
+    .pm-bar-wrap {
+      width: 100%;
+      height: 4px;
+      background: var(--surface2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .pm-bar {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    .pm-bar.top-type    { background: var(--red); }
+    .pm-bar.bottom-type { background: var(--green); }
+
+    /* tier badge */
+    .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.65em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+    .tier-badge.low      { background: rgba(74,85,104,0.2); color: var(--muted); }
+    .tier-badge.med      { background: rgba(245,197,24,0.15); color: var(--yellow); }
+    .tier-badge.high     { background: rgba(79,158,255,0.15); color: var(--blue); }
+    .tier-badge.critical { background: rgba(255,77,106,0.2); color: var(--red); }
+
+    /* AI marker list */
+    .markers-list {
+      max-height: 420px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 4px;
+    }
+
+    .markers-list::-webkit-scrollbar { width: 4px; }
+    .markers-list::-webkit-scrollbar-track { background: transparent; }
+    .markers-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .marker-item {
+      padding: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      border-left: 3px solid var(--muted);
+      transition: border-color 0.2s;
+    }
+
+    .marker-item:hover { border-color: var(--border-hi); }
+
+    .marker-item.tier-critical { border-left-color: var(--red); }
+    .marker-item.tier-high     { border-left-color: var(--blue); }
+    .marker-item.tier-med      { border-left-color: var(--yellow); }
+
+    .marker-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .marker-head .mt-date {
+      font-size: 0.65em;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .marker-item .mt-headline {
+      font-family: var(--font-head);
+      font-size: 0.85em;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .marker-item .mt-meta {
+      font-size: 0.65em;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .marker-item .mt-meta span { padding: 1px 6px; background: rgba(255,255,255,0.03); border-radius: 3px; }
+
+    /* cross-correlation discoveries */
+    .discovery-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .discovery-item {
+      padding: 10px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.7em;
+    }
+
+    .discovery-item .dname {
+      font-family: var(--font-head);
+      font-size: 0.9em;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+
+    .discovery-item .ddesc { color: #94a3b8; line-height: 1.4; }
+    .discovery-item .dmeta {
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 0.85em;
+    }
+
+    /* price grid (preserved) */
     .price-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -282,49 +641,20 @@
       font-weight: 700;
     }
 
-    .price-tile .chg {
-      font-size: 0.7em;
-      margin-top: 3px;
-    }
+    .price-tile .chg { font-size: 0.7em; margin-top: 3px; }
 
     .up   { color: var(--green); }
     .down { color: var(--red); }
 
-    /* macro grid */
-    .macro-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.78em;
-    }
-
-    .macro-row:last-child { border-bottom: none; }
-    .macro-row .label { color: var(--muted); }
-    .macro-row .value { font-weight: 700; }
-
-    /* gork card */
-    .gork-card {
-      background: linear-gradient(135deg, #0d1a2e, #0d1219);
-      border: 1px solid rgba(79,158,255,0.2);
-    }
-
-    .gork-price {
-      font-family: var(--font-head);
-      font-size: 2em;
-      font-weight: 800;
-      color: var(--blue);
-    }
-
-    .gork-meta { font-size: 0.72em; color: var(--muted); margin-top: 6px; line-height: 1.8; }
-
-    /* indicators panel */
+    /* macro indicators (extended) */
     .indicators-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      margin-top: 4px;
+    }
+
+    @media (max-width: 700px) {
+      .indicators-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     .ind-tile {
@@ -333,7 +663,10 @@
       border-radius: 8px;
       padding: 12px 10px;
       text-align: center;
+      transition: border-color 0.2s;
     }
+
+    .ind-tile:hover { border-color: var(--border-hi); }
 
     .ind-tile .ind-label {
       font-size: 0.6em;
@@ -349,16 +682,39 @@
       font-weight: 700;
     }
 
-    .ind-tile .ind-sub {
-      font-size: 0.6em;
-      color: var(--muted);
-      margin-top: 3px;
+    .ind-tile .ind-sub { font-size: 0.6em; color: var(--muted); margin-top: 3px; }
+
+    /* macro rows */
+    .macro-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78em;
     }
 
-    /* blow-off meter */
-    .blowoff-meter {
-      margin-top: 8px;
+    .macro-row:last-child { border-bottom: none; }
+    .macro-row .label { color: var(--muted); }
+    .macro-row .value { font-weight: 700; }
+
+    /* gork card (preserved) */
+    .gork-card {
+      background: linear-gradient(135deg, #0d1a2e, #0d1219);
+      border: 1px solid rgba(79,158,255,0.2);
     }
+
+    .gork-price {
+      font-family: var(--font-head);
+      font-size: 2em;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .gork-meta { font-size: 0.72em; color: var(--muted); margin-top: 6px; line-height: 1.8; }
+
+    /* blow-off meter (preserved, enhanced with dual signal) */
+    .blowoff-meter { margin-top: 8px; }
 
     .blowoff-header {
       display: flex;
@@ -373,7 +729,7 @@
       font-weight: 800;
     }
 
-    .blowoff-label { font-size: 0.7em; color: var(--muted); }
+    .blowoff-label { font-size: 0.7em; color: var(--muted); text-align: right; max-width: 60%; }
 
     .meter-track {
       width: 100%;
@@ -420,7 +776,7 @@
       transition: width 1s ease;
     }
 
-    /* daily summary */
+    /* daily summary (preserved) */
     .summary-nav {
       display: flex;
       align-items: center;
@@ -443,12 +799,10 @@
     .nav-btn:hover { border-color: var(--blue); }
 
     .summary-date { font-size: 0.72em; color: var(--muted); }
-
     .summary-body { font-size: 0.75em; line-height: 1.7; color: #94a3b8; }
-
     .summary-body strong { color: var(--text); }
 
-    /* ETF flows */
+    /* ETF flows (preserved) */
     .etf-row {
       display: flex;
       justify-content: space-between;
@@ -479,69 +833,6 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-
-    /* chart controls */
-    .chart-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tf-group {
-      display: flex;
-      gap: 4px;
-    }
-
-    .tf-btn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 0.65em;
-      letter-spacing: 0.08em;
-      transition: all 0.2s;
-      user-select: none;
-    }
-
-    .tf-btn:hover { border-color: var(--blue); color: var(--text); }
-    .tf-btn.active { background: var(--blue); border-color: var(--blue); color: #000; font-weight: 700; }
-
-    .chart-actions { display: flex; gap: 6px; }
-
-    .chart-action-btn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 0.65em;
-      transition: all 0.2s;
-    }
-
-    .chart-action-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
-
-    /* crosshair tooltip */
-    .chart-tooltip-custom {
-      position: absolute;
-      background: #0d1219;
-      border: 1px solid rgba(79,158,255,0.3);
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-family: var(--font-mono);
-      font-size: 0.7em;
-      pointer-events: none;
-      z-index: 100;
-      min-width: 160px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
   </style>
 </head>
 <body>
@@ -552,8 +843,9 @@
     <p>@BadmonLano · Macro confluence engine · 2017–2028</p>
   </div>
   <div class="header-right">
-    <div class="live-dot"></div>
-    <span class="live-label">Live</span>
+    <div class="live-dot" id="liveDot"></div>
+    <span class="live-label" id="liveLabel">Live</span>
+    <span class="engine-ts" id="engineTs"></span>
   </div>
 </header>
 
@@ -575,11 +867,12 @@
 
 <div class="grid">
 
-  <!-- LEFT: Chart + cycle status + indicators -->
-  <div class="chart-card">
+  <!-- LEFT: Chart + cycle + brain consensus + indicators + markers -->
+  <div class="chart-col">
 
+    <!-- Main chart -->
     <div class="card">
-      <div class="card-label">Flow Cycle Index · 2017–2028</div>
+      <div class="card-label">Flow Cycle Index · 2017–2028 · AI Annotations</div>
       <div class="chart-controls">
         <div class="tf-group">
           <button class="tf-btn" onclick="setTimeframe(30)">1M</button>
@@ -589,14 +882,24 @@
           <button class="tf-btn active" onclick="setTimeframe(0)" id="tfAll">ALL</button>
         </div>
         <div class="chart-actions">
+          <button class="chart-action-btn on" id="toggleMarkers" onclick="toggleMarkers()">◉ AI Markers</button>
+          <button class="chart-action-btn on" id="togglePrediction" onclick="togglePrediction()">◉ Forecast</button>
           <button class="chart-action-btn" onclick="resetZoom()" title="Reset zoom">⊙ Reset</button>
         </div>
       </div>
       <div class="chart-wrap" style="position:relative">
         <canvas id="mainChart"></canvas>
       </div>
+      <!-- Overlay toggles -->
+      <div style="margin-top: 14px;">
+        <div style="font-size: 0.6em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">Overlay Indicators</div>
+        <div class="overlay-toggles" id="overlayToggles">
+          <!-- Filled in by JS -->
+        </div>
+      </div>
     </div>
 
+    <!-- Cycle status -->
     <div class="cycle-status">
       <div class="cycle-index" id="cycleIndex">--</div>
       <div class="cycle-info">
@@ -608,7 +911,37 @@
       </div>
     </div>
 
-    <!-- macro indicators -->
+    <!-- Brain consensus panel (NEW v2) -->
+    <div class="card brain-card">
+      <div class="card-label">
+        4-Brain Consensus Engine
+        <span class="tier-badge" id="brainTier" style="margin-left: auto;">LOW</span>
+      </div>
+      <div class="brain-headline" id="brainHeadline">Awaiting brain output...</div>
+      <div class="brain-narrative" id="brainNarrative">Flow cycle engine connecting...</div>
+      <div class="brain-signals">
+        <div class="brain-sig-tile">
+          <div class="sig-label">4-Brain</div>
+          <div class="sig-val" id="brainSignal">--</div>
+          <div class="sig-meta" id="brainConf">confidence --</div>
+        </div>
+        <div class="brain-sig-tile">
+          <div class="sig-label">Legacy Math</div>
+          <div class="sig-val" id="legacySignal">--</div>
+          <div class="sig-meta" id="legacyScore">score --</div>
+        </div>
+      </div>
+      <div class="recon-hint" id="reconHint">Awaiting reconciliation...</div>
+
+      <div class="pattern-match">
+        <div style="font-size: 0.6em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin: 14px 0 8px;">Pattern Similarity vs History</div>
+        <div id="patternMatchList">
+          <!-- Filled in by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Macro indicators (extended) -->
     <div class="card">
       <div class="card-label">Macro Indicators</div>
       <div class="indicators-grid" id="macroGrid">
@@ -621,10 +954,17 @@
         <div class="ind-tile"><div class="ind-label">Silver</div><div class="ind-val" id="silver">--</div><div class="ind-sub" id="silverChg">--</div></div>
         <div class="ind-tile"><div class="ind-label">S&P 500</div><div class="ind-val" id="sp500">--</div><div class="ind-sub" id="sp500Chg">--</div></div>
         <div class="ind-tile"><div class="ind-label">VIX</div><div class="ind-val" id="vix">--</div><div class="ind-sub">fear index</div></div>
+        <!-- NEW v2 indicators -->
+        <div class="ind-tile"><div class="ind-label">Copper</div><div class="ind-val" id="copper">--</div><div class="ind-sub" id="copperChg">industrial</div></div>
+        <div class="ind-tile"><div class="ind-label">Uranium</div><div class="ind-val" id="uranium">--</div><div class="ind-sub">URA etf</div></div>
+        <div class="ind-tile"><div class="ind-label">Fertilizer</div><div class="ind-val" id="fertilizer">--</div><div class="ind-sub">NTR proxy</div></div>
+        <div class="ind-tile"><div class="ind-label">Nat Gas</div><div class="ind-val" id="natgas">--</div><div class="ind-sub">henry hub</div></div>
+        <div class="ind-tile"><div class="ind-label">10Y Yield</div><div class="ind-val" id="us10y">--</div><div class="ind-sub" id="yieldSpread">spread --</div></div>
+        <div class="ind-tile"><div class="ind-label">MVRV Z</div><div class="ind-val" id="mvrv">--</div><div class="ind-sub">on-chain</div></div>
       </div>
     </div>
 
-    <!-- blow-off top meter -->
+    <!-- Blow-off top meter (preserved) -->
     <div class="card">
       <div class="card-label">Blow-Off Top Probability · Pattern Match vs 2017 & 2021</div>
       <div class="blowoff-meter">
@@ -638,8 +978,8 @@
           <div class="factor-row"><span class="factor-name">BTC Momentum</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac2" style="width:0%;background:var(--blue)"></div></div></div>
           <div class="factor-row"><span class="factor-name">DXY Weakness</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac3" style="width:0%;background:var(--blue)"></div></div></div>
           <div class="factor-row"><span class="factor-name">Gold Strength</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac4" style="width:0%;background:var(--blue)"></div></div></div>
-          <div class="factor-row"><span class="factor-name">ETF Inflows</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac5" style="width:0%;background:var(--blue)"></div></div></div>
-          <div class="factor-row"><span class="factor-name">Stablecoin Supply</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac6" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="factor-row"><span class="factor-name">Stablecoin Supply</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac5" style="width:0%;background:var(--blue)"></div></div></div>
+          <div class="factor-row"><span class="factor-name">Funding Rate</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac6" style="width:0%;background:var(--blue)"></div></div></div>
         </div>
       </div>
     </div>
@@ -647,16 +987,16 @@
   </div>
 
   <!-- RIGHT: sidebar -->
-  <div class="sidebar">
+  <div class="sidebar-col">
 
-    <!-- $GORK -->
+    <!-- $GORK (preserved) -->
     <div class="card gork-card">
       <div class="card-label">$GORK · Solana</div>
       <div class="gork-price" id="gorkPrice">--</div>
       <div class="gork-meta" id="gorkMeta">Loading...</div>
     </div>
 
-    <!-- crypto prices -->
+    <!-- Crypto (preserved) -->
     <div class="card">
       <div class="card-label">Crypto</div>
       <div class="price-grid" id="cryptoPrices">
@@ -667,9 +1007,30 @@
       </div>
     </div>
 
-    <!-- ETF flows -->
+    <!-- AI Markers feed (NEW v2) -->
     <div class="card">
-      <div class="card-label">BTC ETF Flows (Est. Daily)</div>
+      <div class="card-label">
+        Recent AI Detections
+        <button class="card-label-action" onclick="refreshMarkers()" title="Refresh">↻</button>
+      </div>
+      <div class="markers-list" id="markersList">
+        <div style="color: var(--muted); font-size: 0.75em; text-align: center; padding: 20px;">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Cross-correlation discoveries (NEW v2) -->
+    <div class="card">
+      <div class="card-label">Pattern Discoveries</div>
+      <div class="discovery-list" id="discoveryList">
+        <div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">
+          Cross-correlation engine runs weekly. First results after historical backfill complete.
+        </div>
+      </div>
+    </div>
+
+    <!-- ETF flows (preserved) -->
+    <div class="card">
+      <div class="card-label">BTC ETF Flows (Daily Net)</div>
       <div id="etfFlows">
         <div class="etf-row"><span class="etf-name">IBIT (BlackRock)</span><span class="etf-flow" id="ibit">--</span></div>
         <div class="etf-row"><span class="etf-name">FBTC (Fidelity)</span><span class="etf-flow" id="fbtc">--</span></div>
@@ -679,16 +1040,18 @@
       </div>
     </div>
 
-    <!-- on-chain -->
+    <!-- On-chain (preserved + extended) -->
     <div class="card">
-      <div class="card-label">On-Chain Signals</div>
-      <div class="macro-row"><span class="label">Funding Rate (BTC)</span><span class="value" id="funding">--</span></div>
-      <div class="macro-row"><span class="label">Exchange Inflow</span><span class="value" id="exchInflow">--</span></div>
+      <div class="card-label">On-Chain / Derivatives</div>
+      <div class="macro-row"><span class="label">BTC Funding</span><span class="value" id="funding">--</span></div>
+      <div class="macro-row"><span class="label">ETH Funding</span><span class="value" id="ethFunding">--</span></div>
+      <div class="macro-row"><span class="label">BTC OI</span><span class="value" id="btcOI">--</span></div>
       <div class="macro-row"><span class="label">Stablecoin Supply</span><span class="value" id="stableSupply">--</span></div>
-      <div class="macro-row"><span class="label">24h Volume</span><span class="value" id="totalVol">--</span></div>
+      <div class="macro-row"><span class="label">Stablecoin 7d</span><span class="value" id="stableChg">--</span></div>
+      <div class="macro-row"><span class="label">Active Addr 24h</span><span class="value" id="activeAddr">--</span></div>
     </div>
 
-    <!-- daily summary -->
+    <!-- Daily summary (preserved) -->
     <div class="card">
       <div class="card-label">Daily Summary</div>
       <div class="summary-nav">
@@ -703,7 +1066,29 @@
 </div>
 
 <script>
-// ── chart data ────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// INDICATOR OVERLAY CONFIG
+// Each entry: key in macro.json / indicator_history.json → display config
+// ═══════════════════════════════════════════════════════════════════════════
+const OVERLAYS = {
+  stablecoin_total:  { label: 'Stablecoin Supply', color: '#00e5a0', axis: 'y1', scale: 1e9,  unit: 'B' },
+  uranium:           { label: 'Uranium',           color: '#9f7aea', axis: 'y1', scale: 1,    unit: '$' },
+  fertilizer:        { label: 'Fertilizer',        color: '#f5c518', axis: 'y1', scale: 1,    unit: '$' },
+  copper:            { label: 'Copper',            color: '#ff8c42', axis: 'y1', scale: 1,    unit: '$' },
+  mvrv_zscore:       { label: 'MVRV Z-Score',      color: '#ff4d6a', axis: 'y1', scale: 1,    unit: '' },
+  gold:              { label: 'Gold',              color: '#f5c518', axis: 'y1', scale: 1,    unit: '$' },
+  vix:               { label: 'VIX',               color: '#ff4d6a', axis: 'y1', scale: 1,    unit: '' },
+  dxy:               { label: 'DXY',               color: '#4f9eff', axis: 'y1', scale: 1,    unit: '' },
+  btc_funding:       { label: 'BTC Funding',       color: '#ff8c42', axis: 'y1', scale: 1,    unit: '%' },
+  etf_net_total:     { label: 'ETF Net Flows',     color: '#00e5a0', axis: 'y1', scale: 1,    unit: 'M' },
+};
+const activeOverlays = new Set();  // which ones are toggled on
+let showMarkers = true;
+let showPrediction = true;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WEEKLY DATE GENERATION (preserved)
+// ═══════════════════════════════════════════════════════════════════════════
 function genWeeklyDates(sy, sm, ey, em) {
   const dates = [], end = new Date(ey, em-1, 1);
   let cur = new Date(sy, sm-1, 1);
@@ -713,17 +1098,7 @@ function genWeeklyDates(sy, sm, ey, em) {
 
 const weeklyDates = genWeeklyDates(2017,1,2028,1);
 
-// ── UPDATED: filled in Jan 2025 → Mar 2026 gap with real data ─────────────────
-// Sources: session history + Telegram screenshots
-// Jan 2025: BTC ~$100k, bull run cooling → 78
-// Apr 2025: correction, F&G low → 22
-// Jul 2025: dead cat bounce attempt → 28
-// Sep 2025: sideways grind → 20
-// Nov 2025: deep bear, Extreme Fear → 12
-// Dec 2025: early recovery signals → 35
-// Jan 2026: recovery building, score ~51 → 51
-// Feb 2026: BTC ~$85-90k, F&G still low, choppy → 45
-// Mar 2026 (early): BTC $70-75k, F&G 15-16, Depression phase, Blow-Off 53% → 53
+// Known anchor points for historical flow cycle index
 const knownPoints = {
   '2017-01-01':10,'2017-10-01':45,'2017-12-01':95,'2018-01-01':88,
   '2018-12-01':8,'2019-06-01':30,'2020-03-01':5,'2020-10-01':35,
@@ -731,7 +1106,7 @@ const knownPoints = {
   '2022-11-01':6,'2023-06-01':40,'2024-01-01':60,'2024-03-01':88,
   '2024-04-01':65,'2024-11-01':80,'2025-01-01':78,'2025-04-01':22,
   '2025-07-01':28,'2025-09-01':20,'2025-11-01':12,'2025-12-01':35,
-  '2026-01-01':51,'2026-02-01':45,'2026-03-01':53
+  '2026-01-01':51,'2026-02-01':45,'2026-03-01':53,'2026-04-01':62
 };
 
 const historical = weeklyDates.map(date => {
@@ -748,21 +1123,23 @@ const historical = weeklyDates.map(date => {
   return Math.round(pV + t*(nV-pV));
 });
 
+// Prediction - rebuilt with current data anchor
 let prediction = historical.slice();
-// Prediction starts from current point (Mar 2026 = 53) and curves toward blow-off
-const si = weeklyDates.findIndex(d => d >= new Date(2026,2,1));  // Mar 2026
+const si = weeklyDates.findIndex(d => d >= new Date(2026,3,1));  // Apr 2026 (current)
 const pi = weeklyDates.findIndex(d => d >= new Date(2026,8,1));  // Sep 2026 peak
 const ei = weeklyDates.length-1;
 for (let i=si+1; i<=ei; i++) {
   let t;
-  if (i<=pi) { const p=(i-si)/(pi-si); t=53+(95-53)*p; }
-  else { const p=(i-pi)/(ei-pi); t=88-(88-10)*p; }
+  if (i<=pi) { const p=(i-si)/(pi-si); t=62+(95-62)*p; }
+  else { const p=(i-pi)/(ei-pi); t=90-(90-12)*p; }
   t += Math.sin(i*0.4)*3;
   prediction[i] = Math.max(5, Math.min(100, Math.round(t)));
 }
-// null out prediction for historical range so lines don't overlap
 for (let i=0; i<si; i++) prediction[i] = null;
 
+// ═══════════════════════════════════════════════════════════════════════════
+// CHART INSTANCE
+// ═══════════════════════════════════════════════════════════════════════════
 const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
   type: 'line',
   data: {
@@ -777,7 +1154,8 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         pointHoverBackgroundColor: '#4f9eff',
         pointHoverBorderColor: '#fff',
         pointHoverBorderWidth: 2,
-        borderWidth: 2
+        borderWidth: 2,
+        yAxisID: 'y',
       },
       {
         label: 'Predicted (Blow-Off Forecast)',
@@ -787,8 +1165,10 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         borderDash: [5,4],
         fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 4,
         pointHoverBackgroundColor: '#f5c518',
-        borderWidth: 1.5
+        borderWidth: 1.5,
+        yAxisID: 'y',
       }
+      // Overlay datasets added dynamically
     ]
   },
   options: {
@@ -806,7 +1186,15 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         min: 0, max: 100,
         grid: { color: 'rgba(255,255,255,0.04)' },
         ticks: { color: '#4a5568', font: { family: 'Space Mono', size: 10 } },
-        border: { color: 'transparent' }
+        border: { color: 'transparent' },
+        title: { display: false }
+      },
+      y1: {
+        position: 'right',
+        grid: { display: false },
+        ticks: { color: '#4a5568', font: { family: 'Space Mono', size: 10 } },
+        border: { color: 'transparent' },
+        display: false,  // shown when an overlay toggled
       }
     },
     plugins: {
@@ -842,14 +1230,28 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
           label: ctx => {
             const val = ctx.raw;
             if (val === null || val === undefined) return null;
-            const score = Math.round(val);
-            const trend = score > 50 ? 'up' : 'down';
-            const phase = getPhase(score, trend);
-            if (ctx.datasetIndex === 0) return [
-              `  Score: ${score}`,
-              `  Phase: ${phase}`,
-            ];
-            return `  Forecast: ${score}`;
+            const ds = ctx.dataset;
+            if (ds.label === 'Flow Cycle Index') {
+              const score = Math.round(val);
+              const trend = score > 50 ? 'up' : 'down';
+              const phase = getPhase(score, trend);
+              return [`  Score: ${score}`, `  Phase: ${phase}`];
+            }
+            if (ds.label === 'Predicted (Blow-Off Forecast)') {
+              return `  Forecast: ${Math.round(val)}`;
+            }
+            // Overlay datasets
+            const key = ds.__overlayKey;
+            if (key && OVERLAYS[key]) {
+              const cfg = OVERLAYS[key];
+              const display = cfg.unit === 'B' ? `$${(val/1e9).toFixed(1)}B`
+                            : cfg.unit === 'M' ? `$${val.toFixed(0)}M`
+                            : cfg.unit === '$' ? `$${val.toFixed(2)}`
+                            : cfg.unit === '%' ? `${val.toFixed(3)}%`
+                            : val.toFixed(2);
+              return `  ${cfg.label}: ${display}`;
+            }
+            return `  ${ds.label}: ${val}`;
           },
           afterBody: items => {
             const idx = items[0].dataIndex;
@@ -863,27 +1265,12 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         }
       },
       zoom: {
-        zoom: {
-          wheel: { enabled: true, speed: 0.1 },
-          pinch: { enabled: true },
-          mode: 'x',
-          onZoom: () => updateActiveTfBtn(null),
-        },
-        pan: {
-          enabled: true,
-          mode: 'x',
-          threshold: 5,
-        },
-        limits: {
-          x: { min: 'original', max: 'original' },
-        }
+        zoom: { wheel: { enabled: true, speed: 0.1 }, pinch: { enabled: true }, mode: 'x' },
+        pan: { enabled: true, mode: 'x', threshold: 5 },
+        limits: { x: { min: 'original', max: 'original' } }
       },
       crosshair: {
-        line: {
-          color: 'rgba(255,255,255,0.15)',
-          width: 1,
-          dashPattern: [4, 4],
-        },
+        line: { color: 'rgba(255,255,255,0.15)', width: 1, dashPattern: [4, 4] },
         sync: { enabled: false },
         zoom: { enabled: false },
       },
@@ -891,11 +1278,13 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
   }
 });
 
-// store BTC + F&G history for tooltip
 chart._btcHistory = historical.map(() => null);
 chart._fgHistory  = historical.map(() => null);
+chart._markerCache = [];   // stored markers for reapplication after zoom
 
-// ── phase logic ───────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// PHASE LOGIC (preserved)
+// ═══════════════════════════════════════════════════════════════════════════
 function getPhase(idx, trend) {
   if (trend === 'up') {
     if (idx < 15) return 'Depression';
@@ -960,7 +1349,9 @@ function setPhase(phase, index) {
   fill.style.background = phaseColor(phase);
 }
 
-// ── data fetchers ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// FORMATTING HELPERS
+// ═══════════════════════════════════════════════════════════════════════════
 function fmt(n, dec=2) {
   if (n === null || n === undefined || isNaN(n)) return '--';
   if (n >= 1e12) return '$' + (n/1e12).toFixed(2) + 'T';
@@ -977,6 +1368,14 @@ function chgHTML(pct) {
   return `<span class="${cls}">${sign}${pct.toFixed(2)}%</span>`;
 }
 
+function fmtPlain(n, dec=2) {
+  if (n === null || n === undefined || isNaN(n)) return '--';
+  return Number(n).toLocaleString('en-US', { maximumFractionDigits: dec });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA FETCHERS - Direct from CoinGecko / alternative.me for realtime prices
+// ═══════════════════════════════════════════════════════════════════════════
 async function fetchCrypto() {
   try {
     const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
@@ -992,16 +1391,7 @@ async function fetchCrypto() {
     if (btc) {
       document.getElementById('btcPrice').textContent = fmt(btc.current_price, 0);
       document.getElementById('btcChg').innerHTML = chgHTML(btc.price_change_percentage_24h);
-
-      // update cycle index based on BTC 24h momentum
-      const momentum = btc.price_change_percentage_24h || 0;
-      const idx = Math.max(10, Math.min(92, 51 + Math.round(momentum * 2)));
-      const trend = momentum >= 0 ? 'up' : 'down';
-      const phase = getPhase(idx, trend);
-      setPhase(phase, idx);
-      computeBlowoff(idx, btc);
     }
-
     if (eth) {
       document.getElementById('ethPrice').textContent = fmt(eth.current_price, 0);
       document.getElementById('ethChg').innerHTML = chgHTML(eth.price_change_percentage_24h);
@@ -1023,8 +1413,6 @@ async function fetchGlobal() {
     const { data } = await res.json();
     document.getElementById('btcDom').textContent = data.market_cap_percentage?.btc?.toFixed(1) + '%';
     document.getElementById('totalMcap').textContent = fmt(data.total_market_cap?.usd);
-    document.getElementById('totalVol').textContent = fmt(data.total_volume?.usd);
-    document.getElementById('stableSupply').textContent = fmt((data.total_market_cap?.usdt || 0) + (data.total_market_cap?.usdc || 0));
   } catch(e) {}
 }
 
@@ -1036,7 +1424,7 @@ async function fetchFearGreed() {
     const label = data[0].value_classification;
     document.getElementById('fng').textContent = val;
     document.getElementById('fngLabel').textContent = label;
-    document.getElementById('fng').className = 'ind-val ' + (val > 75 ? 'down' : val > 50 ? '' : val > 25 ? 'up' : 'up');
+    document.getElementById('fng').className = 'ind-val ' + (val > 75 ? 'down' : val > 50 ? '' : 'up');
   } catch(e) {}
 }
 
@@ -1057,9 +1445,373 @@ async function fetchGork() {
   }
 }
 
-// ETF flows — estimated from available public data
+// ═══════════════════════════════════════════════════════════════════════════
+// MACRO.JSON - reads ALL engine outputs
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchMacro() {
+  try {
+    const res = await fetch('data/macro.json?t=' + Date.now());
+    const data = await res.json();
+
+    // Engine status
+    if (data._updated) {
+      const ts = new Date(data._updated);
+      const ageMin = (Date.now() - ts.getTime()) / 60000;
+      const dot = document.getElementById('liveDot');
+      const lbl = document.getElementById('liveLabel');
+      const tsEl = document.getElementById('engineTs');
+      if (ageMin < 45) { dot.className = 'live-dot'; lbl.className = 'live-label'; lbl.textContent = 'Live'; }
+      else if (ageMin < 120) { dot.className = 'live-dot stale'; lbl.className = 'live-label stale'; lbl.textContent = 'Stale'; }
+      else { dot.className = 'live-dot down'; lbl.className = 'live-label down'; lbl.textContent = 'Offline'; }
+      tsEl.textContent = `· updated ${Math.floor(ageMin)}m ago`;
+    }
+
+    // Legacy fields (preserved)
+    if (data.gold)       { document.getElementById('gold').textContent = '$' + data.gold; document.getElementById('goldChg').innerHTML = chgHTML(data.gold_chg); }
+    if (data.silver)     { document.getElementById('silver').textContent = '$' + data.silver; document.getElementById('silverChg').innerHTML = chgHTML(data.silver_chg); }
+    if (data.oil)        { document.getElementById('oil').textContent = '$' + data.oil; document.getElementById('oilChg').innerHTML = chgHTML(data.oil_chg); }
+    if (data.sp500)      { document.getElementById('sp500').textContent = data.sp500.toLocaleString(); document.getElementById('sp500Chg').innerHTML = chgHTML(data.sp500_chg); }
+    if (data.vix != null){ document.getElementById('vix').textContent = data.vix; }
+    if (data.dxy != null){ document.getElementById('dxy').textContent = data.dxy; }
+
+    // NEW v2 fields
+    if (data.copper != null)     document.getElementById('copper').textContent = '$' + data.copper;
+    if (data.copper_chg != null) document.getElementById('copperChg').innerHTML = chgHTML(data.copper_chg);
+    if (data.uranium != null)    document.getElementById('uranium').textContent = '$' + data.uranium;
+    if (data.fertilizer != null) document.getElementById('fertilizer').textContent = '$' + data.fertilizer;
+    if (data.natgas != null)     document.getElementById('natgas').textContent = '$' + data.natgas;
+    if (data.us10y != null)      document.getElementById('us10y').textContent = data.us10y + '%';
+    if (data.yield_spread_10_2 != null) document.getElementById('yieldSpread').textContent = `spread ${data.yield_spread_10_2.toFixed(2)}`;
+    if (data.mvrv_zscore != null) document.getElementById('mvrv').textContent = data.mvrv_zscore.toFixed(2);
+
+    // Derivatives / on-chain sidebar
+    if (data.btc_funding != null) document.getElementById('funding').textContent = (data.btc_funding >= 0 ? '+' : '') + data.btc_funding.toFixed(4) + '%';
+    if (data.eth_funding != null) document.getElementById('ethFunding').textContent = (data.eth_funding >= 0 ? '+' : '') + data.eth_funding.toFixed(4) + '%';
+    if (data.btc_oi_total != null) document.getElementById('btcOI').textContent = fmt(data.btc_oi_total);
+    if (data.stablecoin_total != null) document.getElementById('stableSupply').textContent = fmt(data.stablecoin_total);
+    if (data.stablecoin_7d_chg != null) {
+      const el = document.getElementById('stableChg');
+      const v = data.stablecoin_7d_chg;
+      el.textContent = (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
+      el.className = 'value ' + (v >= 0 ? 'up' : 'down');
+    }
+    if (data.active_addresses_24h != null) document.getElementById('activeAddr').textContent = fmtPlain(data.active_addresses_24h, 0);
+
+    // Brain consensus panel
+    if (data.brain_consensus) {
+      const bc = data.brain_consensus;
+      document.getElementById('brainHeadline').textContent = bc.headline || 'Awaiting brain output...';
+      document.getElementById('brainNarrative').textContent = bc.narrative || '';
+      const sigEl = document.getElementById('brainSignal');
+      sigEl.textContent = bc.final_signal || '--';
+      sigEl.className = 'sig-val ' + (bc.final_signal || '').toLowerCase();
+      document.getElementById('brainConf').textContent = bc.confidence != null ? `confidence ${(bc.confidence*100).toFixed(0)}%` : 'confidence --';
+      const tEl = document.getElementById('brainTier');
+      tEl.textContent = bc.alert_tier || 'LOW';
+      tEl.className = 'tier-badge ' + (bc.alert_tier || 'low').toLowerCase();
+    }
+
+    // Legacy signal
+    if (data.blowoff_signal) {
+      const legEl = document.getElementById('legacySignal');
+      legEl.textContent = data.blowoff_signal;
+      legEl.className = 'sig-val ' + data.blowoff_signal.toLowerCase();
+      document.getElementById('legacyScore').textContent = `score ${data.blowoff_score}`;
+    }
+
+    // Reconciliation hint
+    if (data.signals && data.signals.reconciliation_hint) {
+      const hint = data.signals.reconciliation_hint;
+      const el = document.getElementById('reconHint');
+      const parts = hint.split(':');
+      if (parts.length >= 2) {
+        el.innerHTML = `<strong>${parts[0]}:</strong>${parts.slice(1).join(':')}`;
+      } else {
+        el.textContent = hint;
+      }
+    }
+
+    // Pattern match list
+    if (data.pattern_match) {
+      renderPatternMatch(data);
+    }
+
+    // Blow-off meter with NEW factors (stablecoin supply, funding)
+    renderBlowoff(data);
+
+    // Cycle phase
+    if (data.cycle_phase && data.blowoff_score != null) {
+      setPhase(data.cycle_phase, data.blowoff_score);
+    }
+
+  } catch(e) {
+    console.log('macro fetch failed', e);
+    ['gold','silver','oil','sp500','vix','dxy','copper','uranium','fertilizer','natgas','us10y','mvrv'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.textContent === '--') el.textContent = 'Jordan updating...';
+    });
+  }
+}
+
+function renderPatternMatch(data) {
+  const pm = data.pattern_match;
+  if (!pm) return;
+
+  // Get all matches if similarity file available, else show just the best
+  fetch('data/pattern_similarity.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(sim => {
+      const matches = sim.all_matches || {};
+      const keys = Object.keys(matches).sort((a,b) => matches[b].similarity - matches[a].similarity);
+      const html = keys.map(k => {
+        const m = matches[k];
+        const isTop = k.startsWith('top_');
+        const pct = (m.similarity * 100).toFixed(1);
+        const name = k.replace(/_/g, ' ').replace(/^top /, 'TOP · ').replace(/^bottom /, 'BTM · ').toUpperCase();
+        return `
+          <div class="pattern-match-row">
+            <span class="pm-name">${name}</span>
+            <span class="pm-score" style="color:${isTop ? 'var(--red)' : 'var(--green)'}">${pct}%</span>
+          </div>
+          <div class="pm-bar-wrap"><div class="pm-bar ${isTop ? 'top-type' : 'bottom-type'}" style="width:${pct}%"></div></div>
+        `;
+      }).join('');
+      document.getElementById('patternMatchList').innerHTML = html;
+    })
+    .catch(() => {
+      // Fallback: just show the best match from macro.json
+      const pct = (pm.similarity * 100).toFixed(1);
+      const name = (pm.best_match || '').replace(/_/g, ' ').toUpperCase();
+      const isTop = pm.pattern_type === 'BLOWOFF_TOP';
+      document.getElementById('patternMatchList').innerHTML = `
+        <div class="pattern-match-row">
+          <span class="pm-name">${name}</span>
+          <span class="pm-score" style="color:${isTop ? 'var(--red)' : 'var(--green)'}">${pct}%</span>
+        </div>
+        <div class="pm-bar-wrap"><div class="pm-bar ${isTop ? 'top-type' : 'bottom-type'}" style="width:${pct}%"></div></div>
+      `;
+    });
+}
+
+function renderBlowoff(data) {
+  if (data.blowoff_score == null) return;
+  const score = data.blowoff_score;
+  document.getElementById('blowoffScore').textContent = score + '%';
+  document.getElementById('blowoffScore').style.color = score > 70 ? 'var(--red)' : score > 45 ? 'var(--yellow)' : 'var(--green)';
+  document.getElementById('blowoffLabel').textContent = data.blowoff_label || '';
+  document.getElementById('meterFill').style.width = score + '%';
+
+  // Update factor bars with real values from engine
+  const f = data.blowoff_factors || {};
+  const mapping = {
+    fac1: f.fear_greed,
+    fac2: f.btc_momentum,
+    fac3: f.dxy_weakness,
+    fac4: f.gold_strength,
+    fac5: f.liquidity,      // stablecoin-based liquidity
+    fac6: f.funding,
+  };
+  for (const [id, val] of Object.entries(mapping)) {
+    const el = document.getElementById(id);
+    if (!el || val == null) continue;
+    el.style.width = val + '%';
+    el.style.background = val > 70 ? 'var(--red)' : val > 45 ? 'var(--yellow)' : 'var(--blue)';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CHART MARKERS (NEW v2) - annotates the chart with AI detections
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchMarkers() {
+  try {
+    const res = await fetch('data/chart_markers.json?t=' + Date.now());
+    const markers = await res.json();
+    if (!Array.isArray(markers)) return;
+    chart._markerCache = markers;
+    renderMarkersOnChart();
+    renderMarkersFeed();
+  } catch(e) { console.log('markers fetch failed', e); }
+}
+
+function renderMarkersOnChart() {
+  if (!chart._markerCache) return;
+  // Clear old marker annotations (keep structural ones like blowBox, bottom25)
+  const ann = chart.options.plugins.annotation.annotations;
+  Object.keys(ann).forEach(k => {
+    if (k.startsWith('aimarker_')) delete ann[k];
+  });
+
+  if (!showMarkers) { chart.update('none'); return; }
+
+  chart._markerCache.forEach((m, i) => {
+    if (!m.date || !m.tier) return;
+    const d = new Date(m.date);
+    const color = m.tier === 'CRITICAL' ? '#ff4d6a'
+                : m.tier === 'HIGH'     ? '#4f9eff'
+                : m.tier === 'MED'      ? '#f5c518' : '#4a5568';
+    ann['aimarker_' + i] = {
+      type: 'line',
+      xMin: d, xMax: d,
+      borderColor: color,
+      borderWidth: 1.5,
+      borderDash: m.tier === 'MED' ? [3, 3] : undefined,
+      label: {
+        content: m.tier === 'CRITICAL' || m.tier === 'HIGH' ? '◆' : '·',
+        display: m.tier !== 'MED',
+        position: 'start',
+        backgroundColor: 'transparent',
+        color: color,
+        font: { size: 14, family: 'Space Mono' }
+      }
+    };
+  });
+  chart.update('none');
+}
+
+function renderMarkersFeed() {
+  const list = document.getElementById('markersList');
+  if (!chart._markerCache || chart._markerCache.length === 0) {
+    list.innerHTML = '<div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">No AI detections yet. Engine runs every 30 min.</div>';
+    return;
+  }
+  // Newest first, max 30
+  const sorted = [...chart._markerCache].reverse().slice(0, 30);
+  list.innerHTML = sorted.map(m => {
+    const tier = (m.tier || 'LOW').toLowerCase();
+    const date = m.date || '?';
+    const price = m.btc_price ? `BTC $${(m.btc_price/1000).toFixed(1)}k` : '';
+    const sim = m.similarity != null ? `${(m.similarity*100).toFixed(0)}%` : '';
+    const match = m.best_match ? m.best_match.replace(/_/g,' ').toUpperCase() : '';
+    return `
+      <div class="marker-item tier-${tier}">
+        <div class="marker-head">
+          <div class="mt-date">${date}</div>
+          <span class="tier-badge ${tier}">${m.tier || 'LOW'}</span>
+        </div>
+        <div class="mt-headline">${m.headline || '—'}</div>
+        <div class="mt-meta">
+          ${price ? `<span>${price}</span>` : ''}
+          ${match ? `<span>${match}</span>` : ''}
+          ${sim ? `<span>sim ${sim}</span>` : ''}
+          ${m.consensus_signal ? `<span>${m.consensus_signal}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleMarkers() {
+  showMarkers = !showMarkers;
+  document.getElementById('toggleMarkers').classList.toggle('on', showMarkers);
+  document.getElementById('toggleMarkers').textContent = (showMarkers ? '◉' : '◌') + ' AI Markers';
+  renderMarkersOnChart();
+}
+
+function togglePrediction() {
+  showPrediction = !showPrediction;
+  document.getElementById('togglePrediction').classList.toggle('on', showPrediction);
+  document.getElementById('togglePrediction').textContent = (showPrediction ? '◉' : '◌') + ' Forecast';
+  const predDs = chart.data.datasets.find(d => d.label === 'Predicted (Blow-Off Forecast)');
+  if (predDs) { predDs.hidden = !showPrediction; chart.update('none'); }
+}
+
+function refreshMarkers() { fetchMarkers(); }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INDICATOR OVERLAYS (NEW v2)
+// ═══════════════════════════════════════════════════════════════════════════
+function renderOverlayToggles() {
+  const host = document.getElementById('overlayToggles');
+  host.innerHTML = Object.entries(OVERLAYS).map(([key, cfg]) => `
+    <div class="toggle-chip" data-key="${key}" style="color: ${cfg.color};" onclick="toggleOverlay('${key}')">
+      <span class="swatch"></span>
+      <span class="tlabel">${cfg.label}</span>
+    </div>
+  `).join('');
+}
+
+function toggleOverlay(key) {
+  const chip = document.querySelector(`.toggle-chip[data-key="${key}"]`);
+  if (activeOverlays.has(key)) {
+    activeOverlays.delete(key);
+    chip.classList.remove('on');
+    removeOverlayDataset(key);
+  } else {
+    activeOverlays.add(key);
+    chip.classList.add('on');
+    addOverlayDataset(key);
+  }
+}
+
+function addOverlayDataset(key) {
+  const cfg = OVERLAYS[key];
+  if (!cfg || !chart._indicatorHistory) return;
+  const series = chart._indicatorHistory.map(e => ({
+    x: new Date(e.date),
+    y: e[key] != null ? e[key] : null,
+  })).filter(p => p.y !== null);
+  if (series.length === 0) { activeOverlays.delete(key); return; }
+
+  chart.data.datasets.push({
+    label: cfg.label,
+    data: series,
+    borderColor: cfg.color,
+    backgroundColor: cfg.color + '20',
+    borderWidth: 1.5,
+    pointRadius: 0,
+    pointHoverRadius: 4,
+    fill: false,
+    tension: 0.3,
+    yAxisID: 'y1',
+    __overlayKey: key,
+  });
+  chart.options.scales.y1.display = true;
+  chart.update('none');
+}
+
+function removeOverlayDataset(key) {
+  chart.data.datasets = chart.data.datasets.filter(d => d.__overlayKey !== key);
+  if (chart.data.datasets.filter(d => d.__overlayKey).length === 0) {
+    chart.options.scales.y1.display = false;
+  }
+  chart.update('none');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INDICATOR HISTORY (NEW v2)
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchIndicatorHistory() {
+  try {
+    const res = await fetch('data/indicator_history.json?t=' + Date.now());
+    chart._indicatorHistory = await res.json();
+  } catch(e) { chart._indicatorHistory = []; }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CROSS-CORRELATION DISCOVERIES (NEW v2)
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchDiscoveries() {
+  try {
+    const res = await fetch('data/pattern_discoveries.json?t=' + Date.now());
+    if (!res.ok) return;
+    const discoveries = await res.json();
+    if (!Array.isArray(discoveries) || discoveries.length === 0) return;
+    const host = document.getElementById('discoveryList');
+    host.innerHTML = discoveries.slice(0, 6).map(d => `
+      <div class="discovery-item">
+        <div class="dname">${d.name || 'Pattern'}</div>
+        <div class="ddesc">${d.description || ''}</div>
+        <div class="dmeta">confidence ${((d.confidence || 0)*100).toFixed(0)}% · ${d.precedes || ''}</div>
+      </div>
+    `).join('');
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ETF + ON-CHAIN (preserved, simplified since macro.json has it all now)
+// ═══════════════════════════════════════════════════════════════════════════
 function loadETFFlows() {
-  fetch('data/etf_flows.json')
+  fetch('data/etf_flows.json?t=' + Date.now())
     .then(r => r.json())
     .then(data => {
       let total = 0;
@@ -1068,11 +1820,12 @@ function loadETFFlows() {
         total += v || 0;
         const el = document.getElementById(k);
         if (el) {
-          el.textContent = v !== null ? (v >= 0 ? '+$' : '-$') + Math.abs(v).toFixed(0) + 'M' : '--';
+          el.textContent = v != null ? (v >= 0 ? '+$' : '-$') + Math.abs(v).toFixed(0) + 'M' : '--';
           el.className = 'etf-flow ' + (v >= 0 ? 'up' : 'down');
         }
       });
       const tot = document.getElementById('etfTotal');
+      if (data.total != null) total = data.total;
       tot.textContent = (total >= 0 ? '+$' : '-$') + Math.abs(total).toFixed(0) + 'M';
       tot.className = 'etf-flow ' + (total >= 0 ? 'up' : 'down');
     })
@@ -1084,106 +1837,22 @@ function loadETFFlows() {
     });
 }
 
-function loadOnChain() {
-  fetch('data/onchain.json')
-    .then(r => r.json())
-    .then(data => {
-      if (data.funding_rate !== undefined) {
-        const fr = data.funding_rate;
-        const el = document.getElementById('funding');
-        el.textContent = (fr >= 0 ? '+' : '') + fr.toFixed(4) + '%';
-        el.className = 'value ' + (fr > 0.05 ? 'down' : fr > 0 ? 'up' : 'down');
-      }
-      if (data.exchange_inflow) document.getElementById('exchInflow').textContent = data.exchange_inflow;
-    })
-    .catch(() => {});
-}
-
-function computeBlowoff(idx, btcData) {
-  const fng = parseInt(document.getElementById('fng').textContent) || 50;
-  const btcChg = btcData?.price_change_percentage_24h || 0;
-  const btcDomText = document.getElementById('btcDom').textContent;
-  const btcDom = parseFloat(btcDomText) || 55;
-
-  const factors = {
-    fng:    Math.min(100, fng),
-    btcMom: Math.min(100, Math.max(0, 50 + btcChg*3)),
-    dxy:    50,
-    gold:   50,
-    etf:    50,
-    stable: Math.min(100, Math.max(0, 100 - (btcDom - 40) * 2)),
-  };
-
-  fetch('data/macro.json')
-    .then(r => r.json())
-    .then(data => {
-      if (data.dxy_score !== undefined) factors.dxy = data.dxy_score;
-      if (data.gold_score !== undefined) factors.gold = data.gold_score;
-      renderBlowoff(factors);
-    })
-    .catch(() => renderBlowoff(factors));
-}
-
-function renderBlowoff(factors) {
-  const score = Math.round(Object.values(factors).reduce((a,b) => a+b, 0) / Object.keys(factors).length);
-  document.getElementById('blowoffScore').textContent = score + '%';
-  document.getElementById('blowoffScore').style.color = score > 70 ? 'var(--red)' : score > 45 ? 'var(--yellow)' : 'var(--green)';
-
-  const labels = {
-    0: 'Low probability — accumulate',
-    1: 'Building — watch for acceleration',
-    2: 'Elevated — reduce exposure',
-    3: 'High — near blow-off territory',
-    4: 'Critical — take profits now',
-  };
-  const tier = score > 80 ? 4 : score > 65 ? 3 : score > 50 ? 2 : score > 30 ? 1 : 0;
-  document.getElementById('blowoffLabel').textContent = labels[tier];
-  document.getElementById('meterFill').style.width = score + '%';
-
-  const keys = ['fac1','fac2','fac3','fac4','fac5','fac6'];
-  const vals = Object.values(factors);
-  keys.forEach((k,i) => {
-    const el = document.getElementById(k);
-    if (el) {
-      el.style.width = vals[i] + '%';
-      el.style.background = vals[i] > 70 ? 'var(--red)' : vals[i] > 45 ? 'var(--yellow)' : 'var(--blue)';
-    }
-  });
-}
-
-// ── macro prices ──────────────────────────────────────────────────────────────
-async function fetchMacro() {
-  try {
-    const res = await fetch('data/macro.json');
-    const data = await res.json();
-    if (data.gold)   { document.getElementById('gold').textContent = '$' + data.gold; document.getElementById('goldChg').innerHTML = chgHTML(data.gold_chg); }
-    if (data.silver) { document.getElementById('silver').textContent = '$' + data.silver; document.getElementById('silverChg').innerHTML = chgHTML(data.silver_chg); }
-    if (data.oil)    { document.getElementById('oil').textContent = '$' + data.oil; document.getElementById('oilChg').innerHTML = chgHTML(data.oil_chg); }
-    if (data.sp500)  { document.getElementById('sp500').textContent = data.sp500.toLocaleString(); document.getElementById('sp500Chg').innerHTML = chgHTML(data.sp500_chg); }
-    if (data.vix)    { document.getElementById('vix').textContent = data.vix; }
-    if (data.dxy)    { document.getElementById('dxy').textContent = data.dxy; }
-  } catch(e) {
-    ['gold','silver','oil','sp500','vix','dxy'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && el.textContent === '--') el.textContent = 'Jordan updating...';
-    });
-  }
-}
-
-// ── daily summary ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════
+// DAILY SUMMARY (preserved)
+// ═══════════════════════════════════════════════════════════════════════════
 let summaryHistory = {};
 let summaryKeys = [];
 let summaryIdx = 0;
 
 async function loadSummary() {
   try {
-    const res = await fetch('data/daily_summary.json');
+    const res = await fetch('data/daily_summary.json?t=' + Date.now());
     summaryHistory = await res.json();
-  } catch(e) {
-    summaryHistory = JSON.parse(localStorage.getItem('dailySummaryHistory') || '{}');
-  }
+  } catch(e) { summaryHistory = {}; }
 
-  summaryKeys = Object.keys(summaryHistory).sort((a,b) => new Date(b)-new Date(a));
+  summaryKeys = Object.keys(summaryHistory).sort((a,b) => {
+    try { return new Date(b) - new Date(a); } catch { return 0; }
+  });
   summaryIdx = 0;
 
   if (summaryKeys.length === 0) {
@@ -1193,7 +1862,6 @@ async function loadSummary() {
   }
 
   renderSummary();
-
   document.getElementById('prevBtn').onclick = () => {
     if (summaryIdx < summaryKeys.length - 1) { summaryIdx++; renderSummary(); }
   };
@@ -1208,29 +1876,23 @@ function renderSummary() {
   document.getElementById('summaryBody').innerHTML = summaryHistory[key] || 'No data';
 }
 
-// ── chart controls ───────────────────────────────────────────────────────────
-
+// ═══════════════════════════════════════════════════════════════════════════
+// TIMEFRAMES (preserved)
+// ═══════════════════════════════════════════════════════════════════════════
 function setTimeframe(days) {
   const now = new Date();
-  const allBtns = document.querySelectorAll('.tf-btn');
-  allBtns.forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
 
   if (days === 0) {
-    // ALL — reset to full view
     chart.resetZoom();
     document.getElementById('tfAll').classList.add('active');
     return;
   }
 
   const minDate = new Date(now.getTime() - days * 24 * 3600 * 1000);
-  chart.zoomScale('x', {
-    min: minDate.getTime(),
-    max: now.getTime(),
-  }, 'default');
+  chart.zoomScale('x', { min: minDate.getTime(), max: now.getTime() }, 'default');
 
-  // mark active button
   const btns = document.querySelectorAll('.tf-btn');
-  const labels = ['1M','3M','6M','1Y','ALL'];
   const daysMap = [30, 90, 180, 365, 0];
   const idx = daysMap.indexOf(days);
   if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
@@ -1242,37 +1904,18 @@ function resetZoom() {
   document.getElementById('tfAll').classList.add('active');
 }
 
-function updateActiveTfBtn(days) {
-  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
-}
-
-// ── init ──────────────────────────────────────────────────────────────────────
-async function init() {
-  await Promise.allSettled([
-    fetchCrypto(),
-    fetchGlobal(),
-    fetchFearGreed(),
-    fetchGork(),
-    fetchMacro(),
-    loadETFFlows(),
-    loadOnChain(),
-    loadSummary(),
-  ]);
-}
-
+// ═══════════════════════════════════════════════════════════════════════════
+// CHART HISTORY (preserved)
+// ═══════════════════════════════════════════════════════════════════════════
 async function loadChartHistory() {
   try {
-    const res = await fetch('data/chart_history.json');
+    const res = await fetch('data/chart_history.json?t=' + Date.now());
     const history = await res.json();
     if (!history.length) return;
 
-    // Each daily entry gets its own slot — fixes weekly collision bug
     history.forEach(point => {
       const d = new Date(point.date);
-
-      const existingIdx = chart.data.labels.findIndex(wd => {
-        return Math.abs(new Date(wd) - d) < 2 * 24 * 3600 * 1000;
-      });
+      const existingIdx = chart.data.labels.findIndex(wd => Math.abs(new Date(wd) - d) < 2 * 24 * 3600 * 1000);
 
       if (existingIdx >= 0) {
         chart.data.datasets[0].data[existingIdx] = point.index;
@@ -1288,7 +1931,6 @@ async function loadChartHistory() {
       }
     });
 
-    // sort everything by date
     const combined = chart.data.labels.map((label, i) => ({
       label,
       hist: chart.data.datasets[0].data[i],
@@ -1307,10 +1949,35 @@ async function loadChartHistory() {
   } catch(e) { console.log('chart history load failed', e); }
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════
+async function init() {
+  renderOverlayToggles();
+  await Promise.allSettled([
+    fetchCrypto(),
+    fetchGlobal(),
+    fetchFearGreed(),
+    fetchGork(),
+    fetchMacro(),
+    loadETFFlows(),
+    loadSummary(),
+    fetchMarkers(),
+    fetchDiscoveries(),
+  ]);
+}
+
+async function loadAll() {
+  await fetchIndicatorHistory();
+  await loadChartHistory();
+}
+
 init();
-loadChartHistory();
-setInterval(init, 60000);
-setInterval(loadChartHistory, 3600000);
+loadAll();
+setInterval(init, 60000);              // refresh prices every minute
+setInterval(fetchMarkers, 300000);     // markers every 5 min
+setInterval(fetchMacro, 120000);       // macro every 2 min
+setInterval(loadChartHistory, 3600000); // chart history hourly
 </script>
 </body>
 </html>
