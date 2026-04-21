@@ -883,6 +883,7 @@
         </div>
         <div class="chart-actions">
           <button class="chart-action-btn on" id="toggleMarkers" onclick="toggleMarkers()">◉ AI Markers</button>
+          <button class="chart-action-btn on" id="toggleAnnotationsBtn" onclick="toggleAnnotationsBtn()">◉ Jordan</button>
           <button class="chart-action-btn on" id="togglePrediction" onclick="togglePrediction()">◉ Forecast</button>
           <button class="chart-action-btn" onclick="resetZoom()" title="Reset zoom">⊙ Reset</button>
         </div>
@@ -1952,6 +1953,231 @@ async function loadChartHistory() {
 // ═══════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════
+// SPRINT 21: ANNOTATIONS + SMART FORECAST
+// Renders shapes from chart_annotations.json (circles, arrows, zones, callouts)
+// Replaces static prediction line with dynamic forecast_v2.json
+// ═══════════════════════════════════════════════════════════════════════════
+let showAnnotations = true;
+
+async function fetchAnnotations() {
+  if (!showAnnotations) return;
+  try {
+    const res = await fetch('data/chart_annotations.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    renderAnnotations(data.annotations || []);
+  } catch(e) { console.log('annotations fetch failed', e); }
+}
+
+function renderAnnotations(shapes) {
+  if (!chart || !chart.options.plugins.annotation) return;
+  const ann = chart.options.plugins.annotation.annotations;
+
+  // Clear old annotator shapes (keep hardcoded blowBox/bottom25 and AI markers)
+  const PROTECTED = new Set(['blowBox', 'bottom25']);
+  Object.keys(ann).forEach(k => {
+    if (PROTECTED.has(k)) return;
+    if (k.startsWith('aimarker_')) return;
+    delete ann[k];
+  });
+
+  shapes.forEach((shape, idx) => {
+    const id = shape.id || `shape_${idx}`;
+    try {
+      switch (shape.type) {
+        case 'zone':
+          ann[id] = {
+            type: 'box',
+            xMin: new Date(shape.x_range[0]),
+            xMax: new Date(shape.x_range[1]),
+            yMin: shape.y_range[0],
+            yMax: shape.y_range[1],
+            backgroundColor: shape.color || 'rgba(79,158,255,0.08)',
+            borderColor: shape.border || shape.color || 'rgba(79,158,255,0.3)',
+            borderWidth: 1,
+            label: shape.label ? {
+              content: shape.label,
+              display: true,
+              position: { x: 'center', y: 'start' },
+              color: '#fff',
+              font: { size: 10, family: 'Space Mono', weight: '700' },
+              backgroundColor: 'rgba(0,0,0,0.55)',
+              padding: 4,
+            } : undefined,
+          };
+          break;
+
+        case 'arrow':
+          ann[id] = {
+            type: 'line',
+            xMin: new Date(shape.from.x),
+            xMax: new Date(shape.to.x),
+            yMin: shape.from.y,
+            yMax: shape.to.y,
+            borderColor: shape.color || '#4f9eff',
+            borderWidth: 2,
+            borderDash: shape.dashed ? [8, 4] : [],
+            label: shape.label ? {
+              content: shape.label,
+              display: true,
+              position: 'end',
+              backgroundColor: shape.color || '#4f9eff',
+              color: '#000',
+              font: { size: 10, family: 'Syne', weight: '700' },
+              padding: 4,
+              yAdjust: -14,
+            } : undefined,
+          };
+          break;
+
+        case 'callout':
+          ann[id] = {
+            type: 'point',
+            xValue: new Date(shape.anchor.x),
+            yValue: shape.anchor.y,
+            radius: 6,
+            backgroundColor: shape.color || '#4f9eff',
+            borderColor: '#fff',
+            borderWidth: 2,
+            label: shape.label ? {
+              content: shape.label,
+              display: true,
+              position: 'center',
+              backgroundColor: 'rgba(13,18,25,0.92)',
+              borderColor: shape.color || '#4f9eff',
+              borderWidth: 1,
+              color: shape.color || '#fff',
+              font: { size: 10, family: 'Syne', weight: '700' },
+              padding: 6,
+              xAdjust: shape.offset ? shape.offset[0] : 60,
+              yAdjust: shape.offset ? shape.offset[1] : -40,
+            } : undefined,
+          };
+          break;
+
+        case 'note':
+          ann[id] = {
+            type: 'label',
+            xValue: new Date(shape.anchor.x),
+            yValue: shape.anchor.y,
+            content: [shape.label, shape.sublabel].filter(Boolean),
+            color: shape.color || '#e2e8f0',
+            backgroundColor: 'rgba(13,18,25,0.92)',
+            borderColor: shape.color || 'rgba(255,255,255,0.15)',
+            borderWidth: 1,
+            borderRadius: 4,
+            font: [
+              { size: shape.size === 'small' ? 10 : 11, family: 'Space Mono', weight: '700' },
+              { size: 9, family: 'Space Mono', weight: '400', style: 'italic' },
+            ],
+            padding: 6,
+            xAdjust: shape.offset ? shape.offset[0] : 0,
+            yAdjust: shape.offset ? shape.offset[1] : 0,
+            textAlign: 'left',
+          };
+          break;
+
+        case 'hline':
+          ann[id] = {
+            type: 'line',
+            yMin: shape.y,
+            yMax: shape.y,
+            borderColor: shape.color || 'rgba(255,255,255,0.2)',
+            borderWidth: 1,
+            borderDash: shape.dashed ? [4, 4] : [],
+            label: shape.label ? {
+              content: shape.label,
+              display: true,
+              position: 'end',
+              color: shape.color || '#fff',
+              font: { size: 9, family: 'Space Mono' },
+              backgroundColor: 'transparent',
+            } : undefined,
+          };
+          break;
+
+        case 'circle':
+          ann[id] = {
+            type: 'ellipse',
+            xMin: new Date(shape.x_range[0]),
+            xMax: new Date(shape.x_range[1]),
+            yMin: shape.y_range[0],
+            yMax: shape.y_range[1],
+            backgroundColor: shape.color || 'transparent',
+            borderColor: shape.border || shape.color || '#4f9eff',
+            borderWidth: 2,
+          };
+          break;
+      }
+    } catch(err) {
+      console.log('annotation render err', id, err);
+    }
+  });
+
+  chart.update('none');
+}
+
+async function fetchSmartForecast() {
+  try {
+    const res = await fetch('data/forecast_v2.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    const points = data.points || [];
+    if (points.length === 0) return;
+
+    const forecastSeries = points.map(p => ({ x: new Date(p.date), y: p.forecast }));
+    const meta = data.meta || {};
+    const color = meta.type === 'top_projection' ? 'rgba(255,77,106,0.7)'
+                : meta.type === 'bottom_projection' ? 'rgba(0,229,160,0.7)'
+                : 'rgba(245,197,24,0.6)';
+
+    const oldIdx = chart.data.datasets.findIndex(d =>
+      d.label === 'Predicted (Blow-Off Forecast)' || d.label === 'Smart Forecast'
+    );
+
+    const newDs = {
+      label: 'Smart Forecast',
+      data: forecastSeries,
+      borderColor: color,
+      backgroundColor: color.replace('0.7', '0.08').replace('0.6', '0.04'),
+      borderDash: [5, 4],
+      fill: true,
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointHoverBackgroundColor: color,
+      borderWidth: 1.5,
+      yAxisID: 'y',
+    };
+
+    if (oldIdx >= 0) { chart.data.datasets[oldIdx] = newDs; }
+    else { chart.data.datasets.push(newDs); }
+    chart.update('none');
+  } catch(e) { console.log('smart forecast fetch failed', e); }
+}
+
+function toggleAnnotationsBtn() {
+  showAnnotations = !showAnnotations;
+  const btn = document.getElementById('toggleAnnotationsBtn');
+  if (btn) {
+    btn.classList.toggle('on', showAnnotations);
+    btn.textContent = (showAnnotations ? '◉' : '◌') + ' Jordan';
+  }
+  if (showAnnotations) {
+    fetchAnnotations();
+  } else {
+    const ann = chart.options.plugins.annotation.annotations;
+    const KEEP = new Set(['blowBox', 'bottom25']);
+    Object.keys(ann).forEach(k => {
+      if (KEEP.has(k)) return;
+      if (k.startsWith('aimarker_')) return;
+      delete ann[k];
+    });
+    chart.update('none');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 async function init() {
   renderOverlayToggles();
   await Promise.allSettled([
@@ -1964,6 +2190,8 @@ async function init() {
     loadSummary(),
     fetchMarkers(),
     fetchDiscoveries(),
+    fetchAnnotations(),
+    fetchSmartForecast(),
   ]);
 }
 
@@ -1977,6 +2205,8 @@ loadAll();
 setInterval(init, 60000);              // refresh prices every minute
 setInterval(fetchMarkers, 300000);     // markers every 5 min
 setInterval(fetchMacro, 120000);       // macro every 2 min
+setInterval(fetchAnnotations, 120000); // annotations every 2 min
+setInterval(fetchSmartForecast, 120000);
 setInterval(loadChartHistory, 3600000); // chart history hourly
 </script>
 </body>
