@@ -1,40 +1,47 @@
 {
   "oracle": {
-    "top_matching_factors": [],
-    "diverging_factors": [],
-    "oracle_verdict": "UNKNOWN",
-    "confidence": 0.4,
-    "brain": "pattern_oracle",
-    "raw_response": ""
+    "top_matching_factors": [
+      "btc_momentum_30d",
+      "stablecoin_growth",
+      "etf_flows"
+    ],
+    "diverging_factors": [
+      "gold_strength",
+      "dxy_weakness"
+    ],
+    "oracle_verdict": "APPROACHING",
+    "confidence": 0.66,
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\", \"etf_flows\"],\n  \"diverging_factors\": [\"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"confidence\": 0.66\n}\n```",
+    "brain": "pattern_oracle"
   },
   "classifier": {
-    "phase": "Depression (fear/bottom)",
-    "regime_shift_detected": false,
-    "regime_direction": "RISK_OFF",
-    "classifier_signal": "CAUTION",
-    "confidence": 0.6,
-    "raw_response": "{\n  \"phase\": \"Depression (fear/bottom)\",\n  \"regime_shift_detected\": false,\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.6\n}",
+    "phase": "Disbelief",
+    "regime_shift_detected": true,
+    "regime_direction": "RISK_ON",
+    "classifier_signal": "LONG",
+    "confidence": 0.65,
+    "raw_response": "{\n  \"phase\": \"Disbelief\",\n  \"regime_shift_detected\": true,\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.65\n}",
     "brain": "signal_classifier"
   },
   "narrative": {
-    "narrative": "A wave of risk-off sentiment, as seen in November 2021, is driving Bitcoin's price into depression territory. Fear dominates the market, with BTC stuck at $0 and Fear & Greed index at 33.",
-    "headline": "Fear Paralyzes Market: BTC Stuck at Zero",
-    "confidence": 0.653,
-    "raw_response": "```json\n{\n  \"narrative\": \"A wave of risk-off sentiment, as seen in November 2021, is driving Bitcoin's price into depression territory. Fear dominates the market, with BTC stuck at $0 and Fear & Greed index at 33.\",\n  \"headline\": \"Fear Paralyzes Market: BTC Stuck at Zero\",\n  \"confidence\": 0.653\n}\n```",
+    "narrative": "BTC's 30-day momentum and stablecoin growth are fueling the rally, mirroring late 2021's disbelief phase. History suggests a risk-on bias may continue before a pullback.",
+    "headline": "Disbelief Phase: BTC Momentum & Stablecoins Drive Rally",
+    "confidence": 0.85,
+    "raw_response": "{\"narrative\": \"BTC's 30-day momentum and stablecoin growth are fueling the rally, mirroring late 2021's disbelief phase. History suggests a risk-on bias may continue before a pullback.\", \"headline\": \"Disbelief Phase: BTC Momentum & Stablecoins Drive Rally\", \"confidence\": 0.85}",
     "brain": "narrative_writer"
   },
   "consensus": {
-    "final_signal": "CAUTION",
-    "final_phase": "Depression (fear/bottom)",
-    "alert_tier": "CRITICAL",
-    "consensus_confidence": 0.653,
-    "key_reasoning": "The SIGNAL CLASSIFIER and NARRATIVE WRITER both indicate a strong risk-off sentiment, with the NARRATIVE WRITER specifically highlighting fear in the market, leading to the CAUTION signal.",
+    "final_signal": "LONG_AGGRESSIVE",
+    "final_phase": "Disbelief",
+    "alert_tier": "HIGH",
+    "consensus_confidence": 0.85,
+    "key_reasoning": "The Pattern Oracle indicates an approaching trend with high confidence, and the Narrative Writer suggests a disbelief phase similar to late 2021, which aligns with a LONG_AGGRESSIVE signal. The Signal Classifier's LONG signal in a RISK_ON regime supports this decision.",
     "disagreements_noted": [
-      "PATTERN ORACLE has low confidence and no specific top matching factors were identified."
+      "No significant disagreements between brains"
     ],
-    "raw_response": "```json\n{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Depression (fear/bottom)\",\n  \"alert_tier\": \"CRITICAL\",\n  \"consensus_confidence\": 0.653,\n  \"key_reasoning\": \"The SIGNAL CLASSIFIER and NARRATIVE WRITER both indicate a strong risk-off sentiment, with the NARRATIVE WRITER specifically highlighting fear in the market, leading to the CAUTION signal.\",\n  \"disagreements_noted\": [\"PATTERN ORACLE has low confidence and no specific top matching factors were identified.\"]\n}\n```",
+    "raw_response": "```json\n{\n  \"final_signal\": \"LONG_AGGRESSIVE\",\n  \"final_phase\": \"Disbelief\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.85,\n  \"key_reasoning\": \"The Pattern Oracle indicates an approaching trend with high confidence, and the Narrative Writer suggests a disbelief phase similar to late 2021, which aligns with a LONG_AGGRESSIVE signal. The Signal Classifier's LONG signal in a RISK_ON regime supports this decision.\",\n  \"disagreements_noted\": [\"No significant disagreements between brains\"]\n}\n",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.551
+    "brains_avg_confidence": 0.72
   },
-  "timestamp": "2026-04-21T07:58:36.665884-04:00"
+  "timestamp": "2026-04-21T08:34:19.048684-04:00"
 }
