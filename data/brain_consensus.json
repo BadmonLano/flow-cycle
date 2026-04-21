@@ -1,47 +1,40 @@
 {
   "oracle": {
-    "top_matching_factors": [
-      "btc_momentum_30d",
-      "stablecoin_growth",
-      "etf_flows"
-    ],
-    "diverging_factors": [
-      "fear_greed",
-      "gold_strength"
-    ],
-    "oracle_verdict": "APPROACHING",
-    "confidence": 0.65,
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\", \"etf_flows\"],\n  \"diverging_factors\": [\"fear_greed\", \"gold_strength\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"confidence\": 0.65\n}\n```",
-    "brain": "pattern_oracle"
+    "top_matching_factors": [],
+    "diverging_factors": [],
+    "oracle_verdict": "UNKNOWN",
+    "confidence": 0.4,
+    "brain": "pattern_oracle",
+    "raw_response": ""
   },
   "classifier": {
-    "phase": "Hope",
-    "regime_shift_detected": true,
-    "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
-    "confidence": 0.75,
-    "raw_response": "{\n  \"phase\": \"Hope\",\n  \"regime_shift_detected\": true,\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75\n}",
-    "brain": "signal_classifier"
+    "phase": "Unknown",
+    "regime_shift_detected": false,
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.4,
+    "brain": "signal_classifier",
+    "raw_response": ""
   },
   "narrative": {
-    "narrative": "Buoyed by surging institutional demand, as seen in ETF inflows and stablecoin growth, Bitcoin rallies with a momentum reminiscent of November 2021, indicating a bullish bias.",
-    "headline": "Institutions Fuel BTC's Late Summer Rampage",
-    "confidence": 0.85,
-    "raw_response": "{\n  \"narrative\": \"Buoyed by surging institutional demand, as seen in ETF inflows and stablecoin growth, Bitcoin rallies with a momentum reminiscent of November 2021, indicating a bullish bias.\",\n  \"headline\": \"Institutions Fuel BTC's Late Summer Rampage\",\n  \"confidence\": 0.85\n}",
+    "narrative": "Bitcoin's price hovers around $76k, mirroring the sideways regime in late November 2021, as market participants cautiously await further directional cues.",
+    "headline": "Bitcoin Holds Steady in Familiar Territory",
+    "confidence": 0.662,
+    "raw_response": "{\n  \"narrative\": \"Bitcoin's price hovers around $76k, mirroring the sideways regime in late November 2021, as market participants cautiously await further directional cues.\",\n  \"headline\": \"Bitcoin Holds Steady in Familiar Territory\",\n  \"confidence\": 0.662\n}",
     "brain": "narrative_writer"
   },
   "consensus": {
-    "final_signal": "LONG_AGGRESSIVE",
-    "final_phase": "Hope",
-    "alert_tier": "CRITICAL",
-    "consensus_confidence": 0.85,
-    "key_reasoning": "The Narrative Writer's high confidence in institutional demand and the Signal Classifier's strong LONG signal with a RISK_ON regime aligns with the Pattern Oracle's approaching trend, leading to a consensus for an aggressive LONG position.",
+    "final_signal": "HOLD",
+    "final_phase": "SIDEWAYS",
+    "alert_tier": "MED",
+    "consensus_confidence": 0.662,
+    "key_reasoning": "The SIGNAL CLASSIFIER and NARRATIVE WRITER both indicate a sideways phase with a HOLD signal, while the PATTERN ORACLE has low confidence. The narrative suggests cautious market behavior similar to past patterns.",
     "disagreements_noted": [
-      "None"
+      "PATTERN ORACLE's confidence is low compared to SIGNAL CLASSIFIER and NARRATIVE WRITER"
     ],
-    "raw_response": "```json\n{\n  \"final_signal\": \"LONG_AGGRESSIVE\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"CRITICAL\",\n  \"consensus_confidence\": 0.85,\n  \"key_reasoning\": \"The Narrative Writer's high confidence in institutional demand and the Signal Classifier's strong LONG signal with a RISK_ON regime aligns with the Pattern Oracle's approaching trend, leading to a consensus for an aggressive LONG position.\",\n  \"disagreements_noted\": [\"None\"]\n}\n```",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"SIDEWAYS\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.662,\n  \"key_reasoning\": \"The SIGNAL CLASSIFIER and NARRATIVE WRITER both indicate a sideways phase with a HOLD signal, while the PATTERN ORACLE has low confidence. The narrative suggests cautious market behavior similar to past patterns.\",\n  \"disagreements_noted\": [\"PATTERN ORACLE's confidence is low compared to SIGNAL CLASSIFIER and NARRATIVE WRITER\"]\n}\n```",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.75
+    "brains_avg_confidence": 0.487
   },
-  "timestamp": "2026-04-21T04:04:01.439921-04:00"
+  "timestamp": "2026-04-21T04:21:28.152563-04:00"
 }
