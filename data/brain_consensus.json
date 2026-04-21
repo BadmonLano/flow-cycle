@@ -1,47 +1,57 @@
 {
   "oracle": {
-    "top_matching_factors": [
-      "btc_momentum_30d",
-      "stablecoin_growth",
-      "etf_flows"
-    ],
-    "diverging_factors": [
-      "gold_strength",
-      "dxy_weakness"
-    ],
-    "oracle_verdict": "APPROACHING",
-    "confidence": 0.66,
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\", \"etf_flows\"],\n  \"diverging_factors\": [\"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"confidence\": 0.66\n}\n```",
-    "brain": "pattern_oracle"
+    "top_matching_factors": [],
+    "diverging_factors": [],
+    "oracle_verdict": "UNKNOWN",
+    "phase": "Unknown",
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.4,
+    "brain": "analyst",
+    "raw_response": ""
   },
   "classifier": {
-    "phase": "Disbelief",
-    "regime_shift_detected": true,
-    "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
-    "confidence": 0.65,
-    "raw_response": "{\n  \"phase\": \"Disbelief\",\n  \"regime_shift_detected\": true,\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.65\n}",
-    "brain": "signal_classifier"
+    "top_matching_factors": [],
+    "diverging_factors": [],
+    "oracle_verdict": "UNKNOWN",
+    "phase": "Unknown",
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.4,
+    "brain": "analyst",
+    "raw_response": ""
+  },
+  "analyst": {
+    "top_matching_factors": [],
+    "diverging_factors": [],
+    "oracle_verdict": "UNKNOWN",
+    "phase": "Unknown",
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.4,
+    "brain": "analyst",
+    "raw_response": ""
   },
   "narrative": {
-    "narrative": "BTC's 30-day momentum and stablecoin growth are fueling the rally, mirroring late 2021's disbelief phase. History suggests a risk-on bias may continue before a pullback.",
-    "headline": "Disbelief Phase: BTC Momentum & Stablecoins Drive Rally",
-    "confidence": 0.85,
-    "raw_response": "{\"narrative\": \"BTC's 30-day momentum and stablecoin growth are fueling the rally, mirroring late 2021's disbelief phase. History suggests a risk-on bias may continue before a pullback.\", \"headline\": \"Disbelief Phase: BTC Momentum & Stablecoins Drive Rally\", \"confidence\": 0.85}",
+    "narrative": "BTC consolidates in sideways regime, mirroring Nov '21's tight range as market participants digest recent gains and await catalysts for next directional move.",
+    "headline": "BTC Holds Steady, Awaiting Next Big Move",
+    "confidence": 0.7,
+    "raw_response": "{\n  \"narrative\": \"BTC consolidates in sideways regime, mirroring Nov '21's tight range as market participants digest recent gains and await catalysts for next directional move.\",\n  \"headline\": \"BTC Holds Steady, Awaiting Next Big Move\",\n  \"confidence\": 0.7\n}",
     "brain": "narrative_writer"
   },
   "consensus": {
-    "final_signal": "LONG_AGGRESSIVE",
-    "final_phase": "Disbelief",
-    "alert_tier": "HIGH",
-    "consensus_confidence": 0.85,
-    "key_reasoning": "The Pattern Oracle indicates an approaching trend with high confidence, and the Narrative Writer suggests a disbelief phase similar to late 2021, which aligns with a LONG_AGGRESSIVE signal. The Signal Classifier's LONG signal in a RISK_ON regime supports this decision.",
+    "final_signal": "HOLD",
+    "final_phase": "SIDEWAYS",
+    "alert_tier": "MED",
+    "consensus_confidence": 0.6,
+    "key_reasoning": "The Pattern Analyst's signal is uncertain with a low confidence level, while the Narrative Writer indicates a sideways regime with higher confidence. The combination of these signals suggests a moderate alert tier.",
     "disagreements_noted": [
-      "No significant disagreements between brains"
+      "The Pattern Analyst's confidence is low, and there are no top matching factors or diverging factors mentioned."
     ],
-    "raw_response": "```json\n{\n  \"final_signal\": \"LONG_AGGRESSIVE\",\n  \"final_phase\": \"Disbelief\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.85,\n  \"key_reasoning\": \"The Pattern Oracle indicates an approaching trend with high confidence, and the Narrative Writer suggests a disbelief phase similar to late 2021, which aligns with a LONG_AGGRESSIVE signal. The Signal Classifier's LONG signal in a RISK_ON regime supports this decision.\",\n  \"disagreements_noted\": [\"No significant disagreements between brains\"]\n}\n",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"SIDEWAYS\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.6,\n  \"key_reasoning\": \"The Pattern Analyst's signal is uncertain with a low confidence level, while the Narrative Writer indicates a sideways regime with higher confidence. The combination of these signals suggests a moderate alert tier.\",\n  \"disagreements_noted\": [\"The Pattern Analyst's confidence is low, and there are no top matching factors or diverging factors mentioned.\"]\n}\n``",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.72
+    "brains_avg_confidence": 0.55
   },
-  "timestamp": "2026-04-21T08:34:19.048684-04:00"
+  "timestamp": "2026-04-21T09:06:29.180063-04:00",
+  "architecture": "3-brain-sequential-v2.4"
 }
