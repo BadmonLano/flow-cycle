@@ -1,40 +1,47 @@
 {
   "oracle": {
-    "top_matching_factors": [],
-    "diverging_factors": [],
-    "oracle_verdict": "UNKNOWN",
-    "confidence": 0.4,
-    "brain": "pattern_oracle",
-    "raw_response": ""
+    "top_matching_factors": [
+      "btc_momentum_30d",
+      "stablecoin_growth",
+      "etf_flows"
+    ],
+    "diverging_factors": [
+      "gold_strength",
+      "dxy_weakness"
+    ],
+    "oracle_verdict": "APPROACHING",
+    "confidence": 0.661,
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\", \"etf_flows\"],\n  \"diverging_factors\": [\"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"confidence\": 0.661\n}\n```",
+    "brain": "pattern_oracle"
   },
   "classifier": {
-    "phase": "Hope",
+    "phase": "Unknown",
     "regime_shift_detected": false,
     "regime_direction": "SIDEWAYS",
-    "classifier_signal": "LONG",
-    "confidence": 0.65,
-    "raw_response": "{\n  \"phase\": \"Hope\",\n  \"regime_shift_detected\": false,\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.65\n}",
-    "brain": "signal_classifier"
+    "classifier_signal": "HOLD",
+    "confidence": 0.4,
+    "brain": "signal_classifier",
+    "raw_response": ""
   },
   "narrative": {
-    "narrative": "As BTC holds above $76k, the market breathes a sigh of relief echoing late 2021's sideways trend, with Fear & Greed at 33 hinting cautious optimism.",
-    "headline": "BTC's Steady Climb: D\u00e9j\u00e0 Vu of Late 2021",
-    "confidence": 0.75,
-    "raw_response": "{\"narrative\": \"As BTC holds above $76k, the market breathes a sigh of relief echoing late 2021's sideways trend, with Fear & Greed at 33 hinting cautious optimism.\", \"headline\": \"BTC's Steady Climb: D\u00e9j\u00e0 Vu of Late 2021\", \"confidence\": 0.75}",
+    "narrative": "Buoyed by robust stablecoin growth and ETF inflows, Bitcoin maintains its momentum, mirroring the sideways regime of late November 2021, as investors cautiously accumulate.",
+    "headline": "Bitcoin's Steady Climb in Familiar Territory",
+    "confidence": 0.85,
+    "raw_response": "{\n  \"narrative\": \"Buoyed by robust stablecoin growth and ETF inflows, Bitcoin maintains its momentum, mirroring the sideways regime of late November 2021, as investors cautiously accumulate.\",\n  \"headline\": \"Bitcoin's Steady Climb in Familiar Territory\",\n  \"confidence\": 0.85\n}",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "LONG",
-    "final_phase": "Hope",
+    "final_phase": "SIDEWAYS",
     "alert_tier": "HIGH",
-    "consensus_confidence": 0.65,
-    "key_reasoning": "The SIGNAL CLASSIFIER indicates a LONG signal with confidence, and the NARRATIVE WRITER provides supportive narrative, while the PATTERN ORACLE's confidence is low.",
+    "consensus_confidence": 0.661,
+    "key_reasoning": "The Pattern Oracle indicates an approaching trend with a strong confidence, and the Narrative Writer supports this with a positive narrative about Bitcoin's momentum. The Signal Classifier's HOLD signal aligns with the sideways regime mentioned by the Narrative Writer.",
     "disagreements_noted": [
-      "PATTERN ORACLE has low confidence and no top matching factors, differing from the other two brains that suggest a LONG position."
+      "Signal Classifier has a lower confidence level compared to the other two brains"
     ],
-    "raw_response": "```json\n{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.65,\n  \"key_reasoning\": \"The SIGNAL CLASSIFIER indicates a LONG signal with confidence, and the NARRATIVE WRITER provides supportive narrative, while the PATTERN ORACLE's confidence is low.\",\n  \"disagreements_noted\": [\"PATTERN ORACLE has low confidence and no top matching factors, differing from the other two brains that suggest a LONG position.\"]\n}\n```",
+    "raw_response": "```json\n{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"SIDEWAYS\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.661,\n  \"key_reasoning\": \"The Pattern Oracle indicates an approaching trend with a strong confidence, and the Narrative Writer supports this with a positive narrative about Bitcoin's momentum. The Signal Classifier's HOLD signal aligns with the sideways regime mentioned by the Narrative Writer.\",\n  \"disagreements_noted\": [\"Signal Classifier has a lower confidence level compared to ",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.6
+    "brains_avg_confidence": 0.637
   },
-  "timestamp": "2026-04-21T06:08:45.949812-04:00"
+  "timestamp": "2026-04-21T06:44:45.778490-04:00"
 }
