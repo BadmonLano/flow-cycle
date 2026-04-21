@@ -1,47 +1,40 @@
 {
   "oracle": {
-    "top_matching_factors": [
-      "btc_momentum_30d",
-      "stablecoin_growth",
-      "etf_flows"
-    ],
-    "diverging_factors": [
-      "gold_strength",
-      "dxy_weakness"
-    ],
-    "oracle_verdict": "APPROACHING",
-    "confidence": 0.661,
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\", \"etf_flows\"],\n  \"diverging_factors\": [\"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"confidence\": 0.661\n}\n```",
-    "brain": "pattern_oracle"
-  },
-  "classifier": {
-    "phase": "Unknown",
-    "regime_shift_detected": false,
-    "regime_direction": "SIDEWAYS",
-    "classifier_signal": "HOLD",
+    "top_matching_factors": [],
+    "diverging_factors": [],
+    "oracle_verdict": "UNKNOWN",
     "confidence": 0.4,
-    "brain": "signal_classifier",
+    "brain": "pattern_oracle",
     "raw_response": ""
   },
+  "classifier": {
+    "phase": "Belief",
+    "regime_shift_detected": false,
+    "regime_direction": "RISK_ON",
+    "classifier_signal": "LONG",
+    "confidence": 0.75,
+    "raw_response": "{\n  \"phase\": \"Belief\",\n  \"regime_shift_detected\": false,\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75\n}",
+    "brain": "signal_classifier"
+  },
   "narrative": {
-    "narrative": "Buoyed by robust stablecoin growth and ETF inflows, Bitcoin maintains its momentum, mirroring the sideways regime of late November 2021, as investors cautiously accumulate.",
-    "headline": "Bitcoin's Steady Climb in Familiar Territory",
+    "narrative": "Investors' confidence surges as Bitcoin breaks $76K, mirroring the late-November 2021 rally's start, with Fear & Greed index indicating a risk-on mentality.",
+    "headline": "Bitcoin Breaks $76K: Repeat of Late 2021 Rally?",
     "confidence": 0.85,
-    "raw_response": "{\n  \"narrative\": \"Buoyed by robust stablecoin growth and ETF inflows, Bitcoin maintains its momentum, mirroring the sideways regime of late November 2021, as investors cautiously accumulate.\",\n  \"headline\": \"Bitcoin's Steady Climb in Familiar Territory\",\n  \"confidence\": 0.85\n}",
+    "raw_response": "{\"narrative\": \"Investors' confidence surges as Bitcoin breaks $76K, mirroring the late-November 2021 rally's start, with Fear & Greed index indicating a risk-on mentality.\", \"headline\": \"Bitcoin Breaks $76K: Repeat of Late 2021 Rally?\", \"confidence\": 0.85}",
     "brain": "narrative_writer"
   },
   "consensus": {
-    "final_signal": "LONG",
-    "final_phase": "SIDEWAYS",
+    "final_signal": "LONG_AGGRESSIVE",
+    "final_phase": "Belief",
     "alert_tier": "HIGH",
-    "consensus_confidence": 0.661,
-    "key_reasoning": "The Pattern Oracle indicates an approaching trend with a strong confidence, and the Narrative Writer supports this with a positive narrative about Bitcoin's momentum. The Signal Classifier's HOLD signal aligns with the sideways regime mentioned by the Narrative Writer.",
+    "consensus_confidence": 0.85,
+    "key_reasoning": "The SIGNAL CLASSIFIER indicates a LONG signal with high confidence in the RISK_ON regime, and the NARRATIVE WRITER supports this with strong narrative confidence, outweighing the PATTERN ORACLE's uncertainty.",
     "disagreements_noted": [
-      "Signal Classifier has a lower confidence level compared to the other two brains"
+      "PATTERN ORACLE has low confidence and no specific matching factors, while SIGNAL CLASSIFIER and NARRATIVE WRITER provide a clear LONG signal."
     ],
-    "raw_response": "```json\n{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"SIDEWAYS\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.661,\n  \"key_reasoning\": \"The Pattern Oracle indicates an approaching trend with a strong confidence, and the Narrative Writer supports this with a positive narrative about Bitcoin's momentum. The Signal Classifier's HOLD signal aligns with the sideways regime mentioned by the Narrative Writer.\",\n  \"disagreements_noted\": [\"Signal Classifier has a lower confidence level compared to ",
+    "raw_response": "```json\n{\n  \"final_signal\": \"LONG_AGGRESSIVE\",\n  \"final_phase\": \"Belief\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.85,\n  \"key_reasoning\": \"The SIGNAL CLASSIFIER indicates a LONG signal with high confidence in the RISK_ON regime, and the NARRATIVE WRITER supports this with strong narrative confidence, outweighing the PATTERN ORACLE's uncertainty.\",\n  \"disagreements_noted\": [\"PATTERN ORACLE has low confidence and no specific matching factors, while SIGNAL CLASSIFIER and NARRATIVE WRITER",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.637
+    "brains_avg_confidence": 0.667
   },
-  "timestamp": "2026-04-21T06:44:45.778490-04:00"
+  "timestamp": "2026-04-21T07:22:04.340885-04:00"
 }
