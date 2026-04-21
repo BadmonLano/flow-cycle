@@ -716,6 +716,177 @@
     /* blow-off meter (preserved, enhanced with dual signal) */
     .blowoff-meter { margin-top: 8px; }
 
+    /* BLOW-OFF TOP DETECTOR - Sprint 22 centerpiece */
+    .blowoff-detector-card {
+      border: 1px solid rgba(255,77,106,0.18);
+      background: linear-gradient(135deg, rgba(255,77,106,0.04), var(--surface));
+    }
+
+    .blowoff-alert {
+      margin-left: auto;
+      font-size: 0.65em;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 3px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      background: rgba(74,85,104,0.15);
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+    .blowoff-alert.quiet,
+    .blowoff-alert.early_stage { background: rgba(74,85,104,0.15); color: var(--muted); }
+    .blowoff-alert.watch       { background: rgba(79,158,255,0.15); color: var(--blue); }
+    .blowoff-alert.building    { background: rgba(245,197,24,0.15); color: var(--yellow); }
+    .blowoff-alert.blow_off_forming,
+    .blowoff-alert.blow_off_imminent {
+      background: rgba(255,77,106,0.22); color: var(--red);
+      animation: blowoff-pulse 1.5s infinite;
+    }
+
+    @keyframes blowoff-pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,77,106,0.4); }
+      50%      { opacity: 0.85; box-shadow: 0 0 0 6px rgba(255,77,106,0); }
+    }
+
+    .blowoff-composite {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+      margin: 12px 0;
+    }
+
+    .composite-score {
+      font-family: var(--font-head);
+      font-size: 3.2em;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--text);
+      transition: color 0.6s;
+    }
+
+    .composite-meta { min-width: 0; }
+
+    .composite-label {
+      font-family: var(--font-head);
+      font-size: 1em;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .composite-sub {
+      font-size: 0.65em;
+      color: var(--muted);
+      margin-top: 3px;
+      letter-spacing: 0.05em;
+    }
+
+    .strict-status {
+      text-align: center;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .strict-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--muted);
+      margin: 0 auto 4px;
+      transition: all 0.6s;
+    }
+    .strict-dot.fired {
+      background: var(--red);
+      box-shadow: 0 0 10px var(--red);
+      animation: blowoff-pulse 1s infinite;
+    }
+
+    .strict-text {
+      font-size: 0.6em;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .meter-track.big { height: 10px; margin-bottom: 16px; }
+
+    .sig-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 700px) {
+      .sig-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .sig-tile {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+
+    .sig-tile:hover { border-color: var(--border-hi); transform: translateY(-1px); }
+
+    .sig-tile.hot { border-color: rgba(255,77,106,0.5); }
+    .sig-tile.warm { border-color: rgba(245,197,24,0.5); }
+
+    .sig-name {
+      font-size: 0.58em;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .sig-score {
+      font-family: var(--font-head);
+      font-size: 1.25em;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .sig-bar-wrap {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .sig-bar {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--blue);
+      transition: width 1s, background 1s;
+    }
+
+    .sig-status {
+      font-size: 0.6em;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .blowoff-footnote {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 0.65em;
+      color: var(--muted);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
     .blowoff-header {
       display: flex;
       justify-content: space-between;
@@ -965,23 +1136,70 @@
       </div>
     </div>
 
-    <!-- Blow-off top meter (preserved) -->
-    <div class="card">
-      <div class="card-label">Blow-Off Top Probability · Pattern Match vs 2017 & 2021</div>
-      <div class="blowoff-meter">
-        <div class="blowoff-header">
-          <div class="blowoff-score" id="blowoffScore">--</div>
-          <div class="blowoff-label" id="blowoffLabel">Calculating...</div>
+    <!-- BLOW-OFF TOP DETECTOR (Sprint 22 - the main event) -->
+    <div class="card blowoff-detector-card">
+      <div class="card-label">
+        Blow-Off Top Detector
+        <span id="blowoffAlert" class="blowoff-alert">LOADING</span>
+      </div>
+
+      <!-- Big composite score -->
+      <div class="blowoff-composite">
+        <div class="composite-score" id="compositeScore">--</div>
+        <div class="composite-meta">
+          <div class="composite-label" id="compositeLabel">Computing...</div>
+          <div class="composite-sub" id="compositeSub">&nbsp;</div>
         </div>
-        <div class="meter-track"><div class="meter-fill" id="meterFill" style="width:0%"></div></div>
-        <div class="blowoff-factors" id="blowoffFactors">
-          <div class="factor-row"><span class="factor-name">Fear & Greed</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac1" style="width:0%;background:var(--blue)"></div></div></div>
-          <div class="factor-row"><span class="factor-name">BTC Momentum</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac2" style="width:0%;background:var(--blue)"></div></div></div>
-          <div class="factor-row"><span class="factor-name">DXY Weakness</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac3" style="width:0%;background:var(--blue)"></div></div></div>
-          <div class="factor-row"><span class="factor-name">Gold Strength</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac4" style="width:0%;background:var(--blue)"></div></div></div>
-          <div class="factor-row"><span class="factor-name">Stablecoin Supply</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac5" style="width:0%;background:var(--blue)"></div></div></div>
-          <div class="factor-row"><span class="factor-name">Funding Rate</span><div class="factor-bar-wrap"><div class="factor-bar" id="fac6" style="width:0%;background:var(--blue)"></div></div></div>
+        <div class="strict-status" id="strictStatus">
+          <div class="strict-dot" id="strictDot"></div>
+          <div class="strict-text" id="strictText">STRICT: --</div>
         </div>
+      </div>
+
+      <div class="meter-track big"><div class="meter-fill" id="compositeMeter" style="width:0%"></div></div>
+
+      <!-- 6 signature tiles -->
+      <div class="sig-grid">
+        <div class="sig-tile" data-sig="parabolic">
+          <div class="sig-name">Parabolic</div>
+          <div class="sig-score" id="sig_parabolic_score">--</div>
+          <div class="sig-bar-wrap"><div class="sig-bar" id="sig_parabolic_bar"></div></div>
+          <div class="sig-status" id="sig_parabolic_status">--</div>
+        </div>
+        <div class="sig-tile" data-sig="magnitude">
+          <div class="sig-name">Magnitude</div>
+          <div class="sig-score" id="sig_magnitude_score">--</div>
+          <div class="sig-bar-wrap"><div class="sig-bar" id="sig_magnitude_bar"></div></div>
+          <div class="sig-status" id="sig_magnitude_status">--</div>
+        </div>
+        <div class="sig-tile" data-sig="retail">
+          <div class="sig-name">Retail Mania</div>
+          <div class="sig-score" id="sig_retail_score">--</div>
+          <div class="sig-bar-wrap"><div class="sig-bar" id="sig_retail_bar"></div></div>
+          <div class="sig-status" id="sig_retail_status">--</div>
+        </div>
+        <div class="sig-tile" data-sig="macro">
+          <div class="sig-name">Macro Align</div>
+          <div class="sig-score" id="sig_macro_score">--</div>
+          <div class="sig-bar-wrap"><div class="sig-bar" id="sig_macro_bar"></div></div>
+          <div class="sig-status" id="sig_macro_status">--</div>
+        </div>
+        <div class="sig-tile" data-sig="breadth">
+          <div class="sig-name">Mania Breadth</div>
+          <div class="sig-score" id="sig_breadth_score">--</div>
+          <div class="sig-bar-wrap"><div class="sig-bar" id="sig_breadth_bar"></div></div>
+          <div class="sig-status" id="sig_breadth_status">--</div>
+        </div>
+        <div class="sig-tile" data-sig="shape">
+          <div class="sig-name">Shape Match</div>
+          <div class="sig-score" id="sig_shape_score">--</div>
+          <div class="sig-bar-wrap"><div class="sig-bar" id="sig_shape_bar"></div></div>
+          <div class="sig-status" id="sig_shape_status">--</div>
+        </div>
+      </div>
+
+      <div class="blowoff-footnote" id="blowoffFootnote">
+        Strict detector fires when 4+ signatures above 70 AND composite above 80. Only fires on the real deal (like 2017 Dec / 2021 Nov).
       </div>
     </div>
 
@@ -1595,28 +1813,113 @@ function renderPatternMatch(data) {
 }
 
 function renderBlowoff(data) {
-  if (data.blowoff_score == null) return;
-  const score = data.blowoff_score;
-  document.getElementById('blowoffScore').textContent = score + '%';
-  document.getElementById('blowoffScore').style.color = score > 70 ? 'var(--red)' : score > 45 ? 'var(--yellow)' : 'var(--green)';
-  document.getElementById('blowoffLabel').textContent = data.blowoff_label || '';
-  document.getElementById('meterFill').style.width = score + '%';
+  // Legacy no-op - the new detector is populated by fetchBlowoffDetector
+  // Keeping function so renderBlowoff(data) calls from fetchMacro don't error
+}
 
-  // Update factor bars with real values from engine
-  const f = data.blowoff_factors || {};
-  const mapping = {
-    fac1: f.fear_greed,
-    fac2: f.btc_momentum,
-    fac3: f.dxy_weakness,
-    fac4: f.gold_strength,
-    fac5: f.liquidity,      // stablecoin-based liquidity
-    fac6: f.funding,
+// ═══════════════════════════════════════════════════════════════════════════
+// BLOW-OFF TOP DETECTOR (Sprint 22)
+// Reads blowoff_tracker.json and populates the 6-signature detector panel
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchBlowoffDetector() {
+  try {
+    const res = await fetch('data/blowoff_tracker.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    renderBlowoffDetector(data);
+  } catch(e) { console.log('blowoff fetch failed', e); }
+}
+
+function renderBlowoffDetector(data) {
+  const sigs = data.signatures || {};
+  const comp = data.composite || {};
+
+  // Composite score + label
+  const compScore = comp.composite != null ? Number(comp.composite) : 0;
+  const compScoreEl = document.getElementById('compositeScore');
+  compScoreEl.textContent = Math.round(compScore);
+  // Color the big number by severity
+  if (compScore >= 80)       compScoreEl.style.color = 'var(--red)';
+  else if (compScore >= 65)  compScoreEl.style.color = 'var(--yellow)';
+  else if (compScore >= 40)  compScoreEl.style.color = 'var(--blue)';
+  else                       compScoreEl.style.color = 'var(--text)';
+
+  // Alert badge
+  const alertEl = document.getElementById('blowoffAlert');
+  const alertKey = (comp.alert || 'quiet').toLowerCase();
+  alertEl.textContent = (comp.alert || 'QUIET').replace(/_/g, ' ');
+  alertEl.className = 'blowoff-alert ' + alertKey;
+
+  // Composite label (context-dependent)
+  const labelMap = {
+    'blow_off_imminent': { label: 'BLOW-OFF IMMINENT', sub: 'All systems go. Take profits.' },
+    'blow_off_forming':  { label: 'Blow-Off Forming',  sub: 'Multiple signatures aligning.' },
+    'building':          { label: 'Building',          sub: 'Conditions developing.' },
+    'watch':             { label: 'Watch',             sub: 'Early signs present.' },
+    'early_stage':       { label: 'Early Stage',       sub: 'A few signals firing.' },
+    'quiet':             { label: 'Quiet',             sub: 'No blow-off setup right now.' },
   };
-  for (const [id, val] of Object.entries(mapping)) {
-    const el = document.getElementById(id);
-    if (!el || val == null) continue;
-    el.style.width = val + '%';
-    el.style.background = val > 70 ? 'var(--red)' : val > 45 ? 'var(--yellow)' : 'var(--blue)';
+  const info = labelMap[alertKey] || { label: comp.alert || '--', sub: '&nbsp;' };
+  document.getElementById('compositeLabel').textContent = info.label;
+  document.getElementById('compositeSub').innerHTML = info.sub;
+
+  // Strict detector dot
+  const strict = comp.strict_fire === true;
+  const dot = document.getElementById('strictDot');
+  const strictText = document.getElementById('strictText');
+  dot.classList.toggle('fired', strict);
+  if (strict) {
+    strictText.textContent = 'STRICT FIRED';
+    strictText.style.color = 'var(--red)';
+  } else {
+    const aboveT = comp.signatures_above_70 != null ? comp.signatures_above_70 : 0;
+    strictText.textContent = `${aboveT}/6 above 70`;
+    strictText.style.color = aboveT >= 3 ? 'var(--yellow)' : 'var(--muted)';
+  }
+
+  // Meter
+  document.getElementById('compositeMeter').style.width = Math.min(100, compScore) + '%';
+  document.getElementById('compositeMeter').style.background = compScore >= 80
+    ? 'linear-gradient(90deg, var(--yellow), var(--red))'
+    : compScore >= 50
+      ? 'linear-gradient(90deg, var(--blue), var(--yellow))'
+      : 'linear-gradient(90deg, var(--green), var(--blue))';
+
+  // 6 signature tiles
+  const sigKeys = ['parabolic', 'magnitude', 'retail', 'macro', 'breadth', 'shape'];
+  sigKeys.forEach(k => {
+    const sig = sigs[k] || {};
+    const score = Number(sig.score || 0);
+    const scoreEl = document.getElementById(`sig_${k}_score`);
+    const barEl   = document.getElementById(`sig_${k}_bar`);
+    const statusEl = document.getElementById(`sig_${k}_status`);
+    const tile   = document.querySelector(`.sig-tile[data-sig="${k}"]`);
+
+    if (scoreEl) {
+      scoreEl.textContent = Math.round(score);
+      scoreEl.style.color = score >= 70 ? 'var(--red)'
+                          : score >= 50 ? 'var(--yellow)'
+                          : score >= 30 ? 'var(--blue)' : 'var(--text)';
+    }
+    if (barEl) {
+      barEl.style.width = Math.min(100, score) + '%';
+      barEl.style.background = score >= 70 ? 'var(--red)'
+                             : score >= 50 ? 'var(--yellow)'
+                             : score >= 30 ? 'var(--blue)' : 'var(--muted)';
+    }
+    if (statusEl) {
+      statusEl.textContent = (sig.status || '').replace(/_/g, ' ');
+    }
+    if (tile) {
+      tile.classList.toggle('hot', score >= 70);
+      tile.classList.toggle('warm', score >= 50 && score < 70);
+    }
+  });
+
+  // Update footnote with current context
+  if (strict) {
+    document.getElementById('blowoffFootnote').innerHTML =
+      '🚨 <strong style="color:var(--red)">STRICT DETECTOR FIRED.</strong> 4+ signatures above 70 AND composite above 80. This is the real deal.';
   }
 }
 
@@ -2108,6 +2411,42 @@ function renderAnnotations(shapes) {
             borderWidth: 2,
           };
           break;
+
+        case 'marker':
+          // Small dot with hover-only label (prevents chart clutter)
+          ann[id] = {
+            type: 'point',
+            xValue: new Date(shape.anchor.x),
+            yValue: shape.anchor.y,
+            radius: shape.size || 4,
+            backgroundColor: shape.color || '#4f9eff',
+            borderColor: 'rgba(0,0,0,0.3)',
+            borderWidth: 1,
+            drawTime: 'beforeDatasetsDraw',  // render UNDER the line so it doesn't block
+            label: shape.hover_label ? {
+              content: shape.hover_label,
+              display: false,
+              position: 'center',
+              backgroundColor: 'rgba(13,18,25,0.96)',
+              borderColor: shape.color || '#4f9eff',
+              borderWidth: 1,
+              color: shape.color || '#fff',
+              font: { size: 10, family: 'Space Mono', weight: '700' },
+              padding: 6,
+              yAdjust: -28,
+            } : undefined,
+          };
+          if (shape.hover_label) {
+            ann[id].enter = function({ element }) {
+              element.options.label.display = true;
+              return true;
+            };
+            ann[id].leave = function({ element }) {
+              element.options.label.display = false;
+              return true;
+            };
+          }
+          break;
       }
     } catch(err) {
       console.log('annotation render err', id, err);
@@ -2192,6 +2531,7 @@ async function init() {
     fetchDiscoveries(),
     fetchAnnotations(),
     fetchSmartForecast(),
+    fetchBlowoffDetector(),
   ]);
 }
 
@@ -2207,6 +2547,7 @@ setInterval(fetchMarkers, 300000);     // markers every 5 min
 setInterval(fetchMacro, 120000);       // macro every 2 min
 setInterval(fetchAnnotations, 120000); // annotations every 2 min
 setInterval(fetchSmartForecast, 120000);
+setInterval(fetchBlowoffDetector, 120000);  // blow-off detector every 2 min
 setInterval(loadChartHistory, 3600000); // chart history hourly
 </script>
 </body>
