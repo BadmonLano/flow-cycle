@@ -1,40 +1,47 @@
 {
   "oracle": {
-    "top_matching_factors": [],
-    "diverging_factors": [],
-    "oracle_verdict": "UNKNOWN",
-    "confidence": 0.4,
-    "brain": "pattern_oracle",
-    "raw_response": ""
+    "top_matching_factors": [
+      "btc_momentum_30d",
+      "stablecoin_growth",
+      "etf_flows"
+    ],
+    "diverging_factors": [
+      "gold_strength",
+      "dxy_weakness"
+    ],
+    "oracle_verdict": "APPROACHING",
+    "confidence": 0.66,
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\", \"etf_flows\"],\n  \"diverging_factors\": [\"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"confidence\": 0.66\n}\n```",
+    "brain": "pattern_oracle"
   },
   "classifier": {
-    "phase": "Belief",
+    "phase": "Unknown",
     "regime_shift_detected": false,
-    "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
-    "confidence": 0.7,
-    "raw_response": "{\n  \"phase\": \"Belief\",\n  \"regime_shift_detected\": false,\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.7\n}",
-    "brain": "signal_classifier"
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.4,
+    "brain": "signal_classifier",
+    "raw_response": ""
   },
   "narrative": {
-    "narrative": "BTC surges past $76K, driven by institutional inflows and a risk-on market, reminiscent of November 2021's bullish run.",
-    "headline": "Institutional Bulls Charge BTC Towards ATH",
-    "confidence": 0.85,
-    "raw_response": "{\n  \"narrative\": \"BTC surges past $76K, driven by institutional inflows and a risk-on market, reminiscent of November 2021's bullish run.\",\n  \"headline\": \"Institutional Bulls Charge BTC Towards ATH\",\n  \"confidence\": 0.85\n}",
-    "brain": "narrative_writer"
+    "narrative": "Current phase: Unknown. Pattern match 66% to top_2021_nov. Analysis pending.",
+    "headline": "Unknown conditions detected",
+    "confidence": 0.4,
+    "brain": "narrative_writer",
+    "raw_response": ""
   },
   "consensus": {
-    "final_signal": "LONG_AGGRESSIVE",
-    "final_phase": "Belief",
+    "final_signal": "HOLD",
+    "final_phase": "SIDEWAYS",
     "alert_tier": "CRITICAL",
-    "consensus_confidence": 0.85,
-    "key_reasoning": "The SIGNAL CLASSIFIER and NARRATIVE WRITER both provide strong signals for a LONG position with high confidence, indicating a RISK_ON regime. The PATTERN MATCH also supports this trend.",
+    "consensus_confidence": 0.66,
+    "key_reasoning": "The Pattern Oracle indicates an approaching trend with a moderate confidence, while the Narrative Writer and Signal Classifier both suggest uncertainty or sideways movement without a clear direction. The highest confidence signal from the three is 'HOLD'.",
     "disagreements_noted": [
-      "PATTERN ORACLE has low confidence and no specific top matching factors, which does not contradict the other two brains' strong LONG signal."
+      "Signal Classifier's phase is Unknown, which does not align with the Pattern Oracle's 'APPROACHING' and Narrative Writer's 'Unknown conditions detected'."
     ],
-    "raw_response": "```json\n{\n  \"final_signal\": \"LONG_AGGRESSIVE\",\n  \"final_phase\": \"Belief\",\n  \"alert_tier\": \"CRITICAL\",\n  \"consensus_confidence\": 0.85,\n  \"key_reasoning\": \"The SIGNAL CLASSIFIER and NARRATIVE WRITER both provide strong signals for a LONG position with high confidence, indicating a RISK_ON regime. The PATTERN MATCH also supports this trend.\",\n  \"disagreements_noted\": [\"PATTERN ORACLE has low confidence and no specific top matching factors, which does not contradict the other two brains' strong LONG",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"SIDEWAYS\",\n  \"alert_tier\": \"CRITICAL\",\n  \"consensus_confidence\": 0.66,\n  \"key_reasoning\": \"The Pattern Oracle indicates an approaching trend with a moderate confidence, while the Narrative Writer and Signal Classifier both suggest uncertainty or sideways movement without a clear direction. The highest confidence signal from the three is 'HOLD'.\",\n  \"disagreements_noted\": [\"Signal Classifier's phase is Unknown, which does not align with the Pa",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.65
+    "brains_avg_confidence": 0.487
   },
-  "timestamp": "2026-04-21T04:57:36.580903-04:00"
+  "timestamp": "2026-04-21T05:32:56.501191-04:00"
 }
