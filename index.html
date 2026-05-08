@@ -1021,19 +1021,19 @@
 </header>
 
 <div class="phase-strip" id="phaseStrip">
-  <div class="phase-pill safe"    data-phase="Capitulation">Capitulation</div>
-  <div class="phase-pill safe"    data-phase="Anger">Anger</div>
-  <div class="phase-pill safe"    data-phase="Depression">Depression</div>
-  <div class="phase-pill"         data-phase="Disbelief">Disbelief</div>
-  <div class="phase-pill"         data-phase="Hope">Hope</div>
-  <div class="phase-pill"         data-phase="Optimism">Optimism</div>
-  <div class="phase-pill"         data-phase="Belief">Belief</div>
-  <div class="phase-pill warn"    data-phase="Thrill">Thrill</div>
-  <div class="phase-pill danger"  data-phase="Euphoria">Euphoria</div>
-  <div class="phase-pill danger"  data-phase="Complacency">Complacency</div>
-  <div class="phase-pill danger"  data-phase="Anxiety">Anxiety</div>
-  <div class="phase-pill danger"  data-phase="Denial">Denial</div>
-  <div class="phase-pill danger"  data-phase="Panic">Panic</div>
+  <div class="phase-pill safe"    data-phase="Capitulation" data-historical="2020-03-12,2022-11-21" title="Click to jump to historical example: Mar 2020 (COVID), Nov 2022 (FTX)">Capitulation</div>
+  <div class="phase-pill safe"    data-phase="Anger"        data-historical="2018-12-01,2022-06-01"  title="Click to jump to historical example: Dec 2018, Jun 2022">Anger</div>
+  <div class="phase-pill safe"    data-phase="Depression"   data-historical="2019-06-01"             title="Click to jump to historical example: Jun 2019">Depression</div>
+  <div class="phase-pill"         data-phase="Disbelief"    data-historical="2023-06-01"             title="Click to jump to historical example: Jun 2023">Disbelief</div>
+  <div class="phase-pill"         data-phase="Hope"         data-historical="2024-01-01"             title="Click to jump to historical example: Jan 2024">Hope</div>
+  <div class="phase-pill"         data-phase="Optimism"     data-historical="2024-04-01"             title="Click to jump to historical example: Apr 2024">Optimism</div>
+  <div class="phase-pill"         data-phase="Belief"       data-historical="2024-11-01"             title="Click to jump to historical example: Nov 2024">Belief</div>
+  <div class="phase-pill warn"    data-phase="Thrill"       data-historical="2017-10-01"             title="Click to jump to historical example: Oct 2017">Thrill</div>
+  <div class="phase-pill danger"  data-phase="Euphoria"     data-historical="2017-12-17,2021-11-08"  title="Click to jump to historical example: Dec 2017, Nov 2021 (the tops)">Euphoria</div>
+  <div class="phase-pill danger"  data-phase="Complacency"  data-historical="2018-01-01"             title="Click to jump to historical example: Jan 2018">Complacency</div>
+  <div class="phase-pill danger"  data-phase="Anxiety"      data-historical="2018-04-01"             title="Click to jump to historical example: Apr 2018">Anxiety</div>
+  <div class="phase-pill danger"  data-phase="Denial"       data-historical="2021-07-01"             title="Click to jump to historical example: Jul 2021">Denial</div>
+  <div class="phase-pill danger"  data-phase="Panic"        data-historical="2018-11-01"             title="Click to jump to historical example: Nov 2018">Panic</div>
 </div>
 
 <div class="grid">
@@ -1056,6 +1056,7 @@
           <button class="chart-action-btn on" id="toggleMarkers" onclick="toggleMarkers()">◉ AI Markers</button>
           <button class="chart-action-btn on" id="toggleAnnotationsBtn" onclick="toggleAnnotationsBtn()">◉ Jordan</button>
           <button class="chart-action-btn on" id="togglePrediction" onclick="togglePrediction()">◉ Forecast</button>
+          <button class="chart-action-btn" id="toggleDevilsAdvocate" onclick="toggleDevilsAdvocate()" title="Inverse of forecast. When reality drifts toward this line instead, the plan is wrong.">◌ Devil's Advocate</button>
           <button class="chart-action-btn" onclick="resetZoom()" title="Reset zoom">⊙ Reset</button>
         </div>
       </div>
@@ -1110,6 +1111,105 @@
         <div id="patternMatchList">
           <!-- Filled in by JS -->
         </div>
+      </div>
+    </div>
+
+    <!-- v2.7 Sprint 32: Jordan's Current Thesis (daily 6am writeback) -->
+    <div class="card" id="jordanThesisCard">
+      <div class="card-label">
+        Jordan's Current Thesis
+        <span class="tier-badge" id="jordanThesisAge" style="margin-left: auto; background:#1a2332; color:#4f9eff;">--</span>
+      </div>
+      <div id="jordanThesisText" style="font-size:1.05em; line-height:1.55; color:#cbd5e0; margin-top:12px; min-height:3em;">
+        Awaiting morning thesis writeback...
+      </div>
+      <div style="display:flex; gap:14px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.05);">
+        <div style="flex:1;">
+          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">Leverage Bias</div>
+          <div id="jordanLeverageBias" style="font-size:1.1em; font-weight:600; margin-top:4px; color:#4f9eff;">--</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">Horse Race State</div>
+          <div id="jordanHorseRaceContext" style="font-size:0.85em; margin-top:4px; color:#a0aec0;">--</div>
+        </div>
+      </div>
+      <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7; text-transform:uppercase; letter-spacing:0.08em;">
+        Daily 6am EST writeback. Voice immutable. Logged for track record.
+      </div>
+    </div>
+
+    <!-- v2.7 Sprint 32: Horse Race Scoreboard (forecast vs devil's advocate) -->
+    <div class="card" id="horseRaceCard">
+      <div class="card-label">
+        Horse Race: Forecast vs Devil's Advocate
+        <span class="tier-badge" id="horseRaceState" style="margin-left:auto; background:#1a2332; color:#4f9eff;">--</span>
+      </div>
+      <div id="horseRaceExplanation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
+        Awaiting horse race data...
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;">
+        <div style="background:rgba(245,197,24,0.06); border-left:2px solid #f5c518; padding:10px;">
+          <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Forecast Avg Residual</div>
+          <div id="horseRaceForecastResidual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#f5c518;">--</div>
+        </div>
+        <div style="background:rgba(255,77,106,0.06); border-left:2px solid #ff4d6a; padding:10px;">
+          <div style="font-size:0.55em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase;">Devil's Advocate Avg Residual</div>
+          <div id="horseRaceDevilsResidual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#ff4d6a;">--</div>
+        </div>
+      </div>
+      <div style="margin-top:12px; padding:10px; background:rgba(79,158,255,0.05); border-left:2px solid #4f9eff;">
+        <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.1em; text-transform:uppercase;">Leverage Recommendation</div>
+        <div id="horseRaceLeverage" style="font-size:1em; font-weight:600; margin-top:4px; color:#cbd5e0;">--</div>
+      </div>
+      <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7;">
+        Updates every sweep. Lower residual = better tracking reality. The winner of this race informs perps_bot leverage sizing.
+      </div>
+    </div>
+
+    <!-- v2.7 Sprint 32: Falsification Checklist (per-sweep) -->
+    <div class="card" id="falsificationCard">
+      <div class="card-label">
+        What Would Make Us Wrong
+      </div>
+      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+        3 specific conditions that would invalidate the current verdict. If any of these happen in the next 14 days, the call was wrong. Generated fresh every sweep by the analyst brain.
+      </div>
+      <div id="falsificationList" style="margin-top:14px;">
+        <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Awaiting falsification checklist...</div>
+      </div>
+    </div>
+
+    <!-- v2.7 Sprint 32: Invariants Display -->
+    <div class="card" id="invariantsCard">
+      <div class="card-label">
+        Invariants Firing
+        <span class="tier-badge" id="invariantsTopStrength" style="margin-left:auto; background:rgba(255,77,106,0.15); color:#ff4d6a;">TOP --</span>
+        <span class="tier-badge" id="invariantsBotStrength" style="margin-left:6px; background:rgba(0,229,160,0.15); color:#00e5a0;">BOT --</span>
+      </div>
+      <div id="invariantsInterpretation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
+        Awaiting invariants...
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:0.55em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Top-Cycle Invariants</div>
+        <div id="invariantsTopList"></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Bottom-Cycle Invariants</div>
+        <div id="invariantsBotList"></div>
+      </div>
+      <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7;">
+        An invariant is a factor that fires identically across all fingerprinted tops (or bottoms). When current data matches, that's signal.
+      </div>
+    </div>
+
+    <!-- v2.7 Sprint 32: Data Gaps (suspected invariants without data sources) -->
+    <div class="card" id="dataGapsCard">
+      <div class="card-label">Data Gaps</div>
+      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+        Suspected invariants we don't have data sources for. Each one is a possible blind spot.
+      </div>
+      <div id="dataGapsList" style="margin-top:12px;">
+        <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Loading data gaps registry...</div>
       </div>
     </div>
 
@@ -1356,6 +1456,13 @@ for (let i=si+1; i<=ei; i++) {
 }
 for (let i=0; i<si; i++) prediction[i] = null;
 
+// DEVIL'S ADVOCATE LINE
+// Literal mirror of prediction across y=50. Stress-tests the plan: when reality
+// drifts toward this line instead of the prediction, the plan is losing credibility.
+// Plans don't drift. Reality does. This line shows what reality looks like if
+// the prediction is dead wrong.
+let devilsAdvocate = prediction.map(v => v === null ? null : 100 - v);
+
 // ═══════════════════════════════════════════════════════════════════════════
 // CHART INSTANCE
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1386,6 +1493,18 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         pointHoverBackgroundColor: '#f5c518',
         borderWidth: 1.5,
         yAxisID: 'y',
+      },
+      {
+        label: "Devil's Advocate",
+        data: devilsAdvocate,
+        borderColor: 'rgba(255,77,106,0.55)',
+        backgroundColor: 'rgba(255,77,106,0.0)',
+        borderDash: [2,6],
+        fill: false, tension: 0.4, pointRadius: 0, pointHoverRadius: 4,
+        pointHoverBackgroundColor: '#ff4d6a',
+        borderWidth: 1.5,
+        yAxisID: 'y',
+        hidden: true,  // off by default, toggled via button
       }
       // Overlay datasets added dynamically
     ]
@@ -1458,6 +1577,9 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
             }
             if (ds.label === 'Predicted (Blow-Off Forecast)') {
               return `  Forecast: ${Math.round(val)}`;
+            }
+            if (ds.label === "Devil's Advocate") {
+              return `  Devil's Advocate: ${Math.round(val)}`;
             }
             // Overlay datasets
             const key = ds.__overlayKey;
@@ -1682,7 +1804,18 @@ async function fetchMacro() {
       if (ageMin < 45) { dot.className = 'live-dot'; lbl.className = 'live-label'; lbl.textContent = 'Live'; }
       else if (ageMin < 120) { dot.className = 'live-dot stale'; lbl.className = 'live-label stale'; lbl.textContent = 'Stale'; }
       else { dot.className = 'live-dot down'; lbl.className = 'live-label down'; lbl.textContent = 'Offline'; }
-      tsEl.textContent = `· updated ${Math.floor(ageMin)}m ago`;
+      // v2.7: human-readable age (m / h / d), instead of giant minute count
+      let ageStr;
+      if (ageMin < 1)        ageStr = 'just now';
+      else if (ageMin < 60)  ageStr = `${Math.floor(ageMin)}m ago`;
+      else if (ageMin < 1440) ageStr = `${Math.floor(ageMin/60)}h ago`;
+      else if (ageMin < 43200) ageStr = `${Math.floor(ageMin/1440)}d ago`;
+      else ageStr = `${Math.floor(ageMin/43200)}mo ago`;
+      tsEl.textContent = `· updated ${ageStr}`;
+      // Color the timestamp to match staleness
+      if (ageMin < 45) tsEl.style.color = '#00e5a0';
+      else if (ageMin < 120) tsEl.style.color = '#f5c518';
+      else tsEl.style.color = '#ff4d6a';
     }
 
     // Legacy fields (preserved)
@@ -2017,6 +2150,15 @@ function togglePrediction() {
   document.getElementById('togglePrediction').textContent = (showPrediction ? '◉' : '◌') + ' Forecast';
   const predDs = chart.data.datasets.find(d => d.label === 'Predicted (Blow-Off Forecast)');
   if (predDs) { predDs.hidden = !showPrediction; chart.update('none'); }
+}
+
+let showDevilsAdvocate = false;
+function toggleDevilsAdvocate() {
+  showDevilsAdvocate = !showDevilsAdvocate;
+  document.getElementById('toggleDevilsAdvocate').classList.toggle('on', showDevilsAdvocate);
+  document.getElementById('toggleDevilsAdvocate').textContent = (showDevilsAdvocate ? '◉' : '◌') + " Devil's Advocate";
+  const daDs = chart.data.datasets.find(d => d.label === "Devil's Advocate");
+  if (daDs) { daDs.hidden = !showDevilsAdvocate; chart.update('none'); }
 }
 
 function refreshMarkers() { fetchMarkers(); }
@@ -2492,6 +2634,7 @@ async function fetchSmartForecast() {
       pointHoverBackgroundColor: color,
       borderWidth: 1.5,
       yAxisID: 'y',
+      parsing: false,  // BUGFIX: data points are {x: Date, y: value}, read literally as time-coords. Without this, Chart.js indexed them against weeklyDates labels (caused "shows 2017 on default zoom but 2026 on hover" symptom).
     };
 
     if (oldIdx >= 0) { chart.data.datasets[oldIdx] = newDs; }
@@ -2537,8 +2680,208 @@ async function init() {
     fetchAnnotations(),
     fetchSmartForecast(),
     fetchBlowoffDetector(),
+    // v2.7 Sprint 32: discovery engine outputs
+    fetchJordanThesis(),
+    fetchHorseRace(),
+    fetchFalsificationChecklist(),
+    fetchInvariants(),
+    fetchDataGaps(),
   ]);
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SPRINT 32 v2.7: DISCOVERY ENGINE FETCHERS
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Helper: format ISO timestamp into human-readable age
+function formatAgeFromIso(iso) {
+  if (!iso) return 'never';
+  try {
+    const ts = new Date(iso);
+    const ageMin = (Date.now() - ts.getTime()) / 60000;
+    if (ageMin < 1)        return 'just now';
+    if (ageMin < 60)       return `${Math.floor(ageMin)}m ago`;
+    if (ageMin < 1440)     return `${Math.floor(ageMin/60)}h ago`;
+    if (ageMin < 43200)    return `${Math.floor(ageMin/1440)}d ago`;
+    return `${Math.floor(ageMin/43200)}mo ago`;
+  } catch(e) { return 'unknown'; }
+}
+
+// Color age badge based on freshness (green / yellow / red)
+function colorForAge(iso, freshThresholdMin = 1440, staleThresholdMin = 4320) {
+  if (!iso) return '#ff4d6a';
+  try {
+    const ageMin = (Date.now() - new Date(iso).getTime()) / 60000;
+    if (ageMin < freshThresholdMin) return '#00e5a0';
+    if (ageMin < staleThresholdMin) return '#f5c518';
+    return '#ff4d6a';
+  } catch(e) { return '#ff4d6a'; }
+}
+
+async function fetchJordanThesis() {
+  try {
+    const res = await fetch('data/jordan_thesis.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.thesis_text) return;
+    
+    document.getElementById('jordanThesisText').textContent = data.thesis_text;
+    document.getElementById('jordanLeverageBias').textContent = data.leverage_bias || 'NEUTRAL';
+    
+    // Color bias based on direction
+    const biasEl = document.getElementById('jordanLeverageBias');
+    const bias = (data.leverage_bias || 'NEUTRAL').toUpperCase();
+    if (bias === 'BULL') biasEl.style.color = '#00e5a0';
+    else if (bias === 'BEAR') biasEl.style.color = '#ff4d6a';
+    else if (bias === 'OUT') biasEl.style.color = '#f5c518';
+    else biasEl.style.color = '#4f9eff';
+    
+    // Horse race context
+    const hrContext = data.horse_race_state || '--';
+    document.getElementById('jordanHorseRaceContext').textContent = hrContext;
+    
+    // Age badge with color
+    const ageEl = document.getElementById('jordanThesisAge');
+    ageEl.textContent = formatAgeFromIso(data.updated_at);
+    ageEl.style.color = colorForAge(data.updated_at, 1440, 2880);  // 24h fresh, 48h stale
+  } catch(e) { console.log('jordan thesis fetch failed', e); }
+}
+
+async function fetchHorseRace() {
+  try {
+    const res = await fetch('data/horse_race_scoreboard.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    
+    document.getElementById('horseRaceState').textContent = (data.state || 'unknown').replace(/_/g, ' ');
+    document.getElementById('horseRaceExplanation').textContent = data.state_explanation || '--';
+    document.getElementById('horseRaceForecastResidual').textContent = (data.avg_forecast_residual_recent ?? '--');
+    document.getElementById('horseRaceDevilsResidual').textContent = (data.avg_devils_residual_recent ?? '--');
+    document.getElementById('horseRaceLeverage').textContent = (data.leverage_recommendation || 'neutral').replace(/_/g, ' ');
+    
+    // Color the state badge
+    const stateEl = document.getElementById('horseRaceState');
+    const state = (data.state || '').toLowerCase();
+    if (state.includes('forecast_winning') || state === 'forecast_leading') stateEl.style.color = '#f5c518';
+    else if (state.includes('devils_winning') || state === 'devils_leading') stateEl.style.color = '#ff4d6a';
+    else if (state === 'convergence') stateEl.style.color = '#00e5a0';
+    else if (state === 'both_wrong') stateEl.style.color = '#ff4d6a';
+    else stateEl.style.color = '#4f9eff';
+  } catch(e) { console.log('horse_race fetch failed', e); }
+}
+
+async function fetchFalsificationChecklist() {
+  try {
+    const res = await fetch('data/falsification_checklist.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    const conditions = data.falsification_conditions || [];
+    const listEl = document.getElementById('falsificationList');
+    
+    if (conditions.length === 0) {
+      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">No falsification conditions generated yet (next sweep will produce).</div>';
+      return;
+    }
+    
+    listEl.innerHTML = conditions.map((c, i) => {
+      const id = c.id || (i + 1);
+      const condition = c.condition || '--';
+      const meaning = c.what_it_would_mean || '';
+      return `
+        <div style="margin-bottom:12px; padding:10px; background:rgba(255,77,106,0.04); border-left:2px solid #ff4d6a;">
+          <div style="font-size:0.7em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px;">Condition ${id}</div>
+          <div style="font-size:0.92em; color:#cbd5e0; line-height:1.5;">${condition}</div>
+          ${meaning ? `<div style="font-size:0.75em; color:#a0aec0; line-height:1.4; margin-top:6px; font-style:italic;">${meaning}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  } catch(e) { console.log('falsification fetch failed', e); }
+}
+
+async function fetchInvariants() {
+  try {
+    const res = await fetch('data/invariants.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    const firing = data.currently_firing || {};
+    
+    document.getElementById('invariantsTopStrength').textContent =
+      `TOP ${firing.top_invariants_firing || 0}/${firing.top_invariants_total || 0} (${(firing.top_signal_strength_pct ?? 0).toFixed(0)}%)`;
+    document.getElementById('invariantsBotStrength').textContent =
+      `BOT ${firing.bottom_invariants_firing || 0}/${firing.bottom_invariants_total || 0} (${(firing.bottom_signal_strength_pct ?? 0).toFixed(0)}%)`;
+    
+    document.getElementById('invariantsInterpretation').textContent = data.interpretation || '--';
+    
+    const topInvs = data.confirmed_top_invariants || [];
+    const botInvs = data.confirmed_bottom_invariants || [];
+    
+    document.getElementById('invariantsTopList').innerHTML = topInvs.length === 0
+      ? '<div style="font-size:0.8em; color:#a0aec0; padding:6px;">No top invariants detected yet.</div>'
+      : topInvs.map(inv => `
+          <div style="display:flex; justify-content:space-between; padding:6px 8px; margin-bottom:4px; background:${inv.firing_now ? 'rgba(255,77,106,0.08)' : 'rgba(255,255,255,0.02)'}; border-left:2px solid ${inv.firing_now ? '#ff4d6a' : '#2d3748'};">
+            <span style="font-family:'Space Mono',monospace; font-size:0.8em; color:${inv.firing_now ? '#ff4d6a' : '#a0aec0'};">${inv.factor}</span>
+            <span style="font-size:0.75em; color:#cbd5e0;">cur=${inv.current ?? '?'} | mean=${inv.mean} | fire=${inv.firing_now ? '✓' : '✗'}</span>
+          </div>`).join('');
+    
+    document.getElementById('invariantsBotList').innerHTML = botInvs.length === 0
+      ? '<div style="font-size:0.8em; color:#a0aec0; padding:6px;">No bottom invariants detected yet.</div>'
+      : botInvs.map(inv => `
+          <div style="display:flex; justify-content:space-between; padding:6px 8px; margin-bottom:4px; background:${inv.firing_now ? 'rgba(0,229,160,0.08)' : 'rgba(255,255,255,0.02)'}; border-left:2px solid ${inv.firing_now ? '#00e5a0' : '#2d3748'};">
+            <span style="font-family:'Space Mono',monospace; font-size:0.8em; color:${inv.firing_now ? '#00e5a0' : '#a0aec0'};">${inv.factor}</span>
+            <span style="font-size:0.75em; color:#cbd5e0;">cur=${inv.current ?? '?'} | mean=${inv.mean} | fire=${inv.firing_now ? '✓' : '✗'}</span>
+          </div>`).join('');
+  } catch(e) { console.log('invariants fetch failed', e); }
+}
+
+async function fetchDataGaps() {
+  try {
+    const res = await fetch('data/data_gaps.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    const gaps = data.unknown_factors || [];
+    const listEl = document.getElementById('dataGapsList');
+    
+    if (gaps.length === 0) {
+      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">No data gaps registered.</div>';
+      return;
+    }
+    
+    listEl.innerHTML = gaps.map(g => {
+      const priorityColor = g.priority === 'HIGH' ? '#ff4d6a' :
+                            g.priority === 'MEDIUM' ? '#f5c518' : '#a0aec0';
+      return `
+        <div style="margin-bottom:10px; padding:8px 10px; background:rgba(255,255,255,0.02); border-left:2px solid ${priorityColor};">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span style="font-family:'Space Mono',monospace; font-size:0.85em; color:${priorityColor};">${g.name}</span>
+            <span style="font-size:0.6em; color:${priorityColor}; letter-spacing:0.1em;">${g.priority}</span>
+          </div>
+          <div style="font-size:0.78em; color:#cbd5e0; line-height:1.4; margin-bottom:4px;">${g.description}</div>
+          <div style="font-size:0.7em; color:#a0aec0; font-style:italic;">need: ${g.data_source_needed}</div>
+        </div>
+      `;
+    }).join('');
+  } catch(e) { console.log('data gaps fetch failed', e); }
+}
+
+// v2.7 Sprint 32: Make phase pills clickable to jump to historical example dates
+document.querySelectorAll('.phase-pill').forEach(pill => {
+  pill.style.cursor = 'pointer';
+  pill.addEventListener('click', () => {
+    const histDates = pill.getAttribute('data-historical');
+    if (!histDates || !chart) return;
+    // Use the first listed historical date as the zoom anchor
+    const firstDate = histDates.split(',')[0].trim();
+    try {
+      const targetDate = new Date(firstDate);
+      // Zoom to window of +/- 3 months around the target date
+      const before = new Date(targetDate);
+      before.setMonth(before.getMonth() - 3);
+      const after = new Date(targetDate);
+      after.setMonth(after.getMonth() + 3);
+      chart.zoomScale('x', {min: before, max: after}, 'default');
+    } catch(e) { console.log('phase pill zoom failed', e); }
+  });
+});
 
 async function loadAll() {
   await fetchIndicatorHistory();
@@ -2554,6 +2897,12 @@ setInterval(fetchAnnotations, 120000); // annotations every 2 min
 setInterval(fetchSmartForecast, 120000);
 setInterval(fetchBlowoffDetector, 120000);  // blow-off detector every 2 min
 setInterval(loadChartHistory, 3600000); // chart history hourly
+// v2.7 Sprint 32: discovery engine refreshes
+setInterval(fetchJordanThesis, 120000);
+setInterval(fetchHorseRace, 120000);
+setInterval(fetchFalsificationChecklist, 240000);  // 4 min
+setInterval(fetchInvariants, 240000);              // 4 min
+setInterval(fetchDataGaps, 600000);                // 10 min (rarely changes)
 </script>
 </body>
 </html>
