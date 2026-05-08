@@ -157,7 +157,8 @@ try {
     Write-Host "─── git add . ─────────────────────────────────────────────" -ForegroundColor Cyan
     git add .
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "[ERROR] git add failed (exit $LASTEXITCODE)" -ForegroundColor Red
+        $errCode = $LASTEXITCODE
+        Write-Host "[ERROR] git add failed - exit code $errCode" -ForegroundColor Red
         exit 1
     }
     Write-Host "[OK] staged" -ForegroundColor Green
@@ -182,7 +183,8 @@ try {
     Write-Host "Message: $Message" -ForegroundColor Gray
     git commit -m "$Message"
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "[ERROR] git commit failed (exit $LASTEXITCODE)" -ForegroundColor Red
+        $errCode = $LASTEXITCODE
+        Write-Host "[ERROR] git commit failed - exit code $errCode" -ForegroundColor Red
         Write-Host "        Common causes: nothing staged, pre-commit hook rejection, missing user.email/name config" -ForegroundColor Yellow
         exit 1
     }
@@ -193,7 +195,8 @@ try {
     Write-Host "─── git push ───────────────────────────────────────────────" -ForegroundColor Cyan
     git push
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "[ERROR] git push failed (exit $LASTEXITCODE)" -ForegroundColor Red
+        $errCode = $LASTEXITCODE
+        Write-Host "[ERROR] git push failed - exit code $errCode" -ForegroundColor Red
         Write-Host "        Common causes: auth not configured, branch protection, network down, wrong remote" -ForegroundColor Yellow
         Write-Host "        Try: git remote -v       (verify remote URL)" -ForegroundColor Yellow
         Write-Host "             git config user.email / user.name  (verify identity)" -ForegroundColor Yellow
