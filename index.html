@@ -1021,19 +1021,26 @@
 </header>
 
 <div class="phase-strip" id="phaseStrip">
-  <div class="phase-pill safe"    data-phase="Capitulation" data-historical="2020-03-12,2022-11-21" title="Click to jump to historical example: Mar 2020 (COVID), Nov 2022 (FTX)">Capitulation</div>
+  <!--
+    Phase pills: 13-phase doctrine bottom-to-top.
+    Sprint 32 v2.7+ (this session): Capitulation moved to between Depression and Panic
+    per Lano. Order matches getPhase() logic — descending leg phases (Panic..Complacency)
+    are emotionally distinct from ascending leg phases (Disbelief..Thrill) even at
+    similar scores. The highlighted "current phase" wires off score + trend direction.
+  -->
   <div class="phase-pill safe"    data-phase="Anger"        data-historical="2018-12-01,2022-06-01"  title="Click to jump to historical example: Dec 2018, Jun 2022">Anger</div>
   <div class="phase-pill safe"    data-phase="Depression"   data-historical="2019-06-01"             title="Click to jump to historical example: Jun 2019">Depression</div>
+  <div class="phase-pill safe"    data-phase="Capitulation" data-historical="2020-03-12,2022-11-21"  title="Click to jump to historical example: Mar 2020 (COVID), Nov 2022 (FTX)">Capitulation</div>
+  <div class="phase-pill danger"  data-phase="Panic"        data-historical="2018-11-01"             title="Click to jump to historical example: Nov 2018">Panic</div>
+  <div class="phase-pill danger"  data-phase="Denial"       data-historical="2021-07-01"             title="Click to jump to historical example: Jul 2021">Denial</div>
+  <div class="phase-pill danger"  data-phase="Anxiety"      data-historical="2018-04-01"             title="Click to jump to historical example: Apr 2018">Anxiety</div>
+  <div class="phase-pill danger"  data-phase="Complacency"  data-historical="2018-01-01"             title="Click to jump to historical example: Jan 2018">Complacency</div>
   <div class="phase-pill"         data-phase="Disbelief"    data-historical="2023-06-01"             title="Click to jump to historical example: Jun 2023">Disbelief</div>
   <div class="phase-pill"         data-phase="Hope"         data-historical="2024-01-01"             title="Click to jump to historical example: Jan 2024">Hope</div>
   <div class="phase-pill"         data-phase="Optimism"     data-historical="2024-04-01"             title="Click to jump to historical example: Apr 2024">Optimism</div>
   <div class="phase-pill"         data-phase="Belief"       data-historical="2024-11-01"             title="Click to jump to historical example: Nov 2024">Belief</div>
   <div class="phase-pill warn"    data-phase="Thrill"       data-historical="2017-10-01"             title="Click to jump to historical example: Oct 2017">Thrill</div>
   <div class="phase-pill danger"  data-phase="Euphoria"     data-historical="2017-12-17,2021-11-08"  title="Click to jump to historical example: Dec 2017, Nov 2021 (the tops)">Euphoria</div>
-  <div class="phase-pill danger"  data-phase="Complacency"  data-historical="2018-01-01"             title="Click to jump to historical example: Jan 2018">Complacency</div>
-  <div class="phase-pill danger"  data-phase="Anxiety"      data-historical="2018-04-01"             title="Click to jump to historical example: Apr 2018">Anxiety</div>
-  <div class="phase-pill danger"  data-phase="Denial"       data-historical="2021-07-01"             title="Click to jump to historical example: Jul 2021">Denial</div>
-  <div class="phase-pill danger"  data-phase="Panic"        data-historical="2018-11-01"             title="Click to jump to historical example: Nov 2018">Panic</div>
 </div>
 
 <div class="grid">
@@ -1053,7 +1060,7 @@
           <button class="tf-btn active" onclick="setTimeframe(0)" id="tfAll">ALL</button>
         </div>
         <div class="chart-actions">
-          <button class="chart-action-btn on" id="toggleMarkers" onclick="toggleMarkers()">◉ AI Markers</button>
+          <button class="chart-action-btn" id="toggleMarkers" onclick="toggleMarkers()">◌ AI Markers</button>
           <button class="chart-action-btn on" id="togglePrediction" onclick="togglePrediction()">◉ Forecast</button>
           <button class="chart-action-btn on" id="toggleDevilsAdvocate" onclick="toggleDevilsAdvocate()" title="Time-shifted inverse of forecast. Falsifiable counter-thesis: peak now / bottom in October instead of bottom now / peak in October.">◉ Devil's Advocate</button>
           <button class="chart-action-btn" onclick="resetZoom()" title="Reset zoom">⊙ Reset</button>
@@ -1062,8 +1069,11 @@
       <div class="chart-wrap" style="position:relative">
         <canvas id="mainChart"></canvas>
       </div>
-      <!-- Overlay toggles -->
-      <div style="margin-top: 14px;">
+      <!-- Sprint 32 v2.7+ (this session): Overlay indicators row HIDDEN by Lano.
+           Useless visual noise. DOM nodes preserved (display:none) so any code that
+           queries them doesn't crash, just nothing visible to user. To re-enable:
+           remove the `display:none` style below. -->
+      <div style="margin-top: 14px; display: none;">
         <div style="font-size: 0.6em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">Overlay Indicators</div>
         <div class="overlay-toggles" id="overlayToggles">
           <!-- Filled in by JS -->
@@ -1401,11 +1411,10 @@ const OVERLAYS = {
   etf_net_total:     { label: 'ETF Net Flows',     color: '#00e5a0', axis: 'y1', scale: 1,    unit: 'M' },
 };
 const activeOverlays = new Set();  // which ones are toggled on
-// AI Markers visible by default (sprint 32 v2.7: button restored, red circle + 
-// other annotations show automatically. Jordan annotations dataset removed
-// from the toggle row but variable kept defined as false so any leftover
-// render code is a no-op).
-let showMarkers = true;
+// AI Markers default OFF (sprint 32 v2.7+, this session). Lano's call.
+// Toggle button shows on/off state, defaults to off so chart loads clean.
+// User clicks ◌ AI Markers button to enable, sees ◉ AI Markers when on.
+let showMarkers = false;
 let showPrediction = true;
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1557,21 +1566,15 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
     plugins: {
       legend: { display: false },
       annotation: {
-        annotations: {
-          blowBox: {
-            type: 'box',
-            xMin: new Date(2026,6,1), xMax: new Date(2026,10,1),
-            yMin: 82, yMax: 100,
-            backgroundColor: 'rgba(255,77,106,0.08)',
-            borderColor: 'rgba(255,77,106,0.4)', borderWidth: 1,
-            label: { content: 'Blow-Off Zone', display: true, position: 'center', color: '#ff4d6a', font: { size: 10, family: 'Space Mono' } }
-          },
-          bottom25: {
-            type: 'line', yMin: 15, yMax: 15,
-            borderColor: 'rgba(0,229,160,0.3)', borderWidth: 1, borderDash: [4,4],
-            label: { content: 'Accumulate Zone', display: true, position: 'end', color: '#00e5a0', font: { size: 9, family: 'Space Mono' } }
-          }
-        }
+        // Sprint 32 v2.7+ (this session): static blowBox + bottom25 annotations REMOVED.
+        // They were hardcoded to fixed dates (Jul-Nov 2026) and a fixed Y line (15).
+        // Replaced with DYNAMIC next-top + next-bottom markers on both forecast and DA
+        // lines, populated by renderNextPeakMarkers() after fetchForecastCurve runs.
+        // 4 markers total: forecast_next_top (red), forecast_next_bottom (green),
+        //                  da_next_top (red),       da_next_bottom (green).
+        // Markers update on every forecast sweep (5min refresh), so they always reflect
+        // the current "where's the next peak/bottom" read.
+        annotations: {}
       },
       tooltip: {
         backgroundColor: '#0d1219',
@@ -1668,42 +1671,59 @@ chart._markerCache = [];   // stored markers for reapplication after zoom
 // ═══════════════════════════════════════════════════════════════════════════
 // PHASE LOGIC (preserved)
 // ═══════════════════════════════════════════════════════════════════════════
+// Sprint 32 v2.7+ (this session): 13-phase doctrine.
+//
+// Score + direction = phase. Same score means different phase depending on whether
+// the cycle is climbing (ascending leg) or falling (descending leg). This is core
+// doctrine — Panic at score 22 ≠ Disbelief at score 25, even though they're at
+// similar heights, because they mean opposite things emotionally.
+//
+// Ascending leg (climbing toward Euphoria peak):
+//   Anger → Disbelief → Hope → Optimism → Belief → Thrill → Euphoria
+//
+// Descending leg (falling from Euphoria toward bottom):
+//   Euphoria → Complacency → Anxiety → Denial → Panic → Capitulation → Depression → Anger
+//
+// Anger appears at the BOTTOM of both legs as the rage/depression floor.
 function getPhase(idx, trend) {
+  if (idx === null || idx === undefined) return 'Unknown';
   if (trend === 'up') {
-    if (idx < 15) return 'Depression';
-    if (idx < 25) return 'Disbelief';
-    if (idx < 38) return 'Hope';
-    if (idx < 50) return 'Optimism';
-    if (idx < 62) return 'Belief';
-    if (idx < 78) return 'Thrill';
-    return 'Euphoria';
+    // Ascending leg
+    if (idx < 12)  return 'Anger';        // recovering from extreme low
+    if (idx < 22)  return 'Disbelief';    // skeptics, "fake rally"
+    if (idx < 35)  return 'Hope';         // "maybe this is real"
+    if (idx < 50)  return 'Optimism';     // "this is real"
+    if (idx < 62)  return 'Belief';       // "go all in"
+    if (idx < 78)  return 'Thrill';       // "buy on margin, tell everyone"
+    return 'Euphoria';                     // "I'm a genius, we're all rich"
   } else {
-    if (idx > 90) return 'Euphoria';
-    if (idx > 80) return 'Complacency';
-    if (idx > 70) return 'Anxiety';
-    if (idx > 60) return 'Denial';
-    if (idx > 50) return 'Panic';
-    if (idx > 38) return 'Capitulation';
-    if (idx > 22) return 'Anger';
-    return 'Depression';
+    // Descending leg
+    if (idx > 90)  return 'Euphoria';     // top — hasn't fallen yet
+    if (idx > 78)  return 'Complacency';  // "this dip is temporary"
+    if (idx > 65)  return 'Anxiety';      // "is this a real correction?"
+    if (idx > 50)  return 'Denial';       // "still a bull market"
+    if (idx > 35)  return 'Panic';        // "OH SHIT we're going down"
+    if (idx > 20)  return 'Capitulation'; // "just sell, get me out"
+    if (idx > 8)   return 'Depression';   // "retirement gone, I'm an idiot"
+    return 'Anger';                        // "WHO DID THIS, who shorted us, fed sucks"
   }
 }
 
 function getAdvice(phase) {
   const map = {
-    'Capitulation': '🟢 Load bags — max pain = max opportunity',
     'Anger':        '🟢 Accumulate — smart money is buying here',
     'Depression':   '🟢 Diamond hands — darkest before dawn',
+    'Capitulation': '🟢 Load bags — max pain = max opportunity',
+    'Panic':        '🟠 Hold cash — bottom not confirmed yet',
+    'Denial':       '🟠 Cut losers — trend has changed',
+    'Anxiety':      '🔴 Defensive — smart money is exiting',
+    'Complacency':  '🔴 Reduce exposure — correction incoming',
     'Disbelief':    '🔵 Start building positions — skeptics are wrong',
     'Hope':         '🔵 Add to positions — momentum shifting',
     'Optimism':     '🔵 Hold and accumulate dips — legs building',
     'Belief':       '🟡 Hold strong — but watch for distribution',
     'Thrill':       '🟡 Take some profits — FOMO is peaking',
     'Euphoria':     '🔴 SELL — blow-off top territory, everyone is in',
-    'Complacency':  '🔴 Reduce exposure — correction incoming',
-    'Anxiety':      '🔴 Defensive — smart money is exiting',
-    'Denial':       '🟠 Cut losers — trend has changed',
-    'Panic':        '🟠 Hold cash — bottom not confirmed yet',
   };
   return map[phase] || 'Monitoring...';
 }
@@ -2114,7 +2134,7 @@ async function fetchMarkers() {
 
 function renderMarkersOnChart() {
   if (!chart._markerCache) return;
-  // Clear old marker annotations (keep structural ones like blowBox, bottom25)
+  // Clear old marker annotations (keep dynamic peak markers — they're managed separately)
   const ann = chart.options.plugins.annotation.annotations;
   Object.keys(ann).forEach(k => {
     if (k.startsWith('aimarker_')) delete ann[k];
@@ -2473,8 +2493,11 @@ function renderAnnotations(shapes) {
   if (!chart || !chart.options.plugins.annotation) return;
   const ann = chart.options.plugins.annotation.annotations;
 
-  // Clear old annotator shapes (keep hardcoded blowBox/bottom25 and AI markers)
-  const PROTECTED = new Set(['blowBox', 'bottom25']);
+  // Clear old annotator shapes (keep AI markers + dynamic peak markers).
+  // Sprint 32 v2.7+ (this session): blowBox/bottom25 retired (deleted). Replaced
+  // with dynamic forecast_next_top/forecast_next_bottom/da_next_top/da_next_bottom
+  // — those need preservation on annotation refresh just like AI markers.
+  const PROTECTED = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom']);
   Object.keys(ann).forEach(k => {
     if (PROTECTED.has(k)) return;
     if (k.startsWith('aimarker_')) return;
@@ -2677,7 +2700,9 @@ function toggleAnnotationsBtn() {
     fetchAnnotations();
   } else {
     const ann = chart.options.plugins.annotation.annotations;
-    const KEEP = new Set(['blowBox', 'bottom25']);
+    // Sprint 32 v2.7+ (this session): KEEP set updated. blowBox/bottom25 retired,
+    // replaced with the 4 dynamic peak markers.
+    const KEEP = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom']);
     Object.keys(ann).forEach(k => {
       if (KEEP.has(k)) return;
       if (k.startsWith('aimarker_')) return;
@@ -2896,6 +2921,141 @@ async function fetchDataGaps() {
 // historical dataset works. earlier attempts with {x, y} objects broke hover
 // and DA rendering because the chart uses interaction mode 'index' which requires
 // all datasets to share the same indexing system as labels[].
+// ═══════════════════════════════════════════════════════════════════════════
+// Sprint 32 v2.7+ (this session): NEXT-PEAK DETECTION + DYNAMIC MARKERS
+// ═══════════════════════════════════════════════════════════════════════════
+// Replaces static blowBox/bottom25 annotations with dynamic markers that show
+// where the forecast and DA each predict the NEXT upcoming top and NEXT upcoming
+// bottom. 4 markers total — 2 per line.
+//
+// Peak detection: walk forward from today, find first local max (window of N
+// neighbors on each side where current point is higher than all). Same for min.
+// Window size 3 = each peak/trough must be higher/lower than the 3 weeks before
+// AND 3 weeks after — filters out noise but catches real turns.
+//
+// Renders as small box annotations (4-week wide x ~10 score-units tall) so they're
+// visible but don't dominate the chart. Red box = top, green box = bottom.
+
+const PEAK_WINDOW_WEEKS = 3;          // how many weeks on each side must be lower/higher
+const PEAK_MARKER_HALF_WIDTH_WEEKS = 2;  // box spans 4 weeks total (2 on each side of peak)
+const PEAK_MARKER_HALF_HEIGHT = 5;       // box spans 10 score units (5 above, 5 below)
+
+function findNextLocalMax(arr, startIdx, window) {
+  for (let i = startIdx + window; i < arr.length - window; i++) {
+    const cur = arr[i];
+    if (cur === null || cur === undefined) continue;
+    let isMax = true;
+    for (let j = 1; j <= window; j++) {
+      const before = arr[i - j];
+      const after = arr[i + j];
+      if (before === null || after === null || before === undefined || after === undefined) {
+        isMax = false; break;
+      }
+      if (before >= cur || after >= cur) { isMax = false; break; }
+    }
+    if (isMax) return { idx: i, value: cur };
+  }
+  return null;
+}
+
+function findNextLocalMin(arr, startIdx, window) {
+  for (let i = startIdx + window; i < arr.length - window; i++) {
+    const cur = arr[i];
+    if (cur === null || cur === undefined) continue;
+    let isMin = true;
+    for (let j = 1; j <= window; j++) {
+      const before = arr[i - j];
+      const after = arr[i + j];
+      if (before === null || after === null || before === undefined || after === undefined) {
+        isMin = false; break;
+      }
+      if (before <= cur || after <= cur) { isMin = false; break; }
+    }
+    if (isMin) return { idx: i, value: cur };
+  }
+  return null;
+}
+
+function _peakBoxAnnotation(label, peakIdx, peakValue, color, bgColor) {
+  const halfWidth = PEAK_MARKER_HALF_WIDTH_WEEKS;
+  const xMinIdx = Math.max(0, peakIdx - halfWidth);
+  const xMaxIdx = Math.min(weeklyDates.length - 1, peakIdx + halfWidth);
+  const xMinDate = weeklyDates[xMinIdx];
+  const xMaxDate = weeklyDates[xMaxIdx];
+  return {
+    type: 'box',
+    xMin: xMinDate,
+    xMax: xMaxDate,
+    yMin: Math.max(0, peakValue - PEAK_MARKER_HALF_HEIGHT),
+    yMax: Math.min(100, peakValue + PEAK_MARKER_HALF_HEIGHT),
+    backgroundColor: bgColor,
+    borderColor: color,
+    borderWidth: 1,
+    label: {
+      content: label,
+      display: true,
+      position: 'center',
+      color: color,
+      backgroundColor: 'rgba(13,18,25,0.85)',
+      font: { size: 9, family: 'Space Mono', weight: 'bold' },
+      padding: 4,
+    },
+  };
+}
+
+function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
+  if (!chart || !chart.options.plugins.annotation) return;
+  const ann = chart.options.plugins.annotation.annotations;
+
+  // Wipe existing peak markers first (they regenerate every sweep with fresh data)
+  ['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom'].forEach(k => {
+    if (ann[k]) delete ann[k];
+  });
+
+  const RED = '#ff4d6a';
+  const GREEN = '#00e5a0';
+  const RED_BG = 'rgba(255,77,106,0.10)';
+  const GREEN_BG = 'rgba(0,229,160,0.10)';
+
+  // Forecast peaks
+  const fcMax = findNextLocalMax(forecastArr, startIdx, PEAK_WINDOW_WEEKS);
+  const fcMin = findNextLocalMin(forecastArr, startIdx, PEAK_WINDOW_WEEKS);
+  if (fcMax) {
+    ann.forecast_next_top = _peakBoxAnnotation(
+      `Forecast Next Top: ${Math.round(fcMax.value)}`,
+      fcMax.idx, fcMax.value, RED, RED_BG
+    );
+    console.log(`[peaks] forecast next top: ${weeklyDates[fcMax.idx].toISOString().split('T')[0]} score=${fcMax.value}`);
+  }
+  if (fcMin) {
+    ann.forecast_next_bottom = _peakBoxAnnotation(
+      `Forecast Next Bottom: ${Math.round(fcMin.value)}`,
+      fcMin.idx, fcMin.value, GREEN, GREEN_BG
+    );
+    console.log(`[peaks] forecast next bottom: ${weeklyDates[fcMin.idx].toISOString().split('T')[0]} score=${fcMin.value}`);
+  }
+
+  // DA peaks
+  const daMax = findNextLocalMax(daArr, startIdx, PEAK_WINDOW_WEEKS);
+  const daMin = findNextLocalMin(daArr, startIdx, PEAK_WINDOW_WEEKS);
+  if (daMax) {
+    ann.da_next_top = _peakBoxAnnotation(
+      `DA Next Top: ${Math.round(daMax.value)}`,
+      daMax.idx, daMax.value, RED, RED_BG
+    );
+    console.log(`[peaks] DA next top: ${weeklyDates[daMax.idx].toISOString().split('T')[0]} score=${daMax.value}`);
+  }
+  if (daMin) {
+    ann.da_next_bottom = _peakBoxAnnotation(
+      `DA Next Bottom: ${Math.round(daMin.value)}`,
+      daMin.idx, daMin.value, GREEN, GREEN_BG
+    );
+    console.log(`[peaks] DA next bottom: ${weeklyDates[daMin.idx].toISOString().split('T')[0]} score=${daMin.value}`);
+  }
+
+  chart.update('none');
+}
+
 async function fetchForecastCurve() {
   try {
     const res = await fetch('data/forecast_curve.json?t=' + Date.now());
@@ -3009,6 +3169,12 @@ async function fetchForecastCurve() {
     // Sync globals
     prediction = newPrediction;
     devilsAdvocate = newDevilsAdvocate;
+    
+    // Sprint 32 v2.7+ (this session): render dynamic next-top + next-bottom markers
+    // on both forecast and DA. 4 markers total. Red boxes = upcoming tops, green
+    // boxes = upcoming bottoms. These re-render every sweep so they always reflect
+    // the current "where's the next turn" read.
+    renderNextPeakMarkers(newPrediction, newDevilsAdvocate, startIdx);
     
     const contribs = data.contributing_fingerprints || [];
     const todayStr = today.toISOString().split('T')[0];
