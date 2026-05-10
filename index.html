@@ -2922,23 +2922,22 @@ async function fetchDataGaps() {
 // and DA rendering because the chart uses interaction mode 'index' which requires
 // all datasets to share the same indexing system as labels[].
 // ═══════════════════════════════════════════════════════════════════════════
-// Sprint 32 v2.7+ (this session): NEXT-PEAK DETECTION + DYNAMIC MARKERS
+// Sprint 32 v2.7+ (this session, second iteration): NEXT-PEAK DETECTION + DOT MARKERS
 // ═══════════════════════════════════════════════════════════════════════════
-// Replaces static blowBox/bottom25 annotations with dynamic markers that show
-// where the forecast and DA each predict the NEXT upcoming top and NEXT upcoming
-// bottom. 4 markers total — 2 per line.
+// Replaces static blowBox/bottom25 annotations with dynamic markers showing the
+// NEXT upcoming top and NEXT upcoming bottom on each line (forecast and DA).
+// 4 markers total — 2 per line.
 //
-// Peak detection: walk forward from today, find first local max (window of N
-// neighbors on each side where current point is higher than all). Same for min.
-// Window size 3 = each peak/trough must be higher/lower than the 3 weeks before
-// AND 3 weeks after — filters out noise but catches real turns.
+// Display: small filled circle EXACTLY at the peak coordinate (date + score)
+// with a tiny text label adjacent. Hover shows full details (date + score + weeks
+// out from today). Cleaner than the box approach which crowded the lines.
 //
-// Renders as small box annotations (4-week wide x ~10 score-units tall) so they're
-// visible but don't dominate the chart. Red box = top, green box = bottom.
+// Peak detection: walk forward from today, find first local max/min in a
+// window of N weeks. Window 3 = peak must be higher/lower than 3 weeks before
+// AND 3 weeks after — filters noise but catches real turns.
 
-const PEAK_WINDOW_WEEKS = 3;          // how many weeks on each side must be lower/higher
-const PEAK_MARKER_HALF_WIDTH_WEEKS = 2;  // box spans 4 weeks total (2 on each side of peak)
-const PEAK_MARKER_HALF_HEIGHT = 5;       // box spans 10 score units (5 above, 5 below)
+const PEAK_WINDOW_WEEKS = 3;             // weeks on each side that must be lower/higher
+const PEAK_DOT_RADIUS = 5;               // pixel radius of the dot marker
 
 function findNextLocalMax(arr, startIdx, window) {
   for (let i = startIdx + window; i < arr.length - window; i++) {
@@ -2976,29 +2975,51 @@ function findNextLocalMin(arr, startIdx, window) {
   return null;
 }
 
-function _peakBoxAnnotation(label, peakIdx, peakValue, color, bgColor) {
-  const halfWidth = PEAK_MARKER_HALF_WIDTH_WEEKS;
-  const xMinIdx = Math.max(0, peakIdx - halfWidth);
-  const xMaxIdx = Math.min(weeklyDates.length - 1, peakIdx + halfWidth);
-  const xMinDate = weeklyDates[xMinIdx];
-  const xMaxDate = weeklyDates[xMaxIdx];
+// Helper: weeks-from-today for hover detail
+function _weeksFromToday(peakIdx, todayIdx) {
+  return Math.max(0, peakIdx - todayIdx);
+}
+
+// Format date nicely for tooltip
+function _formatPeakDate(d) {
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Build a point-style annotation (small filled circle at exact peak coord)
+function _peakDotAnnotation(label, peakIdx, peakValue, color, todayIdx, lineLabel) {
+  const peakDate = weeklyDates[peakIdx];
+  const weeksOut = _weeksFromToday(peakIdx, todayIdx);
+  const dateStr = _formatPeakDate(peakDate);
+
   return {
-    type: 'box',
-    xMin: xMinDate,
-    xMax: xMaxDate,
-    yMin: Math.max(0, peakValue - PEAK_MARKER_HALF_HEIGHT),
-    yMax: Math.min(100, peakValue + PEAK_MARKER_HALF_HEIGHT),
-    backgroundColor: bgColor,
-    borderColor: color,
-    borderWidth: 1,
+    type: 'point',
+    xValue: peakDate,
+    yValue: peakValue,
+    backgroundColor: color,
+    borderColor: '#0d1219',
+    borderWidth: 2,
+    radius: PEAK_DOT_RADIUS,
+    hoverRadius: PEAK_DOT_RADIUS + 3,
+    // Tiny text label adjacent to the dot
     label: {
       content: label,
       display: true,
-      position: 'center',
+      // Position the label OUTSIDE the dot so it doesn't overlap the line.
+      // For a TOP, label sits above the dot. For a BOTTOM, below.
+      position: { x: 'center', y: label.startsWith('TOP') ? 'start' : 'end' },
+      yAdjust: label.startsWith('TOP') ? -14 : 14,
+      backgroundColor: 'rgba(13,18,25,0.9)',
       color: color,
-      backgroundColor: 'rgba(13,18,25,0.85)',
       font: { size: 9, family: 'Space Mono', weight: 'bold' },
-      padding: 4,
+      padding: { top: 3, bottom: 3, left: 5, right: 5 },
+      borderRadius: 3,
+    },
+    // Custom data for hover handler (not standard but accessible)
+    _meta: {
+      lineLabel,
+      dateStr,
+      score: Math.round(peakValue),
+      weeksOut,
     },
   };
 }
@@ -3007,50 +3028,48 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
   if (!chart || !chart.options.plugins.annotation) return;
   const ann = chart.options.plugins.annotation.annotations;
 
-  // Wipe existing peak markers first (they regenerate every sweep with fresh data)
+  // Wipe existing peak markers (regenerate every sweep with fresh data)
   ['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom'].forEach(k => {
     if (ann[k]) delete ann[k];
   });
 
   const RED = '#ff4d6a';
   const GREEN = '#00e5a0';
-  const RED_BG = 'rgba(255,77,106,0.10)';
-  const GREEN_BG = 'rgba(0,229,160,0.10)';
 
   // Forecast peaks
   const fcMax = findNextLocalMax(forecastArr, startIdx, PEAK_WINDOW_WEEKS);
   const fcMin = findNextLocalMin(forecastArr, startIdx, PEAK_WINDOW_WEEKS);
   if (fcMax) {
-    ann.forecast_next_top = _peakBoxAnnotation(
-      `Forecast Next Top: ${Math.round(fcMax.value)}`,
-      fcMax.idx, fcMax.value, RED, RED_BG
+    ann.forecast_next_top = _peakDotAnnotation(
+      `TOP ${Math.round(fcMax.value)}`,
+      fcMax.idx, fcMax.value, RED, startIdx, 'Forecast'
     );
-    console.log(`[peaks] forecast next top: ${weeklyDates[fcMax.idx].toISOString().split('T')[0]} score=${fcMax.value}`);
+    console.log(`[peaks] forecast next top: ${weeklyDates[fcMax.idx].toISOString().split('T')[0]} score=${fcMax.value} (${fcMax.idx - startIdx}w out)`);
   }
   if (fcMin) {
-    ann.forecast_next_bottom = _peakBoxAnnotation(
-      `Forecast Next Bottom: ${Math.round(fcMin.value)}`,
-      fcMin.idx, fcMin.value, GREEN, GREEN_BG
+    ann.forecast_next_bottom = _peakDotAnnotation(
+      `BOTTOM ${Math.round(fcMin.value)}`,
+      fcMin.idx, fcMin.value, GREEN, startIdx, 'Forecast'
     );
-    console.log(`[peaks] forecast next bottom: ${weeklyDates[fcMin.idx].toISOString().split('T')[0]} score=${fcMin.value}`);
+    console.log(`[peaks] forecast next bottom: ${weeklyDates[fcMin.idx].toISOString().split('T')[0]} score=${fcMin.value} (${fcMin.idx - startIdx}w out)`);
   }
 
   // DA peaks
   const daMax = findNextLocalMax(daArr, startIdx, PEAK_WINDOW_WEEKS);
   const daMin = findNextLocalMin(daArr, startIdx, PEAK_WINDOW_WEEKS);
   if (daMax) {
-    ann.da_next_top = _peakBoxAnnotation(
-      `DA Next Top: ${Math.round(daMax.value)}`,
-      daMax.idx, daMax.value, RED, RED_BG
+    ann.da_next_top = _peakDotAnnotation(
+      `TOP ${Math.round(daMax.value)}`,
+      daMax.idx, daMax.value, RED, startIdx, 'DA'
     );
-    console.log(`[peaks] DA next top: ${weeklyDates[daMax.idx].toISOString().split('T')[0]} score=${daMax.value}`);
+    console.log(`[peaks] DA next top: ${weeklyDates[daMax.idx].toISOString().split('T')[0]} score=${daMax.value} (${daMax.idx - startIdx}w out)`);
   }
   if (daMin) {
-    ann.da_next_bottom = _peakBoxAnnotation(
-      `DA Next Bottom: ${Math.round(daMin.value)}`,
-      daMin.idx, daMin.value, GREEN, GREEN_BG
+    ann.da_next_bottom = _peakDotAnnotation(
+      `BOTTOM ${Math.round(daMin.value)}`,
+      daMin.idx, daMin.value, GREEN, startIdx, 'DA'
     );
-    console.log(`[peaks] DA next bottom: ${weeklyDates[daMin.idx].toISOString().split('T')[0]} score=${daMin.value}`);
+    console.log(`[peaks] DA next bottom: ${weeklyDates[daMin.idx].toISOString().split('T')[0]} score=${daMin.value} (${daMin.idx - startIdx}w out)`);
   }
 
   chart.update('none');
@@ -3097,21 +3116,29 @@ async function fetchForecastCurve() {
       }
     }
     
-    // Sprint 32 v2.7+ (this session): BRIDGE THE GAP between historical and forecast.
-    // Without this, historical line ends at startIdx-1, forecast line starts at startIdx,
-    // so visually there's a 1-week gap and the lines look "not connected."
+    // Sprint 32 v2.7+ (this session, second iteration): BRIDGE THE GAP between
+    // historical and forecast. Without this, historical line ends at startIdx-1,
+    // forecast line starts at startIdx, so visually there's a 1-week gap.
     // 
-    // Strategy: read the historical value at startIdx-1 (last known historical point)
-    // and write it into the forecast array at startIdx-1 too. Now the forecast line
-    // has its first point overlap the historical line's last point — they connect.
-    //
-    // Also: if forecast_curve.json provided current_score, use that instead of the
-    // last historical value — that's a fresher, more accurate bridge.
+    // ALSO: defensively wipe historical values at indices STRICTLY GREATER than today
+    // (startIdx). This catches the bug where the actual-data line was extending past
+    // today (e.g. up to 7/19/26 with orphan dots at 8/2 and 8/9) — something is
+    // writing forecast values into the historical array at future indices.
+    // We can't fix the writer without seeing chart_history.json, but we CAN
+    // defensively null those out on every chart render so the historical line stops
+    // at today and only the forecast line continues into the future.
     if (chart && chart.data && chart.data.datasets && chart.data.datasets[0]) {
       const histArr = chart.data.datasets[0].data;
       const currentScore = data.current_score;
       
-      // Find the last non-null historical value at or before startIdx
+      // STEP 1: Wipe any future-dated historical values (bug guard)
+      for (let i = startIdx + 1; i < histArr.length; i++) {
+        if (histArr[i] !== null && histArr[i] !== undefined) {
+          histArr[i] = null;
+        }
+      }
+      
+      // STEP 2: Find the last non-null historical value at or before startIdx for bridging
       let bridgeVal = null;
       let bridgeIdx = startIdx - 1;
       while (bridgeIdx >= 0 && (histArr[bridgeIdx] === null || histArr[bridgeIdx] === undefined)) {
@@ -3121,33 +3148,34 @@ async function fetchForecastCurve() {
         bridgeVal = histArr[bridgeIdx];
       }
       
-      // Prefer current_score if flow_cycle wrote it (means we have a real anchor)
+      // STEP 3: Prefer current_score if flow_cycle wrote it (means we have a real anchor)
       if (currentScore !== null && currentScore !== undefined) {
         bridgeVal = currentScore;
         // Also update the historical dataset at startIdx so today's actual value
-        // shows on the historical line (extends history up to today).
-        if (startIdx > 0) {
-          histArr[startIdx] = currentScore;
-        }
+        // shows on the historical line (extends history up to today, NOT past).
+        histArr[startIdx] = currentScore;
       }
       
-      // Write the bridge value into the forecast array at startIdx-1 so the forecast
-      // line connects from there into the projection.
+      // STEP 4: Write the bridge value into the forecast array at startIdx-1 so the
+      // forecast line connects from there into the projection.
       if (bridgeVal !== null && bridgeVal !== undefined && startIdx > 0) {
         newPrediction[startIdx - 1] = bridgeVal;
       }
     }
     
-    // Devil's Advocate = time-shifted inverse: DA[startIdx + week] = 100 - projection[lastProjIdx - week]
-    // Same length flat array, same indexing.
+    // Devil's Advocate = SAME-DATE PURE INVERSE: DA[startIdx + week] = 100 - projection[week]
+    // Sprint 32 v2.7+ (this session, second iteration): switched from time-shifted to
+    // pure same-date inverse per Lano. Forecast says score=70 on Oct 31 → DA says
+    // score=30 on Oct 31. SAME DATE, opposite score. This is what makes the horse race
+    // honest — both lines predict the same date so we can score them against the same
+    // realized data point. Time-shifted version was clever but unfalsifiable in practice.
     const newDevilsAdvocate = new Array(weeklyDates.length).fill(null);
-    const lastProjIdx = projection.length - 1;
     for (let week = 0; week < projection.length; week++) {
       const targetIdx = startIdx + week;
       if (targetIdx >= newDevilsAdvocate.length) break;
-      const mirroredVal = projection[lastProjIdx - week];
-      if (mirroredVal !== null && mirroredVal !== undefined) {
-        newDevilsAdvocate[targetIdx] = 100 - mirroredVal;
+      const val = projection[week];
+      if (val !== null && val !== undefined) {
+        newDevilsAdvocate[targetIdx] = 100 - val;
       }
     }
     
