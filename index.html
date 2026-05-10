@@ -2780,6 +2780,8 @@ async function init() {
     fetchInvariants(),
     fetchDataGaps(),
     fetchForecastCurve(),  // data-driven forecast (single source of truth)
+    fetchCurrentState(),   // sprint 32 v2.7+ (this session): highlights active phase pill
+    fetchDailyRead(),      // sprint 32 v2.7+ (this session): reads empire synthesis packet
   ]);
 }
 
@@ -3140,6 +3142,71 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
   updateNextTurnsPanel(events);
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// Sprint 32 v2.7+ (this session): CURRENT STATE + DAILY READ FETCHERS
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// fetchCurrentState reads current_state.json (written by flow_cycle.py every sweep)
+// and highlights the matching phase pill at the top of the chart. Wires the
+// 13-phase doctrine — score + trend = which pill is active.
+//
+// fetchDailyRead reads daily_read.json (the empire's synthesis packet, also
+// written every sweep). For now it just console.logs the read for verification.
+// Future iteration will display it in a dedicated UI panel above the chart.
+
+async function fetchCurrentState() {
+  try {
+    const res = await fetch('data/current_state.json?t=' + Date.now());
+    if (!res.ok) {
+      console.log('current_state.json not yet available (sweep needed)');
+      return;
+    }
+    const data = await res.json();
+    const phase = data.phase;
+    const score = data.score;
+    const trend = data.trend;
+    
+    // Highlight the active phase pill
+    const allPills = document.querySelectorAll('.phase-pill');
+    allPills.forEach(pill => {
+      if (pill.dataset.phase === phase) {
+        pill.classList.add('active');
+      } else {
+        pill.classList.remove('active');
+      }
+    });
+    
+    console.log(`[current_state] score=${score} trend=${trend} phase=${phase}`);
+  } catch(e) {
+    console.log('current_state fetch failed', e);
+  }
+}
+
+async function fetchDailyRead() {
+  try {
+    const res = await fetch('data/daily_read.json?t=' + Date.now());
+    if (!res.ok) {
+      console.log('daily_read.json not yet available (sweep needed)');
+      return;
+    }
+    const data = await res.json();
+    
+    // For now: log the synthesis to console. Future iteration will render this
+    // into a dedicated UI panel showing trade recommendations + cliff_proximity etc.
+    const tr = data.trade_recommendation || {};
+    console.log(`[daily_read] phase=${data.current_phase} trend=${data.trend} cliff=${data.cliff_proximity} | perps=${tr.perps} kalshi=${tr.kalshi_btc_weekly_up} sniper=${tr.sniper_aggression}`);
+    if (tr.reasoning) console.log(`[daily_read] reasoning: ${tr.reasoning}`);
+    if (tr.exit_priority_signals && tr.exit_priority_signals.length > 0) {
+      console.log(`[daily_read] exit_priority_signals:`, tr.exit_priority_signals);
+    }
+    if (tr.abort_conditions && tr.abort_conditions.length > 0) {
+      console.warn(`[daily_read] ABORT CONDITIONS ACTIVE:`, tr.abort_conditions);
+    }
+  } catch(e) {
+    console.log('daily_read fetch failed', e);
+  }
+}
+
 async function fetchForecastCurve() {
   try {
     const res = await fetch('data/forecast_curve.json?t=' + Date.now());
@@ -3321,6 +3388,9 @@ setInterval(fetchFalsificationChecklist, 240000);  // 4 min
 setInterval(fetchInvariants, 240000);              // 4 min
 setInterval(fetchDataGaps, 600000);                // 10 min (rarely changes)
 setInterval(fetchForecastCurve, 300000);           // 5 min (curve updates per sweep, sweeps are 4h)
+// Sprint 32 v2.7+ (this session): refresh phase highlight + empire synthesis on the same cadence
+setInterval(fetchCurrentState, 60000);             // 1 min (fresher highlight as sweeps complete)
+setInterval(fetchDailyRead, 300000);               // 5 min (synthesizes alongside forecast)
 </script>
 </body>
 </html>
