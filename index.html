@@ -1490,7 +1490,11 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         borderColor: 'rgba(245,197,24,0.6)',
         backgroundColor: 'rgba(245,197,24,0.04)',
         borderDash: [5,4],
-        fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 4,
+        // Sprint 32 v2.7+ (this session, third iteration): tension 0.4 → 0 so the
+        // rendered line passes EXACTLY through every data point. Required for peak
+        // marker dots to land on the line (with smoothing the line curves away
+        // from data points and dots appear to float above/below).
+        fill: true, tension: 0, pointRadius: 0, pointHoverRadius: 4,
         pointHoverBackgroundColor: '#f5c518',
         borderWidth: 1.5,
         yAxisID: 'y',
@@ -1502,7 +1506,9 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         backgroundColor: 'rgba(168,85,247,0.06)',
         borderDash: [8, 4],                    // longer dashes than forecast for visual separation
         fill: false,
-        tension: 0.4,
+        // Sprint 32 v2.7+ (this session, third iteration): tension 0 (same reason as
+        // forecast above) — dots must land on the actual data points.
+        tension: 0,
         pointRadius: 0,
         pointHoverRadius: 5,
         pointHoverBackgroundColor: '#a855f7',
@@ -2428,7 +2434,21 @@ async function loadChartHistory() {
     const history = await res.json();
     if (!history.length) return;
 
-    history.forEach(point => {
+    // Sprint 32 v2.7+ (this session, third iteration): filter out FUTURE-DATED points.
+    // chart_history.json is supposed to be ACTUAL historical data, not predictions.
+    // If anything dated after today shows up, that's a bug in the writer (probably
+    // flow_cycle.py confusing forecast values for actuals). Defensively drop them
+    // here AND console.warn so the writer can be tracked down.
+    const todayCutoff = new Date();
+    todayCutoff.setHours(23, 59, 59, 999);  // end of today, inclusive
+    const futureDated = history.filter(p => new Date(p.date) > todayCutoff);
+    if (futureDated.length > 0) {
+      console.warn(`[loadChartHistory] DROPPING ${futureDated.length} future-dated point(s) from chart_history.json:`,
+        futureDated.map(p => `${p.date} (idx=${p.index})`));
+    }
+    const cleanHistory = history.filter(p => new Date(p.date) <= todayCutoff);
+
+    cleanHistory.forEach(point => {
       const d = new Date(point.date);
       const existingIdx = chart.data.labels.findIndex(wd => Math.abs(new Date(wd) - d) < 2 * 24 * 3600 * 1000);
 
@@ -2922,57 +2942,46 @@ async function fetchDataGaps() {
 // and DA rendering because the chart uses interaction mode 'index' which requires
 // all datasets to share the same indexing system as labels[].
 // ═══════════════════════════════════════════════════════════════════════════
-// Sprint 32 v2.7+ (this session, second iteration): NEXT-PEAK DETECTION + DOT MARKERS
+// Sprint 32 v2.7+ (this session, third iteration): ABSOLUTE PEAK DETECTION + DOT MARKERS
 // ═══════════════════════════════════════════════════════════════════════════
-// Replaces static blowBox/bottom25 annotations with dynamic markers showing the
-// NEXT upcoming top and NEXT upcoming bottom on each line (forecast and DA).
-// 4 markers total — 2 per line.
+// Replaces local-extremum detection (which caught micro-wiggles like "top 69
+// next to bottom 65") with absolute-extremum detection across the full forecast
+// horizon. Single biggest peak, single deepest trough, per line.
 //
-// Display: small filled circle EXACTLY at the peak coordinate (date + score)
-// with a tiny text label adjacent. Hover shows full details (date + score + weeks
-// out from today). Cleaner than the box approach which crowded the lines.
-//
-// Peak detection: walk forward from today, find first local max/min in a
-// window of N weeks. Window 3 = peak must be higher/lower than 3 weeks before
-// AND 3 weeks after — filters noise but catches real turns.
+// For Lano's forecast (anchored 2026-05-09):
+//   Forecast absolute top:    2026-07-25 (week 11) at score 71
+//   Forecast absolute bottom: 2027-04-24 (week 50) at score 31
+//   DA absolute top:          2027-04-24 (week 50) at score 69 (mirror of forecast bottom)
+//   DA absolute bottom:       2026-07-25 (week 11) at score 29 (mirror of forecast top)
+// 
+// 4 markers total. Dots land EXACTLY on the lines (because forecast/DA datasets
+// have tension: 0). Tiny adjacent labels show "TOP <score>" / "BOTTOM <score>".
 
-const PEAK_WINDOW_WEEKS = 3;             // weeks on each side that must be lower/higher
-const PEAK_DOT_RADIUS = 5;               // pixel radius of the dot marker
+const PEAK_DOT_RADIUS = 5;
 
-function findNextLocalMax(arr, startIdx, window) {
-  for (let i = startIdx + window; i < arr.length - window; i++) {
-    const cur = arr[i];
-    if (cur === null || cur === undefined) continue;
-    let isMax = true;
-    for (let j = 1; j <= window; j++) {
-      const before = arr[i - j];
-      const after = arr[i + j];
-      if (before === null || after === null || before === undefined || after === undefined) {
-        isMax = false; break;
-      }
-      if (before >= cur || after >= cur) { isMax = false; break; }
-    }
-    if (isMax) return { idx: i, value: cur };
+// Find the absolute max in arr from startIdx forward (skips nulls).
+// Returns {idx, value} or null if no non-null values exist.
+function findAbsoluteMax(arr, startIdx) {
+  let bestIdx = -1;
+  let bestVal = -Infinity;
+  for (let i = startIdx; i < arr.length; i++) {
+    const v = arr[i];
+    if (v === null || v === undefined) continue;
+    if (v > bestVal) { bestVal = v; bestIdx = i; }
   }
-  return null;
+  return bestIdx === -1 ? null : { idx: bestIdx, value: bestVal };
 }
 
-function findNextLocalMin(arr, startIdx, window) {
-  for (let i = startIdx + window; i < arr.length - window; i++) {
-    const cur = arr[i];
-    if (cur === null || cur === undefined) continue;
-    let isMin = true;
-    for (let j = 1; j <= window; j++) {
-      const before = arr[i - j];
-      const after = arr[i + j];
-      if (before === null || after === null || before === undefined || after === undefined) {
-        isMin = false; break;
-      }
-      if (before <= cur || after <= cur) { isMin = false; break; }
-    }
-    if (isMin) return { idx: i, value: cur };
+// Find the absolute min in arr from startIdx forward (skips nulls).
+function findAbsoluteMin(arr, startIdx) {
+  let bestIdx = -1;
+  let bestVal = Infinity;
+  for (let i = startIdx; i < arr.length; i++) {
+    const v = arr[i];
+    if (v === null || v === undefined) continue;
+    if (v < bestVal) { bestVal = v; bestIdx = i; }
   }
-  return null;
+  return bestIdx === -1 ? null : { idx: bestIdx, value: bestVal };
 }
 
 // Helper: weeks-from-today for hover detail
@@ -2985,11 +2994,15 @@ function _formatPeakDate(d) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-// Build a point-style annotation (small filled circle at exact peak coord)
-function _peakDotAnnotation(label, peakIdx, peakValue, color, todayIdx, lineLabel) {
+// Build a point-style annotation (small filled circle at exact peak coord
+// with adjacent text label). Sprint 32 v2.7+ third iteration: simplified
+// label positioning (was using object-syntax which silently failed in
+// chartjs-plugin-annotation 2.x — labels never rendered).
+function _peakDotAnnotation(labelText, peakIdx, peakValue, color, todayIdx, lineLabel) {
   const peakDate = weeklyDates[peakIdx];
   const weeksOut = _weeksFromToday(peakIdx, todayIdx);
   const dateStr = _formatPeakDate(peakDate);
+  const isTop = labelText.startsWith('TOP');
 
   return {
     type: 'point',
@@ -3000,26 +3013,21 @@ function _peakDotAnnotation(label, peakIdx, peakValue, color, todayIdx, lineLabe
     borderWidth: 2,
     radius: PEAK_DOT_RADIUS,
     hoverRadius: PEAK_DOT_RADIUS + 3,
-    // Tiny text label adjacent to the dot
     label: {
-      content: label,
+      content: `${lineLabel} ${labelText}`,
       display: true,
-      // Position the label OUTSIDE the dot so it doesn't overlap the line.
-      // For a TOP, label sits above the dot. For a BOTTOM, below.
-      position: { x: 'center', y: label.startsWith('TOP') ? 'start' : 'end' },
-      yAdjust: label.startsWith('TOP') ? -14 : 14,
-      backgroundColor: 'rgba(13,18,25,0.9)',
+      // Position the label above the dot for tops, below for bottoms.
+      // Using simple string position + yAdjust for chartjs-plugin-annotation 2.x
+      // compatibility (object-syntax for position is unreliable).
+      position: 'center',
+      yAdjust: isTop ? -16 : 16,
+      backgroundColor: 'rgba(13,18,25,0.92)',
       color: color,
       font: { size: 9, family: 'Space Mono', weight: 'bold' },
       padding: { top: 3, bottom: 3, left: 5, right: 5 },
       borderRadius: 3,
-    },
-    // Custom data for hover handler (not standard but accessible)
-    _meta: {
-      lineLabel,
-      dateStr,
-      score: Math.round(peakValue),
-      weeksOut,
+      // Tooltip-style metadata via title (shows on hover of label)
+      title: `${lineLabel}: ${dateStr} (${weeksOut}w out)`,
     },
   };
 }
@@ -3036,40 +3044,40 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
   const RED = '#ff4d6a';
   const GREEN = '#00e5a0';
 
-  // Forecast peaks
-  const fcMax = findNextLocalMax(forecastArr, startIdx, PEAK_WINDOW_WEEKS);
-  const fcMin = findNextLocalMin(forecastArr, startIdx, PEAK_WINDOW_WEEKS);
+  // Forecast absolute extrema
+  const fcMax = findAbsoluteMax(forecastArr, startIdx);
+  const fcMin = findAbsoluteMin(forecastArr, startIdx);
   if (fcMax) {
     ann.forecast_next_top = _peakDotAnnotation(
       `TOP ${Math.round(fcMax.value)}`,
-      fcMax.idx, fcMax.value, RED, startIdx, 'Forecast'
+      fcMax.idx, fcMax.value, RED, startIdx, 'FC'
     );
-    console.log(`[peaks] forecast next top: ${weeklyDates[fcMax.idx].toISOString().split('T')[0]} score=${fcMax.value} (${fcMax.idx - startIdx}w out)`);
+    console.log(`[peaks] forecast absolute top: ${weeklyDates[fcMax.idx].toISOString().split('T')[0]} score=${fcMax.value} (${fcMax.idx - startIdx}w out)`);
   }
   if (fcMin) {
     ann.forecast_next_bottom = _peakDotAnnotation(
       `BOTTOM ${Math.round(fcMin.value)}`,
-      fcMin.idx, fcMin.value, GREEN, startIdx, 'Forecast'
+      fcMin.idx, fcMin.value, GREEN, startIdx, 'FC'
     );
-    console.log(`[peaks] forecast next bottom: ${weeklyDates[fcMin.idx].toISOString().split('T')[0]} score=${fcMin.value} (${fcMin.idx - startIdx}w out)`);
+    console.log(`[peaks] forecast absolute bottom: ${weeklyDates[fcMin.idx].toISOString().split('T')[0]} score=${fcMin.value} (${fcMin.idx - startIdx}w out)`);
   }
 
-  // DA peaks
-  const daMax = findNextLocalMax(daArr, startIdx, PEAK_WINDOW_WEEKS);
-  const daMin = findNextLocalMin(daArr, startIdx, PEAK_WINDOW_WEEKS);
+  // DA absolute extrema
+  const daMax = findAbsoluteMax(daArr, startIdx);
+  const daMin = findAbsoluteMin(daArr, startIdx);
   if (daMax) {
     ann.da_next_top = _peakDotAnnotation(
       `TOP ${Math.round(daMax.value)}`,
       daMax.idx, daMax.value, RED, startIdx, 'DA'
     );
-    console.log(`[peaks] DA next top: ${weeklyDates[daMax.idx].toISOString().split('T')[0]} score=${daMax.value} (${daMax.idx - startIdx}w out)`);
+    console.log(`[peaks] DA absolute top: ${weeklyDates[daMax.idx].toISOString().split('T')[0]} score=${daMax.value} (${daMax.idx - startIdx}w out)`);
   }
   if (daMin) {
     ann.da_next_bottom = _peakDotAnnotation(
       `BOTTOM ${Math.round(daMin.value)}`,
       daMin.idx, daMin.value, GREEN, startIdx, 'DA'
     );
-    console.log(`[peaks] DA next bottom: ${weeklyDates[daMin.idx].toISOString().split('T')[0]} score=${daMin.value} (${daMin.idx - startIdx}w out)`);
+    console.log(`[peaks] DA absolute bottom: ${weeklyDates[daMin.idx].toISOString().split('T')[0]} score=${daMin.value} (${daMin.idx - startIdx}w out)`);
   }
 
   chart.update('none');
