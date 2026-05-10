@@ -2449,7 +2449,8 @@ async function loadChartHistory() {
 // ═══════════════════════════════════════════════════════════════════════════
 // SPRINT 21: ANNOTATIONS + SMART FORECAST
 // Renders shapes from chart_annotations.json (circles, arrows, zones, callouts)
-// Replaces static prediction line with dynamic forecast_v2.json
+// Sprint 32 v2.7+ (this session): forecast_v2.json reference removed.
+// Forecast is data-driven via forecast_curve.json (see fetchForecastCurve below).
 // ═══════════════════════════════════════════════════════════════════════════
 let showAnnotations = false;
 let _lastAnnotationHash = null;
@@ -2652,45 +2653,18 @@ function renderAnnotations(shapes) {
   chart.update('none');
 }
 
-async function fetchSmartForecast() {
-  try {
-    const res = await fetch('data/forecast_v2.json?t=' + Date.now());
-    if (!res.ok) return;
-    const data = await res.json();
-    const points = data.points || [];
-    if (points.length === 0) return;
-
-    const forecastSeries = points.map(p => ({ x: new Date(p.date), y: p.forecast }));
-    const meta = data.meta || {};
-    const color = meta.type === 'top_projection' ? 'rgba(255,77,106,0.7)'
-                : meta.type === 'bottom_projection' ? 'rgba(0,229,160,0.7)'
-                : 'rgba(245,197,24,0.6)';
-
-    const oldIdx = chart.data.datasets.findIndex(d =>
-      d.label === 'Predicted (Blow-Off Forecast)' || d.label === 'Smart Forecast'
-    );
-
-    const newDs = {
-      label: 'Smart Forecast',
-      data: forecastSeries,
-      borderColor: color,
-      backgroundColor: color.replace('0.7', '0.08').replace('0.6', '0.04'),
-      borderDash: [5, 4],
-      fill: true,
-      tension: 0.4,
-      pointRadius: 0,
-      pointHoverRadius: 4,
-      pointHoverBackgroundColor: color,
-      borderWidth: 1.5,
-      yAxisID: 'y',
-      parsing: false,  // BUGFIX: data points are {x: Date, y: value}, read literally as time-coords. Without this, Chart.js indexed them against weeklyDates labels (caused "shows 2017 on default zoom but 2026 on hover" symptom).
-    };
-
-    if (oldIdx >= 0) { chart.data.datasets[oldIdx] = newDs; }
-    else { chart.data.datasets.push(newDs); }
-    chart.update('none');
-  } catch(e) { console.log('smart forecast fetch failed', e); }
-}
+// Sprint 32 v2.7+ (this session): fetchSmartForecast() removed entirely.
+// 
+// Why: it was reading forecast_v2.json — a stale/zombie file we couldn't trace to
+// any active flow_cycle.py code path. Two competing forecast systems (forecast_v2.json
+// and forecast_curve.json) were both writing to the chart's prediction dataset,
+// fighting each other depending on load order. Result was a confused chart where the
+// visible forecast didn't match the DA inverse.
+// 
+// Single source of truth is now forecast_curve.json via fetchForecastCurve() below.
+// If forecast_v2.json reappears in flow_cycle_site/data/, that means there's a zombie
+// process (older flow_cycle.py instance, scheduled task, etc.) still writing it —
+// identify and kill that process. The chart no longer reads it either way.
 
 function toggleAnnotationsBtn() {
   showAnnotations = !showAnnotations;
@@ -2727,7 +2701,9 @@ async function init() {
     fetchMarkers(),
     fetchDiscoveries(),
     fetchAnnotations(),
-    fetchSmartForecast(),
+    // Sprint 32 v2.7+ (this session): fetchSmartForecast removed.
+    // Was reading forecast_v2.json (a stale/zombie file). Single source of truth is
+    // now forecast_curve.json via fetchForecastCurve below.
     fetchBlowoffDetector(),
     // v2.7 Sprint 32: discovery engine outputs
     fetchJordanThesis(),
@@ -2735,7 +2711,7 @@ async function init() {
     fetchFalsificationChecklist(),
     fetchInvariants(),
     fetchDataGaps(),
-    fetchForecastCurve(),  // data-driven forecast (replaces hardcoded curve)
+    fetchForecastCurve(),  // data-driven forecast (single source of truth)
   ]);
 }
 
@@ -2961,6 +2937,47 @@ async function fetchForecastCurve() {
       }
     }
     
+    // Sprint 32 v2.7+ (this session): BRIDGE THE GAP between historical and forecast.
+    // Without this, historical line ends at startIdx-1, forecast line starts at startIdx,
+    // so visually there's a 1-week gap and the lines look "not connected."
+    // 
+    // Strategy: read the historical value at startIdx-1 (last known historical point)
+    // and write it into the forecast array at startIdx-1 too. Now the forecast line
+    // has its first point overlap the historical line's last point — they connect.
+    //
+    // Also: if forecast_curve.json provided current_score, use that instead of the
+    // last historical value — that's a fresher, more accurate bridge.
+    if (chart && chart.data && chart.data.datasets && chart.data.datasets[0]) {
+      const histArr = chart.data.datasets[0].data;
+      const currentScore = data.current_score;
+      
+      // Find the last non-null historical value at or before startIdx
+      let bridgeVal = null;
+      let bridgeIdx = startIdx - 1;
+      while (bridgeIdx >= 0 && (histArr[bridgeIdx] === null || histArr[bridgeIdx] === undefined)) {
+        bridgeIdx--;
+      }
+      if (bridgeIdx >= 0) {
+        bridgeVal = histArr[bridgeIdx];
+      }
+      
+      // Prefer current_score if flow_cycle wrote it (means we have a real anchor)
+      if (currentScore !== null && currentScore !== undefined) {
+        bridgeVal = currentScore;
+        // Also update the historical dataset at startIdx so today's actual value
+        // shows on the historical line (extends history up to today).
+        if (startIdx > 0) {
+          histArr[startIdx] = currentScore;
+        }
+      }
+      
+      // Write the bridge value into the forecast array at startIdx-1 so the forecast
+      // line connects from there into the projection.
+      if (bridgeVal !== null && bridgeVal !== undefined && startIdx > 0) {
+        newPrediction[startIdx - 1] = bridgeVal;
+      }
+    }
+    
     // Devil's Advocate = time-shifted inverse: DA[startIdx + week] = 100 - projection[lastProjIdx - week]
     // Same length flat array, same indexing.
     const newDevilsAdvocate = new Array(weeklyDates.length).fill(null);
@@ -2972,6 +2989,12 @@ async function fetchForecastCurve() {
       if (mirroredVal !== null && mirroredVal !== undefined) {
         newDevilsAdvocate[targetIdx] = 100 - mirroredVal;
       }
+    }
+    
+    // Sprint 32 v2.7+ (this session): also bridge DA the same way as forecast.
+    // DA's bridge value = 100 - bridgeVal (the inverse, since DA is the inverse line).
+    if (newPrediction[startIdx - 1] !== null && newPrediction[startIdx - 1] !== undefined && startIdx > 0) {
+      newDevilsAdvocate[startIdx - 1] = 100 - newPrediction[startIdx - 1];
     }
     
     // Apply to chart datasets in-place
@@ -2991,7 +3014,7 @@ async function fetchForecastCurve() {
     const todayStr = today.toISOString().split('T')[0];
     const nForecast = newPrediction.filter(v => v !== null).length;
     const nDA = newDevilsAdvocate.filter(v => v !== null).length;
-    console.log(`forecast_curve loaded: ${nForecast} forecast points, ${nDA} DA points, ${contribs.length} contributing fingerprints, method=${data.method}, anchored at ${todayStr} (weeklyDates idx ${startIdx})`);
+    console.log(`forecast_curve loaded: ${nForecast} forecast points, ${nDA} DA points, ${contribs.length} contributing fingerprints, method=${data.method}, anchored at ${todayStr} (weeklyDates idx ${startIdx}), current_score=${data.current_score}`);
   } catch(e) {
     console.log('forecast_curve fetch failed', e);
   }
@@ -3028,7 +3051,8 @@ setInterval(init, 60000);              // refresh prices every minute
 setInterval(fetchMarkers, 300000);     // markers every 5 min
 setInterval(fetchMacro, 120000);       // macro every 2 min
 setInterval(fetchAnnotations, 120000); // annotations every 2 min
-setInterval(fetchSmartForecast, 120000);
+// Sprint 32 v2.7+ (this session): setInterval(fetchSmartForecast, 120000) removed.
+// Single forecast source is fetchForecastCurve below.
 setInterval(fetchBlowoffDetector, 120000);  // blow-off detector every 2 min
 setInterval(loadChartHistory, 3600000); // chart history hourly
 // v2.7 Sprint 32: discovery engine refreshes
