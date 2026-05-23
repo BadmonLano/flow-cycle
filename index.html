@@ -2621,7 +2621,7 @@ function renderAnnotations(shapes) {
   // Sprint 32 v2.7+ (this session): blowBox/bottom25 retired (deleted). Replaced
   // with dynamic forecast_next_top/forecast_next_bottom/da_next_top/da_next_bottom
   // — those need preservation on annotation refresh just like AI markers.
-  const PROTECTED = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom']);
+  const PROTECTED = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label']);
   Object.keys(ann).forEach(k => {
     if (PROTECTED.has(k)) return;
     if (k.startsWith('aimarker_')) return;
@@ -2826,7 +2826,7 @@ function toggleAnnotationsBtn() {
     const ann = chart.options.plugins.annotation.annotations;
     // Sprint 32 v2.7+ (this session): KEEP set updated. blowBox/bottom25 retired,
     // replaced with the 4 dynamic peak markers.
-    const KEEP = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom']);
+    const KEEP = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label']);
     Object.keys(ann).forEach(k => {
       if (KEEP.has(k)) return;
       if (k.startsWith('aimarker_')) return;
@@ -3100,7 +3100,12 @@ function _weeksFromToday(peakIdx, todayIdx) {
 }
 
 // Build a vertical-line annotation at a given date with a label at the top.
-function _peakVerticalLineAnnotation(labelText, peakDate, color) {
+// labelPosition param (Sprint 35 chart fix): 'top' or 'bottom' — controls where
+// the label renders on the vertical line. FC labels go top, DA labels go bottom
+// so they never visually overlap when forecast and DA extrema land near the
+// same date.
+function _peakVerticalLineAnnotation(labelText, peakDate, color, labelPosition) {
+  labelPosition = labelPosition || 'start';
   return {
     type: 'line',
     xMin: peakDate,
@@ -3111,7 +3116,7 @@ function _peakVerticalLineAnnotation(labelText, peakDate, color) {
     label: {
       content: labelText,
       display: true,
-      position: 'start',  // 'start' = top of the line on a vertical line
+      position: labelPosition,  // 'start' = top of vertical line, 'end' = bottom
       backgroundColor: 'rgba(13,18,25,0.92)',
       color: color,
       font: { size: 9, family: 'Space Mono', weight: 'bold' },
@@ -3166,6 +3171,51 @@ function updateNextTurnsPanel(events) {
   `).join('');
 }
 
+function renderTodayDot(currentScore, startIdx) {
+  // Sprint 35 chart fix: draw a tracking red dot at TODAY's position on the
+  // chart. Re-anchors every sweep via current_score from forecast_curve.json,
+  // so as data ingests and Jordan Empire's read of the cycle drifts, the dot
+  // moves to where "today" actually is.
+  if (!chart || !chart.options.plugins.annotation) return;
+  if (currentScore === null || currentScore === undefined) return;
+  if (startIdx < 0 || startIdx >= weeklyDates.length) return;
+
+  const ann = chart.options.plugins.annotation.annotations;
+  const todayDate = weeklyDates[startIdx];
+
+  // Tracking dot — solid filled circle at the historical line's most recent value
+  ann.today_dot = {
+    type: 'point',
+    xValue: todayDate,
+    yValue: currentScore,
+    radius: 7,
+    backgroundColor: '#ff4d6a',
+    borderColor: '#ffffff',
+    borderWidth: 2,
+    // pulse effect via thick border ring would need plugin custom draw — keep
+    // it simple: solid dot, will visually move as currentScore + startIdx shift
+    z: 100,  // top-most so it never hides under lines/annotations
+  };
+
+  // Companion label so user sees "TODAY 44" on hover-free visual
+  ann.today_dot_label = {
+    type: 'label',
+    xValue: todayDate,
+    yValue: currentScore,
+    yAdjust: -22,                  // float label above the dot
+    content: `TODAY ${Math.round(currentScore)}`,
+    backgroundColor: 'rgba(255,77,106,0.92)',
+    color: '#ffffff',
+    font: { size: 9, family: 'Space Mono', weight: 'bold' },
+    padding: { top: 3, bottom: 3, left: 6, right: 6 },
+    borderRadius: 3,
+    z: 101,
+  };
+
+  console.log(`[today_dot] anchored at ${todayDate.toISOString().split('T')[0]} score=${currentScore}`);
+}
+
+
 function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
   if (!chart || !chart.options.plugins.annotation) return;
   const ann = chart.options.plugins.annotation.annotations;
@@ -3179,14 +3229,14 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
   const GREEN = '#00e5a0';
   const events = [];
 
-  // Forecast absolute extrema
+  // Forecast absolute extrema — FC labels render at TOP of vertical line
   const fcMax = findAbsoluteMax(forecastArr, startIdx);
   const fcMin = findAbsoluteMin(forecastArr, startIdx);
   if (fcMax) {
     const peakDate = weeklyDates[fcMax.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(fcMax.idx, startIdx);
-    ann.forecast_next_top = _peakVerticalLineAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, RED);
+    ann.forecast_next_top = _peakVerticalLineAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, RED, 'start');
     events.push({ label: 'Forecast TOP', score: Math.round(fcMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] forecast absolute top: ${peakDate.toISOString().split('T')[0]} score=${fcMax.value} (${weeksOut}w out)`);
   }
@@ -3194,19 +3244,20 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[fcMin.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(fcMin.idx, startIdx);
-    ann.forecast_next_bottom = _peakVerticalLineAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, GREEN);
+    ann.forecast_next_bottom = _peakVerticalLineAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, GREEN, 'start');
     events.push({ label: 'Forecast BOTTOM', score: Math.round(fcMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] forecast absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${fcMin.value} (${weeksOut}w out)`);
   }
 
-  // DA absolute extrema
+  // DA absolute extrema — DA labels render at BOTTOM of vertical line so
+  // they never visually overlap FC labels (Sprint 35 chart fix)
   const daMax = findAbsoluteMax(daArr, startIdx);
   const daMin = findAbsoluteMin(daArr, startIdx);
   if (daMax) {
     const peakDate = weeklyDates[daMax.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(daMax.idx, startIdx);
-    ann.da_next_top = _peakVerticalLineAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, RED);
+    ann.da_next_top = _peakVerticalLineAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, RED, 'end');
     events.push({ label: 'DA TOP', score: Math.round(daMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] DA absolute top: ${peakDate.toISOString().split('T')[0]} score=${daMax.value} (${weeksOut}w out)`);
   }
@@ -3214,7 +3265,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[daMin.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(daMin.idx, startIdx);
-    ann.da_next_bottom = _peakVerticalLineAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, GREEN);
+    ann.da_next_bottom = _peakVerticalLineAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, GREEN, 'end');
     events.push({ label: 'DA BOTTOM', score: Math.round(daMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] DA absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${daMin.value} (${weeksOut}w out)`);
   }
@@ -3611,6 +3662,11 @@ async function fetchForecastCurve() {
     // boxes = upcoming bottoms. These re-render every sweep so they always reflect
     // the current "where's the next turn" read.
     renderNextPeakMarkers(newPrediction, newDevilsAdvocate, startIdx);
+    
+    // Sprint 35 chart fix: render tracking dot at today's position.
+    // Reads current_score from the forecast_curve.json payload so the dot
+    // sits at Jordan Empire's most recent read of the cycle, not a stale value.
+    renderTodayDot(data.current_score, startIdx);
     
     const contribs = data.contributing_fingerprints || [];
     const todayStr = today.toISOString().split('T')[0];
