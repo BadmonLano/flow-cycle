@@ -1063,6 +1063,7 @@
           <button class="chart-action-btn" id="toggleMarkers" onclick="toggleMarkers()">◌ AI Markers</button>
           <button class="chart-action-btn on" id="togglePrediction" onclick="togglePrediction()">◉ Forecast</button>
           <button class="chart-action-btn on" id="toggleDevilsAdvocate" onclick="toggleDevilsAdvocate()" title="Time-shifted inverse of forecast. Falsifiable counter-thesis: peak now / bottom in October instead of bottom now / peak in October.">◉ Devil's Advocate</button>
+          <button class="chart-action-btn on" id="toggleJ6" onclick="toggleJ6()" title="Jordan-curated curve (green) — Jordan's editorial overrides layered on the bot envelope tilt.">◉ J6</button>
           <button class="chart-action-btn" onclick="resetZoom()" title="Reset zoom">⊙ Reset</button>
         </div>
       </div>
@@ -2410,6 +2411,17 @@ function toggleDevilsAdvocate() {
   if (daDs) { daDs.hidden = !showDevilsAdvocate; chart.update('none'); }
 }
 
+let showJ6 = true;  // Sprint 44: J6 (Jordan-curated) line — visible by default, toggleable
+function toggleJ6() {
+  const btn = document.getElementById('toggleJ6');
+  if (!btn) return;
+  showJ6 = !showJ6;
+  btn.classList.toggle('on', showJ6);
+  btn.textContent = (showJ6 ? '◉' : '◌') + ' J6';
+  const j6Ds = chart.data.datasets.find(d => d.label === 'J6 (Jordan-curated)');
+  if (j6Ds) { j6Ds.hidden = !showJ6; chart.update('none'); }
+}
+
 function refreshMarkers() { fetchMarkers(); }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -3178,11 +3190,15 @@ function _weeksFromToday(peakIdx, todayIdx) {
 // the label renders on the vertical line. FC labels go top, DA labels go bottom
 // so they never visually overlap when forecast and DA extrema land near the
 // same date.
-function _peakDotAnnotation(labelText, peakDate, peakValue, color, labelYAdjust) {
-  // Sprint 43: replaced vertical longitude line markers with point annotations
-  // sitting directly on the line at peak coords (original dot design). Hover
-  // tooltip shows the labelText via Chart.js annotation built-in tooltip.
+function _peakDotAnnotation(labelText, peakDate, peakValue, color, labelYAdjust, dateStr, weeksOut) {
+  // Sprint 43: point annotations sitting on the line at peak coords.
+  // Sprint 44: HOVER DETAIL — short label always shown; on hover the label expands
+  // to include the date + weeks-out (same info as the Next Turns panel) so the dots
+  // explain themselves without leaving the chart. Mutates the annotation CONFIG by
+  // id (ctx.id) so update() re-renders the new content reliably.
   labelYAdjust = labelYAdjust || -16;
+  const detailText = (dateStr !== undefined && dateStr !== null && dateStr !== '')
+    ? `${labelText} · ${dateStr} · ${weeksOut}w out` : labelText;
   return {
     type: 'point',
     xValue: peakDate,
@@ -3202,6 +3218,14 @@ function _peakDotAnnotation(labelText, peakDate, peakValue, color, labelYAdjust)
       font: { size: 9, family: 'Space Mono', weight: 'bold' },
       padding: { top: 3, bottom: 3, left: 5, right: 5 },
       borderRadius: 3,
+    },
+    enter(ctx) {
+      const a = ctx.chart.options.plugins.annotation.annotations[ctx.id];
+      if (a && a.label) { a.label.content = detailText; ctx.chart.update('none'); }
+    },
+    leave(ctx) {
+      const a = ctx.chart.options.plugins.annotation.annotations[ctx.id];
+      if (a && a.label) { a.label.content = labelText; ctx.chart.update('none'); }
     },
   };
 }
@@ -3238,12 +3262,15 @@ function updateNextTurnsPanel(events) {
       <div style="
         font-weight: 700;
         color: ${e.color};
-        min-width: 90px;
+        min-width: 116px;
+        margin-right: 12px;
+        white-space: nowrap;
       ">${e.label}</div>
       <div style="
         color: var(--text);
         margin-right: 12px;
         min-width: 70px;
+        white-space: nowrap;
       ">Score <span style="font-weight: 700;">${e.score}</span></div>
       <div style="color: var(--text); margin-right: 12px; flex: 1;">${e.date}</div>
       <div style="color: var(--muted); font-family: var(--font-mono);">${e.weeksOut}w out</div>
@@ -3322,7 +3349,8 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
   const ann = chart.options.plugins.annotation.annotations;
 
   // Wipe existing peak markers (regenerate every sweep with fresh data)
-  ['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom'].forEach(k => {
+  ['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom',
+    'j6_next_top', 'j6_next_bottom'].forEach(k => {
     if (ann[k]) delete ann[k];
   });
 
@@ -3337,7 +3365,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[fcMax.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(fcMax.idx, startIdx);
-    ann.forecast_next_top = _peakDotAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, fcMax.value, RED, -16);
+    ann.forecast_next_top = _peakDotAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, fcMax.value, RED, -16, dateStr, weeksOut);
     events.push({ label: 'Forecast TOP', score: Math.round(fcMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] forecast absolute top: ${peakDate.toISOString().split('T')[0]} score=${fcMax.value} (${weeksOut}w out)`);
   }
@@ -3345,7 +3373,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[fcMin.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(fcMin.idx, startIdx);
-    ann.forecast_next_bottom = _peakDotAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, fcMin.value, GREEN, 16);
+    ann.forecast_next_bottom = _peakDotAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, fcMin.value, GREEN, 16, dateStr, weeksOut);
     events.push({ label: 'Forecast BOTTOM', score: Math.round(fcMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] forecast absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${fcMin.value} (${weeksOut}w out)`);
   }
@@ -3358,7 +3386,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[daMax.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(daMax.idx, startIdx);
-    ann.da_next_top = _peakDotAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, daMax.value, RED, -16);
+    ann.da_next_top = _peakDotAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, daMax.value, RED, -16, dateStr, weeksOut);
     events.push({ label: 'DA TOP', score: Math.round(daMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] DA absolute top: ${peakDate.toISOString().split('T')[0]} score=${daMax.value} (${weeksOut}w out)`);
   }
@@ -3366,9 +3394,32 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[daMin.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(daMin.idx, startIdx);
-    ann.da_next_bottom = _peakDotAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, daMin.value, GREEN, 16);
+    ann.da_next_bottom = _peakDotAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, daMin.value, GREEN, 16, dateStr, weeksOut);
     events.push({ label: 'DA BOTTOM', score: Math.round(daMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] DA absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${daMin.value} (${weeksOut}w out)`);
+  }
+
+  // Sprint 44: J6 (Jordan-curated) extrema — Jordan's own next top/bottom calls.
+  // Reads the global j6Line synced by fetchJ6Curve; guarded if J6 not yet loaded.
+  // Larger label offsets (-28/28) keep J6 labels clear of FC/DA labels.
+  const J6C = '#00e5a0';
+  if (typeof j6Line !== 'undefined' && Array.isArray(j6Line) && j6Line.some(v => v !== null && v !== undefined)) {
+    const j6Max = findAbsoluteMax(j6Line, startIdx);
+    const j6Min = findAbsoluteMin(j6Line, startIdx);
+    if (j6Max) {
+      const pd = weeklyDates[j6Max.idx];
+      const j6MaxDate = _formatPeakDate(pd);
+      const j6MaxWeeks = _weeksFromToday(j6Max.idx, startIdx);
+      ann.j6_next_top = _peakDotAnnotation(`J6 TOP ${Math.round(j6Max.value)}`, pd, j6Max.value, J6C, -28, j6MaxDate, j6MaxWeeks);
+      events.push({ label: 'J6 TOP', score: Math.round(j6Max.value), date: j6MaxDate, weeksOut: j6MaxWeeks, color: J6C });
+    }
+    if (j6Min) {
+      const pd = weeklyDates[j6Min.idx];
+      const j6MinDate = _formatPeakDate(pd);
+      const j6MinWeeks = _weeksFromToday(j6Min.idx, startIdx);
+      ann.j6_next_bottom = _peakDotAnnotation(`J6 BTM ${Math.round(j6Min.value)}`, pd, j6Min.value, J6C, 28, j6MinDate, j6MinWeeks);
+      events.push({ label: 'J6 BOTTOM', score: Math.round(j6Min.value), date: j6MinDate, weeksOut: j6MinWeeks, color: J6C });
+    }
   }
 
   chart.update('none');
@@ -3645,6 +3696,10 @@ async function fetchForecastCurve() {
     const data = await res.json();
     const projection = data.projection || [];
     if (!projection.length) return;
+    // Sprint 44: today's realized score — all three lines anchor here so they
+    // emanate from the TODAY dot instead of floating at their week-0 projection.
+    const currentScore = (data.current_score !== undefined && data.current_score !== null)
+                         ? data.current_score : null;
     
     // Anchor at TODAY (real now). This is the index in weeklyDates closest to today.
     const today = new Date();
@@ -3675,6 +3730,8 @@ async function fetchForecastCurve() {
         newPrediction[targetIdx] = val;
       }
     }
+    // Sprint 44: forecast emanates from the today dot, not its week-0 value.
+    if (currentScore !== null) newPrediction[startIdx] = currentScore;
     
     // Sprint 32 v2.7+ (this session, second iteration): BRIDGE THE GAP between
     // historical and forecast. Without this, historical line ends at startIdx-1,
@@ -3689,7 +3746,6 @@ async function fetchForecastCurve() {
     // at today and only the forecast line continues into the future.
     if (chart && chart.data && chart.data.datasets && chart.data.datasets[0]) {
       const histArr = chart.data.datasets[0].data;
-      const currentScore = data.current_score;
       
       // STEP 1: Wipe any future-dated historical values (bug guard)
       for (let i = startIdx + 1; i < histArr.length; i++) {
@@ -3722,6 +3778,8 @@ async function fetchForecastCurve() {
         newDevilsAdvocate[targetIdx] = 100 - val;
       }
     }
+    // Sprint 44: DA emanates from the today dot too (shares the anchor with forecast/J6).
+    if (currentScore !== null) newDevilsAdvocate[startIdx] = currentScore;
     
     // Sprint 43: DA bridge-back KILLED. DA starts exactly at startIdx, same as forecast.
     
@@ -3798,6 +3856,17 @@ async function fetchJ6Curve() {
         newJ6[targetIdx] = val;
       }
     }
+    // Sprint 44: anchor J6 to the same TODAY dot as forecast/DA. Prefer j6_curve's
+    // own current_score; fall back to the historical dataset value at startIdx
+    // (which fetchForecastCurve already pinned to currentScore) so all three lines
+    // emanate from the identical point.
+    let j6Anchor = (data.current_score !== undefined && data.current_score !== null)
+                   ? data.current_score : null;
+    if (j6Anchor === null && chart && chart.data && chart.data.datasets && chart.data.datasets[0]) {
+      const h = chart.data.datasets[0].data[startIdx];
+      if (h !== null && h !== undefined) j6Anchor = h;
+    }
+    if (j6Anchor !== null) newJ6[startIdx] = j6Anchor;
     
     // Apply to chart
     if (chart && chart.data && chart.data.datasets) {
@@ -3808,6 +3877,12 @@ async function fetchJ6Curve() {
     
     // Sync global
     j6Line = newJ6;
+    // Sprint 44: refresh Next Turns now that j6Line is set, so J6's top/bottom
+    // calls render immediately instead of waiting for the next forecast sweep.
+    if (typeof prediction !== 'undefined' && Array.isArray(prediction) && prediction.some(v => v !== null && v !== undefined)) {
+      try { renderNextPeakMarkers(prediction, devilsAdvocate, startIdx); }
+      catch(e) { console.log('j6 next-turns refresh skipped', e); }
+    }
     
     const nJ6 = newJ6.filter(v => v !== null).length;
     const tilt = data.bot_envelope_tilt ?? '--';

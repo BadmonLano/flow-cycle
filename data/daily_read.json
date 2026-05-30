@@ -1,136 +1,235 @@
 {
-  "_updated": "2026-05-27T08:08:23.338062-04:00",
+  "_updated": "2026-05-30T04:17:10.614212-04:00",
   "_version": "v2.7",
   "_doctrine": "Empire's daily synthesis packet. Phase + trend + cliff_proximity + analogues + recommendation. Read by perps/kalshi/sniper/Jordan.",
-  "current_score": 43,
+  "sweep_interval_min": 60,
+  "current_score": 44,
   "current_phase": "Panic",
-  "trend": "flat",
-  "phase_leg": "flat",
+  "trend": "falling",
+  "phase_leg": "descending",
   "cliff_proximity": "low",
   "forecast": {
-    "next_top_score": 79.7,
+    "next_top_score": 71.9,
     "next_top_weeks_out": 15,
-    "next_bottom_score": 24.4,
+    "next_bottom_score": 22.1,
     "next_bottom_weeks_out": 0,
-    "score_7d_target": 24.4,
-    "da_score_7d_target": 75.6,
-    "amplitude_blend": 0.6,
+    "score_7d_target": 22.1,
+    "da_score_7d_target": 77.9,
+    "amplitude_blend": 0.35,
     "method": "weighted_mean_plus_primary_blend"
   },
   "horse_race": {
     "state": "unknown",
-    "forecast_residual": 12.4,
+    "jordan_winning_line": null,
+    "forecast_residual": 15.9,
     "da_residual": null,
     "regime_break": false
   },
   "historical_analogues": [
     {
       "name": "bottom_2024_aug",
-      "similarity": 0.8309,
-      "weight": 0.372,
+      "similarity": 0.809,
+      "weight": 0.3693,
       "fingerprint_date": "2024-08-05",
       "fingerprint_type": "intermediate_bottom"
     },
     {
       "name": "bottom_2022_may_luna",
-      "similarity": 0.7156,
-      "weight": 0.3204,
+      "similarity": 0.706,
+      "weight": 0.3223,
       "fingerprint_date": "2022-05-12",
       "fingerprint_type": "liquidation_bottom"
     },
     {
       "name": "bottom_2020_mar",
-      "similarity": 0.6873,
-      "weight": 0.3077,
+      "similarity": 0.6755,
+      "weight": 0.3084,
       "fingerprint_date": "2020-03-12",
       "fingerprint_type": "liquidity_bottom"
     }
   ],
   "active_signal_inputs": {
-    "envelope_count": 108,
+    "envelope_count": 140,
     "by_source": {
-      "news_catalyst": 108
+      "crucix": 5,
+      "flow_cycle": 3,
+      "jordan_scraper": 10,
+      "news_catalyst": 87,
+      "polymarket": 2,
+      "x_intel": 33
     },
     "by_severity": {
-      "high": 99,
-      "critical": 9
+      "critical": 39,
+      "high": 34,
+      "medium": 59,
+      "low": 8
     },
     "by_direction": {
-      "ambiguous": 56,
-      "bullish": 9,
-      "bearish": 43
+      "bearish": 55,
+      "ambiguous": 23,
+      "neutral": 44,
+      "bullish": 18
     },
-    "weighted_bullish_score": 2.061,
-    "weighted_bearish_score": 9.381,
+    "weighted_bullish_score": 4.409,
+    "weighted_bearish_score": 13.242,
     "net_signal": "bearish",
-    "confluence_clusters": [],
+    "confluence_clusters": [
+      {
+        "synthetic_envelope_id": "flow_confluence_1780129030_5d8cfc",
+        "window": "1h",
+        "direction": "bearish",
+        "source_count": 2,
+        "sources": [
+          "crucix",
+          "news_catalyst"
+        ],
+        "strength": 2.529,
+        "severity": "high",
+        "summary": "2-source bearish confluence (1h window): [crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spik",
+        "member_envelope_ids": [
+          "crucix_energy_1780129030_af763e",
+          "crucix_geo_political_1780129030_06eb0a",
+          "news_catalyst_1780127846_a13137",
+          "news_catalyst_1780127847_05ea54"
+        ]
+      },
+      {
+        "synthetic_envelope_id": "flow_confluence_1780129030_e53c9d",
+        "window": "6h",
+        "direction": "bullish",
+        "source_count": 2,
+        "sources": [
+          "flow_cycle",
+          "news_catalyst"
+        ],
+        "strength": 2.261,
+        "severity": "high",
+        "summary": "2-source bullish confluence (6h window): 2-source bullish confluence (6h window): [geo_conflict] Crude Oil Prices Today |",
+        "member_envelope_ids": [
+          "flow_confluence_1780115079_a51207",
+          "flow_confluence_1780119271_b22093",
+          "flow_confluence_1780121806_62cc30",
+          "news_catalyst_1780114199_2df2a9",
+          "news_catalyst_1780114208_181ede",
+          "news_catalyst_1780121731_d0be16",
+          "news_catalyst_1780123512_d9e3a2",
+          "news_catalyst_1780123534_36ce24",
+          "news_catalyst_1780127856_3f09d1"
+        ]
+      },
+      {
+        "synthetic_envelope_id": "flow_confluence_1780129030_2ffa20",
+        "window": "6h",
+        "direction": "bearish",
+        "source_count": 2,
+        "sources": [
+          "crucix",
+          "news_catalyst"
+        ],
+        "strength": 6.964,
+        "severity": "critical",
+        "summary": "2-source bearish confluence (6h window): [crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spik",
+        "member_envelope_ids": [
+          "crucix_energy_1780129030_af763e",
+          "crucix_geo_political_1780129030_06eb0a",
+          "news_catalyst_1780114195_aa6452",
+          "news_catalyst_1780114195_f25bd1",
+          "news_catalyst_1780114197_661523",
+          "news_catalyst_1780114199_feb377",
+          "news_catalyst_1780114200_fc67c6",
+          "news_catalyst_1780114204_e625c4",
+          "news_catalyst_1780114212_41fa09",
+          "news_catalyst_1780114240_e51300",
+          "news_catalyst_1780114270_a06cfb",
+          "news_catalyst_1780114430_3746f1",
+          "news_catalyst_1780121725_40ce6c",
+          "news_catalyst_1780121726_7068e7",
+          "news_catalyst_1780121726_e44c82",
+          "news_catalyst_1780121726_e92d19",
+          "news_catalyst_1780121730_61ecf1",
+          "news_catalyst_1780121756_615726",
+          "news_catalyst_1780121756_883aba",
+          "news_catalyst_1780124898_b71863",
+          "news_catalyst_1780124921_8ef57e",
+          "news_catalyst_1780127846_a13137",
+          "news_catalyst_1780127847_05ea54"
+        ]
+      }
+    ],
     "regime_break_envelopes": [],
     "top_envelopes_by_weight": [
       {
-        "id": "news_catalyst_1779740632_09e7cc",
-        "headline": "[crypto_regulatory] Hackread - Latest Cybersecurity News, Press Releases & Technology Today",
-        "weight": 0.395,
+        "id": "crucix_energy_1780129030_af763e",
+        "headline": "[crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spike = war narrative = geo tokens. Also SOL perp watch",
+        "weight": 0.85,
+        "source": "crucix",
+        "tier": "A",
+        "direction": "bearish",
+        "severity": "critical"
+      },
+      {
+        "id": "crucix_geo_political_1780129030_06eb0a",
+        "headline": "[crucix:geo_political] strength=10/10 keywords=[iran, war, attack, missile, strike] \u2014 geo/political meme tokens likely to pump \u2014 war/conflict narrative active",
+        "weight": 0.85,
+        "source": "crucix",
+        "tier": "A",
+        "direction": "bearish",
+        "severity": "critical"
+      },
+      {
+        "id": "crucix_macro_1780129030_d4d481",
+        "headline": "[crucix:macro] strength=10/10 keywords=[fed, rate, inflation, cpi, unemployment] \u2014 macro event \u2014 BTC reacts first, memes follow. Check flow cycle",
+        "weight": 0.85,
+        "source": "crucix",
+        "tier": "A",
+        "direction": "ambiguous",
+        "severity": "critical"
+      },
+      {
+        "id": "news_catalyst_1780121726_e44c82",
+        "headline": "[geo_conflict] Iran reportedly launches missiles as Trump mulls deal to pause war for two months",
+        "weight": 0.756,
         "source": "news_catalyst",
         "tier": "A",
         "direction": "bearish",
         "severity": "critical"
       },
       {
-        "id": "news_catalyst_1779733306_0531c7",
-        "headline": "[crypto_regulatory] Hackread - Latest Cybersecurity News, Press Releases & Technology Today",
-        "weight": 0.38,
+        "id": "news_catalyst_1780100347_ac5e2a",
+        "headline": "[macro_fed] Fed Governor Michelle Bowman warns against hiking interest rates because of inflation spike",
+        "weight": 0.675,
         "source": "news_catalyst",
         "tier": "A",
         "direction": "bearish",
         "severity": "critical"
-      },
-      {
-        "id": "news_catalyst_1779726073_03234f",
-        "headline": "[crypto_regulatory] Hackread - Latest Cybersecurity News, Press Releases & Technology Today",
-        "weight": 0.366,
-        "source": "news_catalyst",
-        "tier": "A",
-        "direction": "bearish",
-        "severity": "critical"
-      },
-      {
-        "id": "news_catalyst_1779718750_5ac2a6",
-        "headline": "[crypto_regulatory] Hackread - Latest Cybersecurity News, Press Releases & Technology Today",
-        "weight": 0.352,
-        "source": "news_catalyst",
-        "tier": "A",
-        "direction": "bearish",
-        "severity": "critical"
-      },
-      {
-        "id": "news_catalyst_1779740629_550fcd",
-        "headline": "[crypto_regulatory] Ethereum Price: ETH/USD Live Price Chart, Market Cap & News Today | CoinGecko",
-        "weight": 0.277,
-        "source": "news_catalyst",
-        "tier": "A",
-        "direction": "bearish",
-        "severity": "high"
       }
     ],
-    "_synthesized_at": "2026-05-27T08:08:22.457824-04:00",
+    "_synthesized_at": "2026-05-30T04:17:10.220508-04:00",
     "legacy_invariants": [
       {
         "source": "invariants",
         "type": "bottom_signature",
-        "strength": 75.0
+        "strength": 50.0
       }
     ]
   },
   "regime": "stable",
   "regime_break_signal": false,
+  "jordan_read": null,
+  "jordan_voice": null,
+  "read_source": "auto",
   "trade_recommendation": {
-    "perps": "neutral",
+    "perps": "short_small",
     "kalshi_btc_weekly_up": "neutral",
     "sniper_aggression": "conservative",
     "exit_priority_signals": [
-      "critical news_catalyst signal: [crypto_regulatory] Hackread - Latest Cybersecurity News, Press Releases & Technology Today"
+      "critical crucix signal: [crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spike = war narrative = ",
+      "critical crucix signal: [crucix:geo_political] strength=10/10 keywords=[iran, war, attack, missile, strike] \u2014 geo/political ",
+      "critical crucix signal: [crucix:macro] strength=10/10 keywords=[fed, rate, inflation, cpi, unemployment] \u2014 macro event \u2014 BTC"
     ],
-    "abort_conditions": [],
-    "reasoning": "Flat trend, regime unclear, wait for direction."
+    "abort_conditions": [
+      "any 5+ point bounce in 24h (squeeze starting)"
+    ],
+    "reasoning": "Panic phase, everyone shorting, squeeze risk high. Trim short."
   }
 }
