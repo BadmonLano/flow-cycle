@@ -1,0 +1,181 @@
+{
+  "version": 2,
+  "schema_version": "unified_v2_2026-05-26",
+  "updated_at": "2026-05-26T13:19:57.475631",
+  "updated_by": "boot_default_unified_architecture",
+  "calibration_source": "Claude + Doc1 + Grok + Doc3 + Doc4 + Doc5 \u2014 6-model arithmetic mean",
+  "reasoning": "Unified weight file governing all 4 chart lines. base_weights = 6-model averaged calibration (Claude + 5 others, arithmetic mean). Forecast uses these weights with envelopes off. J6 uses these weights + j6_overrides + envelopes weighted 1.5x. DA inverts forecast. History is realized data. All four lines, one file.",
+  "base_weights": {
+    "factor_weights": {
+      "mvrv_zscore": 8.83,
+      "lth_supply": 7.67,
+      "etf_net_total": 9.83,
+      "btc_oi_total": 7.67,
+      "funding_rate": 7.33,
+      "btc_funding": 6.83,
+      "eth_funding": 5.67,
+      "stablecoin_total": 7.33,
+      "btc_momentum": 6.17,
+      "btc_dom": 6.5,
+      "us10y": 6.83,
+      "us02y": 5.83,
+      "fed_balance": 7.0,
+      "dxy": 6.83,
+      "vix": 6.83,
+      "fear_greed": 6.33,
+      "pvp_ratio": 8.33,
+      "avg_hold_mins": 7.5,
+      "btc_chg": 3.0,
+      "sp500": 5.17,
+      "nasdaq": 6.0,
+      "russell": 4.5,
+      "gold": 5.17,
+      "silver": 3.83,
+      "copper": 4.67,
+      "oil": 4.5,
+      "natgas": 2.5,
+      "uranium": 2.33,
+      "lumber": 2.5,
+      "fertilizer": 1.67,
+      "baltic_dry": 3.33,
+      "gold_chg": 2.83,
+      "silver_chg": 2.17,
+      "copper_chg": 3.0,
+      "oil_chg": 2.83
+    },
+    "fingerprint_trust": {
+      "2017-12-17": 3.0,
+      "2018-12-15": 3.67,
+      "2019-06-26": 3.0,
+      "2020-03-12": 5.83,
+      "2020-12-16": 5.67,
+      "2021-04-14": 4.83,
+      "2021-11-08": 5.33,
+      "2022-05-12": 5.5,
+      "2022-11-21": 6.33,
+      "2024-03-14": 8.83,
+      "2024-08-05": 8.17,
+      "2025-01-20": 9.0
+    },
+    "amplitude_blend": 6.5,
+    "envelope_type_weights": {
+      "catalyst": 7.0,
+      "sentiment": 6.0,
+      "flow": 8.83,
+      "sustained_drift": 7.5,
+      "sustained_narrative": 6.67,
+      "sustained_anomaly": 7.0,
+      "sustained_emotion": 5.83,
+      "cross_source_confluence": 9.33,
+      "invariant": 8.5,
+      "news_catalyst": 5.83,
+      "regime_break": 8.67
+    },
+    "source_bot_trust": {
+      "polymarket": 8.17,
+      "crucix_reader": 7.17,
+      "news_catalyst": 6.33,
+      "jordan_scraper": 7.67,
+      "x_intel": 6.0
+    },
+    "tier_multipliers": {
+      "S": 9.33,
+      "A": 7.33,
+      "B": 4.67
+    },
+    "brain_consensus_weights": {
+      "analyst": 7.67,
+      "narrative_writer": 6.0,
+      "consensus_judge": 7.5
+    },
+    "invariants_firing": {
+      "top_signal_strength": 8.83,
+      "bottom_signal_strength": 8.83
+    }
+  },
+  "j6_overrides": {
+    "_doc": "Layered on top of base_weights when computing J6 line. Use same nested structure as base_weights, only include keys Jordan wants to override. Empty {} = J6 uses pure base. Every override requires reasoning + timestamp per Sprint 43 doctrine.",
+    "factor_weights": {},
+    "fingerprint_trust": {},
+    "envelope_type_weights": {},
+    "source_bot_trust": {},
+    "tier_multipliers": {},
+    "brain_consensus_weights": {},
+    "invariants_firing": {},
+    "_change_log": []
+  },
+  "line_configs": {
+    "history": {
+      "type": "realized_data",
+      "source_file": "data/chart_history.json",
+      "weights": "none \u2014 actual measured Flow Cycle Index values",
+      "color": "blue",
+      "description": "Historical line. Past = facts, no weighting."
+    },
+    "forecast": {
+      "type": "projection",
+      "uses_weights": "base_weights",
+      "forecast_engine_contribution": 1.0,
+      "bot_envelope_contribution": 0.0,
+      "horizon_weeks": 104,
+      "color": "yellow",
+      "description": "Pure macro algorithm projection. Ignores bot envelopes. Uses 6-model averaged base_weights (replaces stale hardcoded weights)."
+    },
+    "da": {
+      "type": "inverse",
+      "formula": "100 - forecast[t]",
+      "source_line": "forecast",
+      "color": "purple",
+      "description": "Devil's Advocate \u2014 same-date inverse of forecast. No weights of its own."
+    },
+    "j6": {
+      "type": "curated_projection",
+      "uses_weights": "base_weights + j6_overrides",
+      "forecast_engine_contribution": 1.0,
+      "bot_envelope_contribution": 1.5,
+      "horizon_weeks": 104,
+      "color": "green",
+      "description": "Jordan-curated line. Same projection engine as forecast but with j6_overrides layered on, AND bot envelopes weighted 1.5x. The empire's intel network expressed as a third opinion."
+    }
+  },
+  "_meta": {
+    "total_inputs": 72,
+    "scale": "0-10, where 0 = ignore, 10 = maximum signal",
+    "model_sources": [
+      "Claude",
+      "Doc1",
+      "Grok",
+      "Doc3",
+      "Doc4",
+      "Doc5"
+    ],
+    "consensus_high": [
+      "etf_net_total (9.83)",
+      "cross_source_confluence (9.33)",
+      "Tier_S (9.33)",
+      "2025-01-20 (9.00)",
+      "mvrv_zscore (8.83)"
+    ],
+    "consensus_low": [
+      "fertilizer (1.67)",
+      "silver_chg (2.17)",
+      "uranium (2.33)",
+      "natgas (2.50)",
+      "lumber (2.50)"
+    ],
+    "biggest_divergence": [
+      "sustained_emotion (\u03c3=2.14)",
+      "copper (\u03c3=1.97)",
+      "silver (\u03c3=1.94)",
+      "gold (\u03c3=1.94)",
+      "sustained_anomaly (\u03c3=1.90)"
+    ],
+    "layer_balance_tuning": {
+      "j6_bot_envelope_contribution_1.0": "bots = forecast (J6 just different read on same data)",
+      "j6_bot_envelope_contribution_1.5": "bots dominate by 50% (recommended default)",
+      "j6_bot_envelope_contribution_2.0": "bots dominate 2:1 (J6 lives or dies by empire intel)",
+      "j6_bot_envelope_contribution_3.0": "near-pure bot intel, forecast is sanity anchor"
+    },
+    "forecast_behavior_change_note": "Forecast line uses 6-model averaged base_weights. This replaces the prior hardcoded weight table in flow_cycle.py (2.5/2.0/1.8 scale, pre-ETF tuned). There is no separate 'old vs new' forecast \u2014 the 6-model average IS the forecast. Going forward, all weight changes flow through this file."
+  }
+}

@@ -1197,27 +1197,31 @@
       </div>
     </div>
 
-    <!-- Brain consensus panel (NEW v2) -->
+    <!-- Brain Reads — advisory (v3: 4 individual reads; Jordan decides) -->
     <div class="card brain-card">
       <div class="card-label">
-        4-Brain Consensus Engine
+        Brain Reads · Advisory
         <span class="tier-badge" id="brainTier" style="margin-left: auto;">LOW</span>
       </div>
+      <div style="font-size:0.62em; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin:2px 0 10px;">4 reads to weigh — none of them decide. Your read does.</div>
+
+      <!-- Jordan's read (authoritative) -->
+      <div id="jordanReadBox" style="background:rgba(79,158,255,0.07); border-left:3px solid #4f9eff; padding:12px 14px; border-radius:4px; margin-bottom:14px;">
+        <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.12em; text-transform:uppercase;">Your Read <span id="jordanReadTag" style="opacity:0.7;"></span></div>
+        <div id="jordanReadText" style="font-size:1.0em; line-height:1.5; color:#cbd5e0; margin-top:6px;">Awaiting your call...</div>
+      </div>
+
       <div class="brain-headline" id="brainHeadline">Awaiting brain output...</div>
       <div class="brain-narrative" id="brainNarrative">Flow cycle engine connecting...</div>
-      <div class="brain-signals">
-        <div class="brain-sig-tile">
-          <div class="sig-label">4-Brain</div>
-          <div class="sig-val" id="brainSignal">--</div>
-          <div class="sig-meta" id="brainConf">confidence --</div>
-        </div>
-        <div class="brain-sig-tile">
-          <div class="sig-label">Legacy Math</div>
-          <div class="sig-val" id="legacySignal">--</div>
-          <div class="sig-meta" id="legacyScore">score --</div>
-        </div>
+
+      <!-- the 4 individual advisory reads -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px;">
+        <div class="brain-sig-tile"><div class="sig-label">Analyst</div><div class="sig-val" id="analystRead">--</div><div class="sig-meta" id="analystMeta">--</div></div>
+        <div class="brain-sig-tile"><div class="sig-label">Narrative</div><div class="sig-val" id="narrativeRead" style="font-size:0.8em;">--</div><div class="sig-meta" id="narrativeMeta">--</div></div>
+        <div class="brain-sig-tile"><div class="sig-label">Judge</div><div class="sig-val" id="judgeRead">--</div><div class="sig-meta" id="judgeMeta">--</div></div>
+        <div class="brain-sig-tile"><div class="sig-label">Legacy Math</div><div class="sig-val" id="legacyRead">--</div><div class="sig-meta" id="legacyMeta">--</div></div>
       </div>
-      <div class="recon-hint" id="reconHint">Awaiting reconciliation...</div>
+      <div class="recon-hint" id="reconHint" style="margin-top:12px;">Awaiting reconciliation...</div>
 
       <div class="pattern-match">
         <div style="font-size: 0.6em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin: 14px 0 8px;">Pattern Similarity vs History</div>
@@ -1225,6 +1229,13 @@
           <!-- Filled in by JS -->
         </div>
       </div>
+    </div>
+
+    <!-- Editor's Calls — Jordan's live editorial overrides (any of the 14 items) -->
+    <div class="card" id="editorCallsCard" style="display:none;">
+      <div class="card-label">Editor's Calls · Live</div>
+      <div style="font-size:0.6em; color:var(--muted); margin:4px 0 10px;">Items you've personally called this cycle. Your call overrides the auto-compute.</div>
+      <div id="editorCallsList"></div>
     </div>
 
     <!-- v2.7 Sprint 32: Jordan's Current Thesis (daily 6am writeback) -->
@@ -1251,23 +1262,27 @@
       </div>
     </div>
 
-    <!-- v2.7 Sprint 32: Horse Race Scoreboard (forecast vs devil's advocate) -->
+    <!-- Sprint 43: 3-way Horse Race Scoreboard (Forecast vs DA vs J6) -->
     <div class="card" id="horseRaceCard">
       <div class="card-label">
-        Horse Race: Forecast vs Devil's Advocate
+        Horse Race: Forecast vs DA vs J6
         <span class="tier-badge" id="horseRaceState" style="margin-left:auto; background:#1a2332; color:#4f9eff;">--</span>
       </div>
       <div id="horseRaceExplanation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
         Awaiting horse race data...
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
         <div style="background:rgba(245,197,24,0.06); border-left:2px solid #f5c518; padding:10px;">
           <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Forecast Avg Residual</div>
           <div id="horseRaceForecastResidual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#f5c518;">--</div>
         </div>
         <div style="background:rgba(168,85,247,0.06); border-left:2px solid #a855f7; padding:10px;">
-          <div style="font-size:0.55em; color:#a855f7; letter-spacing:0.1em; text-transform:uppercase;">Devil's Advocate Avg Residual</div>
+          <div style="font-size:0.55em; color:#a855f7; letter-spacing:0.1em; text-transform:uppercase;">DA Avg Residual</div>
           <div id="horseRaceDevilsResidual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#a855f7;">--</div>
+        </div>
+        <div style="background:rgba(0,229,160,0.06); border-left:2px solid #00e5a0; padding:10px;">
+          <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase;">J6 Avg Residual</div>
+          <div id="horseRaceJ6Residual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#00e5a0;">--</div>
         </div>
       </div>
       <div style="margin-top:12px; padding:10px; background:rgba(79,158,255,0.05); border-left:2px solid #4f9eff;">
@@ -1275,7 +1290,7 @@
         <div id="horseRaceLeverage" style="font-size:1em; font-weight:600; margin-top:4px; color:#cbd5e0;">--</div>
       </div>
       <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7;">
-        Updates every sweep. Lower residual = better tracking reality. The winner of this race informs perps_bot leverage sizing.
+        Updates every sweep. Lower residual = better tracking reality. When all three lines are wrong (residual >25 across the board), a re-triangulation packet fires to Jordan. The winner of this race informs perps_bot leverage sizing.
       </div>
     </div>
 
@@ -1567,6 +1582,7 @@ const historical = weeklyDates.map(date => {
 // so chart.js interaction mode 'index' works correctly for hover tooltips.
 let prediction = new Array(weeklyDates.length).fill(null);
 let devilsAdvocate = new Array(weeklyDates.length).fill(null);
+let j6Line = new Array(weeklyDates.length).fill(null);  // Sprint 43: J6 line data
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CHART INSTANCE
@@ -1621,6 +1637,23 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         // Sprint 32 v2.7 (this session): DA is auto-loaded by default, NOT hidden behind a toggle.
         // The DA is core to the discovery engine philosophy: forecast vs DA is a horse race
         // visible at all times, not an opt-in feature.
+        hidden: false,
+      },
+      // Sprint 43: J6 line — Jordan-curated projection. Same engine as forecast
+      // + j6_overrides + bot envelopes weighted 1.5x. Populated by fetchJ6Curve().
+      {
+        label: 'J6 (Jordan-curated)',
+        data: j6Line,
+        borderColor: '#00e5a0',                // green — Jordan's empire line
+        backgroundColor: 'rgba(0,229,160,0.05)',
+        borderDash: [3, 3],                    // tight dashes, distinct from forecast (5,4) and DA (8,4)
+        fill: false,
+        tension: 0,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: '#00e5a0',
+        borderWidth: 2,
+        yAxisID: 'y',
         hidden: false,
       }
       // Overlay datasets added dynamically
@@ -2021,26 +2054,35 @@ async function fetchMacro() {
     }
     if (data.active_addresses_24h != null) document.getElementById('activeAddr').textContent = fmtPlain(data.active_addresses_24h, 0);
 
-    // Brain consensus panel
+    // Brain reads — advisory (v3: 4 individual reads, Jordan decides)
     if (data.brain_consensus) {
       const bc = data.brain_consensus;
       document.getElementById('brainHeadline').textContent = bc.headline || 'Awaiting brain output...';
       document.getElementById('brainNarrative').textContent = bc.narrative || '';
-      const sigEl = document.getElementById('brainSignal');
-      sigEl.textContent = bc.final_signal || '--';
-      sigEl.className = 'sig-val ' + (bc.final_signal || '').toLowerCase();
-      document.getElementById('brainConf').textContent = bc.confidence != null ? `confidence ${(bc.confidence*100).toFixed(0)}%` : 'confidence --';
       const tEl = document.getElementById('brainTier');
       tEl.textContent = bc.alert_tier || 'LOW';
       tEl.className = 'tier-badge ' + (bc.alert_tier || 'low').toLowerCase();
+      const br = bc.brain_reads || {};
+      const setRead = (id, metaId, val, conf) => {
+        const e = document.getElementById(id);
+        if (e) { e.textContent = val || '--'; e.className = 'sig-val ' + String(val||'').toLowerCase(); }
+        const m = document.getElementById(metaId);
+        if (m) m.textContent = (conf != null) ? `conf ${(conf*100).toFixed(0)}%` : '--';
+      };
+      if (br.analyst) setRead('analystRead','analystMeta', (br.analyst.signal||'--') + (br.analyst.phase ? ' · '+br.analyst.phase : ''), br.analyst.confidence);
+      if (br.judge)   setRead('judgeRead','judgeMeta', br.judge.signal, br.judge.confidence);
+      if (br.narrative) {
+        const e=document.getElementById('narrativeRead'); if(e) e.textContent = br.narrative.headline || '--';
+        const m=document.getElementById('narrativeMeta'); if(m) m.textContent = (br.narrative.confidence!=null) ? `conf ${(br.narrative.confidence*100).toFixed(0)}%` : '--';
+      }
     }
 
-    // Legacy signal
+    // Legacy math — the 4th read
     if (data.blowoff_signal) {
-      const legEl = document.getElementById('legacySignal');
-      legEl.textContent = data.blowoff_signal;
-      legEl.className = 'sig-val ' + data.blowoff_signal.toLowerCase();
-      document.getElementById('legacyScore').textContent = `score ${data.blowoff_score}`;
+      const e = document.getElementById('legacyRead');
+      if (e) { e.textContent = data.blowoff_signal; e.className = 'sig-val ' + data.blowoff_signal.toLowerCase(); }
+      const m = document.getElementById('legacyMeta');
+      if (m) m.textContent = `score ${data.blowoff_score}`;
     }
 
     // Reconciliation hint
@@ -2059,6 +2101,34 @@ async function fetchMacro() {
     if (data.pattern_match) {
       renderPatternMatch(data);
     }
+
+    // Jordan's read (authoritative) — from daily_read; demotes the brains to advisory
+    fetch('data/daily_read.json?t=' + Date.now()).then(r => r.json()).then(dr => {
+      const box = document.getElementById('jordanReadText');
+      const tag = document.getElementById('jordanReadTag');
+      if (!box) return;
+      if (dr && dr.read_source === 'jordan' && dr.jordan_read) {
+        box.textContent = dr.jordan_read; if (tag) tag.textContent = '· yours';
+      } else {
+        box.textContent = '(auto — no editor call yet)'; if (tag) tag.textContent = '· auto';
+      }
+    }).catch(() => {});
+
+    // Editor's Calls overlay — any of the 14 items Jordan has personally called
+    fetch('data/editorial_calls.json?t=' + Date.now()).then(r => r.json()).then(ec => {
+      const calls = (ec && ec.calls) || {};
+      const items = Object.keys(calls);
+      const card = document.getElementById('editorCallsCard');
+      const list = document.getElementById('editorCallsList');
+      if (!card || !list) return;
+      if (!items.length) { card.style.display = 'none'; return; }
+      card.style.display = '';
+      list.innerHTML = items.map(k =>
+        `<div style="display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+           <span style="color:#4f9eff; font-size:0.85em;">${k}</span>
+           <span style="color:#cbd5e0; font-size:0.85em; font-weight:600; text-align:right;">${String(calls[k].value).slice(0,60)}</span>
+         </div>`).join('');
+    }).catch(() => { const c=document.getElementById('editorCallsCard'); if(c) c.style.display='none'; });
 
     // Blow-off meter with NEW factors (stablecoin supply, funding)
     renderBlowoff(data);
@@ -2861,6 +2931,7 @@ async function init() {
     fetchInvariants(),
     fetchDataGaps(),
     fetchForecastCurve(),  // data-driven forecast (single source of truth)
+    fetchJ6Curve(),  // Sprint 43: J6 curated line
     fetchCurrentState(),   // sprint 32 v2.7+ (this session): highlights active phase pill
     fetchDailyRead(),      // sprint 32 v2.7+ (this session): reads empire synthesis packet
   ]);
@@ -2934,6 +3005,9 @@ async function fetchHorseRace() {
     document.getElementById('horseRaceExplanation').textContent = data.state_explanation || '--';
     document.getElementById('horseRaceForecastResidual').textContent = (data.avg_forecast_residual_recent ?? '--');
     document.getElementById('horseRaceDevilsResidual').textContent = (data.avg_devils_residual_recent ?? '--');
+    // Sprint 43: J6 residual (null until j6 has at least 3 entries of history — shows 'warming up')
+    const j6Val = data.avg_j6_residual_recent;
+    document.getElementById('horseRaceJ6Residual').textContent = (j6Val !== null && j6Val !== undefined) ? j6Val : 'warming…';
     document.getElementById('horseRaceLeverage').textContent = (data.leverage_recommendation || 'neutral').replace(/_/g, ' ');
     
     // Color the state badge
@@ -3104,19 +3178,25 @@ function _weeksFromToday(peakIdx, todayIdx) {
 // the label renders on the vertical line. FC labels go top, DA labels go bottom
 // so they never visually overlap when forecast and DA extrema land near the
 // same date.
-function _peakVerticalLineAnnotation(labelText, peakDate, color, labelPosition) {
-  labelPosition = labelPosition || 'start';
+function _peakDotAnnotation(labelText, peakDate, peakValue, color, labelYAdjust) {
+  // Sprint 43: replaced vertical longitude line markers with point annotations
+  // sitting directly on the line at peak coords (original dot design). Hover
+  // tooltip shows the labelText via Chart.js annotation built-in tooltip.
+  labelYAdjust = labelYAdjust || -16;
   return {
-    type: 'line',
-    xMin: peakDate,
-    xMax: peakDate,
-    borderColor: color,
-    borderWidth: 1.5,
-    borderDash: PEAK_LINE_DASH,
+    type: 'point',
+    xValue: peakDate,
+    yValue: peakValue,
+    radius: 6,
+    backgroundColor: color,
+    borderColor: '#ffffff',
+    borderWidth: 2,
+    z: 90,
     label: {
       content: labelText,
       display: true,
-      position: labelPosition,  // 'start' = top of vertical line, 'end' = bottom
+      position: 'center',
+      yAdjust: labelYAdjust,
       backgroundColor: 'rgba(13,18,25,0.92)',
       color: color,
       font: { size: 9, family: 'Space Mono', weight: 'bold' },
@@ -3171,6 +3251,24 @@ function updateNextTurnsPanel(events) {
   `).join('');
 }
 
+// Sprint 43: today_dot pulse — slow flash between radius 7 and 10 every ~1.4s.
+// Uses chart.update('normal') so the radius transitions smoothly (Chart.js animates).
+let _todayDotPulseInterval = null;
+let _todayDotPulseState = 0;
+
+function _startTodayDotPulse() {
+  if (_todayDotPulseInterval) return;  // already running
+  _todayDotPulseInterval = setInterval(() => {
+    if (!chart || !chart.options.plugins.annotation) return;
+    const ann = chart.options.plugins.annotation.annotations;
+    if (!ann.today_dot) return;
+    _todayDotPulseState = (_todayDotPulseState + 1) % 2;
+    ann.today_dot.radius = _todayDotPulseState === 0 ? 7 : 10;
+    chart.update('none');  // 'none' is faster; pulse via discrete toggle is fine visually
+  }, 750);
+}
+
+
 function renderTodayDot(currentScore, startIdx) {
   // Sprint 35 chart fix: draw a tracking red dot at TODAY's position on the
   // chart. Re-anchors every sweep via current_score from forecast_curve.json,
@@ -3183,17 +3281,16 @@ function renderTodayDot(currentScore, startIdx) {
   const ann = chart.options.plugins.annotation.annotations;
   const todayDate = weeklyDates[startIdx];
 
-  // Tracking dot — solid filled circle at the historical line's most recent value
+  // Sprint 43: tracking dot — BLUE with slow pulse (set up via the pulse
+  // interval below). Re-anchors every sweep via current_score.
   ann.today_dot = {
     type: 'point',
     xValue: todayDate,
     yValue: currentScore,
     radius: 7,
-    backgroundColor: '#ff4d6a',
+    backgroundColor: '#4f9eff',    // blue — matches Flow Cycle Index history line color family
     borderColor: '#ffffff',
     borderWidth: 2,
-    // pulse effect via thick border ring would need plugin custom draw — keep
-    // it simple: solid dot, will visually move as currentScore + startIdx shift
     z: 100,  // top-most so it never hides under lines/annotations
   };
 
@@ -3204,13 +3301,17 @@ function renderTodayDot(currentScore, startIdx) {
     yValue: currentScore,
     yAdjust: -22,                  // float label above the dot
     content: `TODAY ${Math.round(currentScore)}`,
-    backgroundColor: 'rgba(255,77,106,0.92)',
+    backgroundColor: 'rgba(79,158,255,0.92)',  // Sprint 43: blue match
     color: '#ffffff',
     font: { size: 9, family: 'Space Mono', weight: 'bold' },
     padding: { top: 3, bottom: 3, left: 6, right: 6 },
     borderRadius: 3,
     z: 101,
   };
+  
+  // Sprint 43: kick off the slow-pulse interval on first render. Idempotent —
+  // checks if interval already running and won't re-attach.
+  _startTodayDotPulse();
 
   console.log(`[today_dot] anchored at ${todayDate.toISOString().split('T')[0]} score=${currentScore}`);
 }
@@ -3236,7 +3337,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[fcMax.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(fcMax.idx, startIdx);
-    ann.forecast_next_top = _peakVerticalLineAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, RED, 'start');
+    ann.forecast_next_top = _peakDotAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, fcMax.value, RED, -16);
     events.push({ label: 'Forecast TOP', score: Math.round(fcMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] forecast absolute top: ${peakDate.toISOString().split('T')[0]} score=${fcMax.value} (${weeksOut}w out)`);
   }
@@ -3244,7 +3345,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[fcMin.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(fcMin.idx, startIdx);
-    ann.forecast_next_bottom = _peakVerticalLineAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, GREEN, 'start');
+    ann.forecast_next_bottom = _peakDotAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, fcMin.value, GREEN, 16);
     events.push({ label: 'Forecast BOTTOM', score: Math.round(fcMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] forecast absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${fcMin.value} (${weeksOut}w out)`);
   }
@@ -3257,7 +3358,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[daMax.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(daMax.idx, startIdx);
-    ann.da_next_top = _peakVerticalLineAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, RED, 'end');
+    ann.da_next_top = _peakDotAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, daMax.value, RED, -16);
     events.push({ label: 'DA TOP', score: Math.round(daMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] DA absolute top: ${peakDate.toISOString().split('T')[0]} score=${daMax.value} (${weeksOut}w out)`);
   }
@@ -3265,7 +3366,7 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
     const peakDate = weeklyDates[daMin.idx];
     const dateStr = _formatPeakDate(peakDate);
     const weeksOut = _weeksFromToday(daMin.idx, startIdx);
-    ann.da_next_bottom = _peakVerticalLineAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, GREEN, 'end');
+    ann.da_next_bottom = _peakDotAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, daMin.value, GREEN, 16);
     events.push({ label: 'DA BOTTOM', score: Math.round(daMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] DA absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${daMin.value} (${weeksOut}w out)`);
   }
@@ -3597,28 +3698,12 @@ async function fetchForecastCurve() {
         }
       }
       
-      // STEP 2: Find the last non-null historical value at or before startIdx for bridging
-      let bridgeVal = null;
-      let bridgeIdx = startIdx - 1;
-      while (bridgeIdx >= 0 && (histArr[bridgeIdx] === null || histArr[bridgeIdx] === undefined)) {
-        bridgeIdx--;
-      }
-      if (bridgeIdx >= 0) {
-        bridgeVal = histArr[bridgeIdx];
-      }
-      
-      // STEP 3: Prefer current_score if flow_cycle wrote it (means we have a real anchor)
+      // Sprint 43: bridge-back KILLED. Forecast + DA + J6 all start exactly at
+      // startIdx (today), no longer planted one week earlier. The visual
+      // consequence is forecast/DA/J6 begin precisely where today_dot sits.
+      // The historical line still gets extended to today via currentScore.
       if (currentScore !== null && currentScore !== undefined) {
-        bridgeVal = currentScore;
-        // Also update the historical dataset at startIdx so today's actual value
-        // shows on the historical line (extends history up to today, NOT past).
         histArr[startIdx] = currentScore;
-      }
-      
-      // STEP 4: Write the bridge value into the forecast array at startIdx-1 so the
-      // forecast line connects from there into the projection.
-      if (bridgeVal !== null && bridgeVal !== undefined && startIdx > 0) {
-        newPrediction[startIdx - 1] = bridgeVal;
       }
     }
     
@@ -3638,11 +3723,7 @@ async function fetchForecastCurve() {
       }
     }
     
-    // Sprint 32 v2.7+ (this session): also bridge DA the same way as forecast.
-    // DA's bridge value = 100 - bridgeVal (the inverse, since DA is the inverse line).
-    if (newPrediction[startIdx - 1] !== null && newPrediction[startIdx - 1] !== undefined && startIdx > 0) {
-      newDevilsAdvocate[startIdx - 1] = 100 - newPrediction[startIdx - 1];
-    }
+    // Sprint 43: DA bridge-back KILLED. DA starts exactly at startIdx, same as forecast.
     
     // Apply to chart datasets in-place
     if (chart && chart.data && chart.data.datasets) {
@@ -3675,6 +3756,65 @@ async function fetchForecastCurve() {
     console.log(`forecast_curve loaded: ${nForecast} forecast points, ${nDA} DA points, ${contribs.length} contributing fingerprints, method=${data.method}, anchored at ${todayStr} (weeklyDates idx ${startIdx}), current_score=${data.current_score}`);
   } catch(e) {
     console.log('forecast_curve fetch failed', e);
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Sprint 43: fetchJ6Curve — Jordan-curated projection line (the green line).
+// Same anchor logic as fetchForecastCurve but reads j6_curve.json and writes
+// to the j6Line dataset. No bridge-back (per Phase 2 spec) — line starts
+// exactly at startIdx.
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchJ6Curve() {
+  try {
+    const resp = await fetch('data/j6_curve.json?t=' + Date.now());
+    if (!resp.ok) {
+      console.log('j6_curve.json not available yet');
+      return;
+    }
+    const data = await resp.json();
+    const projection = data.projection || [];
+    if (!projection.length) {
+      console.log('j6_curve: empty projection');
+      return;
+    }
+    
+    // Find startIdx: weekly index in weeklyDates corresponding to "today"
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let startIdx = 0;
+    for (let i = 0; i < weeklyDates.length; i++) {
+      if (weeklyDates[i] >= today) { startIdx = i; break; }
+    }
+    
+    // Build new j6Line array — projection[week] goes at startIdx + week
+    const newJ6 = new Array(weeklyDates.length).fill(null);
+    for (let week = 0; week < projection.length; week++) {
+      const targetIdx = startIdx + week;
+      if (targetIdx >= newJ6.length) break;
+      const val = projection[week];
+      if (val !== null && val !== undefined) {
+        newJ6[targetIdx] = val;
+      }
+    }
+    
+    // Apply to chart
+    if (chart && chart.data && chart.data.datasets) {
+      const j6Ds = chart.data.datasets.find(d => d.label === 'J6 (Jordan-curated)');
+      if (j6Ds) j6Ds.data = newJ6;
+      chart.update('none');
+    }
+    
+    // Sync global
+    j6Line = newJ6;
+    
+    const nJ6 = newJ6.filter(v => v !== null).length;
+    const tilt = data.bot_envelope_tilt ?? '--';
+    const overrides = data.j6_overrides_active ?? 0;
+    console.log(`j6_curve loaded: ${nJ6} points, bot_tilt=${tilt}, overrides_active=${overrides}, method=${data.method}`);
+  } catch(e) {
+    console.log('j6_curve fetch failed', e);
   }
 }
 
@@ -3720,6 +3860,7 @@ setInterval(fetchFalsificationChecklist, 240000);  // 4 min
 setInterval(fetchInvariants, 240000);              // 4 min
 setInterval(fetchDataGaps, 600000);                // 10 min (rarely changes)
 setInterval(fetchForecastCurve, 300000);           // 5 min (curve updates per sweep, sweeps are 4h)
+setInterval(fetchJ6Curve, 300000);                 // Sprint 43: J6 line same cadence as forecast
 // Sprint 32 v2.7+ (this session): refresh phase highlight + empire synthesis on the same cadence
 setInterval(fetchCurrentState, 60000);             // 1 min (fresher highlight as sweeps complete)
 setInterval(fetchDailyRead, 300000);               // 5 min (synthesizes alongside forecast)

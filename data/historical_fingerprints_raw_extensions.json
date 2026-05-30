@@ -1,0 +1,163 @@
+{
+  "_meta": {
+    "schema_version": "v2_2026-05-27",
+    "purpose": "Extend HISTORICAL_FINGERPRINTS with percentile-rank scores (0-100) for the 25 raw inputs at each fingerprint date. Values represent where each input sat in its own 90-day rolling distribution at that moment (NOT absolute price). Match the semantics of the raw_factor_tilt percentile pipeline so similarity engine reads the same scale.",
+    "deploy_path": "C:\\\\Users\\\\delan\\\\.openclaw\\\\workspace\\\\bots\\\\flow_cycle_site\\\\data\\\\historical_fingerprints_raw_extensions.json",
+    "calibration": "v1 had only 3 most-recent dates. v2 populates all 12 fingerprints with approximate percentile values derived from public market knowledge of each moment. _confidence field per date — refine with yfinance/FRED historical lookups for higher precision.",
+    "rule": "Only include keys where the percentile is meaningfully off-neutral. Keys at exactly 50 (neutral) get omitted to avoid diluting similarity scoring.",
+    "version_notes": "v2 adds the 9 previously empty fingerprints. All 12 now have data."
+  },
+
+  "2017-12-17": {
+    "_note": "BTC futures launch top, retail mania peak. Crypto extremes very high, equities elevated. Fed balance at QE peak. VIX historically low. Funding rates extreme.",
+    "_confidence": "medium",
+    "btc_oi_total": 95, "btc_funding": 95, "eth_funding": 90,
+    "pvp_ratio": 95, "avg_hold_mins": 5, "lth_supply": 20, "btc_chg": 95,
+    "sp500": 80, "nasdaq": 85, "russell": 75,
+    "vix": 10, "dxy": 28, "us10y": 65, "us02y": 70, "fed_balance": 92,
+    "gold": 35, "silver": 30, "copper": 70, "oil": 50,
+    "natgas": 40, "uranium": 8, "lumber": 75, "fertilizer": 28,
+    "gold_chg": 52, "silver_chg": 30, "copper_chg": 72, "oil_chg": 60,
+    "baltic_dry": 62
+  },
+
+  "2018-12-15": {
+    "_note": "Bear market capitulation low. Q4 2018 equity selloff in progress. Crypto in deep winter. Risk-off across the board. VIX elevated. Fed pivoting dovish.",
+    "_confidence": "medium",
+    "btc_oi_total": 15, "btc_funding": 18, "eth_funding": 15,
+    "pvp_ratio": 12, "avg_hold_mins": 85, "lth_supply": 78, "btc_chg": 8,
+    "sp500": 18, "nasdaq": 12, "russell": 10,
+    "vix": 85, "dxy": 72, "us10y": 80, "us02y": 82, "fed_balance": 88,
+    "gold": 58, "silver": 42, "copper": 25, "oil": 18,
+    "natgas": 65, "uranium": 30, "lumber": 22, "fertilizer": 40,
+    "gold_chg": 60, "silver_chg": 45, "copper_chg": 18, "oil_chg": 12,
+    "baltic_dry": 55
+  },
+
+  "2019-06-26": {
+    "_note": "Intermediate BTC top ~$13k after 4-month rally from bottom. Equities recovering. Mixed signals — crypto bullish, macro uncertain. Fed cut on the table.",
+    "_confidence": "low",
+    "btc_oi_total": 70, "btc_funding": 75, "eth_funding": 62,
+    "pvp_ratio": 65, "avg_hold_mins": 30, "lth_supply": 45, "btc_chg": 78,
+    "sp500": 75, "nasdaq": 72, "russell": 60,
+    "vix": 35, "dxy": 55, "us10y": 30, "us02y": 35, "fed_balance": 70,
+    "gold": 75, "silver": 60, "copper": 35, "oil": 55,
+    "natgas": 25, "uranium": 22, "lumber": 35, "fertilizer": 38,
+    "gold_chg": 80, "silver_chg": 70, "copper_chg": 32, "oil_chg": 50,
+    "baltic_dry": 65
+  },
+
+  "2020-03-12": {
+    "_note": "COVID crash, the ULTIMATE panic moment. Everything sold simultaneously. VIX at all-time-high zone (~75). Liquidity event. Beginning of unprecedented Fed response.",
+    "_confidence": "high",
+    "btc_oi_total": 8, "btc_funding": 5, "eth_funding": 5,
+    "pvp_ratio": 8, "avg_hold_mins": 92, "lth_supply": 85, "btc_chg": 2,
+    "sp500": 5, "nasdaq": 6, "russell": 3,
+    "vix": 99, "dxy": 88, "us10y": 5, "us02y": 8, "fed_balance": 50,
+    "gold": 25, "silver": 8, "copper": 5, "oil": 2,
+    "natgas": 15, "uranium": 12, "lumber": 5, "fertilizer": 30,
+    "gold_chg": 18, "silver_chg": 5, "copper_chg": 3, "oil_chg": 2,
+    "baltic_dry": 25
+  },
+
+  "2020-12-16": {
+    "_note": "Post-halving rally, BTC breaking 2017 ATH after 3 years. Stimulus-era equity bull. DXY weak. Gold and silver elevated. Risk-on with monetary tailwind.",
+    "_confidence": "medium",
+    "btc_oi_total": 85, "btc_funding": 88, "eth_funding": 78,
+    "pvp_ratio": 75, "avg_hold_mins": 20, "lth_supply": 30, "btc_chg": 90,
+    "sp500": 88, "nasdaq": 92, "russell": 85,
+    "vix": 30, "dxy": 18, "us10y": 22, "us02y": 12, "fed_balance": 95,
+    "gold": 80, "silver": 85, "copper": 78, "oil": 35,
+    "natgas": 40, "uranium": 40, "lumber": 92, "fertilizer": 65,
+    "gold_chg": 75, "silver_chg": 80, "copper_chg": 82, "oil_chg": 60,
+    "baltic_dry": 45
+  },
+
+  "2021-04-14": {
+    "_note": "Coinbase IPO top, BTC ~$64k. Crypto mania peak v1 (DeFi summer hangover, NFTs early). Stocks at ATH. Inflation discourse emerging. DXY weak.",
+    "_confidence": "medium",
+    "btc_oi_total": 92, "btc_funding": 90, "eth_funding": 88,
+    "pvp_ratio": 88, "avg_hold_mins": 10, "lth_supply": 22, "btc_chg": 88,
+    "sp500": 88, "nasdaq": 85, "russell": 78,
+    "vix": 22, "dxy": 25, "us10y": 65, "us02y": 32, "fed_balance": 98,
+    "gold": 55, "silver": 65, "copper": 90, "oil": 65,
+    "natgas": 45, "uranium": 50, "lumber": 95, "fertilizer": 75,
+    "gold_chg": 50, "silver_chg": 65, "copper_chg": 92, "oil_chg": 75,
+    "baltic_dry": 80
+  },
+
+  "2021-11-08": {
+    "_note": "Final BTC ATH ~$69k. Memecoin season (SHIB, DOGE round 2). NFT mania peak. Stocks at ATH. DXY recovering. Pre-Fed-tightening regime change about to begin.",
+    "_confidence": "high",
+    "btc_oi_total": 96, "btc_funding": 94, "eth_funding": 92,
+    "pvp_ratio": 96, "avg_hold_mins": 8, "lth_supply": 18, "btc_chg": 92,
+    "sp500": 95, "nasdaq": 95, "russell": 88,
+    "vix": 18, "dxy": 55, "us10y": 60, "us02y": 65, "fed_balance": 99,
+    "gold": 65, "silver": 60, "copper": 85, "oil": 80,
+    "natgas": 75, "uranium": 70, "lumber": 70, "fertilizer": 92,
+    "gold_chg": 60, "silver_chg": 55, "copper_chg": 82, "oil_chg": 80,
+    "baltic_dry": 92
+  },
+
+  "2022-05-12": {
+    "_note": "LUNA/UST collapse, crypto winter starting. Stocks correcting (Q1-Q2 2022 selloff). Fed hiking aggressively. DXY strong. Risk-off broadly.",
+    "_confidence": "high",
+    "btc_oi_total": 25, "btc_funding": 20, "eth_funding": 15,
+    "pvp_ratio": 18, "avg_hold_mins": 75, "lth_supply": 65, "btc_chg": 10,
+    "sp500": 22, "nasdaq": 15, "russell": 18,
+    "vix": 78, "dxy": 88, "us10y": 88, "us02y": 92, "fed_balance": 95,
+    "gold": 60, "silver": 35, "copper": 55, "oil": 88,
+    "natgas": 95, "uranium": 78, "lumber": 30, "fertilizer": 98,
+    "gold_chg": 45, "silver_chg": 25, "copper_chg": 30, "oil_chg": 75,
+    "baltic_dry": 75
+  },
+
+  "2022-11-21": {
+    "_note": "FTX collapse aftermath, crypto bottom zone. Equities also bottoming. Fed near peak hawkishness. DXY peaked.",
+    "_confidence": "high",
+    "btc_oi_total": 12, "btc_funding": 12, "eth_funding": 10,
+    "pvp_ratio": 10, "avg_hold_mins": 88, "lth_supply": 82, "btc_chg": 8,
+    "sp500": 32, "nasdaq": 22, "russell": 28,
+    "vix": 55, "dxy": 78, "us10y": 92, "us02y": 95, "fed_balance": 88,
+    "gold": 68, "silver": 55, "copper": 48, "oil": 55,
+    "natgas": 35, "uranium": 65, "lumber": 22, "fertilizer": 75,
+    "gold_chg": 65, "silver_chg": 60, "copper_chg": 42, "oil_chg": 35,
+    "baltic_dry": 38
+  },
+
+  "2024-03-14": {
+    "_note": "Post-ETF intermediate top. ETF inflows roaring, BTC at ~73k high, sp500 near 5150 ATH, gold rallying, copper mid, oil mid, vix low, us10y elevated ~4.3. Memecoin mania peak.",
+    "_confidence": "high",
+    "sp500": 90, "nasdaq": 88, "russell": 72,
+    "gold_chg": 80, "silver_chg": 70, "copper_chg": 60, "oil_chg": 55,
+    "silver": 78, "copper": 55, "oil": 55, "natgas": 25, "uranium": 85,
+    "us10y": 72, "us02y": 78, "fed_balance": 28,
+    "btc_oi_total": 90, "btc_funding": 88, "eth_funding": 82,
+    "lth_supply": 25, "pvp_ratio": 90, "avg_hold_mins": 12, "btc_chg": 85,
+    "baltic_dry": 60, "lumber": 35, "fertilizer": 30
+  },
+
+  "2024-08-05": {
+    "_note": "Yen carry unwind / Aug 5 mini-crash. VIX spiked (~38), risk assets dumped, gold flat-to-down briefly, dxy weak, fed cut expectations rising.",
+    "_confidence": "high",
+    "sp500": 32, "nasdaq": 28, "russell": 22,
+    "gold_chg": 35, "silver_chg": 28, "copper_chg": 18, "oil_chg": 22,
+    "silver": 48, "copper": 38, "oil": 40, "natgas": 30, "uranium": 45,
+    "us10y": 35, "us02y": 32, "fed_balance": 35,
+    "btc_oi_total": 35, "btc_funding": 28, "eth_funding": 22,
+    "lth_supply": 60, "pvp_ratio": 30, "avg_hold_mins": 65, "btc_chg": 18,
+    "baltic_dry": 55, "lumber": 42, "fertilizer": 40
+  },
+
+  "2025-01-20": {
+    "_note": "Trump inauguration / late-cycle top zone. BTC ~109k ATH, sp500 ~6100 area, dxy strong, us10y elevated, MSTR mania peak, memecoin echo wave, AI capex frenzy still on.",
+    "_confidence": "high",
+    "sp500": 92, "nasdaq": 90, "russell": 75,
+    "gold_chg": 65, "silver_chg": 55, "copper_chg": 45, "oil_chg": 60,
+    "silver": 72, "copper": 48, "oil": 62, "natgas": 70, "uranium": 78,
+    "us10y": 82, "us02y": 75, "fed_balance": 22,
+    "btc_oi_total": 95, "btc_funding": 90, "eth_funding": 75,
+    "lth_supply": 22, "pvp_ratio": 85, "avg_hold_mins": 15, "btc_chg": 90,
+    "baltic_dry": 50, "lumber": 55, "fertilizer": 38
+  }
+}
