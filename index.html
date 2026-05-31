@@ -147,12 +147,9 @@
 
     .phase-pill.active {
       color: #fff;
-      border-bottom-color: var(--blue);
+      border-bottom-color: var(--green);
     }
-
-    .phase-pill.danger { color: var(--red) !important; border-bottom-color: var(--red) !important; }
-    .phase-pill.warn   { color: var(--yellow) !important; border-bottom-color: var(--yellow) !important; }
-    .phase-pill.safe   { color: var(--green) !important; border-bottom-color: var(--green) !important; }
+    /* Sprint 44: phase is Jordan's single call — one color, no per-phase buckets. */
 
     /* main grid */
     .grid {
@@ -371,7 +368,8 @@
     .cycle-bar-fill {
       height: 100%;
       border-radius: 3px;
-      transition: width 1s ease, background 1s ease;
+      background: var(--green);   /* Sprint 44: single color, fills to Jordan's phase position */
+      transition: width 1s ease;
     }
 
     /* ═══════════════════════════════════════════════════════════════════════════
@@ -1022,25 +1020,25 @@
 
 <div class="phase-strip" id="phaseStrip">
   <!--
-    Phase pills: 13-phase doctrine bottom-to-top.
-    Sprint 32 v2.7+ (this session): Capitulation moved to between Depression and Panic
-    per Lano. Order matches getPhase() logic — descending leg phases (Panic..Complacency)
-    are emotionally distinct from ascending leg phases (Disbelief..Thrill) even at
-    similar scores. The highlighted "current phase" wires off score + trend direction.
+    Phase pills: 13-phase doctrine bottom-to-top, in Lano's order.
+    Sprint 44: the active phase is JORDAN'S editorial call (data/editorial_calls.json
+    -> calls.phase), NOT derived from score/trend. The bar fills to the called phase's
+    position (index/13), single color. No call yet -> "awaiting", never an auto guess.
   -->
-  <div class="phase-pill safe"    data-phase="Anger"        data-historical="2018-12-01,2022-06-01"  title="Click to jump to historical example: Dec 2018, Jun 2022">Anger</div>
-  <div class="phase-pill safe"    data-phase="Depression"   data-historical="2019-06-01"             title="Click to jump to historical example: Jun 2019">Depression</div>
-  <div class="phase-pill safe"    data-phase="Capitulation" data-historical="2020-03-12,2022-11-21"  title="Click to jump to historical example: Mar 2020 (COVID), Nov 2022 (FTX)">Capitulation</div>
-  <div class="phase-pill danger"  data-phase="Panic"        data-historical="2018-11-01"             title="Click to jump to historical example: Nov 2018">Panic</div>
-  <div class="phase-pill danger"  data-phase="Denial"       data-historical="2021-07-01"             title="Click to jump to historical example: Jul 2021">Denial</div>
-  <div class="phase-pill danger"  data-phase="Anxiety"      data-historical="2018-04-01"             title="Click to jump to historical example: Apr 2018">Anxiety</div>
-  <div class="phase-pill danger"  data-phase="Complacency"  data-historical="2018-01-01"             title="Click to jump to historical example: Jan 2018">Complacency</div>
+  <!-- order: Anger·Depression·Capitulation·Panic·Denial·Anxiety·Complacency·Disbelief·Hope·Optimism·Belief·Thrill·Euphoria -->
+  <div class="phase-pill"    data-phase="Anger"        data-historical="2018-12-01,2022-06-01"  title="Click to jump to historical example: Dec 2018, Jun 2022">Anger</div>
+  <div class="phase-pill"    data-phase="Depression"   data-historical="2019-06-01"             title="Click to jump to historical example: Jun 2019">Depression</div>
+  <div class="phase-pill"    data-phase="Capitulation" data-historical="2020-03-12,2022-11-21"  title="Click to jump to historical example: Mar 2020 (COVID), Nov 2022 (FTX)">Capitulation</div>
+  <div class="phase-pill"  data-phase="Panic"        data-historical="2018-11-01"             title="Click to jump to historical example: Nov 2018">Panic</div>
+  <div class="phase-pill"  data-phase="Denial"       data-historical="2021-07-01"             title="Click to jump to historical example: Jul 2021">Denial</div>
+  <div class="phase-pill"  data-phase="Anxiety"      data-historical="2018-04-01"             title="Click to jump to historical example: Apr 2018">Anxiety</div>
+  <div class="phase-pill"  data-phase="Complacency"  data-historical="2018-01-01"             title="Click to jump to historical example: Jan 2018">Complacency</div>
   <div class="phase-pill"         data-phase="Disbelief"    data-historical="2023-06-01"             title="Click to jump to historical example: Jun 2023">Disbelief</div>
   <div class="phase-pill"         data-phase="Hope"         data-historical="2024-01-01"             title="Click to jump to historical example: Jan 2024">Hope</div>
   <div class="phase-pill"         data-phase="Optimism"     data-historical="2024-04-01"             title="Click to jump to historical example: Apr 2024">Optimism</div>
   <div class="phase-pill"         data-phase="Belief"       data-historical="2024-11-01"             title="Click to jump to historical example: Nov 2024">Belief</div>
-  <div class="phase-pill warn"    data-phase="Thrill"       data-historical="2017-10-01"             title="Click to jump to historical example: Oct 2017">Thrill</div>
-  <div class="phase-pill danger"  data-phase="Euphoria"     data-historical="2017-12-17,2021-11-08"  title="Click to jump to historical example: Dec 2017, Nov 2021 (the tops)">Euphoria</div>
+  <div class="phase-pill"    data-phase="Thrill"       data-historical="2017-10-01"             title="Click to jump to historical example: Oct 2017">Thrill</div>
+  <div class="phase-pill"  data-phase="Euphoria"     data-historical="2017-12-17,2021-11-08"  title="Click to jump to historical example: Dec 2017, Nov 2021 (the tops)">Euphoria</div>
 </div>
 
 <div class="grid">
@@ -1301,7 +1299,7 @@
         What Would Make Us Wrong
       </div>
       <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-        3 specific conditions that would invalidate the current verdict. If any of these happen in the next 14 days, the call was wrong. Generated fresh every sweep by the analyst brain.
+        The conditions that would invalidate the current call — in Jordan's words. If any happen, the call was wrong. His to write; the brains only draft.
       </div>
       <div id="falsificationList" style="margin-top:14px;">
         <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Awaiting falsification checklist...</div>
@@ -1742,9 +1740,7 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
             const ds = ctx.dataset;
             if (ds.label === 'Flow Cycle Index') {
               const score = Math.round(val);
-              const trend = score > 50 ? 'up' : 'down';
-              const phase = getPhase(score, trend);
-              return [`  Score: ${score}`, `  Phase: ${phase}`];
+              return [`  Score: ${score}`];
             }
             if (ds.label === 'Predicted (Blow-Off Forecast)') {
               return `  Forecast: ${Math.round(val)}`;
@@ -1829,71 +1825,45 @@ chart._markerCache = [];   // stored markers for reapplication after zoom
 //   Euphoria → Complacency → Anxiety → Denial → Panic → Capitulation → Depression → Anger
 //
 // Anger appears at the BOTTOM of both legs as the rage/depression floor.
-function getPhase(idx, trend) {
-  if (idx === null || idx === undefined) return 'Unknown';
-  if (trend === 'up') {
-    // Ascending leg
-    if (idx < 12)  return 'Anger';        // recovering from extreme low
-    if (idx < 22)  return 'Disbelief';    // skeptics, "fake rally"
-    if (idx < 35)  return 'Hope';         // "maybe this is real"
-    if (idx < 50)  return 'Optimism';     // "this is real"
-    if (idx < 62)  return 'Belief';       // "go all in"
-    if (idx < 78)  return 'Thrill';       // "buy on margin, tell everyone"
-    return 'Euphoria';                     // "I'm a genius, we're all rich"
-  } else {
-    // Descending leg
-    if (idx > 90)  return 'Euphoria';     // top — hasn't fallen yet
-    if (idx > 78)  return 'Complacency';  // "this dip is temporary"
-    if (idx > 65)  return 'Anxiety';      // "is this a real correction?"
-    if (idx > 50)  return 'Denial';       // "still a bull market"
-    if (idx > 35)  return 'Panic';        // "OH SHIT we're going down"
-    if (idx > 20)  return 'Capitulation'; // "just sell, get me out"
-    if (idx > 8)   return 'Depression';   // "retirement gone, I'm an idiot"
-    return 'Anger';                        // "WHO DID THIS, who shorted us, fed sucks"
+// ═══════════════════════════════════════════════════════════════════════════
+// PHASE — Jordan's call ONLY. The site computes nothing here. The phase comes from
+// his editorial call (data/editorial_calls.json -> calls.phase); the score is a
+// fact (current_state.json -> score). No auto-fallback: if he hasn't called it,
+// the bar shows "awaiting", never a guessed phase. (Sprint 44 authorship redesign.)
+// ═══════════════════════════════════════════════════════════════════════════
+const PHASE_ORDER = ['Anger','Depression','Capitulation','Panic','Denial','Anxiety',
+                     'Complacency','Disbelief','Hope','Optimism','Belief','Thrill','Euphoria'];
+
+function renderPhaseBar(phaseCall, score) {
+  const pills   = document.querySelectorAll('.phase-pill');
+  const fill    = document.getElementById('cycleBarFill');
+  const phaseEl = document.getElementById('cyclePhase');
+  const adviceEl= document.getElementById('cycleAdvice');
+  const idxEl   = document.getElementById('cycleIndex');
+
+  // The score is a FACT — always show it if we have one (Jordan can't edit numbers).
+  if (score !== null && score !== undefined && !isNaN(score)) {
+    idxEl.textContent = Math.round(score);
   }
-}
 
-function getAdvice(phase) {
-  const map = {
-    'Anger':        '🟢 Accumulate — smart money is buying here',
-    'Depression':   '🟢 Diamond hands — darkest before dawn',
-    'Capitulation': '🟢 Load bags — max pain = max opportunity',
-    'Panic':        '🟠 Hold cash — bottom not confirmed yet',
-    'Denial':       '🟠 Cut losers — trend has changed',
-    'Anxiety':      '🔴 Defensive — smart money is exiting',
-    'Complacency':  '🔴 Reduce exposure — correction incoming',
-    'Disbelief':    '🔵 Start building positions — skeptics are wrong',
-    'Hope':         '🔵 Add to positions — momentum shifting',
-    'Optimism':     '🔵 Hold and accumulate dips — legs building',
-    'Belief':       '🟡 Hold strong — but watch for distribution',
-    'Thrill':       '🟡 Take some profits — FOMO is peaking',
-    'Euphoria':     '🔴 SELL — blow-off top territory, everyone is in',
-  };
-  return map[phase] || 'Monitoring...';
-}
+  const phase = phaseCall && phaseCall.value;
+  const pos = phase ? PHASE_ORDER.indexOf(phase) : -1;
+  pills.forEach(p => p.classList.remove('active'));
 
-function phaseColor(phase) {
-  const safe = ['Capitulation','Anger','Depression','Disbelief'];
-  const warn = ['Hope','Optimism','Belief','Thrill'];
-  const danger = ['Euphoria','Complacency','Anxiety','Denial','Panic'];
-  if (safe.includes(phase)) return 'var(--green)';
-  if (warn.includes(phase)) return 'var(--yellow)';
-  if (danger.includes(phase)) return 'var(--red)';
-  return 'var(--blue)';
-}
+  if (pos < 0) {
+    // No call yet — awaiting Jordan. Never auto-fill a phase.
+    fill.style.width = '0%';
+    phaseEl.textContent = 'Awaiting Jordan’s call';
+    adviceEl.textContent = 'Phase is Jordan’s to call — it’s pinned to every packet.';
+    return;
+  }
 
-function setPhase(phase, index) {
-  document.querySelectorAll('.phase-pill').forEach(p => {
-    p.classList.toggle('active', p.dataset.phase === phase);
-  });
-  document.getElementById('cycleIndex').textContent = index;
-  document.getElementById('cycleIndex').style.color = phaseColor(phase);
-  document.getElementById('cyclePhase').textContent = phase;
-  document.getElementById('cyclePhase').style.color = phaseColor(phase);
-  document.getElementById('cycleAdvice').textContent = getAdvice(phase);
-  const fill = document.getElementById('cycleBarFill');
-  fill.style.width = index + '%';
-  fill.style.background = phaseColor(phase);
+  // Jordan called it — fill the bar to the PHASE'S POSITION (single color), light the pill.
+  const pct = ((pos + 1) / PHASE_ORDER.length) * 100;
+  fill.style.width = pct.toFixed(1) + '%';
+  pills.forEach(p => { if (p.dataset.phase === phase) p.classList.add('active'); });
+  phaseEl.textContent = phase;
+  adviceEl.textContent = (phaseCall.reasoning || '').trim() || ('Jordan’s call: ' + phase);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2134,10 +2104,8 @@ async function fetchMacro() {
     // Blow-off meter with NEW factors (stablecoin supply, funding)
     renderBlowoff(data);
 
-    // Cycle phase
-    if (data.cycle_phase && data.blowoff_score != null) {
-      setPhase(data.cycle_phase, data.blowoff_score);
-    }
+    // Cycle phase: NOT set here. Phase is Jordan's editorial call (see fetchPhaseBar).
+    // The site no longer derives the phase from macro/blowoff data.
 
   } catch(e) {
     console.log('macro fetch failed', e);
@@ -2348,36 +2316,27 @@ function renderMarkersOnChart() {
   chart.update('none');
 }
 
-function renderMarkersFeed() {
+async function renderMarkersFeed() {
+  // Sprint 44: Jordan authors this panel (calls.detections). The marker DOTS on the
+  // chart stay data (renderMarkersOnChart, untouched) — this feed is his read on them.
   const list = document.getElementById('markersList');
-  if (!chart._markerCache || chart._markerCache.length === 0) {
-    list.innerHTML = '<div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">No AI detections yet. Engine runs every 30 min.</div>';
-    return;
-  }
-  // Newest first, max 30
-  const sorted = [...chart._markerCache].reverse().slice(0, 30);
-  list.innerHTML = sorted.map(m => {
-    const tier = (m.tier || 'LOW').toLowerCase();
-    const date = m.date || '?';
-    const price = m.btc_price ? `BTC $${(m.btc_price/1000).toFixed(1)}k` : '';
-    const sim = m.similarity != null ? `${(m.similarity*100).toFixed(0)}%` : '';
-    const match = m.best_match ? m.best_match.replace(/_/g,' ').toUpperCase() : '';
-    return `
-      <div class="marker-item tier-${tier}">
-        <div class="marker-head">
-          <div class="mt-date">${date}</div>
-          <span class="tier-badge ${tier}">${m.tier || 'LOW'}</span>
-        </div>
-        <div class="mt-headline">${m.headline || '—'}</div>
-        <div class="mt-meta">
-          ${price ? `<span>${price}</span>` : ''}
-          ${match ? `<span>${match}</span>` : ''}
-          ${sim ? `<span>sim ${sim}</span>` : ''}
-          ${m.consensus_signal ? `<span>${m.consensus_signal}</span>` : ''}
-        </div>
-      </div>
-    `;
-  }).join('');
+  if (!list) return;
+  try {
+    let call = null;
+    const res = await fetch('data/editorial_calls.json?t=' + Date.now());
+    if (res.ok) {
+      const ec = await res.json();
+      call = (ec && ec.calls && ec.calls.detections) || null;
+    }
+    if (!call || !call.value || !String(call.value).trim()) {
+      list.innerHTML = '<div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">Awaiting Jordan’s read. The dots on the chart are the raw detections; this panel is his words on them.</div>';
+      return;
+    }
+    const lines = String(call.value).split(/\n+/).map(s => s.trim()).filter(Boolean);
+    list.innerHTML = lines.map(line =>
+      `<div class="marker-item"><div class="mt-headline" style="line-height:1.5;">${line}</div></div>`
+    ).join('');
+  } catch(e) { console.log('detections feed failed', e); }
 }
 
 function toggleMarkers() {
@@ -3034,30 +2993,28 @@ async function fetchHorseRace() {
 }
 
 async function fetchFalsificationChecklist() {
+  // Sprint 44: Jordan's call ONLY. Reads calls.falsification (his text). The analyst
+  // brain's auto checklist is advisory (feeds his packet); the site shows his words.
+  const listEl = document.getElementById('falsificationList');
+  if (!listEl) return;
   try {
-    const res = await fetch('data/falsification_checklist.json?t=' + Date.now());
-    if (!res.ok) return;
-    const data = await res.json();
-    const conditions = data.falsification_conditions || [];
-    const listEl = document.getElementById('falsificationList');
-    
-    if (conditions.length === 0) {
-      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">No falsification conditions generated yet (next sweep will produce).</div>';
+    let call = null;
+    const res = await fetch('data/editorial_calls.json?t=' + Date.now());
+    if (res.ok) {
+      const ec = await res.json();
+      call = (ec && ec.calls && ec.calls.falsification) || null;
+    }
+    if (!call || !call.value || !String(call.value).trim()) {
+      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">Awaiting Jordan’s call — this panel is his to write.</div>';
       return;
     }
-    
-    listEl.innerHTML = conditions.map((c, i) => {
-      const id = c.id || (i + 1);
-      const condition = c.condition || '--';
-      const meaning = c.what_it_would_mean || '';
-      return `
+    // His note — split on blank lines / newlines into distinct conditions.
+    const lines = String(call.value).split(/\n+/).map(s => s.trim()).filter(Boolean);
+    listEl.innerHTML = lines.map((line) => `
         <div style="margin-bottom:12px; padding:10px; background:rgba(255,77,106,0.04); border-left:2px solid #ff4d6a;">
-          <div style="font-size:0.7em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px;">Condition ${id}</div>
-          <div style="font-size:0.92em; color:#cbd5e0; line-height:1.5;">${condition}</div>
-          ${meaning ? `<div style="font-size:0.75em; color:#a0aec0; line-height:1.4; margin-top:6px; font-style:italic;">${meaning}</div>` : ''}
+          <div style="font-size:0.92em; color:#cbd5e0; line-height:1.5;">${line}</div>
         </div>
-      `;
-    }).join('');
+      `).join('');
   } catch(e) { console.log('falsification fetch failed', e); }
 }
 
@@ -3439,31 +3396,25 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
 // Future iteration will display it in a dedicated UI panel above the chart.
 
 async function fetchCurrentState() {
+  // Single owner of the top phase bar. Phase = JORDAN'S call (editorial_calls.json).
+  // Score = FACT (current_state.json). The page derives no phase of its own.
+  let score = null, phaseCall = null;
   try {
     const res = await fetch('data/current_state.json?t=' + Date.now());
-    if (!res.ok) {
-      console.log('current_state.json not yet available (sweep needed)');
-      return;
+    if (res.ok) {
+      const data = await res.json();
+      score = data.score;   // fact — Jordan can't edit numbers
     }
-    const data = await res.json();
-    const phase = data.phase;
-    const score = data.score;
-    const trend = data.trend;
-    
-    // Highlight the active phase pill
-    const allPills = document.querySelectorAll('.phase-pill');
-    allPills.forEach(pill => {
-      if (pill.dataset.phase === phase) {
-        pill.classList.add('active');
-      } else {
-        pill.classList.remove('active');
-      }
-    });
-    
-    console.log(`[current_state] score=${score} trend=${trend} phase=${phase}`);
-  } catch(e) {
-    console.log('current_state fetch failed', e);
-  }
+  } catch(e) { console.log('current_state fetch failed', e); }
+  try {
+    const er = await fetch('data/editorial_calls.json?t=' + Date.now());
+    if (er.ok) {
+      const ec = await er.json();
+      phaseCall = (ec && ec.calls && ec.calls.phase) ? ec.calls.phase : null;  // his call or null
+    }
+  } catch(e) { console.log('editorial_calls fetch failed', e); }
+  renderPhaseBar(phaseCall, score);
+  console.log(`[phase bar] score=${score} jordan_phase=${phaseCall ? phaseCall.value : '(awaiting)'}`);
 }
 
 async function fetchDailyRead() {
