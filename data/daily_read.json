@@ -1,21 +1,21 @@
 {
-  "_updated": "2026-05-31T19:29:08.877992-04:00",
+  "_updated": "2026-05-31T20:38:43.480659-04:00",
   "_version": "v2.7",
   "_doctrine": "Empire's daily synthesis packet. Phase + trend + cliff_proximity + analogues + recommendation. Read by perps/kalshi/sniper/Jordan.",
   "sweep_interval_min": 60,
-  "current_score": 43,
+  "current_score": 45,
   "current_phase": "Panic",
   "trend": "falling",
   "phase_leg": "descending",
   "cliff_proximity": "low",
   "forecast": {
-    "next_top_score": 79.7,
-    "next_top_weeks_out": 15,
-    "next_bottom_score": 24.4,
+    "next_top_score": 71.6,
+    "next_top_weeks_out": 13,
+    "next_bottom_score": 35.4,
     "next_bottom_weeks_out": 0,
-    "score_7d_target": 24.4,
-    "da_score_7d_target": 75.6,
-    "amplitude_blend": 0.6,
+    "score_7d_target": 35.4,
+    "da_score_7d_target": 64.6,
+    "amplitude_blend": 0.35,
     "method": "weighted_mean_plus_primary_blend"
   },
   "horse_race": {
@@ -28,75 +28,104 @@
   "historical_analogues": [
     {
       "name": "bottom_2024_aug",
-      "similarity": 0.8237,
-      "weight": 0.3703,
+      "similarity": 0.8024,
+      "weight": 0.3694,
       "fingerprint_date": "2024-08-05",
       "fingerprint_type": "intermediate_bottom"
     },
     {
       "name": "bottom_2022_may_luna",
-      "similarity": 0.7119,
-      "weight": 0.32,
+      "similarity": 0.6953,
+      "weight": 0.3201,
       "fingerprint_date": "2022-05-12",
       "fingerprint_type": "liquidation_bottom"
     },
     {
-      "name": "bottom_2020_mar",
-      "similarity": 0.689,
-      "weight": 0.3097,
-      "fingerprint_date": "2020-03-12",
-      "fingerprint_type": "liquidity_bottom"
+      "name": "transition_2020_dec_breakout",
+      "similarity": 0.6747,
+      "weight": 0.3106,
+      "fingerprint_date": "2020-12-16",
+      "fingerprint_type": "ath_breakout"
     }
   ],
   "active_signal_inputs": {
-    "envelope_count": 182,
+    "envelope_count": 184,
     "by_source": {
-      "crucix": 14,
-      "jordan_scraper": 1,
-      "news_catalyst": 99,
-      "polymarket": 57,
-      "x_intel": 11
+      "crucix": 24,
+      "flow_cycle": 1,
+      "jordan_scraper": 3,
+      "news_catalyst": 84,
+      "polymarket": 62,
+      "x_intel": 10
     },
     "by_severity": {
-      "critical": 54,
-      "medium": 57,
-      "low": 5,
-      "high": 66
+      "critical": 59,
+      "medium": 51,
+      "high": 70,
+      "low": 4
     },
     "by_direction": {
-      "bearish": 61,
-      "ambiguous": 90,
-      "neutral": 14,
-      "bullish": 17
+      "bearish": 63,
+      "ambiguous": 89,
+      "neutral": 17,
+      "bullish": 15
     },
-    "weighted_bullish_score": 2.903,
-    "weighted_bearish_score": 11.67,
+    "weighted_bullish_score": 2.534,
+    "weighted_bearish_score": 15.781,
     "net_signal": "bearish",
     "confluence_clusters": [
       {
-        "synthetic_envelope_id": "flow_confluence_1780270148_383656",
-        "window": "6h",
+        "synthetic_envelope_id": "flow_confluence_1780274323_ceeef2",
+        "window": "1h",
         "direction": "bearish",
         "source_count": 2,
         "sources": [
           "crucix",
           "news_catalyst"
         ],
-        "strength": 4.456,
+        "strength": 4.328,
         "severity": "critical",
-        "summary": "2-source bearish confluence (6h window): [crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spik",
+        "summary": "2-source bearish confluence (1h window): [crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spik",
+        "member_envelope_ids": [
+          "crucix_energy_1780274323_5a5507",
+          "crucix_geo_political_1780274323_276a7e",
+          "crucix_sustained_energy_1780274323_a54f12",
+          "crucix_sustained_geo_political_1780274323_04076f",
+          "news_catalyst_sustained_1780270753_c68469"
+        ]
+      },
+      {
+        "synthetic_envelope_id": "flow_confluence_1780274323_b94b8e",
+        "window": "6h",
+        "direction": "bearish",
+        "source_count": 3,
+        "sources": [
+          "crucix",
+          "flow_cycle",
+          "news_catalyst"
+        ],
+        "strength": 11.639,
+        "severity": "critical",
+        "summary": "3-source bearish confluence (6h window): [crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spik",
         "member_envelope_ids": [
           "crucix_energy_1780270141_96fcf3",
+          "crucix_energy_1780274323_5a5507",
           "crucix_geo_political_1780270141_c0f98e",
+          "crucix_geo_political_1780274323_276a7e",
           "crucix_sustained_energy_1780270141_bee7d9",
+          "crucix_sustained_energy_1780274323_a54f12",
           "crucix_sustained_geo_political_1780270141_2fd4f9",
+          "crucix_sustained_geo_political_1780274323_04076f",
+          "flow_confluence_1780270148_383656",
           "news_catalyst_1780254808_02a063",
           "news_catalyst_1780254813_44a3fe",
           "news_catalyst_1780254813_485033",
           "news_catalyst_1780254836_0edb59",
           "news_catalyst_1780254852_8375ac",
           "news_catalyst_1780262176_de4b16",
-          "news_catalyst_sustained_1780254852_7a5892"
+          "news_catalyst_1780270713_9fefbf",
+          "news_catalyst_sustained_1780254852_7a5892",
+          "news_catalyst_sustained_1780270753_c68469"
         ]
       }
     ],
@@ -105,55 +134,55 @@
       {
         "id": "news_catalyst_sustained_1780254852_7a5892",
         "headline": "[news_catalyst:sustained_narrative] geo_conflict narrative on macro (bearish) persistent across 10 scans",
-        "weight": 0.998,
+        "weight": 0.933,
         "source": "news_catalyst",
         "tier": "A",
         "direction": "bearish",
         "severity": "critical"
       },
       {
-        "id": "crucix_energy_1780270141_96fcf3",
-        "headline": "[crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spike = war narrative = geo tokens. Also SOL perp watch",
-        "weight": 0.85,
+        "id": "crucix_sustained_energy_1780274323_a54f12",
+        "headline": "[crucix:sustained_narrative] energy persistent across 5 sweeps (max strength 10/10, current 10/10)",
+        "weight": 0.892,
         "source": "crucix",
         "tier": "A",
         "direction": "bearish",
-        "severity": "critical"
+        "severity": "high"
       },
       {
-        "id": "crucix_geo_political_1780270141_c0f98e",
-        "headline": "[crucix:geo_political] strength=10/10 keywords=[iran, war, attack, military, conflict] \u2014 geo/political meme tokens likely to pump \u2014 war/conflict narrative active",
-        "weight": 0.85,
+        "id": "crucix_sustained_geo_political_1780274323_04076f",
+        "headline": "[crucix:sustained_narrative] geo_political persistent across 5 sweeps (max strength 10/10, current 10/10)",
+        "weight": 0.892,
         "source": "crucix",
         "tier": "A",
         "direction": "bearish",
-        "severity": "critical"
+        "severity": "high"
       },
       {
-        "id": "crucix_macro_1780270141_a64940",
-        "headline": "[crucix:macro] strength=10/10 keywords=[fed, rate, cpi, treasury, yield] \u2014 macro event \u2014 BTC reacts first, memes follow. Check flow cycle",
-        "weight": 0.85,
+        "id": "crucix_sustained_macro_1780274323_fcd9de",
+        "headline": "[crucix:sustained_narrative] macro persistent across 5 sweeps (max strength 10/10, current 10/10)",
+        "weight": 0.892,
         "source": "crucix",
         "tier": "A",
         "direction": "ambiguous",
-        "severity": "critical"
+        "severity": "high"
       },
       {
-        "id": "polymarket_1780270014_260bc7",
-        "headline": "[polymarket:mover] Arizona Diamondbacks vs. Seattle Mariners \u2014 Arizona Diamondbacks: 22%\u21920% (DOWN 22pts)",
-        "weight": 0.829,
-        "source": "polymarket",
+        "id": "crucix_sustained_political_1780274323_cac080",
+        "headline": "[crucix:sustained_narrative] political persistent across 5 sweeps (max strength 8/10, current 7/10)",
+        "weight": 0.892,
+        "source": "crucix",
         "tier": "A",
         "direction": "ambiguous",
-        "severity": "critical"
+        "severity": "high"
       }
     ],
-    "_synthesized_at": "2026-05-31T19:29:01.555120-04:00",
+    "_synthesized_at": "2026-05-31T20:38:43.262059-04:00",
     "legacy_invariants": [
       {
         "source": "invariants",
         "type": "bottom_signature",
-        "strength": 100.0
+        "strength": 50.0
       }
     ]
   },
@@ -167,9 +196,7 @@
     "kalshi_btc_weekly_up": "neutral",
     "sniper_aggression": "conservative",
     "exit_priority_signals": [
-      "critical news_catalyst signal: [news_catalyst:sustained_narrative] geo_conflict narrative on macro (bearish) persistent across 10 s",
-      "critical crucix signal: [crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spike = war narrative = ",
-      "critical crucix signal: [crucix:geo_political] strength=10/10 keywords=[iran, war, attack, military, conflict] \u2014 geo/politic"
+      "critical news_catalyst signal: [news_catalyst:sustained_narrative] geo_conflict narrative on macro (bearish) persistent across 10 s"
     ],
     "abort_conditions": [
       "any 5+ point bounce in 24h (squeeze starting)"
