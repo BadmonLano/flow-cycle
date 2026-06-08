@@ -2358,6 +2358,20 @@ function togglePrediction() {
   if (predDs) { predDs.hidden = !showPrediction; chart.update('none'); }
 }
 
+// Show/hide a pair of peak-dot annotations in lockstep with their line toggle,
+// so dots never float on the chart when their line is hidden (and vice-versa).
+function _setMarkerPairVisible(topKey, bottomKey, visible) {
+  if (!chart || !chart.options.plugins.annotation) return;
+  const ann = chart.options.plugins.annotation.annotations;
+  [topKey, bottomKey].forEach(k => {
+    if (ann[k]) {
+      ann[k].display = visible;
+      if (ann[k].label) ann[k].label.display = visible;
+    }
+  });
+  chart.update('none');
+}
+
 let showDevilsAdvocate = true;  // sprint 32 v2.7: DA auto-loaded, always visible
 function toggleDevilsAdvocate() {
   // Button removed in sprint 32 v2.7. Function kept null-safe in case external code calls it.
@@ -2368,6 +2382,8 @@ function toggleDevilsAdvocate() {
   btn.textContent = (showDevilsAdvocate ? '◉' : '◌') + " Devil's Advocate";
   const daDs = chart.data.datasets.find(d => d.label === "Devil's Advocate");
   if (daDs) { daDs.hidden = !showDevilsAdvocate; chart.update('none'); }
+  // Hide/show DA dots with the DA line so no orphan dots float.
+  _setMarkerPairVisible('da_next_top', 'da_next_bottom', showDevilsAdvocate);
 }
 
 let showJ6 = true;  // Sprint 44: J6 (Jordan-curated) line — visible by default, toggleable
@@ -2379,6 +2395,8 @@ function toggleJ6() {
   btn.textContent = (showJ6 ? '◉' : '◌') + ' J6';
   const j6Ds = chart.data.datasets.find(d => d.label === 'J6 (Jordan-curated)');
   if (j6Ds) { j6Ds.hidden = !showJ6; chart.update('none'); }
+  // Hide/show J6 dots with the J6 line so no orphan dots float.
+  _setMarkerPairVisible('j6_next_top', 'j6_next_bottom', showJ6);
 }
 
 function refreshMarkers() { fetchMarkers(); }
@@ -3301,8 +3319,29 @@ function renderTodayDot(currentScore, startIdx) {
 }
 
 
-function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
+// Remembered today-index so any line update (forecast / DA / J6) can re-render
+// the markers without re-deriving it. Set by whichever fetch ran last.
+let _lastStartIdx = -1;
+
+function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
+  // Sprint 45 FIX: the dots used to drift because this read a mix of passed-in
+  // arrays (which could be a stale module-global copy) for FC/DA and the live
+  // global j6Line for J6 — and two separate fetches (forecast vs j6) each called
+  // it with different freshness. The dots ended up anchored to arrays that no
+  // longer matched the lines actually drawn.
+  //
+  // Now there is ONE source of truth: the same module globals the chart datasets
+  // are assigned from — `prediction`, `devilsAdvocate`, `j6Line`. We ignore any
+  // passed arrays and always read the live globals, so every dot lands exactly on
+  // the line it belongs to, and re-rendering after ANY line update is correct.
   if (!chart || !chart.options.plugins.annotation) return;
+  if (typeof startIdx === 'number' && startIdx >= 0) _lastStartIdx = startIdx;
+  startIdx = _lastStartIdx;
+  if (startIdx < 0 || startIdx >= weeklyDates.length) return;
+
+  const forecastArr = (typeof prediction !== 'undefined' && Array.isArray(prediction)) ? prediction : [];
+  const daArr       = (typeof devilsAdvocate !== 'undefined' && Array.isArray(devilsAdvocate)) ? devilsAdvocate : [];
+
   const ann = chart.options.plugins.annotation.annotations;
 
   // Wipe existing peak markers (regenerate every sweep with fresh data)
@@ -3377,6 +3416,20 @@ function renderNextPeakMarkers(forecastArr, daArr, startIdx) {
       ann.j6_next_bottom = _peakDotAnnotation(`J6 BTM ${Math.round(j6Min.value)}`, pd, j6Min.value, J6C, 28, j6MinDate, j6MinWeeks);
       events.push({ label: 'J6 BOTTOM', score: Math.round(j6Min.value), date: j6MinDate, weeksOut: j6MinWeeks, color: J6C });
     }
+  }
+
+  // Respect current line-toggle state: if DA or J6 is toggled off, the freshly
+  // regenerated dots must start hidden too (otherwise a sweep re-reveals them
+  // under a hidden line). FC has no toggle (always on).
+  if (typeof showDevilsAdvocate !== 'undefined' && !showDevilsAdvocate) {
+    ['da_next_top', 'da_next_bottom'].forEach(k => {
+      if (ann[k]) { ann[k].display = false; if (ann[k].label) ann[k].label.display = false; }
+    });
+  }
+  if (typeof showJ6 !== 'undefined' && !showJ6) {
+    ['j6_next_top', 'j6_next_bottom'].forEach(k => {
+      if (ann[k]) { ann[k].display = false; if (ann[k].label) ann[k].label.display = false; }
+    });
   }
 
   chart.update('none');
@@ -3828,12 +3881,12 @@ async function fetchJ6Curve() {
     
     // Sync global
     j6Line = newJ6;
-    // Sprint 44: refresh Next Turns now that j6Line is set, so J6's top/bottom
-    // calls render immediately instead of waiting for the next forecast sweep.
-    if (typeof prediction !== 'undefined' && Array.isArray(prediction) && prediction.some(v => v !== null && v !== undefined)) {
-      try { renderNextPeakMarkers(prediction, devilsAdvocate, startIdx); }
-      catch(e) { console.log('j6 next-turns refresh skipped', e); }
-    }
+    // Refresh markers now that j6Line is set so J6's top/bottom render immediately
+    // instead of waiting for the next forecast sweep. The function reads the live
+    // globals (prediction / devilsAdvocate / j6Line), so passing nothing stale is
+    // fine — startIdx is remembered from the last forecast render.
+    try { renderNextPeakMarkers(null, null, startIdx); }
+    catch(e) { console.log('j6 next-turns refresh skipped', e); }
     
     const nJ6 = newJ6.filter(v => v !== null).length;
     const tilt = data.bot_envelope_tilt ?? '--';
