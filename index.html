@@ -2613,7 +2613,17 @@ async function loadChartHistory() {
 
     cleanHistory.forEach(point => {
       const d = new Date(point.date);
-      const existingIdx = chart.data.labels.findIndex(wd => Math.abs(new Date(wd) - d) < 2 * 24 * 3600 * 1000);
+      const dDay = d.toISOString().split('T')[0];
+      // Sprint 45 FIX: match by EXACT calendar day, not a fuzzy 2-day window.
+      // The old `Math.abs(label - d) < 2 days` window snapped daily chart_history
+      // points onto the nearest WEEKLY axis tick — so a daily point 3-4 days off a
+      // tick got appended as a new label while one within 2 days overwrote a weekly
+      // bucket, smearing values across the wrong dates (e.g. an April reading
+      // surfacing where June renders, and "today" landing on the wrong tick). The
+      // x-axis is a real time axis, so a point placed at its true date renders
+      // correctly between weekly grid labels — no snapping needed.
+      const existingIdx = chart.data.labels.findIndex(wd =>
+        new Date(wd).toISOString().split('T')[0] === dDay);
 
       if (existingIdx >= 0) {
         chart.data.datasets[0].data[existingIdx] = point.index;
