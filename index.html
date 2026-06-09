@@ -3138,23 +3138,49 @@ async function fetchDataGaps() {
 
 const PEAK_LINE_DASH = [4, 4];
 
-// Find the absolute max in arr from startIdx forward (skips nulls).
+// Find the absolute max. Supports both legacy flat arrays (with startIdx) and
+// new real-dated object arrays [{x: Date, y: val}, ...] from the time-series
+// projections. Returns {date, value} for consistent use in annotations.
 function findAbsoluteMax(arr, startIdx) {
+  if (!arr || !arr.length) return null;
+  // object time-series mode (new daily-anchored projections)
+  if (arr[0] && typeof arr[0] === 'object' && arr[0].x !== undefined) {
+    let best = null;
+    for (let item of arr) {
+      if (item.y == null) continue;
+      if (!best || item.y > best.y) best = item;
+    }
+    return best ? { date: best.x, value: best.y } : null;
+  }
+  // legacy flat mode
   let bestIdx = -1;
   let bestVal = -Infinity;
-  for (let i = startIdx; i < arr.length; i++) {
+  const s = (typeof startIdx === 'number' && startIdx >= 0) ? startIdx : 0;
+  for (let i = s; i < arr.length; i++) {
     const v = arr[i];
     if (v === null || v === undefined) continue;
     if (v > bestVal) { bestVal = v; bestIdx = i; }
   }
-  return bestIdx === -1 ? null : { idx: bestIdx, value: bestVal };
+  if (bestIdx === -1) return null;
+  // for legacy, we still have dateFor in caller, but return idx+value for compat
+  return { idx: bestIdx, value: bestVal };
 }
 
-// Find the absolute min in arr from startIdx forward (skips nulls).
+// Find the absolute min. Same dual support as max.
 function findAbsoluteMin(arr, startIdx) {
+  if (!arr || !arr.length) return null;
+  if (arr[0] && typeof arr[0] === 'object' && arr[0].x !== undefined) {
+    let best = null;
+    for (let item of arr) {
+      if (item.y == null) continue;
+      if (!best || item.y < best.y) best = item;
+    }
+    return best ? { date: best.x, value: best.y } : null;
+  }
   let bestIdx = -1;
   let bestVal = Infinity;
-  for (let i = startIdx; i < arr.length; i++) {
+  const s = (typeof startIdx === 'number' && startIdx >= 0) ? startIdx : 0;
+  for (let i = s; i < arr.length; i++) {
     const v = arr[i];
     if (v === null || v === undefined) continue;
     if (v < bestVal) { bestVal = v; bestIdx = i; }
@@ -3361,10 +3387,22 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   if (!chart || !chart.options.plugins.annotation) return;
   if (typeof startIdx === 'number' && startIdx >= 0) _lastStartIdx = startIdx;
   startIdx = _lastStartIdx;
-  if (startIdx < 0 || startIdx >= weeklyDates.length) return;
 
-  const forecastArr = (typeof prediction !== 'undefined' && Array.isArray(prediction)) ? prediction : [];
-  const daArr       = (typeof devilsAdvocate !== 'undefined' && Array.isArray(devilsAdvocate)) ? devilsAdvocate : [];
+  // In object time-series mode (real dated projections from history anchor),
+  // we don't rely on the fixed weekly grid length — skip the legacy guard.
+  const usingObjects = (forecastArr && forecastArr.length && forecastArr[0] && typeof forecastArr[0] === 'object' && forecastArr[0].x) ||
+                       (daArr && daArr.length && daArr[0] && typeof daArr[0] === 'object' && daArr[0].x) ||
+                       (j6Line && j6Line.length && j6Line[0] && typeof j6Line[0] === 'object' && j6Line[0].x);
+  if (!usingObjects && (startIdx < 0 || startIdx >= weeklyDates.length)) return;
+
+  // Prefer explicitly passed arrays (new object time-series from fetch*Curve).
+  // Fall back to globals. Supports both legacy flat and new {x:Date, y} objects.
+  const forecastArr = (typeof _legacyForecastArr !== 'undefined' && _legacyForecastArr && _legacyForecastArr.length)
+                      ? _legacyForecastArr
+                      : ((typeof prediction !== 'undefined' && Array.isArray(prediction)) ? prediction : []);
+  const daArr       = (typeof _legacyDaArr !== 'undefined' && _legacyDaArr && _legacyDaArr.length)
+                      ? _legacyDaArr
+                      : ((typeof devilsAdvocate !== 'undefined' && Array.isArray(devilsAdvocate)) ? devilsAdvocate : []);
 
   const ann = chart.options.plugins.annotation.annotations;
 
@@ -3396,83 +3434,78 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   const GREEN = '#00e5a0';
   const events = [];
 
-  // Use the real anchor date computed above (from latest history) + week offset
-  // to derive the calendar date for each peak. This makes the 6 dots show correct
-  // dates relative to *today* (e.g. "J6 BTM Jun 23 · 2w out") instead of whatever
-  // old weekly grid slot the absolute min happened to be on in the fixed 2017-2028
-  // array. The xValue on the time scale will also be the correct elapsed time from
-  // the real anchor, so the dots should land much closer to the actual rendered
-  // line points (especially after the TODAY dot is also using real history date).
-  const weeksFor = (peakIdx) => Math.max(0, peakIdx - startIdx);
+  // Real anchor from history (computed above). For object-based projections
+  // (new time-series from fetch*), use the actual {date, value} from find.
+  // For legacy flat, fall back to grid-derived dateFor.
+  // This ensures dots use real dates from data and land on the actual points
+  // on the time scale (no weekly grid snap for the curves).
+  const weeksFor = (peakIdx) => Math.max(0, peakIdx - (startIdx || 0));
   const dateFor = (weeks) => new Date(anchorDate.getTime() + weeks * 7 * 24 * 3600 * 1000);
 
-  // Forecast absolute extrema — FC labels render at TOP of vertical line
+  // Forecast absolute extrema
   const fcMax = findAbsoluteMax(forecastArr, startIdx);
   const fcMin = findAbsoluteMin(forecastArr, startIdx);
   if (fcMax) {
-    const w = weeksFor(fcMax.idx);
-    const peakDate = dateFor(w);
+    const peakDate = fcMax.date || dateFor(weeksFor(fcMax.idx));
+    const peakValue = fcMax.value;
+    const w = fcMax.date ? Math.round((peakDate - anchorDate) / (7*24*3600*1000)) : weeksFor(fcMax.idx);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = w;
-    ann.forecast_next_top = _peakDotAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, fcMax.value, RED, -16, dateStr, weeksOut);
-    events.push({ label: 'Forecast TOP', score: Math.round(fcMax.value), date: dateStr, weeksOut, color: RED });
-    console.log(`[peaks] forecast absolute top: ${peakDate.toISOString().split('T')[0]} score=${fcMax.value} (${weeksOut}w out)`);
+    ann.forecast_next_top = _peakDotAnnotation(`FC TOP ${Math.round(peakValue)}`, peakDate, peakValue, RED, -16, dateStr, w);
+    events.push({ label: 'Forecast TOP', score: Math.round(peakValue), date: dateStr, weeksOut: w, color: RED });
+    console.log(`[peaks] forecast absolute top: ${peakDate.toISOString().split('T')[0]} score=${peakValue} (${w}w out)`);
   }
   if (fcMin) {
-    const w = weeksFor(fcMin.idx);
-    const peakDate = dateFor(w);
+    const peakDate = fcMin.date || dateFor(weeksFor(fcMin.idx));
+    const peakValue = fcMin.value;
+    const w = fcMin.date ? Math.round((peakDate - anchorDate) / (7*24*3600*1000)) : weeksFor(fcMin.idx);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = w;
-    ann.forecast_next_bottom = _peakDotAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, fcMin.value, GREEN, 16, dateStr, weeksOut);
-    events.push({ label: 'Forecast BOTTOM', score: Math.round(fcMin.value), date: dateStr, weeksOut, color: GREEN });
-    console.log(`[peaks] forecast absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${fcMin.value} (${weeksOut}w out)`);
+    ann.forecast_next_bottom = _peakDotAnnotation(`FC BTM ${Math.round(peakValue)}`, peakDate, peakValue, GREEN, 16, dateStr, w);
+    events.push({ label: 'Forecast BOTTOM', score: Math.round(peakValue), date: dateStr, weeksOut: w, color: GREEN });
+    console.log(`[peaks] forecast absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${peakValue} (${w}w out)`);
   }
 
-  // DA absolute extrema — DA labels render at BOTTOM of vertical line so
-  // they never visually overlap FC labels (Sprint 35 chart fix)
+  // DA absolute extrema
   const daMax = findAbsoluteMax(daArr, startIdx);
   const daMin = findAbsoluteMin(daArr, startIdx);
   if (daMax) {
-    const w = weeksFor(daMax.idx);
-    const peakDate = dateFor(w);
+    const peakDate = daMax.date || dateFor(weeksFor(daMax.idx));
+    const peakValue = daMax.value;
+    const w = daMax.date ? Math.round((peakDate - anchorDate) / (7*24*3600*1000)) : weeksFor(daMax.idx);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = w;
-    ann.da_next_top = _peakDotAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, daMax.value, RED, -16, dateStr, weeksOut);
-    events.push({ label: 'DA TOP', score: Math.round(daMax.value), date: dateStr, weeksOut, color: RED });
-    console.log(`[peaks] DA absolute top: ${peakDate.toISOString().split('T')[0]} score=${daMax.value} (${weeksOut}w out)`);
+    ann.da_next_top = _peakDotAnnotation(`DA TOP ${Math.round(peakValue)}`, peakDate, peakValue, RED, -16, dateStr, w);
+    events.push({ label: 'DA TOP', score: Math.round(peakValue), date: dateStr, weeksOut: w, color: RED });
+    console.log(`[peaks] DA absolute top: ${peakDate.toISOString().split('T')[0]} score=${peakValue} (${w}w out)`);
   }
   if (daMin) {
-    const w = weeksFor(daMin.idx);
-    const peakDate = dateFor(w);
+    const peakDate = daMin.date || dateFor(weeksFor(daMin.idx));
+    const peakValue = daMin.value;
+    const w = daMin.date ? Math.round((peakDate - anchorDate) / (7*24*3600*1000)) : weeksFor(daMin.idx);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = w;
-    ann.da_next_bottom = _peakDotAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, daMin.value, GREEN, 16, dateStr, weeksOut);
-    events.push({ label: 'DA BOTTOM', score: Math.round(daMin.value), date: dateStr, weeksOut, color: GREEN });
-    console.log(`[peaks] DA absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${daMin.value} (${weeksOut}w out)`);
+    ann.da_next_bottom = _peakDotAnnotation(`DA BTM ${Math.round(peakValue)}`, peakDate, peakValue, GREEN, 16, dateStr, w);
+    events.push({ label: 'DA BOTTOM', score: Math.round(peakValue), date: dateStr, weeksOut: w, color: GREEN });
+    console.log(`[peaks] DA absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${peakValue} (${w}w out)`);
   }
 
-  // Sprint 44: J6 (Jordan-curated) extrema — Jordan's own next top/bottom calls.
-  // Reads the global j6Line synced by fetchJ6Curve; guarded if J6 not yet loaded.
-  // Larger label offsets (-28/28) keep J6 labels clear of FC/DA labels.
+  // J6 (Jordan-curated) extrema
   const J6C = '#00e5a0';
   if (typeof j6Line !== 'undefined' && Array.isArray(j6Line) && j6Line.some(v => v !== null && v !== undefined)) {
     const j6Max = findAbsoluteMax(j6Line, startIdx);
     const j6Min = findAbsoluteMin(j6Line, startIdx);
     if (j6Max) {
-      const w = weeksFor(j6Max.idx);
-      const pd = dateFor(w);
-      const j6MaxDate = _formatPeakDate(pd);
-      const j6MaxWeeks = w;
-      ann.j6_next_top = _peakDotAnnotation(`J6 TOP ${Math.round(j6Max.value)}`, pd, j6Max.value, J6C, -28, j6MaxDate, j6MaxWeeks);
-      events.push({ label: 'J6 TOP', score: Math.round(j6Max.value), date: j6MaxDate, weeksOut: j6MaxWeeks, color: J6C });
+      const peakDate = j6Max.date || dateFor(weeksFor(j6Max.idx));
+      const peakValue = j6Max.value;
+      const w = j6Max.date ? Math.round((peakDate - anchorDate) / (7*24*3600*1000)) : weeksFor(j6Max.idx);
+      const j6MaxDate = _formatPeakDate(peakDate);
+      ann.j6_next_top = _peakDotAnnotation(`J6 TOP ${Math.round(peakValue)}`, peakDate, peakValue, J6C, -28, j6MaxDate, w);
+      events.push({ label: 'J6 TOP', score: Math.round(peakValue), date: j6MaxDate, weeksOut: w, color: J6C });
     }
     if (j6Min) {
-      const w = weeksFor(j6Min.idx);
-      const pd = dateFor(w);
-      const j6MinDate = _formatPeakDate(pd);
-      const j6MinWeeks = w;
-      ann.j6_next_bottom = _peakDotAnnotation(`J6 BTM ${Math.round(j6Min.value)}`, pd, j6Min.value, J6C, 28, j6MinDate, j6MinWeeks);
-      events.push({ label: 'J6 BOTTOM', score: Math.round(j6Min.value), date: j6MinDate, weeksOut: j6MinWeeks, color: J6C });
+      const peakDate = j6Min.date || dateFor(weeksFor(j6Min.idx));
+      const peakValue = j6Min.value;
+      const w = j6Min.date ? Math.round((peakDate - anchorDate) / (7*24*3600*1000)) : weeksFor(j6Min.idx);
+      const j6MinDate = _formatPeakDate(peakDate);
+      ann.j6_next_bottom = _peakDotAnnotation(`J6 BTM ${Math.round(peakValue)}`, peakDate, peakValue, J6C, 28, j6MinDate, w);
+      events.push({ label: 'J6 BOTTOM', score: Math.round(peakValue), date: j6MinDate, weeksOut: w, color: J6C });
     }
   }
 
@@ -3763,117 +3796,74 @@ async function fetchForecastCurve() {
     const currentScore = (data.current_score !== undefined && data.current_score !== null)
                          ? data.current_score : null;
     
-    // Anchor at TODAY (real now). This is the index in weeklyDates closest to today.
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    let startIdx = -1;
-    for (let i = 0; i < weeklyDates.length; i++) {
-      if (weeklyDates[i] >= today) {
-        startIdx = i;
-        break;
-      }
-    }
-    if (startIdx === -1) {
-      console.log('today is past end of weeklyDates timeline, skipping forecast render');
-      return;
-    }
-    
-    // Build prediction as flat array of length weeklyDates.length.
-    // Indexes 0 to startIdx-1 = null (no prediction in the past).
-    // Indexes startIdx to startIdx+103 = projection values.
-    // Indexes startIdx+104 onward = null (forecast horizon ends).
-    const newPrediction = new Array(weeklyDates.length).fill(null);
-    for (let week = 0; week < projection.length; week++) {
-      const targetIdx = startIdx + week;
-      if (targetIdx >= newPrediction.length) break;
-      const val = projection[week];
-      if (val !== null && val !== undefined) {
-        newPrediction[targetIdx] = val;
-      }
-    }
-    // Sprint 44: forecast emanates from the today dot, not its week-0 value.
-    if (currentScore !== null) newPrediction[startIdx] = currentScore;
-    
-    // Sprint 32 v2.7+ (this session, second iteration): BRIDGE THE GAP between
-    // historical and forecast. Without this, historical line ends at startIdx-1,
-    // forecast line starts at startIdx, so visually there's a 1-week gap.
-    // 
-    // ALSO: defensively wipe historical values at indices STRICTLY GREATER than today
-    // (startIdx). This catches the bug where the actual-data line was extending past
-    // today (e.g. up to 7/19/26 with orphan dots at 8/2 and 8/9) — something is
-    // writing forecast values into the historical array at future indices.
-    // We can't fix the writer without seeing chart_history.json, but we CAN
-    // defensively null those out on every chart render so the historical line stops
-    // at today and only the forecast line continues into the future.
-    if (chart && chart.data && chart.data.datasets && chart.data.datasets[0]) {
-      const histArr = chart.data.datasets[0].data;
-      
-      // STEP 1: Wipe any future-dated historical values (bug guard)
-      for (let i = startIdx + 1; i < histArr.length; i++) {
-        if (histArr[i] !== null && histArr[i] !== undefined) {
-          histArr[i] = null;
+    // REAL ANCHOR: use the actual latest date from loaded daily history data
+    // (chart_history.json points patched by loadChartHistory). This gives the
+    // chart a true daily cadence for the "today" area instead of snapping to
+    // the old fixed weekly grid.
+    let realAnchor = new Date();
+    realAnchor.setHours(0, 0, 0, 0);
+    if (chart && chart.data && chart.data.datasets && chart.data.datasets[0] && chart.data.labels) {
+      const hist = chart.data.datasets[0].data;
+      const labels = chart.data.labels;
+      for (let i = labels.length - 1; i >= 0; i--) {
+        if (hist[i] !== null && hist[i] !== undefined) {
+          realAnchor = new Date(labels[i]);
+          break;
         }
       }
-      
-      // Sprint 43: bridge-back KILLED. Forecast + DA + J6 all start exactly at
-      // startIdx (today), no longer planted one week earlier. The visual
-      // consequence is forecast/DA/J6 begin precisely where today_dot sits.
-      // The historical line still gets extended to today via currentScore.
-      if (currentScore !== null && currentScore !== undefined) {
-        histArr[startIdx] = currentScore;
-      }
     }
     
-    // Devil's Advocate = SAME-DATE PURE INVERSE: DA[startIdx + week] = 100 - projection[week]
-    // Sprint 32 v2.7+ (this session, second iteration): switched from time-shifted to
-    // pure same-date inverse per Lano. Forecast says score=70 on Oct 31 → DA says
-    // score=30 on Oct 31. SAME DATE, opposite score. This is what makes the horse race
-    // honest — both lines predict the same date so we can score them against the same
-    // realized data point. Time-shifted version was clever but unfalsifiable in practice.
-    const newDevilsAdvocate = new Array(weeklyDates.length).fill(null);
+    // Build the forward projections as real dated time-series objects (not flat
+    // arrays indexed into the 2017 weekly grid). Weekly steps for the long
+    // 104-week horizon (keeps it reasonable), but starting exactly from the
+    // real last history date. This makes dots land on real points, "today"
+    // correct, ranges feel natural, and no more grid-date bugs for the curves.
+    const forecastData = [];
+    const daData = [];
+    let d = new Date(realAnchor);
     for (let week = 0; week < projection.length; week++) {
-      const targetIdx = startIdx + week;
-      if (targetIdx >= newDevilsAdvocate.length) break;
-      const val = projection[week];
-      if (val !== null && val !== undefined) {
-        newDevilsAdvocate[targetIdx] = 100 - val;
+      if (week > 0) {
+        d = new Date(d.getTime() + 7 * 24 * 3600 * 1000);
+      }
+      let fval = projection[week];
+      let daval = (fval != null) ? 100 - fval : null;
+      if (week === 0 && currentScore != null) {
+        fval = currentScore;
+        daval = currentScore;  // both emanate from the realized today dot
+      }
+      if (fval != null) {
+        forecastData.push({ x: new Date(d), y: fval });
+      }
+      if (daval != null) {
+        daData.push({ x: new Date(d), y: daval });
       }
     }
-    // Sprint 44: DA emanates from the today dot too (shares the anchor with forecast/J6).
-    if (currentScore !== null) newDevilsAdvocate[startIdx] = currentScore;
     
-    // Sprint 43: DA bridge-back KILLED. DA starts exactly at startIdx, same as forecast.
-    
-    // Apply to chart datasets in-place
+    // Assign object time-series to the projection datasets. The time scale
+    // will place them correctly from the real anchor date onward.
     if (chart && chart.data && chart.data.datasets) {
       const predDs = chart.data.datasets.find(d => d.label === 'Predicted (Blow-Off Forecast)');
       const daDs = chart.data.datasets.find(d => d.label === "Devil's Advocate");
-      if (predDs) predDs.data = newPrediction;
-      if (daDs) daDs.data = newDevilsAdvocate;
+      if (predDs) predDs.data = forecastData;
+      if (daDs) daDs.data = daData;
       chart.update('none');
     }
     
-    // Sync globals
-    prediction = newPrediction;
-    devilsAdvocate = newDevilsAdvocate;
+    // Sync globals as object arrays (for renderNextPeakMarkers and any other consumers)
+    prediction = forecastData;
+    devilsAdvocate = daData;
     
-    // Sprint 32 v2.7+ (this session): render dynamic next-top + next-bottom markers
-    // on both forecast and DA. 4 markers total. Red boxes = upcoming tops, green
-    // boxes = upcoming bottoms. These re-render every sweep so they always reflect
-    // the current "where's the next turn" read.
-    renderNextPeakMarkers(newPrediction, newDevilsAdvocate, startIdx);
-    
-    // Sprint 35 chart fix: render tracking dot at today's position.
-    // Reads current_score from the forecast_curve.json payload so the dot
-    // sits at Jordan Empire's most recent read of the cycle, not a stale value.
-    renderTodayDot(data.current_score, startIdx);
+    // Render markers and today dot using the real anchor. The render functions
+    // already prefer real history dates + elapsed time for correct dot placement.
+    const firstDate = forecastData.length ? forecastData[0].x : realAnchor;
+    renderNextPeakMarkers(forecastData, daData, null);  // objects, no grid startIdx needed
+    renderTodayDot(currentScore != null ? currentScore : (forecastData.length ? forecastData[0].y : null), null);
     
     const contribs = data.contributing_fingerprints || [];
-    const todayStr = today.toISOString().split('T')[0];
-    const nForecast = newPrediction.filter(v => v !== null).length;
-    const nDA = newDevilsAdvocate.filter(v => v !== null).length;
-    console.log(`forecast_curve loaded: ${nForecast} forecast points, ${nDA} DA points, ${contribs.length} contributing fingerprints, method=${data.method}, anchored at ${todayStr} (weeklyDates idx ${startIdx}), current_score=${data.current_score}`);
+    const todayStr = realAnchor.toISOString().split('T')[0];
+    const nForecast = forecastData.filter(v => v.y !== null).length;
+    const nDA = daData.filter(v => v.y !== null).length;
+    console.log(`forecast_curve loaded: ${nForecast} forecast points, ${nDA} DA points, ${contribs.length} contributing fingerprints, method=${data.method}, anchored at real ${todayStr} (from history, not weekly grid), current_score=${currentScore}`);
   } catch(e) {
     console.log('forecast_curve fetch failed', e);
   }
@@ -3900,56 +3890,73 @@ async function fetchJ6Curve() {
       return;
     }
     
-    // Find startIdx: weekly index in weeklyDates corresponding to "today"
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    let startIdx = 0;
-    for (let i = 0; i < weeklyDates.length; i++) {
-      if (weeklyDates[i] >= today) { startIdx = i; break; }
-    }
-    
-    // Build new j6Line array — projection[week] goes at startIdx + week
-    const newJ6 = new Array(weeklyDates.length).fill(null);
-    for (let week = 0; week < projection.length; week++) {
-      const targetIdx = startIdx + week;
-      if (targetIdx >= newJ6.length) break;
-      const val = projection[week];
-      if (val !== null && val !== undefined) {
-        newJ6[targetIdx] = val;
+    // REAL ANCHOR from loaded daily history (same as forecast). Decouples J6
+    // from the fixed weekly grid so the green line and its dots start at the
+    // actual last real data point and use real dates.
+    let realAnchor = new Date();
+    realAnchor.setHours(0, 0, 0, 0);
+    if (chart && chart.data && chart.data.datasets && chart.data.datasets[0] && chart.data.labels) {
+      const hist = chart.data.datasets[0].data;
+      const labels = chart.data.labels;
+      for (let i = labels.length - 1; i >= 0; i--) {
+        if (hist[i] !== null && hist[i] !== undefined) {
+          realAnchor = new Date(labels[i]);
+          break;
+        }
       }
     }
-    // Sprint 44: anchor J6 to the same TODAY dot as forecast/DA. Prefer j6_curve's
-    // own current_score; fall back to the historical dataset value at startIdx
-    // (which fetchForecastCurve already pinned to currentScore) so all three lines
-    // emanate from the identical point.
+    
+    // Build J6 as real dated time-series objects, weekly steps from realAnchor.
+    // First point gets the j6Anchor (or currentScore) so it emanates from the
+    // TODAY dot exactly like forecast/DA.
+    const j6Data = [];
+    let d = new Date(realAnchor);
     let j6Anchor = (data.current_score !== undefined && data.current_score !== null)
                    ? data.current_score : null;
     if (j6Anchor === null && chart && chart.data && chart.data.datasets && chart.data.datasets[0]) {
-      const h = chart.data.datasets[0].data[startIdx];
-      if (h !== null && h !== undefined) j6Anchor = h;
+      // fall back to last history value
+      const hist = chart.data.datasets[0].data;
+      const labels = chart.data.labels;
+      for (let i = labels.length - 1; i >= 0; i--) {
+        if (hist[i] !== null && hist[i] !== undefined) {
+          j6Anchor = hist[i];
+          break;
+        }
+      }
     }
-    if (j6Anchor !== null) newJ6[startIdx] = j6Anchor;
+    for (let week = 0; week < projection.length; week++) {
+      if (week > 0) {
+        d = new Date(d.getTime() + 7 * 24 * 3600 * 1000);
+      }
+      let val = projection[week];
+      if (week === 0 && j6Anchor != null) val = j6Anchor;
+      if (val != null) {
+        j6Data.push({ x: new Date(d), y: val });
+      }
+    }
     
-    // Apply to chart
+    // Assign object time-series
     if (chart && chart.data && chart.data.datasets) {
       const j6Ds = chart.data.datasets.find(d => d.label === 'J6 (Jordan-curated)');
-      if (j6Ds) j6Ds.data = newJ6;
+      if (j6Ds) j6Ds.data = j6Data;
       chart.update('none');
     }
     
-    // Sync global
-    j6Line = newJ6;
-    // Refresh markers now that j6Line is set so J6's top/bottom render immediately
-    // instead of waiting for the next forecast sweep. The function reads the live
-    // globals (prediction / devilsAdvocate / j6Line), so passing nothing stale is
-    // fine — startIdx is remembered from the last forecast render.
-    try { renderNextPeakMarkers(null, null, startIdx); }
-    catch(e) { console.log('j6 next-turns refresh skipped', e); }
+    // Sync global as objects
+    j6Line = j6Data;
     
-    const nJ6 = newJ6.filter(v => v !== null).length;
+    // Refresh markers (now object-aware) and today dot.
+    renderNextPeakMarkers(null, null, null);
+    // today dot is primarily driven by forecast fetch, but if J6 is the only one loaded we can still call with anchor
+    if (j6Data.length) {
+      const firstY = j6Data[0].y;
+      renderTodayDot(firstY, null);
+    }
+    
+    const nJ6 = j6Data.filter(v => v.y !== null).length;
     const tilt = data.bot_envelope_tilt ?? '--';
     const overrides = data.j6_overrides_active ?? 0;
-    console.log(`j6_curve loaded: ${nJ6} points, bot_tilt=${tilt}, overrides_active=${overrides}, method=${data.method}`);
+    console.log(`j6_curve loaded: ${nJ6} points, bot_tilt=${tilt}, overrides_active=${overrides}, method=${data.method}, anchored at real history date (no weekly grid)`);
   } catch(e) {
     console.log('j6_curve fetch failed', e);
   }
