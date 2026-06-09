@@ -3281,7 +3281,13 @@ function renderTodayDot(currentScore, startIdx) {
   if (startIdx < 0 || startIdx >= weeklyDates.length) return;
 
   const ann = chart.options.plugins.annotation.annotations;
-  const todayDate = weeklyDates[startIdx];
+  // Sprint 45: anchor the TODAY dot to the EXACT current date, not the weekly
+  // grid label at startIdx. The x-axis ticks are weekly, so weeklyDates[startIdx]
+  // snapped "today" up to the next weekly bucket (showed Jun 14 when it was Jun 8).
+  // Chart.js point annotations accept an exact date in xValue and position it
+  // between ticks, so the dot sits on the real day.
+  const todayDate = new Date();
+  todayDate.setHours(0, 0, 0, 0);
 
   // Sprint 43: tracking dot — BLUE with slow pulse (set up via the pulse
   // interval below). Re-anchors every sweep via current_score.
