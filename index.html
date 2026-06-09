@@ -3288,50 +3288,58 @@ function renderTodayDot(currentScore, startIdx) {
   // moves to where "today" actually is.
   if (!chart || !chart.options.plugins.annotation) return;
   if (currentScore === null || currentScore === undefined) return;
-  if (startIdx < 0 || startIdx >= weeklyDates.length) return;
 
   const ann = chart.options.plugins.annotation.annotations;
-  // Sprint 45: anchor the TODAY dot to the EXACT current date, not the weekly
-  // grid label at startIdx. The x-axis ticks are weekly, so weeklyDates[startIdx]
-  // snapped "today" up to the next weekly bucket (showed Jun 14 when it was Jun 8).
-  // Chart.js point annotations accept an exact date in xValue and position it
-  // between ticks, so the dot sits on the real day.
-  const todayDate = new Date();
-  todayDate.setHours(0, 0, 0, 0);
 
-  // Sprint 43: tracking dot — BLUE with slow pulse (set up via the pulse
-  // interval below). Re-anchors every sweep via current_score.
+  // Prefer the *actual* latest realized date from the loaded daily chart_history
+  // (after loadChartHistory has merged real points). This stops the weekly grid
+  // from snapping "today" to the next bucket (the bug that made it show Jun 14
+  // when it was really Jun 9).
+  let anchorDate = new Date();
+  anchorDate.setHours(0, 0, 0, 0);
+
+  if (chart && chart.data && chart.data.datasets && chart.data.datasets[0] && chart.data.labels) {
+    const hist = chart.data.datasets[0].data;
+    const labels = chart.data.labels;
+    for (let i = labels.length - 1; i >= 0; i--) {
+      if (hist[i] !== null && hist[i] !== undefined) {
+        anchorDate = new Date(labels[i]);
+        break;
+      }
+    }
+  }
+
+  // BLUE pulsing dot + label, anchored to the real last history date + the
+  // current realized score. The time scale will place it correctly even if
+  // the underlying labels array has a mix of weekly + daily.
   ann.today_dot = {
     type: 'point',
-    xValue: todayDate,
+    xValue: anchorDate,
     yValue: currentScore,
     radius: 7,
-    backgroundColor: '#4f9eff',    // blue — matches Flow Cycle Index history line color family
+    backgroundColor: '#4f9eff',
     borderColor: '#ffffff',
     borderWidth: 2,
-    z: 100,  // top-most so it never hides under lines/annotations
+    z: 100,
   };
 
-  // Companion label so user sees "TODAY 44" on hover-free visual
   ann.today_dot_label = {
     type: 'label',
-    xValue: todayDate,
+    xValue: anchorDate,
     yValue: currentScore,
-    yAdjust: -22,                  // float label above the dot
+    yAdjust: -22,
     content: `TODAY ${Math.round(currentScore)}`,
-    backgroundColor: 'rgba(79,158,255,0.92)',  // Sprint 43: blue match
+    backgroundColor: 'rgba(79,158,255,0.92)',
     color: '#ffffff',
     font: { size: 9, family: 'Space Mono', weight: 'bold' },
     padding: { top: 3, bottom: 3, left: 6, right: 6 },
     borderRadius: 3,
     z: 101,
   };
-  
-  // Sprint 43: kick off the slow-pulse interval on first render. Idempotent —
-  // checks if interval already running and won't re-attach.
+
   _startTodayDotPulse();
 
-  console.log(`[today_dot] anchored at ${todayDate.toISOString().split('T')[0]} score=${currentScore}`);
+  console.log(`[today_dot] anchored at ${anchorDate.toISOString().split('T')[0]} score=${currentScore} (real history date)`);
 }
 
 
@@ -3366,25 +3374,55 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
     if (ann[k]) delete ann[k];
   });
 
+  // Compute a real anchor date from the loaded history (same logic as TODAY dot).
+  // Then derive peak dates as anchor + N weeks. This makes the 6 dots report
+  // correct calendar dates relative to *now* (e.g. "Jun 9 + 3w") instead of
+  // snapping to whatever old weekly grid slot the min happened to land in
+  // (the bug that made J6 bottom show 3/27/26 months after we had already gone lower).
+  let anchorDate = new Date();
+  anchorDate.setHours(0, 0, 0, 0);
+  if (chart && chart.data && chart.data.labels && chart.data.labels.length) {
+    // last label that has a historical value is a good proxy for "today" in the data
+    const hist = chart.data.datasets && chart.data.datasets[0] ? chart.data.datasets[0].data : [];
+    for (let i = chart.data.labels.length - 1; i >= 0; i--) {
+      if (hist[i] !== null && hist[i] !== undefined) {
+        anchorDate = new Date(chart.data.labels[i]);
+        break;
+      }
+    }
+  }
+
   const RED = '#ff4d6a';
   const GREEN = '#00e5a0';
   const events = [];
+
+  // Use the real anchor date computed above (from latest history) + week offset
+  // to derive the calendar date for each peak. This makes the 6 dots show correct
+  // dates relative to *today* (e.g. "J6 BTM Jun 23 · 2w out") instead of whatever
+  // old weekly grid slot the absolute min happened to be on in the fixed 2017-2028
+  // array. The xValue on the time scale will also be the correct elapsed time from
+  // the real anchor, so the dots should land much closer to the actual rendered
+  // line points (especially after the TODAY dot is also using real history date).
+  const weeksFor = (peakIdx) => Math.max(0, peakIdx - startIdx);
+  const dateFor = (weeks) => new Date(anchorDate.getTime() + weeks * 7 * 24 * 3600 * 1000);
 
   // Forecast absolute extrema — FC labels render at TOP of vertical line
   const fcMax = findAbsoluteMax(forecastArr, startIdx);
   const fcMin = findAbsoluteMin(forecastArr, startIdx);
   if (fcMax) {
-    const peakDate = weeklyDates[fcMax.idx];
+    const w = weeksFor(fcMax.idx);
+    const peakDate = dateFor(w);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = _weeksFromToday(fcMax.idx, startIdx);
+    const weeksOut = w;
     ann.forecast_next_top = _peakDotAnnotation(`FC TOP ${Math.round(fcMax.value)}`, peakDate, fcMax.value, RED, -16, dateStr, weeksOut);
     events.push({ label: 'Forecast TOP', score: Math.round(fcMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] forecast absolute top: ${peakDate.toISOString().split('T')[0]} score=${fcMax.value} (${weeksOut}w out)`);
   }
   if (fcMin) {
-    const peakDate = weeklyDates[fcMin.idx];
+    const w = weeksFor(fcMin.idx);
+    const peakDate = dateFor(w);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = _weeksFromToday(fcMin.idx, startIdx);
+    const weeksOut = w;
     ann.forecast_next_bottom = _peakDotAnnotation(`FC BTM ${Math.round(fcMin.value)}`, peakDate, fcMin.value, GREEN, 16, dateStr, weeksOut);
     events.push({ label: 'Forecast BOTTOM', score: Math.round(fcMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] forecast absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${fcMin.value} (${weeksOut}w out)`);
@@ -3395,17 +3433,19 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   const daMax = findAbsoluteMax(daArr, startIdx);
   const daMin = findAbsoluteMin(daArr, startIdx);
   if (daMax) {
-    const peakDate = weeklyDates[daMax.idx];
+    const w = weeksFor(daMax.idx);
+    const peakDate = dateFor(w);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = _weeksFromToday(daMax.idx, startIdx);
+    const weeksOut = w;
     ann.da_next_top = _peakDotAnnotation(`DA TOP ${Math.round(daMax.value)}`, peakDate, daMax.value, RED, -16, dateStr, weeksOut);
     events.push({ label: 'DA TOP', score: Math.round(daMax.value), date: dateStr, weeksOut, color: RED });
     console.log(`[peaks] DA absolute top: ${peakDate.toISOString().split('T')[0]} score=${daMax.value} (${weeksOut}w out)`);
   }
   if (daMin) {
-    const peakDate = weeklyDates[daMin.idx];
+    const w = weeksFor(daMin.idx);
+    const peakDate = dateFor(w);
     const dateStr = _formatPeakDate(peakDate);
-    const weeksOut = _weeksFromToday(daMin.idx, startIdx);
+    const weeksOut = w;
     ann.da_next_bottom = _peakDotAnnotation(`DA BTM ${Math.round(daMin.value)}`, peakDate, daMin.value, GREEN, 16, dateStr, weeksOut);
     events.push({ label: 'DA BOTTOM', score: Math.round(daMin.value), date: dateStr, weeksOut, color: GREEN });
     console.log(`[peaks] DA absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${daMin.value} (${weeksOut}w out)`);
@@ -3419,16 +3459,18 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
     const j6Max = findAbsoluteMax(j6Line, startIdx);
     const j6Min = findAbsoluteMin(j6Line, startIdx);
     if (j6Max) {
-      const pd = weeklyDates[j6Max.idx];
+      const w = weeksFor(j6Max.idx);
+      const pd = dateFor(w);
       const j6MaxDate = _formatPeakDate(pd);
-      const j6MaxWeeks = _weeksFromToday(j6Max.idx, startIdx);
+      const j6MaxWeeks = w;
       ann.j6_next_top = _peakDotAnnotation(`J6 TOP ${Math.round(j6Max.value)}`, pd, j6Max.value, J6C, -28, j6MaxDate, j6MaxWeeks);
       events.push({ label: 'J6 TOP', score: Math.round(j6Max.value), date: j6MaxDate, weeksOut: j6MaxWeeks, color: J6C });
     }
     if (j6Min) {
-      const pd = weeklyDates[j6Min.idx];
+      const w = weeksFor(j6Min.idx);
+      const pd = dateFor(w);
       const j6MinDate = _formatPeakDate(pd);
-      const j6MinWeeks = _weeksFromToday(j6Min.idx, startIdx);
+      const j6MinWeeks = w;
       ann.j6_next_bottom = _peakDotAnnotation(`J6 BTM ${Math.round(j6Min.value)}`, pd, j6Min.value, J6C, 28, j6MinDate, j6MinWeeks);
       events.push({ label: 'J6 BOTTOM', score: Math.round(j6Min.value), date: j6MinDate, weeksOut: j6MinWeeks, color: J6C });
     }
