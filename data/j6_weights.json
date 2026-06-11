@@ -1,8 +1,8 @@
 {
   "version": 2,
   "schema_version": "unified_v2_2026-05-26",
-  "updated_at": "2026-05-26T13:19:57.475631",
-  "updated_by": "boot_default_unified_architecture",
+  "updated_at": "2026-06-10T19:47:26.377728-04:00",
+  "updated_by": "jordan_via_j6_action",
   "calibration_source": "Claude + Doc1 + Grok + Doc3 + Doc4 + Doc5 \u2014 6-model arithmetic mean",
   "reasoning": "Unified weight file governing all 4 chart lines. base_weights = 6-model averaged calibration (Claude + 5 others, arithmetic mean). Forecast uses these weights with envelopes off. J6 uses these weights + j6_overrides + envelopes weighted 1.5x. DA inverts forecast. History is realized data. All four lines, one file.",
   "base_weights": {
@@ -95,14 +95,43 @@
   },
   "j6_overrides": {
     "_doc": "Layered on top of base_weights when computing J6 line. Use same nested structure as base_weights, only include keys Jordan wants to override. Empty {} = J6 uses pure base. Every override requires reasoning + timestamp per Sprint 43 doctrine.",
-    "factor_weights": {},
+    "factor_weights": {
+      "fear_greed": 8.7,
+      "vix": 8.5,
+      "etf_net_total": 9.5,
+      "mvrv_zscore": 9.2,
+      "us02y": 4.2,
+      "us10y": 5.3
+    },
     "fingerprint_trust": {},
     "envelope_type_weights": {},
     "source_bot_trust": {},
     "tier_multipliers": {},
     "brain_consensus_weights": {},
     "invariants_firing": {},
-    "_change_log": []
+    "_change_log": [
+      {
+        "timestamp": "2026-06-10T19:47:26.377728-04:00",
+        "action": "update_j6_overrides",
+        "reasoning": "Panic regime after 25% BTC drawdown from 80k to 61k. Base weights overweight slow macro rates (us02y 5.83, us10y 6.83) that lag in fear-driven capitulation. In this tape, direct fear/liquidity signals move price first: fear_greed, vix, etf_net_total, mvrv_zscore. J6 needs to reflect that the average model is too anchored to pre-flush assumptions. This is a real bet on sentiment extremes leading the horse race during Panic.",
+        "summary": "updated overrides: 6 weights changed",
+        "payload": {
+          "action": "update_j6_overrides",
+          "timestamp": "2026-06-10T19:50:00-04:00",
+          "reasoning": "Panic regime after 25% BTC drawdown from 80k to 61k. Base weights overweight slow macro rates (us02y 5.83, us10y 6.83) that lag in fear-driven capitulation. In this tape, direct fear/liquidity signals move price first: fear_greed, vix, etf_net_total, mvrv_zscore. J6 needs to reflect that the average model is too anchored to pre-flush assumptions. This is a real bet on sentiment extremes leading the horse race during Panic.",
+          "overrides": {
+            "factor_weights": {
+              "fear_greed": 8.7,
+              "vix": 8.5,
+              "etf_net_total": 9.5,
+              "mvrv_zscore": 9.2,
+              "us02y": 4.2,
+              "us10y": 5.3
+            }
+          }
+        }
+      }
+    ]
   },
   "line_configs": {
     "history": {
