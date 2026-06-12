@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flow Cycle Index — @BadmonLano</title>
+  <title>Flow Cycle Index</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
@@ -148,6 +148,18 @@
     .phase-pill.active {
       color: #fff;
       border-bottom-color: var(--green);
+    }
+    /* Sprint 45: every phase the cycle climbed through lights green (loading-bar). */
+    .phase-pill.climbed {
+      color: #9fe8c4;
+      border-bottom-color: rgba(0,229,160,0.45);
+    }
+    /* Sprint 45: Euphoria locks RED once the top is hit — stays red down the whole
+       descending leg until Jordan calls reset_euphoria. The "we already peaked" flag. */
+    .phase-pill.euphoria-red {
+      color: #ff6b81 !important;
+      border-bottom-color: #ff4d6a !important;
+      text-shadow: 0 0 8px rgba(255,77,106,0.4);
     }
     /* Sprint 44: phase is Jordan's single call — one color, no per-phase buckets. */
 
@@ -1009,7 +1021,7 @@
 <header class="header">
   <div class="header-left">
     <h1>Flow <span>Cycle</span> Index</h1>
-    <p>@BadmonLano · Macro confluence engine · 2017–2028</p>
+    <p>Macro confluence engine · 2017–present</p>
   </div>
   <div class="header-right">
     <div class="live-dot" id="liveDot"></div>
@@ -1048,7 +1060,7 @@
 
     <!-- Main chart -->
     <div class="card">
-      <div class="card-label">Flow Cycle Index · 2017–2028 · AI Annotations</div>
+      <div class="card-label">Flow Cycle Index · 2017–present · AI Annotations</div>
       <div class="chart-controls">
         <div class="tf-group">
           <button class="tf-btn" onclick="setTimeframe(30)">1M</button>
@@ -1100,10 +1112,29 @@
     -->
     <div class="card" id="nextTurnsCard">
       <div class="card-label">
-        Next Turns
+        The Race
         <span style="margin-left: auto; font-size: 0.85em; color: var(--muted); font-weight: normal; letter-spacing: 0.08em;">
-          forecast vs devil's advocate
+          forecast · devil's advocate · J6
         </span>
+      </div>
+
+      <!-- Horse race standings: the 3 lines ranked by how close they're tracking
+           reality (lowest avg residual = winning). Populated from horse_race_scoreboard.json. -->
+      <div id="raceStandings" style="margin-bottom: 14px;">
+        <div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 10px;">
+          Awaiting race data...
+        </div>
+      </div>
+
+      <!-- Jordan's read: his called winner + one-line plain-language why. -->
+      <div id="raceRead" style="display:none; font-size: 0.74em; line-height: 1.5; color: var(--text);
+           background: rgba(0,229,160,0.04); border-left: 2px solid var(--green, #00e5a0);
+           padding: 9px 12px; border-radius: 4px; margin-bottom: 14px;">
+      </div>
+
+      <!-- Upcoming turning points the lines are calling. -->
+      <div style="font-size: 0.62em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">
+        Upcoming turns
       </div>
       <div id="nextTurnsList">
         <div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">
@@ -1111,7 +1142,7 @@
         </div>
       </div>
       <div style="font-size: 0.6em; color: var(--muted); margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); letter-spacing: 0.08em;">
-        sorted by closest first · updates every 5 min
+        standings score each line vs reality (lower = better) · turns sorted closest first · updates every 5 min
       </div>
     </div>
 
@@ -1133,9 +1164,7 @@
       <!-- Headline: trade recommendation tile row + reasoning -->
       <div id="empireReadHeadline" style="display: none; margin-bottom: 14px;">
         <div id="empireReadTiles" style="
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
+          display: block;
           margin-bottom: 10px;
         ">
           <!-- Filled by JS -->
@@ -1191,23 +1220,20 @@
         <!-- Filled by JS -->
       </div>
 
-      <div style="font-size: 0.6em; color: var(--muted); margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); letter-spacing: 0.08em;">
-        synthesized every sweep · perps + kalshi + sniper consume this
-      </div>
     </div>
 
-    <!-- Brain Reads — advisory (v3: 4 individual reads; Jordan decides) -->
+    <!-- Current Read — the 4 advisor inputs + Jordan's decision -->
     <div class="card brain-card">
       <div class="card-label">
-        Brain Reads · Advisory
+        Current Read
         <span class="tier-badge" id="brainTier" style="margin-left: auto;">LOW</span>
       </div>
-      <div style="font-size:0.62em; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin:2px 0 10px;">4 reads to weigh — none of them decide. Your read does.</div>
+      <div style="font-size:0.62em; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin:2px 0 10px;">4 Input. 1 Decision.</div>
 
       <!-- Jordan's read (authoritative) -->
       <div id="jordanReadBox" style="background:rgba(79,158,255,0.07); border-left:3px solid #4f9eff; padding:12px 14px; border-radius:4px; margin-bottom:14px;">
-        <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.12em; text-transform:uppercase;">Your Read <span id="jordanReadTag" style="opacity:0.7;"></span></div>
-        <div id="jordanReadText" style="font-size:1.0em; line-height:1.5; color:#cbd5e0; margin-top:6px;">Awaiting your call...</div>
+        <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.12em; text-transform:uppercase;">Jordan's Read <span id="jordanReadTag" style="opacity:0.7;"></span></div>
+        <div id="jordanReadText" style="font-size:1.0em; line-height:1.5; color:#cbd5e0; margin-top:6px;">Awaiting Jordan's call...</div>
       </div>
 
       <div class="brain-headline" id="brainHeadline">Awaiting brain output...</div>
@@ -1220,10 +1246,11 @@
         <div class="brain-sig-tile"><div class="sig-label">Judge</div><div class="sig-val" id="judgeRead">--</div><div class="sig-meta" id="judgeMeta">--</div></div>
         <div class="brain-sig-tile"><div class="sig-label">Legacy Math</div><div class="sig-val" id="legacyRead">--</div><div class="sig-meta" id="legacyMeta">--</div></div>
       </div>
-      <div class="recon-hint" id="reconHint" style="margin-top:12px;">Awaiting reconciliation...</div>
-
       <div class="pattern-match">
-        <div style="font-size: 0.6em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin: 14px 0 8px;">Pattern Similarity vs History</div>
+        <div style="font-size: 0.6em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin: 14px 0 4px;">Pattern Match — Similarity Compared to History</div>
+        <div style="font-size: 0.72em; color: var(--muted); margin-bottom: 8px; line-height:1.45;">
+          How closely today's market resembles past cycle tops and bottoms. Higher % = stronger echo of that moment in history.
+        </div>
         <div id="patternMatchList">
           <!-- Filled in by JS -->
         </div>
@@ -1233,7 +1260,7 @@
     <!-- Editor's Calls — Jordan's live editorial overrides (any of the 14 items) -->
     <div class="card" id="editorCallsCard" style="display:none;">
       <div class="card-label">Editor's Calls · Live</div>
-      <div style="font-size:0.6em; color:var(--muted); margin:4px 0 10px;">Items you've personally called this cycle. Your call overrides the auto-compute.</div>
+      <div style="font-size:0.6em; color:var(--muted); margin:4px 0 10px;">Everything Jordan has personally called this cycle, newest first. His call overrides the auto-compute. Amber ⚠ = call is getting old.</div>
       <div id="editorCallsList"></div>
     </div>
 
@@ -1247,13 +1274,13 @@
         Awaiting morning thesis writeback...
       </div>
       <div style="display:flex; gap:14px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.05);">
-        <div style="flex:1;">
+        <div style="flex:0 0 auto; min-width:90px;">
           <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">Leverage Bias</div>
           <div id="jordanLeverageBias" style="font-size:1.1em; font-weight:600; margin-top:4px; color:#4f9eff;">--</div>
         </div>
         <div style="flex:1;">
-          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">Horse Race State</div>
-          <div id="jordanHorseRaceContext" style="font-size:0.85em; margin-top:4px; color:#a0aec0;">--</div>
+          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">What Flips This</div>
+          <div id="jordanThesisFlip" style="font-size:0.82em; margin-top:4px; color:#a0aec0; line-height:1.45;">--</div>
         </div>
       </div>
       <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7; text-transform:uppercase; letter-spacing:0.08em;">
@@ -1261,35 +1288,43 @@
       </div>
     </div>
 
-    <!-- Sprint 43: 3-way Horse Race Scoreboard (Forecast vs DA vs J6) -->
-    <div class="card" id="horseRaceCard">
+    <!-- Track Record — how the daily calls have actually graded out over time -->
+    <div class="card" id="trackRecordCard">
       <div class="card-label">
-        Horse Race: Forecast vs DA vs J6
-        <span class="tier-badge" id="horseRaceState" style="margin-left:auto; background:#1a2332; color:#4f9eff;">--</span>
+        Track Record
+        <span class="tier-badge" id="trackRecordRate" style="margin-left:auto; background:#1a2332; color:#00e5a0;">--</span>
       </div>
-      <div id="horseRaceExplanation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
-        Awaiting horse race data...
+      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+        How Jordan's daily directional calls have actually graded out. Each day's prediction is scored against what really happened at midnight — hit, partial, or miss. The receipts, not just the live call.
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
-        <div style="background:rgba(245,197,24,0.06); border-left:2px solid #f5c518; padding:10px;">
-          <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Forecast Avg Residual</div>
-          <div id="horseRaceForecastResidual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#f5c518;">--</div>
-        </div>
-        <div style="background:rgba(168,85,247,0.06); border-left:2px solid #a855f7; padding:10px;">
-          <div style="font-size:0.55em; color:#a855f7; letter-spacing:0.1em; text-transform:uppercase;">DA Avg Residual</div>
-          <div id="horseRaceDevilsResidual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#a855f7;">--</div>
-        </div>
+
+      <!-- headline stats -->
+      <div id="trackRecordStats" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
         <div style="background:rgba(0,229,160,0.06); border-left:2px solid #00e5a0; padding:10px;">
-          <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase;">J6 Avg Residual</div>
-          <div id="horseRaceJ6Residual" style="font-size:1.4em; font-weight:600; margin-top:4px; color:#00e5a0;">--</div>
+          <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase;">Hit Rate</div>
+          <div id="trHitRate" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#00e5a0;">--</div>
+        </div>
+        <div style="background:rgba(79,158,255,0.06); border-left:2px solid #4f9eff; padding:10px;">
+          <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.1em; text-transform:uppercase;">Days Graded</div>
+          <div id="trGradedDays" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#4f9eff;">--</div>
+        </div>
+        <div style="background:rgba(245,197,24,0.06); border-left:2px solid #f5c518; padding:10px;">
+          <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Current Streak</div>
+          <div id="trStreak" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#f5c518;">--</div>
         </div>
       </div>
-      <div style="margin-top:12px; padding:10px; background:rgba(79,158,255,0.05); border-left:2px solid #4f9eff;">
-        <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.1em; text-transform:uppercase;">Leverage Recommendation</div>
-        <div id="horseRaceLeverage" style="font-size:1em; font-weight:600; margin-top:4px; color:#cbd5e0;">--</div>
+
+      <!-- recent graded calls -->
+      <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin:16px 0 6px;">Recent Calls</div>
+      <div id="trackRecordRecent">
+        <div style="font-size:0.8em; color:#a0aec0; padding:10px;">Awaiting graded predictions...</div>
       </div>
-      <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7;">
-        Updates every sweep. Lower residual = better tracking reality. When all three lines are wrong (residual >25 across the board), a re-triangulation packet fires to Jordan. The winner of this race informs perps_bot leverage sizing.
+
+      <!-- which line tracks reality best, over time -->
+      <div id="trackRecordHorseRace" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);"></div>
+
+      <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
+        Calls graded at midnight against the real move. Partial = half credit. Lower line residual = closer to reality.
       </div>
     </div>
 
@@ -1456,8 +1491,11 @@
     <!-- AI Markers feed (NEW v2) -->
     <div class="card">
       <div class="card-label">
-        Recent AI Detections
+        Pattern Detections — When Today Matches a Past Turn
         <button class="card-label-action" onclick="refreshMarkers()" title="Refresh">↻</button>
+      </div>
+      <div style="font-size:0.7em; color:var(--muted); margin:4px 0 8px; line-height:1.45;">
+        The system flags moments when current conditions strongly resemble a specific historical top or bottom. The dots on the chart mark them; Jordan's read on what they mean is below.
       </div>
       <div class="markers-list" id="markersList">
         <div style="color: var(--muted); font-size: 0.75em; text-align: center; padding: 20px;">Loading...</div>
@@ -1538,50 +1576,36 @@ let showPrediction = true;
 // ═══════════════════════════════════════════════════════════════════════════
 // WEEKLY DATE GENERATION (preserved)
 // ═══════════════════════════════════════════════════════════════════════════
-function genWeeklyDates(sy, sm, ey, em) {
-  const dates = [], end = new Date(ey, em-1, 1);
-  let cur = new Date(sy, sm-1, 1);
-  while (cur <= end) { dates.push(new Date(cur)); cur.setDate(cur.getDate()+7); }
-  return dates;
-}
+// ═══════════════════════════════════════════════════════════════════════════
+// DAILY TIME-SERIES MODEL (rebuild — replaces the old 2017-2028 weekly grid)
+// ═══════════════════════════════════════════════════════════════════════════
+// The chart is now a proper Chart.js time series. Every dataset is an array of
+// {x: 'YYYY-MM-DD', y: value} points carrying their own date, so:
+//   - history renders one point PER DAY from chart_history.json (real data),
+//     stops at today, never projects forward
+//   - forecast / DA / J6 are weekly points that all START at today and fan out
+//     a rolling 2 years (they re-anchor every day as new history lands)
+//   - hover reads date/fg/phase straight off the point — no weekly-index lookup,
+//     so F&G/phase show correctly per day
+//   - the x-axis is driven by real dates: pan/zoom is always truthful, and the
+//     1M/3M/6M/1Y/2Y/ALL buttons window the view + adapt tick density.
+// No hardcoded weeklyDates, no knownPoints interpolation. Data is the source.
 
-const weeklyDates = genWeeklyDates(2017,1,2028,1);
+// History point objects carry everything hover needs.
+let histPoints      = [];   // [{x, y, fg, phase, btc}]
+let forecastPoints  = [];   // [{x, y}]
+let daPoints        = [];   // [{x, y}]
+let j6Points        = [];   // [{x, y}]
+let fcBandLower     = [];   // [{x, y}]  confidence band lower
+let fcBandUpper     = [];   // [{x, y}]  confidence band upper
 
-// Known anchor points for historical flow cycle index
-const knownPoints = {
-  '2017-01-01':10,'2017-10-01':45,'2017-12-01':95,'2018-01-01':88,
-  '2018-12-01':8,'2019-06-01':30,'2020-03-01':5,'2020-10-01':35,
-  '2021-04-01':88,'2021-07-01':30,'2021-11-01':92,'2022-06-01':12,
-  '2022-11-01':6,'2023-06-01':40,'2024-01-01':60,'2024-03-01':88,
-  '2024-04-01':65,'2024-11-01':80,'2025-01-01':78,'2025-04-01':22,
-  '2025-07-01':28,'2025-09-01':20,'2025-11-01':12,'2025-12-01':35,
-  '2026-01-01':51,'2026-02-01':45,'2026-03-01':53,'2026-04-01':62
-};
+// The real "today" = last realized history date. Set by loadChartHistory().
+let CHART_TODAY     = null;       // 'YYYY-MM-DD'
+let CHART_TODAY_MS  = null;       // epoch ms, for the today-marker plugin
 
-const historical = weeklyDates.map(date => {
-  const key = date.toISOString().split('T')[0].slice(0,7)+'-01';
-  if (knownPoints[key] !== undefined) return knownPoints[key];
-  let pD=null,nD=null,pV=null,nV=null;
-  for (const k in knownPoints) {
-    const d = new Date(k);
-    if (d<date && (!pD||d>pD)) { pD=d; pV=knownPoints[k]; }
-    if (d>date && (!nD||d<nD)) { nD=d; nV=knownPoints[k]; }
-  }
-  if (!pD||!nD) return null;
-  const t = (date-pD)/(nD-pD);
-  return Math.round(pV + t*(nV-pV));
-});
-
-// Prediction + Devil's Advocate are DATA-DRIVEN as of sprint 32 v2.7.
-// Initialized as flat arrays of length weeklyDates.length, all null. Once
-// fetchForecastCurve() runs, indexes from "today" forward get filled with
-// projection values. Indexes before today stay null (no past predictions).
-//
-// Format matches historical (flat array indexed against weeklyDates labels)
-// so chart.js interaction mode 'index' works correctly for hover tooltips.
-let prediction = new Array(weeklyDates.length).fill(null);
-let devilsAdvocate = new Array(weeklyDates.length).fill(null);
-let j6Line = new Array(weeklyDates.length).fill(null);  // Sprint 43: J6 line data
+// Back-compat shims: some legacy code still references these names. They now
+// just point at the new arrays so nothing crashes during the transition.
+let prediction = forecastPoints, devilsAdvocate = daPoints, j6Line = j6Points;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CHART INSTANCE
@@ -1589,78 +1613,70 @@ let j6Line = new Array(weeklyDates.length).fill(null);  // Sprint 43: J6 line da
 const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
   type: 'line',
   data: {
-    labels: weeklyDates,
     datasets: [
+      // Confidence band (drawn first = underneath). Two lines; the upper fills
+      // down to the lower via fill:'-1', producing a soft shaded uncertainty band
+      // around the forecast. Populated from forecast_curve.json bands.
       {
-        label: 'Flow Cycle Index',
-        data: historical,
+        label: 'Forecast band (lower)', key: 'fcBandLower', data: fcBandLower,
+        borderColor: 'rgba(245,197,24,0)', pointRadius: 0, pointHoverRadius: 0,
+        borderWidth: 0, fill: false, tension: 0.3, yAxisID: 'y',
+        order: 99,  // draw behind everything
+      },
+      {
+        label: 'Forecast band (upper)', key: 'fcBandUpper', data: fcBandUpper,
+        borderColor: 'rgba(245,197,24,0)', backgroundColor: 'rgba(245,197,24,0.07)',
+        pointRadius: 0, pointHoverRadius: 0, borderWidth: 0,
+        fill: '-1',  // fill down to the previous dataset (lower band)
+        tension: 0.3, yAxisID: 'y', order: 99,
+      },
+      {
+        label: 'Flow Cycle Index', key: 'hist', data: histPoints,
         borderColor: '#4f9eff',
         backgroundColor: 'rgba(79,158,255,0.08)',
-        fill: true, tension: 0.4, pointRadius: 0, pointHoverRadius: 5,
+        fill: true, tension: 0.3, pointRadius: 0, pointHoverRadius: 5,
         pointHoverBackgroundColor: '#4f9eff',
         pointHoverBorderColor: '#fff',
         pointHoverBorderWidth: 2,
         borderWidth: 2,
-        yAxisID: 'y',
+        yAxisID: 'y', order: 1,
       },
       {
-        label: 'Predicted (Blow-Off Forecast)',
-        data: prediction,
-        borderColor: 'rgba(245,197,24,0.6)',
-        backgroundColor: 'rgba(245,197,24,0.04)',
+        label: 'Forecast', key: 'fc', data: forecastPoints,
+        borderColor: 'rgba(245,197,24,0.85)',
         borderDash: [5,4],
-        // Sprint 32 v2.7+ (this session, third iteration): tension 0.4 → 0 so the
-        // rendered line passes EXACTLY through every data point. Required for peak
-        // marker dots to land on the line (with smoothing the line curves away
-        // from data points and dots appear to float above/below).
-        fill: true, tension: 0, pointRadius: 0, pointHoverRadius: 4,
+        fill: false, tension: 0.3, pointRadius: 0, pointHoverRadius: 4,
         pointHoverBackgroundColor: '#f5c518',
         borderWidth: 1.5,
-        yAxisID: 'y',
+        yAxisID: 'y', order: 2,
       },
       {
-        label: "Devil's Advocate",
-        data: devilsAdvocate,
-        borderColor: '#a855f7',                // distinct purple, not pink (MVRV is pink)
-        backgroundColor: 'rgba(168,85,247,0.06)',
-        borderDash: [8, 4],                    // longer dashes than forecast for visual separation
-        fill: false,
-        // Sprint 32 v2.7+ (this session, third iteration): tension 0 (same reason as
-        // forecast above) — dots must land on the actual data points.
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 5,
+        label: "Devil's Advocate", key: 'da', data: daPoints,
+        borderColor: '#a855f7',
+        borderDash: [8, 4],
+        fill: false, tension: 0.3,
+        pointRadius: 0, pointHoverRadius: 5,
         pointHoverBackgroundColor: '#a855f7',
-        borderWidth: 2,                        // thicker so it stands out as a thesis line
-        yAxisID: 'y',
-        // Sprint 32 v2.7 (this session): DA is auto-loaded by default, NOT hidden behind a toggle.
-        // The DA is core to the discovery engine philosophy: forecast vs DA is a horse race
-        // visible at all times, not an opt-in feature.
-        hidden: false,
+        borderWidth: 2,
+        yAxisID: 'y', hidden: false, order: 3,
       },
-      // Sprint 43: J6 line — Jordan-curated projection. Same engine as forecast
-      // + j6_overrides + bot envelopes weighted 1.5x. Populated by fetchJ6Curve().
       {
-        label: 'J6 (Jordan-curated)',
-        data: j6Line,
-        borderColor: '#00e5a0',                // green — Jordan's empire line
-        backgroundColor: 'rgba(0,229,160,0.05)',
-        borderDash: [3, 3],                    // tight dashes, distinct from forecast (5,4) and DA (8,4)
-        fill: false,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 5,
+        label: 'J6 (Jordan-curated)', key: 'j6', data: j6Points,
+        borderColor: '#00e5a0',
+        borderDash: [3, 3],
+        fill: false, tension: 0.3,
+        pointRadius: 0, pointHoverRadius: 5,
         pointHoverBackgroundColor: '#00e5a0',
         borderWidth: 2,
-        yAxisID: 'y',
-        hidden: false,
+        yAxisID: 'y', hidden: false, order: 2,
       }
       // Overlay datasets added dynamically
     ]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
+    parsing: false,   // datasets are pre-parsed {x: ISO date, y: val} points
+    interaction: { mode: 'nearest', axis: 'x', intersect: false },
     scales: {
       x: {
         type: 'time',
@@ -1726,28 +1742,24 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         padding: 12,
         callbacks: {
           title: items => {
-            // Read date from the labels[] array using the data index. This works
-            // with flat-array datasets (which is what we use). items[0].parsed.x
-            // would only work for {x, y} object datasets.
-            const idx = items[0].dataIndex;
-            const d = weeklyDates[idx];
-            if (!d) return '';
+            // Points are {x: ISO date, ...}. Read the date straight off the point.
+            const p = items[0]?.raw;
+            const xv = (p && p.x) ? p.x : items[0]?.parsed?.x;
+            if (!xv) return '';
+            const d = new Date(typeof xv === 'string' ? xv + 'T00:00:00' : xv);
             return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
           },
           label: ctx => {
-            const val = ctx.raw;
+            const raw = ctx.raw;
+            const val = (raw && typeof raw === 'object') ? raw.y : raw;
             if (val === null || val === undefined) return null;
             const ds = ctx.dataset;
-            if (ds.label === 'Flow Cycle Index') {
-              const score = Math.round(val);
-              return [`  Score: ${score}`];
-            }
-            if (ds.label === 'Predicted (Blow-Off Forecast)') {
-              return `  Forecast: ${Math.round(val)}`;
-            }
-            if (ds.label === "Devil's Advocate") {
-              return `  Devil's Advocate: ${Math.round(val)}`;
-            }
+            // Hide the invisible band datasets from the tooltip.
+            if (ds.key === 'fcBandLower' || ds.key === 'fcBandUpper') return null;
+            if (ds.key === 'hist')  return `  Flow Score: ${Math.round(val)}`;
+            if (ds.key === 'fc')    return `  Forecast: ${Math.round(val)}`;
+            if (ds.key === 'da')    return `  Devil's Advocate: ${Math.round(val)}`;
+            if (ds.key === 'j6')    return `  J6 (Jordan): ${Math.round(val)}`;
             // Overlay datasets
             const key = ds.__overlayKey;
             if (key && OVERLAYS[key]) {
@@ -1762,12 +1774,14 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
             return `  ${ds.label}: ${val}`;
           },
           afterBody: items => {
-            const idx = items[0].dataIndex;
-            const btc = chart._btcHistory?.[idx];
-            const fg = chart._fgHistory?.[idx];
+            // Only the history point carries fg/phase/btc. Find it among hovered items.
+            const histItem = items.find(it => it.dataset && it.dataset.key === 'hist');
+            const p = histItem ? histItem.raw : null;
+            if (!p || typeof p !== 'object') return [];
             const lines = [];
-            if (btc) lines.push(`  BTC: $${btc.toLocaleString()}`);
-            if (fg !== undefined) lines.push(`  F&G: ${fg}`);
+            if (p.fg !== undefined && p.fg !== null) lines.push(`  F&G: ${p.fg}`);
+            if (p.phase) lines.push(`  Phase: ${p.phase}`);
+            if (p.btc) lines.push(`  BTC: $${Math.round(p.btc).toLocaleString()}`);
             return lines;
           }
         }
@@ -1801,11 +1815,33 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         zoom: { enabled: false },
       },
     }
-  }
+  },
+  plugins: [{
+    // TODAY marker — dashed vertical line + label at the seam where realized
+    // history (blue) meets the projections (forecast/DA/J6). Anchored to the real
+    // current date (last history point), so it moves forward as new data lands.
+    id: 'todayMarker',
+    afterDraw: (c) => {
+      if (CHART_TODAY_MS === null) return;
+      const x = c.scales.x.getPixelForValue(CHART_TODAY_MS);
+      if (x < c.chartArea.left || x > c.chartArea.right) return;
+      const ctx = c.ctx;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(230,237,246,0.30)';
+      ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(x, c.chartArea.top); ctx.lineTo(x, c.chartArea.bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(230,237,246,0.55)';
+      ctx.font = '10px "Space Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('TODAY', x, c.chartArea.top - 3);
+      ctx.restore();
+    }
+  }]
 });
 
-chart._btcHistory = historical.map(() => null);
-chart._fgHistory  = historical.map(() => null);
 chart._markerCache = [];   // stored markers for reapplication after zoom
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1848,7 +1884,7 @@ function renderPhaseBar(phaseCall, score) {
 
   const phase = phaseCall && phaseCall.value;
   const pos = phase ? PHASE_ORDER.indexOf(phase) : -1;
-  pills.forEach(p => p.classList.remove('active'));
+  pills.forEach(p => { p.classList.remove('active'); p.classList.remove('climbed'); p.classList.remove('euphoria-red'); });
 
   if (pos < 0) {
     // No call yet — awaiting Jordan. Never auto-fill a phase.
@@ -1858,12 +1894,25 @@ function renderPhaseBar(phaseCall, score) {
     return;
   }
 
-  // Jordan called it — fill the bar to the PHASE'S POSITION (single color), light the pill.
+  // Light EVERY phase from the bottom up to the current one (the loading-bar look),
+  // not just the current pill — the cycle climbed through all of them.
   const pct = ((pos + 1) / PHASE_ORDER.length) * 100;
   fill.style.width = pct.toFixed(1) + '%';
-  pills.forEach(p => { if (p.dataset.phase === phase) p.classList.add('active'); });
+  pills.forEach(p => {
+    const pi = PHASE_ORDER.indexOf(p.dataset.phase);
+    if (pi >= 0 && pi < pos) p.classList.add('climbed');     // passed through
+    if (p.dataset.phase === phase) p.classList.add('active'); // current
+  });
   phaseEl.textContent = phase;
   adviceEl.textContent = (phaseCall.reasoning || '').trim() || ('Jordan’s call: ' + phase);
+
+  // Euphoria red-lock: once we've hit the top, the Euphoria pill stays RED all the
+  // way down the descending leg (a "we already peaked" memory) until Jordan resets.
+  fetch('data/euphoria_state.json?t=' + Date.now()).then(r => r.json()).then(es => {
+    if (es && es.euphoria_hit && !es.reset) {
+      pills.forEach(p => { if (p.dataset.phase === 'Euphoria') p.classList.add('euphoria-red'); });
+    }
+  }).catch(() => {});
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2056,15 +2105,16 @@ async function fetchMacro() {
       if (m) m.textContent = `score ${data.blowoff_score}`;
     }
 
-    // Reconciliation hint
-    if (data.signals && data.signals.reconciliation_hint) {
+    // Reconciliation hint — internal plumbing, no longer surfaced on the site.
+    // (Element removed; guard kept so nothing errors if the field is present.)
+    const _reconEl = document.getElementById('reconHint');
+    if (_reconEl && data.signals && data.signals.reconciliation_hint) {
       const hint = data.signals.reconciliation_hint;
-      const el = document.getElementById('reconHint');
       const parts = hint.split(':');
       if (parts.length >= 2) {
-        el.innerHTML = `<strong>${parts[0]}:</strong>${parts.slice(1).join(':')}`;
+        _reconEl.innerHTML = `<strong>${parts[0]}:</strong>${parts.slice(1).join(':')}`;
       } else {
-        el.textContent = hint;
+        _reconEl.textContent = hint;
       }
     }
 
@@ -2085,7 +2135,10 @@ async function fetchMacro() {
       }
     }).catch(() => {});
 
-    // Editor's Calls overlay — any of the 14 items Jordan has personally called
+    // Editor's Calls — the AUDIT LEDGER: every item Jordan has personally called,
+    // with a clean label, a short value, and WHEN he last called it. The timestamp
+    // is the point — it's the one place you can spot a stale call at a glance (e.g.
+    // "Winning Line · forecast · 1d ago" stands out as needing a refresh).
     fetch('data/editorial_calls.json?t=' + Date.now()).then(r => r.json()).then(ec => {
       const calls = (ec && ec.calls) || {};
       const items = Object.keys(calls);
@@ -2094,11 +2147,49 @@ async function fetchMacro() {
       if (!card || !list) return;
       if (!items.length) { card.style.display = 'none'; return; }
       card.style.display = '';
-      list.innerHTML = items.map(k =>
-        `<div style="display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
-           <span style="color:#4f9eff; font-size:0.85em;">${k}</span>
-           <span style="color:#cbd5e0; font-size:0.85em; font-weight:600; text-align:right;">${String(calls[k].value).slice(0,60)}</span>
-         </div>`).join('');
+
+      // Clean labels for the raw item keys (no underscores on the public face).
+      const LABELS = {
+        phase: 'Phase', the_read: 'The Read', voice: 'Voice', winning_line: 'Winning Line',
+        horse_race_read: 'Race Read', j6_line: 'J6 Line', pattern_match: 'Pattern Match',
+        cliff_proximity: 'Turn Proximity', cycle_position: 'Cycle Position',
+        leverage_bias: 'Leverage Bias', falsification: 'What Would Make Us Wrong',
+        invariants_firing: 'Invariants Firing', exit_priority_signal: 'Exit Trigger',
+        detections: 'Detections', data_gaps: 'Data Gaps', surprise_index: 'Surprise Index',
+      };
+      const pretty = k => LABELS[k] || k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+      // "x ago" from an ISO timestamp; flags stale calls (>18h) in amber.
+      const ago = iso => {
+        if (!iso) return { txt: '', stale: false };
+        const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+        if (isNaN(mins)) return { txt: '', stale: false };
+        let txt;
+        if (mins < 60) txt = `${mins}m ago`;
+        else if (mins < 1440) txt = `${Math.floor(mins/60)}h ago`;
+        else txt = `${Math.floor(mins/1440)}d ago`;
+        return { txt, stale: mins > 1080 };  // >18h = stale flag
+      };
+
+      // Sort newest-call first so fresh decisions are up top, stale ones sink.
+      const sorted = items.slice().sort((a, b) =>
+        new Date(calls[b].called_at || 0) - new Date(calls[a].called_at || 0));
+
+      list.innerHTML = sorted.map(k => {
+        const c = calls[k] || {};
+        const val = String(c.value ?? '').trim();
+        const shortVal = val.length > 48 ? val.slice(0, 48) + '…' : (val || '—');
+        const a = ago(c.called_at);
+        const timeStyle = a.stale
+          ? 'color:var(--yellow); font-weight:600;'
+          : 'color:var(--muted);';
+        return `
+          <div style="display:flex; align-items:baseline; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+            <span style="color:#4f9eff; font-size:0.82em; flex-shrink:0; min-width:120px;">${pretty(k)}</span>
+            <span style="color:#cbd5e0; font-size:0.82em; flex:1;">${shortVal}</span>
+            <span style="font-size:0.7em; ${timeStyle} flex-shrink:0;">${a.txt}${a.stale ? ' ⚠' : ''}</span>
+          </div>`;
+      }).join('');
     }).catch(() => { const c=document.getElementById('editorCallsCard'); if(c) c.style.display='none'; });
 
     // Blow-off meter with NEW factors (stablecoin supply, funding)
@@ -2354,7 +2445,7 @@ function togglePrediction() {
   showPrediction = !showPrediction;
   document.getElementById('togglePrediction').classList.toggle('on', showPrediction);
   document.getElementById('togglePrediction').textContent = (showPrediction ? '◉' : '◌') + ' Forecast';
-  const predDs = chart.data.datasets.find(d => d.label === 'Predicted (Blow-Off Forecast)');
+  const predDs = chart.data.datasets.find(d => d.key === 'fc');
   if (predDs) { predDs.hidden = !showPrediction; chart.update('none'); }
 }
 
@@ -2380,7 +2471,7 @@ function toggleDevilsAdvocate() {
   showDevilsAdvocate = !showDevilsAdvocate;
   btn.classList.toggle('on', showDevilsAdvocate);
   btn.textContent = (showDevilsAdvocate ? '◉' : '◌') + " Devil's Advocate";
-  const daDs = chart.data.datasets.find(d => d.label === "Devil's Advocate");
+  const daDs = chart.data.datasets.find(d => d.key === 'da');
   if (daDs) { daDs.hidden = !showDevilsAdvocate; chart.update('none'); }
   // Hide/show DA dots with the DA line so no orphan dots float.
   _setMarkerPairVisible('da_next_top', 'da_next_bottom', showDevilsAdvocate);
@@ -2393,7 +2484,7 @@ function toggleJ6() {
   showJ6 = !showJ6;
   btn.classList.toggle('on', showJ6);
   btn.textContent = (showJ6 ? '◉' : '◌') + ' J6';
-  const j6Ds = chart.data.datasets.find(d => d.label === 'J6 (Jordan-curated)');
+  const j6Ds = chart.data.datasets.find(d => d.key === 'j6');
   if (j6Ds) { j6Ds.hidden = !showJ6; chart.update('none'); }
   // Hide/show J6 dots with the J6 line so no orphan dots float.
   _setMarkerPairVisible('j6_next_top', 'j6_next_bottom', showJ6);
@@ -2481,11 +2572,49 @@ async function fetchDiscoveries() {
     const discoveries = await res.json();
     if (!Array.isArray(discoveries) || discoveries.length === 0) return;
     const host = document.getElementById('discoveryList');
-    host.innerHTML = discoveries.slice(0, 6).map(d => `
+
+    // DEDUP: the raw list is repetitive — the same core signal shows up several
+    // times with one variable swapped (e.g. "copper mid-high + fear-greed extreme
+    // → bottom" appears 3-4 times). Collapse near-duplicates: group by outcome +
+    // the dominant trigger factors, keep only the highest-confidence pattern per
+    // group, then show the distinct best ones.
+    const factorsOf = d => {
+      // pull factor names out of the description ("when copper = mid high AND fear
+      // greed = ..."), order-independent, so similar patterns hash together.
+      const txt = String(d.description || '').toLowerCase();
+      const m = txt.match(/(copper|fear greed|uranium|stablecoin total|gold|vix|us10y|us02y|natgas|oil|silver|dxy|mvrv|etf)/g) || [];
+      return Array.from(new Set(m)).sort();
+    };
+    const groupKey = d => {
+      const outcome = (d.precedes || '').toLowerCase().includes('top') ? 'top' : 'bottom';
+      const f = factorsOf(d);
+      // signature = outcome + the 2 strongest (first listed) factors — patterns that
+      // share outcome and lead factors are treated as the same discovery.
+      return outcome + '|' + f.slice(0, 2).join('+');
+    };
+
+    const best = {};
+    for (const d of discoveries) {
+      const k = groupKey(d);
+      if (!best[k] || (d.confidence || 0) > (best[k].confidence || 0)) best[k] = d;
+    }
+    const deduped = Object.values(best)
+      .sort((a, b) => (b.confidence || 0) - (a.confidence || 0))
+      .slice(0, 5);   // cap at the 5 distinct strongest
+
+    // Clean label: "BTC local bottom" / "BTC local top" stays; rename generic ones.
+    const prettyPrecedes = p => {
+      const s = (p || '').toLowerCase();
+      if (s.includes('top')) return 'precedes a BTC top';
+      if (s.includes('bottom')) return 'precedes a BTC bottom';
+      return p || '';
+    };
+
+    host.innerHTML = deduped.map(d => `
       <div class="discovery-item">
         <div class="dname">${d.name || 'Pattern'}</div>
         <div class="ddesc">${d.description || ''}</div>
-        <div class="dmeta">confidence ${((d.confidence || 0)*100).toFixed(0)}% · ${d.precedes || ''}</div>
+        <div class="dmeta">${((d.confidence || 0)*100).toFixed(0)}% confidence · ${prettyPrecedes(d.precedes)}</div>
       </div>
     `).join('');
   } catch(e) {}
@@ -2564,26 +2693,54 @@ function renderSummary() {
 // TIMEFRAMES (preserved)
 // ═══════════════════════════════════════════════════════════════════════════
 function setTimeframe(days) {
-  const now = new Date();
   document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
 
+  // Anchor to the real today (last history point), not wall-clock, so the window
+  // lines up with the data + the today-marker.
+  const todayMs = (CHART_TODAY_MS !== null) ? CHART_TODAY_MS : Date.now();
+  const xScale = chart.options.scales.x;
+
   if (days === 0) {
+    // ALL — full history through full 2yr forecast. Yearly-ish labels.
     chart.resetZoom();
+    xScale.min = undefined; xScale.max = undefined;
+    xScale.time.unit = undefined;       // let Chart.js auto-pick (lands ~year/quarter)
+    xScale.ticks.maxTicksLimit = 12;
+    chart.update('none');
     document.getElementById('tfAll').classList.add('active');
     return;
   }
 
-  const minDate = new Date(now.getTime() - days * 24 * 3600 * 1000);
-  chart.zoomScale('x', { min: minDate.getTime(), max: now.getTime() }, 'default');
+  // Windowed view: show the last `days` of history, plus a forward slice of forecast
+  // so you can see where it's heading. Short frames peek a little ahead; long frames
+  // show the full forward span.
+  const back = days;
+  const fwd  = days <= 90 ? 30 : days;     // 1M/3M peek 30d ahead; 6M+/1Y show same span fwd
+  const min = todayMs - back * 86400000;
+  const max = todayMs + fwd  * 86400000;
+  xScale.min = min; xScale.max = max;
 
-  const btns = document.querySelectorAll('.tf-btn');
-  const daysMap = [30, 90, 180, 365, 0];
+  // Adaptive label cadence so 1Y doesn't show only 2 ticks, etc.
+  xScale.time.unit = days <= 30 ? 'day'
+                   : days <= 90 ? 'week'
+                   : 'month';
+  xScale.ticks.maxTicksLimit = days <= 30 ? 10
+                             : days <= 180 ? 9
+                             : 12;
+  chart.update('none');
+
+  const daysMap = [30, 90, 180, 365, 730];
   const idx = daysMap.indexOf(days);
+  const btns = document.querySelectorAll('.tf-btn');
   if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
 }
 
 function resetZoom() {
   chart.resetZoom();
+  chart.options.scales.x.min = undefined;
+  chart.options.scales.x.max = undefined;
+  chart.options.scales.x.time.unit = undefined;
+  chart.update('none');
   document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tfAll').classList.add('active');
 }
@@ -2597,63 +2754,39 @@ async function loadChartHistory() {
     const history = await res.json();
     if (!history.length) return;
 
-    // Sprint 32 v2.7+ (this session, third iteration): filter out FUTURE-DATED points.
-    // chart_history.json is supposed to be ACTUAL historical data, not predictions.
-    // If anything dated after today shows up, that's a bug in the writer (probably
-    // flow_cycle.py confusing forecast values for actuals). Defensively drop them
-    // here AND console.warn so the writer can be tracked down.
+    // Drop any future-dated rows (writer bug guard) — history is realized data only.
     const todayCutoff = new Date();
-    todayCutoff.setHours(23, 59, 59, 999);  // end of today, inclusive
-    const futureDated = history.filter(p => new Date(p.date) > todayCutoff);
+    todayCutoff.setHours(23, 59, 59, 999);
+    const futureDated = history.filter(p => new Date(p.date + 'T00:00:00') > todayCutoff);
     if (futureDated.length > 0) {
-      console.warn(`[loadChartHistory] DROPPING ${futureDated.length} future-dated point(s) from chart_history.json:`,
+      console.warn(`[loadChartHistory] DROPPING ${futureDated.length} future-dated point(s):`,
         futureDated.map(p => `${p.date} (idx=${p.index})`));
     }
-    const cleanHistory = history.filter(p => new Date(p.date) <= todayCutoff);
+    const clean = history
+      .filter(p => new Date(p.date + 'T00:00:00') <= todayCutoff)
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    cleanHistory.forEach(point => {
-      const d = new Date(point.date);
-      const dDay = d.toISOString().split('T')[0];
-      // Sprint 45 FIX: match by EXACT calendar day, not a fuzzy 2-day window.
-      // The old `Math.abs(label - d) < 2 days` window snapped daily chart_history
-      // points onto the nearest WEEKLY axis tick — so a daily point 3-4 days off a
-      // tick got appended as a new label while one within 2 days overwrote a weekly
-      // bucket, smearing values across the wrong dates (e.g. an April reading
-      // surfacing where June renders, and "today" landing on the wrong tick). The
-      // x-axis is a real time axis, so a point placed at its true date renders
-      // correctly between weekly grid labels — no snapping needed.
-      const existingIdx = chart.data.labels.findIndex(wd =>
-        new Date(wd).toISOString().split('T')[0] === dDay);
+    // Build {x, y, fg, phase, btc} point objects — one per day. Each point carries
+    // its own metadata so the tooltip reads date/score/F&G/phase directly off it.
+    histPoints = clean.map(p => ({
+      x: p.date, y: p.index,
+      fg: (p.fg !== undefined ? p.fg : null),
+      phase: p.phase || null,
+      btc: (p.btc !== undefined ? p.btc : null),
+    }));
 
-      if (existingIdx >= 0) {
-        chart.data.datasets[0].data[existingIdx] = point.index;
-        chart.data.datasets[1].data[existingIdx] = null;
-        if (point.btc) chart._btcHistory[existingIdx] = point.btc;
-        if (point.fg !== undefined) chart._fgHistory[existingIdx] = point.fg;
-      } else {
-        chart.data.labels.push(d);
-        chart.data.datasets[0].data.push(point.index);
-        chart.data.datasets[1].data.push(null);
-        chart._btcHistory.push(point.btc || null);
-        chart._fgHistory.push(point.fg !== undefined ? point.fg : null);
-      }
-    });
+    // The real "today" = the last realized history point. Everything (predictions,
+    // today-marker) anchors to this, so the chart re-anchors automatically each day.
+    const last = clean[clean.length - 1];
+    CHART_TODAY = last.date;
+    CHART_TODAY_MS = new Date(last.date + 'T00:00:00').getTime();
 
-    const combined = chart.data.labels.map((label, i) => ({
-      label,
-      hist: chart.data.datasets[0].data[i],
-      pred: chart.data.datasets[1].data[i],
-      btc:  chart._btcHistory[i],
-      fg:   chart._fgHistory[i],
-    })).sort((a, b) => new Date(a.label) - new Date(b.label));
-
-    chart.data.labels = combined.map(c => c.label);
-    chart.data.datasets[0].data = combined.map(c => c.hist);
-    chart.data.datasets[1].data = combined.map(c => c.pred);
-    chart._btcHistory = combined.map(c => c.btc);
-    chart._fgHistory  = combined.map(c => c.fg);
-
+    chart.data.datasets.find(d => d.key === 'hist').data = histPoints;
     chart.update('none');
+
+    // Predictions depend on CHART_TODAY for their seam — refresh them now that it's set.
+    if (typeof fetchForecastCurve === 'function') fetchForecastCurve();
+    if (typeof fetchJ6Curve === 'function') fetchJ6Curve();
   } catch(e) { console.log('chart history load failed', e); }
 }
 
@@ -2925,7 +3058,8 @@ async function init() {
     fetchBlowoffDetector(),
     // v2.7 Sprint 32: discovery engine outputs
     fetchJordanThesis(),
-    fetchHorseRace(),
+    fetchTrackRecord(),
+    fetchRaceStandings(),
     fetchFalsificationChecklist(),
     fetchInvariants(),
     fetchDataGaps(),
@@ -2971,22 +3105,32 @@ async function fetchJordanThesis() {
     if (!res.ok) return;
     const data = await res.json();
     if (!data.thesis_text) return;
-    
+
     document.getElementById('jordanThesisText').textContent = data.thesis_text;
-    document.getElementById('jordanLeverageBias').textContent = data.leverage_bias || 'NEUTRAL';
-    
-    // Color bias based on direction
+
+    // Leverage bias in plain words (no raw BEAR/BULL/OUT enums on the public face).
     const biasEl = document.getElementById('jordanLeverageBias');
     const bias = (data.leverage_bias || 'NEUTRAL').toUpperCase();
-    if (bias === 'BULL') biasEl.style.color = '#00e5a0';
-    else if (bias === 'BEAR') biasEl.style.color = '#ff4d6a';
-    else if (bias === 'OUT') biasEl.style.color = '#f5c518';
-    else biasEl.style.color = '#4f9eff';
-    
-    // Horse race context
-    const hrContext = data.horse_race_state || '--';
-    document.getElementById('jordanHorseRaceContext').textContent = hrContext;
-    
+    const biasMap = { BULL: ['Bullish', '#00e5a0'], BEAR: ['Bearish', '#ff4d6a'],
+                      OUT: ['Sidelined', '#f5c518'], NEUTRAL: ['Neutral', '#4f9eff'] };
+    const [biasText, biasColor] = biasMap[bias] || [bias, '#4f9eff'];
+    biasEl.textContent = biasText;
+    biasEl.style.color = biasColor;
+
+    // "What flips this" — the thesis-level falsification. Reuses Jordan's existing
+    // falsification editorial call (it IS the condition that would kill the thesis),
+    // so no new field needed. Replaces the old redundant "Horse Race State" stat
+    // (the race is already shown in The Race card + the Horse Race card below).
+    const flipEl = document.getElementById('jordanThesisFlip');
+    if (flipEl) {
+      try {
+        const ecRes = await fetch('data/editorial_calls.json?t=' + Date.now());
+        const ec = await ecRes.json();
+        const flip = ec && ec.calls && ec.calls.falsification && ec.calls.falsification.value;
+        flipEl.textContent = flip || (data.thesis_invalidation || 'awaiting Jordan');
+      } catch(e) { flipEl.textContent = data.thesis_invalidation || 'awaiting Jordan'; }
+    }
+
     // Age badge with color
     const ageEl = document.getElementById('jordanThesisAge');
     ageEl.textContent = formatAgeFromIso(data.updated_at);
@@ -2994,30 +3138,83 @@ async function fetchJordanThesis() {
   } catch(e) { console.log('jordan thesis fetch failed', e); }
 }
 
-async function fetchHorseRace() {
+async function fetchTrackRecord() {
   try {
-    const res = await fetch('data/horse_race_scoreboard.json?t=' + Date.now());
+    const res = await fetch('data/track_record.json?t=' + Date.now());
     if (!res.ok) return;
-    const data = await res.json();
-    
-    document.getElementById('horseRaceState').textContent = (data.state || 'unknown').replace(/_/g, ' ');
-    document.getElementById('horseRaceExplanation').textContent = data.state_explanation || '--';
-    document.getElementById('horseRaceForecastResidual').textContent = (data.avg_forecast_residual_recent ?? '--');
-    document.getElementById('horseRaceDevilsResidual').textContent = (data.avg_devils_residual_recent ?? '--');
-    // Sprint 43: J6 residual (null until j6 has at least 3 entries of history — shows 'warming up')
-    const j6Val = data.avg_j6_residual_recent;
-    document.getElementById('horseRaceJ6Residual').textContent = (j6Val !== null && j6Val !== undefined) ? j6Val : 'warming…';
-    document.getElementById('horseRaceLeverage').textContent = (data.leverage_recommendation || 'neutral').replace(/_/g, ' ');
-    
-    // Color the state badge
-    const stateEl = document.getElementById('horseRaceState');
-    const state = (data.state || '').toLowerCase();
-    if (state.includes('forecast_winning') || state === 'forecast_leading') stateEl.style.color = '#f5c518';
-    else if (state.includes('devils_winning') || state === 'devils_leading') stateEl.style.color = '#ff4d6a';
-    else if (state === 'convergence') stateEl.style.color = '#00e5a0';
-    else if (state === 'both_wrong') stateEl.style.color = '#ff4d6a';
-    else stateEl.style.color = '#4f9eff';
-  } catch(e) { console.log('horse_race fetch failed', e); }
+    const d = await res.json();
+
+    const n = d.graded_days || 0;
+    const rateEl = document.getElementById('trHitRate');
+    const daysEl = document.getElementById('trGradedDays');
+    const streakEl = document.getElementById('trStreak');
+    const badgeEl = document.getElementById('trackRecordRate');
+
+    // Honest about thin data: under ~5 graded days, don't show a hollow %.
+    if (n < 5 || d.hit_rate_pct === null || d.hit_rate_pct === undefined) {
+      if (rateEl) rateEl.textContent = 'building';
+      if (rateEl) rateEl.style.fontSize = '0.9em';
+      if (badgeEl) { badgeEl.textContent = `${n} days`; badgeEl.style.color = '#4f9eff'; }
+    } else {
+      if (rateEl) rateEl.textContent = d.hit_rate_pct + '%';
+      if (badgeEl) {
+        badgeEl.textContent = d.hit_rate_pct + '% hit';
+        badgeEl.style.color = d.hit_rate_pct >= 55 ? '#00e5a0' : d.hit_rate_pct >= 45 ? '#f5c518' : '#ff4d6a';
+      }
+    }
+    if (daysEl) daysEl.textContent = n;
+    if (streakEl) streakEl.textContent = (d.current_streak || 0) > 0 ? `${d.current_streak} ✓` : '—';
+
+    // Recent graded calls: date · predicted dir · actual move · grade
+    const recEl = document.getElementById('trackRecordRecent');
+    const recent = d.recent || [];
+    if (recEl) {
+      if (!recent.length) {
+        recEl.innerHTML = '<div style="font-size:0.8em; color:#a0aec0; padding:10px;">No graded predictions yet — track record builds as days roll over.</div>';
+      } else {
+        const gradeIcon = { hit: '✓', miss: '✗', partial: '≈' };
+        const gradeColor = { hit: '#00e5a0', miss: '#ff4d6a', partial: '#f5c518' };
+        const dirWord = v => v === 'up' ? 'Up' : v === 'down' ? 'Down' : (v || '—');
+        recEl.innerHTML = recent.map(r => {
+          const g = r.grade || '';
+          const pct = (r.actual_pct !== null && r.actual_pct !== undefined)
+            ? `${r.actual_pct > 0 ? '+' : ''}${r.actual_pct}%` : '—';
+          const dt = r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+          return `
+            <div style="display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8em;">
+              <span style="color:var(--muted); min-width:48px;">${dt}</span>
+              <span style="color:#cbd5e0; flex:1;">Called <b>${dirWord(r.predicted)}</b></span>
+              <span style="color:var(--muted); min-width:56px; text-align:right;">${pct}</span>
+              <span style="color:${gradeColor[g] || 'var(--muted)'}; font-weight:700; min-width:18px; text-align:center;">${gradeIcon[g] || ''}</span>
+            </div>`;
+        }).join('');
+      }
+    }
+
+    // Which line tracks reality best, over recent history.
+    const hrEl = document.getElementById('trackRecordHorseRace');
+    const hr = d.horse_race_trend;
+    if (hrEl) {
+      if (!hr || (hr.forecast_avg_residual == null && hr.j6_avg_residual == null)) {
+        hrEl.innerHTML = '';
+      } else {
+        const lines = [
+          ['Forecast', hr.forecast_avg_residual, '#f5c518'],
+          ['J6 (Jordan)', hr.j6_avg_residual, '#00e5a0'],
+          ["Devil's Advocate", hr.devils_avg_residual, '#a855f7'],
+        ].filter(l => l[1] != null).sort((a, b) => a[1] - b[1]);
+        hrEl.innerHTML = `
+          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Which line tracks reality best <span style="opacity:0.7;">(last ${hr.snapshots} snapshots, lower = better)</span></div>
+          ${lines.map((l, i) => `
+            <div style="display:flex; align-items:center; gap:8px; padding:3px 0; font-size:0.78em;">
+              <span style="width:18px;">${['🥇','🥈','🥉'][i] || ''}</span>
+              <span style="color:${l[2]}; font-weight:600; flex:1;">${l[0]}</span>
+              <span style="color:#cbd5e0;">off by ${l[1]} avg</span>
+            </div>`).join('')}
+        `;
+      }
+    }
+  } catch(e) { console.log('track record fetch failed', e); }
 }
 
 async function fetchFalsificationChecklist() {
@@ -3324,15 +3521,10 @@ function renderTodayDot(currentScore, startIdx) {
   let anchorDate = new Date();
   anchorDate.setHours(0, 0, 0, 0);
 
-  if (chart && chart.data && chart.data.datasets && chart.data.datasets[0] && chart.data.labels) {
-    const hist = chart.data.datasets[0].data;
-    const labels = chart.data.labels;
-    for (let i = labels.length - 1; i >= 0; i--) {
-      if (hist[i] !== null && hist[i] !== undefined) {
-        anchorDate = new Date(labels[i]);
-        break;
-      }
-    }
+  if (CHART_TODAY) {
+    anchorDate = new Date(CHART_TODAY + 'T00:00:00');
+  } else if (histPoints.length) {
+    anchorDate = new Date(histPoints[histPoints.length - 1].x + 'T00:00:00');
   }
 
   // BLUE pulsing dot + label, anchored to the real last history date + the
@@ -3384,19 +3576,19 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   // are assigned from — `prediction`, `devilsAdvocate`, `j6Line`. We ignore any
   // passed arrays and always read the live globals, so every dot lands exactly on
   // the line it belongs to, and re-rendering after ANY line update is correct.
-  if (!chart || !chart.options.plugins.annotation) return;
+  if (!chart) return;
+  // The annotation plugin drives the on-chart peak DOTS. If it's not loaded, we
+  // still want the Next Turns PANEL to populate — so don't bail the whole function;
+  // just skip the dot-drawing where `ann` would be used. _hasAnn gates those.
+  const _hasAnn = !!(chart.options.plugins && chart.options.plugins.annotation);
   if (typeof startIdx === 'number' && startIdx >= 0) _lastStartIdx = startIdx;
   startIdx = _lastStartIdx;
 
-  // In object time-series mode (real dated projections from history anchor),
-  // we don't rely on the fixed weekly grid length — skip the legacy guard.
-  const usingObjects = (forecastArr && forecastArr.length && forecastArr[0] && typeof forecastArr[0] === 'object' && forecastArr[0].x) ||
-                       (daArr && daArr.length && daArr[0] && typeof daArr[0] === 'object' && daArr[0].x) ||
-                       (j6Line && j6Line.length && j6Line[0] && typeof j6Line[0] === 'object' && j6Line[0].x);
-  if (!usingObjects && (startIdx < 0 || startIdx >= weeklyDates.length)) return;
-
-  // Prefer explicitly passed arrays (new object time-series from fetch*Curve).
-  // Fall back to globals. Supports both legacy flat and new {x:Date, y} objects.
+  // Resolve the arrays FIRST (must be declared before the usingObjects check
+  // below references them — otherwise it's a temporal-dead-zone ReferenceError
+  // that silently kills this whole function and leaves "Awaiting forecast data").
+  // Prefer explicitly passed arrays (new object time-series from fetch*Curve),
+  // fall back to globals. Supports both legacy flat and new {x:date, y} objects.
   const forecastArr = (typeof _legacyForecastArr !== 'undefined' && _legacyForecastArr && _legacyForecastArr.length)
                       ? _legacyForecastArr
                       : ((typeof prediction !== 'undefined' && Array.isArray(prediction)) ? prediction : []);
@@ -3404,7 +3596,14 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
                       ? _legacyDaArr
                       : ((typeof devilsAdvocate !== 'undefined' && Array.isArray(devilsAdvocate)) ? devilsAdvocate : []);
 
-  const ann = chart.options.plugins.annotation.annotations;
+  // In object time-series mode (real dated projections from history anchor),
+  // we don't rely on the fixed weekly grid length — skip the legacy guard.
+  const usingObjects = (forecastArr && forecastArr.length && forecastArr[0] && typeof forecastArr[0] === 'object' && forecastArr[0].x) ||
+                       (daArr && daArr.length && daArr[0] && typeof daArr[0] === 'object' && daArr[0].x) ||
+                       (j6Line && j6Line.length && j6Line[0] && typeof j6Line[0] === 'object' && j6Line[0].x);
+  if (!usingObjects && (startIdx < 0 || startIdx >= histPoints.length)) return;
+
+  const ann = _hasAnn ? chart.options.plugins.annotation.annotations : {};
 
   // Wipe existing peak markers (regenerate every sweep with fresh data)
   ['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom',
@@ -3419,15 +3618,10 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   // (the bug that made J6 bottom show 3/27/26 months after we had already gone lower).
   let anchorDate = new Date();
   anchorDate.setHours(0, 0, 0, 0);
-  if (chart && chart.data && chart.data.labels && chart.data.labels.length) {
-    // last label that has a historical value is a good proxy for "today" in the data
-    const hist = chart.data.datasets && chart.data.datasets[0] ? chart.data.datasets[0].data : [];
-    for (let i = chart.data.labels.length - 1; i >= 0; i--) {
-      if (hist[i] !== null && hist[i] !== undefined) {
-        anchorDate = new Date(chart.data.labels[i]);
-        break;
-      }
-    }
+  if (CHART_TODAY) {
+    anchorDate = new Date(CHART_TODAY + 'T00:00:00');
+  } else if (histPoints.length) {
+    anchorDate = new Date(histPoints[histPoints.length - 1].x + 'T00:00:00');
   }
 
   const RED = '#ff4d6a';
@@ -3618,11 +3812,11 @@ function renderEmpireReadPanel(data) {
   const reasoningEl = document.getElementById('empireReadReasoning');
   const headlineEl = document.getElementById('empireReadHeadline');
   if (tilesEl && reasoningEl && headlineEl) {
-    tilesEl.innerHTML = `
-      ${_recTile('PERPS',  tr.perps  || 'neutral')}
-      ${_recTile('KALSHI', tr.kalshi_btc_weekly_up || 'neutral')}
-      ${_recTile('SNIPER', tr.sniper_aggression || 'normal', true)}
-    `;
+    // Section 4 (this session): only the leverage direction is public. Kalshi +
+    // sniper tiles removed — they exposed what the other bots are doing (the
+    // bots still consume the full daily_read internally; the SITE just shows the
+    // one public-facing call). Single centered tile, mapped to plain language.
+    tilesEl.innerHTML = _leverageTile(tr.perps || 'neutral');
     reasoningEl.textContent = tr.reasoning || 'No reasoning provided.';
     headlineEl.style.display = 'block';
   }
@@ -3649,13 +3843,13 @@ function renderEmpireReadPanel(data) {
   if (ctxEl) {
     ctxEl.innerHTML = `
       ${_ctxBox('Phase', `${data.current_phase || '?'} (${data.phase_leg || '?'})`)}
-      ${_ctxBox('Cliff Proximity', _formatCliff(data.cliff_proximity))}
-      ${_ctxBox('7d Target',
+      ${_ctxBox('Turn Proximity', _formatCliff(data.cliff_proximity))}
+      ${_ctxBox('7-Day Outlook',
         fc.score_7d_target !== null && fc.score_7d_target !== undefined
-          ? `<span style="color:var(--yellow);font-weight:700;">${fc.score_7d_target}</span> (DA: <span style="color:#a855f7;">${fc.da_score_7d_target ?? '?'}</span>)`
+          ? `Forecast <span style="color:var(--yellow);font-weight:700;">${fc.score_7d_target}</span> · Counter-case <span style="color:#a855f7;">${fc.da_score_7d_target ?? '?'}</span>`
           : '<span style="color:var(--muted);">awaiting forecast</span>'
       )}
-      ${_ctxBox('Horse Race', _formatHorseRace(hr))}
+      ${_ctxBox('The Race', _formatHorseRace(hr))}
     `;
   }
 
@@ -3665,9 +3859,10 @@ function renderEmpireReadPanel(data) {
   if (exitEl) {
     if (exits.length > 0) {
       exitEl.innerHTML = `
-        <div style="color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; font-size: 0.9em;">
-          Exit Priority Signals
+        <div style="color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; font-size: 0.9em;">
+          Exit Trigger
         </div>
+        <div style="color: var(--muted); font-size: 0.82em; margin-bottom: 6px;">what we're watching to get out</div>
         ${exits.map(s => `<div style="color: var(--text); margin: 3px 0;">→ ${_escapeHtml(s)}</div>`).join('')}
       `;
       exitEl.style.display = 'block';
@@ -3698,6 +3893,39 @@ function _escapeHtml(s) {
 }
 
 // Recommendation tile color logic — green for longs, red for shorts, neutral for everything else
+function _leverageTile(value) {
+  // Map the perps sizing enum to plain "Go [direction] — [size]" language.
+  // The only public-facing call on this card (kalshi/sniper removed). Big + centered.
+  const v = (value || '').toLowerCase();
+  const map = {
+    short_small: ['Go Short — Cautious', '#ff4d6a'],
+    short_large: ['Go Short — Heavy',    '#ff4d6a'],
+    short:       ['Go Short',            '#ff4d6a'],
+    long_small:  ['Go Long — Cautious',  '#00e5a0'],
+    long_large:  ['Go Long — Heavy',     '#00e5a0'],
+    long:        ['Go Long',             '#00e5a0'],
+    flat:        ['Stay Flat',           'var(--yellow)'],
+    neutral:     ['Stay Flat',           'var(--yellow)'],
+    out:         ['Stay Out',            'var(--muted)'],
+  };
+  const [text, color] = map[v] || [_escapeHtml(value || '—'), 'var(--muted)'];
+  return `
+    <div style="
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 14px;
+      text-align: center;
+    ">
+      <div style="font-size: 0.62em; color: var(--muted); letter-spacing: 0.14em;
+           text-transform: uppercase; margin-bottom: 8px;">Leverage Direction</div>
+      <div style="font-size: 1.45em; color: ${color}; font-weight: 800; letter-spacing: 0.02em;">
+        ${text}
+      </div>
+    </div>
+  `;
+}
+
 function _recTile(label, value, isAggression) {
   const v = (value || '').toLowerCase();
   let color = 'var(--muted)';
@@ -3758,13 +3986,16 @@ function _ctxBox(label, valueHtml) {
 }
 
 function _formatCliff(cliff) {
+  // "Turn Proximity" — how close we are to a major turning point (a top or bottom).
+  // Plain language so it reads without insider knowledge.
   const c = (cliff || 'unknown').toLowerCase();
-  if (c === 'extreme_cliff_risk') return '<span style="color:#ff4d6a;font-weight:700;">EXTREME CLIFF</span>';
-  if (c === 'high') return '<span style="color:#ff4d6a;">high (top side)</span>';
-  if (c === 'extreme_bottom_proximity') return '<span style="color:#00e5a0;font-weight:700;">EXTREME BOTTOM</span>';
-  if (c === 'high_bottom_proximity') return '<span style="color:#00e5a0;">high (bottom side)</span>';
-  if (c === 'moderate') return '<span style="color:var(--yellow);">moderate</span>';
-  if (c === 'low') return 'low';
+  if (c === 'extreme_cliff_risk') return '<span style="color:#ff4d6a;font-weight:700;">Near the top — high drop risk</span>';
+  if (c === 'high') return '<span style="color:#ff4d6a;">Closing in on a top</span>';
+  if (c === 'extreme_bottom_proximity') return '<span style="color:#00e5a0;font-weight:700;">Near the bottom</span>';
+  if (c === 'high_bottom_proximity') return '<span style="color:#00e5a0;">Closing in on a bottom</span>';
+  if (c === 'moderate') return '<span style="color:var(--yellow);">Mid-cycle</span>';
+  if (c === 'low') return 'Far from a turn';
+  if (c === 'far') return 'Far from a turn';
   return '<span style="color:var(--muted);">unknown</span>';
 }
 
@@ -3784,86 +4015,51 @@ function _formatHorseRace(hr) {
 async function fetchForecastCurve() {
   try {
     const res = await fetch('data/forecast_curve.json?t=' + Date.now());
-    if (!res.ok) {
-      console.log('forecast_curve.json not yet available (sweep needed)');
-      return;
-    }
+    if (!res.ok) { console.log('forecast_curve.json not yet available (sweep needed)'); return; }
     const data = await res.json();
     const projection = data.projection || [];
     if (!projection.length) return;
-    // Sprint 44: today's realized score — all three lines anchor here so they
-    // emanate from the TODAY dot instead of floating at their week-0 projection.
+
+    const lowerBand = data.confidence_band_lower || [];
+    const upperBand = data.confidence_band_upper || [];
     const currentScore = (data.current_score !== undefined && data.current_score !== null)
                          ? data.current_score : null;
-    
-    // REAL ANCHOR: use the actual latest date from loaded daily history data
-    // (chart_history.json points patched by loadChartHistory). This gives the
-    // chart a true daily cadence for the "today" area instead of snapping to
-    // the old fixed weekly grid.
-    let realAnchor = new Date();
-    realAnchor.setHours(0, 0, 0, 0);
-    if (chart && chart.data && chart.data.datasets && chart.data.datasets[0] && chart.data.labels) {
-      const hist = chart.data.datasets[0].data;
-      const labels = chart.data.labels;
-      for (let i = labels.length - 1; i >= 0; i--) {
-        if (hist[i] !== null && hist[i] !== undefined) {
-          realAnchor = new Date(labels[i]);
-          break;
-        }
-      }
-    }
-    
-    // Build the forward projections as real dated time-series objects (not flat
-    // arrays indexed into the 2017 weekly grid). Weekly steps for the long
-    // 104-week horizon (keeps it reasonable), but starting exactly from the
-    // real last history date. This makes dots land on real points, "today"
-    // correct, ranges feel natural, and no more grid-date bugs for the curves.
-    const forecastData = [];
-    const daData = [];
-    let d = new Date(realAnchor);
+
+    // Anchor everything to the real "today" (last realized history date). All three
+    // forward lines start here and fan out weekly across the rolling 2yr horizon.
+    // CHART_TODAY is set by loadChartHistory; fall back to today's date if unset.
+    const anchorStr = CHART_TODAY || new Date().toISOString().split('T')[0];
+    const anchor = new Date(anchorStr + 'T00:00:00');
+
+    const fcData = [], daData = [], bandLo = [], bandHi = [];
     for (let week = 0; week < projection.length; week++) {
-      if (week > 0) {
-        d = new Date(d.getTime() + 7 * 24 * 3600 * 1000);
-      }
+      const d = new Date(anchor.getTime() + week * 7 * 86400000);
+      const ds = d.toISOString().split('T')[0];
       let fval = projection[week];
       let daval = (fval != null) ? 100 - fval : null;
-      if (week === 0 && currentScore != null) {
-        fval = currentScore;
-        daval = currentScore;  // both emanate from the realized today dot
-      }
-      if (fval != null) {
-        forecastData.push({ x: new Date(d), y: fval });
-      }
-      if (daval != null) {
-        daData.push({ x: new Date(d), y: daval });
-      }
+      // Week 0 = today: snap forecast + DA to the realized score so the lines
+      // emanate cleanly from the TODAY seam instead of jumping to week-0 projection.
+      if (week === 0 && currentScore != null) { fval = currentScore; daval = currentScore; }
+      if (fval  != null) fcData.push({ x: ds, y: Math.round(fval * 10) / 10 });
+      if (daval != null) daData.push({ x: ds, y: Math.round(daval * 10) / 10 });
+      if (lowerBand[week] != null) bandLo.push({ x: ds, y: lowerBand[week] });
+      if (upperBand[week] != null) bandHi.push({ x: ds, y: upperBand[week] });
     }
-    
-    // Assign object time-series to the projection datasets. The time scale
-    // will place them correctly from the real anchor date onward.
-    if (chart && chart.data && chart.data.datasets) {
-      const predDs = chart.data.datasets.find(d => d.label === 'Predicted (Blow-Off Forecast)');
-      const daDs = chart.data.datasets.find(d => d.label === "Devil's Advocate");
-      if (predDs) predDs.data = forecastData;
-      if (daDs) daDs.data = daData;
-      chart.update('none');
-    }
-    
-    // Sync globals as object arrays (for renderNextPeakMarkers and any other consumers)
-    prediction = forecastData;
-    devilsAdvocate = daData;
-    
-    // Render markers and today dot using the real anchor. The render functions
-    // already prefer real history dates + elapsed time for correct dot placement.
-    const firstDate = forecastData.length ? forecastData[0].x : realAnchor;
-    renderNextPeakMarkers(forecastData, daData, null);  // objects, no grid startIdx needed
-    renderTodayDot(currentScore != null ? currentScore : (forecastData.length ? forecastData[0].y : null), null);
-    
+
+    forecastPoints = fcData; daPoints = daData; fcBandLower = bandLo; fcBandUpper = bandHi;
+    prediction = forecastPoints; devilsAdvocate = daPoints;  // legacy shims
+
+    const setDS = (k, arr) => { const dd = chart.data.datasets.find(d => d.key === k); if (dd) dd.data = arr; };
+    setDS('fc', fcData); setDS('da', daData);
+    setDS('fcBandLower', bandLo); setDS('fcBandUpper', bandHi);
+    chart.update('none');
+
+    // Keep the Next-Turns / peak markers fed (they accept {x,y} arrays).
+    try { renderNextPeakMarkers(fcData, daData, null); } catch(e) {}
+    try { renderTodayDot(currentScore != null ? currentScore : (fcData[0]?.y ?? null), null); } catch(e) {}
+
     const contribs = data.contributing_fingerprints || [];
-    const todayStr = realAnchor.toISOString().split('T')[0];
-    const nForecast = forecastData.filter(v => v.y !== null).length;
-    const nDA = daData.filter(v => v.y !== null).length;
-    console.log(`forecast_curve loaded: ${nForecast} forecast points, ${nDA} DA points, ${contribs.length} contributing fingerprints, method=${data.method}, anchored at real ${todayStr} (from history, not weekly grid), current_score=${currentScore}`);
+    console.log(`forecast_curve loaded: ${fcData.length} fc, ${daData.length} DA, band ${bandLo.length}/${bandHi.length}, fingerprints=${contribs.length}, anchored ${anchorStr}, current_score=${currentScore}`);
   } catch(e) {
     console.log('forecast_curve fetch failed', e);
   }
@@ -3871,7 +4067,99 @@ async function fetchForecastCurve() {
 
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Sprint 43: fetchJ6Curve — Jordan-curated projection line (the green line).
+// THE RACE (quick read, near the chart) — mirrors the detailed Horse Race card
+// (Section 8). BOTH read the same horse_race_scoreboard.json, so they're always
+// in sync — this is the glance version (standings + Jordan's one-line read), the
+// Section 8 card is the full detail view. Same pattern as the phase strip (quick,
+// up top) mirroring the phase explanation (detailed, below).
+// NOTE: named fetchRaceStandings — the quick-read mirror near the chart. The old
+// Section 8 Horse Race card was repurposed into the Track Record card (fetchTrackRecord);
+// this still reads the live scoreboard for the standings glance up top.
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchRaceStandings() {
+  try {
+    const res = await fetch('data/horse_race_scoreboard.json?t=' + Date.now());
+    if (!res.ok) return;
+    const d = await res.json();
+
+    const lines = [
+      { key: 'forecast', label: 'Forecast', color: 'rgba(245,197,24,0.95)', resid: d.avg_forecast_residual_recent },
+      { key: 'j6',       label: 'J6 (Jordan)', color: '#00e5a0',            resid: d.avg_j6_residual_recent },
+      { key: 'devils_advocate', label: "Devil's Advocate", color: '#a855f7', resid: d.avg_devils_residual_recent },
+    ];
+    // Rank by residual ascending (lower = better). Nulls (e.g. J6 warming up) sink to bottom.
+    const ranked = lines.slice().sort((a, b) => {
+      if (a.resid == null) return 1;
+      if (b.resid == null) return -1;
+      return a.resid - b.resid;
+    });
+    const medals = ['🥇', '🥈', '🥉'];
+
+    const host = document.getElementById('raceStandings');
+    if (host) {
+      host.innerHTML = ranked.map((l, i) => {
+        const residTxt = (l.resid == null)
+          ? '<span style="color:var(--muted);">warming up</span>'
+          : `off by <span style="font-weight:700;">${l.resid}</span> avg`;
+        return `
+          <div style="display:flex; align-items:center; padding:6px 4px; font-size:0.74em;
+               border-bottom:1px solid var(--border);">
+            <div style="width:22px; flex-shrink:0;">${medals[i] || ''}</div>
+            <div style="width:9px; height:9px; border-radius:50%; background:${l.color};
+                 margin-right:9px; flex-shrink:0;"></div>
+            <div style="font-weight:700; color:${l.color}; flex:1;">${l.label}</div>
+            <div style="color:var(--text);">${residTxt}</div>
+          </div>`;
+      }).join('');
+      // State line in plain language under the standings.
+      if (d.state_explanation || d.state) {
+        host.innerHTML += `
+          <div style="font-size:0.68em; color:var(--muted); margin-top:8px; line-height:1.45;">
+            ${_escapeHtml(d.state_explanation || _prettyState(d.state))}
+          </div>`;
+      }
+    }
+
+    // Jordan's read: his called winner + his one-line why.
+    const readHost = document.getElementById('raceRead');
+    if (readHost) {
+      const called = d.jordan_winning_line || (d.editorial && d.editorial.winning_line);
+      const readTxt = d.jordan_horse_race_read || (d.editorial && d.editorial.horse_race_read);
+      if (called || readTxt) {
+        const calledLine = lines.find(l => l.key === called);
+        const calledLabel = calledLine ? calledLine.label : (called || '');
+        let html = '';
+        if (calledLabel) {
+          html += `<div style="margin-bottom:${readTxt ? '5px' : '0'};">
+            <span style="color:var(--muted);">Jordan's call:</span>
+            <span style="font-weight:700; color:${calledLine ? calledLine.color : 'var(--text)'};"> ${_escapeHtml(calledLabel)}</span> leading</div>`;
+        }
+        if (readTxt) html += `<div>${_escapeHtml(readTxt)}</div>`;
+        readHost.innerHTML = html;
+        readHost.style.display = 'block';
+      } else {
+        readHost.style.display = 'none';
+      }
+    }
+  } catch(e) { console.log('horse race fetch failed', e); }
+}
+
+function _prettyState(state) {
+  if (!state) return '';
+  const map = {
+    forecast_winning_decisive: 'Forecast is decisively winning — the pure macro read is tracking reality best.',
+    devils_winning_decisive: "Devil's Advocate is decisively winning — the inverse/falsifier path is playing out.",
+    j6_winning_decisive: "J6 is decisively winning — Jordan's curated weights are adding real alpha over the macro average.",
+    forecast_leading: 'Forecast holds a mild edge right now.',
+    devils_leading: "Devil's Advocate holds a mild edge right now.",
+    j6_leading: "J6 holds a mild edge — Jordan's curation is slightly ahead of the macro read.",
+    convergence: 'The lines agree — rare alignment, highest-conviction signal.',
+    both_wrong: 'Both the 2-way models are off — low conviction, models may be broken.',
+    all_three_wrong: 'All three lines are off reality — stale models, conviction zero.',
+    mixed: 'No clear winner right now.',
+  };
+  return map[state] || state.replace(/_/g, ' ');
+}
 // Same anchor logic as fetchForecastCurve but reads j6_curve.json and writes
 // to the j6Line dataset. No bridge-back (per Phase 2 spec) — line starts
 // exactly at startIdx.
@@ -3879,84 +4167,41 @@ async function fetchForecastCurve() {
 async function fetchJ6Curve() {
   try {
     const resp = await fetch('data/j6_curve.json?t=' + Date.now());
-    if (!resp.ok) {
-      console.log('j6_curve.json not available yet');
-      return;
-    }
+    if (!resp.ok) { console.log('j6_curve.json not available yet'); return; }
     const data = await resp.json();
     const projection = data.projection || [];
-    if (!projection.length) {
-      console.log('j6_curve: empty projection');
-      return;
-    }
-    
-    // REAL ANCHOR from loaded daily history (same as forecast). Decouples J6
-    // from the fixed weekly grid so the green line and its dots start at the
-    // actual last real data point and use real dates.
-    let realAnchor = new Date();
-    realAnchor.setHours(0, 0, 0, 0);
-    if (chart && chart.data && chart.data.datasets && chart.data.datasets[0] && chart.data.labels) {
-      const hist = chart.data.datasets[0].data;
-      const labels = chart.data.labels;
-      for (let i = labels.length - 1; i >= 0; i--) {
-        if (hist[i] !== null && hist[i] !== undefined) {
-          realAnchor = new Date(labels[i]);
-          break;
-        }
-      }
-    }
-    
-    // Build J6 as real dated time-series objects, weekly steps from realAnchor.
-    // First point gets the j6Anchor (or currentScore) so it emanates from the
-    // TODAY dot exactly like forecast/DA.
-    const j6Data = [];
-    let d = new Date(realAnchor);
+    if (!projection.length) { console.log('j6_curve: empty projection'); return; }
+
+    const anchorStr = CHART_TODAY || new Date().toISOString().split('T')[0];
+    const anchor = new Date(anchorStr + 'T00:00:00');
+
+    // J6 emanates from the realized today value (current_score), or the last
+    // history point, then follows Jordan's curated projection weekly.
     let j6Anchor = (data.current_score !== undefined && data.current_score !== null)
-                   ? data.current_score : null;
-    if (j6Anchor === null && chart && chart.data && chart.data.datasets && chart.data.datasets[0]) {
-      // fall back to last history value
-      const hist = chart.data.datasets[0].data;
-      const labels = chart.data.labels;
-      for (let i = labels.length - 1; i >= 0; i--) {
-        if (hist[i] !== null && hist[i] !== undefined) {
-          j6Anchor = hist[i];
-          break;
-        }
-      }
-    }
+                   ? data.current_score
+                   : (histPoints.length ? histPoints[histPoints.length - 1].y : null);
+
+    const j6Data = [];
     for (let week = 0; week < projection.length; week++) {
-      if (week > 0) {
-        d = new Date(d.getTime() + 7 * 24 * 3600 * 1000);
-      }
+      const d = new Date(anchor.getTime() + week * 7 * 86400000);
+      const ds = d.toISOString().split('T')[0];
       let val = projection[week];
       if (week === 0 && j6Anchor != null) val = j6Anchor;
-      if (val != null) {
-        j6Data.push({ x: new Date(d), y: val });
-      }
+      if (val != null) j6Data.push({ x: ds, y: Math.round(val * 10) / 10 });
     }
-    
-    // Assign object time-series
-    if (chart && chart.data && chart.data.datasets) {
-      const j6Ds = chart.data.datasets.find(d => d.label === 'J6 (Jordan-curated)');
-      if (j6Ds) j6Ds.data = j6Data;
-      chart.update('none');
-    }
-    
-    // Sync global as objects
-    j6Line = j6Data;
-    
-    // Refresh markers (now object-aware) and today dot.
-    renderNextPeakMarkers(null, null, null);
-    // today dot is primarily driven by forecast fetch, but if J6 is the only one loaded we can still call with anchor
-    if (j6Data.length) {
-      const firstY = j6Data[0].y;
-      renderTodayDot(firstY, null);
-    }
-    
-    const nJ6 = j6Data.filter(v => v.y !== null).length;
+
+    j6Points = j6Data; j6Line = j6Data;  // legacy shim
+    const j6Ds = chart.data.datasets.find(d => d.key === 'j6');
+    if (j6Ds) j6Ds.data = j6Data;
+    chart.update('none');
+
+    // Refresh the turning-points panel so J6's top/bottom turns appear alongside
+    // forecast + DA (renderNextPeakMarkers reads the live j6Line global for J6).
+    try { renderNextPeakMarkers(forecastPoints, daPoints, null); } catch(e) {}
+
     const tilt = data.bot_envelope_tilt ?? '--';
     const overrides = data.j6_overrides_active ?? 0;
-    console.log(`j6_curve loaded: ${nJ6} points, bot_tilt=${tilt}, overrides_active=${overrides}, method=${data.method}, anchored at real history date (no weekly grid)`);
+    console.log(`j6_curve loaded: ${j6Data.length} points, bot_tilt=${tilt}, overrides_active=${overrides}, anchored ${anchorStr}`);
   } catch(e) {
     console.log('j6_curve fetch failed', e);
   }
@@ -3999,7 +4244,8 @@ setInterval(fetchBlowoffDetector, 120000);  // blow-off detector every 2 min
 setInterval(loadChartHistory, 3600000); // chart history hourly
 // v2.7 Sprint 32: discovery engine refreshes
 setInterval(fetchJordanThesis, 120000);
-setInterval(fetchHorseRace, 120000);
+setInterval(fetchTrackRecord, 120000);
+setInterval(fetchRaceStandings, 120000);  // quick-read mirror near the chart
 setInterval(fetchFalsificationChecklist, 240000);  // 4 min
 setInterval(fetchInvariants, 240000);              // 4 min
 setInterval(fetchDataGaps, 600000);                // 10 min (rarely changes)

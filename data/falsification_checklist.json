@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-06-11T23:33:48.582451-04:00",
+  "updated_at": "2026-06-12T00:42:32.780574-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The S&P 500 Index closes below 4,000 for 3 consecutive trading days",
-      "what_it_would_mean": "A breakdown below this level would contradict the bottom pattern and indicate continued bearish momentum, invalidating the 'HOLD' signal."
+      "condition": "The price closes above the 200-day moving average by at least 3% on three consecutive trading days",
+      "what_it_would_mean": "This would indicate a strong bullish trend contradicting the pattern's expectation of a bottom, invalidating the HOLD signal."
     },
     {
       "id": 2,
-      "condition": "The CBOE VIX Volatility Index rises above 30 and remains above 30 for 7 consecutive days",
-      "what_it_would_mean": "Sustained elevated volatility would indicate market panic and a failure of the pattern's implied stability, disproving the 'UNKNOWN' verdict."
+      "condition": "Volume exceeds the 90th percentile of the past year's daily volume on two separate days within the 14-day window",
+      "what_it_would_mean": "Sustained extreme volume would suggest a breakout or blowoff phase, directly contradicting the current HOLD and pattern similarity."
     },
     {
       "id": 3,
-      "condition": "The 200-day moving average of the Nasdaq Composite crosses below the 50-day moving average (death cross) within 14 days",
-      "what_it_would_mean": "This technical bearish signal would directly contradict the pattern's implied bullish reversal, falsifying the current call."
+      "condition": "The blowoff score increases to 60 or higher within 14 days",
+      "what_it_would_mean": "A blowoff score exceeding 60 would confirm a sell-off phase is imminent, directly contradicting the current HOLD and low blowoff score of 40."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
