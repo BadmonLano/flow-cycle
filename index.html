@@ -1136,6 +1136,7 @@
       <div style="font-size: 0.62em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">
         Upcoming turns
       </div>
+      <div id="forecastConfidence" style="font-size: 0.62em; color: var(--muted); margin-bottom: 8px; line-height: 1.45;"></div>
       <div id="nextTurnsList">
         <div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">
           Awaiting forecast data...
@@ -1567,6 +1568,29 @@ const OVERLAYS = {
   etf_net_total:     { label: 'ETF Net Flows',     color: '#00e5a0', axis: 'y1', scale: 1,    unit: 'M' },
 };
 const activeOverlays = new Set();  // which ones are toggled on
+
+// Wording: raw data tokens (etf_net_total, mvrv_zscore, [crucix:sustained_narrative]) sometimes
+// leak into rendered prose from the brains / editorial text. humanize() swaps them for readable
+// words so a sentence reads "ETF net flows" instead of "etf_net_total". Safe on any string.
+const HUMANIZE_MAP = {
+  etf_net_total: 'ETF net flows', mvrv_zscore: 'MVRV z-score', fear_greed: 'fear & greed',
+  stablecoin_growth: 'stablecoin growth', stablecoin_total: 'stablecoin supply',
+  gold_strength: 'gold strength', dxy_weakness: 'dollar weakness', dxy: 'dollar index',
+  btc_funding: 'BTC funding', eth_funding: 'ETH funding', btc_oi_total: 'BTC open interest',
+  btc_oi: 'BTC open interest', active_addresses: 'active addresses', lth_supply: 'long-term-holder supply',
+  btc_momentum: 'BTC momentum', funding_rate: 'funding rate', daily_read: 'daily read',
+  risk_on: 'risk-on', risk_off: 'risk-off', sustained_narrative: 'sustained narrative',
+  geo_political: 'geopolitics', regime_direction: 'regime direction', classifier_signal: 'signal',
+};
+function humanize(s) {
+  if (!s || typeof s !== 'string') return s;
+  let out = s.replace(/\[crucix:([a-z_]+)\]/gi, (m, p1) => (HUMANIZE_MAP[p1] || p1.replace(/_/g, ' ')));
+  for (const [k, v] of Object.entries(HUMANIZE_MAP)) {
+    out = out.replace(new RegExp('\\b' + k + '\\b', 'gi'), v);
+  }
+  out = out.replace(/\b([a-z]+_[a-z_]+)\b/g, (m) => m.replace(/_/g, ' '));  // any leftover snake_case
+  return out;
+}
 // AI Markers default OFF (sprint 32 v2.7+, this session). Lano's call.
 // Toggle button shows on/off state, defaults to off so chart loads clean.
 // User clicks ◌ AI Markers button to enable, sees ◉ AI Markers when on.
@@ -2128,7 +2152,7 @@ async function fetchMacro() {
       const tag = document.getElementById('jordanReadTag');
       if (!box) return;
       if (dr && dr.read_source === 'jordan' && dr.jordan_read) {
-        box.textContent = dr.jordan_read; if (tag) tag.textContent = '· yours';
+        box.textContent = humanize(dr.jordan_read); if (tag) tag.textContent = '· yours';
       } else {
         box.textContent = '(auto — no editor call yet)'; if (tag) tag.textContent = '· auto';
       }
@@ -3063,6 +3087,7 @@ async function init() {
     fetchInvariants(),
     fetchDataGaps(),
     fetchForecastCurve(),  // data-driven forecast (single source of truth)
+    fetchBrains(),         // wiring fix: brain reads live in brain_consensus.json, not macro.json
     fetchJ6Curve(),  // Sprint 43: J6 curated line
     fetchCurrentState(),   // sprint 32 v2.7+ (this session): highlights active phase pill
     fetchDailyRead(),      // sprint 32 v2.7+ (this session): reads empire synthesis packet
@@ -3816,7 +3841,7 @@ function renderEmpireReadPanel(data) {
     // bots still consume the full daily_read internally; the SITE just shows the
     // one public-facing call). Single centered tile, mapped to plain language.
     tilesEl.innerHTML = _leverageTile(tr.perps || 'neutral');
-    reasoningEl.textContent = tr.reasoning || 'No reasoning provided.';
+    reasoningEl.textContent = humanize(tr.reasoning || 'No reasoning provided.');
     headlineEl.style.display = 'block';
   }
 
@@ -3830,7 +3855,7 @@ function renderEmpireReadPanel(data) {
       if (data.regime_break_signal && !aborts.some(a => a.toLowerCase().includes('regime'))) {
         items.unshift('horse race regime break detected');
       }
-      abortList.innerHTML = items.map(a => `<div style="margin: 2px 0;">• ${_escapeHtml(a)}</div>`).join('');
+      abortList.innerHTML = items.map(a => `<div style="margin: 2px 0;">• ${_escapeHtml(humanize(a))}</div>`).join('');
       abortBanner.style.display = 'block';
     } else {
       abortBanner.style.display = 'none';
@@ -3862,7 +3887,7 @@ function renderEmpireReadPanel(data) {
           Exit Trigger
         </div>
         <div style="color: var(--muted); font-size: 0.82em; margin-bottom: 6px;">what we're watching to get out</div>
-        ${exits.map(s => `<div style="color: var(--text); margin: 3px 0;">→ ${_escapeHtml(s)}</div>`).join('')}
+        ${exits.map(s => `<div style="color: var(--text); margin: 3px 0;">→ ${_escapeHtml(humanize(s))}</div>`).join('')}
       `;
       exitEl.style.display = 'block';
     } else {
@@ -4011,6 +4036,48 @@ function _formatHorseRace(hr) {
   return `<span style="color:var(--muted);">${_escapeHtml(state)}</span>`;
 }
 
+async function fetchBrains() {
+  // Wiring fix: the brain panel used to read `data.brain_consensus` out of macro.json,
+  // but the 3-brain consensus actually writes its own file (brain_consensus.json). The
+  // two never met, so the panel showed "--" even though the brains were running fine.
+  // This reads the real file and reshapes it into what the panel render expects.
+  try {
+    const res = await fetch('data/brain_consensus.json?t=' + Date.now());
+    if (!res.ok) { console.log('brain_consensus.json not yet available'); return; }
+    const raw = await res.json();
+    const c  = raw.consensus || {};
+    const br = c.brain_reads || {};
+
+    const headlineEl = document.getElementById('brainHeadline');
+    if (headlineEl) headlineEl.textContent =
+      humanize((br.narrative && br.narrative.headline) || (raw.narrative && raw.narrative.headline) || 'Awaiting brain output...');
+
+    const narrEl = document.getElementById('brainNarrative');
+    if (narrEl) narrEl.textContent = humanize((raw.narrative && raw.narrative.narrative) || c.key_reasoning || '');
+
+    const tEl = document.getElementById('brainTier');
+    if (tEl) { tEl.textContent = c.alert_tier || 'LOW'; tEl.className = 'tier-badge ' + String(c.alert_tier || 'low').toLowerCase(); }
+
+    const setRead = (id, metaId, val, conf) => {
+      const e = document.getElementById(id);
+      if (e) { e.textContent = val || '--'; e.className = 'sig-val ' + String(val || '').toLowerCase(); }
+      const m = document.getElementById(metaId);
+      if (m) m.textContent = (conf != null) ? `conf ${(conf * 100).toFixed(0)}%` : '--';
+    };
+    if (br.analyst) setRead('analystRead', 'analystMeta',
+      (br.analyst.signal || '--') + (br.analyst.phase ? ' · ' + br.analyst.phase : ''), br.analyst.confidence);
+    if (br.judge)   setRead('judgeRead', 'judgeMeta', br.judge.signal, br.judge.confidence);
+    if (br.narrative) {
+      const e = document.getElementById('narrativeRead');
+      if (e) e.textContent = br.narrative.headline || '--';
+      const m = document.getElementById('narrativeMeta');
+      if (m) m.textContent = (br.narrative.confidence != null) ? `conf ${(br.narrative.confidence * 100).toFixed(0)}%` : '--';
+    }
+    console.log('brains loaded:', br.analyst && br.analyst.signal, '/', br.judge && br.judge.signal, '/ narrative', br.narrative && br.narrative.headline ? 'ok' : 'none');
+  } catch (e) { console.log('brain_consensus fetch failed', e); }
+}
+
+
 async function fetchForecastCurve() {
   try {
     const res = await fetch('data/forecast_curve.json?t=' + Date.now());
@@ -4058,6 +4125,19 @@ async function fetchForecastCurve() {
     try { renderTodayDot(currentScore != null ? currentScore : (fcData[0]?.y ?? null), null); } catch(e) {}
 
     const contribs = data.contributing_fingerprints || [];
+
+    // Confidence read: amplitude_blend tracks how strongly signals are firing. When it's
+    // low, the projection deliberately stays near the middle (flat) instead of faking a big
+    // swing , so label it as honest low-confidence rather than letting a flat line look broken.
+    const ab = data.amplitude_blend;
+    const confEl = document.getElementById('forecastConfidence');
+    if (confEl) {
+      if (ab == null) confEl.textContent = '';
+      else if (ab < 1.0) confEl.innerHTML = '<span style="color:var(--muted);">Low confidence right now , no strong cycle signal is firing, so the forecast stays cautious and close to the middle. The swings widen as real signals build.</span>';
+      else if (ab < 3.0) confEl.innerHTML = '<span style="color:var(--muted);">Building confidence , some signals are firing and the forecast is starting to commit to a direction.</span>';
+      else confEl.innerHTML = '<span style="color:var(--green,#00e5a0);">High confidence , strong signals firing, the forecast is committing to a full cycle move.</span>';
+    }
+
     console.log(`forecast_curve loaded: ${fcData.length} fc, ${daData.length} DA, band ${bandLo.length}/${bandHi.length}, fingerprints=${contribs.length}, anchored ${anchorStr}, current_score=${currentScore}`);
   } catch(e) {
     console.log('forecast_curve fetch failed', e);
