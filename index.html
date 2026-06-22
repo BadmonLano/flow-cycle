@@ -1325,7 +1325,7 @@
       <div id="trackRecordHorseRace" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);"></div>
 
       <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
-        Calls graded at midnight against the real move. Partial = half credit. Lower line residual = closer to reality.
+        Calls graded at midnight against the real move. Partial = half credit.
       </div>
     </div>
 
@@ -3219,24 +3219,11 @@ async function fetchTrackRecord() {
     const hrEl = document.getElementById('trackRecordHorseRace');
     const hr = d.horse_race_trend;
     if (hrEl) {
-      if (!hr || (hr.forecast_avg_residual == null && hr.j6_avg_residual == null)) {
-        hrEl.innerHTML = '';
-      } else {
-        const lines = [
-          ['Forecast', hr.forecast_avg_residual, '#f5c518'],
-          ['J6 (Jordan)', hr.j6_avg_residual, '#00e5a0'],
-          ["Devil's Advocate", hr.devils_avg_residual, '#a855f7'],
-        ].filter(l => l[1] != null).sort((a, b) => a[1] - b[1]);
-        hrEl.innerHTML = `
-          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Which line tracks reality best <span style="opacity:0.7;">(last ${hr.snapshots} snapshots, lower = better)</span></div>
-          ${lines.map((l, i) => `
-            <div style="display:flex; align-items:center; gap:8px; padding:3px 0; font-size:0.78em;">
-              <span style="width:18px;">${['🥇','🥈','🥉'][i] || ''}</span>
-              <span style="color:${l[2]}; font-weight:600; flex:1;">${l[0]}</span>
-              <span style="color:#cbd5e0;">off by ${l[1]} avg</span>
-            </div>`).join('')}
-        `;
-      }
+      // De-duped (Lano, 2026-06-21): the line-vs-reality "off by X avg" standings
+      // already render in The Race card (#raceStandings). Showing them here too put
+      // the same numbers on screen twice, so this strip now renders nothing. The
+      // Track Record card keeps its unique "Recent Calls" content above.
+      hrEl.innerHTML = '';
     }
   } catch(e) { console.log('track record fetch failed', e); }
 }
@@ -3371,7 +3358,12 @@ function findAbsoluteMax(arr, startIdx) {
       if (item.y == null) continue;
       if (!best || item.y > best.y) best = item;
     }
-    return best ? { date: best.x, value: best.y } : null;
+    // Coerce the date-only string ("2026-06-19") to a real Date anchored at local
+    // midnight (matching anchorDate). Without this, peakDate stayed a string and
+    // _formatPeakDate(...).toLocaleDateString() threw — silently killing the whole
+    // Next-Turns panel (left it stuck on "Awaiting forecast data"). weeksOut also
+    // went NaN (string minus Date).
+    return best ? { date: (typeof best.x === 'string' ? new Date(best.x + 'T00:00:00') : best.x), value: best.y } : null;
   }
   // legacy flat mode
   let bestIdx = -1;
@@ -3396,7 +3388,7 @@ function findAbsoluteMin(arr, startIdx) {
       if (item.y == null) continue;
       if (!best || item.y < best.y) best = item;
     }
-    return best ? { date: best.x, value: best.y } : null;
+    return best ? { date: (typeof best.x === 'string' ? new Date(best.x + 'T00:00:00') : best.x), value: best.y } : null;
   }
   let bestIdx = -1;
   let bestVal = Infinity;
