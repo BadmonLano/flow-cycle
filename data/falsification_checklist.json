@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-06-23T02:13:06.783023-04:00",
+  "updated_at": "2026-06-23T03:23:53.074387-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The asset's price closes above the 200-day moving average by 5% or more",
-      "what_it_would_mean": "This would indicate a confirmed bullish trend, contradicting the 'HOLD' signal and suggesting the pattern is not a bottom but a continuation of an uptrend."
+      "condition": "The price closes above the 200-day moving average by at least 5% within 14 days",
+      "what_it_would_mean": "This would indicate a confirmed bullish trend, directly contradicting the 'HOLD' signal and invalidating the uncertainty of the current verdict."
     },
     {
       "id": 2,
-      "condition": "The blowoff score exceeds 50 (current score: 39)",
-      "what_it_would_mean": "A blowoff score above 50 would signal extreme market momentum, invalidating the 'HOLD' by proving the pattern is a blowoff rather than a bottom."
+      "condition": "Volume spikes to 200% above the 14-day average on three consecutive days",
+      "what_it_would_mean": "Such a surge in volume would signal strong market conviction, disproving the 'UNKNOWN' phase by confirming a clear directional bias."
     },
     {
       "id": 3,
-      "condition": "A major central bank intervention (e.g., interest rate cut or quantitative easing announcement) occurs within 14 days",
-      "what_it_would_mean": "Such an event would introduce a clear external driver, falsifying the 'UNKNOWN' verdict by proving the market movement is policy-driven, not pattern-based."
+      "condition": "A major central bank announces a rate cut of 50 basis points or more, followed by a 10% rally in the relevant index within 7 days",
+      "what_it_would_mean": "This would invalidate the 'HOLD' signal by demonstrating a clear policy-driven market move contrary to the pattern's implied expectation."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
