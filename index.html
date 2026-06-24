@@ -1967,7 +1967,7 @@ function fmtPlain(n, dec=2) {
 // ═══════════════════════════════════════════════════════════════════════════
 async function fetchCrypto() {
   try {
-    const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,bnb&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
+    const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,binancecoin&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
     const data = await res.json();
     const map = {};
     data.forEach(c => map[c.id] = c);
@@ -1975,7 +1975,7 @@ async function fetchCrypto() {
     const btc = map['bitcoin'];
     const eth = map['ethereum'];
     const sol = map['solana'];
-    const bnb = map['bnb'];
+    const bnb = map['binancecoin'];
 
     if (btc) {
       document.getElementById('btcPrice').textContent = fmt(btc.current_price, 0);
@@ -2113,10 +2113,15 @@ async function fetchMacro() {
         if (m) m.textContent = (conf != null) ? `conf ${(conf*100).toFixed(0)}%` : '--';
       };
       if (br.analyst) setRead('analystRead','analystMeta', (br.analyst.signal||'--') + (br.analyst.phase ? ' · '+br.analyst.phase : ''), br.analyst.confidence);
-      if (br.judge)   setRead('judgeRead','judgeMeta', br.judge.signal, br.judge.confidence);
+      if (br.judge)   setRead('judgeRead','judgeMeta', (br.judge.signal||'--') + (br.judge.phase ? ' · '+br.judge.phase : ''), br.judge.confidence);
       if (br.narrative) {
         const e=document.getElementById('narrativeRead'); if(e) e.textContent = br.narrative.headline || '--';
-        const m=document.getElementById('narrativeMeta'); if(m) m.textContent = (br.narrative.confidence!=null) ? `conf ${(br.narrative.confidence*100).toFixed(0)}%` : '--';
+        const m=document.getElementById('narrativeMeta');
+        if(m) {
+          const _np = br.narrative.phase ? br.narrative.phase : '';
+          const _nc = (br.narrative.confidence!=null) ? `conf ${(br.narrative.confidence*100).toFixed(0)}%` : '';
+          m.textContent = [_np, _nc].filter(Boolean).join(' · ') || '--';
+        }
       }
     }
 
@@ -2125,7 +2130,12 @@ async function fetchMacro() {
       const e = document.getElementById('legacyRead');
       if (e) { e.textContent = data.blowoff_signal; e.className = 'sig-val ' + data.blowoff_signal.toLowerCase(); }
       const m = document.getElementById('legacyMeta');
-      if (m) m.textContent = `score ${data.blowoff_score}`;
+      if (m) {
+        const _lph = (data.brain_consensus && data.brain_consensus.brain_reads
+                      && data.brain_consensus.brain_reads.legacy
+                      && data.brain_consensus.brain_reads.legacy.phase) || '';
+        m.textContent = [`score ${data.blowoff_score}`, _lph].filter(Boolean).join(' · ');
+      }
     }
 
     // Reconciliation hint — internal plumbing, no longer surfaced on the site.
