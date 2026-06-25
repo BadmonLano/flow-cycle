@@ -1513,15 +1513,14 @@
       </div>
     </div>
 
-    <!-- ETF flows (preserved) -->
+    <!-- ETF flows: BTC + ETH + SOL net (Apify / SoSoValue, ~1x/day) -->
     <div class="card">
-      <div class="card-label">BTC ETF Flows (Daily Net)</div>
+      <div class="card-label">Spot ETF Net Flows (Daily)</div>
       <div id="etfFlows">
-        <div class="etf-row"><span class="etf-name">IBIT (BlackRock)</span><span class="etf-flow" id="ibit">--</span></div>
-        <div class="etf-row"><span class="etf-name">FBTC (Fidelity)</span><span class="etf-flow" id="fbtc">--</span></div>
-        <div class="etf-row"><span class="etf-name">ARKB (ARK)</span><span class="etf-flow" id="arkb">--</span></div>
-        <div class="etf-row"><span class="etf-name">BITB (Bitwise)</span><span class="etf-flow" id="bitb">--</span></div>
-        <div class="etf-row"><span class="etf-name">Total Net</span><span class="etf-flow" id="etfTotal">--</span></div>
+        <div class="etf-row"><span class="etf-name">BTC ETF</span><span class="etf-flow" id="etfBtc">--</span></div>
+        <div class="etf-row"><span class="etf-name">ETH ETF</span><span class="etf-flow" id="etfEth">--</span></div>
+        <div class="etf-row"><span class="etf-name">SOL ETF</span><span class="etf-flow" id="etfSol">--</span></div>
+        <div class="etf-row"><span class="etf-name" id="etfDateLabel">As of</span><span class="etf-flow" id="etfDate" style="font-weight:400;color:var(--muted)">--</span></div>
       </div>
     </div>
 
@@ -2657,26 +2656,29 @@ async function fetchDiscoveries() {
 // ETF + ON-CHAIN (preserved, simplified since macro.json has it all now)
 // ═══════════════════════════════════════════════════════════════════════════
 function loadETFFlows() {
-  fetch('data/etf_flows.json?t=' + Date.now())
+  fetch('data/macro.json?t=' + Date.now())
     .then(r => r.json())
     .then(data => {
-      let total = 0;
-      ['ibit','fbtc','arkb','bitb'].forEach(k => {
-        const v = data[k];
-        total += v || 0;
-        const el = document.getElementById(k);
-        if (el) {
-          el.textContent = v != null ? (v >= 0 ? '+$' : '-$') + Math.abs(v).toFixed(0) + 'M' : '--';
-          el.className = 'etf-flow ' + (v >= 0 ? 'up' : 'down');
-        }
-      });
-      const tot = document.getElementById('etfTotal');
-      if (data.total != null) total = data.total;
-      tot.textContent = (total >= 0 ? '+$' : '-$') + Math.abs(total).toFixed(0) + 'M';
-      tot.className = 'etf-flow ' + (total >= 0 ? 'up' : 'down');
+      // All three are net flow in $ MILLIONS (Apify/SoSoValue). BTC's millions
+      // field is etf_net_total_musd (NOT etf_net_total, which is full dollars —
+      // formatting that with an "M" suffix was the -$113780000M bug).
+      const fmt = (m) => (m == null || isNaN(m))
+        ? '--'
+        : (m >= 0 ? '+$' : '-$') + Math.abs(m).toFixed(1) + 'M';
+      const setRow = (id, m) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = fmt(m);
+        el.className = 'etf-flow ' + (m == null || isNaN(m) ? '' : (m >= 0 ? 'up' : 'down'));
+      };
+      setRow('etfBtc', data.etf_net_total_musd);
+      setRow('etfEth', data.eth_etf_net_musd);
+      setRow('etfSol', data.sol_etf_net_musd);
+      const d = document.getElementById('etfDate');
+      if (d) d.textContent = data.etf_flow_date || data.eth_etf_flow_date || data.sol_etf_flow_date || '--';
     })
     .catch(() => {
-      ['ibit','fbtc','arkb','bitb','etfTotal'].forEach(id => {
+      ['etfBtc','etfEth','etfSol'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.textContent = 'Jordan updating...';
       });
