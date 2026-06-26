@@ -1,0 +1,42 @@
+{
+  "_updated": "2026-06-25T22:24:00-04:00",
+  "_note": "J6 curation pass on new ETF/funding/OI live data + shape detector fix. base_weights untouched.",
+  "_change_log": [
+    {
+      "key": "factor_weights.etf_net_total",
+      "value": 14.2,
+      "reason": "ETF net flow now live and real (BTC -$113.8M outflow). Was frozen neutral 50 for weeks; now trustworthy regime signal. Override base 9.83 higher to reflect conviction on outflows confirming bottom."
+    },
+    {
+      "key": "factor_weights.funding_rate",
+      "value": 11.5,
+      "reason": "Funding + OI now live post-geoblock fix. Adds real leverage data to bottoming read. Lean in harder than base."
+    },
+    {
+      "key": "fingerprint_trust.2020-03",
+      "value": 8.7,
+      "reason": "Bottom analogs dominant (2020 Mar stacked ~80%). Boost trust on true bottom fingerprints vs base over-trusting recent tops."
+    },
+    {
+      "key": "fingerprint_trust.2022-05",
+      "value": 8.1,
+      "reason": "LUNA crash analog strong match. Increase weight to reflect current bottoming regime."
+    },
+    {
+      "key": "invariants_firing.bottom_signal_strength",
+      "value": 13.0,
+      "reason": "Shape detector fixed (was falsely matching 2021 top at bottom). Now honest bottom_signal; weight higher to capitalize on the fix."
+    }
+  ],
+  "factor_weights": {
+    "etf_net_total": 14.2,
+    "funding_rate": 11.5
+  },
+  "fingerprint_trust": {
+    "2020-03": 8.7,
+    "2022-05": 8.1
+  },
+  "invariants_firing": {
+    "bottom_signal_strength": 13.0
+  }
+}
