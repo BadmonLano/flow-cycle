@@ -1399,6 +1399,26 @@
       </div>
     </div>
 
+    <!-- FED NET LIQUIDITY (WALCL − TGA − RRP) — regime tilt, signal = 4w change -->
+    <div class="card">
+      <div class="card-label">Fed Net Liquidity · WALCL − TGA − RRP</div>
+      <div style="display:flex;align-items:baseline;gap:12px;margin:4px 0 10px;">
+        <div id="netLiqRegime" style="font-size:1.4rem;font-weight:700;letter-spacing:1px;">--</div>
+        <div id="netLiqChg" style="font-size:1rem;font-weight:600;">--</div>
+      </div>
+      <div class="indicators-grid">
+        <div class="ind-tile"><div class="ind-label">Net Liquidity</div><div class="ind-val" id="netLiq">--</div><div class="ind-sub">trillions</div></div>
+        <div class="ind-tile"><div class="ind-label">4-Week Δ</div><div class="ind-val" id="netLiq4w">--</div><div class="ind-sub">the signal</div></div>
+        <div class="ind-tile"><div class="ind-label">Fed Sheet</div><div class="ind-val" id="walclBn">--</div><div class="ind-sub">WALCL</div></div>
+        <div class="ind-tile"><div class="ind-label">TGA</div><div class="ind-val" id="tgaBn">--</div><div class="ind-sub">treasury cash</div></div>
+        <div class="ind-tile"><div class="ind-label">Reverse Repo</div><div class="ind-val" id="rrpBn">--</div><div class="ind-sub">RRP drain</div></div>
+        <div class="ind-tile"><div class="ind-label">J6 Factor</div><div class="ind-val" id="fedLiqFactor">--</div><div class="ind-sub">0–100</div></div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        Expanding = risk-on tailwind · Draining = headwind. The level is huge and slow; the <b>4-week change</b> is what tilts the regime. Updates weekly (Thu, Fed H.4.1).
+      </div>
+    </div>
+
     <!-- BLOW-OFF TOP DETECTOR (Sprint 22 - the main event) -->
     <div class="card blowoff-detector-card">
       <div class="card-label">
@@ -2082,6 +2102,38 @@ async function fetchMacro() {
     if (data.us10y != null)      document.getElementById('us10y').textContent = data.us10y + '%';
     if (data.yield_spread_10_2 != null) document.getElementById('yieldSpread').textContent = `spread ${data.yield_spread_10_2.toFixed(2)}`;
     if (data.mvrv_zscore != null) document.getElementById('mvrv').textContent = data.mvrv_zscore.toFixed(2);
+
+    // ── Fed Net Liquidity (WALCL − TGA − RRP) ──────────────────────────────
+    // net_liquidity_bn is in $B; show level in $T. The 4w change ($M) is the signal.
+    (function renderNetLiq() {
+      const regimeEl = document.getElementById('netLiqRegime');
+      const colorFor = (r) => r === 'expanding' ? 'var(--green)' : (r === 'draining' ? 'var(--red)' : 'var(--muted)');
+      if (data.liquidity_regime != null && regimeEl) {
+        regimeEl.textContent = data.liquidity_regime.toUpperCase();
+        regimeEl.style.color = colorFor(data.liquidity_regime);
+      }
+      if (data.net_liquidity_bn != null) {
+        document.getElementById('netLiq').textContent = '$' + (data.net_liquidity_bn / 1000).toFixed(2) + 'T';
+      }
+      if (data.net_liquidity_chg_4w != null) {
+        const bn = data.net_liquidity_chg_4w / 1000; // $M -> $B
+        const sign = bn >= 0 ? '+' : '-';
+        const txt = sign + '$' + Math.abs(bn).toFixed(1) + 'B';
+        const el4 = document.getElementById('netLiq4w');
+        el4.textContent = txt;
+        el4.style.color = bn >= 0 ? 'var(--green)' : 'var(--red)';
+        const chgEl = document.getElementById('netLiqChg');
+        if (chgEl) {
+          chgEl.textContent = txt + ' / 4w' + (data.net_liquidity_chg_4w_pct != null ? ' (' + (data.net_liquidity_chg_4w_pct >= 0 ? '+' : '') + data.net_liquidity_chg_4w_pct.toFixed(2) + '%)' : '');
+          chgEl.style.color = bn >= 0 ? 'var(--green)' : 'var(--red)';
+        }
+      }
+      const c = data.net_liquidity_components || {};
+      if (c.walcl_bn != null) document.getElementById('walclBn').textContent = '$' + (c.walcl_bn / 1000).toFixed(2) + 'T';
+      if (c.tga_bn != null)   document.getElementById('tgaBn').textContent   = '$' + c.tga_bn.toFixed(0) + 'B';
+      if (c.rrp_bn != null)   document.getElementById('rrpBn').textContent   = '$' + c.rrp_bn.toFixed(0) + 'B';
+      if (data.fed_liquidity_factor != null) document.getElementById('fedLiqFactor').textContent = data.fed_liquidity_factor;
+    })();
 
     // Derivatives / on-chain sidebar
     if (data.btc_funding != null) document.getElementById('funding').textContent = (data.btc_funding >= 0 ? '+' : '') + data.btc_funding.toFixed(4) + '%';
