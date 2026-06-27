@@ -1419,6 +1419,17 @@
       </div>
     </div>
 
+    <!-- 7-DAY PRICE PREDICTION (BTC/ETH/SOL) — forecast vs J6 curated -->
+    <div class="card">
+      <div class="card-label">7-Day Price Projection · forecast vs J6</div>
+      <div id="priceForecastBody">
+        <div style="color:var(--muted)">Projections populate after next sweep.</div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        Where the big 3 land in ~7 days. <b>fc</b> = mechanical analog replay (the cold read). <b>j6</b> = Jordan's curated call, bent by his conviction tilt. The % is J6's projected move. Hover the chart for the full path.
+      </div>
+    </div>
+
     <!-- BLOW-OFF TOP DETECTOR (Sprint 22 - the main event) -->
     <div class="card blowoff-detector-card">
       <div class="card-label">
@@ -1639,6 +1650,11 @@ let histPoints      = [];   // [{x, y, fg, phase, btc}]
 let forecastPoints  = [];   // [{x, y}]
 let daPoints        = [];   // [{x, y}]
 let j6Points        = [];   // [{x, y}]
+// Price projection (BTC/ETH/SOL) — week-indexed, parallel to forecast weeks.
+// Populated by fetchPriceProjections(). Used in the chart tooltip to show the
+// projected price for each of the big 3 at the hovered week.
+let PRICE_PROJ   = null;   // mechanical: { assets: {BTC:{weekly_price:[...]}, ...} }
+let J6_PRICE_PROJ = null;  // J6 curated: same shape
 let fcBandLower     = [];   // [{x, y}]  confidence band lower
 let fcBandUpper     = [];   // [{x, y}]  confidence band upper
 
@@ -1816,14 +1832,45 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
             return `  ${ds.label}: ${val}`;
           },
           afterBody: items => {
-            // Only the history point carries fg/phase/btc. Find it among hovered items.
+            const lines = [];
+            // History point carries fg/phase/btc.
             const histItem = items.find(it => it.dataset && it.dataset.key === 'hist');
             const p = histItem ? histItem.raw : null;
-            if (!p || typeof p !== 'object') return [];
-            const lines = [];
-            if (p.fg !== undefined && p.fg !== null) lines.push(`  F&G: ${p.fg}`);
-            if (p.phase) lines.push(`  Phase: ${p.phase}`);
-            if (p.btc) lines.push(`  BTC: $${Math.round(p.btc).toLocaleString()}`);
+            if (p && typeof p === 'object') {
+              if (p.fg !== undefined && p.fg !== null) lines.push(`  F&G: ${p.fg}`);
+              if (p.phase) lines.push(`  Phase: ${p.phase}`);
+              if (p.btc) lines.push(`  BTC: $${Math.round(p.btc).toLocaleString()}`);
+            }
+            // Projected price for the big 3 at the hovered week (forecast + J6).
+            // Only show on forward points (forecast/j6/da hovered, not history).
+            const fwd = items.find(it => it.dataset && ['fc','j6','da'].includes(it.dataset.key));
+            if (fwd && (PRICE_PROJ || J6_PRICE_PROJ)) {
+              // Map hovered date -> week index off the chart anchor.
+              const anchorStr = CHART_TODAY || new Date().toISOString().split('T')[0];
+              const anchor = new Date(anchorStr + 'T00:00:00');
+              const hx = fwd.raw && fwd.raw.x ? fwd.raw.x : null;
+              if (hx) {
+                const wk = Math.round((new Date(hx + 'T00:00:00') - anchor) / (7*86400000));
+                if (wk >= 0) {
+                  const fmt = v => v == null ? null : (v >= 1000 ? '$'+Math.round(v).toLocaleString() : '$'+v.toFixed(2));
+                  const row = (label, projF, projJ) => {
+                    const f = projF ? fmt(projF[wk]) : null;
+                    const j = projJ ? fmt(projJ[wk]) : null;
+                    if (!f && !j) return null;
+                    return `  ${label}: ${f || '—'} fc${j ? ' / '+j+' j6' : ''}`;
+                  };
+                  const A = (PRICE_PROJ && PRICE_PROJ.assets) || {};
+                  const J = (J6_PRICE_PROJ && J6_PRICE_PROJ.assets) || {};
+                  lines.push('  ── projected price ──');
+                  ['BTC','ETH','SOL'].forEach(sym => {
+                    const r = row(sym,
+                      A[sym] && A[sym].weekly_price,
+                      J[sym] && J[sym].weekly_price);
+                    if (r) lines.push(r);
+                  });
+                }
+              }
+            }
             return lines;
           }
         }
@@ -4134,6 +4181,51 @@ async function fetchBrains() {
 }
 
 
+async function fetchPriceProjections() {
+  // Pull mechanical + J6 price projections, populate globals (used by tooltip),
+  // and render the 7-day big-3 prediction card.
+  try {
+    const [mRes, jRes] = await Promise.all([
+      fetch('data/price_projection.json?t=' + Date.now()).catch(() => null),
+      fetch('data/j6_price_projection.json?t=' + Date.now()).catch(() => null),
+    ]);
+    if (mRes && mRes.ok) PRICE_PROJ = await mRes.json();
+    if (jRes && jRes.ok) J6_PRICE_PROJ = await jRes.json();
+    renderPriceForecastCard();
+    if (chart) chart.update('none');  // refresh so tooltip picks up new data
+  } catch (e) { console.log('price projection fetch failed', e); }
+}
+
+function renderPriceForecastCard() {
+  // 7-day (week 1) projected price for BTC/ETH/SOL — forecast vs J6.
+  const card = document.getElementById('priceForecastBody');
+  if (!card) return;
+  const A = (PRICE_PROJ && PRICE_PROJ.assets) || {};
+  const J = (J6_PRICE_PROJ && J6_PRICE_PROJ.assets) || {};
+  const fmt = v => v == null ? '--' : (v >= 1000 ? '$' + Math.round(v).toLocaleString() : '$' + v.toFixed(2));
+  const pct = (cur, tgt) => (cur && tgt) ? (((tgt - cur) / cur) * 100) : null;
+  // week index 1 ≈ 7 days out (week 0 is today).
+  const WK = 1;
+  let html = '';
+  ['BTC','ETH','SOL'].forEach(sym => {
+    const a = A[sym], j = J[sym];
+    const cur = (a && a.current) || (j && j.current);
+    if (!cur) return;
+    const fTgt = a && a.weekly_price ? a.weekly_price[WK] : null;
+    const jTgt = j && j.weekly_price ? j.weekly_price[WK] : null;
+    const jPct = pct(cur, jTgt);
+    const pctColor = jPct == null ? 'var(--muted)' : (jPct >= 0 ? 'var(--green)' : 'var(--red)');
+    const jPctStr = jPct == null ? '' : ` <span style="color:${pctColor}">(${jPct >= 0 ? '+' : ''}${jPct.toFixed(1)}%)</span>`;
+    html += `<div class="etf-row">
+      <span class="etf-name">${sym} <span style="color:var(--muted);font-size:0.8em">${fmt(cur)}</span></span>
+      <span class="etf-flow" style="font-weight:400">
+        <span style="color:var(--muted)">${fmt(fTgt)} fc</span> ·
+        <span style="color:var(--accent,#4ade80)">${fmt(jTgt)} j6</span>${jPctStr}
+      </span></div>`;
+  });
+  card.innerHTML = html || '<div style="color:var(--muted)">Projections populate after next sweep.</div>';
+}
+
 async function fetchForecastCurve() {
   try {
     const res = await fetch('data/forecast_curve.json?t=' + Date.now());
@@ -4178,6 +4270,7 @@ async function fetchForecastCurve() {
 
     // Keep the Next-Turns / peak markers fed (they accept {x,y} arrays).
     try { renderNextPeakMarkers(fcData, daData, null); } catch(e) {}
+    try { fetchPriceProjections(); } catch(e) {}
     try { renderTodayDot(currentScore != null ? currentScore : (fcData[0]?.y ?? null), null); } catch(e) {}
 
     const contribs = data.contributing_fingerprints || [];
