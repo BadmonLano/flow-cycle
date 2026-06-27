@@ -1853,11 +1853,15 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
                 const wk = Math.round((new Date(hx + 'T00:00:00') - anchor) / (7*86400000));
                 if (wk >= 0) {
                   const fmt = v => v == null ? null : (v >= 1000 ? '$'+Math.round(v).toLocaleString() : '$'+v.toFixed(2));
-                  const row = (label, projF, projJ) => {
+                  const row = (label, projF, projJ, projD) => {
                     const f = projF ? fmt(projF[wk]) : null;
                     const j = projJ ? fmt(projJ[wk]) : null;
-                    if (!f && !j) return null;
-                    return `  ${label}: ${f || '—'} fc${j ? ' / '+j+' j6' : ''}`;
+                    const d = projD ? fmt(projD[wk]) : null;
+                    if (!f && !j && !d) return null;
+                    let s = `  ${label}: ${f || '—'} fc`;
+                    if (j) s += ` / ${j} j6`;
+                    if (d) s += ` / ${d} da`;
+                    return s;
                   };
                   const A = (PRICE_PROJ && PRICE_PROJ.assets) || {};
                   const J = (J6_PRICE_PROJ && J6_PRICE_PROJ.assets) || {};
@@ -1865,7 +1869,8 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
                   ['BTC','ETH','SOL'].forEach(sym => {
                     const r = row(sym,
                       A[sym] && A[sym].weekly_price,
-                      J[sym] && J[sym].weekly_price);
+                      J[sym] && J[sym].weekly_price,
+                      A[sym] && A[sym].da_weekly_price);
                     if (r) lines.push(r);
                   });
                 }
