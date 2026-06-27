@@ -1,7 +1,7 @@
 {
   "version": 2,
   "schema_version": "unified_v2_2026-05-26",
-  "updated_at": "2026-06-10T19:47:26.377728-04:00",
+  "updated_at": "2026-06-27T02:48:17.988853-04:00",
   "updated_by": "jordan_via_j6_action",
   "calibration_source": "Claude + Doc1 + Grok + Doc3 + Doc4 + Doc5 \u2014 6-model arithmetic mean",
   "reasoning": "Unified weight file governing all 4 chart lines. base_weights = 6-model averaged calibration (Claude + 5 others, arithmetic mean). Forecast uses these weights with envelopes off. J6 uses these weights + j6_overrides + envelopes weighted 1.5x. DA inverts forecast. History is realized data. All four lines, one file.",
@@ -99,14 +99,21 @@
   "j6_overrides": {
     "_doc": "Layered on top of base_weights when computing J6 line. Use same nested structure as base_weights, only include keys Jordan wants to override. Empty {} = J6 uses pure base. Every override requires reasoning + timestamp per Sprint 43 doctrine.",
     "factor_weights": {
-      "fear_greed": 8.7,
-      "vix": 8.5,
-      "etf_net_total": 9.5,
-      "mvrv_zscore": 9.2,
+      "fear_greed": 7.5,
+      "vix": 7.0,
+      "etf_net_total": 10.0,
+      "mvrv_zscore": 7.5,
       "us02y": 4.2,
-      "us10y": 5.3
+      "us10y": 5.3,
+      "fed_liquidity": 9.0,
+      "eth_etf_flows": 8.5,
+      "sol_etf_flows": 8.0
     },
-    "fingerprint_trust": {},
+    "fingerprint_trust": {
+      "2022-05-12": 9.0,
+      "2020-03-12": 9.0,
+      "2018-12-15": 9.0
+    },
     "envelope_type_weights": {},
     "source_bot_trust": {},
     "tier_multipliers": {},
@@ -130,6 +137,33 @@
               "mvrv_zscore": 9.2,
               "us02y": 4.2,
               "us10y": 5.3
+            }
+          }
+        }
+      },
+      {
+        "timestamp": "2026-06-27T02:48:17.988853-04:00",
+        "action": "update_j6_overrides",
+        "reasoning": "Bottom thesis confirmed: market heating up off the low. Rotating J6 from measuring fear (pinned extremes have little left to say) to catching the turn by maxing flow/liquidity leaders (etf_net_total, fed_liquidity, eth/sol etf flows) and leaning into the 81% analog recovery paths from 2022/2020/2018 bottoms while fading the fear gauges.",
+        "summary": "updated overrides: 10 weights changed",
+        "payload": {
+          "action": "update_j6_overrides",
+          "timestamp": "2026-06-27T02:50:00-04:00",
+          "reasoning": "Bottom thesis confirmed: market heating up off the low. Rotating J6 from measuring fear (pinned extremes have little left to say) to catching the turn by maxing flow/liquidity leaders (etf_net_total, fed_liquidity, eth/sol etf flows) and leaning into the 81% analog recovery paths from 2022/2020/2018 bottoms while fading the fear gauges.",
+          "overrides": {
+            "factor_weights": {
+              "etf_net_total": 10.0,
+              "fed_liquidity": 9.0,
+              "eth_etf_flows": 8.5,
+              "sol_etf_flows": 8.0,
+              "fear_greed": 7.5,
+              "vix": 7.0,
+              "mvrv_zscore": 7.5
+            },
+            "fingerprint_trust": {
+              "2022-05-12": 9.0,
+              "2020-03-12": 9.0,
+              "2018-12-15": 9.0
             }
           }
         }
