@@ -1421,12 +1421,12 @@
 
     <!-- 7-DAY PRICE PREDICTION (BTC/ETH/SOL) — forecast vs J6 curated -->
     <div class="card">
-      <div class="card-label">7-Day Price Projection · forecast vs J6</div>
+      <div class="card-label">7-Day Price Projection · daily · J6 line</div>
       <div id="priceForecastBody">
         <div style="color:var(--muted)">Projections populate after next sweep.</div>
       </div>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
-        Where the big 3 land in ~7 days. <b>fc</b> = mechanical analog replay (the cold read). <b>j6</b> = Jordan's curated call, bent by his conviction tilt. The % is J6's projected move. Hover the chart for the full path.
+        Day-by-day for the big 3. <b>BTC</b> projects off its own analogs; <b>ETH/SOL</b> = BTC's path × their beta (β, rises toward Euphoria). <b>⚡</b> = active catalyst bias on that coin (news-driven). The % is J6's 7-day move. Hover the chart for the full path.
       </div>
     </div>
 
@@ -4197,31 +4197,39 @@ async function fetchPriceProjections() {
 }
 
 function renderPriceForecastCard() {
-  // 7-day (week 1) projected price for BTC/ETH/SOL — forecast vs J6.
+  // 7-day DAILY projection (day 1..7) for BTC/ETH/SOL — forecast vs J6.
   const card = document.getElementById('priceForecastBody');
   if (!card) return;
   const A = (PRICE_PROJ && PRICE_PROJ.assets) || {};
   const J = (J6_PRICE_PROJ && J6_PRICE_PROJ.assets) || {};
   const fmt = v => v == null ? '--' : (v >= 1000 ? '$' + Math.round(v).toLocaleString() : '$' + v.toFixed(2));
-  const pct = (cur, tgt) => (cur && tgt) ? (((tgt - cur) / cur) * 100) : null;
-  // week index 1 ≈ 7 days out (week 0 is today).
-  const WK = 1;
   let html = '';
   ['BTC','ETH','SOL'].forEach(sym => {
     const a = A[sym], j = J[sym];
     const cur = (a && a.current) || (j && j.current);
     if (!cur) return;
-    const fTgt = a && a.weekly_price ? a.weekly_price[WK] : null;
-    const jTgt = j && j.weekly_price ? j.weekly_price[WK] : null;
-    const jPct = pct(cur, jTgt);
-    const pctColor = jPct == null ? 'var(--muted)' : (jPct >= 0 ? 'var(--green)' : 'var(--red)');
-    const jPctStr = jPct == null ? '' : ` <span style="color:${pctColor}">(${jPct >= 0 ? '+' : ''}${jPct.toFixed(1)}%)</span>`;
-    html += `<div class="etf-row">
-      <span class="etf-name">${sym} <span style="color:var(--muted);font-size:0.8em">${fmt(cur)}</span></span>
-      <span class="etf-flow" style="font-weight:400">
-        <span style="color:var(--muted)">${fmt(fTgt)} fc</span> ·
-        <span style="color:var(--accent,#4ade80)">${fmt(jTgt)} j6</span>${jPctStr}
-      </span></div>`;
+    const jDaily = (j && j.daily_price) || [];
+    const aDaily = (a && a.daily_price) || [];
+    const days = (jDaily.length ? jDaily : aDaily);
+    const beta = (j && j.beta) || (a && a.beta);
+    const cat = (j && j.catalyst_bias_pct);
+    const d7 = days.length ? days[days.length-1] : null;
+    const pct7 = (d7 && cur) ? (((d7 - cur) / cur) * 100) : null;
+    const pctColor = pct7 == null ? 'var(--muted)' : (pct7 >= 0 ? 'var(--green)' : 'var(--red)');
+    // header row: symbol, current, beta, 7d target + %
+    let betaStr = (sym !== 'BTC' && beta) ? ` <span style="color:var(--muted);font-size:0.75em">β${beta}</span>` : '';
+    let catStr = cat ? ` <span style="color:#fbbf24;font-size:0.75em">⚡${cat>0?'+':''}${cat.toFixed(0)}%</span>` : '';
+    html += `<div style="margin-bottom:10px;">
+      <div class="etf-row" style="font-weight:600">
+        <span class="etf-name">${sym}${betaStr}${catStr}</span>
+        <span style="color:${pctColor}">${fmt(d7)} <span style="font-size:0.8em">(${pct7==null?'':(pct7>=0?'+':'')+pct7.toFixed(1)+'%'})</span></span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:0.72rem;color:var(--muted);margin-top:3px;">`;
+    for (let i = 0; i < Math.min(7, days.length); i++) {
+      if (days[i] == null) continue;
+      html += `<span style="white-space:nowrap">d${i+1} <span style="color:var(--text)">${fmt(days[i])}</span></span>`;
+    }
+    html += `</div></div>`;
   });
   card.innerHTML = html || '<div style="color:var(--muted)">Projections populate after next sweep.</div>';
 }
