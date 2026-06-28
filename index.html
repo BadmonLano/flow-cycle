@@ -3465,6 +3465,63 @@ const PEAK_LINE_DASH = [4, 4];
 // Find the absolute max. Supports both legacy flat arrays (with startIdx) and
 // new real-dated object arrays [{x: Date, y: val}, ...] from the time-series
 // projections. Returns {date, value} for consistent use in annotations.
+// ── REAL TURNING-POINT FINDERS ────────────────────────────────────────────
+// A "turn" is a point the curve descends INTO and climbs OUT of (a true local
+// min), or rises into and falls out of (true local max) — NOT the curve's
+// starting edge. The old findAbsoluteMin grabbed the single lowest value, which
+// is the START of a rising curve, so it perpetually mislabeled "now" as a bottom
+// that slides forward daily. These require the extremum to be genuinely interior:
+// the curve must move AWAY from it on both sides by a real margin. If a rising
+// curve has no interior low, there is NO upcoming bottom — return null, and the
+// caller shows nothing (we're past the bottom, hunting the top).
+function _toSeries(arr, startIdx) {
+  // normalize both modes to [{idx, value, date?}]
+  if (!arr || !arr.length) return [];
+  if (arr[0] && typeof arr[0] === 'object' && arr[0].x !== undefined) {
+    return arr.filter(it => it.y != null).map((it, i) => ({
+      idx: i, value: it.y,
+      date: (typeof it.x === 'string' ? new Date(it.x + 'T00:00:00') : it.x)
+    }));
+  }
+  const s = (typeof startIdx === 'number' && startIdx >= 0) ? startIdx : 0;
+  const out = [];
+  for (let i = s; i < arr.length; i++) {
+    if (arr[i] === null || arr[i] === undefined) continue;
+    out.push({ idx: i, value: arr[i] });
+  }
+  return out;
+}
+
+// Find a real interior local MIN (a bottom turn). MARGIN = how much the curve
+// must rise after the low to count it as a turn we descend into and exit.
+function findTurnMin(arr, startIdx, margin = 4) {
+  const s = _toSeries(arr, startIdx);
+  if (s.length < 3) return null;
+  // global lowest
+  let lo = s[0];
+  for (const p of s) if (p.value < lo.value) lo = p;
+  // Is it interior? Must have a higher point AFTER it by >= margin (curve climbs
+  // out) AND not be sitting at the very start (else it's just "now").
+  const after = s.filter(p => p.idx > lo.idx);
+  const climbsOut = after.some(p => p.value >= lo.value + margin);
+  const atStart = lo.idx <= s[1].idx;  // lowest is the first usable point
+  if (atStart || !climbsOut) return null;  // no real bottom ahead — we're past it
+  return lo;
+}
+
+// Find a real interior local MAX (a top turn). Symmetric.
+function findTurnMax(arr, startIdx, margin = 4) {
+  const s = _toSeries(arr, startIdx);
+  if (s.length < 3) return null;
+  let hi = s[0];
+  for (const p of s) if (p.value > hi.value) hi = p;
+  const after = s.filter(p => p.idx > hi.idx);
+  const fallsOut = after.some(p => p.value <= hi.value - margin);
+  const atStart = hi.idx <= s[1].idx;
+  if (atStart || !fallsOut) return null;
+  return hi;
+}
+
 function findAbsoluteMax(arr, startIdx) {
   if (!arr || !arr.length) return null;
   // object time-series mode (new daily-anchored projections)
@@ -3768,9 +3825,9 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   const weeksFor = (peakIdx) => Math.max(0, peakIdx - (startIdx || 0));
   const dateFor = (weeks) => new Date(anchorDate.getTime() + weeks * 7 * 24 * 3600 * 1000);
 
-  // Forecast absolute extrema
-  const fcMax = findAbsoluteMax(forecastArr, startIdx);
-  const fcMin = findAbsoluteMin(forecastArr, startIdx);
+  // Forecast turns (real interior extrema — not the rising-edge "now")
+  const fcMax = findTurnMax(forecastArr, startIdx);
+  const fcMin = findTurnMin(forecastArr, startIdx);
   if (fcMax) {
     const peakDate = fcMax.date || dateFor(weeksFor(fcMax.idx));
     const peakValue = fcMax.value;
@@ -3790,9 +3847,9 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
     console.log(`[peaks] forecast absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${peakValue} (${w}w out)`);
   }
 
-  // DA absolute extrema
-  const daMax = findAbsoluteMax(daArr, startIdx);
-  const daMin = findAbsoluteMin(daArr, startIdx);
+  // DA turns (real interior extrema)
+  const daMax = findTurnMax(daArr, startIdx);
+  const daMin = findTurnMin(daArr, startIdx);
   if (daMax) {
     const peakDate = daMax.date || dateFor(weeksFor(daMax.idx));
     const peakValue = daMax.value;
@@ -3815,8 +3872,8 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   // J6 (Jordan-curated) extrema
   const J6C = '#00e5a0';
   if (typeof j6Line !== 'undefined' && Array.isArray(j6Line) && j6Line.some(v => v !== null && v !== undefined)) {
-    const j6Max = findAbsoluteMax(j6Line, startIdx);
-    const j6Min = findAbsoluteMin(j6Line, startIdx);
+    const j6Max = findTurnMax(j6Line, startIdx);
+    const j6Min = findTurnMin(j6Line, startIdx);
     if (j6Max) {
       const peakDate = j6Max.date || dateFor(weeksFor(j6Max.idx));
       const peakValue = j6Max.value;
