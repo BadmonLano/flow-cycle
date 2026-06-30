@@ -1430,6 +1430,39 @@
       </div>
     </div>
 
+    <!-- COIN CALLS (BTC/ETH/SOL leverage calls + graded record) -->
+    <div class="card">
+      <div class="card-label">Coin Calls · BTC / ETH / SOL · graded</div>
+      <div id="coinCallsBody">
+        <div style="color:var(--muted)">Calls populate after next sweep.</div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        Near-term leverage calls (1h–3d). <b>Mechanical</b> default from the daily projection; Jordan overrides with his edge. Graded: TP hit = win, SL hit = loss, expiry = timeout. Perps reads these when live.
+      </div>
+    </div>
+
+    <!-- PRICE ACCURACY (forecast vs J6 price targets, graded) -->
+    <div class="card">
+      <div class="card-label">Price Accuracy · forecast vs J6 · 7d</div>
+      <div id="priceAccuracyBody">
+        <div style="color:var(--muted)">Builds as predictions mature (7d).</div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        Avg % error of each line's 7-day price target vs what actually happened. Lower = better. The price half of the horse race — shows if J6's price read beats the cold forecast.
+      </div>
+    </div>
+
+    <!-- WEIGHT FIT (back-tester suggestion) -->
+    <div class="card">
+      <div class="card-label">Weight Fit · back-tester</div>
+      <div id="weightFitBody">
+        <div style="color:var(--muted)">Fits daily — suggestion appears when a tighter weight set is found.</div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        Fits all J6 weights against the full history + last 10 days. When a tighter set exists, it's suggested here for Jordan to accept/reject. Fits the past; his edge is the future.
+      </div>
+    </div>
+
     <!-- BLOW-OFF TOP DETECTOR (Sprint 22 - the main event) -->
     <div class="card blowoff-detector-card">
       <div class="card-label">
@@ -4296,6 +4329,127 @@ function renderPriceForecastCard() {
   card.innerHTML = html || '<div style="color:var(--muted)">Projections populate after next sweep.</div>';
 }
 
+// ── Coin Calls card ──────────────────────────────────────────────────────────
+async function fetchCoinCalls() {
+  try {
+    const [callsR, histR] = await Promise.all([
+      fetch('data/coin_calls.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('data/coin_call_history.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null),
+    ]);
+    renderCoinCallsCard(callsR, histR);
+  } catch (e) { console.log('coin calls fetch failed', e); }
+}
+function renderCoinCallsCard(calls, hist) {
+  const card = document.getElementById('coinCallsBody');
+  if (!card) return;
+  const C = (calls && calls.calls) || {};
+  const fmt = v => v == null ? '--' : (v >= 1000 ? '$' + Math.round(v).toLocaleString() : '$' + (+v).toFixed(2));
+  let html = '';
+  ['BTC','ETH','SOL'].forEach(sym => {
+    const c = C[sym];
+    if (!c) return;
+    const dir = c.direction || 'FLAT';
+    const dirColor = dir === 'LONG' ? 'var(--green)' : dir === 'SHORT' ? 'var(--red)' : 'var(--muted)';
+    const src = c.source === 'jordan' ? 'J6' : 'mech';
+    const srcColor = c.source === 'jordan' ? 'var(--green)' : 'var(--muted)';
+    if (dir === 'FLAT') {
+      html += `<div class="etf-row" style="margin-bottom:8px;">
+        <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em">${src}</span></span>
+        <span style="color:var(--muted)">FLAT</span></div>`;
+    } else {
+      html += `<div style="margin-bottom:10px;">
+        <div class="etf-row" style="font-weight:600">
+          <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em">${src}</span></span>
+          <span style="color:${dirColor}">${dir} <span style="font-size:0.8em;color:var(--muted)">[${c.horizon||'3d'}]</span></span>
+        </div>
+        <div style="font-size:0.78em;color:var(--muted);margin-top:2px;">
+          entry ${fmt(c.entry)} · <span style="color:var(--green)">TP ${fmt(c.tp)}</span> · <span style="color:var(--red)">SL ${fmt(c.sl)}</span>
+        </div></div>`;
+    }
+  });
+  // graded record (Jordan calls)
+  const graded = (hist && hist.graded) || [];
+  const jcalls = graded.filter(g => g.source === 'jordan');
+  if (jcalls.length) {
+    const recent = jcalls.slice(-8);
+    const w = recent.filter(g => g.result === 'win').length;
+    const l = recent.filter(g => g.result === 'loss').length;
+    const t = recent.filter(g => g.result === 'timeout').length;
+    html += `<div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;font-size:0.8em;">
+      <div style="color:var(--muted);margin-bottom:4px;">Leverage record (last ${recent.length}): <b style="color:var(--green)">${w}W</b> / <b style="color:var(--red)">${l}L</b> / ${t} timeout</div>`;
+    recent.slice(-3).reverse().forEach(g => {
+      const mark = g.result === 'win' ? '✓' : g.result === 'loss' ? '✗' : '≈';
+      const mc = g.result === 'win' ? 'var(--green)' : g.result === 'loss' ? 'var(--red)' : 'var(--muted)';
+      html += `<div style="color:var(--muted);font-size:0.92em;"><span style="color:${mc}">${mark}</span> ${g.asset} ${g.direction}: ${(g.detail||'').slice(0,80)}</div>`;
+    });
+    html += `</div>`;
+  }
+  card.innerHTML = html || '<div style="color:var(--muted)">Calls populate after next sweep.</div>';
+}
+
+// ── Price Accuracy card ──────────────────────────────────────────────────────
+async function fetchPriceAccuracy() {
+  try {
+    const acc = await fetch('data/price_accuracy.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
+    renderPriceAccuracyCard(acc);
+  } catch (e) { console.log('price accuracy fetch failed', e); }
+}
+function renderPriceAccuracyCard(acc) {
+  const card = document.getElementById('priceAccuracyBody');
+  if (!card) return;
+  const coins = (acc && acc.coins) || {};
+  const has = ['BTC','ETH','SOL'].some(s => coins[s] && coins[s].j6_avg_err_pct != null);
+  if (!has) { card.innerHTML = '<div style="color:var(--muted)">Builds as predictions mature (7d).</div>'; return; }
+  let html = '';
+  ['BTC','ETH','SOL'].forEach(sym => {
+    const c = coins[sym];
+    if (!c || c.j6_avg_err_pct == null) return;
+    const fc = c.fc_avg_err_pct, j6 = c.j6_avg_err_pct;
+    const jWins = (fc != null && j6 != null && j6 < fc);
+    const edge = jWins ? '<span style="color:var(--green);font-size:0.8em"> ✓ J6 wins</span>'
+                       : '<span style="color:var(--muted);font-size:0.8em"> forecast tighter</span>';
+    html += `<div class="etf-row" style="margin-bottom:6px;">
+      <span class="etf-name">${sym}${edge}</span>
+      <span style="font-size:0.85em;"><span style="color:var(--muted)">fc ${fc==null?'--':fc+'%'}</span> · <span style="color:${jWins?'var(--green)':'var(--text)'}">J6 ${j6}%</span></span>
+    </div>`;
+  });
+  card.innerHTML = html;
+}
+
+// ── Weight Fit card ──────────────────────────────────────────────────────────
+async function fetchWeightFit() {
+  try {
+    const fit = await fetch('data/weight_fit_suggestion.json?t=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
+    renderWeightFitCard(fit);
+  } catch (e) { console.log('weight fit fetch failed', e); }
+}
+function renderWeightFitCard(fit) {
+  const card = document.getElementById('weightFitBody');
+  if (!card) return;
+  if (!fit || !fit.ok) { card.innerHTML = '<div style="color:var(--muted)">Fits daily — suggestion appears when a tighter weight set is found.</div>'; return; }
+  const impr = fit.improvement || 0;
+  if (impr < 0.5) {
+    card.innerHTML = `<div style="color:var(--muted)">Current weights already track history well (error ${fit.error_after}). No change suggested.</div>`;
+    return;
+  }
+  const diffs = fit.diffs || [];
+  let html = `<div style="margin-bottom:8px;font-size:0.85em;">
+    Error <b style="color:var(--red)">${fit.error_before}</b> → <b style="color:var(--green)">${fit.error_after}</b>
+    <span style="color:var(--muted)">(${impr} tighter, ${fit.samples} samples)</span></div>`;
+  html += `<div style="font-size:0.8em;color:var(--muted);margin-bottom:4px;">Biggest suggested adjustments:</div>`;
+  diffs.slice(0, 6).forEach(d => {
+    const arrow = d.delta > 0 ? '↑' : '↓';
+    const ac = d.delta > 0 ? 'var(--green)' : 'var(--red)';
+    html += `<div class="etf-row" style="font-size:0.82em;margin-bottom:3px;">
+      <span class="etf-name" style="color:var(--muted)">${d.factor}</span>
+      <span><span style="color:var(--muted)">${d.from}</span> <span style="color:${ac}">${arrow} ${d.to}</span></span>
+    </div>`;
+  });
+  if (diffs.length > 6) html += `<div style="font-size:0.75em;color:var(--muted);margin-top:4px;">+${diffs.length-6} smaller · awaiting Jordan's yes/no</div>`;
+  else html += `<div style="font-size:0.75em;color:var(--muted);margin-top:6px;">awaiting Jordan's yes/no</div>`;
+  card.innerHTML = html;
+}
+
 async function fetchForecastCurve() {
   try {
     const res = await fetch('data/forecast_curve.json?t=' + Date.now());
@@ -4341,6 +4495,9 @@ async function fetchForecastCurve() {
     // Keep the Next-Turns / peak markers fed (they accept {x,y} arrays).
     try { renderNextPeakMarkers(fcData, daData, null); } catch(e) {}
     try { fetchPriceProjections(); } catch(e) {}
+    try { fetchCoinCalls(); } catch(e) {}
+    try { fetchPriceAccuracy(); } catch(e) {}
+    try { fetchWeightFit(); } catch(e) {}
     try { renderTodayDot(currentScore != null ? currentScore : (fcData[0]?.y ?? null), null); } catch(e) {}
 
     const contribs = data.contributing_fingerprints || [];
