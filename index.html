@@ -1798,9 +1798,15 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         border: { color: 'transparent' }
       },
       y: {
-        min: 0, max: 100,
+        min: -3, max: 104,
         grid: { color: 'rgba(255,255,255,0.04)' },
-        ticks: { color: '#4a5568', font: { family: 'Space Mono', size: 10 } },
+        ticks: {
+          color: '#4a5568', font: { family: 'Space Mono', size: 10 },
+          // only label the real 0-100 range; the -3/104 is just render headroom
+          // so peaks at 0 and 100 (and their marker dots) don't clip at the edges.
+          callback: function(v) { return (v >= 0 && v <= 100) ? v : ''; },
+          stepSize: 10,
+        },
         border: { color: 'transparent' },
         title: { display: false }
       },
