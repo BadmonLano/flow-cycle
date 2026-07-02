@@ -4363,10 +4363,14 @@ function renderCoinCallsCard(calls, hist) {
         <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em">${src}</span></span>
         <span style="color:var(--muted)">FLAT</span></div>`;
     } else {
+      // countdown: opened_at + horizon_hours -> time remaining, ticks live
+      const openedAt = c.opened_at || null;
+      const horizonH = c.horizon_hours || (String(c.horizon||'3d').includes('d') ? parseInt(c.horizon)*24 : parseInt(c.horizon)||72);
+      const cdAttr = openedAt ? `data-opened="${openedAt}" data-horizon-h="${horizonH}"` : '';
       html += `<div style="margin-bottom:10px;">
         <div class="etf-row" style="font-weight:600">
           <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em">${src}</span></span>
-          <span style="color:${dirColor}">${dir} <span style="font-size:0.8em;color:var(--muted)">[${c.horizon||'3d'}]</span></span>
+          <span style="color:${dirColor}">${dir} <span class="coin-call-countdown" ${cdAttr} style="font-size:0.8em;color:var(--muted)">[${c.horizon||'3d'}]</span></span>
         </div>
         <div style="font-size:0.78em;color:var(--muted);margin-top:2px;">
           entry ${fmt(c.entry)} · <span style="color:var(--green)">TP ${fmt(c.tp)}</span> · <span style="color:var(--red)">SL ${fmt(c.sl)}</span>
@@ -4391,6 +4395,43 @@ function renderCoinCallsCard(calls, hist) {
     html += `</div>`;
   }
   card.innerHTML = html || '<div style="color:var(--muted)">Calls populate after next sweep.</div>';
+  tickCoinCallCountdowns();  // update immediately after render
+}
+
+// Live countdown: updates every coin-call horizon label to time-remaining. When a
+// call expires, that's the signal a fresh one is due — so we show "EXPIRED · new
+// call due" rather than a dead label.
+let _coinCallTicker = null;
+function tickCoinCallCountdowns() {
+  const els = document.querySelectorAll('.coin-call-countdown[data-opened]');
+  const now = Date.now();
+  els.forEach(el => {
+    const opened = Date.parse(el.getAttribute('data-opened'));
+    const horizonH = parseFloat(el.getAttribute('data-horizon-h')) || 72;
+    if (!opened) return;
+    const expires = opened + horizonH * 3600 * 1000;
+    let remMs = expires - now;
+    if (remMs <= 0) {
+      el.textContent = '[EXPIRED · new call due]';
+      el.style.color = 'var(--red)';
+      return;
+    }
+    const d = Math.floor(remMs / 86400000); remMs -= d * 86400000;
+    const h = Math.floor(remMs / 3600000);  remMs -= h * 3600000;
+    const m = Math.floor(remMs / 60000);
+    let txt;
+    if (d > 0) txt = `${d}d ${h}h left`;
+    else if (h > 0) txt = `${h}h ${m}m left`;
+    else txt = `${m}m left`;
+    el.textContent = `[${txt}]`;
+    // color shifts toward amber as it nears expiry (under 6h)
+    const hoursLeft = (expires - now) / 3600000;
+    el.style.color = hoursLeft < 6 ? 'var(--gold, #d9a441)' : 'var(--muted)';
+  });
+  // keep a single ticker running
+  if (!_coinCallTicker) {
+    _coinCallTicker = setInterval(tickCoinCallCountdowns, 60000);  // update every minute
+  }
 }
 
 // ── Price Accuracy card ──────────────────────────────────────────────────────
