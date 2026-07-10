@@ -1,7 +1,7 @@
 {
   "version": 2,
   "schema_version": "unified_v2_2026-05-26",
-  "updated_at": "2026-06-27T02:48:17.988853-04:00",
+  "updated_at": "2026-07-09T23:28:49.730950-04:00",
   "updated_by": "jordan_via_j6_action",
   "calibration_source": "Claude + Doc1 + Grok + Doc3 + Doc4 + Doc5 \u2014 6-model arithmetic mean",
   "reasoning": "Unified weight file governing all 4 chart lines. base_weights = 6-model averaged calibration (Claude + 5 others, arithmetic mean). Forecast uses these weights with envelopes off. J6 uses these weights + j6_overrides + envelopes weighted 1.5x. DA inverts forecast. History is realized data. All four lines, one file.",
@@ -134,11 +134,16 @@
       "vix": 7.0,
       "etf_net_total": 10.0,
       "mvrv_zscore": 7.5,
-      "us02y": 4.2,
-      "us10y": 5.3,
+      "us02y": 1.5,
+      "us10y": 2.0,
       "fed_liquidity": 9.0,
       "eth_etf_flows": 8.5,
-      "sol_etf_flows": 8.0
+      "sol_etf_flows": 8.0,
+      "sp500": 2.0,
+      "nasdaq": 2.5,
+      "russell": 1.5,
+      "fed_balance": 3.5,
+      "ma_200w_factor": 9.5
     },
     "fingerprint_trust": {
       "2022-05-12": 9.0,
@@ -195,6 +200,31 @@
               "2022-05-12": 9.0,
               "2020-03-12": 9.0,
               "2018-12-15": 9.0
+            }
+          }
+        }
+      },
+      {
+        "timestamp": "2026-07-09T23:28:49.730950-04:00",
+        "action": "update_j6_overrides",
+        "reasoning": "retry after 10-change limit. forecast residual 0.0 vs j6 7.0. first cut only the biggest bullish equity/rate overweights dragging j6 too high on a panic floor day. keep floor/flow edges for a later cycle if residual still wide.",
+        "summary": "updated overrides: 10 weights changed",
+        "payload": {
+          "action": "update_j6_overrides",
+          "timestamp": "2026-07-10T03:28:00Z",
+          "reasoning": "retry after 10-change limit. forecast residual 0.0 vs j6 7.0. first cut only the biggest bullish equity/rate overweights dragging j6 too high on a panic floor day. keep floor/flow edges for a later cycle if residual still wide.",
+          "overrides": {
+            "factor_weights": {
+              "sp500": 2.0,
+              "nasdaq": 2.5,
+              "russell": 1.5,
+              "us10y": 2.0,
+              "us02y": 1.5,
+              "fed_balance": 3.5,
+              "ma_200w_factor": 9.5,
+              "etf_net_total": 10.0,
+              "fed_liquidity": 9.0,
+              "fear_greed": 7.5
             }
           }
         }
