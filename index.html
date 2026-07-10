@@ -4298,15 +4298,21 @@ function _leverageTile(value) {
   // The only public-facing call on this card (kalshi/sniper removed). Big + centered.
   const v = (value || '').toLowerCase();
   const map = {
-    short_small: ['Go Short — Cautious', '#ff4d6a'],
-    short_large: ['Go Short — Heavy',    '#ff4d6a'],
-    short:       ['Go Short',            '#ff4d6a'],
-    long_small:  ['Go Long — Cautious',  '#00e5a0'],
-    long_large:  ['Go Long — Heavy',     '#00e5a0'],
-    long:        ['Go Long',             '#00e5a0'],
-    flat:        ['Stay Flat',           'var(--yellow)'],
-    neutral:     ['Stay Flat',           'var(--yellow)'],
-    out:         ['Stay Out',            'var(--muted)'],
+    short_micro:      ['Lean Short — Anticipatory', '#ff8fa3'],
+    short_small:      ['Go Short — Cautious',       '#ff4d6a'],
+    short_medium:     ['Go Short — Medium',         '#ff4d6a'],
+    short_aggressive: ['Go Short — Heavy',          '#ff4d6a'],
+    short_large:      ['Go Short — Heavy',          '#ff4d6a'],
+    short:            ['Go Short',                  '#ff4d6a'],
+    long_micro:       ['Lean Long — Anticipatory',  '#66e6bf'],
+    long_small:       ['Go Long — Cautious',        '#00e5a0'],
+    long_medium:      ['Go Long — Medium',          '#00e5a0'],
+    long_aggressive:  ['Go Long — Heavy',           '#00e5a0'],
+    long_large:       ['Go Long — Heavy',           '#00e5a0'],
+    long:             ['Go Long',                   '#00e5a0'],
+    flat:             ['Stay Flat',                 'var(--yellow)'],
+    neutral:          ['Stay Flat',                 'var(--yellow)'],
+    out:              ['Stay Out',                  'var(--muted)'],
   };
   const [text, color] = map[v] || [_escapeHtml(value || '—'), 'var(--muted)'];
   return `
