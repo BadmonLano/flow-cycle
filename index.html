@@ -1604,12 +1604,12 @@
       </div>
     </div>
 
-    <!-- Cross-correlation discoveries (NEW v2) -->
+    <!-- Pattern engine: which mined patterns are FIRING now (v2 live matcher) -->
     <div class="card">
-      <div class="card-label">Pattern Discoveries</div>
+      <div class="card-label">Pattern Engine · firing now</div>
       <div class="discovery-list" id="discoveryList">
         <div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">
-          Cross-correlation engine runs weekly. First results after historical backfill complete.
+          Checking today's macro bins against mined patterns…
         </div>
       </div>
     </div>
@@ -2960,46 +2960,19 @@ async function fetchIndicatorHistory() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// CROSS-CORRELATION DISCOVERIES (NEW v2)
+// PATTERN ENGINE — live matcher. Shows PROVEN patterns firing on today's macro
+// bins (>=5 separate historical turns) highlighted, plus THIN/unproven matches
+// muted. Honest by design: only proven patterns get a real voice.
 // ═══════════════════════════════════════════════════════════════════════════
 async function fetchDiscoveries() {
+  const host = document.getElementById('discoveryList');
   try {
-    const res = await fetch('data/pattern_discoveries.json?t=' + Date.now());
-    if (!res.ok) return;
-    const discoveries = await res.json();
-    if (!Array.isArray(discoveries) || discoveries.length === 0) return;
-    const host = document.getElementById('discoveryList');
+    const res = await fetch('data/pattern_matches_live.json?t=' + Date.now());
+    if (!res.ok) throw new Error('no file');
+    const d = await res.json();
+    const firing = Array.isArray(d.firing) ? d.firing : [];
+    const watching = Array.isArray(d.watching) ? d.watching : [];
 
-    // DEDUP: the raw list is repetitive — the same core signal shows up several
-    // times with one variable swapped (e.g. "copper mid-high + fear-greed extreme
-    // → bottom" appears 3-4 times). Collapse near-duplicates: group by outcome +
-    // the dominant trigger factors, keep only the highest-confidence pattern per
-    // group, then show the distinct best ones.
-    const factorsOf = d => {
-      // pull factor names out of the description ("when copper = mid high AND fear
-      // greed = ..."), order-independent, so similar patterns hash together.
-      const txt = String(d.description || '').toLowerCase();
-      const m = txt.match(/(copper|fear greed|uranium|stablecoin total|gold|vix|us10y|us02y|natgas|oil|silver|dxy|mvrv|etf)/g) || [];
-      return Array.from(new Set(m)).sort();
-    };
-    const groupKey = d => {
-      const outcome = (d.precedes || '').toLowerCase().includes('top') ? 'top' : 'bottom';
-      const f = factorsOf(d);
-      // signature = outcome + the 2 strongest (first listed) factors — patterns that
-      // share outcome and lead factors are treated as the same discovery.
-      return outcome + '|' + f.slice(0, 2).join('+');
-    };
-
-    const best = {};
-    for (const d of discoveries) {
-      const k = groupKey(d);
-      if (!best[k] || (d.confidence || 0) > (best[k].confidence || 0)) best[k] = d;
-    }
-    const deduped = Object.values(best)
-      .sort((a, b) => (b.confidence || 0) - (a.confidence || 0))
-      .slice(0, 5);   // cap at the 5 distinct strongest
-
-    // Clean label: "BTC local bottom" / "BTC local top" stays; rename generic ones.
     const prettyPrecedes = p => {
       const s = (p || '').toLowerCase();
       if (s.includes('top')) return 'precedes a BTC top';
@@ -3007,14 +2980,31 @@ async function fetchDiscoveries() {
       return p || '';
     };
 
-    host.innerHTML = deduped.map(d => `
-      <div class="discovery-item">
-        <div class="dname">${d.name || 'Pattern'}</div>
-        <div class="ddesc">${d.description || ''}</div>
-        <div class="dmeta">${((d.confidence || 0)*100).toFixed(0)}% confidence · ${prettyPrecedes(d.precedes)}</div>
-      </div>
-    `).join('');
-  } catch(e) {}
+    let html = '';
+    if (firing.length) {
+      html += firing.map(p => `
+        <div class="discovery-item" style="border-left:3px solid var(--green);padding-left:8px;">
+          <div class="dname" style="color:var(--green)">● FIRING · PROVEN</div>
+          <div class="ddesc">${p.description || ''}</div>
+          <div class="dmeta">${((p.precision||0)*100).toFixed(0)}% precision · ${p.lift}x lift · ${p.distinct_events} separate turns · ${prettyPrecedes(p.precedes)}</div>
+        </div>`).join('');
+    }
+    if (watching.length) {
+      html += `<div style="font-size:0.7em;color:var(--muted);margin:8px 0 4px;">Also matching today (unproven — watching, no live voice):</div>`;
+      html += watching.slice(0,4).map(p => `
+        <div class="discovery-item" style="opacity:0.55;">
+          <div class="ddesc" style="font-size:0.8em;">${p.description || ''}</div>
+        </div>`).join('');
+    }
+    if (!firing.length && !watching.length) {
+      html = `<div style="color:var(--muted);font-size:0.72em;text-align:center;padding:14px;">
+        No mined patterns match today's conditions. The engine only fires proven patterns (5+ separate historical turns); it stays quiet rather than guess.</div>`;
+    }
+    host.innerHTML = html;
+  } catch(e) {
+    host.innerHTML = `<div style="color:var(--muted);font-size:0.72em;text-align:center;padding:14px;">
+      Pattern matcher runs each sweep. Populates once patterns are mined.</div>`;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
