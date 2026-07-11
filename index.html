@@ -1604,6 +1604,25 @@
       </div>
     </div>
 
+    <!-- Rotation engine: where we are in meme->alt->blowoff (Sprint 52) -->
+    <div class="card">
+      <div class="card-label">Rotation · meme → alt → blowoff</div>
+      <div id="rotationBody">
+        <div style="color:var(--muted);font-size:0.75em;text-align:center;padding:14px;">Reading SOL/BTC + ETH/BTC divergence…</div>
+      </div>
+    </div>
+
+    <!-- Hypothesis tracker (Sprint 52) -->
+    <div class="card">
+      <div class="card-label">Hypotheses · seed & track</div>
+      <div id="hypothesisBody">
+        <div style="color:var(--muted);font-size:0.75em;text-align:center;padding:14px;">Named theses, graded going forward…</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        Theses that can't be backtested (too few cycle tops) — proposed reads tracked live and scored as turns print. Edit hypotheses.json to add your own.
+      </div>
+    </div>
+
     <!-- Pattern engine: which mined patterns are FIRING now (v2 live matcher) -->
     <div class="card">
       <div class="card-label">Pattern Engine · firing now</div>
@@ -2960,6 +2979,65 @@ async function fetchIndicatorHistory() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+async function fetchRotation() {
+  const host = document.getElementById('rotationBody');
+  try {
+    const r = await fetch('data/rotation_state.json?t=' + Date.now());
+    if (!r.ok) throw new Error('no file');
+    const d = await r.json();
+    const stage = d.stage || 'UNKNOWN';
+    const stageColor = {
+      BTC_LED: 'var(--muted)', MEME_SEASON: '#f5a623', ETH_LED: '#9b8cff',
+      ALT_SEASON: '#00e5a0', BLOWOFF_RISK: '#ff4d6a', COOLING: '#5bc0de', UNKNOWN: 'var(--muted)'
+    }[stage] || 'var(--text)';
+    const sol = d.sol_btc_divergence_pct, eth = d.eth_btc_divergence_pct;
+    const bar = (v) => {
+      if (v == null) return '—';
+      const c = v >= 8 ? 'var(--green)' : v <= -3 ? 'var(--red)' : 'var(--muted)';
+      return `<span style="color:${c}">${v > 0 ? '+' : ''}${v}%</span>`;
+    };
+    host.innerHTML = `
+      <div style="font-size:1.15em;font-weight:700;color:${stageColor};margin-bottom:6px;">${stage.replace(/_/g,' ')}</div>
+      <div style="font-size:0.82em;color:var(--text);line-height:1.4;margin-bottom:8px;">${d.read || ''}</div>
+      <div style="font-size:0.8em;display:flex;justify-content:space-between;">
+        <span>SOL/BTC ${d.window_days||21}d: ${bar(sol)}</span>
+        <span>ETH/BTC ${d.window_days||21}d: ${bar(eth)}</span>
+      </div>
+      <div style="font-size:0.68em;color:var(--muted);margin-top:6px;">${d.sequence_hint||''}</div>`;
+  } catch(e) {
+    host.innerHTML = `<div style="color:var(--muted);font-size:0.75em;text-align:center;padding:14px;">Rotation read populates each sweep.</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchHypotheses() {
+  const host = document.getElementById('hypothesisBody');
+  try {
+    const r = await fetch('data/hypothesis_log.json?t=' + Date.now());
+    if (!r.ok) throw new Error('no file');
+    const d = await r.json();
+    const entries = d.entries || {};
+    const names = Object.keys(entries);
+    if (!names.length) throw new Error('empty');
+    let html = '';
+    for (const nm of names) {
+      const e = entries[nm];
+      const firing = e.currently_firing;
+      const dot = firing ? '<span style="color:var(--green)">●</span>' : '<span style="color:var(--muted)">○</span>';
+      html += `<div style="margin-bottom:8px;${firing?'':'opacity:0.6;'}">
+        <div style="font-size:0.82em;">${dot} <span style="font-weight:600;">${nm.replace(/_/g,' ')}</span>
+          ${firing?'<span style="color:var(--green);font-size:0.85em;"> FIRING</span>':''}</div>
+        <div style="font-size:0.74em;color:var(--muted);">${e.thesis||''}</div>
+        ${e.fire_sweeps?`<div style="font-size:0.68em;color:var(--muted);">fired ${e.fire_sweeps} sweeps${e.first_fired?' · since '+String(e.first_fired).slice(0,10):''}</div>`:''}
+      </div>`;
+    }
+    host.innerHTML = html;
+  } catch(e) {
+    host.innerHTML = `<div style="color:var(--muted);font-size:0.75em;text-align:center;padding:14px;">Hypotheses populate once the first sweep runs.</div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // PATTERN ENGINE — live matcher. Shows PROVEN patterns firing on today's macro
 // bins (>=5 separate historical turns) highlighted, plus THIN/unproven matches
 // muted. Honest by design: only proven patterns get a real voice.
@@ -3448,6 +3526,8 @@ async function init() {
     loadSummary(),
     fetchMarkers(),
     fetchDiscoveries(),
+    fetchRotation(),
+    fetchHypotheses(),
     fetchAnnotations(),
     // Sprint 32 v2.7+ (this session): fetchSmartForecast removed.
     // Was reading forecast_v2.json (a stale/zombie file). Single source of truth is
