@@ -1454,6 +1454,17 @@
       </div>
     </div>
 
+    <!-- MECHANICAL vs JORDAN (the machine's read vs his calls, graded) -->
+    <div class="card">
+      <div class="card-label">Mechanical vs Jordan · who's right · graded</div>
+      <div id="mechVsJordanBody">
+        <div style="color:var(--muted)">Scoreboard builds as calls resolve (24h horizon).</div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        The mechanical confluence read vs Jordan's actual calls, graded direction-only 24h forward (FLAT counts — correct if price stayed range-bound). When they diverge and mechanical keeps winning, that's a signal to reweight. Observational — changes nothing about execution.
+      </div>
+    </div>
+
     <!-- WEIGHT FIT (back-tester suggestion) -->
     <div class="card">
       <div class="card-label">Weight Fit · back-tester</div>
@@ -1905,6 +1916,8 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
               if (p.fg !== undefined && p.fg !== null) lines.push(`  F&G: ${p.fg}`);
               if (p.phase) lines.push(`  Phase: ${p.phase}`);
               if (p.btc) lines.push(`  BTC: $${Math.round(p.btc).toLocaleString()}`);
+              if (p.eth) lines.push(`  ETH: $${Math.round(p.eth).toLocaleString()}`);
+              if (p.sol) lines.push(`  SOL: $${Number(p.sol).toLocaleString(undefined,{maximumFractionDigits:2})}`);
             }
             // Projected price for the big 3 at the hovered week (forecast + J6).
             // Only show on forward points (forecast/j6/da hovered, not history).
@@ -2158,6 +2171,47 @@ async function fetchPiCycle() {
       </div>`;
   } catch (e) {
     document.getElementById('piCycleBody').innerHTML = '<span style="color:var(--muted)">Pi Cycle updates next sweep.</span>';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchMechVsJordan() {
+  try {
+    const res = await fetch('data/mechanical_vs_jordan.json?t=' + Date.now());
+    if (!res.ok) throw new Error('no file');
+    const d = await res.json();
+    const summary = (d && d.summary) || {};
+    const coins = ['BTC', 'ETH', 'SOL'].filter(c => summary[c]);
+    if (!coins.length) throw new Error('empty');
+    let html = '';
+    for (const c of coins) {
+      const s = summary[c];
+      const mWr = s.mechanical_wr, jWr = s.jordan_wr;
+      const wd = s.when_diverged || {};
+      // color the leader green
+      const mColor = (mWr != null && jWr != null && mWr > jWr) ? 'var(--green)' : 'var(--text)';
+      const jColor = (mWr != null && jWr != null && jWr > mWr) ? 'var(--green)' : 'var(--text)';
+      let divTxt = '';
+      if (wd.total) {
+        const edge = wd.mechanical_edge_pct;
+        const edgeColor = edge > 15 ? 'var(--red)' : edge <= 0 ? 'var(--green)' : 'var(--muted)';
+        divTxt = `<div style="font-size:0.78em;color:var(--muted);margin-top:2px;">
+          diverged ${wd.total}× · mech won ${wd.mechanical_won}, jordan won ${wd.jordan_won}
+          ${edge != null ? `<span style="color:${edgeColor}"> (${edge > 0 ? '+' : ''}${edge}% mech edge)</span>` : ''}
+        </div>`;
+      }
+      html += `<div style="margin-bottom:10px;">
+        <div style="font-weight:600;color:var(--text)">${c}</div>
+        <div style="font-size:0.85em;display:flex;justify-content:space-between;">
+          <span style="color:${mColor}">mechanical ${s.mechanical_record} · ${mWr != null ? mWr + '%' : '—'}</span>
+          <span style="color:${jColor}">jordan ${s.jordan_record} · ${jWr != null ? jWr + '%' : '—'}</span>
+        </div>
+        ${divTxt}
+      </div>`;
+    }
+    document.getElementById('mechVsJordanBody').innerHTML = html;
+  } catch (e) {
+    document.getElementById('mechVsJordanBody').innerHTML = '<span style="color:var(--muted)">Scoreboard builds as calls resolve (24h horizon).</span>';
   }
 }
 
@@ -3119,6 +3173,8 @@ async function loadChartHistory() {
       fg: (p.fg !== undefined ? p.fg : null),
       phase: p.phase || null,
       btc: (p.btc !== undefined ? p.btc : null),
+      eth: (p.eth !== undefined ? p.eth : null),
+      sol: (p.sol !== undefined ? p.sol : null),
     }));
 
     // The real "today" = the last realized history point. Everything (predictions,
@@ -3392,6 +3448,7 @@ async function init() {
     fetchMa200w(),
     fetchCalledDates(),
     fetchPiCycle(),
+    fetchMechVsJordan(),
     fetchNews(),
     fetchGlobal(),
     fetchFearGreed(),
@@ -4298,21 +4355,15 @@ function _leverageTile(value) {
   // The only public-facing call on this card (kalshi/sniper removed). Big + centered.
   const v = (value || '').toLowerCase();
   const map = {
-    short_micro:      ['Lean Short — Anticipatory', '#ff8fa3'],
-    short_small:      ['Go Short — Cautious',       '#ff4d6a'],
-    short_medium:     ['Go Short — Medium',         '#ff4d6a'],
-    short_aggressive: ['Go Short — Heavy',          '#ff4d6a'],
-    short_large:      ['Go Short — Heavy',          '#ff4d6a'],
-    short:            ['Go Short',                  '#ff4d6a'],
-    long_micro:       ['Lean Long — Anticipatory',  '#66e6bf'],
-    long_small:       ['Go Long — Cautious',        '#00e5a0'],
-    long_medium:      ['Go Long — Medium',          '#00e5a0'],
-    long_aggressive:  ['Go Long — Heavy',           '#00e5a0'],
-    long_large:       ['Go Long — Heavy',           '#00e5a0'],
-    long:             ['Go Long',                   '#00e5a0'],
-    flat:             ['Stay Flat',                 'var(--yellow)'],
-    neutral:          ['Stay Flat',                 'var(--yellow)'],
-    out:              ['Stay Out',                  'var(--muted)'],
+    short_small: ['Go Short — Cautious', '#ff4d6a'],
+    short_large: ['Go Short — Heavy',    '#ff4d6a'],
+    short:       ['Go Short',            '#ff4d6a'],
+    long_small:  ['Go Long — Cautious',  '#00e5a0'],
+    long_large:  ['Go Long — Heavy',     '#00e5a0'],
+    long:        ['Go Long',             '#00e5a0'],
+    flat:        ['Stay Flat',           'var(--yellow)'],
+    neutral:     ['Stay Flat',           'var(--yellow)'],
+    out:         ['Stay Out',            'var(--muted)'],
   };
   const [text, color] = map[v] || [_escapeHtml(value || '—'), 'var(--muted)'];
   return `
