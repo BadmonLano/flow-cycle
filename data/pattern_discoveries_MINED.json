@@ -1,0 +1,201 @@
+{
+  "_updated": "2026-07-10T23:54:45.735692",
+  "_doctrine": "MINED from indicator_history \u2014 real co-occurrences that preceded BTC tops/bottoms within 30d. Guards: support>=4, precision>=60%, lift>=1.5x over base rate. spurious_risk=true means thin support (<8) \u2014 promising but unproven. Read lift + support, NOT just confidence: a 90% pattern on 4 matches is weaker than 70% on 20.",
+  "base_rates": {
+    "precedes_top": 0.207,
+    "precedes_bottom": 0.222
+  },
+  "params": {
+    "min_support": 4,
+    "precision_floor": 0.6,
+    "min_lift": 1.5,
+    "event_window_days": 30,
+    "extrema_lookback": 45
+  },
+  "patterns": [
+    {
+      "conditions": [
+        {
+          "factor": "fear_greed",
+          "bin": "mid low"
+        },
+        {
+          "factor": "lumber",
+          "bin": "mid low"
+        }
+      ],
+      "precedes": "BTC bottom",
+      "support": 41,
+      "hits": 26,
+      "distinct_events": 5,
+      "precision": 0.634,
+      "base_rate": 0.222,
+      "lift": 2.85,
+      "confidence": 0.528,
+      "spurious_risk": false,
+      "n_conditions": 2,
+      "description": "When fear_greed = mid low AND lumber = mid low, a BTC bottom followed within 30 days (63% precision, 5 separate turns, 41 total days, 2.9x lift)"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "us_m2",
+          "bin": "mid high"
+        },
+        {
+          "factor": "net_liquidity_bn",
+          "bin": "mid low"
+        }
+      ],
+      "precedes": "BTC top",
+      "support": 15,
+      "hits": 11,
+      "distinct_events": 3,
+      "precision": 0.733,
+      "base_rate": 0.207,
+      "lift": 3.54,
+      "confidence": 0.367,
+      "spurious_risk": true,
+      "n_conditions": 2,
+      "description": "When us_m2 = mid high AND net_liquidity_bn = mid low, a BTC top followed within 30 days (73% precision, 3 separate turns, 15 total days, 3.5x lift, THIN \u2014 unproven)"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "dxy",
+          "bin": "high"
+        },
+        {
+          "factor": "oil",
+          "bin": "mid low"
+        }
+      ],
+      "precedes": "BTC top",
+      "support": 26,
+      "hits": 16,
+      "distinct_events": 3,
+      "precision": 0.615,
+      "base_rate": 0.207,
+      "lift": 2.97,
+      "confidence": 0.308,
+      "spurious_risk": true,
+      "n_conditions": 2,
+      "description": "When dxy = high AND oil = mid low, a BTC top followed within 30 days (62% precision, 3 separate turns, 26 total days, 3.0x lift, THIN \u2014 unproven)"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "yield_spread_10_2",
+          "bin": "mid low"
+        },
+        {
+          "factor": "us_m2",
+          "bin": "mid high"
+        }
+      ],
+      "precedes": "BTC top",
+      "support": 5,
+      "hits": 3,
+      "distinct_events": 3,
+      "precision": 0.6,
+      "base_rate": 0.207,
+      "lift": 2.9,
+      "confidence": 0.3,
+      "spurious_risk": true,
+      "n_conditions": 2,
+      "description": "When yield_spread_10_2 = mid low AND us_m2 = mid high, a BTC top followed within 30 days (60% precision, 3 separate turns, 5 total days, 2.9x lift, THIN \u2014 unproven)"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "natgas",
+          "bin": "high"
+        },
+        {
+          "factor": "stablecoin_total",
+          "bin": "low"
+        }
+      ],
+      "precedes": "BTC bottom",
+      "support": 47,
+      "hits": 30,
+      "distinct_events": 3,
+      "precision": 0.638,
+      "base_rate": 0.222,
+      "lift": 2.87,
+      "confidence": 0.319,
+      "spurious_risk": true,
+      "n_conditions": 2,
+      "description": "When natgas = high AND stablecoin_total = low, a BTC bottom followed within 30 days (64% precision, 3 separate turns, 47 total days, 2.9x lift, THIN \u2014 unproven)"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "dxy",
+          "bin": "high"
+        },
+        {
+          "factor": "us_m2",
+          "bin": "mid high"
+        }
+      ],
+      "precedes": "BTC bottom",
+      "support": 5,
+      "hits": 3,
+      "distinct_events": 3,
+      "precision": 0.6,
+      "base_rate": 0.222,
+      "lift": 2.7,
+      "confidence": 0.3,
+      "spurious_risk": true,
+      "n_conditions": 2,
+      "description": "When dxy = high AND us_m2 = mid high, a BTC bottom followed within 30 days (60% precision, 3 separate turns, 5 total days, 2.7x lift, THIN \u2014 unproven)"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "silver",
+          "bin": "mid low"
+        },
+        {
+          "factor": "oil",
+          "bin": "mid high"
+        }
+      ],
+      "precedes": "BTC bottom",
+      "support": 40,
+      "hits": 24,
+      "distinct_events": 3,
+      "precision": 0.6,
+      "base_rate": 0.222,
+      "lift": 2.7,
+      "confidence": 0.3,
+      "spurious_risk": true,
+      "n_conditions": 2,
+      "description": "When silver = mid low AND oil = mid high, a BTC bottom followed within 30 days (60% precision, 3 separate turns, 40 total days, 2.7x lift, THIN \u2014 unproven)"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "lumber",
+          "bin": "high"
+        },
+        {
+          "factor": "us_m2",
+          "bin": "mid high"
+        }
+      ],
+      "precedes": "BTC bottom",
+      "support": 5,
+      "hits": 3,
+      "distinct_events": 3,
+      "precision": 0.6,
+      "base_rate": 0.222,
+      "lift": 2.7,
+      "confidence": 0.3,
+      "spurious_risk": true,
+      "n_conditions": 2,
+      "description": "When lumber = high AND us_m2 = mid high, a BTC bottom followed within 30 days (60% precision, 3 separate turns, 5 total days, 2.7x lift, THIN \u2014 unproven)"
+    }
+  ]
+}
