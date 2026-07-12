@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-07-11T20:53:49.041787-04:00",
-  "doctrine": "Suspected invariants we don't have data sources for yet. Each one represents a possible blind spot in the discovery engine. Filling these gaps is what unlocks the next layer of pattern detection.",
+  "updated_at": "2026-07-11T22:33:51.752628-04:00",
+  "doctrine": "Suspected invariants we don't have data sources for yet. Each one is a possible blind spot in the discovery engine. REALITY-CHECKED each sweep against live data \u2014 a factor that IS being fetched/computed will not be listed here, so this list can't go stale and send you chasing data you already have.",
   "unknown_factors": [
     {
       "name": "long_short_ratio",
@@ -27,23 +27,16 @@
       "priority": "MEDIUM"
     },
     {
-      "name": "realized_vol_7d_30d",
-      "description": "Realized volatility 7d and 30d, with percentile rank. Vol compression precedes explosion.",
-      "data_source_needed": "Computed from price history",
-      "priority": "MEDIUM"
-    },
-    {
-      "name": "copper_gold_ratio",
-      "description": "Copper/gold ratio. Industrial demand vs safe haven. Strong macro tell.",
-      "data_source_needed": "FRED or yfinance",
-      "priority": "LOW"
-    },
-    {
       "name": "kalshi_poly_implied_probs",
       "description": "Implied probabilities for major macro events from Kalshi + Polymarket. Crowd wisdom.",
       "data_source_needed": "kalshi_bot already has Kalshi API access; just needs to expose the data",
       "priority": "LOW"
     }
   ],
-  "count": 7
+  "count": 5,
+  "resolved_now_live": [
+    "realized_vol_7d_30d",
+    "copper_gold_ratio"
+  ],
+  "_note": "2 previously-listed gap(s) are now LIVE and filtered out: realized_vol_7d_30d, copper_gold_ratio"
 }
