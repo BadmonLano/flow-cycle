@@ -1,34 +1,45 @@
 {
-  "_updated": "2026-07-13T09:19:03.140272-04:00",
+  "_updated": "2026-07-13T10:32:13.512259-04:00",
   "board": {
     "phase": {
       "analyst": {
         "opinion": "Anxiety",
-        "why": "Score 41 falls within Anxiety's 39-46 band per the ladder rules."
+        "why": "Score=39 falls within Anxiety (39-46), adjacent to Denial (32-38) and Panic (24-31), but score=39 is the lower bound of Anxiety."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "Anxiety",
+        "why": "Score 39 is within the Anxiety band (39-46)"
+      },
       "judge": {
         "opinion": "Denial",
-        "why": "Score of 41 places us within the Denial phase band (32-38)."
+        "why": "Score of 39 places us within the Denial phase band (32-38)."
       }
     },
     "leverage_bias": {
       "analyst": {
-        "opinion": "NEUTRAL",
-        "why": "Anxiety phase is low-conviction chop, no clear trend bias."
+        "opinion": "BEAR",
+        "why": "Anxiety phase is part of the bear leg, despite LONG position; trend is not specified, but score suggests bearish context."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "NEUTRAL",
+        "why": "Current score and trend suggest caution"
+      },
       "judge": {
         "opinion": "BEAR",
-        "why": "The current score and trend indicate a bearish sentiment in the market."
+        "why": "The combination of a score near Denial and strong bear-market-rally skepticism suggests an overall bearish trend."
       }
     },
     "news_read": {
       "analyst": {
         "opinion": "[]",
-        "why": "No news catalysts provided in the data layer."
+        "why": "No news catalysts provided in current data; card shows 'awaiting'."
       },
-      "narrative": null,
+      "narrative": [
+        {
+          "headline": "ETF inflows pick up",
+          "effect": "Bid returning, flow ticked up"
+        }
+      ],
       "judge": {
         "opinion": [
           {
@@ -36,238 +47,288 @@
             "effect": "bid returning, flow ticked up"
           },
           {
-            "headline": "Inflation data shows signs of cooling",
-            "effect": "reduces demand for risky assets"
+            "headline": "Bear market rally skepticism",
+            "effect": "early recovery nobody trusts"
           }
         ],
-        "why": "These news items reflect a shift in market sentiment and economic indicators."
+        "why": "These news items reflect a return of investor interest and skepticism about the recovery, aligning with Denial phase."
       }
     },
     "daily_call": {
       "analyst": {
         "opinion": "FLAT",
-        "why": "Anxiety phase typically features chop, no clear directional bias."
+        "why": "Anxiety phase is low-conviction, choppy; no clear trend to justify directional call."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "FLAT",
+        "why": "Price action is choppy, no clear direction today"
+      },
       "judge": {
         "opinion": "DOWN",
-        "why": "The trend and score suggest a downward movement in the market today."
+        "why": "The current score suggests a potential pullback in the market, indicating a downward trend for today."
       }
     },
     "winning_line": {
       "analyst": {
         "opinion": "bottom_2024_aug",
-        "why": "Best_match is bottom_2024_aug with 0.7894 similarity."
+        "why": "Best_match=bottom_2024_aug (0.8401) aligns with current score and phase."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "My custom line",
+        "why": "It's weighting recent price action and fear indicators better"
+      },
       "judge": {
         "opinion": "Daily Price Projection (day1-7)",
-        "why": "This line is currently showing the strongest correlation with market movements."
+        "why": "This line reflects the immediate price movement and is currently winning due to its close alignment with the current market sentiment."
       }
     },
     "horse_race_read": {
       "analyst": {
-        "opinion": "My line's ahead because the 2024 bottom analog suggests a potential recovery but current score still sits in Anxiety's chop.",
-        "why": "The 2024 bottom match implies a potential upturn, but score remains in Anxiety."
+        "opinion": "My line's ahead because the Aug 2024 bottom analog fits score=39 and phase=Anxiety, suggesting a potential recovery but not yet confirmed.",
+        "why": "Historical match reinforces current setup as a potential bottom, but phase remains in bear leg."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "My line's ahead because it's focusing on fear and ETF flows, which are driving the market now"
+      },
       "judge": {
-        "opinion": "Our winning line reflects a cautious approach due to recent inflation data and ETF inflows suggesting a return of investors to safer assets.",
-        "why": "The combination of these factors indicates a bearish trend."
+        "opinion": "The daily price projection is winning as it captures the immediate market sentiment, indicating a potential downward trend based on the current score and skepticism about recovery."
       }
     },
     "reset_euphoria": {
       "analyst": {
         "opinion": "hold",
-        "why": "Not in Euphoria; reset only applies at the top."
+        "why": "Not in Euphoria (93-100); reset only if bear cycle confirmed."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "hold",
+        "why": "We haven't seen a clear turn into a bear cycle yet"
+      },
       "judge": {
         "opinion": "hold",
-        "why": "We have not yet turned into a bear cycle, and the euphoria phase is not officially behind us."
+        "why": "We have not yet turned into a bear cycle; Euphoria phase is still relevant until we confirm the last top is behind us."
       }
     },
     "pattern_match": {
       "analyst": {
         "opinion": "bottom_2024_aug",
-        "why": "Best_match explicitly states bottom_2024_aug with 0.7894 similarity."
+        "why": "Best_match=bottom_2024_aug (0.8401) confirmed."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "Bottom in Aug 2024",
+        "why": "Similar score and trend"
+      },
       "judge": {
         "opinion": "bottom_2024_aug",
-        "why": "The current setup matches historical patterns of market bottoms."
+        "why": "The current setup matches historical patterns of bottom formation, with a similarity score of 0.8401."
       }
     },
     "the_read": {
       "analyst": {
-        "opinion": "Anxiety phase with no clear trend, cautious stance advised.",
-        "why": "Score in Anxiety, no consensus phase, best_match suggests historical bottom but current position remains in chop."
+        "opinion": "FLAT",
+        "why": "Anxiety phase (score=39) lacks conviction; daily call remains neutral despite LONG position."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "Market is in Anxiety phase, neutral bias for today, choppy price action"
+      },
       "judge": {
-        "opinion": "The market is currently in a Denial phase, showing signs of bearish sentiment. Inflation data and ETF inflows are contributing to this trend.",
-        "why": "These factors indicate a cautious approach to the market's direction."
+        "opinion": "Denial phase is active with bearish sentiment and skepticism about recovery, indicating potential downward movement in the market."
       }
     },
     "voice": {
       "analyst": {
-        "opinion": "Market in low-conviction chop, uncertainty dominates.",
-        "why": "Anxiety phase is characterized by nervousness and choppy moves."
+        "opinion": "Market in anxiety, choppy and uncertain, but historical bottom analog suggests potential for recovery.",
+        "why": "Phase=Anxiety, score=39, best_match=bottom_2024_aug."
       },
-      "narrative": null,
+      "narrative": "The market is consolidating around current levels, with no clear direction. Inflows have picked up but there's still uncertainty.",
       "judge": {
-        "opinion": "We're observing a clear shift towards bearish sentiment in the market, with inflation concerns and a return of investors to safer assets. This suggests a downward trend for today."
+        "opinion": "The market is currently in a Denial phase, showing signs of bearish sentiment and skepticism. This suggests a possible downward trend ahead."
       }
     },
     "cliff_proximity": {
       "analyst": {
         "opinion": "LOW",
-        "why": "Not near Euphoria or Thrill phases indicating a cliff."
+        "why": "Not near Euphoria (93-100); cliff is distant in bear cycle."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "Medium",
+        "why": "Price is near support/resistance levels"
+      },
       "judge": {
-        "opinion": "close",
-        "why": "The current score indicates we are close to a potential cliff/break point in the market."
+        "opinion": "moderate",
+        "why": "We are not at the cliff yet; however, the current phase indicates potential risks for a downward movement."
       }
     },
     "cycle_position": {
       "analyst": {
-        "opinion": "Anxiety (phase 5)",
-        "why": "Score 41 maps to Anxiety on the 13-phase ladder."
+        "opinion": "Anxiety",
+        "why": "Score=39 maps to Anxiety (39-46) in the bear leg."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "Mid-cycle",
+        "why": "Score and phase suggest we're not at the peak or bottom yet"
+      },
       "judge": {
-        "opinion": "Denial phase",
-        "why": "Based on the current score, we are in the Denial phase of the market cycle."
+        "opinion": "Early bear cycle phase",
+        "why": "The score and market sentiment place us in the early stages of a bearish cycle."
       }
     },
     "surprise_index": {
       "analyst": {
         "opinion": "50",
-        "why": "Score in Anxiety aligns with historical patterns but no extreme deviation."
+        "why": "Score=39 at phase boundary; moderate surprise vs expectations."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "50",
+        "why": "Current data is roughly in line with expectations"
+      },
       "judge": {
         "opinion": "60",
-        "why": "The current data is somewhat surprising compared to expectations, indicating a shift in market sentiment."
+        "why": "The current data is slightly surprising but not drastically different from expectations, indicating moderate deviation from the norm."
       }
     },
     "invariants_firing": {
       "analyst": {
         "opinion": "[]",
-        "why": "No invariants explicitly firing in provided data."
+        "why": "No invariants explicitly firing in current data."
       },
-      "narrative": null,
+      "narrative": [
+        "ETF flows"
+      ],
       "judge": {
         "opinion": [
-          "inflation_data",
-          "etf_inflows"
+          "score near Denial phase band",
+          "bear market rally skepticism"
         ],
-        "why": "These factors are currently influencing the market significantly."
+        "why": "These invariants align with the current market sentiment and indicate a bearish trend."
       }
     },
     "falsification": {
       "analyst": {
-        "opinion": "A sudden trend reversal to optimism would falsify current phase.",
-        "why": "Anxiety phase would be invalidated by a clear upward trend."
+        "opinion": "Sharp upward move confirming Belief (78-85) would falsify current phase and thesis.",
+        "why": "Phase=Anxiety; falsification requires move to higher conviction phases."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "A sudden spike in selling volume would falsify the current thesis"
+      },
       "judge": {
-        "opinion": "A significant reversal in ETF inflows or a strong inflationary trend would falsify this thesis.",
-        "why": "These factors are key indicators of market sentiment and could lead to a different market direction."
+        "opinion": "A significant upward movement breaking out of Denial phase into Optimism.",
+        "why": "This would falsify the current thesis of a bearish trend."
       }
     },
     "detections": {
       "analyst": {
-        "opinion": "Score in Anxiety, best_match to 2024 bottom.",
-        "why": "System flags score position and historical pattern match."
+        "opinion": "Best_match=bottom_2024_aug (0.8401) flagged as key historical analog.",
+        "why": "System identifies this as the strongest pattern match."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "Increased ETF inflows, but still no clear trend"
+      },
       "judge": {
-        "opinion": "Market sentiment is shifting towards bearishness due to inflation concerns and ETF inflows.",
-        "why": "These detections reflect the current state of the market."
+        "opinion": "Market sentiment aligning with Denial phase, indicating potential downward movement."
       }
     },
     "data_gaps": {
       "analyst": {
-        "opinion": "Trend data missing; critical for directional clarity.",
-        "why": "Trend is marked as unknown, impacting phase interpretation."
+        "opinion": "[]",
+        "why": "No critical data gaps identified."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "Lack of clear directional signals from institutional investors"
+      },
       "judge": {
-        "opinion": [
-          "long-term economic indicators",
-          "major geopolitical events"
-        ],
-        "why": "These data gaps are important for a comprehensive understanding of the market's direction."
+        "opinion": "None significant",
+        "why": "The available data is sufficient to make an informed decision."
       }
     },
     "exit_priority_signal": {
       "analyst": {
-        "opinion": "Trend reversal to Complacency",
-        "why": "A move to Complacency would signal potential recovery."
+        "opinion": "Move to Belief (78-85) or Thrill (86-92) would trigger exit.",
+        "why": "Phase transition to higher conviction phases signals potential reversal."
       },
-      "narrative": null,
+      "narrative": {
+        "opinion": "A break below $60,000 on high volume"
+      },
       "judge": {
-        "opinion": "ETF inflows",
-        "why": "The reversal in ETF inflows is a strong signal to watch out for, indicating potential market movements."
+        "opinion": "ETF inflow and bear market rally skepticism",
+        "why": "These signals indicate potential downward movement and should be prioritized for exit."
       }
     },
     "btc_call": {
       "analyst": {
         "opinion": "FLAT",
-        "why": "Anxiety phase with no clear trend, no directional bias."
+        "why": "Anxiety phase (score=39) lacks trend; no clear entry/exit signals."
       },
-      "narrative": null,
+      "narrative": {
+        "direction": "FLAT",
+        "entry": "",
+        "TP": "",
+        "SL": "",
+        "horizon": "1d",
+        "why": "Price is choppy, no clear trend"
+      },
       "judge": {
         "opinion": {
           "direction": "SHORT",
-          "entry": "$62582",
+          "entry": "$62370",
           "TP": "$60000",
           "SL": "$63000",
-          "horizon": "1hr"
+          "horizon": "3-DAY MAX"
         },
-        "why": "The current trend suggests a downward movement in the market, making a short position on BTC advisable."
+        "why": "The current phase and sentiment suggest a downward trend, making a short position on BTC appropriate."
       }
     },
     "eth_call": {
       "analyst": {
         "opinion": "FLAT",
-        "why": "Same logic as BTC; no clear trend in Anxiety phase."
+        "why": "No specific ETH data provided; follow BTC context."
       },
-      "narrative": null,
+      "narrative": {
+        "direction": "FLAT",
+        "entry": "",
+        "TP": "",
+        "SL": "",
+        "horizon": "1d",
+        "why": "Similar to BTC, price action is choppy"
+      },
       "judge": {
         "opinion": {
           "direction": "SHORT",
-          "entry": "$2000",
-          "TP": "$1900",
-          "SL": "$2050",
-          "horizon": "1hr"
+          "entry": "$1700",
+          "TP": "$1600",
+          "SL": "$1750",
+          "horizon": "3-DAY MAX"
         },
-        "why": "Similar to BTC, ETH is also showing bearish trends and a short position seems advisable."
+        "why": "Similar to BTC, the current phase and sentiment indicate a downward trend in ETH as well."
       }
     },
     "sol_call": {
       "analyst": {
         "opinion": "FLAT",
-        "why": "Anxiety phase lacks conviction for directional exposure."
+        "why": "No specific SOL data provided; follow BTC context."
       },
-      "narrative": null,
+      "narrative": {
+        "direction": "FLAT",
+        "entry": "",
+        "TP": "",
+        "SL": "",
+        "horizon": "1d",
+        "why": "Following BTC and ETH, SOL price action is also choppy"
+      },
       "judge": {
         "opinion": {
           "direction": "SHORT",
-          "entry": "$300",
-          "TP": "$280",
-          "SL": "$320",
-          "horizon": "1hr"
+          "entry": "$200",
+          "TP": "$180",
+          "SL": "$210",
+          "horizon": "3-DAY MAX"
         },
-        "why": "The bearish trend in the market extends to SOL, making a short position advisable."
+        "why": "The downward trend indicated by the current phase and sentiment supports a short position on SOL."
       }
     }
   },
   "_status": {
     "analyst": "ok",
-    "narrative": "no_read",
+    "narrative": "ok",
     "judge": "ok"
   }
 }
