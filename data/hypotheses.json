@@ -1,0 +1,69 @@
+{
+  "_doc": "Seed-and-track hypotheses. Each is a named thesis with conditions; the engine tracks when it fires and (later) whether it called the turn. Edit freely \u2014 add your own. Conditions AND together. rotation_stage matches the rotation engine's stage. Factors are macro.json factor names.",
+  "hypotheses": [
+    {
+      "name": "euphoria_sequence_stage1_meme",
+      "thesis": "SOL diverging from BTC (meme season) is the first leg toward a euphoric top",
+      "expects": "precedes eventual BTC top",
+      "conditions": [
+        {
+          "rotation_stage": "MEME_SEASON"
+        }
+      ]
+    },
+    {
+      "name": "euphoria_sequence_stage2_alt",
+      "thesis": "Both SOL and ETH diverging (alt season) means we're mid-to-late in the run to the top",
+      "expects": "precedes eventual BTC top",
+      "conditions": [
+        {
+          "rotation_stage": "ALT_SEASON"
+        }
+      ]
+    },
+    {
+      "name": "euphoria_blowoff",
+      "thesis": "Both alts diverging hard while BTC extended = blow-off zone",
+      "expects": "precedes eventual BTC top",
+      "conditions": [
+        {
+          "rotation_stage": "BLOWOFF_RISK"
+        }
+      ]
+    },
+    {
+      "name": "classic_top_froth",
+      "thesis": "Extreme greed + funding blown out + BTC stretched = classic top froth",
+      "expects": "precedes BTC top",
+      "conditions": [
+        {
+          "factor": "fear_greed",
+          "op": ">=",
+          "value": 75
+        },
+        {
+          "factor": "ma_200w_factor",
+          "op": ">=",
+          "value": 70
+        }
+      ]
+    },
+    {
+      "name": "generational_bottom",
+      "thesis": "Extreme fear + BTC at/below 200wk floor = generational accumulation",
+      "expects": "precedes BTC bottom",
+      "conditions": [
+        {
+          "factor": "fear_greed",
+          "op": "<=",
+          "value": 30
+        },
+        {
+          "factor": "ma_200w_factor",
+          "op": "<=",
+          "value": 20
+        }
+      ]
+    }
+  ]
+}

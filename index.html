@@ -3075,8 +3075,15 @@ async function fetchDiscoveries() {
         </div>`).join('');
     }
     if (!firing.length && !watching.length) {
-      html = `<div style="color:var(--muted);font-size:0.72em;text-align:center;padding:14px;">
-        No mined patterns match today's conditions. The engine only fires proven patterns (5+ separate historical turns); it stays quiet rather than guess.</div>`;
+      const nMined = (d.mined_count != null ? d.mined_count : '—');
+      const nProven = (d.proven_count != null ? d.proven_count : '—');
+      html = `<div style="color:var(--muted);font-size:0.72em;padding:12px;line-height:1.5;">
+        <div style="color:var(--text);margin-bottom:6px;">No pattern matches today's conditions.</div>
+        <div>${nMined} pattern(s) mined from history · ${nProven} proven (5+ separate turns) · 0 matching now.</div>
+        <div style="margin-top:6px;">This is the engine working, not failing. A pattern fires only when today's factor
+        bins <em>actually match</em> the historical setup. It stays quiet rather than guess — that was the whole point.
+        As history accrues, thin patterns either graduate or die.</div>
+      </div>`;
     }
     host.innerHTML = html;
   } catch(e) {
