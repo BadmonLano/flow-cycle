@@ -1296,7 +1296,7 @@
         <span class="tier-badge" id="trackRecordRate" style="margin-left:auto; background:#1a2332; color:#00e5a0;">--</span>
       </div>
       <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the real BTC move — hit, partial, or miss. One revision per window; the revised call is graded too. The receipts, not just the live call.
+        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the real BTC move. <b>UP / UP_MICRO / FLAT / DOWN_MICRO / DOWN</b> — a micro-lean is graded against a micro threshold (±0.1%), so a small move you called <i>is a hit</i>, not a miss. FLAT now means genuine stillness, not "no opinion." Partial = half credit. The receipts, not just the live call.
       </div>
 
       <!-- headline stats -->
@@ -1389,6 +1389,8 @@
         <div class="ind-tile"><div class="ind-label">Silver</div><div class="ind-val" id="silver">--</div><div class="ind-sub" id="silverChg">--</div></div>
         <div class="ind-tile"><div class="ind-label">S&P 500</div><div class="ind-val" id="sp500">--</div><div class="ind-sub" id="sp500Chg">--</div></div>
         <div class="ind-tile"><div class="ind-label">VIX</div><div class="ind-val" id="vix">--</div><div class="ind-sub">fear index</div></div>
+        <!-- Inflation: the 3m CHANGE, not the level. The level only goes up and means nothing. -->
+        <div class="ind-tile"><div class="ind-label">Inflation (3m)</div><div class="ind-val" id="cpiChg">--</div><div class="ind-sub" id="cpiRegime">monthly print</div></div>
         <!-- NEW v2 indicators -->
         <div class="ind-tile"><div class="ind-label">Copper</div><div class="ind-val" id="copper">--</div><div class="ind-sub" id="copperChg">industrial</div></div>
         <div class="ind-tile"><div class="ind-label">Uranium</div><div class="ind-val" id="uranium">--</div><div class="ind-sub">URA etf</div></div>
@@ -2413,6 +2415,7 @@ async function fetchMacro() {
     if (data.oil)        { document.getElementById('oil').textContent = '$' + data.oil; document.getElementById('oilChg').innerHTML = chgHTML(data.oil_chg); }
     if (data.sp500)      { document.getElementById('sp500').textContent = data.sp500.toLocaleString(); document.getElementById('sp500Chg').innerHTML = chgHTML(data.sp500_chg); }
     if (data.vix != null){ document.getElementById('vix').textContent = data.vix; }
+    renderInflation(data);
     if (data.dxy != null){ document.getElementById('dxy').textContent = data.dxy; }
 
     // NEW v2 fields
@@ -2979,6 +2982,28 @@ async function fetchIndicatorHistory() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+function renderInflation(m) {
+  // CPI updates MONTHLY. Show the 3m CHANGE (the signal), never the level (which only
+  // ever goes up and therefore tells you nothing). And say plainly when it last printed —
+  // a slow variable rendered as if it were live is a lie by omission.
+  const el = document.getElementById('cpiChg');
+  const sub = document.getElementById('cpiRegime');
+  if (!el) return;
+  const chg = m.cpi_chg_3m;
+  if (chg === null || chg === undefined) {
+    el.textContent = '--';
+    if (sub) sub.textContent = 'awaiting history';
+    return;
+  }
+  el.textContent = (chg > 0 ? '+' : '') + Number(chg).toFixed(2) + '%';
+  let regime, color;
+  if (chg > 0.6)      { regime = 'ACCELERATING · hawkish'; color = 'var(--red)'; }
+  else if (chg < 0.2) { regime = 'COOLING · pivot setup';  color = 'var(--green)'; }
+  else                { regime = 'stable';                 color = 'var(--muted)'; }
+  el.style.color = color;
+  if (sub) sub.textContent = regime;
+}
+
 async function fetchRotation() {
   const host = document.getElementById('rotationBody');
   try {
