@@ -1296,6 +1296,17 @@
       <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
         Each call graded on its 12h window against the real move. Partial = half credit.
       </div>
+
+    <!-- BRAIN FORWARD CALLS (the brains' predictions, graded + autopsied) -->
+    <div class="card">
+      <div class="card-label">Brain Forward Calls · predicted the next move · graded</div>
+      <div id="brainForwardBody">
+        <div style="color:var(--muted)">Grading — the brains' forward predictions resolve after 12h.</div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        The 3 brains now predict the NEXT move, not just read the current one. Each call is graded 12h forward: direction (up/down/hold vs what the score did) and transition (did the predicted rung actually get reached, graded separately — it's harder). On a miss, the autopsy names which live signal misled them. This is the track record Jordan reasons against.
+      </div>
+    </div>
     </div>
 
 
@@ -1332,6 +1343,69 @@
           <!-- Filled in by JS -->
         </div>
       </div>
+
+      <!-- Sprint 66: What's Driving the Market — top 3 movers computed from the data -->
+      <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:0.6em; color:#4f9eff; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;">
+          What's Driving the Market
+        </div>
+        <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+          The 3 biggest forces moving the market right now — ranked from the live factor data by how far each is from neutral × its weight. Computed, not editorialized.
+        </div>
+        <div id="marketDriversList" style="margin-top:12px;">
+          <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Computing drivers from the factor vector...</div>
+        </div>
+      </div>
+
+      <!-- Sprint 66: Jordan's Current Thesis moved INTO Current Read -->
+      <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:2px;">
+          Jordan's Current Thesis
+          <span class="tier-badge" id="jordanThesisAge" style="margin-left:8px; background:#1a2332; color:#4f9eff; font-size:0.85em;">--</span>
+        </div>
+        <div id="jordanThesisText" style="font-size:1.0em; line-height:1.55; color:#cbd5e0; margin-top:10px; min-height:3em;">
+          Awaiting morning thesis writeback...
+        </div>
+        <div style="display:flex; gap:14px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.05);">
+          <div style="flex:0 0 auto; min-width:90px;">
+            <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">Leverage Bias</div>
+            <div id="jordanLeverageBias" style="font-size:1.1em; font-weight:600; margin-top:4px; color:#4f9eff;">--</div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">What Flips This</div>
+            <div id="jordanThesisFlip" style="font-size:0.82em; margin-top:4px; color:#a0aec0; line-height:1.45;">--</div>
+          </div>
+        </div>
+        <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7; text-transform:uppercase; letter-spacing:0.08em;">
+          Daily 6am EST writeback. Voice immutable. Logged for track record.
+        </div>
+      </div>
+
+      <!-- Sprint 66: What Would Make Us WRONG moved into Current Read -->
+      <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:0.6em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;">
+          What Would Make Us Wrong
+        </div>
+        <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+          The conditions that would invalidate the current call — in Jordan's words. If any happen, the call was wrong.
+        </div>
+        <div id="falsificationList" style="margin-top:12px;">
+          <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Awaiting Jordan's call...</div>
+        </div>
+      </div>
+
+      <!-- Sprint 66: NEW — What Would Make Us RIGHT (mirror of falsification) -->
+      <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="font-size:0.6em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;">
+          What Would Make Us Right
+        </div>
+        <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+          The conviction triggers — signals that, if they fire, confirm the call and mean press/hold. His to write.
+        </div>
+        <div id="confirmationList" style="margin-top:12px;">
+          <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Awaiting Jordan's call...</div>
+        </div>
+      </div>
     </div>
 
     <!-- Editor's Calls — Jordan's live editorial overrides (any of the 14 items) -->
@@ -1341,43 +1415,8 @@
       <div id="editorCallsList"></div>
     </div>
 
-    <!-- v2.7 Sprint 32: Jordan's Current Thesis (daily 6am writeback) -->
-    <div class="card" id="jordanThesisCard">
-      <div class="card-label">
-        Jordan's Current Thesis
-        <span class="tier-badge" id="jordanThesisAge" style="margin-left: auto; background:#1a2332; color:#4f9eff;">--</span>
-      </div>
-      <div id="jordanThesisText" style="font-size:1.05em; line-height:1.55; color:#cbd5e0; margin-top:12px; min-height:3em;">
-        Awaiting morning thesis writeback...
-      </div>
-      <div style="display:flex; gap:14px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.05);">
-        <div style="flex:0 0 auto; min-width:90px;">
-          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">Leverage Bias</div>
-          <div id="jordanLeverageBias" style="font-size:1.1em; font-weight:600; margin-top:4px; color:#4f9eff;">--</div>
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">What Flips This</div>
-          <div id="jordanThesisFlip" style="font-size:0.82em; margin-top:4px; color:#a0aec0; line-height:1.45;">--</div>
-        </div>
-      </div>
-      <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7; text-transform:uppercase; letter-spacing:0.08em;">
-        Daily 6am EST writeback. Voice immutable. Logged for track record.
-      </div>
-    </div>
 
 
-    <!-- v2.7 Sprint 32: Falsification Checklist (per-sweep) -->
-    <div class="card" id="falsificationCard">
-      <div class="card-label">
-        What Would Make Us Wrong
-      </div>
-      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-        The conditions that would invalidate the current call — in Jordan's words. If any happen, the call was wrong. His to write; the brains only draft.
-      </div>
-      <div id="falsificationList" style="margin-top:14px;">
-        <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Awaiting falsification checklist...</div>
-      </div>
-    </div>
 
     <!-- v2.7 Sprint 32: Invariants Display -->
     <div class="card" id="invariantsCard">
@@ -1504,16 +1543,6 @@
       </div>
     </div>
 
-    <!-- BRAIN FORWARD CALLS (the brains' predictions, graded + autopsied) -->
-    <div class="card">
-      <div class="card-label">Brain Forward Calls · predicted the next move · graded</div>
-      <div id="brainForwardBody">
-        <div style="color:var(--muted)">Grading — the brains' forward predictions resolve after 24h.</div>
-      </div>
-      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
-        The 3 brains now predict the NEXT move, not just read the current one. Each call is graded 24h forward: direction (up/down/hold vs what the score did) and transition (did the predicted rung actually get reached, graded separately — it's harder). On a miss, the autopsy names which live signal misled them. This is the track record Jordan reasons against.
-      </div>
-    </div>
 
     <!-- WEIGHT FIT (back-tester suggestion) -->
     <div class="card">
@@ -2148,14 +2177,23 @@ async function renderForwardCard(nextMove, phaseCall) {
     arrowEl.style.color = col;
     phaseEl.textContent = word;
     phaseEl.style.color = col;
-    adviceEl.textContent = (live.reasoning || 'His forward call for the next window — front-running the move.')
-      + (hrsLeft != null ? `  ·  ${hrsLeft}h left in the 12h grading window` : '');
-    // bar shows time elapsed in the 12h window
-    if (hrsLeft != null) {
-      const elapsedPct = Math.max(0, Math.min(100, ((12 - hrsLeft) / 12) * 100));
-      barEl.style.width = elapsedPct.toFixed(0) + '%';
-      barEl.style.background = col;
+    // Sprint 66: compute time-left LIVE from window_start + 12h, not the frozen stored value.
+    let liveHrsLeft = null, elapsedPct = 0;
+    if (live.window_start_iso) {
+      const opened = Date.parse(live.window_start_iso);
+      const expires = opened + 12 * 3600 * 1000;
+      const remMs = expires - Date.now();
+      liveHrsLeft = Math.max(0, remMs / 3600000);
+      elapsedPct = Math.max(0, Math.min(100, ((12 - liveHrsLeft) / 12) * 100));
     }
+    const leftTxt = (liveHrsLeft != null)
+      ? (liveHrsLeft <= 0 ? 'grading now'
+         : `${Math.floor(liveHrsLeft)}h ${Math.floor((liveHrsLeft % 1) * 60)}m left in the 12h grading window`)
+      : '';
+    adviceEl.textContent = (live.reasoning || 'His forward call for the next window — front-running the move.')
+      + (leftTxt ? `  ·  ${leftTxt}` : '');
+    barEl.style.width = elapsedPct.toFixed(0) + '%';
+    barEl.style.background = col;
     return;
   }
 
@@ -2401,7 +2439,7 @@ async function fetchBrainForward() {
     }
     document.getElementById('brainForwardBody').innerHTML = html;
   } catch (e) {
-    document.getElementById('brainForwardBody').innerHTML = '<span style="color:var(--muted)">Grading — the brains\' forward predictions resolve after 24h.</span>';
+    document.getElementById('brainForwardBody').innerHTML = '<span style="color:var(--muted)">Grading — the brains\' forward predictions resolve after 12h.</span>';
   }
 }
 
@@ -3740,6 +3778,8 @@ async function init() {
     fetchTrackRecord(),
     fetchRaceStandings(),
     fetchFalsificationChecklist(),
+    fetchConfirmation(),
+    fetchMarketDrivers(),
     fetchInvariants(),
     fetchDataGaps(),
     fetchForecastCurve(),  // data-driven forecast (single source of truth)
@@ -3867,14 +3907,17 @@ async function fetchTrackRecord() {
           const cc = await ccRes.json();
           const live = cc.live_call;
           if (live && live.direction) {
-            const hrsLeft = (cc.countdown && cc.countdown.hours_left != null) ? cc.countdown.hours_left : null;
             const revUsed = cc.revision_used;
             const madeAt = live.window_start_iso ? new Date(live.window_start_iso).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+            // Sprint 66: LIVE-ticking countdown from window_start + 12h, not the frozen
+            // stored hours_left (that only updated on sweep, so it read "12h left" for an
+            // hour). data attrs drive tickCallCycleCountdowns() which updates every minute.
+            const cdAttr = live.window_start_iso ? `data-cc-opened="${live.window_start_iso}" data-cc-horizon-h="12"` : '';
             pendingHtml = `
               <div style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(79,158,255,0.25); font-size:0.8em; background:rgba(79,158,255,0.06); border-radius:6px; padding-left:8px; margin-bottom:4px;">
                 <span style="color:#4f9eff; min-width:48px; font-weight:700;">LIVE</span>
                 <span style="color:#fff; flex:1;">Called <b>${dirWord(live.direction)}</b> <span style="color:var(--muted);font-size:0.85em;">· ${madeAt}</span></span>
-                <span style="color:#4f9eff; min-width:90px; text-align:right; font-size:0.9em;">${hrsLeft != null ? hrsLeft + 'h left' : 'pending'}</span>
+                <span class="cc-countdown" ${cdAttr} style="color:#4f9eff; min-width:90px; text-align:right; font-size:0.9em;">calculating…</span>
                 <span style="color:#4f9eff; font-weight:700; min-width:18px; text-align:center;" title="grading in progress">⏱</span>
               </div>
               <div style="font-size:0.68em; color:var(--muted); padding:0 8px 6px; ">
@@ -3901,6 +3944,7 @@ async function fetchTrackRecord() {
             </div>`;
         }).join('');
         recEl.innerHTML = pendingHtml + gradedHtml;
+        tickCallCycleCountdowns();  // Sprint 66: start/refresh the live countdown
       }
     }
 
@@ -3941,6 +3985,65 @@ async function fetchFalsificationChecklist() {
         </div>
       `).join('');
   } catch(e) { console.log('falsification fetch failed', e); }
+}
+
+async function fetchConfirmation() {
+  // Sprint 66: the mirror of falsification — what would make us RIGHT. Reads Jordan's
+  // editorial `confirmation` call. Green-accented conviction triggers.
+  const listEl = document.getElementById('confirmationList');
+  if (!listEl) return;
+  try {
+    let call = null;
+    const res = await fetch('data/editorial_calls.json?t=' + Date.now());
+    if (res.ok) {
+      const ec = await res.json();
+      call = (ec && ec.calls && ec.calls.confirmation) || null;
+    }
+    if (!call || !call.value || !String(call.value).trim()) {
+      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">Awaiting Jordan’s call — this panel is his to write.</div>';
+      return;
+    }
+    const lines = String(call.value).split(/\n+/).map(s => s.trim()).filter(Boolean);
+    listEl.innerHTML = lines.map((line) => `
+        <div style="margin-bottom:12px; padding:10px; background:rgba(0,229,160,0.04); border-left:2px solid #00e5a0;">
+          <div style="font-size:0.92em; color:#cbd5e0; line-height:1.5;">${line}</div>
+        </div>
+      `).join('');
+  } catch(e) { console.log('confirmation fetch failed', e); }
+}
+
+async function fetchMarketDrivers() {
+  // Sprint 66: top 3 things moving the market, computed from daily_read.market_drivers
+  // (factor vector ranked by distance-from-neutral × weight). Green = bullish force,
+  // red = bearish force.
+  const listEl = document.getElementById('marketDriversList');
+  if (!listEl) return;
+  try {
+    const res = await fetch('data/daily_read.json?t=' + Date.now());
+    if (!res.ok) return;
+    const d = await res.json();
+    const drivers = d.market_drivers || [];
+    if (!drivers.length) {
+      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">No dominant drivers — the factor vector is near-neutral this sweep.</div>';
+      return;
+    }
+    listEl.innerHTML = drivers.map((dr, i) => {
+      const bull = dr.direction === 'bullish';
+      const col = bull ? '#00e5a0' : '#ff4d6a';
+      const arrow = bull ? '▲' : '▼';
+      return `
+        <div style="display:flex; align-items:center; gap:12px; padding:9px 12px; margin-bottom:8px;
+             background:rgba(255,255,255,0.02); border-left:3px solid ${col}; border-radius:4px;">
+          <span style="color:var(--muted); font-size:0.9em; font-weight:700; min-width:16px;">${i + 1}</span>
+          <div style="flex:1;">
+            <div style="font-size:0.92em; color:#cbd5e0; font-weight:600;">${_escapeHtml(dr.label)}
+              <span style="color:${col}; font-size:0.85em; font-weight:700; margin-left:6px;">${arrow} ${_escapeHtml(dr.meaning)}</span>
+            </div>
+          </div>
+          <span style="color:var(--muted); font-size:0.8em;">${dr.value}/100</span>
+        </div>`;
+    }).join('');
+  } catch(e) { console.log('market drivers fetch failed', e); }
 }
 
 async function fetchInvariants() {
@@ -4579,7 +4682,20 @@ function renderEmpireReadPanel(data) {
     // sniper tiles removed — they exposed what the other bots are doing (the
     // bots still consume the full daily_read internally; the SITE just shows the
     // one public-facing call). Single centered tile, mapped to plain language.
-    tilesEl.innerHTML = _leverageTile(tr.perps || 'neutral');
+    // Sprint 66: the LEVERAGE DIRECTION headline is now JORDAN'S COMMITTED CALL (his
+    // front-running decision), not the mechanical phase-lookup. Leverage = his per-sweep
+    // forward call now, so his committed move IS the leverage direction. The mechanical
+    // phase-read still shows as a SECONDARY line so divergence is visible + labeled — when
+    // he front-runs against the tape ("mechanical says short, he's committed long"), that's
+    // signal, not a contradiction. Reads call_cycle.json for his live call.
+    (async () => {
+      let jCall = null;
+      try {
+        const ccRes = await fetch('data/call_cycle.json?t=' + Date.now());
+        if (ccRes.ok) { const cc = await ccRes.json(); jCall = cc.live_call; }
+      } catch(e) {}
+      tilesEl.innerHTML = _leverageTile(tr.perps || 'neutral', jCall);
+    })();
     reasoningEl.textContent = humanize(tr.reasoning || 'No reasoning provided.');
     headlineEl.style.display = 'block';
   }
@@ -4604,31 +4720,40 @@ function renderEmpireReadPanel(data) {
   // 4. Context grid: phase + cliff + forecast targets + horse race
   const ctxEl = document.getElementById('empireReadContext');
   if (ctxEl) {
-    // Sprint 65: the FORWARD box — current condition is the anchor, this is where it
-    // goes next. Reads daily_read.next_move (brain consensus). Only rendered when the
-    // brains had a confident call; stays quiet otherwise rather than showing an empty tile.
-    let nextMoveBox = '';
+    // Sprint 66: the FORWARD box — now JORDAN'S editorial next-phase call (his forward
+    // read) when he's made one, brains as fallback. Pulled OUT of the cramped context grid
+    // into its own full-width row below so it fills the space and reads clearly. Shows whose
+    // call it is (Jordan vs brains-awaiting).
+    let nextMoveRow = '';
     const nm = data.next_move;
     if (nm && nm.predicted_phase) {
       const dir = (nm.direction || 'HOLD').toUpperCase();
       const dirColor = dir === 'UP' ? 'var(--green)' : dir === 'DOWN' ? 'var(--red)' : 'var(--muted)';
       const dirArrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
       const conv = nm.conviction ? ` · ${nm.conviction} conviction` : '';
-      // Sprint 66: confidence score. Low confidence = mixed evidence, reason with it —
-      // NOT impossible. Colored by band but always shown as context, never a veto.
+      const isJordan = nm.source === 'jordan';
+      const srcLabel = isJordan ? "JORDAN'S NEXT-PHASE CALL" : "NEXT MOVE · brains' forecast (awaiting Jordan)";
       let confLine = '';
       if (nm.confidence_pct != null) {
         const cf = nm.confidence_pct;
         const cfColor = cf >= 66 ? 'var(--green)' : cf >= 40 ? 'var(--yellow)' : 'var(--muted)';
         const cfNote = cf < 40 ? ' — mixed evidence, reason with it' : '';
-        confLine = `<div style="color:${cfColor};font-size:0.78em;margin-top:3px;">${cf}% confidence${cfNote}</div>`;
+        confLine = `<span style="color:${cfColor};font-size:0.82em;margin-left:10px;">${cf}% confidence${cfNote}</span>`;
       }
-      nextMoveBox = _ctxBox('Next Move',
-        `<span style="color:${dirColor};font-weight:700;">${dirArrow} ${_escapeHtml(nm.predicted_phase)}</span>` +
-        `<span style="color:var(--muted);font-size:0.85em;">${conv}</span>` +
-        confLine +
-        (nm.reasoning ? `<div style="color:var(--muted);font-size:0.78em;margin-top:4px;line-height:1.4;">${_escapeHtml(nm.reasoning)}</div>` : '')
-      );
+      nextMoveRow = `
+        <div style="margin-top:12px; padding:14px 16px; border-radius:8px;
+             border:1px solid ${isJordan ? 'rgba(0,229,160,0.3)' : 'var(--border)'};
+             background:${isJordan ? 'rgba(0,229,160,0.05)' : 'rgba(255,255,255,0.02)'};">
+          <div style="font-size:0.62em; color:${isJordan ? 'var(--green)' : 'var(--muted)'};
+               letter-spacing:0.14em; text-transform:uppercase; margin-bottom:8px; font-weight:700;">
+            ${srcLabel}
+          </div>
+          <div style="font-size:1.15em;">
+            <span style="color:${dirColor};font-weight:800;">${dirArrow} ${_escapeHtml(nm.predicted_phase)}</span>
+            <span style="color:var(--muted);font-size:0.72em;">${conv}</span>${confLine}
+          </div>
+          ${nm.reasoning ? `<div style="color:var(--muted);font-size:0.8em;margin-top:6px;line-height:1.5;">${_escapeHtml(nm.reasoning)}</div>` : ''}
+        </div>`;
     }
     ctxEl.innerHTML = `
       ${_ctxBox('Phase', `${data.current_phase || '?'} (${data.phase_leg || '?'})`)}
@@ -4639,8 +4764,15 @@ function renderEmpireReadPanel(data) {
           : '<span style="color:var(--muted);">awaiting forecast</span>'
       )}
       ${_ctxBox('The Race', _formatHorseRace(hr))}
-      ${nextMoveBox}
     `;
+    // full-width next-move row after the grid — dedicated container so it never stacks
+    let nmContainer = document.getElementById('empireNextMoveRow');
+    if (!nmContainer) {
+      nmContainer = document.createElement('div');
+      nmContainer.id = 'empireNextMoveRow';
+      ctxEl.parentNode.insertBefore(nmContainer, ctxEl.nextSibling);
+    }
+    nmContainer.innerHTML = nextMoveRow;
   }
 
   // 5. Exit priority signals (if any)
@@ -4683,35 +4815,72 @@ function _escapeHtml(s) {
 }
 
 // Recommendation tile color logic — green for longs, red for shorts, neutral for everything else
-function _leverageTile(value) {
-  // Map the perps sizing enum to plain "Go [direction] — [size]" language.
-  // The only public-facing call on this card (kalshi/sniper removed). Big + centered.
-  const v = (value || '').toLowerCase();
-  const map = {
-    short_small: ['Go Short — Cautious', '#ff4d6a'],
-    short_large: ['Go Short — Heavy',    '#ff4d6a'],
-    short:       ['Go Short',            '#ff4d6a'],
-    long_small:  ['Go Long — Cautious',  '#00e5a0'],
-    long_large:  ['Go Long — Heavy',     '#00e5a0'],
-    long:        ['Go Long',             '#00e5a0'],
-    flat:        ['Stay Flat',           'var(--yellow)'],
-    neutral:     ['Stay Flat',           'var(--yellow)'],
-    out:         ['Stay Out',            'var(--muted)'],
+function _leverageTile(mechValue, jordanCall) {
+  // Sprint 66: the headline is JORDAN'S committed call (his leverage direction — his
+  // per-sweep front-run). The mechanical phase-lookup shows as a labeled secondary line so
+  // you can SEE when he diverges from the tape (which is itself a signal). If he hasn't
+  // committed a call yet, fall back to showing the mechanical read as the headline.
+  const mechMap = {
+    short_small: ['Go Short — Cautious', '#ff4d6a'], short_large: ['Go Short — Heavy', '#ff4d6a'],
+    short: ['Go Short', '#ff4d6a'],
+    long_small: ['Go Long — Cautious', '#00e5a0'], long_large: ['Go Long — Heavy', '#00e5a0'],
+    long: ['Go Long', '#00e5a0'],
+    flat: ['Stay Flat', 'var(--yellow)'], neutral: ['Stay Flat', 'var(--yellow)'],
+    out: ['Stay Out', 'var(--muted)'],
   };
-  const [text, color] = map[v] || [_escapeHtml(value || '—'), 'var(--muted)'];
+  const mv = (mechValue || '').toLowerCase();
+  const [mechText, mechColor] = mechMap[mv] || [_escapeHtml(mechValue || '—'), 'var(--muted)'];
+
+  // Jordan's committed call → headline
+  let headText, headColor, jDir = null;
+  if (jordanCall && jordanCall.direction) {
+    jDir = jordanCall.direction.toLowerCase();
+    const jMap = {
+      up: ['Go Long', '#00e5a0'], up_micro: ['Go Long — Micro', '#00e5a0'], long: ['Go Long', '#00e5a0'],
+      down: ['Go Short', '#ff4d6a'], down_micro: ['Go Short — Micro', '#ff4d6a'], short: ['Go Short', '#ff4d6a'],
+      flat: ['Stay Flat', 'var(--yellow)'],
+    };
+    [headText, headColor] = jMap[jDir] || [jordanCall.direction, 'var(--muted)'];
+  } else {
+    // no committed call yet — mechanical read is the headline
+    headText = mechText; headColor = mechColor;
+  }
+
+  // divergence detection: is Jordan's direction opposite the mechanical read?
+  const mechDir = mv.startsWith('long') ? 'long' : mv.startsWith('short') ? 'short' : 'flat';
+  const jSide = jDir ? (['up','up_micro','long'].includes(jDir) ? 'long'
+                       : ['down','down_micro','short'].includes(jDir) ? 'short' : 'flat') : null;
+  const diverges = jSide && mechDir !== 'flat' && jSide !== 'flat' && jSide !== mechDir;
+
+  let secondary = '';
+  if (jordanCall && jordanCall.direction) {
+    // show the mechanical read as a secondary line under Jordan's headline
+    if (diverges) {
+      secondary = `<div style="font-size:0.72em; color:var(--yellow); margin-top:8px; line-height:1.4;">
+        ⤫ front-running the tape — mechanical phase-read says <b style="color:${mechColor}">${mechText}</b>, he's committed the other way. That divergence is the signal.
+      </div>`;
+    } else {
+      secondary = `<div style="font-size:0.72em; color:var(--muted); margin-top:8px;">
+        mechanical phase-read: <span style="color:${mechColor}">${mechText}</span> ${jSide === mechDir ? '· aligned' : ''}
+      </div>`;
+    }
+  }
+
+  const label = (jordanCall && jordanCall.direction) ? "Leverage Direction · Jordan's committed call" : 'Leverage Direction · mechanical (awaiting Jordan)';
   return `
     <div style="
       background: rgba(255,255,255,0.025);
-      border: 1px solid var(--border);
+      border: 1px solid ${diverges ? 'rgba(245,197,24,0.35)' : 'var(--border)'};
       border-radius: 6px;
       padding: 16px 14px;
       text-align: center;
     ">
       <div style="font-size: 0.62em; color: var(--muted); letter-spacing: 0.14em;
-           text-transform: uppercase; margin-bottom: 8px;">Leverage Direction</div>
-      <div style="font-size: 1.45em; color: ${color}; font-weight: 800; letter-spacing: 0.02em;">
-        ${text}
+           text-transform: uppercase; margin-bottom: 8px;">${label}</div>
+      <div style="font-size: 1.45em; color: ${headColor}; font-weight: 800; letter-spacing: 0.02em;">
+        ${headText}
       </div>
+      ${secondary}
     </div>
   `;
 }
@@ -4834,15 +5003,26 @@ async function fetchBrains() {
     // shows current read + where that brain thinks it goes next. Quiet when no call.
     const addForward = (metaId, nm) => {
       const m = document.getElementById(metaId);
-      if (!m || !nm || !nm.predicted_phase || nm.predicted_phase === 'Unknown') return;
+      if (!m || !nm || !nm.direction) return;
       const dir = (nm.direction || 'HOLD').toUpperCase();
       const col = dir === 'UP' ? 'var(--green)' : dir === 'DOWN' ? 'var(--red)' : 'var(--muted)';
       const arrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
-      // Sprint 66: show confidence % if the call carries one (consensus does), else conviction word
+      // Sprint 66: analyst/judge predict a PHASE; narrative predicts a STORY direction
+      // (outlook, no phase). Handle both so all three brains show a forward line, not just
+      // the phase-predictors. Wider/fuller line that fills the card.
       const tail = (nm.confidence_pct != null) ? ` · ${nm.confidence_pct}%`
                  : (nm.conviction ? ` · ${nm.conviction}` : '');
+      let body;
+      if (nm.predicted_phase && nm.predicted_phase !== 'Unknown') {
+        body = `${arrow} ${_escapeHtml(nm.predicted_phase)}${tail}`;
+      } else if (nm.outlook) {
+        // narrative: show the story-arc outlook
+        body = `${arrow} ${_escapeHtml(nm.outlook)}${tail}`;
+      } else {
+        body = `${arrow} ${dir.toLowerCase()}${tail}`;
+      }
       m.innerHTML = (m.textContent || '') +
-        `<div style="margin-top:3px;font-size:0.9em;color:${col};">next: ${arrow} ${_escapeHtml(nm.predicted_phase)}${tail}</div>`;
+        `<div style="margin-top:4px;font-size:0.82em;color:${col};line-height:1.4;">next: ${body}</div>`;
     };
     if (br.analyst) setRead('analystRead', 'analystMeta',
       (br.analyst.signal || '--') + (br.analyst.phase ? ' · ' + br.analyst.phase : ''), br.analyst.confidence);
@@ -4857,6 +5037,20 @@ async function fetchBrains() {
     if (br.analyst)   addForward('analystMeta', br.analyst.next_move);
     if (br.judge)     addForward('judgeMeta', br.judge.next_move);
     if (br.narrative) addForward('narrativeMeta', br.narrative.next_move);
+    // Sprint 66: legacy math gets its DETERMINISTIC forward lean too (the mechanical
+    // counterpoint to the reasoning brains). Set its read + meta here if not already, then
+    // append the forward line.
+    if (br.legacy) {
+      const le = document.getElementById('legacyRead');
+      if (le && (le.textContent === '--' || !le.textContent) && br.legacy.signal) {
+        le.textContent = br.legacy.signal; le.className = 'sig-val ' + String(br.legacy.signal).toLowerCase();
+      }
+      const lm = document.getElementById('legacyMeta');
+      if (lm && (lm.textContent === '--' || !lm.textContent)) {
+        lm.textContent = [br.legacy.score != null ? `score ${br.legacy.score}` : '', br.legacy.phase || ''].filter(Boolean).join(' · ');
+      }
+      addForward('legacyMeta', br.legacy.next_move);
+    }
     console.log('brains loaded:', br.analyst && br.analyst.signal, '/', br.judge && br.judge.signal, '/ narrative', br.narrative && br.narrative.headline ? 'ok' : 'none');
   } catch (e) { console.log('brain_consensus fetch failed', e); }
 }
@@ -5011,6 +5205,35 @@ function tickCoinCallCountdowns() {
   // keep a single ticker running
   if (!_coinCallTicker) {
     _coinCallTicker = setInterval(tickCoinCallCountdowns, 60000);  // update every minute
+  }
+}
+
+// Sprint 66: LIVE countdown for the 12h call-cycle window (and any .cc-countdown element).
+// Fixes the frozen "12h left" bug — computes remaining time from window_start + horizon on
+// every tick, not from a stored value that only refreshed on sweep.
+let _ccTicker = null;
+function tickCallCycleCountdowns() {
+  const els = document.querySelectorAll('.cc-countdown[data-cc-opened]');
+  const now = Date.now();
+  els.forEach(el => {
+    const opened = Date.parse(el.getAttribute('data-cc-opened'));
+    const horizonH = parseFloat(el.getAttribute('data-cc-horizon-h')) || 12;
+    if (!opened) { el.textContent = 'pending'; return; }
+    const expires = opened + horizonH * 3600 * 1000;
+    let remMs = expires - now;
+    if (remMs <= 0) {
+      el.textContent = 'grading now';
+      el.style.color = 'var(--yellow)';
+      return;
+    }
+    const h = Math.floor(remMs / 3600000); remMs -= h * 3600000;
+    const m = Math.floor(remMs / 60000);
+    el.textContent = h > 0 ? `${h}h ${m}m left` : `${m}m left`;
+    const hoursLeft = (expires - now) / 3600000;
+    el.style.color = hoursLeft < 2 ? 'var(--gold, #d9a441)' : '#4f9eff';
+  });
+  if (!_ccTicker) {
+    _ccTicker = setInterval(tickCallCycleCountdowns, 60000);
   }
 }
 
