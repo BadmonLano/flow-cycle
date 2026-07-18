@@ -1296,7 +1296,7 @@
         <span class="tier-badge" id="trackRecordRate" style="margin-left:auto; background:#1a2332; color:#00e5a0;">--</span>
       </div>
       <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the real BTC move. <b>UP / UP_MICRO / FLAT / DOWN_MICRO / DOWN</b> — a micro-lean is graded against a micro threshold (±0.1%), so a small move you called <i>is a hit</i>, not a miss. FLAT now means genuine stillness, not "no opinion." Partial = half credit. The receipts, not just the live call.
+        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the <b>market-cap-weighted big-3 move</b> (BTC + ETH + SOL, weighted by live cap share) — a top is a market event, not a BTC one, so his read is graded on the whole market, not one coin. When the big-3 decouple, each call is tagged by structure (together / btc-leading / alts-leading / <b>fracturing</b>) — a fracturing tape is the correlation breaking that precedes a blow-off. <b>UP / UP_MICRO / FLAT / DOWN_MICRO / DOWN</b> — a micro-lean is graded against a micro threshold (±0.1%), so a small move you called <i>is a hit</i>, not a miss. FLAT now means genuine stillness, not "no opinion." Partial = half credit. The receipts, not just the live call.
       </div>
 
       <!-- headline stats -->
@@ -1464,6 +1464,17 @@
       </div>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
         The mechanical confluence read vs Jordan's actual calls, graded direction-only 24h forward (FLAT counts — correct if price stayed range-bound). When they diverge and mechanical keeps winning, that's a signal to reweight. Observational — changes nothing about execution.
+      </div>
+    </div>
+
+    <!-- BRAIN FORWARD CALLS (the brains' predictions, graded + autopsied) -->
+    <div class="card">
+      <div class="card-label">Brain Forward Calls · predicted the next move · graded</div>
+      <div id="brainForwardBody">
+        <div style="color:var(--muted)">Grading — the brains' forward predictions resolve after 24h.</div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        The 3 brains now predict the NEXT move, not just read the current one. Each call is graded 24h forward: direction (up/down/hold vs what the score did) and transition (did the predicted rung actually get reached, graded separately — it's harder). On a miss, the autopsy names which live signal misled them. This is the track record Jordan reasons against.
       </div>
     </div>
 
@@ -2063,12 +2074,24 @@ chart._markerCache = [];   // stored markers for reapplication after zoom
 const PHASE_ORDER = ['Anger','Depression','Capitulation','Panic','Denial','Anxiety',
                      'Complacency','Disbelief','Hope','Optimism','Belief','Thrill','Euphoria'];
 
-function renderPhaseBar(phaseCall, score) {
+function renderPhaseBar(phaseCall, score, nextMove) {
   const pills   = document.querySelectorAll('.phase-pill');
   const fill    = document.getElementById('cycleBarFill');
   const phaseEl = document.getElementById('cyclePhase');
   const adviceEl= document.getElementById('cycleAdvice');
   const idxEl   = document.getElementById('cycleIndex');
+
+  // Sprint 65: build a compact forward-prediction suffix from the brain consensus
+  // next_move. Appended to the advice line so the phase bar shows CURRENT (the anchor)
+  // and where the brains think it goes NEXT. Empty string when no confident call.
+  let fwdSuffix = '';
+  if (nextMove && nextMove.predicted_phase && nextMove.predicted_phase !== 'Unknown') {
+    const dir = (nextMove.direction || 'HOLD').toUpperCase();
+    const arrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
+    const conv = nextMove.conviction ? ` (${nextMove.conviction})` : '';
+    const cf = (nextMove.confidence_pct != null) ? ` · ${nextMove.confidence_pct}% conf` : '';
+    fwdSuffix = `  ·  next: ${arrow} ${nextMove.predicted_phase}${conv}${cf}`;
+  }
 
   // The score is a FACT — always show it if we have one (Jordan can't edit numbers).
   if (score !== null && score !== undefined && !isNaN(score)) {
@@ -2083,7 +2106,7 @@ function renderPhaseBar(phaseCall, score) {
     // No call yet — awaiting Jordan. Never auto-fill a phase.
     fill.style.width = '0%';
     phaseEl.textContent = 'Awaiting Jordan’s call';
-    adviceEl.textContent = 'Phase is Jordan’s to call — it’s pinned to every packet.';
+    adviceEl.textContent = 'Phase is Jordan’s to call — it’s pinned to every packet.' + fwdSuffix;
     return;
   }
 
@@ -2097,7 +2120,7 @@ function renderPhaseBar(phaseCall, score) {
     if (p.dataset.phase === phase) p.classList.add('active'); // current
   });
   phaseEl.textContent = phase;
-  adviceEl.textContent = (phaseCall.reasoning || '').trim() || ('Jordan’s call: ' + phase);
+  adviceEl.textContent = ((phaseCall.reasoning || '').trim() || ('Jordan’s call: ' + phase)) + fwdSuffix;
 
   // Euphoria red-lock: once we've hit the top, the Euphoria pill stays RED all the
   // way down the descending leg (a "we already peaked" memory) until Jordan resets.
@@ -2233,6 +2256,48 @@ async function fetchMechVsJordan() {
     document.getElementById('mechVsJordanBody').innerHTML = html;
   } catch (e) {
     document.getElementById('mechVsJordanBody').innerHTML = '<span style="color:var(--muted)">Scoreboard builds as calls resolve (24h horizon).</span>';
+  }
+}
+
+// Sprint 65: the brains' forward-prediction scoreboard — hit rate + recent misses
+// with their autopsies. Reads brain_forward_record.json.
+async function fetchBrainForward() {
+  try {
+    const res = await fetch('data/brain_forward_record.json?t=' + Date.now());
+    if (!res.ok) throw new Error('no file');
+    const d = await res.json();
+    const dr = d.direction_hit_rate_pct, tr = d.transition_hit_rate_pct;
+    if (dr == null && tr == null) throw new Error('empty');
+    let html = '';
+    // direction hit rate (the headline)
+    if (dr != null) {
+      const col = dr > 55 ? 'var(--green)' : dr < 45 ? 'var(--red)' : 'var(--muted)';
+      html += `<div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="color:var(--text);font-weight:600;">Direction</span>
+        <span style="color:${col};font-weight:700;">${dr}% <span style="color:var(--muted);font-weight:400;font-size:0.85em;">(${d.direction_record || ''})</span></span>
+      </div>`;
+    }
+    // transition hit rate (harder, separate)
+    if (tr != null) {
+      html += `<div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="color:var(--text);font-weight:600;">Transition <span style="color:var(--muted);font-weight:400;font-size:0.8em;">(rung change)</span></span>
+        <span style="color:var(--muted);font-weight:700;">${tr}% <span style="font-weight:400;font-size:0.85em;">(${d.transition_record || ''})</span></span>
+      </div>`;
+    }
+    // recent misses + autopsies (the teaching part)
+    const misses = (d.resolved || []).filter(g => !g.direction_hit).slice(-3).reverse();
+    if (misses.length) {
+      html += `<div style="margin-top:8px;font-size:0.72em;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">Recent misses — what misled them</div>`;
+      misses.forEach(g => {
+        html += `<div style="margin-top:5px;font-size:0.8em;color:var(--text);line-height:1.4;">
+          <span style="color:var(--red);">✗</span> said ${g.direction}, got ${g.realized_dir}:
+          <span style="color:var(--muted);">${_escapeHtml(g.autopsy || '')}</span>
+        </div>`;
+      });
+    }
+    document.getElementById('brainForwardBody').innerHTML = html;
+  } catch (e) {
+    document.getElementById('brainForwardBody').innerHTML = '<span style="color:var(--muted)">Grading — the brains\' forward predictions resolve after 24h.</span>';
   }
 }
 
@@ -3549,6 +3614,7 @@ async function init() {
     fetchCalledDates(),
     fetchPiCycle(),
     fetchMechVsJordan(),
+    fetchBrainForward(),
     fetchNews(),
     fetchGlobal(),
     fetchFearGreed(),
@@ -4295,12 +4361,13 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
 async function fetchCurrentState() {
   // Single owner of the top phase bar. Phase = JORDAN'S call (editorial_calls.json).
   // Score = FACT (current_state.json). The page derives no phase of its own.
-  let score = null, phaseCall = null;
+  let score = null, phaseCall = null, nextMove = null;
   try {
     const res = await fetch('data/current_state.json?t=' + Date.now());
     if (res.ok) {
       const data = await res.json();
       score = data.score;   // fact — Jordan can't edit numbers
+      nextMove = data.next_move || null;   // Sprint 65: brain forward prediction
     }
   } catch(e) { console.log('current_state fetch failed', e); }
   try {
@@ -4310,7 +4377,7 @@ async function fetchCurrentState() {
       phaseCall = (ec && ec.calls && ec.calls.phase) ? ec.calls.phase : null;  // his call or null
     }
   } catch(e) { console.log('editorial_calls fetch failed', e); }
-  renderPhaseBar(phaseCall, score);
+  renderPhaseBar(phaseCall, score, nextMove);
   console.log(`[phase bar] score=${score} jordan_phase=${phaseCall ? phaseCall.value : '(awaiting)'}`);
 }
 
@@ -4400,6 +4467,32 @@ function renderEmpireReadPanel(data) {
   // 4. Context grid: phase + cliff + forecast targets + horse race
   const ctxEl = document.getElementById('empireReadContext');
   if (ctxEl) {
+    // Sprint 65: the FORWARD box — current condition is the anchor, this is where it
+    // goes next. Reads daily_read.next_move (brain consensus). Only rendered when the
+    // brains had a confident call; stays quiet otherwise rather than showing an empty tile.
+    let nextMoveBox = '';
+    const nm = data.next_move;
+    if (nm && nm.predicted_phase) {
+      const dir = (nm.direction || 'HOLD').toUpperCase();
+      const dirColor = dir === 'UP' ? 'var(--green)' : dir === 'DOWN' ? 'var(--red)' : 'var(--muted)';
+      const dirArrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
+      const conv = nm.conviction ? ` · ${nm.conviction} conviction` : '';
+      // Sprint 66: confidence score. Low confidence = mixed evidence, reason with it —
+      // NOT impossible. Colored by band but always shown as context, never a veto.
+      let confLine = '';
+      if (nm.confidence_pct != null) {
+        const cf = nm.confidence_pct;
+        const cfColor = cf >= 66 ? 'var(--green)' : cf >= 40 ? 'var(--yellow)' : 'var(--muted)';
+        const cfNote = cf < 40 ? ' — mixed evidence, reason with it' : '';
+        confLine = `<div style="color:${cfColor};font-size:0.78em;margin-top:3px;">${cf}% confidence${cfNote}</div>`;
+      }
+      nextMoveBox = _ctxBox('Next Move',
+        `<span style="color:${dirColor};font-weight:700;">${dirArrow} ${_escapeHtml(nm.predicted_phase)}</span>` +
+        `<span style="color:var(--muted);font-size:0.85em;">${conv}</span>` +
+        confLine +
+        (nm.reasoning ? `<div style="color:var(--muted);font-size:0.78em;margin-top:4px;line-height:1.4;">${_escapeHtml(nm.reasoning)}</div>` : '')
+      );
+    }
     ctxEl.innerHTML = `
       ${_ctxBox('Phase', `${data.current_phase || '?'} (${data.phase_leg || '?'})`)}
       ${_ctxBox('Turn Proximity', _formatCliff(data.cliff_proximity))}
@@ -4409,6 +4502,7 @@ function renderEmpireReadPanel(data) {
           : '<span style="color:var(--muted);">awaiting forecast</span>'
       )}
       ${_ctxBox('The Race', _formatHorseRace(hr))}
+      ${nextMoveBox}
     `;
   }
 
@@ -4599,6 +4693,20 @@ async function fetchBrains() {
       const m = document.getElementById(metaId);
       if (m) m.textContent = (conf != null) ? `conf ${(conf * 100).toFixed(0)}%` : '--';
     };
+    // Sprint 65: append each brain's FORWARD call to its meta line, so every brain tile
+    // shows current read + where that brain thinks it goes next. Quiet when no call.
+    const addForward = (metaId, nm) => {
+      const m = document.getElementById(metaId);
+      if (!m || !nm || !nm.predicted_phase || nm.predicted_phase === 'Unknown') return;
+      const dir = (nm.direction || 'HOLD').toUpperCase();
+      const col = dir === 'UP' ? 'var(--green)' : dir === 'DOWN' ? 'var(--red)' : 'var(--muted)';
+      const arrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
+      // Sprint 66: show confidence % if the call carries one (consensus does), else conviction word
+      const tail = (nm.confidence_pct != null) ? ` · ${nm.confidence_pct}%`
+                 : (nm.conviction ? ` · ${nm.conviction}` : '');
+      m.innerHTML = (m.textContent || '') +
+        `<div style="margin-top:3px;font-size:0.9em;color:${col};">next: ${arrow} ${_escapeHtml(nm.predicted_phase)}${tail}</div>`;
+    };
     if (br.analyst) setRead('analystRead', 'analystMeta',
       (br.analyst.signal || '--') + (br.analyst.phase ? ' · ' + br.analyst.phase : ''), br.analyst.confidence);
     if (br.judge)   setRead('judgeRead', 'judgeMeta', br.judge.signal, br.judge.confidence);
@@ -4608,6 +4716,10 @@ async function fetchBrains() {
       const m = document.getElementById('narrativeMeta');
       if (m) m.textContent = (br.narrative.confidence != null) ? `conf ${(br.narrative.confidence * 100).toFixed(0)}%` : '--';
     }
+    // Sprint 65: paint each brain's forward call (after meta text is set, since addForward appends)
+    if (br.analyst)   addForward('analystMeta', br.analyst.next_move);
+    if (br.judge)     addForward('judgeMeta', br.judge.next_move);
+    if (br.narrative) addForward('narrativeMeta', br.narrative.next_move);
     console.log('brains loaded:', br.analyst && br.analyst.signal, '/', br.judge && br.judge.signal, '/ narrative', br.narrative && br.narrative.headline ? 'ok' : 'none');
   } catch (e) { console.log('brain_consensus fetch failed', e); }
 }
