@@ -1550,6 +1550,13 @@
   <div class="sidebar-col">
 
 
+    <!-- $GORK (preserved) -->
+    <div class="card gork-card">
+      <div class="card-label">$GORK · Solana</div>
+      <div class="gork-price" id="gorkPrice">--</div>
+      <div class="gork-meta" id="gorkMeta">Loading...</div>
+    </div>
+
     <div class="card" id="invariantsCard">
       <div class="card-label">
         Invariants Firing
@@ -1630,12 +1637,6 @@
       </div>
     </div>
 
-    <!-- $GORK (preserved) -->
-    <div class="card gork-card">
-      <div class="card-label">$GORK · Solana</div>
-      <div class="gork-price" id="gorkPrice">--</div>
-      <div class="gork-meta" id="gorkMeta">Loading...</div>
-    </div>
 
     <!-- Crypto (preserved) -->
     <div class="card">
@@ -4114,12 +4115,16 @@ async function fetchDataGaps() {
     const data = await res.json();
     const gaps = data.unknown_factors || [];
     const listEl = document.getElementById('dataGapsList');
-    
+    const cardEl = document.getElementById('dataGapsCard');
+
+    // Sprint 66: when every gap is filled, HIDE the whole section (it's done its job).
+    // While genuine blind spots remain (e.g. options_skew — no free US-legal source),
+    // it stays and shows only those.
     if (gaps.length === 0) {
-      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">No data gaps registered.</div>';
+      if (cardEl) cardEl.style.display = 'none';
       return;
     }
-    
+    if (cardEl) cardEl.style.display = '';
     listEl.innerHTML = gaps.map(g => {
       const priorityColor = g.priority === 'HIGH' ? '#ff4d6a' :
                             g.priority === 'MEDIUM' ? '#f5c518' : '#a0aec0';
