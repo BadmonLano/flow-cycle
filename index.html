@@ -1258,6 +1258,47 @@
       </div>
     </div>
 
+    <!-- Track Record — how the daily calls have actually graded out over time -->
+    <div class="card" id="trackRecordCard">
+      <div class="card-label">
+        Track Record
+        <span class="tier-badge" id="trackRecordRate" style="margin-left:auto; background:#1a2332; color:#00e5a0;">--</span>
+      </div>
+      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the <b>market-cap-weighted big-3 move</b> (BTC + ETH + SOL, weighted by live cap share) — a top is a market event, not a BTC one, so his read is graded on the whole market, not one coin. When the big-3 decouple, each call is tagged by structure (together / btc-leading / alts-leading / <b>fracturing</b>) — a fracturing tape is the correlation breaking that precedes a blow-off. <b>UP / UP_MICRO / FLAT / DOWN_MICRO / DOWN</b> — a micro-lean is graded against a micro threshold (±0.1%), so a small move you called <i>is a hit</i>, not a miss. FLAT now means genuine stillness, not "no opinion." Partial = half credit. The receipts, not just the live call.
+      </div>
+
+      <!-- headline stats -->
+      <div id="trackRecordStats" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
+        <div style="background:rgba(0,229,160,0.06); border-left:2px solid #00e5a0; padding:10px;">
+          <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase;">Hit Rate</div>
+          <div id="trHitRate" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#00e5a0;">--</div>
+        </div>
+        <div style="background:rgba(79,158,255,0.06); border-left:2px solid #4f9eff; padding:10px;">
+          <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.1em; text-transform:uppercase;">Calls Graded</div>
+          <div id="trGradedDays" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#4f9eff;">--</div>
+        </div>
+        <div style="background:rgba(245,197,24,0.06); border-left:2px solid #f5c518; padding:10px;">
+          <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Current Streak</div>
+          <div id="trStreak" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#f5c518;">--</div>
+        </div>
+      </div>
+
+      <!-- recent graded calls -->
+      <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin:16px 0 6px;">Recent Calls</div>
+      <div id="trackRecordRecent">
+        <div style="font-size:0.8em; color:#a0aec0; padding:10px;">Awaiting graded predictions...</div>
+      </div>
+
+      <!-- which line tracks reality best, over time -->
+      <div id="trackRecordHorseRace" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);"></div>
+
+      <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
+        Each call graded on its 12h window against the real move. Partial = half credit.
+      </div>
+    </div>
+
+
     <!-- Current Read — the 4 advisor inputs + Jordan's decision -->
     <div class="card brain-card">
       <div class="card-label">
@@ -1324,45 +1365,6 @@
       </div>
     </div>
 
-    <!-- Track Record — how the daily calls have actually graded out over time -->
-    <div class="card" id="trackRecordCard">
-      <div class="card-label">
-        Track Record
-        <span class="tier-badge" id="trackRecordRate" style="margin-left:auto; background:#1a2332; color:#00e5a0;">--</span>
-      </div>
-      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the <b>market-cap-weighted big-3 move</b> (BTC + ETH + SOL, weighted by live cap share) — a top is a market event, not a BTC one, so his read is graded on the whole market, not one coin. When the big-3 decouple, each call is tagged by structure (together / btc-leading / alts-leading / <b>fracturing</b>) — a fracturing tape is the correlation breaking that precedes a blow-off. <b>UP / UP_MICRO / FLAT / DOWN_MICRO / DOWN</b> — a micro-lean is graded against a micro threshold (±0.1%), so a small move you called <i>is a hit</i>, not a miss. FLAT now means genuine stillness, not "no opinion." Partial = half credit. The receipts, not just the live call.
-      </div>
-
-      <!-- headline stats -->
-      <div id="trackRecordStats" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
-        <div style="background:rgba(0,229,160,0.06); border-left:2px solid #00e5a0; padding:10px;">
-          <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase;">Hit Rate</div>
-          <div id="trHitRate" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#00e5a0;">--</div>
-        </div>
-        <div style="background:rgba(79,158,255,0.06); border-left:2px solid #4f9eff; padding:10px;">
-          <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.1em; text-transform:uppercase;">Calls Graded</div>
-          <div id="trGradedDays" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#4f9eff;">--</div>
-        </div>
-        <div style="background:rgba(245,197,24,0.06); border-left:2px solid #f5c518; padding:10px;">
-          <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Current Streak</div>
-          <div id="trStreak" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#f5c518;">--</div>
-        </div>
-      </div>
-
-      <!-- recent graded calls -->
-      <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin:16px 0 6px;">Recent Calls</div>
-      <div id="trackRecordRecent">
-        <div style="font-size:0.8em; color:#a0aec0; padding:10px;">Awaiting graded predictions...</div>
-      </div>
-
-      <!-- which line tracks reality best, over time -->
-      <div id="trackRecordHorseRace" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);"></div>
-
-      <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
-        Each call graded on its 12h window against the real move. Partial = half credit.
-      </div>
-    </div>
 
     <!-- v2.7 Sprint 32: Falsification Checklist (per-sweep) -->
     <div class="card" id="falsificationCard">
