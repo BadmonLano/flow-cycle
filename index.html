@@ -384,6 +384,24 @@
       transition: width 1s ease;
     }
 
+    /* Sprint 66: the forward-move card — same size as the phase card, blue accent so it
+       reads as "the prediction" vs the green "current" card directly above it. */
+    .cycle-status-forward {
+      border-color: color-mix(in srgb, var(--blue) 40%, var(--border));
+      background: color-mix(in srgb, var(--blue) 6%, var(--surface2));
+    }
+    .cycle-forward-label {
+      font-size: 0.62em;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--blue);
+      margin-bottom: 5px;
+    }
+    #forwardArrow {
+      color: var(--blue);
+      font-size: 3em;
+    }
+
     /* ═══════════════════════════════════════════════════════════════════════════
        NEW v2 PANELS
        ═══════════════════════════════════════════════════════════════════════════ */
@@ -1104,6 +1122,7 @@
       </div>
     </div>
 
+
     <!--
       Sprint 32 v2.7+ (this session, fourth iteration): NEXT TURNS panel.
       Reads from forecast_curve.json's projection array (populated by fetchForecastCurve).
@@ -1221,6 +1240,22 @@
         <!-- Filled by JS -->
       </div>
 
+    </div>
+
+
+    <!-- FORWARD MOVE card (Sprint 66) — moved here, directly under Empire Read. Shows
+         JORDAN'S COMMITTED forward call (his actual move, the one graded on the hit rate),
+         not the brains' suggestion. Same size/weight as the phase card. -->
+    <div class="cycle-status cycle-status-forward" id="forwardCard" style="margin-top:14px; display:none;">
+      <div class="cycle-index" id="forwardArrow">--</div>
+      <div class="cycle-info">
+        <div class="cycle-forward-label">NEXT MOVE</div>
+        <div class="cycle-phase" id="forwardPhase">&mdash;</div>
+        <div class="cycle-advice" id="forwardAdvice">&mdash;</div>
+        <div class="cycle-bar">
+          <div class="cycle-bar-fill" id="forwardBarFill" style="width:0%; background:var(--blue);"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Current Read — the 4 advisor inputs + Jordan's decision -->
@@ -2074,6 +2109,81 @@ chart._markerCache = [];   // stored markers for reapplication after zoom
 const PHASE_ORDER = ['Anger','Depression','Capitulation','Panic','Denial','Anxiety',
                      'Complacency','Disbelief','Hope','Optimism','Belief','Thrill','Euphoria'];
 
+async function renderForwardCard(nextMove, phaseCall) {
+  // Sprint 66: this card shows JORDAN'S COMMITTED forward call — his actual move, the one
+  // on the hit rate (from call_cycle.json live_call) — NOT the brains' suggestion. The
+  // brains' next_move is advisory and shows in the brain cards. This is the decision.
+  const card = document.getElementById('forwardCard');
+  if (!card) return;
+  const arrowEl = document.getElementById('forwardArrow');
+  const phaseEl = document.getElementById('forwardPhase');
+  const adviceEl = document.getElementById('forwardAdvice');
+  const barEl = document.getElementById('forwardBarFill');
+  const labelEl = card.querySelector('.cycle-forward-label');
+
+  // Jordan's committed call first
+  let live = null, hrsLeft = null;
+  try {
+    const ccRes = await fetch('data/call_cycle.json?t=' + Date.now());
+    if (ccRes.ok) {
+      const cc = await ccRes.json();
+      live = cc.live_call;
+      hrsLeft = (cc.countdown && cc.countdown.hours_left != null) ? cc.countdown.hours_left : null;
+    }
+  } catch(e) {}
+
+  if (live && live.direction) {
+    card.style.display = 'flex';
+    const dir = (live.direction || 'HOLD').toUpperCase();
+    const isUp = ['UP','UP_MICRO','LONG'].includes(dir);
+    const isDown = ['DOWN','DOWN_MICRO','SHORT'].includes(dir);
+    const arrow = isUp ? '↑' : isDown ? '↓' : '→';
+    const col = isUp ? 'var(--green)' : isDown ? 'var(--red)' : 'var(--muted)';
+    const word = { up:'Go Long', up_micro:'Long (micro)', down:'Go Short', down_micro:'Short (micro)',
+                   flat:'Stay Flat', long:'Go Long', short:'Go Short' }[dir.toLowerCase()] || dir;
+    if (labelEl) labelEl.textContent = "JORDAN'S COMMITTED MOVE · ON THE HIT RATE";
+    arrowEl.textContent = arrow;
+    arrowEl.style.color = col;
+    phaseEl.textContent = word;
+    phaseEl.style.color = col;
+    adviceEl.textContent = (live.reasoning || 'His forward call for the next window — front-running the move.')
+      + (hrsLeft != null ? `  ·  ${hrsLeft}h left in the 12h grading window` : '');
+    // bar shows time elapsed in the 12h window
+    if (hrsLeft != null) {
+      const elapsedPct = Math.max(0, Math.min(100, ((12 - hrsLeft) / 12) * 100));
+      barEl.style.width = elapsedPct.toFixed(0) + '%';
+      barEl.style.background = col;
+    }
+    return;
+  }
+
+  // No committed call yet — fall back to showing the brains' prediction (advisory) so the
+  // card isn't empty, clearly labeled as the brains' read, not his.
+  const nm = nextMove;
+  if (!nm || !nm.predicted_phase || nm.predicted_phase === 'Unknown') {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = 'flex';
+  if (labelEl) labelEl.textContent = "BRAINS' FORECAST · AWAITING JORDAN'S CALL";
+  const dir = (nm.direction || 'HOLD').toUpperCase();
+  const arrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
+  const col = dir === 'UP' ? 'var(--green)' : dir === 'DOWN' ? 'var(--red)' : 'var(--muted)';
+  arrowEl.textContent = arrow;
+  arrowEl.style.color = col;
+  const conv = nm.conviction ? `  ·  ${nm.conviction} conviction` : '';
+  phaseEl.textContent = nm.predicted_phase + conv;
+  phaseEl.style.color = '';
+  const cf = (nm.confidence_pct != null) ? `${nm.confidence_pct}% confidence — ` : '';
+  const cfLow = (nm.confidence_pct != null && nm.confidence_pct < 40) ? ' (mixed evidence — reason with it)' : '';
+  adviceEl.textContent = cf + (nm.reasoning || '') + cfLow;
+  const fpos = PHASE_ORDER.indexOf(nm.predicted_phase);
+  if (fpos >= 0) {
+    barEl.style.width = (((fpos + 1) / PHASE_ORDER.length) * 100).toFixed(1) + '%';
+    barEl.style.background = col;
+  }
+}
+
 function renderPhaseBar(phaseCall, score, nextMove) {
   const pills   = document.querySelectorAll('.phase-pill');
   const fill    = document.getElementById('cycleBarFill');
@@ -2081,17 +2191,9 @@ function renderPhaseBar(phaseCall, score, nextMove) {
   const adviceEl= document.getElementById('cycleAdvice');
   const idxEl   = document.getElementById('cycleIndex');
 
-  // Sprint 65: build a compact forward-prediction suffix from the brain consensus
-  // next_move. Appended to the advice line so the phase bar shows CURRENT (the anchor)
-  // and where the brains think it goes NEXT. Empty string when no confident call.
-  let fwdSuffix = '';
-  if (nextMove && nextMove.predicted_phase && nextMove.predicted_phase !== 'Unknown') {
-    const dir = (nextMove.direction || 'HOLD').toUpperCase();
-    const arrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
-    const conv = nextMove.conviction ? ` (${nextMove.conviction})` : '';
-    const cf = (nextMove.confidence_pct != null) ? ` · ${nextMove.confidence_pct}% conf` : '';
-    fwdSuffix = `  ·  next: ${arrow} ${nextMove.predicted_phase}${conv}${cf}`;
-  }
+  // Sprint 66: the forward move now has its OWN dedicated card below the phase card
+  // (same size), not a tiny suffix. Populate it here from the brain consensus next_move.
+  renderForwardCard(nextMove, phaseCall);
 
   // The score is a FACT — always show it if we have one (Jordan can't edit numbers).
   if (score !== null && score !== undefined && !isNaN(score)) {
@@ -2106,7 +2208,7 @@ function renderPhaseBar(phaseCall, score, nextMove) {
     // No call yet — awaiting Jordan. Never auto-fill a phase.
     fill.style.width = '0%';
     phaseEl.textContent = 'Awaiting Jordan’s call';
-    adviceEl.textContent = 'Phase is Jordan’s to call — it’s pinned to every packet.' + fwdSuffix;
+    adviceEl.textContent = 'Phase is Jordan’s to call — it’s pinned to every packet.';
     return;
   }
 
@@ -2120,7 +2222,7 @@ function renderPhaseBar(phaseCall, score, nextMove) {
     if (p.dataset.phase === phase) p.classList.add('active'); // current
   });
   phaseEl.textContent = phase;
-  adviceEl.textContent = ((phaseCall.reasoning || '').trim() || ('Jordan’s call: ' + phase)) + fwdSuffix;
+  adviceEl.textContent = ((phaseCall.reasoning || '').trim() || ('Jordan’s call: ' + phase));
 
   // Euphoria red-lock: once we've hit the top, the Euphoria pill stays RED all the
   // way down the descending leg (a "we already peaked" memory) until Jordan resets.
@@ -3745,13 +3847,45 @@ async function fetchTrackRecord() {
     const recEl = document.getElementById('trackRecordRecent');
     const recent = d.recent || [];
     if (recEl) {
-      if (!recent.length) {
-        recEl.innerHTML = '<div style="font-size:0.8em; color:#a0aec0; padding:10px;">No graded predictions yet — track record builds as days roll over.</div>';
+      const gradeIcon = { hit: '✓', miss: '✗', partial: '≈' };
+      const gradeColor = { hit: '#00e5a0', miss: '#ff4d6a', partial: '#f5c518' };
+      const dirWord = v => {
+        const m = { up:'Up', down:'Down', flat:'Flat', up_micro:'Up (micro)', down_micro:'Down (micro)',
+                    long:'Up', short:'Down' };
+        return m[v] || v || '—';
+      };
+      // Sprint 66: the LIVE pending call shows INSTANTLY at the top — the moment Jordan
+      // calls, it's here, not hidden until the 12h resolves. Read from call_cycle.json's
+      // live_call + countdown. Flips to a graded ✓/✗ row (below) when the window closes or
+      // he revises. No more "mystery reveal at the end."
+      let pendingHtml = '';
+      try {
+        const ccRes = await fetch('data/call_cycle.json?t=' + Date.now());
+        if (ccRes.ok) {
+          const cc = await ccRes.json();
+          const live = cc.live_call;
+          if (live && live.direction) {
+            const hrsLeft = (cc.countdown && cc.countdown.hours_left != null) ? cc.countdown.hours_left : null;
+            const revUsed = cc.revision_used;
+            const madeAt = live.window_start_iso ? new Date(live.window_start_iso).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+            pendingHtml = `
+              <div style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(79,158,255,0.25); font-size:0.8em; background:rgba(79,158,255,0.06); border-radius:6px; padding-left:8px; margin-bottom:4px;">
+                <span style="color:#4f9eff; min-width:48px; font-weight:700;">LIVE</span>
+                <span style="color:#fff; flex:1;">Called <b>${dirWord(live.direction)}</b> <span style="color:var(--muted);font-size:0.85em;">· ${madeAt}</span></span>
+                <span style="color:#4f9eff; min-width:90px; text-align:right; font-size:0.9em;">${hrsLeft != null ? hrsLeft + 'h left' : 'pending'}</span>
+                <span style="color:#4f9eff; font-weight:700; min-width:18px; text-align:center;" title="grading in progress">⏱</span>
+              </div>
+              <div style="font-size:0.68em; color:var(--muted); padding:0 8px 6px; ">
+                Pending — grades when the 12h window closes${revUsed ? '' : ', or instantly if he revises (1 edit left)'}. ${revUsed ? 'Revision used.' : ''}
+              </div>`;
+          }
+        }
+      } catch(e) { /* no live call is fine */ }
+
+      if (!recent.length && !pendingHtml) {
+        recEl.innerHTML = '<div style="font-size:0.8em; color:#a0aec0; padding:10px;">No graded predictions yet — track record builds as calls resolve.</div>';
       } else {
-        const gradeIcon = { hit: '✓', miss: '✗', partial: '≈' };
-        const gradeColor = { hit: '#00e5a0', miss: '#ff4d6a', partial: '#f5c518' };
-        const dirWord = v => v === 'up' ? 'Up' : v === 'down' ? 'Down' : (v || '—');
-        recEl.innerHTML = recent.map(r => {
+        const gradedHtml = recent.map(r => {
           const g = r.grade || '';
           const pct = (r.actual_pct !== null && r.actual_pct !== undefined)
             ? `${r.actual_pct > 0 ? '+' : ''}${r.actual_pct}%` : '—';
@@ -3764,6 +3898,7 @@ async function fetchTrackRecord() {
               <span style="color:${gradeColor[g] || 'var(--muted)'}; font-weight:700; min-width:18px; text-align:center;">${gradeIcon[g] || ''}</span>
             </div>`;
         }).join('');
+        recEl.innerHTML = pendingHtml + gradedHtml;
       }
     }
 
