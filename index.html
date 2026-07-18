@@ -1408,97 +1408,11 @@
       </div>
     </div>
 
-    <!-- Editor's Calls — Jordan's live editorial overrides (any of the 14 items) -->
-    <div class="card" id="editorCallsCard" style="display:none;">
-      <div class="card-label">Editor's Calls · Live</div>
-      <div style="font-size:0.6em; color:var(--muted); margin:4px 0 10px;">Everything Jordan has personally called this cycle, newest first. His call overrides the auto-compute. Amber ⚠ = call is getting old.</div>
-      <div id="editorCallsList"></div>
-    </div>
 
 
 
 
     <!-- v2.7 Sprint 32: Invariants Display -->
-    <div class="card" id="invariantsCard">
-      <div class="card-label">
-        Invariants Firing
-        <span class="tier-badge" id="invariantsTopStrength" style="margin-left:auto; background:rgba(255,77,106,0.15); color:#ff4d6a;">TOP --</span>
-        <span class="tier-badge" id="invariantsBotStrength" style="margin-left:6px; background:rgba(0,229,160,0.15); color:#00e5a0;">BOT --</span>
-      </div>
-      <div id="invariantsInterpretation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
-        Awaiting invariants...
-      </div>
-      <div style="margin-top:14px;">
-        <div style="font-size:0.55em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Top-Cycle Invariants</div>
-        <div id="invariantsTopList"></div>
-      </div>
-      <div style="margin-top:14px;">
-        <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Bottom-Cycle Invariants</div>
-        <div id="invariantsBotList"></div>
-      </div>
-      <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7;">
-        An invariant is a factor that fires identically across all fingerprinted tops (or bottoms). When current data matches, that's signal.
-      </div>
-    </div>
-
-    <!-- v2.7 Sprint 32: Data Gaps (suspected invariants without data sources) -->
-    <div class="card" id="dataGapsCard">
-      <div class="card-label">Data Gaps</div>
-      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-        Suspected invariants we don't have data sources for. Each one is a possible blind spot.
-      </div>
-      <div id="dataGapsList" style="margin-top:12px;">
-        <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Loading data gaps registry...</div>
-      </div>
-    </div>
-
-    <!-- Macro indicators (extended) -->
-    <div class="card">
-      <div class="card-label">Macro Indicators</div>
-      <div class="indicators-grid" id="macroGrid">
-        <div class="ind-tile"><div class="ind-label">Fear & Greed</div><div class="ind-val" id="fng">--</div><div class="ind-sub" id="fngLabel">--</div></div>
-        <div class="ind-tile"><div class="ind-label">BTC Dom</div><div class="ind-val" id="btcDom">--</div><div class="ind-sub">dominance</div></div>
-        <div class="ind-tile"><div class="ind-label">Total MCap</div><div class="ind-val" id="totalMcap">--</div><div class="ind-sub">usd</div></div>
-        <div class="ind-tile"><div class="ind-label">DXY</div><div class="ind-val" id="dxy">--</div><div class="ind-sub">dollar index</div></div>
-        <div class="ind-tile"><div class="ind-label">Gold</div><div class="ind-val" id="gold">--</div><div class="ind-sub" id="goldChg">--</div></div>
-        <div class="ind-tile"><div class="ind-label">Oil (WTI)</div><div class="ind-val" id="oil">--</div><div class="ind-sub" id="oilChg">--</div></div>
-        <div class="ind-tile"><div class="ind-label">Silver</div><div class="ind-val" id="silver">--</div><div class="ind-sub" id="silverChg">--</div></div>
-        <div class="ind-tile"><div class="ind-label">S&P 500</div><div class="ind-val" id="sp500">--</div><div class="ind-sub" id="sp500Chg">--</div></div>
-        <div class="ind-tile"><div class="ind-label">VIX</div><div class="ind-val" id="vix">--</div><div class="ind-sub">fear index</div></div>
-        <!-- Inflation: the 3m CHANGE, not the level. The level only goes up and means nothing. -->
-        <div class="ind-tile"><div class="ind-label">Inflation (3m)</div><div class="ind-val" id="cpiChg">--</div><div class="ind-sub" id="cpiRegime">monthly print</div></div>
-        <!-- NEW v2 indicators -->
-        <div class="ind-tile"><div class="ind-label">Copper</div><div class="ind-val" id="copper">--</div><div class="ind-sub" id="copperChg">industrial</div></div>
-        <div class="ind-tile"><div class="ind-label">Uranium</div><div class="ind-val" id="uranium">--</div><div class="ind-sub">URA etf</div></div>
-        <div class="ind-tile"><div class="ind-label">Fertilizer</div><div class="ind-val" id="fertilizer">--</div><div class="ind-sub">NTR proxy</div></div>
-        <div class="ind-tile"><div class="ind-label">Nat Gas</div><div class="ind-val" id="natgas">--</div><div class="ind-sub">henry hub</div></div>
-        <div class="ind-tile"><div class="ind-label">10Y Yield</div><div class="ind-val" id="us10y">--</div><div class="ind-sub" id="yieldSpread">spread --</div></div>
-        <div class="ind-tile"><div class="ind-label">MVRV Z</div><div class="ind-val" id="mvrv">--</div><div class="ind-sub">on-chain</div></div>
-        <div class="ind-tile"><div class="ind-label">MVRV</div><div class="ind-val" id="mvrvRaw">--</div><div class="ind-sub">raw ratio</div></div>
-        <div class="ind-tile"><div class="ind-label">Realized $</div><div class="ind-val" id="realizedPrice">--</div><div class="ind-sub" id="realizedSub">cost basis</div></div>
-      </div>
-    </div>
-
-    <!-- FED NET LIQUIDITY (WALCL − TGA − RRP) — regime tilt, signal = 4w change -->
-    <div class="card">
-      <div class="card-label">Fed Net Liquidity · WALCL − TGA − RRP</div>
-      <div style="display:flex;align-items:baseline;gap:12px;margin:4px 0 10px;">
-        <div id="netLiqRegime" style="font-size:1.4rem;font-weight:700;letter-spacing:1px;">--</div>
-        <div id="netLiqChg" style="font-size:1rem;font-weight:600;">--</div>
-      </div>
-      <div class="indicators-grid">
-        <div class="ind-tile"><div class="ind-label">Net Liquidity</div><div class="ind-val" id="netLiq">--</div><div class="ind-sub">trillions</div></div>
-        <div class="ind-tile"><div class="ind-label">4-Week Δ</div><div class="ind-val" id="netLiq4w">--</div><div class="ind-sub">the signal</div></div>
-        <div class="ind-tile"><div class="ind-label">Fed Sheet</div><div class="ind-val" id="walclBn">--</div><div class="ind-sub">WALCL</div></div>
-        <div class="ind-tile"><div class="ind-label">TGA</div><div class="ind-val" id="tgaBn">--</div><div class="ind-sub">treasury cash</div></div>
-        <div class="ind-tile"><div class="ind-label">Reverse Repo</div><div class="ind-val" id="rrpBn">--</div><div class="ind-sub">RRP drain</div></div>
-        <div class="ind-tile"><div class="ind-label">J6 Factor</div><div class="ind-val" id="fedLiqFactor">--</div><div class="ind-sub">0–100</div></div>
-      </div>
-      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
-        Expanding = risk-on tailwind · Draining = headwind. The level is huge and slow; the <b>4-week change</b> is what tilts the regime. Updates weekly (Thu, Fed H.4.1).
-      </div>
-    </div>
-
     <!-- 7-DAY PRICE PREDICTION (BTC/ETH/SOL) — forecast vs J6 curated -->
     <div class="card">
       <div class="card-label">7-Day Price Projection · daily · J6 line</div>
@@ -1622,10 +1536,99 @@
       </div>
     </div>
 
+    <!-- Editor's Calls — Jordan's live editorial overrides (any of the 14 items) -->
+    <div class="card" id="editorCallsCard" style="display:none;">
+      <div class="card-label">Editor's Calls · Live</div>
+      <div style="font-size:0.6em; color:var(--muted); margin:4px 0 10px;">Everything Jordan has personally called this cycle, newest first. His call overrides the auto-compute. Amber ⚠ = call is getting old.</div>
+      <div id="editorCallsList"></div>
+    </div>
+
   </div>
+
 
   <!-- RIGHT: sidebar -->
   <div class="sidebar-col">
+
+
+    <div class="card" id="invariantsCard">
+      <div class="card-label">
+        Invariants Firing
+        <span class="tier-badge" id="invariantsTopStrength" style="margin-left:auto; background:rgba(255,77,106,0.15); color:#ff4d6a;">TOP --</span>
+        <span class="tier-badge" id="invariantsBotStrength" style="margin-left:6px; background:rgba(0,229,160,0.15); color:#00e5a0;">BOT --</span>
+      </div>
+      <div id="invariantsInterpretation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
+        Awaiting invariants...
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:0.55em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Top-Cycle Invariants</div>
+        <div id="invariantsTopList"></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px;">Bottom-Cycle Invariants</div>
+        <div id="invariantsBotList"></div>
+      </div>
+      <div style="font-size:0.55em; color:var(--muted); margin-top:10px; opacity:0.7;">
+        An invariant is a factor that fires identically across all fingerprinted tops (or bottoms). When current data matches, that's signal.
+      </div>
+    </div>
+
+    <!-- v2.7 Sprint 32: Data Gaps (suspected invariants without data sources) -->
+    <div class="card" id="dataGapsCard">
+      <div class="card-label">Data Gaps</div>
+      <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
+        Suspected invariants we don't have data sources for. Each one is a possible blind spot.
+      </div>
+      <div id="dataGapsList" style="margin-top:12px;">
+        <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Loading data gaps registry...</div>
+      </div>
+    </div>
+
+    <!-- Macro indicators (extended) -->
+    <div class="card">
+      <div class="card-label">Macro Indicators</div>
+      <div class="indicators-grid" id="macroGrid">
+        <div class="ind-tile"><div class="ind-label">Fear & Greed</div><div class="ind-val" id="fng">--</div><div class="ind-sub" id="fngLabel">--</div></div>
+        <div class="ind-tile"><div class="ind-label">BTC Dom</div><div class="ind-val" id="btcDom">--</div><div class="ind-sub">dominance</div></div>
+        <div class="ind-tile"><div class="ind-label">Total MCap</div><div class="ind-val" id="totalMcap">--</div><div class="ind-sub">usd</div></div>
+        <div class="ind-tile"><div class="ind-label">DXY</div><div class="ind-val" id="dxy">--</div><div class="ind-sub">dollar index</div></div>
+        <div class="ind-tile"><div class="ind-label">Gold</div><div class="ind-val" id="gold">--</div><div class="ind-sub" id="goldChg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">Oil (WTI)</div><div class="ind-val" id="oil">--</div><div class="ind-sub" id="oilChg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">Silver</div><div class="ind-val" id="silver">--</div><div class="ind-sub" id="silverChg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">S&P 500</div><div class="ind-val" id="sp500">--</div><div class="ind-sub" id="sp500Chg">--</div></div>
+        <div class="ind-tile"><div class="ind-label">VIX</div><div class="ind-val" id="vix">--</div><div class="ind-sub">fear index</div></div>
+        <!-- Inflation: the 3m CHANGE, not the level. The level only goes up and means nothing. -->
+        <div class="ind-tile"><div class="ind-label">Inflation (3m)</div><div class="ind-val" id="cpiChg">--</div><div class="ind-sub" id="cpiRegime">monthly print</div></div>
+        <!-- NEW v2 indicators -->
+        <div class="ind-tile"><div class="ind-label">Copper</div><div class="ind-val" id="copper">--</div><div class="ind-sub" id="copperChg">industrial</div></div>
+        <div class="ind-tile"><div class="ind-label">Uranium</div><div class="ind-val" id="uranium">--</div><div class="ind-sub">URA etf</div></div>
+        <div class="ind-tile"><div class="ind-label">Fertilizer</div><div class="ind-val" id="fertilizer">--</div><div class="ind-sub">NTR proxy</div></div>
+        <div class="ind-tile"><div class="ind-label">Nat Gas</div><div class="ind-val" id="natgas">--</div><div class="ind-sub">henry hub</div></div>
+        <div class="ind-tile"><div class="ind-label">10Y Yield</div><div class="ind-val" id="us10y">--</div><div class="ind-sub" id="yieldSpread">spread --</div></div>
+        <div class="ind-tile"><div class="ind-label">MVRV Z</div><div class="ind-val" id="mvrv">--</div><div class="ind-sub">on-chain</div></div>
+        <div class="ind-tile"><div class="ind-label">MVRV</div><div class="ind-val" id="mvrvRaw">--</div><div class="ind-sub">raw ratio</div></div>
+        <div class="ind-tile"><div class="ind-label">Realized $</div><div class="ind-val" id="realizedPrice">--</div><div class="ind-sub" id="realizedSub">cost basis</div></div>
+      </div>
+    </div>
+
+    <!-- FED NET LIQUIDITY (WALCL − TGA − RRP) — regime tilt, signal = 4w change -->
+    <div class="card">
+      <div class="card-label">Fed Net Liquidity · WALCL − TGA − RRP</div>
+      <div style="display:flex;align-items:baseline;gap:12px;margin:4px 0 10px;">
+        <div id="netLiqRegime" style="font-size:1.4rem;font-weight:700;letter-spacing:1px;">--</div>
+        <div id="netLiqChg" style="font-size:1rem;font-weight:600;">--</div>
+      </div>
+      <div class="indicators-grid">
+        <div class="ind-tile"><div class="ind-label">Net Liquidity</div><div class="ind-val" id="netLiq">--</div><div class="ind-sub">trillions</div></div>
+        <div class="ind-tile"><div class="ind-label">4-Week Δ</div><div class="ind-val" id="netLiq4w">--</div><div class="ind-sub">the signal</div></div>
+        <div class="ind-tile"><div class="ind-label">Fed Sheet</div><div class="ind-val" id="walclBn">--</div><div class="ind-sub">WALCL</div></div>
+        <div class="ind-tile"><div class="ind-label">TGA</div><div class="ind-val" id="tgaBn">--</div><div class="ind-sub">treasury cash</div></div>
+        <div class="ind-tile"><div class="ind-label">Reverse Repo</div><div class="ind-val" id="rrpBn">--</div><div class="ind-sub">RRP drain</div></div>
+        <div class="ind-tile"><div class="ind-label">J6 Factor</div><div class="ind-val" id="fedLiqFactor">--</div><div class="ind-sub">0–100</div></div>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
+        Expanding = risk-on tailwind · Draining = headwind. The level is huge and slow; the <b>4-week change</b> is what tilts the regime. Updates weekly (Thu, Fed H.4.1).
+      </div>
+    </div>
 
     <!-- $GORK (preserved) -->
     <div class="card gork-card">
@@ -2408,22 +2411,26 @@ async function fetchBrainForward() {
     const res = await fetch('data/brain_forward_record.json?t=' + Date.now());
     if (!res.ok) throw new Error('no file');
     const d = await res.json();
-    const dr = d.direction_hit_rate_pct, tr = d.transition_hit_rate_pct;
+    // Sprint 66: prefer the 7-DAY ROLLING rate (what to trust now); fall back to all-time.
+    const dr = (d.direction_hit_rate_7d_pct != null) ? d.direction_hit_rate_7d_pct : d.direction_hit_rate_pct;
+    const drRec = (d.direction_hit_rate_7d_pct != null) ? d.direction_record_7d : d.direction_record;
+    const tr = (d.transition_hit_rate_7d_pct != null) ? d.transition_hit_rate_7d_pct : d.transition_hit_rate_pct;
+    const trRec = (d.transition_hit_rate_7d_pct != null) ? d.transition_record_7d : d.transition_record;
+    const is7d = d.direction_hit_rate_7d_pct != null;
     if (dr == null && tr == null) throw new Error('empty');
     let html = '';
-    // direction hit rate (the headline)
+    html += `<div style="font-size:0.62em;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">${is7d ? 'Last 7 days · rolling accuracy' : 'All-time (building 7-day window)'}</div>`;
     if (dr != null) {
       const col = dr > 55 ? 'var(--green)' : dr < 45 ? 'var(--red)' : 'var(--muted)';
       html += `<div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-        <span style="color:var(--text);font-weight:600;">Direction</span>
-        <span style="color:${col};font-weight:700;">${dr}% <span style="color:var(--muted);font-weight:400;font-size:0.85em;">(${d.direction_record || ''})</span></span>
+        <span style="color:var(--text);font-weight:600;">Direction accuracy</span>
+        <span style="color:${col};font-weight:700;">${dr}% <span style="color:var(--muted);font-weight:400;font-size:0.85em;">(${drRec || ''})</span></span>
       </div>`;
     }
-    // transition hit rate (harder, separate)
     if (tr != null) {
       html += `<div style="display:flex;justify-content:space-between;margin-bottom:8px;">
         <span style="color:var(--text);font-weight:600;">Transition <span style="color:var(--muted);font-weight:400;font-size:0.8em;">(rung change)</span></span>
-        <span style="color:var(--muted);font-weight:700;">${tr}% <span style="font-weight:400;font-size:0.85em;">(${d.transition_record || ''})</span></span>
+        <span style="color:var(--muted);font-weight:700;">${tr}% <span style="font-weight:400;font-size:0.85em;">(${trRec || ''})</span></span>
       </div>`;
     }
     // recent misses + autopsies (the teaching part)
@@ -2439,7 +2446,7 @@ async function fetchBrainForward() {
     }
     document.getElementById('brainForwardBody').innerHTML = html;
   } catch (e) {
-    document.getElementById('brainForwardBody').innerHTML = '<span style="color:var(--muted)">Grading — the brains\' forward predictions resolve after 12h.</span>';
+    document.getElementById('brainForwardBody').innerHTML = '<span style="color:var(--muted)">Building — brain prediction accuracy shows here as forward calls resolve.</span>';
   }
 }
 
@@ -4028,6 +4035,20 @@ async function fetchMarketDrivers() {
       return;
     }
     listEl.innerHTML = drivers.map((dr, i) => {
+      const isJordan = dr.source === 'jordan';
+      if (isJordan) {
+        // Jordan's editorial call: driver + effect (cause->effect, his words)
+        return `
+          <div style="display:flex; gap:12px; padding:9px 12px; margin-bottom:8px;
+               background:rgba(0,229,160,0.04); border-left:3px solid #00e5a0; border-radius:4px;">
+            <span style="color:var(--muted); font-size:0.9em; font-weight:700; min-width:16px;">${i + 1}</span>
+            <div style="flex:1;">
+              <span style="font-size:0.92em; color:#cbd5e0; font-weight:600;">${_escapeHtml(dr.driver || '')}</span>
+              ${dr.effect ? `<span style="color:var(--muted); font-size:0.85em;"> → ${_escapeHtml(dr.effect)}</span>` : ''}
+            </div>
+          </div>`;
+      }
+      // computed draft: label + meaning + bull/bear + value
       const bull = dr.direction === 'bullish';
       const col = bull ? '#00e5a0' : '#ff4d6a';
       const arrow = bull ? '▲' : '▼';
@@ -4036,13 +4057,18 @@ async function fetchMarketDrivers() {
              background:rgba(255,255,255,0.02); border-left:3px solid ${col}; border-radius:4px;">
           <span style="color:var(--muted); font-size:0.9em; font-weight:700; min-width:16px;">${i + 1}</span>
           <div style="flex:1;">
-            <div style="font-size:0.92em; color:#cbd5e0; font-weight:600;">${_escapeHtml(dr.label)}
-              <span style="color:${col}; font-size:0.85em; font-weight:700; margin-left:6px;">${arrow} ${_escapeHtml(dr.meaning)}</span>
+            <div style="font-size:0.92em; color:#cbd5e0; font-weight:600;">${_escapeHtml(dr.label || '')}
+              <span style="color:${col}; font-size:0.85em; font-weight:700; margin-left:6px;">${arrow} ${_escapeHtml(dr.meaning || '')}</span>
             </div>
           </div>
-          <span style="color:var(--muted); font-size:0.8em;">${dr.value}/100</span>
+          <span style="color:var(--muted); font-size:0.8em;">${dr.value != null ? dr.value + '/100' : ''}</span>
         </div>`;
     }).join('');
+    // note whether this is his call or the computed draft
+    const anyJordan = drivers.some(d => d.source === 'jordan');
+    const _drvNote = anyJordan ? "Jordan's call" : "Computed from factor data — awaiting Jordan's call";
+    listEl.insertAdjacentHTML('beforeend',
+      `<div style="font-size:0.62em; color:var(--muted); margin-top:6px; opacity:0.7;">${_drvNote}</div>`);
   } catch(e) { console.log('market drivers fetch failed', e); }
 }
 
