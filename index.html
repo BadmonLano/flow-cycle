@@ -1265,7 +1265,7 @@
         <span class="tier-badge" id="trackRecordRate" style="margin-left:auto; background:#1a2332; color:#00e5a0;">--</span>
       </div>
       <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the <b>market-cap-weighted big-3 move</b> (BTC + ETH + SOL, weighted by live cap share) — a top is a market event, not a BTC one, so his read is graded on the whole market, not one coin. When the big-3 decouple, each call is tagged by structure (together / btc-leading / alts-leading / <b>fracturing</b>) — a fracturing tape is the correlation breaking that precedes a blow-off. <b>UP / UP_MICRO / FLAT / DOWN_MICRO / DOWN</b> — a micro-lean is graded against a micro threshold (±0.1%), so a small move you called <i>is a hit</i>, not a miss. FLAT now means genuine stillness, not "no opinion." Partial = half credit. The receipts, not just the live call.
+        How Jordan's directional calls have actually graded out. Each call is scored on its 12-hour window against the <b>market-cap-weighted big-3 move</b> (BTC + ETH + SOL, weighted by live cap share) — a top is a market event, not a BTC one, so his read is graded on the whole market, not one coin. When the big-3 decouple, each call is tagged by structure (together / btc-leading / alts-leading / <b>fracturing</b>) — a fracturing tape is the correlation breaking that precedes a blow-off. <b>Up / Up (micro) / Flat / Down (micro) / Down</b> — a micro-lean is graded against a micro threshold (±0.1%), so a small move you called <i>is a hit</i>, not a miss. FLAT now means genuine stillness, not "no opinion." Partial = half credit. The receipts, not just the live call.
       </div>
 
       <!-- headline stats -->
@@ -1284,6 +1284,11 @@
         </div>
       </div>
 
+      <!-- Sprint 67: the honest companions — direction accuracy ex-partials (of the calls
+           that resolved, how many were right), expectancy (avg % captured per directional
+           call — the money question), coverage (how often he chose to call at all). -->
+      <div id="trHonest" style="display:none; font-size:0.68em; color:var(--muted); margin-top:8px; line-height:1.5;"></div>
+
       <!-- recent graded calls -->
       <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin:16px 0 6px;">Recent Calls</div>
       <div id="trackRecordRecent">
@@ -1294,7 +1299,7 @@
       <div id="trackRecordHorseRace" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);"></div>
 
       <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
-        Each call graded on its 12h window against the real move. Partial = half credit.
+        Each decision graded once on its own 12h window against the real move. Partial = half credit. Carried = stance held past its window (shadow-graded, not counted).
       </div>
 
     <!-- BRAIN FORWARD CALLS (the brains' predictions, graded + autopsied) -->
@@ -3890,8 +3895,22 @@ async function fetchTrackRecord() {
         badgeEl.style.color = d.hit_rate_pct >= 55 ? '#00e5a0' : d.hit_rate_pct >= 45 ? '#f5c518' : '#ff4d6a';
       }
     }
-    if (daysEl) daysEl.textContent = n;
+    if (daysEl) daysEl.textContent = n + ((d.carried_graded || 0) > 0 ? ` (+${d.carried_graded} carried)` : '');
     if (streakEl) streakEl.textContent = (d.current_streak || 0) > 0 ? `${d.current_streak} ✓` : '—';
+
+    // Sprint 67: honest companions to the headline rate (only render what exists).
+    const honestEl = document.getElementById('trHonest');
+    if (honestEl) {
+      const bits = [];
+      if (d.direction_accuracy_ex_partials_pct != null)
+        bits.push(`<b style="color:#cbd5e0">${d.direction_accuracy_ex_partials_pct}%</b> direction accuracy (resolved calls only — partials excluded)`);
+      if (d.expectancy_net_pct != null)
+        bits.push(`<b style="color:${d.expectancy_net_pct >= 0 ? '#00e5a0' : '#ff4d6a'}">${d.expectancy_net_pct > 0 ? '+' : ''}${d.expectancy_net_pct}%</b> avg captured per directional call`);
+      if (d.coverage_pct != null)
+        bits.push(`<b style="color:#4f9eff">${d.coverage_pct}%</b> coverage (${d.no_calls || 0} no-call day${(d.no_calls||0)===1?'':'s'} — abstaining is a choice, not a miss)`);
+      if (bits.length) { honestEl.innerHTML = bits.join(' &nbsp;·&nbsp; '); honestEl.style.display = 'block'; }
+      else { honestEl.style.display = 'none'; }
+    }
 
     // Recent graded calls: date · predicted dir · actual move · grade
     const recEl = document.getElementById('trackRecordRecent');
@@ -3916,7 +3935,11 @@ async function fetchTrackRecord() {
           const live = cc.live_call;
           if (live && live.direction) {
             const revUsed = cc.revision_used;
-            const madeAt = live.window_start_iso ? new Date(live.window_start_iso).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+            // Sprint 67: "made at" = when Jordan actually CALLED (stamped_at). window_start_iso
+            // resets on every carry-over, so it showed the last boundary, not his call time.
+            const madeSrc = live.stamped_at || live.window_start_iso;
+            const madeAt = madeSrc ? new Date(madeSrc).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
+            const isCarried = !!live.carried;
             // Sprint 66: LIVE-ticking countdown from window_start + 12h, not the frozen
             // stored hours_left (that only updated on sweep, so it read "12h left" for an
             // hour). data attrs drive tickCallCycleCountdowns() which updates every minute.
@@ -3924,7 +3947,7 @@ async function fetchTrackRecord() {
             pendingHtml = `
               <div style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(79,158,255,0.25); font-size:0.8em; background:rgba(79,158,255,0.06); border-radius:6px; padding-left:8px; margin-bottom:4px;">
                 <span style="color:#4f9eff; min-width:48px; font-weight:700;">LIVE</span>
-                <span style="color:#fff; flex:1;">Called <b>${dirWord(live.direction)}</b> <span style="color:var(--muted);font-size:0.85em;">· ${madeAt}</span></span>
+                <span style="color:#fff; flex:1;">${isCarried ? 'Holding' : 'Called'} <b>${dirWord(live.direction)}</b> <span style="color:var(--muted);font-size:0.85em;">· ${isCarried ? 'called ' : ''}${madeAt}</span></span>
                 <span class="cc-countdown" ${cdAttr} style="color:#4f9eff; min-width:90px; text-align:right; font-size:0.9em;">calculating…</span>
                 <span style="color:#4f9eff; font-weight:700; min-width:18px; text-align:center;" title="grading in progress">⏱</span>
               </div>
@@ -3946,7 +3969,7 @@ async function fetchTrackRecord() {
           return `
             <div style="display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8em;">
               <span style="color:var(--muted); min-width:48px;">${dt}</span>
-              <span style="color:#cbd5e0; flex:1;">Called <b>${dirWord(r.predicted)}</b></span>
+              <span style="color:#cbd5e0; flex:1;">Called <b>${dirWord(r.predicted)}</b>${(r.slot || '').includes('carried') ? ' <span style="font-size:0.78em; color:var(--muted); border:1px solid rgba(255,255,255,0.12); border-radius:4px; padding:0 4px;" title="stance held past its decision window — shadow-graded, excluded from the hit rate">carried</span>' : ''}${(r.slot || '').includes('rev') ? ' <span style="font-size:0.78em; color:#4f9eff;" title="graded early on revision">rev</span>' : ''}</span>
               <span style="color:var(--muted); min-width:56px; text-align:right;">${pct}</span>
               <span style="color:${gradeColor[g] || 'var(--muted)'}; font-weight:700; min-width:18px; text-align:center;">${gradeIcon[g] || ''}</span>
             </div>`;
