@@ -3963,6 +3963,19 @@ async function fetchTrackRecord() {
       } else {
         const gradedHtml = recent.map(r => {
           const g = r.grade || '';
+          // 2026-07-20 (Lano's ruling): offline days render AS offline — a gap
+          // shown as a gap, dimmed, never counted in the rate. A public record
+          // that hides its downtime is lying by omission.
+          if (g === 'offline') {
+            const odt = r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+            return `
+            <div style="display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8em; opacity:0.45;">
+              <span style="color:var(--muted); min-width:48px;">${odt}</span>
+              <span style="color:var(--muted); flex:1; font-style:italic;">system offline — no call</span>
+              <span style="color:var(--muted); min-width:56px; text-align:right;">—</span>
+              <span style="color:var(--muted); font-weight:700; min-width:18px; text-align:center;" title="offline day — not graded, not counted">⏻</span>
+            </div>`;
+          }
           const pct = (r.actual_pct !== null && r.actual_pct !== undefined)
             ? `${r.actual_pct > 0 ? '+' : ''}${r.actual_pct}%` : '—';
           const dt = r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
