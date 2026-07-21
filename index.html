@@ -1355,7 +1355,7 @@
           What's Driving the Market
         </div>
         <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
-          The 3 biggest forces moving the market right now — ranked from the live factor data by how far each is from neutral × its weight. Computed, not editorialized.
+          Jordan's editorial read — the forces he says are actually driving this regime, cause → effect, backed by the data he can point at. Regimes change; this section names what runs the current one.
         </div>
         <div id="marketDriversList" style="margin-top:12px;">
           <div style="font-size:0.85em; color:#a0aec0; padding:10px;">Computing drivers from the factor vector...</div>
@@ -1458,7 +1458,7 @@
         <div style="color:var(--muted)">Scoreboard builds as calls resolve (24h horizon).</div>
       </div>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
-        The mechanical confluence read vs Jordan's actual calls, graded direction-only 24h forward (FLAT counts — correct if price stayed range-bound). When they diverge and mechanical keeps winning, that's a signal to reweight. Observational — changes nothing about execution.
+        THE BATTLE: the coin calls. Every sweep, the mechanical confluence makes its read; Jordan's committed/override direction makes his. Both get graded against what price actually did 24h later (FLAT counts — correct if price stayed range-bound, ±1.5%). Receipts below. When they diverge and one side keeps winning, that's the reweight signal. Observational — changes nothing about execution.
       </div>
     </div>
 
@@ -2404,6 +2404,28 @@ async function fetchMechVsJordan() {
         ${divTxt}
       </div>`;
     }
+    // 2026-07-20 (Lano: "13/13 but I don't even see the call history — I can't
+    // take its word for it. idk what the battle is"): THE BATTLE, named — this
+    // grades the COIN CALLS: the mechanical confluence's direction vs Jordan's
+    // committed/override direction, both scored against what price actually did
+    // 24h later. And the receipts: the last 9 resolved rounds, row by row.
+    const recentRounds = (d.resolved || []).slice(-9).reverse();
+    if (recentRounds.length) {
+      html += `<div style="margin-top:10px;font-size:0.72em;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">Recent rounds — the receipts</div>`;
+      recentRounds.forEach(g => {
+        const dt = g.opened_at ? new Date(g.opened_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+        const mv = (g.moved_pct != null) ? `${g.moved_pct > 0 ? '+' : ''}${g.moved_pct}%` : '—';
+        const mOk = g.mechanical_result === 'win', jOk = g.jordan_result === 'win';
+        const winner = (mOk && !jOk) ? 'mech' : (jOk && !mOk) ? 'jordan' : (mOk && jOk) ? 'both' : 'neither';
+        const wc = winner === 'jordan' ? 'var(--green)' : winner === 'mech' ? '#4f9eff' : 'var(--muted)';
+        html += `<div style="display:flex;align-items:center;gap:8px;margin-top:4px;font-size:0.76em;">
+          <span style="color:var(--muted);min-width:44px;">${dt}</span>
+          <span style="color:var(--muted);min-width:30px;">${g.asset || ''}</span>
+          <span style="color:var(--text);flex:1;">mech <b>${g.mechanical_direction || '?'}</b> · jordan <b>${g.jordan_direction || '?'}</b> · price ${mv}</span>
+          <span style="color:${wc};font-weight:700;min-width:52px;text-align:right;">${winner}</span>
+        </div>`;
+      });
+    }
     document.getElementById('mechVsJordanBody').innerHTML = html;
   } catch (e) {
     document.getElementById('mechVsJordanBody').innerHTML = '<span style="color:var(--muted)">Scoreboard builds as calls resolve (24h horizon).</span>';
@@ -2439,13 +2461,38 @@ async function fetchBrainForward() {
         <span style="color:var(--muted);font-weight:700;">${tr}% <span style="font-weight:400;font-size:0.85em;">(${trRec || ''})</span></span>
       </div>`;
     }
-    // recent misses + autopsies (the teaching part)
-    const misses = (d.resolved || []).filter(g => !g.direction_hit).slice(-3).reverse();
+    // 2026-07-20 (Lano: "idk what they called") — RECENT CALLS, rendered like
+    // Jordan's track record: date · called X → phase · got Y · ✓/✗, with VOID
+    // rows (windows the score never ticked — flow down/stalled) shown dimmed
+    // and excluded from the rate. The receipts, not just the rate.
+    const recentCalls = (d.resolved || []).slice(-8).reverse();
+    if (recentCalls.length) {
+      html += `<div style="margin-top:8px;font-size:0.72em;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">Recent forward calls</div>`;
+      recentCalls.forEach(g => {
+        const dt = g.made_at ? new Date(g.made_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+        if (g.void) {
+          html += `<div style="display:flex;align-items:center;gap:8px;margin-top:4px;font-size:0.78em;opacity:0.45;">
+            <span style="color:var(--muted);min-width:44px;">${dt}</span>
+            <span style="color:var(--muted);flex:1;">called <b>${g.direction || '?'}</b> → ${_escapeHtml(g.predicted_phase || '')} · <i>void — score never ticked (flow down)</i></span>
+            <span style="color:var(--muted);" title="${_escapeHtml(g.void_reason || '')}">⏻</span>
+          </div>`;
+        } else {
+          const hit = !!g.direction_hit;
+          html += `<div style="display:flex;align-items:center;gap:8px;margin-top:4px;font-size:0.78em;">
+            <span style="color:var(--muted);min-width:44px;">${dt}</span>
+            <span style="color:var(--text);flex:1;">called <b>${g.direction}</b> → ${_escapeHtml(g.predicted_phase || '')} · got <b>${g.realized_dir}</b> (Δscore ${g.score_delta != null ? (g.score_delta > 0 ? '+' : '') + g.score_delta : '—'})</span>
+            <span style="color:${hit ? 'var(--green)' : 'var(--red)'};font-weight:700;">${hit ? '✓' : '✗'}</span>
+          </div>`;
+        }
+      });
+    }
+    // recent misses + autopsies (the teaching part) — voids are not misses
+    const misses = (d.resolved || []).filter(g => !g.void && !g.direction_hit).slice(-3).reverse();
     if (misses.length) {
       html += `<div style="margin-top:8px;font-size:0.72em;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">Recent misses — what misled them</div>`;
       misses.forEach(g => {
         html += `<div style="margin-top:5px;font-size:0.8em;color:var(--text);line-height:1.4;">
-          <span style="color:var(--red);">✗</span> said ${g.direction}, got ${g.realized_dir}:
+          <span style="color:var(--red);">✗</span> said ${g.direction}, got ${g.realized_dir} (Δscore ${g.score_delta != null ? g.score_delta : '—'}):
           <span style="color:var(--muted);">${_escapeHtml(g.autopsy || '')}</span>
         </div>`;
       });
@@ -3971,7 +4018,7 @@ async function fetchTrackRecord() {
             return `
             <div style="display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8em; opacity:0.45;">
               <span style="color:var(--muted); min-width:48px;">${odt}</span>
-              <span style="color:var(--muted); flex:1; font-style:italic;">system offline — no call</span>
+              <span style="color:var(--muted); flex:1; font-style:italic;">${(r.label || 'flow offline — no call')}</span>
               <span style="color:var(--muted); min-width:56px; text-align:right;">—</span>
               <span style="color:var(--muted); font-weight:700; min-width:18px; text-align:center;" title="offline day — not graded, not counted">⏻</span>
             </div>`;
@@ -4068,7 +4115,7 @@ async function fetchMarketDrivers() {
     const d = await res.json();
     const drivers = d.market_drivers || [];
     if (!drivers.length) {
-      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px;">No dominant drivers — the factor vector is near-neutral this sweep.</div>';
+      listEl.innerHTML = '<div style="font-size:0.85em; color:#a0aec0; padding:10px; font-style:italic;">Awaiting Jordan\'s read on this regime — the drivers here are his editorial call, not a formula.</div>';
       return;
     }
     listEl.innerHTML = drivers.map((dr, i) => {
