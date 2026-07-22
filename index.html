@@ -2199,7 +2199,16 @@ async function renderForwardCard(nextMove, phaseCall) {
       ? (liveHrsLeft <= 0 ? 'grading now'
          : `${Math.floor(liveHrsLeft)}h ${Math.floor((liveHrsLeft % 1) * 60)}m left in the 12h grading window`)
       : '';
+    // 2026-07-22 (Lano's ruling): show WHEN he last stamped/updated this call —
+    // staleness of the committed move is a first-class fact on the card.
+    let stampedTxt = '';
+    if (cd && cd.stamped_ago_min != null) {
+      const m = cd.stamped_ago_min;
+      stampedTxt = m < 60 ? `stamped ${m}m ago` : `stamped ${(m/60).toFixed(1)}h ago`;
+      if (cd.slot_id) stampedTxt += ` · slot ${cd.slot_id}`;
+    }
     adviceEl.textContent = (live.reasoning || 'His forward call for the next window — front-running the move.')
+      + (stampedTxt ? `  ·  ${stampedTxt}` : '')
       + (leftTxt ? `  ·  ${leftTxt}` : '');
     barEl.style.width = elapsedPct.toFixed(0) + '%';
     barEl.style.background = col;
