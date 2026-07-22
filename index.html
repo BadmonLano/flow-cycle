@@ -2182,6 +2182,20 @@ async function renderForwardCard(nextMove, phaseCall) {
     const word = { up:'Go Long', up_micro:'Long (micro)', down:'Go Short', down_micro:'Short (micro)',
                    flat:'Stay Flat', long:'Go Long', short:'Go Short' }[dir.toLowerCase()] || dir;
     if (labelEl) labelEl.textContent = "JORDAN'S COMMITTED MOVE · ON THE HIT RATE";
+  // 2026-07-22 (Lano): CARRIED IS NOT COMMITTED. A shadow-carried stance or an
+  // empty slot renders as AWAITING JORDAN — never yesterday's ghost wearing his
+  // jersey. The expiry packet is already on its way to him.
+  if (!live || live.carried || (cd && cd.carried)) {
+    const slotTxt = (cd && cd.slot_id) ? ` · slot ${cd.slot_id}` : '';
+    const endTxt = (cd && cd.hours_left != null) ? ` · slot ends in ${cd.hours_left}h` : '';
+    if (dirEl) { dirEl.textContent = 'Awaiting Jordan'; dirEl.style.color = 'var(--muted)'; }
+    if (arrowEl) arrowEl.textContent = '…';
+    if (adviceEl) adviceEl.textContent = (live && live.carried)
+      ? `last stance expired and shadow-carries ungraded-as-decision${slotTxt}${endTxt} — his fresh call lands here the moment he stamps it`
+      : `no committed call for this slot yet${slotTxt}${endTxt} — the call_expired packet is in his inbox`;
+    if (barEl) { barEl.style.width = '0%'; }
+    return;
+  }
     arrowEl.textContent = arrow;
     arrowEl.style.color = col;
     phaseEl.textContent = word;
@@ -4980,11 +4994,11 @@ function _leverageTile(mechValue, jordanCall) {
     // show the mechanical read as a secondary line under Jordan's headline
     if (diverges) {
       secondary = `<div style="font-size:0.72em; color:var(--yellow); margin-top:8px; line-height:1.4;">
-        ⤫ front-running the tape — mechanical phase-read says <b style="color:${mechColor}">${mechText}</b>, he's committed the other way. That divergence is the signal.
+        his committed call — one voice: leverage direction = committed move = coin calls.
       </div>`;
     } else {
       secondary = `<div style="font-size:0.72em; color:var(--muted); margin-top:8px;">
-        mechanical phase-read: <span style="color:${mechColor}">${mechText}</span> ${jSide === mechDir ? '· aligned' : ''}
+        committed ${cd && cd.stamped_ago_min != null ? (cd.stamped_ago_min < 60 ? cd.stamped_ago_min + 'm ago' : (cd.stamped_ago_min/60).toFixed(1) + 'h ago') : ''} ${cd && cd.slot_id ? '· slot ' + cd.slot_id : ''}
       </div>`;
     }
   }
