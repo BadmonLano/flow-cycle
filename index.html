@@ -2162,13 +2162,14 @@ async function renderForwardCard(nextMove, phaseCall) {
   const labelEl = card.querySelector('.cycle-forward-label');
 
   // Jordan's committed call first
-  let live = null, hrsLeft = null;
-  try {
-    const ccRes = await fetch('data/call_cycle.json?t=' + Date.now());
-    if (ccRes.ok) {
-      const cc = await ccRes.json();
-      live = cc.live_call;
-      hrsLeft = (cc.countdown && cc.countdown.hours_left != null) ? cc.countdown.hours_left : null;
+  let live = null, hrsLeft = null, cd = null;   // 2026-07-22 v3: cd was UNDECLARED —
+  try {                                          // the stamped-timer and awaiting blocks
+    const ccRes = await fetch('data/call_cycle.json?t=' + Date.now());   // referenced it,
+    if (ccRes.ok) {                              // ReferenceError killed the render after
+      const cc = await ccRes.json();             // the label painted: skeleton-dash card.
+      live = cc.live_call;                       // Declared means declared.
+      cd = cc.countdown || null;
+      hrsLeft = (cd && cd.hours_left != null) ? cd.hours_left : null;
     }
   } catch(e) {}
 
@@ -2182,16 +2183,18 @@ async function renderForwardCard(nextMove, phaseCall) {
     const word = { up:'Go Long', up_micro:'Long (micro)', down:'Go Short', down_micro:'Short (micro)',
                    flat:'Stay Flat', long:'Go Long', short:'Go Short' }[dir.toLowerCase()] || dir;
     if (labelEl) labelEl.textContent = "JORDAN'S COMMITTED MOVE · ON THE HIT RATE";
-  // 2026-07-22 (Lano): CARRIED IS NOT COMMITTED. A shadow-carried stance or an
-  // empty slot renders as AWAITING JORDAN — never yesterday's ghost wearing his
-  // jersey. The expiry packet is already on its way to him.
-  if (!live || live.carried || (cd && cd.carried)) {
+  // 2026-07-22 v2 (Lano caught v1 blanking a FRESH call): CARRIED IS NOT
+  // COMMITTED — but live_call is the ONLY authority for that judgment. v1 also
+  // gated on cd.carried (countdown lags one sweep behind a fresh stamp) and
+  // used invented element names (dirEl → ReferenceError → dead card). Real
+  // elements, one authority, and a fresh stamp renders the instant it exists.
+  if (!live || live.carried === true) {
     const slotTxt = (cd && cd.slot_id) ? ` · slot ${cd.slot_id}` : '';
     const endTxt = (cd && cd.hours_left != null) ? ` · slot ends in ${cd.hours_left}h` : '';
-    if (dirEl) { dirEl.textContent = 'Awaiting Jordan'; dirEl.style.color = 'var(--muted)'; }
-    if (arrowEl) arrowEl.textContent = '…';
+    if (arrowEl) { arrowEl.textContent = '…'; arrowEl.style.color = 'var(--muted)'; }
+    if (phaseEl) { phaseEl.textContent = 'Awaiting Jordan'; phaseEl.style.color = 'var(--muted)'; }
     if (adviceEl) adviceEl.textContent = (live && live.carried)
-      ? `last stance expired and shadow-carries ungraded-as-decision${slotTxt}${endTxt} — his fresh call lands here the moment he stamps it`
+      ? `last stance expired and shadow-carries (not a decision)${slotTxt}${endTxt} — his fresh call lands here the moment he stamps it`
       : `no committed call for this slot yet${slotTxt}${endTxt} — the call_expired packet is in his inbox`;
     if (barEl) { barEl.style.width = '0%'; }
     return;
@@ -4998,7 +5001,7 @@ function _leverageTile(mechValue, jordanCall) {
       </div>`;
     } else {
       secondary = `<div style="font-size:0.72em; color:var(--muted); margin-top:8px;">
-        committed ${cd && cd.stamped_ago_min != null ? (cd.stamped_ago_min < 60 ? cd.stamped_ago_min + 'm ago' : (cd.stamped_ago_min/60).toFixed(1) + 'h ago') : ''} ${cd && cd.slot_id ? '· slot ' + cd.slot_id : ''}
+        his committed call — one voice: leverage direction = committed move = coin calls
       </div>`;
     }
   }
