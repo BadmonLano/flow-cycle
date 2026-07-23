@@ -2487,6 +2487,14 @@ async function fetchBrainForward() {
         <span style="color:var(--muted);font-weight:700;">${tr}% <span style="font-weight:400;font-size:0.85em;">(${trRec || ''})</span></span>
       </div>`;
     }
+    // 2026-07-22 (the 0/18 lesson): regime context + splits — a cold streak in
+    // a coil reads as regime information, not incompetence. And the stat Jordan
+    // actually uses: when they claim a MOVE, does it move?
+    const sp = d.splits_7d || null;
+    if (sp && sp.regime_note) {
+      html += `<div style="margin-top:6px;font-size:0.76em;color:var(--muted);font-style:italic;">${_escapeHtml(sp.regime_note)}</div>`;
+      html += `<div style="margin-top:3px;font-size:0.76em;color:var(--text);">HOLD calls: <b>${sp.hold_record}</b> · MOVE calls: <b>${sp.move_record}</b>${sp.when_they_said_move_it_moved_pct != null ? ` · when they said move, it moved <b>${sp.when_they_said_move_it_moved_pct}%</b> of the time` : ''}</div>`;
+    }
     // 2026-07-20 (Lano: "idk what they called") — RECENT CALLS, rendered like
     // Jordan's track record: date · called X → phase · got Y · ✓/✗, with VOID
     // rows (windows the score never ticked — flow down/stalled) shown dimmed
