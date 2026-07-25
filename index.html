@@ -2405,6 +2405,21 @@ async function fetchMechVsJordan() {
     const coins = ['BTC', 'ETH', 'SOL'].filter(c => summary[c]);
     if (!coins.length) throw new Error('empty');
     let html = '';
+    // 2026-07-25 (Lano: "this hasn't updated in 6 days"): the scoreboard froze on
+    // Jul 19 and the page kept rendering the stale tally as if it were live —
+    // a frozen meter that LOOKS fresh is the worst kind. Say it out loud.
+    try {
+      const upd = d._updated ? Date.parse(d._updated) : null;
+      if (upd) {
+        const ageH = (Date.now() - upd) / 3600000;
+        if (ageH > 26) {
+          const ageTxt = ageH >= 48 ? `${Math.floor(ageH / 24)} days` : `${Math.floor(ageH)}h`;
+          html += `<div style="border:1px solid rgba(255,77,106,0.4); background:rgba(255,77,106,0.07); border-radius:6px; padding:6px 8px; margin-bottom:10px; font-size:0.78em; color:var(--red);">
+            ⚠ SCOREBOARD STALE — last updated ${ageTxt} ago. The rounds below are the last graded ones, not today's; treat this panel as history until it advances.
+          </div>`;
+        }
+      }
+    } catch (e) { /* staleness banner is best-effort */ }
     for (const c of coins) {
       const s = summary[c];
       const mWr = s.mechanical_wr, jWr = s.jordan_wr;
