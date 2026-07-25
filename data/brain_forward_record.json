@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-07-24T19:47:52.334689-04:00",
+  "_updated": "2026-07-24T20:49:29.349598-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
@@ -34,6 +34,26 @@
       "invalidated_if": "ETF flows remain pinned near 0, VIX breaks above 70, and BTC funding flips negative, pushing down to Denial (one rung below Anxiety)",
       "signals_at_call": {
         "fear_greed": 28,
+        "btc_funding": 0.0059,
+        "mvrv_zscore": 0.4506,
+        "net_liquidity_chg_4w": 100811.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -225.18,
+        "vix": 18.58
+      }
+    },
+    {
+      "made_at": "2026-07-24T20:49:29.359599-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Panic",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "With 0 of 51 recent 12h windows producing a \u00b12 move, this is a statistically verified coil where HOLD is the honest call until either ETF flows revive (UP breaker) or VIX explodes above 70 (DOWN breaker).",
+      "confirmed_if": "etf_flows > 30 AND stablecoin_growth > 45 within 48h",
+      "invalidated_if": "vix > 75 AND btc_momentum_30d drops below 35",
+      "signals_at_call": {
+        "fear_greed": 27,
         "btc_funding": 0.0059,
         "mvrv_zscore": 0.4506,
         "net_liquidity_chg_4w": 100811.0,
