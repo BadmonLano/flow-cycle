@@ -1,7 +1,7 @@
 {
   "version": 2,
   "schema_version": "unified_v2_2026-05-26",
-  "updated_at": "2026-07-25T03:18:30.756918-04:00",
+  "updated_at": "2026-07-26T04:29:18.823590-04:00",
   "updated_by": "jordan_via_j6_action",
   "calibration_source": "Claude + Doc1 + Grok + Doc3 + Doc4 + Doc5 \u2014 6-model arithmetic mean",
   "reasoning": "Unified weight file governing all 4 chart lines. base_weights = 6-model averaged calibration (Claude + 5 others, arithmetic mean). Forecast uses these weights with envelopes off. J6 uses these weights + j6_overrides + envelopes weighted 1.5x. DA inverts forecast. History is realized data. All four lines, one file.",
@@ -140,19 +140,22 @@
       "eth_etf_flows": 7.0,
       "sol_etf_flows": 8.0,
       "sp500": 1.5,
-      "nasdaq": 1.5,
+      "nasdaq": 0.0,
       "russell": 1.5,
       "fed_balance": 2.0,
-      "ma_200w_factor": 8.5,
-      "copper": 1.0,
+      "ma_200w_factor": 9.0,
+      "copper": 0.7,
       "copper_gold_ratio": 2.0,
       "btc_oi_total": 2.0,
       "btc_funding": 4.0,
-      "silver": 1.0,
-      "oil": 2.0,
-      "oil_chg": 1.0,
-      "pi_cycle_factor": 4.5,
-      "eth_funding": 2.5
+      "silver": 0.0,
+      "oil": 0.5,
+      "oil_chg": 0.0,
+      "pi_cycle_factor": 4.0,
+      "eth_funding": 2.5,
+      "lumber": 0.0,
+      "uranium": 0.0,
+      "funding_reset_factor": 3.5
     },
     "fingerprint_trust": {
       "2022-05-12": 9.0,
@@ -279,6 +282,31 @@
               "btc_oi_total": 2.0,
               "ma_200w_factor": 8.5,
               "eth_etf_flows": 7.0
+            }
+          }
+        }
+      },
+      {
+        "timestamp": "2026-07-26T04:29:18.823590-04:00",
+        "action": "update_j6_overrides",
+        "reasoning": "forecast residual 0.0 still owns race; j6 residual 1.4 and growing +0.5. raw drivers lumber/uranium/us10y/fed_balance/copper_gold are noise vs floor tape. cut commodity/equity noise toward weight_fit (oil 0.5, silver/lumber/uranium/nasdaq 0, copper 0.7, oil_chg 0) while defending AT_FLOOR with ma_200w 9.0 and keeping pi_cycle/funding_reset cooler (4.0/3.5) since far_from_top. not a blind full fit accept: rates still regime-relevant so us10y stays live; etf_net 10 and fear_greed 7.5 hold.",
+        "summary": "updated overrides: 10 weights changed",
+        "payload": {
+          "action": "update_j6_overrides",
+          "timestamp": "2026-07-26T08:28:34Z",
+          "reasoning": "forecast residual 0.0 still owns race; j6 residual 1.4 and growing +0.5. raw drivers lumber/uranium/us10y/fed_balance/copper_gold are noise vs floor tape. cut commodity/equity noise toward weight_fit (oil 0.5, silver/lumber/uranium/nasdaq 0, copper 0.7, oil_chg 0) while defending AT_FLOOR with ma_200w 9.0 and keeping pi_cycle/funding_reset cooler (4.0/3.5) since far_from_top. not a blind full fit accept: rates still regime-relevant so us10y stays live; etf_net 10 and fear_greed 7.5 hold.",
+          "overrides": {
+            "factor_weights": {
+              "oil": 0.5,
+              "oil_chg": 0.0,
+              "silver": 0.0,
+              "lumber": 0.0,
+              "uranium": 0.0,
+              "copper": 0.7,
+              "nasdaq": 0.0,
+              "ma_200w_factor": 9.0,
+              "pi_cycle_factor": 4.0,
+              "funding_reset_factor": 3.5
             }
           }
         }
