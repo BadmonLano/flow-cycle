@@ -1,27 +1,7 @@
 {
-  "_updated": "2026-07-27T09:11:23.319888-04:00",
+  "_updated": "2026-07-27T10:14:10.967616-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
-    {
-      "made_at": "2026-07-26T21:47:51.465893-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Panic",
-      "predicted_phase": "Denial",
-      "direction": "UP",
-      "conviction": "medium",
-      "reasoning": "The coil structure (0% of 69 windows moved \u00b12+ points) demands patience; the accumulation analog suggests eventual upside but the breaker hasn't fired yet.",
-      "confirmed_if": "ETF flows climb above 40 and BTC holds $63k with funding dropping below 0.003%",
-      "invalidated_if": "VIX spikes above 22 with DXY breaking 103 and BTC loses $60k",
-      "signals_at_call": {
-        "fear_greed": 30,
-        "btc_funding": 0.0059,
-        "mvrv_zscore": 0.3894,
-        "net_liquidity_chg_4w": 100811.0,
-        "btc_dom": 56.4427889623343,
-        "etf_net_total_musd": -240.08,
-        "vix": 18.58
-      }
-    },
     {
       "made_at": "2026-07-27T05:02:07.042716-04:00",
       "score_at_call": 39,
@@ -40,6 +20,26 @@
         "btc_dom": null,
         "etf_net_total_musd": -240.08,
         "vix": 17.61
+      }
+    },
+    {
+      "made_at": "2026-07-27T10:14:10.981615-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Capitulation",
+      "direction": "DOWN",
+      "conviction": "low",
+      "reasoning": "The coil is real with 0-for-74 directional movement, so HOLD with low conviction is the skilled call \u2014 a directional breakout requires ETF flow recovery or a VIX spike to confirm, neither of which is present yet.",
+      "confirmed_if": "ETF flows recover above 30 with funding staying below 55 and BTC holds $62K+, signaling institutional re-engagement that validates the Disbelief->Hope leg",
+      "invalidated_if": "BTC breaks below $60K with VIX spiking above 70 and funding dropping below 40, confirming this is Anxiety/Complacency chop lower rather than Disbelief accumulation",
+      "signals_at_call": {
+        "fear_greed": 30,
+        "btc_funding": 0.0059,
+        "mvrv_zscore": 0.3954,
+        "net_liquidity_chg_4w": 100811.0,
+        "btc_dom": 56.48374415492204,
+        "etf_net_total_musd": -240.08,
+        "vix": 18.36
       }
     }
   ],
@@ -1116,22 +1116,51 @@
       "transition_predicted": true,
       "transition_hit": false,
       "autopsy": "no single signal stands out \u2014 predicted DOWN, got HOLD. Regime shift or noise; watch if it repeats."
+    },
+    {
+      "made_at": "2026-07-26T21:47:51.465893-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "The coil structure (0% of 69 windows moved \u00b12+ points) demands patience; the accumulation analog suggests eventual upside but the breaker hasn't fired yet.",
+      "confirmed_if": "ETF flows climb above 40 and BTC holds $63k with funding dropping below 0.003%",
+      "invalidated_if": "VIX spikes above 22 with DXY breaking 103 and BTC loses $60k",
+      "signals_at_call": {
+        "fear_greed": 30,
+        "btc_funding": 0.0059,
+        "mvrv_zscore": 0.3894,
+        "net_liquidity_chg_4w": 100811.0,
+        "btc_dom": 56.4427889623343,
+        "etf_net_total_musd": -240.08,
+        "vix": 18.58
+      },
+      "graded_at": "2026-07-27T10:14:10.967616-04:00",
+      "score_at_grade": 39,
+      "score_delta": 0,
+      "realized_dir": "HOLD",
+      "realized_phase": "Anxiety",
+      "direction_hit": false,
+      "transition_predicted": true,
+      "transition_hit": false,
+      "autopsy": "no single signal stands out \u2014 predicted UP, got HOLD. Regime shift or noise; watch if it repeats."
     }
   ],
   "tally": {
     "direction": {
       "hit": 6,
-      "total": 37
+      "total": 38
     },
     "transition": {
       "hit": 2,
-      "total": 31
+      "total": 32
     }
   },
-  "direction_hit_rate_pct": 16.2,
-  "direction_record": "6/37",
-  "transition_hit_rate_pct": 6.5,
-  "transition_record": "2/31",
+  "direction_hit_rate_pct": 15.8,
+  "direction_record": "6/38",
+  "transition_hit_rate_pct": 6.2,
+  "transition_record": "2/32",
   "direction_hit_rate_7d_pct": 21.4,
   "direction_record_7d": "6/28",
   "transition_hit_rate_7d_pct": 9.1,
