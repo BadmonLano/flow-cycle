@@ -5349,10 +5349,15 @@ function renderCoinCallsCard(calls, hist) {
         </div></div>`;
     }
   });
-  // graded record (Jordan calls)
+  // 2026-07-27 (Lano): the leverage record is NOT displayed on the Coin Calls
+  // card. The card's job is the live call; the record lives in Track Record and
+  // Mechanical-vs-Jordan. Two places showing overlapping grades is two places
+  // that can disagree. Kept behind a flag rather than deleted so the data path
+  // stays intact if you want it back.
+  const SHOW_COIN_CALL_RECORD = false;
   const graded = (hist && hist.graded) || [];
   const jcalls = graded.filter(g => g.source === 'jordan');
-  if (jcalls.length) {
+  if (SHOW_COIN_CALL_RECORD && jcalls.length) {
     const recent = jcalls.slice(-8);
     const w = recent.filter(g => g.result === 'win').length;
     const l = recent.filter(g => g.result === 'loss').length;
