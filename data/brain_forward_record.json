@@ -1,27 +1,7 @@
 {
-  "_updated": "2026-07-28T12:58:03.227790-04:00",
+  "_updated": "2026-07-28T14:00:11.132653-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
-    {
-      "made_at": "2026-07-28T01:17:12.278927-04:00",
-      "score_at_call": 38,
-      "phase_at_call": "Panic",
-      "predicted_phase": "Denial",
-      "direction": "UP",
-      "conviction": "high",
-      "reasoning": "The 3% base rate of meaningful score movement over 12h windows and collapsed ETF flows confirm this is a low-energy coil where patience outperforms prediction.",
-      "confirmed_if": "BTC funding drops below 0.001% with fear_greed breaking below 25 and etf_flows turning positive\u2014would signal actual bottom-formation and validate a transition toward Disbelief on a rising leg",
-      "invalidated_if": "BTC funding spikes above 0.01% with btc_dom_fade breaking above 60 and stablecoin_growth turning positive\u2014would signal risk-on rotation pushing score toward Hope/Optimism and confirming an UP leg break from the coil",
-      "signals_at_call": {
-        "fear_greed": 29,
-        "btc_funding": 0.005,
-        "mvrv_zscore": 0.3954,
-        "net_liquidity_chg_4w": 100811.0,
-        "btc_dom": null,
-        "etf_net_total_musd": -240.08,
-        "vix": 18.67
-      }
-    },
     {
       "made_at": "2026-07-28T02:07:41.389018-04:00",
       "score_at_call": 39,
@@ -40,6 +20,26 @@
         "btc_dom": null,
         "etf_net_total_musd": -240.08,
         "vix": 18.67
+      }
+    },
+    {
+      "made_at": "2026-07-28T14:00:11.144655-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "The 3% coil-break rate and analyst's 0-for-18 directional record in similar windows make HOLD the statistically honest call \u2014 the August bottom analog tells us what may come next but does not move the current phase up the ladder without the ETF flow breaker confirming.",
+      "confirmed_if": "ETF flows spike above 30 AND btc_momentum_30d sustains above 55 AND funding stays below 60",
+      "invalidated_if": "VIX breaks above 75 AND DXY strengthens above 65 AND btc_momentum_30d rolls below 40",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.0001,
+        "mvrv_zscore": 0.4299,
+        "net_liquidity_chg_4w": 100811.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -11.64,
+        "vix": 18.24
       }
     }
   ],
@@ -1261,26 +1261,55 @@
       "transition_predicted": true,
       "transition_hit": false,
       "autopsy": "no single signal stands out \u2014 predicted DOWN, got HOLD. Regime shift or noise; watch if it repeats."
+    },
+    {
+      "made_at": "2026-07-28T01:17:12.278927-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "UP",
+      "conviction": "high",
+      "reasoning": "The 3% base rate of meaningful score movement over 12h windows and collapsed ETF flows confirm this is a low-energy coil where patience outperforms prediction.",
+      "confirmed_if": "BTC funding drops below 0.001% with fear_greed breaking below 25 and etf_flows turning positive\u2014would signal actual bottom-formation and validate a transition toward Disbelief on a rising leg",
+      "invalidated_if": "BTC funding spikes above 0.01% with btc_dom_fade breaking above 60 and stablecoin_growth turning positive\u2014would signal risk-on rotation pushing score toward Hope/Optimism and confirming an UP leg break from the coil",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.005,
+        "mvrv_zscore": 0.3954,
+        "net_liquidity_chg_4w": 100811.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -240.08,
+        "vix": 18.67
+      },
+      "graded_at": "2026-07-28T14:00:11.132653-04:00",
+      "score_at_grade": 38,
+      "score_delta": 1,
+      "realized_dir": "HOLD",
+      "realized_phase": "Denial",
+      "direction_hit": false,
+      "transition_predicted": true,
+      "transition_hit": true,
+      "autopsy": "no single signal stands out \u2014 predicted UP, got HOLD. Regime shift or noise; watch if it repeats."
     }
   ],
   "tally": {
     "direction": {
       "hit": 7,
-      "total": 42
+      "total": 43
     },
     "transition": {
-      "hit": 3,
-      "total": 35
+      "hit": 4,
+      "total": 36
     }
   },
-  "direction_hit_rate_pct": 16.7,
-  "direction_record": "7/42",
-  "transition_hit_rate_pct": 8.6,
-  "transition_record": "3/35",
+  "direction_hit_rate_pct": 16.3,
+  "direction_record": "7/43",
+  "transition_hit_rate_pct": 11.1,
+  "transition_record": "4/36",
   "direction_hit_rate_7d_pct": 24.1,
   "direction_record_7d": "7/29",
-  "transition_hit_rate_7d_pct": 13.6,
-  "transition_record_7d": "3/22",
+  "transition_hit_rate_7d_pct": 18.2,
+  "transition_record_7d": "4/22",
   "splits_7d": {
     "hold_record": "7/7",
     "move_record": "0/22",
