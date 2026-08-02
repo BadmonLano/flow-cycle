@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-02T08:59:29.702826-04:00",
+  "_updated": "2026-08-02T09:05:11.511858-04:00",
   "_note": "Updated by flow_cycle_v2.7 every sweep, auto-commit always-on per Bot Work Doctrine",
   "_version": "v2.7",
   "gold": 4107.0,
@@ -16,58 +16,58 @@
   "gold_score": 64,
   "us10y": 4.74,
   "fed_rate": 5.25,
-  "btc_price": 63066,
-  "eth_price": 1855.18,
-  "sol_price": 72.9,
-  "btc_chg": -0.1,
-  "realized_vol_7d": 30.26,
-  "realized_vol_30d": 27.7,
+  "btc_price": 63079.895,
+  "eth_price": 1856.295,
+  "sol_price": 72.905,
+  "btc_chg": null,
+  "realized_vol_7d": 30.23,
+  "realized_vol_30d": 27.66,
   "realized_vol_ratio": 1.09,
   "copper_gold_ratio": 1.5754,
   "ma_200w_factor": 95.0,
   "ma_200w": {
-    "_updated": "2026-08-02T08:58:16.678783-04:00",
+    "_updated": "2026-08-02T09:03:37.040933-04:00",
     "coins": {
       "BTC": {
-        "price": 63121.24,
-        "ma_200w": 63550.84,
-        "ratio": 0.993,
+        "price": 63146.89,
+        "ma_200w": 63550.97,
+        "ratio": 0.994,
         "zone": "AT_FLOOR"
       },
       "ETH": {
-        "price": 1856.75,
-        "ma_200w": 2481.58,
-        "ratio": 0.748,
+        "price": 1857.96,
+        "ma_200w": 2481.59,
+        "ratio": 0.749,
         "zone": "AT_FLOOR"
       },
       "SOL": {
-        "price": 72.95,
+        "price": 72.96,
         "ma_200w": 107.99,
         "ratio": 0.676,
         "zone": "AT_FLOOR"
       }
     },
-    "note": "BTC 0.993x 200wk MA ($63,551) \u2014 AT_FLOOR"
+    "note": "BTC 0.994x 200wk MA ($63,551) \u2014 AT_FLOOR"
   },
   "retail_noise_volume": 17.0,
   "retail_noise_sentiment": null,
   "retail_noise_velocity": null,
   "pi_cycle": {
-    "_updated": "2026-08-02T08:58:22.772215-04:00",
-    "ma_111": 69522.99,
-    "ma_350x2": 169529.92,
+    "_updated": "2026-08-02T09:03:42.401230-04:00",
+    "ma_111": 69523.22,
+    "ma_350x2": 169530.06,
     "ratio": 0.41,
     "signal": "far_from_top",
     "pi_cycle_factor": 90.0,
     "note": "Pi Cycle 0.41x (111DMA $69,523 vs 2x350DMA $169,530) \u2014 far from top \u2014 plenty of upside"
   },
   "realized_price": {
-    "realized_price": 52590.06,
-    "price": 63066,
+    "realized_price": 52601.65,
+    "price": 63079.89,
     "ratio": 1.2,
     "below_cost_basis": false,
     "realized_price_factor": 70.0,
-    "note": "BTC $63,066 vs realized $52,590 (1.2x) \u2014 near cost basis (accumulation)"
+    "note": "BTC $63,080 vs realized $52,602 (1.2x) \u2014 near cost basis (accumulation)"
   },
   "funding_reset": {
     "phase": "NEUTRAL",
@@ -91,7 +91,7 @@
         "phase": "NEUTRAL",
         "signal": "calm",
         "funding_reset_factor": 60.0,
-        "latest": 0.001,
+        "latest": 0.0007,
         "avg_recent": 0.002,
         "peak_recent": 0.0075,
         "note": "ETH funding calm (0.001%) \u2014 no leverage extreme."
@@ -100,13 +100,13 @@
         "phase": "NEUTRAL",
         "signal": "calm",
         "funding_reset_factor": 60.0,
-        "latest": 0.0029,
-        "avg_recent": 0.0012,
+        "latest": 0.0027,
+        "avg_recent": 0.001,
         "peak_recent": 0.0098,
         "note": "SOL funding calm (0.003%) \u2014 no leverage extreme."
       }
     },
-    "_updated": "2026-08-02T08:58:25.003431-04:00"
+    "_updated": "2026-08-02T09:03:44.135864-04:00"
   },
   "fear_greed": 27,
   "fear_greed_label": "Fear",
@@ -119,13 +119,31 @@
   "blowoff_label": "CAUTION - macro weakness, reduce exposure",
   "blowoff_factors": {
     "fear_greed": 27,
-    "btc_momentum": 51,
+    "btc_momentum": 50,
     "dxy_weakness": 78,
     "gold_strength": 36,
     "liquidity": 54,
     "funding": 54,
     "btc_dom_fade": 30,
     "geo_catalyst": 50
+  },
+  "factor_vector": {
+    "fear_greed": 27,
+    "btc_momentum_30d": 50,
+    "dxy_weakness": 68,
+    "gold_strength": 80,
+    "stablecoin_growth": 35,
+    "funding": 54,
+    "btc_dom_fade": 50,
+    "etf_flows": 0,
+    "eth_etf_flows": 54,
+    "sol_etf_flows": 50,
+    "vix": 68,
+    "mvrv_zscore": 23,
+    "fed_liquidity": 33,
+    "retail_noise_volume": 50,
+    "retail_noise_sentiment": 50,
+    "retail_noise_velocity": 50
   },
   "signals": {
     "legacy_math": {
@@ -134,15 +152,15 @@
       "source": "weighted_factor_average"
     },
     "brain_consensus": {
-      "signal": "HOLD",
-      "tier": "HIGH",
-      "confidence": 0.6,
+      "signal": "CAUTION",
+      "tier": "MED",
+      "confidence": 0.58,
       "source": "4_brain_ollama_vote"
     },
-    "agreement": false,
-    "reconciliation_hint": "SPLIT: brain confidence only 60% (HOLD); legacy says CAUTION. The brains aren't sure here \u2014 lean on the data. Your call."
+    "agreement": true,
+    "reconciliation_hint": "ALIGNED: legacy math and all 4 brain reads point to CAUTION. Strong agreement \u2014 still your call."
   },
-  "btc_momentum": 51,
+  "btc_momentum": 50,
   "funding_rate": 0.0089,
   "pumpfun_launches_24h": null,
   "pumpfun_launches_1h": null,
@@ -150,7 +168,7 @@
   "avg_hold_mins": null,
   "market_maturity": "normal",
   "market_velocity": "normal",
-  "bnb_price": 581.31,
+  "bnb_price": 581.14,
   "btc_dom": null,
   "total_mcap": null,
   "total_volume_24h": null,
@@ -184,8 +202,8 @@
   },
   "fed_liquidity_factor": 33,
   "btc_funding": 0.0089,
-  "eth_funding": 0.001,
-  "btc_oi_total": 2002602654.0,
+  "eth_funding": 0.0007,
+  "btc_oi_total": 2004399292.0,
   "mvrv_zscore": 0.3471,
   "mvrv": 1.1992,
   "lth_supply": null,
@@ -199,59 +217,59 @@
   "sol_etf_flow_date": "2026-07-31",
   "pattern_match": {
     "best_match": "bottom_2024_aug",
-    "similarity": 0.7527,
+    "similarity": 0.7562,
     "pattern_type": "ACCUMULATION_BOTTOM",
     "best_match_date": "2024-08-05",
     "best_match_btc": 52000
   },
   "brain_consensus": {
-    "final_signal": "HOLD",
-    "final_phase": "Denial",
-    "alert_tier": "HIGH",
-    "confidence": 0.6,
-    "narrative": "Fear has a stranglehold on the market, with the Fear & Greed Index plumbing depths not seen since the August 2024 bottom, while Bitcoin's 30-day momentum has completely evaporated. This is the classic 'denial' purge\u2014BTC dominance is fading, signaling a stealth appetite for risk, yet sentiment remains trapped in the rearview mirror, exactly the dissonance that prefaced the sharp reversal last summer. The crowd is bracing for a breakdown that the internal structure is quietly refusing to confirm.",
-    "headline": "Max Pain on Repeat: The August Blueprint",
+    "final_signal": "CAUTION",
+    "final_phase": "Anxiety",
+    "alert_tier": "MED",
+    "confidence": 0.58,
+    "narrative": "The market is gripped by deep fear as the Fear & Greed Index plunges to 27, mirroring the sentiment trough that marked the August 2024 bottom. This anxiety is being compounded by a sharp loss of 30-day Bitcoin momentum and a fading BTC dominance, suggesting capital is rotating defensively within the crypto space rather than fleeing entirely. The current setup echoes the final flush-out phase before a reversal, where maximum pain historically precedes a relief rally.",
+    "headline": "Fear Grips the Market at the Precipice",
     "brain_reads": {
       "analyst": {
-        "signal": "HOLD",
-        "phase": "Denial",
+        "signal": "CAUTION",
+        "phase": "Anxiety",
         "verdict": "DIVERGING",
-        "confidence": 0.45,
+        "confidence": 0.42,
         "next_move": {
-          "predicted_phase": "Capitulation",
-          "direction": "DOWN",
+          "predicted_phase": "Denial",
+          "direction": "UP",
           "conviction": "medium",
-          "reasoning": "Score sits at ~55 (Disbelief band 55-62), and the 5% base rate for \u00b12+ point moves in 12h windows demands HOLD as the honest default; the historical analog to Aug 2024 bottom shows recovery DNA but current ETF flows at 0 vs 55 then, plus stablecoin contraction (-15), reveal a liquidity-starved echo not a replay\u2014momentum is higher but conviction is thinner, so we coil in Disbelief distrust rather than climb to Hope.",
-          "confirmed_if": "etf_flows break above 30 and stablecoin_growth turns positive with funding staying below 60",
-          "invalidated_if": "etf_flows stay below 10 and btc_momentum_30d reverses below 45 with vix spiking above 75",
-          "predicted_phase_clamped_from": "Disbelief"
+          "reasoning": "Score sits at 27 (Fear & Greed), squarely in Anxiety band (39-46 is Complacency, 24-31 is Panic \u2014 wait, recalculating: 27 falls in Panic 24-31, but Fear & Greed 27 is extreme fear territory; the score band mapping says 24-31 = Panic, yet the live F&G 27 with flat BTC momentum, collapsed ETF flows, and elevated VIX reads as anxious paralysis not panic-selling \u2014 the hard rule binds me to Panic/Anxiety/Complacency, and the flat price action with funding at 0.0089% and stablecoin contraction says Anxiety not Panic; I'm at the boundary, calling Anxiety with leg flat. The coil base rate is 95% \u2014 I don't see a breaker. My 17.7% direction accuracy screams I keep guessing moves in chop and missing; the autopsies show 'regime shift or noise' killed both UP and DOWN calls when reality was HOLD. I will not repeat that.",
+          "confirmed_if": "BTC breaks $65K with funding rising above 0.015% and ETF flows turn positive for 2+ days",
+          "invalidated_if": "BTC breaks $59K with VIX spiking above 20 and funding going negative, forcing Panic leg down",
+          "predicted_phase_clamped_from": "Anxiety"
         }
       },
       "narrative": {
-        "headline": "Max Pain on Repeat: The August Blueprint",
-        "phase": "Denial",
-        "confidence": 0.75,
+        "headline": "Fear Grips the Market at the Precipice",
+        "phase": "Anxiety",
+        "confidence": 0.76,
         "next_move": {
-          "outlook": "The narrative arc points to a violent mean reversion in sentiment once price recaptures a key level, mirroring the August 2024 bottom structure where denial flipped to relief in a single weekly candle.",
-          "direction": "HOLD",
-          "conviction": "high"
+          "outlook": "The narrative arc suggests this deep fear and momentum loss is a capitulation signal, setting the stage for a sharp mean-reversion bounce once sellers are exhausted, just as it did in the August 2024 bottoming pattern.",
+          "direction": "UP",
+          "conviction": "medium"
         }
       },
       "judge": {
-        "signal": "HOLD",
-        "phase": "Denial",
-        "confidence": 0.6,
+        "signal": "CAUTION",
+        "phase": "Anxiety",
+        "confidence": 0.58,
         "next_move": {
-          "predicted_phase": "Capitulation",
-          "direction": "DOWN",
+          "predicted_phase": "Denial",
+          "direction": "UP",
           "conviction": "medium",
-          "reasoning": "The 5% base rate for \u00b12+ point moves in 12h windows makes HOLD the statistically honest default, and the liquidity divergence (ETF flows at zero, stablecoin contraction) means the breaker is not yet visible \u2014 coil in Denial-to-Disbelief transition until confirmation arrives.",
-          "brains_agree": "Partial \u2014 both see bottom-accumulation DNA and a HOLD posture, but the analyst's forward phase (Disbelief) sits 2 rungs above the Narrative's current phase (Denial), and the analyst's confidence is materially lower due to liquidity divergences the Narrative does not weigh",
-          "confirmed_if": "ETF flows break above 30 AND stablecoin growth turns positive with funding staying below 60",
-          "invalidated_if": "ETF flows stay below 10 AND btc_momentum_30d reverses below 45 with VIX spiking above 75",
-          "predicted_phase_clamped_from": "Disbelief",
-          "confidence_pct": 45.0,
-          "confidence_basis": "2/3 brains agree on DOWN; conviction 0.7/1.0"
+          "reasoning": "The coil base rate is 95% and the analyst's 0-for-18 autopsy record on forced directional calls in chop makes HOLD the statistically honest and skill-graded call until a confirmed breaker arrives.",
+          "brains_agree": "No \u2014 analyst says HOLD with medium conviction; narrative implies UP reversal. Split reconciled by leaning toward the analyst's higher trust weight (7.67 vs 6.00) and the coil base rate, while keeping CAUTION rather than HOLD to respect the narrative's bottom analog.",
+          "confirmed_if": "BTC breaks $65K with funding rising above 0.015% and ETF flows turn positive for 2+ consecutive days",
+          "invalidated_if": "BTC breaks $59K with VIX spiking above 20 and funding going negative, forcing a Panic leg down",
+          "predicted_phase_clamped_from": "Anxiety",
+          "confidence_pct": 53.0,
+          "confidence_basis": "3/3 brains agree on UP; conviction 0.6/1.0"
         }
       },
       "legacy": {
@@ -266,10 +284,10 @@
     "_read_this_instead": "brain_reads",
     "disagreement": {
       "phases_named": [
-        "Denial"
+        "Anxiety"
       ],
       "signals_named": [
-        "HOLD"
+        "CAUTION"
       ],
       "unanimous": true,
       "note": "All four landed in the same place \u2014 a rare, real convergence."

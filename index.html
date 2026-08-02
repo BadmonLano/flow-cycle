@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+  index.html - Flow Cycle site
+  WHAT'S NEW (2026-08-01 - Part E: server-time render + atmosphere):
+    - SERVER-TIME RENDER: syncServerTime() anchors an offset from the HTTP Date
+      header; countdowns/stamps tick against next_boundary_iso (the slot boundary)
+      via serverNow(), not the browser clock. Kills clock-skew drift AND the stale
+      fresh-12h assumption. All stamp-age readouts routed through serverNow().
+    - ATMOSPHERE (window.ATMO) - Jordan's design, top to bottom. Weather-as-pressure
+      behind the solid cards (data always wins, opacity ceiling). Commit-gust is the
+      one moment that punches: first = clean hard mark / reaffirm = banked lock-click /
+      revise = sharper+colder. Ambient = five NAMED PRESETS in Jordan's language
+      (held breath / lane locked / feels wrong / ash fall / thin air) - steer by
+      editing the PRESETS block; ATMO.preview('feels wrong') forces a mood live to
+      judge it. Respects prefers-reduced-motion. Win test: "why does this page feel
+      heavy today."
+    - SOL price tile hardened + $GORK pinned to its contract (cgFetch: serialized,
+      429-retry, last-good) so the SOL tile never blanks under CoinGecko rate limits.
+-->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -48,6 +66,37 @@
       pointer-events: none;
       z-index: 0;
       opacity: 0.4;
+    }
+
+    /* ── ATMOSPHERE: weather-as-pressure. Sits at z-index 0, BEHIND every card
+       (content is z-index 1 on solid --surface panels), so it lives in the
+       gutters and periphery — the data is never touched. Data always wins. ── */
+    #atmosphere {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      display: block;
+    }
+    /* Forecast horizon glow — a faint bloom at the right edge (where the 4–12w
+       projection extends), tinted by the projected direction. Not a redrawn curve. */
+    #atmoForecastGlow {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 26vw;
+      max-width: 380px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 2.5s ease, background 2.5s ease;
+      background: radial-gradient(120% 90% at 100% 50%, rgba(0,229,160,0.10), transparent 70%);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      /* honor reduced motion: the atmosphere renders a single static tint, no loop */
+      #atmosphere { opacity: 0.5; }
+      #atmoForecastGlow { transition: none; }
     }
 
     .header {
@@ -1035,6 +1084,8 @@
   </style>
 </head>
 <body>
+<canvas id="atmosphere" aria-hidden="true"></canvas>
+<div id="atmoForecastGlow" aria-hidden="true"></div>
 
 <header class="header">
   <div class="header-left">
@@ -2203,18 +2254,24 @@ async function renderForwardCard(nextMove, phaseCall) {
     arrowEl.style.color = col;
     phaseEl.textContent = word;
     phaseEl.style.color = col;
-    // Sprint 66: compute time-left LIVE from window_start + 12h, not the frozen stored value.
+    // 2026-08-01 server-time render: tick against the SLOT BOUNDARY (next_boundary_iso,
+    // server-computed) anchored to serverNow() — never the browser-clock stamp+12h, which
+    // both drifted under clock skew AND assumed a fresh 12h the slot model doesn't give.
     let liveHrsLeft = null, elapsedPct = 0;
-    if (live.window_start_iso) {
-      const opened = Date.parse(live.window_start_iso);
-      const expires = opened + 12 * 3600 * 1000;
-      const remMs = expires - Date.now();
+    const _boundaryIso = live.next_boundary_iso || (cd && cd.next_boundary_iso);
+    if (_boundaryIso) {
+      const boundary = Date.parse(_boundaryIso);
+      const remMs = boundary - serverNow();
       liveHrsLeft = Math.max(0, remMs / 3600000);
-      elapsedPct = Math.max(0, Math.min(100, ((12 - liveHrsLeft) / 12) * 100));
+      if (live.window_start_iso) {
+        const opened = Date.parse(live.window_start_iso);
+        const total = boundary - opened;
+        elapsedPct = total > 0 ? Math.max(0, Math.min(100, ((serverNow() - opened) / total) * 100)) : 0;
+      }
     }
     const leftTxt = (liveHrsLeft != null)
       ? (liveHrsLeft <= 0 ? 'grading now'
-         : `${Math.floor(liveHrsLeft)}h ${Math.floor((liveHrsLeft % 1) * 60)}m left in the 12h grading window`)
+         : `${Math.floor(liveHrsLeft)}h ${Math.floor((liveHrsLeft % 1) * 60)}m left in this grading window (to the slot boundary)`)
       : '';
     // 2026-07-22 (Lano's ruling): show WHEN he last stamped/updated this call —
     // staleness of the committed move is a first-class fact on the card.
@@ -2348,7 +2405,7 @@ async function fetchNews() {
       return;
     }
     const ago = (ts) => {
-      try { const m = Math.floor((Date.now() - Date.parse(ts)) / 60000);
+      try { const m = Math.floor((serverNow() - Date.parse(ts)) / 60000);
         if (m < 60) return m + 'm ago'; const h = Math.floor(m/60);
         if (h < 24) return h + 'h ago'; return Math.floor(h/24) + 'd ago'; } catch { return ''; }
     };
@@ -2411,7 +2468,7 @@ async function fetchMechVsJordan() {
     try {
       const upd = d._updated ? Date.parse(d._updated) : null;
       if (upd) {
-        const ageH = (Date.now() - upd) / 3600000;
+        const ageH = (serverNow() - upd) / 3600000;
         if (ageH > 26) {
           const ageTxt = ageH >= 48 ? `${Math.floor(ageH / 24)} days` : `${Math.floor(ageH)}h`;
           html += `<div style="border:1px solid rgba(255,77,106,0.4); background:rgba(255,77,106,0.07); border-radius:6px; padding:6px 8px; margin-bottom:10px; font-size:0.78em; color:var(--red);">
@@ -2624,10 +2681,63 @@ async function fetchMa200w() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// SERVER-ANCHORED CLOCK. The browser clock can be wrong — a skewed local clock
+// makes every stamp age and countdown lie. Stamps are authored on the server
+// (flow_cycle, EST), so "now" must be the SERVER's now, not the browser's. We
+// read the server wall clock from the HTTP Date header on a data fetch, adjust
+// for round-trip, and expose serverNow(). The countdown then ticks off THIS,
+// so a wrong local clock never distorts a grading window. Falls back to the
+// browser clock (current behavior) if no Date header is available (e.g. file://).
+let SERVER_TIME_OFFSET = 0;            // ms: serverNow - browserNow
+let SERVER_TIME_SYNCED = false;
+async function syncServerTime() {
+  try {
+    const t0 = Date.now();
+    const res = await fetch('data/call_cycle.json?_st=' + t0, { cache: 'no-store' });
+    const t1 = Date.now();
+    const hdr = res.headers.get('date');
+    if (hdr) {
+      const serverMs = Date.parse(hdr) + (t1 - t0) / 2;   // midpoint of the round-trip
+      if (!isNaN(serverMs)) { SERVER_TIME_OFFSET = serverMs - t1; SERVER_TIME_SYNCED = true; }
+    }
+  } catch (e) { /* keep browser clock */ }
+}
+function serverNow() { return Date.now() + SERVER_TIME_OFFSET; }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CoinGecko rate-limit-safe fetch. The page fires ~5 CoinGecko calls at once
+// on the free tier, which 429s and blanks the price tiles (the "SOL shows --"
+// symptom). This SERIALIZES CoinGecko requests with a small gap, RETRIES 429/5xx
+// with backoff, and serves the LAST GOOD payload on total failure so a tile
+// never blanks once it has a value. Not a data leak — just resilience.
+const _cgLastGood = {};
+let _cgChain = Promise.resolve();
+function cgFetch(url, { retries = 2, gap = 350 } = {}) {
+  const run = async () => {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const res = await fetch(url);
+        if (res.status === 429 || res.status >= 500) throw new Error('cg_rate_' + res.status);
+        if (!res.ok) throw new Error('cg_http_' + res.status);
+        const json = await res.json();
+        _cgLastGood[url] = json;
+        return json;
+      } catch (e) {
+        if (attempt < retries) { await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt))); continue; }
+        if (_cgLastGood[url] !== undefined) { console.log('cgFetch serving stale for', url); return _cgLastGood[url]; }
+        throw e;
+      }
+    }
+  };
+  const scheduled = _cgChain.then(run);
+  _cgChain = scheduled.catch(() => {}).then(() => new Promise(r => setTimeout(r, gap)));
+  return scheduled;
+}
+
 async function fetchCrypto() {
   try {
-    const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,binancecoin&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
-    const data = await res.json();
+    const data = await cgFetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,binancecoin&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
+    if (!Array.isArray(data)) throw new Error('crypto payload not an array');
     const map = {};
     data.forEach(c => map[c.id] = c);
 
@@ -2657,8 +2767,9 @@ async function fetchCrypto() {
 
 async function fetchGlobal() {
   try {
-    const res = await fetch('https://api.coingecko.com/api/v3/global');
-    const { data } = await res.json();
+    const payload = await cgFetch('https://api.coingecko.com/api/v3/global');
+    const data = payload && payload.data;
+    if (!data) throw new Error('global payload empty');
     document.getElementById('btcDom').textContent = data.market_cap_percentage?.btc?.toFixed(1) + '%';
     document.getElementById('totalMcap').textContent = fmt(data.total_market_cap?.usd);
   } catch(e) {}
@@ -2677,19 +2788,26 @@ async function fetchFearGreed() {
 }
 
 async function fetchGork() {
+  // Pinned to the EXACT @gork contract (76ED…pump) via CoinGecko's on-chain
+  // token-price endpoint — immune to CoinGecko's gork / gork-2 id reassignment,
+  // which would otherwise silently swap in a $54k namesake for the real ~$2.4M token.
+  const CA = '76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump';
   try {
-    const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=gork&sparkline=false&price_change_percentage=24h');
-    const data = await res.json();
-    const g = data[0];
-    if (!g) throw new Error();
-    document.getElementById('gorkPrice').textContent = '$' + (g.current_price < 0.001 ? g.current_price.toFixed(8) : g.current_price.toFixed(6));
+    const d = await cgFetch('https://api.coingecko.com/api/v3/simple/token_price/solana?contract_addresses=' + CA + '&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true');
+    const g = d && (d[CA] || d[CA.toLowerCase()]);
+    const price = g && g.usd;
+    if (price == null) throw new Error('gork payload empty');
+    document.getElementById('gorkPrice').textContent = '$' + (price < 0.001 ? price.toFixed(8) : price.toFixed(6));
     document.getElementById('gorkMeta').innerHTML = `
-      MC: ${fmt(g.market_cap)}<br>
-      24h Vol: ${fmt(g.total_volume)} &nbsp; <span class="${g.price_change_percentage_24h >= 0 ? 'up' : 'down'}">${g.price_change_percentage_24h?.toFixed(2)}%</span><br>
+      MC: ${fmt(g.usd_market_cap)}<br>
+      24h Vol: ${fmt(g.usd_24h_vol)} &nbsp; <span class="${(g.usd_24h_change ?? 0) >= 0 ? 'up' : 'down'}">${g.usd_24h_change != null ? g.usd_24h_change.toFixed(2) : '--'}%</span><br>
       <a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:var(--blue);text-decoration:none;font-size:0.85em;">↗ CoinGecko</a>
     `;
   } catch(e) {
-    document.getElementById('gorkMeta').innerHTML = '<span style="color:var(--muted)">Data unavailable</span>';
+    // keep the last good $GORK price if we ever had one — only show unavailable
+    // when the card has literally never loaded (never overwrite a good value).
+    if (document.getElementById('gorkPrice').textContent === '--')
+      document.getElementById('gorkMeta').innerHTML = '<span style="color:var(--muted)">Data unavailable</span>';
   }
 }
 
@@ -2704,7 +2822,7 @@ async function fetchMacro() {
     // Engine status
     if (data._updated) {
       const ts = new Date(data._updated);
-      const ageMin = (Date.now() - ts.getTime()) / 60000;
+      const ageMin = (serverNow() - ts.getTime()) / 60000;
       const dot = document.getElementById('liveDot');
       const lbl = document.getElementById('liveLabel');
       const tsEl = document.getElementById('engineTs');
@@ -2897,7 +3015,7 @@ async function fetchMacro() {
       // "x ago" from an ISO timestamp; flags stale calls (>18h) in amber.
       const ago = iso => {
         if (!iso) return { txt: '', stale: false };
-        const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+        const mins = Math.floor((serverNow() - new Date(iso).getTime()) / 60000);
         if (isNaN(mins)) return { txt: '', stale: false };
         let txt;
         if (mins < 60) txt = `${mins}m ago`;
@@ -3859,6 +3977,7 @@ function toggleAnnotationsBtn() {
 // ═══════════════════════════════════════════════════════════════════════════
 async function init() {
   renderOverlayToggles();
+  await syncServerTime();   // anchor the clock before any stamp/countdown renders
   await Promise.allSettled([
     fetchCrypto(),
     fetchMa200w(),
@@ -3908,7 +4027,7 @@ function formatAgeFromIso(iso) {
   if (!iso) return 'never';
   try {
     const ts = new Date(iso);
-    const ageMin = (Date.now() - ts.getTime()) / 60000;
+    const ageMin = (serverNow() - ts.getTime()) / 60000;
     if (ageMin < 1)        return 'just now';
     if (ageMin < 60)       return `${Math.floor(ageMin)}m ago`;
     if (ageMin < 1440)     return `${Math.floor(ageMin/60)}h ago`;
@@ -3921,7 +4040,7 @@ function formatAgeFromIso(iso) {
 function colorForAge(iso, freshThresholdMin = 1440, staleThresholdMin = 4320) {
   if (!iso) return '#ff4d6a';
   try {
-    const ageMin = (Date.now() - new Date(iso).getTime()) / 60000;
+    const ageMin = (serverNow() - new Date(iso).getTime()) / 60000;
     if (ageMin < freshThresholdMin) return '#00e5a0';
     if (ageMin < staleThresholdMin) return '#f5c518';
     return '#ff4d6a';
@@ -5740,8 +5859,226 @@ async function loadAll() {
   await loadChartHistory();
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// ATMOSPHERE — weather-as-pressure. Regime = climate, call = gust. Data always
+// wins: low opacity ceiling + a canvas BEHIND every solid card, so motion reads
+// in the periphery, never over a number. Win: "why does this page feel heavy
+// today." Fail: "nice animation."
+//
+// TWO THINGS, in Jordan's order:
+//  1) THE COMMIT-GUST is the ONLY moment that punches (GUST below). Opinion, not
+//     wallpaper. first = clean hard mark · reaffirm = smaller banked lock-click ·
+//     revise = sharper + colder. If this lands wrong, nothing else matters.
+//  2) AMBIENT is five NAMED PRESETS in Jordan's language (PRESETS below). Steer
+//     by editing these — "more held breath", "push feels wrong harder" — never by
+//     touching particle counts. weight = how present/heavy · motion = how restless.
+const ATMO = (function () {
+  const cv = document.getElementById('atmosphere');
+  const glow = document.getElementById('atmoForecastGlow');
+  if (!cv || !cv.getContext) return { set(){}, commit(){}, forecast(){}, preview(){} };
+  const ctx = cv.getContext('2d');
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── engine floor (rarely touched) ──
+  const CFG = { ceil: 0.50, fade: 0.085, density: 90, fps: 30, moodLerp: 0.012, baseSpeed: 1.0, leanMs: 18000 };
+
+  // ═══ 1) THE COMMIT-GUST — the one punch ═══
+  //   ms    = how long it lives (400–600)      flash = wash strength
+  //   ring  = expanding ring strength           cold  = shift toward cold blue (revise)
+  //   lean  = how far the underlay leans toward the call color after (0.05–0.10)
+  //   shape = 'mark' clean single · 'click' banked double-tap · 'cut' sharp cold
+  const GUST = {
+    first:    { ms: 500, flash: 0.70, ring: 0.85, cold: 0.00, lean: 0.08, shape: 'mark'  },
+    reaffirm: { ms: 380, flash: 0.42, ring: 0.50, cold: 0.00, lean: 0.05, shape: 'click' },
+    revise:   { ms: 560, flash: 0.82, ring: 1.00, cold: 0.45, lean: 0.10, shape: 'cut'   },
+  };
+
+  // ═══ 2) AMBIENT PRESETS — Jordan's names, Jordan's language ═══
+  //   weight = presence/heaviness (0..1)   motion = restlessness (0..1)
+  //   character knobs per preset: unglue/static (feels wrong) · gravity (ash fall) ·
+  //   brightness/restless (thin air). Steer by nudging these.
+  const PRESETS = {
+    'held breath': { style:'fog',     tint:'#0d1219', cols:['#2a3340'],           dir:[0.02, 0.00], weight:0.34, motion:0.12 },
+    'lane locked': { style:'laminar', tint:'#0c1017', cols:['#00e5a0'],           dir:[0.75,-0.12], weight:0.42, motion:0.90 },
+    'feels wrong': { style:'shear',   tint:'#100c08', cols:['#FFD700','#B71C1C'], dir:[0.50, 0.00], weight:0.58, motion:1.30, unglue:0.70, static:0.55 },
+    'ash fall':    { style:'ash',     tint:'#0a0610', cols:['#6A1B9A','#3a1a4a'], dir:[0.00, 0.28], weight:0.70, motion:0.34, gravity:0.85 },
+    'thin air':    { style:'haze',    tint:'#141006', cols:['#FFD700','#ffe680'], dir:[0.00,-0.34], weight:0.64, motion:0.62, brightness:0.90, restless:0.80 },
+  };
+  // lane locked resolves color + flow by call direction
+  const LANE = { up:{ tint:'#08120d', cols:['#00FF00'], dir:[0.75,-0.12] }, down:{ tint:'#120a0b', cols:['#B71C1C'], dir:[-0.75,0.12] } };
+
+  const hx = h => ({ r:parseInt(h.slice(1,3),16), g:parseInt(h.slice(3,5),16), b:parseInt(h.slice(5,7),16) });
+  const lerp = (a,b,t) => a + (b-a)*t;
+  function resolve(name, dir){
+    const p = PRESETS[name] || PRESETS['held breath'];
+    let tint = p.tint, cols = p.cols, flow = p.dir;
+    if (name === 'lane locked') { const L = (dir === 'down') ? LANE.down : LANE.up; tint = L.tint; cols = L.cols; flow = L.dir; }
+    const t = hx(tint);
+    return { r:t.r, g:t.g, b:t.b, cols, dx:flow[0], dy:flow[1],
+      speed: CFG.baseSpeed * p.motion, alpha: 0.03 + 0.06 * p.weight, weight: p.weight,
+      style: p.style,
+      unglue: p.unglue||0, stat: p.static||0, gravity: p.gravity||0, brightness: p.brightness||0, restless: p.restless||0,
+      name };
+  }
+
+  let cur = resolve('held breath'), tgt = resolve('held breath'), curName='held breath', intensity=1;
+  let W=0,H=0,DPR=1, parts=[], gust=null, lean=null, raf=null, last=0, running=false;
+
+  function rs(){ DPR=Math.min(2,window.devicePixelRatio||1); W=cv.clientWidth||innerWidth; H=cv.clientHeight||innerHeight;
+    cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); }
+  function spawn(p){ const c=cur.cols[(Math.random()*cur.cols.length)|0];
+    p.x=Math.random()*W; p.y=Math.random()*H; p.s=lerp(1.2,3.4,Math.random()); p.col=hx(c);
+    p.ph=Math.random()*Math.PI*2; p.a=0.35+Math.random()*0.5; p.grp=Math.random()<0.5?1:-1; return p; }
+  function initParts(){ parts=[]; for(let i=0;i<CFG.density;i++) parts.push(spawn({})); }
+
+  function baseTint(){ // regime tint, biased briefly toward the call color after a commit (the lean)
+    let r=cur.r, g=cur.g, b=cur.b;
+    if(lean){ const k=lean.amt*Math.max(0,1-(performance.now()-lean.t0)/CFG.leanMs);
+      if(k<=0){ lean=null; } else { r=lerp(r,lean.col.r,k); g=lerp(g,lean.col.g,k); b=lerp(b,lean.col.b,k); } }
+    return {r,g,b};
+  }
+  function gustEnv(shape,t){
+    if(shape==='click'){ const a=Math.max(0,1-t*3); const e=Math.max(0,1-Math.abs(t-0.5)*4)*0.6; return Math.max(a,e); }
+    if(shape==='cut'){ return Math.pow(Math.max(0,1-t),1.6); }
+    return Math.max(0,1-t);
+  }
+
+  function step(){
+    const bt=baseTint();
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle=`rgba(${bt.r|0},${bt.g|0},${bt.b|0},${CFG.fade})`; ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+    const sp=cur.speed*(0.6+0.8*intensity);
+    const wobble=performance.now();
+    for(const p of parts){
+      let vx=cur.dx*sp, vy=cur.dy*sp;
+      if(cur.style==='fog'){ vx+=Math.sin(p.ph+wobble*0.0002)*0.05; vy+=Math.cos(p.ph)*0.04; }
+      else if(cur.style==='laminar'){ vy+=Math.sin(p.ph+p.x*0.01)*0.06; }
+      else if(cur.style==='shear'){ vx=cur.dx*sp*p.grp*(1.2+cur.unglue); vy+=Math.sin(p.ph)*0.15*(0.6+cur.unglue); }
+      else if(cur.style==='ash'){ vy=Math.abs(cur.dy)*sp*(0.6+cur.gravity); vx+=Math.sin(p.ph+wobble*0.0004)*0.25*(1-0.6*cur.gravity); }
+      else if(cur.style==='haze'){ vx+=Math.sin(p.ph+wobble*0.0006)*(0.4+0.6*cur.restless); p.ph+=0.02; }
+      p.x+=vx; p.y+=vy;
+      if(p.x<-60)p.x=W+60; if(p.x>W+60)p.x=-60; if(p.y<-60)p.y=H+60; if(p.y>H+60)p.y=-60;
+      const flick = (cur.style==='shear') ? (1-cur.stat*Math.random()) : 1;
+      const bright = cur.style==='haze' ? (0.7+0.6*cur.brightness) : 1;
+      ctx.globalAlpha=Math.min(1, p.a*intensity*flick*bright*(0.5+cur.weight));
+      ctx.fillStyle=`rgb(${p.col.r},${p.col.g},${p.col.b})`;
+      if(cur.style==='laminar'){ ctx.fillRect(p.x,p.y,p.s*6*Math.sign(cur.dx||1),p.s*0.7); }
+      else { ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,Math.PI*2); ctx.fill(); }
+    }
+    // THE PUNCH — commit gust
+    if(gust){ const t=(performance.now()-gust.t0)/gust.ms;
+      if(t>=1){ gust=null; }
+      else { const e=gustEnv(gust.shape,t)*gust.strength, cc=gust.col;
+        ctx.globalAlpha=e*0.5; ctx.fillStyle=`rgba(${cc.r},${cc.g},${cc.b},1)`; ctx.fillRect(0,0,W,H);
+        ctx.globalAlpha=e*gust.ring; ctx.lineWidth=(gust.shape==='cut')?1.5:2.5; ctx.strokeStyle=`rgba(${cc.r},${cc.g},${cc.b},1)`;
+        const R=t*Math.max(W,H)*(gust.shape==='click'?0.5:0.75);
+        ctx.beginPath(); ctx.arc(W/2,H*0.42,R,0,Math.PI*2); ctx.stroke();
+      }
+    }
+    ctx.globalAlpha=1; ctx.globalCompositeOperation='source-over';
+    cur.r=lerp(cur.r,tgt.r,CFG.moodLerp); cur.g=lerp(cur.g,tgt.g,CFG.moodLerp); cur.b=lerp(cur.b,tgt.b,CFG.moodLerp);
+    cur.dx=lerp(cur.dx,tgt.dx,CFG.moodLerp); cur.dy=lerp(cur.dy,tgt.dy,CFG.moodLerp);
+    cur.speed=lerp(cur.speed,tgt.speed,CFG.moodLerp); cur.weight=lerp(cur.weight,tgt.weight,CFG.moodLerp);
+    cur.unglue=tgt.unglue; cur.stat=tgt.stat; cur.gravity=tgt.gravity; cur.brightness=tgt.brightness; cur.restless=tgt.restless; cur.style=tgt.style; cur.cols=tgt.cols;
+  }
+  function loop(ts){ if(!running) return; if(ts-last>=1000/CFG.fps){ last=ts; try{ step(); }catch(e){} } raf=requestAnimationFrame(loop); }
+  function start(){ if(running) return; running=true; last=0; raf=requestAnimationFrame(loop); }
+  function stop(){ running=false; if(raf) cancelAnimationFrame(raf); }
+
+  rs(); initParts(); cv.style.opacity=CFG.ceil;
+  window.addEventListener('resize', rs);
+  document.addEventListener('visibilitychange', ()=>{ document.hidden?stop():start(); });
+  if(reduce){ const bt=baseTint(); ctx.fillStyle=`rgb(${bt.r|0},${bt.g|0},${bt.b|0})`; ctx.fillRect(0,0,W,H);
+    for(let i=0;i<40;i++){ const p=spawn({}); ctx.globalAlpha=0.22; ctx.fillStyle=`rgb(${p.col.r},${p.col.g},${p.col.b})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,Math.PI*2); ctx.fill(); } ctx.globalAlpha=1; }
+  else { start(); }
+
+  function setPreset(name, opts){ opts=opts||{}; if(!PRESETS[name]) return;
+    if(name!==curName || opts.dir){ curName=name; tgt=resolve(name, opts.dir); }
+    if(opts.intensity!=null) intensity=Math.max(0.2, Math.min(1.4, opts.intensity)); }
+
+  return {
+    // climate. name ∈ 'held breath'|'lane locked'|'feels wrong'|'ash fall'|'thin air'
+    set(name, opts){ setPreset(name, opts); },
+    // THE PUNCH. type ∈ first|reaffirm|revise · colorHex = the call color
+    commit(type, colorHex){ if(reduce) return; const g=GUST[type]||GUST.first; let cc=hx(colorHex||'#00e5a0');
+      if(g.cold>0){ const cold=hx('#4f9eff'); cc={ r:lerp(cc.r,cold.r,g.cold)|0, g:lerp(cc.g,cold.g,g.cold)|0, b:lerp(cc.b,cold.b,g.cold)|0 }; }
+      gust={ t0:performance.now(), ms:g.ms, shape:g.shape, strength:g.flash, ring:g.ring, col:cc };
+      lean={ t0:performance.now(), amt:g.lean, col:cc }; },   // underlay leans toward the call, then regime reclaims
+    // forecast horizon glow. dir ∈ up|down|flat · conviction 0..1
+    forecast(dir, conviction){ if(!glow) return; const c=Math.max(0,Math.min(1,conviction||0));
+      const col=dir==='up'?'0,229,160':dir==='down'?'255,77,106':'148,163,184';
+      glow.style.background=`radial-gradient(120% 90% at 100% 50%, rgba(${col},${(0.06+0.12*c).toFixed(3)}), transparent 70%)`;
+      glow.style.opacity=String(0.5+0.5*c); },
+    // tuning helper: force a preset live (ignores data) so Jordan can judge each mood.
+    // ATMO.preview('feels wrong') · ATMO.preview(null) to release back to data.
+    preview(name){ if(name===null){ _previewLock=false; return; } if(PRESETS[name]){ _previewLock=true; setPreset(name,{intensity:1}); } },
+    _presets: PRESETS, _gust: GUST,
+  };
+})();
+let _previewLock = false;
+
+// ── wire the atmosphere to live data (regime → climate, stamp → the punch) ────
+let _atmoLastStamp = null, _atmoLastDir = null;
+function atmoPresetFromData(cc, blowoff, euphoria, phaseName) {
+  // returns [presetName, intensity, dir]. Jordan's names.
+  try {
+    const comp = (blowoff && blowoff.composite) || {};
+    const alert = String(comp.alert || '').toLowerCase();
+    const peaked = !!(euphoria && euphoria.euphoria_hit && !euphoria.reset);
+    const pos = phaseName ? PHASE_ORDER.indexOf(phaseName) : -1;   // 0 Anger … 12 Euphoria
+    if (alert.includes('imminent') || (peaked && pos >= 11)) return ['thin air', 1.15, null];
+    if (alert.includes('forming') || alert.includes('building')) return ['feels wrong', 1.0, null];
+    const struct = cc && cc.live_call && String(cc.live_call.structure || '');
+    if (struct && struct.includes('fractur')) return ['feels wrong', 0.9, null];
+    if (pos >= 0 && pos <= 3)  return ['ash fall', 0.95, null];    // Anger→Panic
+    if (pos >= 11)             return ['thin air', 1.05, null];    // Thrill / Euphoria
+    const lc = cc && cc.live_call;
+    const dir = (lc && !lc.carried) ? String(lc.direction || '').toLowerCase() : '';
+    if (dir.startsWith('up'))   return ['lane locked', 0.9, 'up'];
+    if (dir.startsWith('down')) return ['lane locked', 0.9, 'down'];
+    return ['held breath', 0.8, null];
+  } catch (e) { return ['held breath', 0.8, null]; }
+}
+async function atmoSync() {
+  try {
+    const j = (u) => fetch(u + '?t=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
+    const [ccR, boR, euR, ecR] = await Promise.allSettled([
+      j('data/call_cycle.json'), j('data/blowoff_tracker.json'),
+      j('data/euphoria_state.json'), j('data/editorial_calls.json'),
+    ]);
+    const cc = ccR.value, bo = boR.value, eu = euR.value, ec = ecR.value;
+    const phaseName = ec && ec.calls && ec.calls.phase ? (ec.calls.phase.value || ec.calls.phase) : null;
+
+    if (!_previewLock) { const [name, inten, dir] = atmoPresetFromData(cc, bo, eu, phaseName); ATMO.set(name, { intensity: inten, dir }); }
+
+    // THE PUNCH — fires when the live call's stamp changes (fresh stamp / re-stamp)
+    const lc = cc && cc.live_call;
+    if (lc && lc.stamped_at && !lc.carried) {
+      if (_atmoLastStamp && lc.stamped_at !== _atmoLastStamp) {
+        const dir = String(lc.direction || '').toLowerCase();
+        const color = dir.startsWith('up') ? '#00e5a0' : dir.startsWith('down') ? '#ff4d6a' : '#94a3b8';
+        const type = cc.revision_used ? (dir === (_atmoLastDir || '') ? 'reaffirm' : 'revise') : 'first';
+        ATMO.commit(type, color);
+      }
+      _atmoLastStamp = lc.stamped_at; _atmoLastDir = String(lc.direction || '').toLowerCase();
+    }
+
+    // forecast horizon glow — cycle leg is the honest proxy for the 4–12w projection
+    const pos = phaseName ? PHASE_ORDER.indexOf(phaseName) : -1;
+    const comp = (bo && bo.composite && bo.composite.composite) || 0;
+    if (pos >= 0) {
+      const dir = (pos >= 11 || (eu && eu.euphoria_hit && !eu.reset)) ? 'down' : 'up';
+      ATMO.forecast(dir, Math.max(0.25, Math.min(1, Number(comp) / 100)));
+    }
+  } catch (e) {}
+}
+
 init();
 loadAll();
+atmoSync();
+setInterval(atmoSync, 60000);          // re-read the climate every minute
 setInterval(init, 60000);              // refresh prices every minute
 setInterval(fetchMarkers, 300000);     // markers every 5 min
 setInterval(fetchMacro, 120000);       // macro every 2 min
