@@ -1,45 +1,25 @@
 {
-  "_updated": "2026-08-04T02:21:16.712059-04:00",
+  "_updated": "2026-08-05T03:32:39.107494-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-03T19:07:41.510638-04:00",
+      "made_at": "2026-08-05T03:32:39.121799-04:00",
       "score_at_call": 40,
       "phase_at_call": "Panic",
-      "predicted_phase": "Capitulation",
-      "direction": "DOWN",
+      "predicted_phase": "Denial",
+      "direction": "UP",
       "conviction": "medium",
-      "reasoning": "The coil statistically resolves in place 97% of the time at this 12h window, and while the next phase on the ladder is Disbelief if the score drifts up, there is no confirmed breaker signal yet to justify a directional call.",
-      "confirmed_if": "ETF flows reclaim 30+ and stablecoin growth turns positive with BTC 30d momentum holding above 45, pushing score into the 55-62 Disbelief band",
-      "invalidated_if": "ETF flows stay below 10 AND VIX breaks above 75 with BTC 30d momentum rolling under 40, which would push down to Anxiety or Panic",
+      "reasoning": "The coil is statistically dominant (3% breakout rate over 7 days) and the structural tension between macro safe-haven tailwinds and crypto-native liquidity drains has no visible breaker, making HOLD the skilled, graded call that wins when the score holds.",
+      "confirmed_if": "ETF flows recover above 30 AND stablecoin growth turns positive AND BTC holds $62k+ \u2014 would signal Denial \u2192 Disbelief transition with genuine risk-on liquidity returning",
+      "invalidated_if": "BTC breaks below $60k with funding turning negative AND VIX pushes above 20 \u2014 would force Denial \u2192 Panic down-move as macro fear overwhelms the tape",
       "signals_at_call": {
-        "fear_greed": 28,
-        "btc_funding": 0.0025,
-        "mvrv_zscore": 0.3469,
-        "net_liquidity_chg_4w": -16912.0,
+        "fear_greed": 27,
+        "btc_funding": 0.0017,
+        "mvrv_zscore": 0.3714,
+        "net_liquidity_chg_4w": -16911.0,
         "btc_dom": null,
         "etf_net_total_musd": -265.37,
-        "vix": 15.86
-      }
-    },
-    {
-      "made_at": "2026-08-03T23:15:31.502918-04:00",
-      "score_at_call": 40,
-      "phase_at_call": "Panic",
-      "predicted_phase": "Panic",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "No directional breaker has appeared \u2014 ETF flows remain at zero, stablecoins are contracting, and funding is flat at 0.0025% \u2014 making HOLD the statistically honest call in a 3% breakout base-rate coil.",
-      "confirmed_if": "ETF flows turn positive + stablecoin growth crosses 50 + BTC funding rises above 0.005% with price holding $62K+",
-      "invalidated_if": "BTC breaks below $59K with funding flipping negative + VIX spikes above 20 + stablecoin growth drops below 30",
-      "signals_at_call": {
-        "fear_greed": 25,
-        "btc_funding": 0.0025,
-        "mvrv_zscore": 0.3469,
-        "net_liquidity_chg_4w": -16912.0,
-        "btc_dom": null,
-        "etf_net_total_musd": -265.37,
-        "vix": 15.86
+        "vix": 16.15
       }
     }
   ],
@@ -2073,32 +2053,90 @@
       "transition_predicted": true,
       "transition_hit": false,
       "autopsy": "no single signal stands out \u2014 predicted UP, got HOLD. Regime shift or noise; watch if it repeats."
+    },
+    {
+      "made_at": "2026-08-03T19:07:41.510638-04:00",
+      "score_at_call": 40,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Capitulation",
+      "direction": "DOWN",
+      "conviction": "medium",
+      "reasoning": "The coil statistically resolves in place 97% of the time at this 12h window, and while the next phase on the ladder is Disbelief if the score drifts up, there is no confirmed breaker signal yet to justify a directional call.",
+      "confirmed_if": "ETF flows reclaim 30+ and stablecoin growth turns positive with BTC 30d momentum holding above 45, pushing score into the 55-62 Disbelief band",
+      "invalidated_if": "ETF flows stay below 10 AND VIX breaks above 75 with BTC 30d momentum rolling under 40, which would push down to Anxiety or Panic",
+      "signals_at_call": {
+        "fear_greed": 28,
+        "btc_funding": 0.0025,
+        "mvrv_zscore": 0.3469,
+        "net_liquidity_chg_4w": -16912.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -265.37,
+        "vix": 15.86
+      },
+      "graded_at": "2026-08-05T03:32:39.107494-04:00",
+      "score_at_grade": 40,
+      "score_delta": 0,
+      "realized_dir": "HOLD",
+      "realized_phase": "Anxiety",
+      "direction_hit": false,
+      "transition_predicted": true,
+      "transition_hit": false,
+      "autopsy": "no single signal stands out \u2014 predicted DOWN, got HOLD. Regime shift or noise; watch if it repeats."
+    },
+    {
+      "made_at": "2026-08-03T23:15:31.502918-04:00",
+      "score_at_call": 40,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Panic",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "No directional breaker has appeared \u2014 ETF flows remain at zero, stablecoins are contracting, and funding is flat at 0.0025% \u2014 making HOLD the statistically honest call in a 3% breakout base-rate coil.",
+      "confirmed_if": "ETF flows turn positive + stablecoin growth crosses 50 + BTC funding rises above 0.005% with price holding $62K+",
+      "invalidated_if": "BTC breaks below $59K with funding flipping negative + VIX spikes above 20 + stablecoin growth drops below 30",
+      "signals_at_call": {
+        "fear_greed": 25,
+        "btc_funding": 0.0025,
+        "mvrv_zscore": 0.3469,
+        "net_liquidity_chg_4w": -16912.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -265.37,
+        "vix": 15.86
+      },
+      "graded_at": "2026-08-05T03:32:39.107494-04:00",
+      "void": true,
+      "void_reason": "no score coverage in window (1 intraday rows) \u2014 flow was down/stalled; ungradable, excluded from tally",
+      "realized_dir": null,
+      "direction_hit": null,
+      "transition_predicted": false,
+      "transition_hit": null,
+      "score_delta": null,
+      "autopsy": ""
     }
   ],
   "tally": {
     "direction": {
       "hit": 13,
-      "total": 70
+      "total": 71
     },
     "transition": {
       "hit": 4,
-      "total": 57
+      "total": 58
     }
   },
-  "direction_hit_rate_pct": 18.6,
-  "direction_record": "13/70",
-  "transition_hit_rate_pct": 7.0,
-  "transition_record": "4/57",
-  "direction_hit_rate_7d_pct": 20.7,
-  "direction_record_7d": "6/29",
-  "transition_hit_rate_7d_pct": 4.3,
-  "transition_record_7d": "1/23",
+  "direction_hit_rate_pct": 18.3,
+  "direction_record": "13/71",
+  "transition_hit_rate_pct": 6.9,
+  "transition_record": "4/58",
+  "direction_hit_rate_7d_pct": 16.0,
+  "direction_record_7d": "4/25",
+  "transition_hit_rate_7d_pct": 0.0,
+  "transition_record_7d": "0/21",
   "splits_7d": {
-    "hold_record": "6/6",
-    "move_record": "0/23",
+    "hold_record": "4/4",
+    "move_record": "0/21",
     "when_they_said_move_it_moved_pct": 0.0,
     "mover_windows_7d": 0,
-    "windows_7d": 29,
-    "regime_note": "score actually moved in 0 of 29 graded windows this week \u2014 a coil; HOLD is the honest default and a directional call is a breaker claim"
+    "windows_7d": 25,
+    "regime_note": "score actually moved in 0 of 25 graded windows this week \u2014 a coil; HOLD is the honest default and a directional call is a breaker claim"
   }
 }
