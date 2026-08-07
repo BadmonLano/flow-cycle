@@ -1,31 +1,7 @@
 {
-  "updated_at": "2026-08-05T03:50:02.630776-04:00",
+  "updated_at": "2026-08-07T03:28:45.108204-04:00",
   "doctrine": "Suspected invariants we don't have data sources for yet. Each one is a possible blind spot in the discovery engine. REALITY-CHECKED each sweep against live data \u2014 a factor that IS being fetched/computed will not be listed here, so this list can't go stale and send you chasing data you already have.",
   "unknown_factors": [
-    {
-      "name": "long_short_ratio",
-      "description": "Aggregate Binance + Bybit long/short ratio. Hypothesis: extreme long bias is the #1 retail FOMO signal at tops.",
-      "data_source_needed": "Coinglass API",
-      "priority": "HIGH"
-    },
-    {
-      "name": "cvd_btc",
-      "description": "Cumulative Volume Delta on BTC. Buyers vs sellers in actual control.",
-      "data_source_needed": "Exchange APIs (Binance/Coinbase) trade-tape aggregation",
-      "priority": "HIGH"
-    },
-    {
-      "name": "exchange_reserves",
-      "description": "BTC exchange reserves. Distribution = top signal, accumulation = bottom signal.",
-      "data_source_needed": "CryptoQuant free tier or DeFiLlama",
-      "priority": "MEDIUM"
-    },
-    {
-      "name": "options_skew",
-      "description": "BTC options put/call skew. Institutional hedging behavior. NOTE: no free US-legal source \u2014 Deribit (primary skew venue) is US-banned, Glassnode options is Professional-tier only. Known blind spot until a paid US-legal source is added.",
-      "data_source_needed": "Paid US-legal options data (Amberdata/Laevitas) \u2014 none free",
-      "priority": "LOW"
-    },
     {
       "name": "kalshi_poly_implied_probs",
       "description": "Implied probabilities for major macro events from Kalshi + Polymarket. Crowd wisdom.",
@@ -33,10 +9,15 @@
       "priority": "LOW"
     }
   ],
-  "count": 5,
+  "count": 1,
   "resolved_now_live": [
+    "retail_noise",
+    "long_short_ratio",
+    "cvd_btc",
+    "exchange_reserves",
+    "options_skew",
     "realized_vol_7d_30d",
     "copper_gold_ratio"
   ],
-  "_note": "2 previously-listed gap(s) are now LIVE and filtered out: realized_vol_7d_30d, copper_gold_ratio"
+  "_note": "7 previously-listed gap(s) are now LIVE and filtered out: retail_noise, long_short_ratio, cvd_btc, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio"
 }
