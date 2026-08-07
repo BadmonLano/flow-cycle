@@ -1789,6 +1789,31 @@
       <div class="macro-row"><span class="label">BTC Funding</span><span class="value" id="funding">--</span></div>
       <div class="macro-row"><span class="label">ETH Funding</span><span class="value" id="ethFunding">--</span></div>
       <div class="macro-row"><span class="label">BTC OI</span><span class="value" id="btcOI">--</span></div>
+      <!-- 2026-08-07: long/short ACCOUNT ratio (OKX, free). The percentile is the
+           signal, not the raw ratio - 2.89 on SOL and 1.30 on BTC are not
+           comparable numbers until you read each against its own 30d range. -->
+      <div class="macro-row"><span class="label">BTC L/S</span><span class="value" id="lsBtc">--</span></div>
+      <div class="macro-row"><span class="label">ETH L/S</span><span class="value" id="lsEth">--</span></div>
+      <div class="macro-row"><span class="label">SOL L/S</span><span class="value" id="lsSol">--</span></div>
+      <div class="macro-row" style="border:none;padding-top:2px">
+        <span class="label" style="font-size:0.68em;color:var(--muted);font-style:italic;line-height:1.35">
+          ratio + percentile of its own 30d range. OKX accounts only, not size-weighted.
+        </span>
+      </div>
+      <!-- 2026-08-07: the closed data-gap factors. Each shows its RAW value plus
+           its percentile against its own 30d range, because none of these are
+           readable as bare numbers. -->
+      <div class="macro-row"><span class="label">BTC CVD 24h</span><span class="value" id="cvdBtc">--</span></div>
+      <div class="macro-row"><span class="label">Options Skew</span><span class="value" id="optSkew">--</span></div>
+      <div class="macro-row"><span class="label">DVOL</span><span class="value" id="dvolBtc">--</span></div>
+      <div class="macro-row"><span class="label">BTC on Exchanges</span><span class="value" id="btcReserves">--</span></div>
+      <div class="macro-row" style="border:none;padding-top:2px">
+        <span class="label" style="font-size:0.68em;color:var(--muted);font-style:italic;line-height:1.35">
+          CVD = OKX spot taker buy minus sell. Skew = OTM put IV minus call IV
+          (moneyness proxy, not 25-delta). Reserves = BTC coin count across the
+          top CEXs, with its 7d change.
+        </span>
+      </div>
       <div class="macro-row"><span class="label">Stablecoin Supply</span><span class="value" id="stableSupply">--</span></div>
       <div class="macro-row"><span class="label">Stablecoin 7d</span><span class="value" id="stableChg">--</span></div>
       <div class="macro-row"><span class="label">Active Addr 24h</span><span class="value" id="activeAddr">--</span></div>
@@ -2916,6 +2941,91 @@ async function fetchMacro() {
       el.className = 'value ' + (v >= 0 ? 'up' : 'down');
     }
     if (data.active_addresses_24h != null) document.getElementById('activeAddr').textContent = fmtPlain(data.active_addresses_24h, 0);
+
+    // Long/short account ratio, per asset. Colour comes from the PERCENTILE, not
+    // the ratio: >=90th = crowded long (top risk), <=10th = crowded short. A raw
+    // threshold would paint SOL red permanently and BTC never, since their
+    // baselines differ by more than their moves do.
+    (function renderLongShort() {
+      const ls = data.long_short_by_asset;
+      const map = { BTC: 'lsBtc', ETH: 'lsEth', SOL: 'lsSol' };
+      Object.keys(map).forEach(function (k) {
+        const el = document.getElementById(map[k]);
+        if (!el) return;
+        const a = ls && ls[k];
+        if (!a || a.ratio == null) {
+          // Absent means unmeasured. Never show a neutral-looking number here.
+          el.textContent = '--';
+          el.className = 'value';
+          el.title = 'no long/short data this sweep';
+          return;
+        }
+        const pct = a.pct_30d;
+        el.textContent = a.ratio.toFixed(2) + '  ·  ' + Math.round(pct) + 'th';
+        el.className = 'value ' + (pct >= 90 ? 'down' : pct <= 10 ? 'up' : '');
+        el.title = (a.read || '') +
+                   '  |  30d range ' + a.min_30d + '-' + a.max_30d +
+                   '  |  24h ' + (a.chg_24h >= 0 ? '+' : '') + a.chg_24h +
+                   '  |  7d ' + (a.chg_7d >= 0 ? '+' : '') + a.chg_7d +
+                   '  |  ' + a.samples + ' hourly samples (OKX accounts)';
+      });
+    })();
+
+    // 2026-08-07 data-gap factors. Colour comes from the PERCENTILE where one
+    // exists, never the raw value - a bare CVD or skew number has no scale, and
+    // painting it would be inventing a threshold none of these have.
+    (function renderGapFactors() {
+      const setv = (id, txt, cls, tip) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = txt;
+        el.className = 'value' + (cls ? ' ' + cls : '');
+        if (tip) el.title = tip;
+      };
+
+      // CVD: buyers vs sellers in actual control.
+      if (data.cvd_btc_24h != null && data.cvd_btc_pct_30d != null) {
+        const p = data.cvd_btc_pct_30d;
+        setv('cvdBtc',
+          (data.cvd_btc_24h >= 0 ? '+' : '') + Math.round(data.cvd_btc_24h) + ' BTC  ·  ' + Math.round(p) + 'th',
+          p >= 90 ? 'up' : p <= 10 ? 'down' : '',
+          data.cvd_btc_read || '');
+      }
+
+      // Skew: positive = downside bid = fear, so RED on high.
+      if (data.options_skew != null) {
+        const sk = data.options_skew;
+        setv('optSkew',
+          (sk >= 0 ? '+' : '') + sk.toFixed(1) + ' vol pts',
+          sk >= 5 ? 'down' : sk <= -5 ? 'up' : '',
+          (data.options_skew_read || '') +
+            (data.options_skew_expiry ? '  |  expiry ' + data.options_skew_expiry : '') +
+            (data.options_skew_put_strike ? '  |  put ' + data.options_skew_put_strike +
+             ' vs call ' + data.options_skew_call_strike : ''));
+      }
+
+      if (data.dvol_btc != null) {
+        const p = data.dvol_btc_pct_30d;
+        setv('dvolBtc',
+          data.dvol_btc.toFixed(1) + (p != null ? '  ·  ' + Math.round(p) + 'th' : ''),
+          '', p != null ? 'implied vol, ' + Math.round(p) + 'th percentile of its own 30 days' : '');
+      }
+
+      // Reserves: coins ARRIVING is distribution (bearish) -> red on a rise.
+      if (data.btc_exchange_reserves != null) {
+        const d7 = data.btc_exchange_reserves_chg_7d;
+        setv('btcReserves',
+          Math.round(data.btc_exchange_reserves).toLocaleString() +
+            (d7 != null ? '  ·  ' + (d7 >= 0 ? '+' : '') + Math.round(d7) + ' 7d' : ''),
+          d7 == null ? '' : d7 > 0 ? 'down' : d7 < 0 ? 'up' : '',
+          (data.btc_exchange_reserves_read || '') +
+            (data.exchange_netflow_24h_usd != null
+              ? '  |  all-asset USD flow 24h: ' +
+                (data.exchange_netflow_24h_usd >= 0 ? '+' : '') +
+                Math.round(data.exchange_netflow_24h_usd / 1e6) + 'M'
+              : ''));
+      }
+    })();
 
     // Brain reads — advisory (v3: 4 individual reads, Jordan decides)
     if (data.brain_consensus) {
