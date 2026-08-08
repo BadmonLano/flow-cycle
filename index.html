@@ -4,9 +4,11 @@
   index.html - Flow Cycle site
   WHAT'S NEW (2026-08-01 - Part E: server-time render + atmosphere):
     - SERVER-TIME RENDER: syncServerTime() anchors an offset from the HTTP Date
-      header; countdowns/stamps tick against next_boundary_iso (the slot boundary)
+      header; countdowns/stamps tick against next_boundary_iso (the call's own
+      window end — stamp+12h for a fresh call, the INHERITED remainder for a
+      revision; the 06/18 slot grid was retired 2026-08-07)
       via serverNow(), not the browser clock. Kills clock-skew drift AND the stale
-      fresh-12h assumption. All stamp-age readouts routed through serverNow().
+      browser-clock assumption. All stamp-age readouts routed through serverNow().
     - ATMOSPHERE (window.ATMO) - Jordan's design, top to bottom. Weather-as-pressure
       behind the solid cards (data always wins, opacity ceiling). Commit-gust is the
       one moment that punches: first = clean hard mark / reaffirm = banked lock-click /
@@ -1350,7 +1352,7 @@
       <div id="trackRecordHorseRace" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);"></div>
 
       <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
-        Each call owns ONE window: from the moment it's stamped to 12h later. It grades once against the real move, and then it's over — nothing re-grades a stance he didn't re-commit. Partial = half credit. A window that closes with no fresh call is logged as a no-call and counts toward coverage, never toward the rate: not calling is a choice, not a miss.
+        Each call owns ONE window: from the moment it's stamped to 12h later — the clock starts when he answers, not on a fixed grid. One revision per window: pulling that lever grades the live call instantly on however long it actually ran, and the revision then rides the REMAINDER of that same window before grading. The next stamp after that opens a clean 12h. It grades once against the real move, and then it's over — nothing re-grades a stance he didn't re-commit. Partial = half credit. A window that closes with no fresh call is logged as a no-call and counts toward coverage, never toward the rate: not calling is a choice, not a miss.
       </div>
 
     <!-- BRAIN FORWARD CALLS (the brains' predictions, graded + autopsied) -->
@@ -2266,7 +2268,11 @@ async function renderForwardCard(nextMove, phaseCall) {
   // elements, one authority, and a fresh stamp renders the instant it exists.
   if (!live || live.carried === true) {
     const slotTxt = (cd && cd.slot_id) ? ` · slot ${cd.slot_id}` : '';
-    const endTxt = (cd && cd.hours_left != null) ? ` · slot ends in ${cd.hours_left}h` : '';
+    // 2026-08-07: "slot" language retired. Windows are stamp-anchored now
+    // (stamp -> stamp+12h), not a 06/18 calendar grid, so this is the CALL's own
+    // window. A revision inherits the remainder of the window it revised, which
+    // is why the hours can read less than 12 without anything being wrong.
+    const endTxt = (cd && cd.hours_left != null) ? ` · window ends in ${cd.hours_left}h` : '';
     if (arrowEl) { arrowEl.textContent = '…'; arrowEl.style.color = 'var(--muted)'; }
     if (phaseEl) { phaseEl.textContent = 'Awaiting Jordan'; phaseEl.style.color = 'var(--muted)'; }
     if (adviceEl) adviceEl.textContent = (live && live.carried)
@@ -4271,7 +4277,7 @@ async function fetchTrackRecord() {
           const madeSrc = live ? (live.stamped_at || live.window_start_iso) : null;
           const madeAt = madeSrc ? new Date(madeSrc).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
           const slotTxt = (ccCd && ccCd.slot_id) ? ` · slot ${ccCd.slot_id}` : '';
-          const slotEndTxt = (ccCd && ccCd.hours_left != null) ? ` · slot ends in ${ccCd.hours_left}h` : '';
+          const slotEndTxt = (ccCd && ccCd.hours_left != null) ? ` · window ends in ${ccCd.hours_left}h` : '';
           if (live && live.direction && !isCarried) {
             // FRESH STAMP — the only state that is genuinely LIVE.
             // Sprint 66: LIVE-ticking countdown from window_start + 12h, not the frozen
@@ -4285,7 +4291,7 @@ async function fetchTrackRecord() {
                 <span style="color:#4f9eff; font-weight:700; min-width:18px; text-align:center;" title="grading in progress">⏱</span>
               </div>
               <div style="font-size:0.68em; color:var(--muted); padding:0 8px 6px; ">
-                Pending — grades when the 12h window closes${revUsed ? '' : ', or instantly if he revises (1 edit left)'}. ${revUsed ? 'Revision used.' : ''}
+                Pending — grades when this window closes${revUsed ? '' : ', or instantly if he revises (1 edit left)'}. ${revUsed ? 'Revision used — this call rides the remainder of the window it revised, then grades.' : ''}
               </div>`;
           } else if (live && live.direction && isCarried) {
             // CARRIED — a stance held past its decision window. Shadow-graded,
@@ -4308,7 +4314,7 @@ async function fetchTrackRecord() {
               <div style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(160,174,192,0.2); font-size:0.8em; background:rgba(160,174,192,0.05); border-radius:6px; padding-left:8px; margin-bottom:4px;">
                 <span style="color:var(--muted); min-width:48px; font-weight:700;">AWAITING</span>
                 <span style="color:#cbd5e0; flex:1;">No committed call yet <span style="color:var(--muted);font-size:0.85em;">· awaiting Jordan's stamp</span></span>
-                <span style="color:var(--muted); min-width:90px; text-align:right; font-size:0.9em;">${(ccCd && ccCd.hours_left != null) ? ccCd.hours_left + 'h slot left' : '—'}</span>
+                <span style="color:var(--muted); min-width:90px; text-align:right; font-size:0.9em;">${(ccCd && ccCd.hours_left != null) ? ccCd.hours_left + 'h left' : '—'}</span>
                 <span style="color:var(--muted); font-weight:700; min-width:18px; text-align:center;" title="no call stamped for this slot">…</span>
               </div>
               <div style="font-size:0.68em; color:var(--muted); padding:0 8px 6px; ">
