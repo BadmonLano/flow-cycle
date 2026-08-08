@@ -2267,7 +2267,10 @@ async function renderForwardCard(nextMove, phaseCall) {
   // used invented element names (dirEl → ReferenceError → dead card). Real
   // elements, one authority, and a fresh stamp renders the instant it exists.
   if (!live || live.carried === true) {
-    const slotTxt = (cd && cd.slot_id) ? ` · slot ${cd.slot_id}` : '';
+    // slot_id is now only a CALENDAR TAG for where the stamp fell - it does not
+    // bound the window any more (stamp-anchored since 2026-08-07). Labelling it
+    // "slot" next to a countdown that runs past the slot end read as a contradiction.
+    const slotTxt = (cd && cd.slot_id) ? ` · stamped in ${cd.slot_id}` : '';
     // 2026-08-07: "slot" language retired. Windows are stamp-anchored now
     // (stamp -> stamp+12h), not a 06/18 calendar grid, so this is the CALL's own
     // window. A revision inherits the remainder of the window it revised, which
@@ -2285,7 +2288,7 @@ async function renderForwardCard(nextMove, phaseCall) {
     arrowEl.style.color = col;
     phaseEl.textContent = word;
     phaseEl.style.color = col;
-    // 2026-08-01 server-time render: tick against the SLOT BOUNDARY (next_boundary_iso,
+    // 2026-08-01 server-time render: tick against the WINDOW END (next_boundary_iso,
     // server-computed) anchored to serverNow() — never the browser-clock stamp+12h, which
     // both drifted under clock skew AND assumed a fresh 12h the slot model doesn't give.
     let liveHrsLeft = null, elapsedPct = 0;
@@ -2302,7 +2305,7 @@ async function renderForwardCard(nextMove, phaseCall) {
     }
     const leftTxt = (liveHrsLeft != null)
       ? (liveHrsLeft <= 0 ? 'grading now'
-         : `${Math.floor(liveHrsLeft)}h ${Math.floor((liveHrsLeft % 1) * 60)}m left in this grading window (to the slot boundary)`)
+         : `${Math.floor(liveHrsLeft)}h ${Math.floor((liveHrsLeft % 1) * 60)}m left in this grading window${live && live.is_revision ? ' (remainder of the revised window)' : ''}`)
       : '';
     // 2026-07-22 (Lano's ruling): show WHEN he last stamped/updated this call —
     // staleness of the committed move is a first-class fact on the card.
@@ -2310,7 +2313,7 @@ async function renderForwardCard(nextMove, phaseCall) {
     if (cd && cd.stamped_ago_min != null) {
       const m = cd.stamped_ago_min;
       stampedTxt = m < 60 ? `stamped ${m}m ago` : `stamped ${(m/60).toFixed(1)}h ago`;
-      if (cd.slot_id) stampedTxt += ` · slot ${cd.slot_id}`;
+      if (cd.slot_id) stampedTxt += ` · stamped in ${cd.slot_id}`;
     }
     adviceEl.textContent = (live.reasoning || 'His forward call for the next window — front-running the move.')
       + (stampedTxt ? `  ·  ${stampedTxt}` : '')
@@ -4276,7 +4279,7 @@ async function fetchTrackRecord() {
           const isCarried = !!(live && live.carried);
           const madeSrc = live ? (live.stamped_at || live.window_start_iso) : null;
           const madeAt = madeSrc ? new Date(madeSrc).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
-          const slotTxt = (ccCd && ccCd.slot_id) ? ` · slot ${ccCd.slot_id}` : '';
+          const slotTxt = (ccCd && ccCd.slot_id) ? ` · stamped in ${ccCd.slot_id}` : '';
           const slotEndTxt = (ccCd && ccCd.hours_left != null) ? ` · window ends in ${ccCd.hours_left}h` : '';
           if (live && live.direction && !isCarried) {
             // FRESH STAMP — the only state that is genuinely LIVE.
