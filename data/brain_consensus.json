@@ -2,10 +2,8 @@
   "oracle": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "dxy_weakness",
       "gold_strength",
-      "etf_flows",
-      "vix"
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -15,27 +13,25 @@
     "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "LONG",
-    "confidence": 0.55,
+    "confidence": 0.52,
     "next_move": {
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
-      "conviction": "low",
-      "reasoning": "Historical analog from Aug 2024 bottom shows Disbelief\u2192Hope transition with similar momentum/DXY/gold setup, but my 17.3% direction accuracy and 0% recent coil-break success demand humility; calling UP only because ETF flows at 100, gold at 92, and DXY weakness at 69 create a macro liquidity tailwind that typically resolves higher, yet the coil base rate says HOLD is smarter\u2014I'm naming the breaker as sustained ETF inflows pushing BTC momentum above 60 and funding staying benign below 0.01%.",
-      "confirmed_if": "BTC momentum 30d climbs above 60 with ETF flows remaining elevated and VIX staying above 12",
-      "invalidated_if": "BTC momentum 30d reverses below 50 OR funding spikes above 0.015% with long_short_pct_30d rising above 15, indicating leveraged longs piling into a coil that snaps down",
-      "predicted_phase_clamped_from": "Hope"
+      "conviction": "medium",
+      "reasoning": "Score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; the August 2024 analog showed Disbelief lasting weeks before Hope emerged, and current factor momentum (ETF flows at 100, gold strength 92, DXY weakness 69) supports sustained early-recovery skepticism rather than breakout conviction, while the -17 mvrv_zscore divergence and 0 fed_liquidity anchor prevent upward phase transition.",
+      "confirmed_if": "etf_flows sustain above 90 AND btc_momentum_30d pushes above 60 with funding staying moderate (below 60), allowing score to drift into Hope 63-70 band",
+      "invalidated_if": "vix spikes above 80 OR btc_exchange_reserves_pct_30d drops sharply below 70 with funding spiking above 70, indicating distribution and forced selling that would push score down into Anxiety/Complacency",
+      "predicted_phase_clamped_from": "Disbelief"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\", \"etf_flows\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Historical analog from Aug 2024 bottom shows Disbelief\u2192Hope transitio",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"gold_strength\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "classifier": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "dxy_weakness",
       "gold_strength",
-      "etf_flows",
-      "vix"
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -45,27 +41,25 @@
     "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "LONG",
-    "confidence": 0.55,
+    "confidence": 0.52,
     "next_move": {
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
-      "conviction": "low",
-      "reasoning": "Historical analog from Aug 2024 bottom shows Disbelief\u2192Hope transition with similar momentum/DXY/gold setup, but my 17.3% direction accuracy and 0% recent coil-break success demand humility; calling UP only because ETF flows at 100, gold at 92, and DXY weakness at 69 create a macro liquidity tailwind that typically resolves higher, yet the coil base rate says HOLD is smarter\u2014I'm naming the breaker as sustained ETF inflows pushing BTC momentum above 60 and funding staying benign below 0.01%.",
-      "confirmed_if": "BTC momentum 30d climbs above 60 with ETF flows remaining elevated and VIX staying above 12",
-      "invalidated_if": "BTC momentum 30d reverses below 50 OR funding spikes above 0.015% with long_short_pct_30d rising above 15, indicating leveraged longs piling into a coil that snaps down",
-      "predicted_phase_clamped_from": "Hope"
+      "conviction": "medium",
+      "reasoning": "Score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; the August 2024 analog showed Disbelief lasting weeks before Hope emerged, and current factor momentum (ETF flows at 100, gold strength 92, DXY weakness 69) supports sustained early-recovery skepticism rather than breakout conviction, while the -17 mvrv_zscore divergence and 0 fed_liquidity anchor prevent upward phase transition.",
+      "confirmed_if": "etf_flows sustain above 90 AND btc_momentum_30d pushes above 60 with funding staying moderate (below 60), allowing score to drift into Hope 63-70 band",
+      "invalidated_if": "vix spikes above 80 OR btc_exchange_reserves_pct_30d drops sharply below 70 with funding spiking above 70, indicating distribution and forced selling that would push score down into Anxiety/Complacency",
+      "predicted_phase_clamped_from": "Disbelief"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\", \"etf_flows\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Historical analog from Aug 2024 bottom shows Disbelief\u2192Hope transitio",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"gold_strength\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "analyst": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "dxy_weakness",
       "gold_strength",
-      "etf_flows",
-      "vix"
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -75,30 +69,30 @@
     "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "LONG",
-    "confidence": 0.55,
+    "confidence": 0.52,
     "next_move": {
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
-      "conviction": "low",
-      "reasoning": "Historical analog from Aug 2024 bottom shows Disbelief\u2192Hope transition with similar momentum/DXY/gold setup, but my 17.3% direction accuracy and 0% recent coil-break success demand humility; calling UP only because ETF flows at 100, gold at 92, and DXY weakness at 69 create a macro liquidity tailwind that typically resolves higher, yet the coil base rate says HOLD is smarter\u2014I'm naming the breaker as sustained ETF inflows pushing BTC momentum above 60 and funding staying benign below 0.01%.",
-      "confirmed_if": "BTC momentum 30d climbs above 60 with ETF flows remaining elevated and VIX staying above 12",
-      "invalidated_if": "BTC momentum 30d reverses below 50 OR funding spikes above 0.015% with long_short_pct_30d rising above 15, indicating leveraged longs piling into a coil that snaps down",
-      "predicted_phase_clamped_from": "Hope"
+      "conviction": "medium",
+      "reasoning": "Score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; the August 2024 analog showed Disbelief lasting weeks before Hope emerged, and current factor momentum (ETF flows at 100, gold strength 92, DXY weakness 69) supports sustained early-recovery skepticism rather than breakout conviction, while the -17 mvrv_zscore divergence and 0 fed_liquidity anchor prevent upward phase transition.",
+      "confirmed_if": "etf_flows sustain above 90 AND btc_momentum_30d pushes above 60 with funding staying moderate (below 60), allowing score to drift into Hope 63-70 band",
+      "invalidated_if": "vix spikes above 80 OR btc_exchange_reserves_pct_30d drops sharply below 70 with funding spiking above 70, indicating distribution and forced selling that would push score down into Anxiety/Complacency",
+      "predicted_phase_clamped_from": "Disbelief"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\", \"etf_flows\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Historical analog from Aug 2024 bottom shows Disbelief\u2192Hope transitio",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"gold_strength\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "narrative": {
-    "narrative": "Bitcoin's 30-day momentum is quietly rebuilding as dollar weakness and gold's persistent strength signal a macro tailwind that few are ready to trust. The current setup echoes August 2024's bottoming structure, when fear masked accumulation before a sharp reversal. With sentiment still trapped in the low 30s, the disbelief is the story\u2014and the crowd's hesitation is the tell.",
-    "headline": "Fear Hides What Gold Already Knows",
+    "narrative": "Bitcoin's resilience above $65,000 is being quietly fueled by a powerful undercurrent of gold's historic strength and a weakening dollar, yet the market remains trapped in denial, dismissing these bullish macro signals. This echoes the disbelief seen at the August 2024 bottom, where a similar convergence of gold strength and dollar weakness preceded a sharp rally that caught most participants off guard. The persistent fear, even as risk-on conditions solidify, suggests the foundation for the next leg higher is being laid in plain sight.",
+    "headline": "Golden Winds Fill Bitcoin's Sails Unnoticed",
     "confidence": 0.77,
     "next_move": {
-      "outlook": "The narrative arc points to a stealth recovery as macro winds shift, but the coil demands patience\u2014this is the quiet before the move, not the move itself.",
-      "direction": "HOLD",
+      "outlook": "The narrative arc points to a resolution higher as the macro tailwinds of gold strength and dollar weakness eventually overwhelm the prevailing denial, forcing a rapid sentiment shift.",
+      "direction": "UP",
       "conviction": "medium"
     },
-    "raw_response": "{\n  \"narrative\": \"Bitcoin's 30-day momentum is quietly rebuilding as dollar weakness and gold's persistent strength signal a macro tailwind that few are ready to trust. The current setup echoes August 2024's bottoming structure, when fear masked accumulation before a sharp reversal. With sentiment still trapped in the low 30s, the disbelief is the story\u2014and the crowd's hesitation is the tell.\",\n  \"headline\": \"Fear Hides What Gold Already Knows\",\n  \"confidence\": 0.77,\n  \"next_move\": {\n    \"outloo",
+    "raw_response": "{\n  \"narrative\": \"Bitcoin's resilience above $65,000 is being quietly fueled by a powerful undercurrent of gold's historic strength and a weakening dollar, yet the market remains trapped in denial, dismissing these bullish macro signals. This echoes the disbelief seen at the August 2024 bottom, where a similar convergence of gold strength and dollar weakness preceded a sharp rally that caught most participants off guard. The persistent fear, even as risk-on conditions solidify, suggests the foun",
     "brain": "narrative_writer"
   },
   "consensus": {
@@ -106,50 +100,50 @@
     "final_phase": "Denial",
     "alert_tier": "HIGH",
     "consensus_confidence": 0.62,
-    "key_reasoning": "Both brains align on a Denial-phase LONG with a strong 76.6% pattern match to the Aug 2024 accumulation bottom, supported by ETF flows, DXY weakness, and gold strength signaling macro tailwinds. However, the analyst's 0% recent coil-break success rate and 17.3% direction accuracy demand restraint from aggressive sizing until momentum confirms the breakout.",
+    "key_reasoning": "Both brains align on a bullish macro setup with gold strength and DXY weakness supporting risk-on conditions, while the 76.9% pattern match to the August 2024 accumulation bottom reinforces the LONG thesis. The analyst's HOLD forward call is overridden by the statistical reality that a coiled market with bullish factor momentum warrants maintaining the LONG signal rather than sitting out, though conviction is tempered by the -17 MVRV divergence and zero Fed liquidity anchor.",
     "disagreements_noted": [
-      "Analyst confidence 0.55 vs Narrative confidence 0.77 \u2014 narrative is more convicted in the bullish framing",
-      "Analyst explicitly flags 0% coil-break success and 17.3% direction accuracy as reasons for humility, while narrative leans fully into the bottoming analog without hedging",
-      "Analyst names specific confirmation thresholds (BTC momentum >60, funding <0.01%); narrative offers no invalidation condition"
+      "Analyst forward direction is HOLD while narrative implies continued upward pressure \u2014 split on whether to act now or wait for confirmation",
+      "Analyst places current phase at Denial (32-38 band) but forward-calls Disbelief (55-62) as predicted phase, which is 4 rungs away and violates the \u00b11 rung rule for next-phase calls",
+      "Analyst confidence 0.52 vs narrative confidence 0.77 \u2014 narrative is significantly more convicted in the bullish setup"
     ],
     "next_move": {
-      "predicted_phase": "Capitulation",
-      "direction": "DOWN",
+      "predicted_phase": "Denial",
+      "direction": "UP",
       "conviction": "medium",
-      "reasoning": "The macro tailwind case is real and the analog is strong, but the score has moved \u00b12+ points in 0 of 36 recent 12h windows \u2014 this is a coil where HOLD with conviction is the statistically honest call until BTC momentum breaks above 60 with sustained ETF inflows.",
-      "brains_agree": "Both brains agree on UP direction and Hope as the next phase, but the analyst hedges heavily on conviction while the narrative commits more fully to the bullish story.",
-      "confirmed_if": "BTC momentum 30d climbs above 60 with ETF flows remaining elevated and VIX staying above 12",
-      "invalidated_if": "BTC momentum 30d reverses below 50 OR funding spikes above 0.015% with long_short_pct_30d rising above 15, indicating leveraged longs piling into a coil that snaps down",
-      "predicted_phase_clamped_from": "Hope",
-      "confidence_pct": 41.0,
-      "confidence_basis": "2/3 brains agree on DOWN; conviction 0.5/1.0"
+      "reasoning": "With 0 of 35 recent 12h windows showing \u00b12+ point moves, this is a confirmed coil and the statistically honest call is HOLD \u2014 the bullish macro factors justify staying LONG but the score is not moving yet, so no directional phase transition is warranted.",
+      "brains_agree": "No \u2014 analyst says HOLD (correct for a coil) while narrative leans bullish continuation; consensus sides with the analyst's HOLD on direction but maintains the LONG position signal",
+      "confirmed_if": "ETF flows sustain above 90 AND btc_momentum_30d pushes above 60 with funding staying moderate (below 60), allowing score to drift up into Anxiety or Disbelief",
+      "invalidated_if": "VIX spikes above 80 OR btc_exchange_reserves_pct_30d drops sharply below 70 with funding spiking above 70, indicating distribution and forced selling",
+      "predicted_phase_clamped_from": "Anxiety",
+      "confidence_pct": 43.0,
+      "confidence_basis": "2/3 brains agree on UP; conviction 0.6/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.62,\n  \"key_reasoning\": \"Both brains align on a Denial-phase LONG with a strong 76.6% pattern match to the Aug 2024 accumulation bottom, supported by ETF flows, DXY weakness, and gold strength signaling macro tailwinds. However, the analyst's 0% recent coil-break success rate and 17.3% direction accuracy demand restraint from aggressive sizing until momentum confirms the breakout.\",\n",
+    "raw_response": "```json\n{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.62,\n  \"key_reasoning\": \"Both brains align on a bullish macro setup with gold strength and DXY weakness supporting risk-on conditions, while the 76.9% pattern match to the August 2024 accumulation bottom reinforces the LONG thesis. The analyst's HOLD forward call is overridden by the statistical reality that a coiled market with bullish factor momentum warrants maintaining the LONG s",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.66,
+    "brains_avg_confidence": 0.645,
     "brain_reads": {
       "analyst": {
         "signal": "LONG",
         "phase": "Denial",
         "verdict": "APPROACHING",
-        "confidence": 0.55,
+        "confidence": 0.52,
         "next_move": {
           "predicted_phase": "Capitulation",
           "direction": "DOWN",
-          "conviction": "low",
-          "reasoning": "Historical analog from Aug 2024 bottom shows Disbelief\u2192Hope transition with similar momentum/DXY/gold setup, but my 17.3% direction accuracy and 0% recent coil-break success demand humility; calling UP only because ETF flows at 100, gold at 92, and DXY weakness at 69 create a macro liquidity tailwind that typically resolves higher, yet the coil base rate says HOLD is smarter\u2014I'm naming the breaker as sustained ETF inflows pushing BTC momentum above 60 and funding staying benign below 0.01%.",
-          "confirmed_if": "BTC momentum 30d climbs above 60 with ETF flows remaining elevated and VIX staying above 12",
-          "invalidated_if": "BTC momentum 30d reverses below 50 OR funding spikes above 0.015% with long_short_pct_30d rising above 15, indicating leveraged longs piling into a coil that snaps down",
-          "predicted_phase_clamped_from": "Hope"
+          "conviction": "medium",
+          "reasoning": "Score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; the August 2024 analog showed Disbelief lasting weeks before Hope emerged, and current factor momentum (ETF flows at 100, gold strength 92, DXY weakness 69) supports sustained early-recovery skepticism rather than breakout conviction, while the -17 mvrv_zscore divergence and 0 fed_liquidity anchor prevent upward phase transition.",
+          "confirmed_if": "etf_flows sustain above 90 AND btc_momentum_30d pushes above 60 with funding staying moderate (below 60), allowing score to drift into Hope 63-70 band",
+          "invalidated_if": "vix spikes above 80 OR btc_exchange_reserves_pct_30d drops sharply below 70 with funding spiking above 70, indicating distribution and forced selling that would push score down into Anxiety/Complacency",
+          "predicted_phase_clamped_from": "Disbelief"
         }
       },
       "narrative": {
-        "headline": "Fear Hides What Gold Already Knows",
+        "headline": "Golden Winds Fill Bitcoin's Sails Unnoticed",
         "phase": "Denial",
         "confidence": 0.77,
         "next_move": {
-          "outlook": "The narrative arc points to a stealth recovery as macro winds shift, but the coil demands patience\u2014this is the quiet before the move, not the move itself.",
-          "direction": "HOLD",
+          "outlook": "The narrative arc points to a resolution higher as the macro tailwinds of gold strength and dollar weakness eventually overwhelm the prevailing denial, forcing a rapid sentiment shift.",
+          "direction": "UP",
           "conviction": "medium"
         }
       },
@@ -158,16 +152,16 @@
         "phase": "Denial",
         "confidence": 0.62,
         "next_move": {
-          "predicted_phase": "Capitulation",
-          "direction": "DOWN",
+          "predicted_phase": "Denial",
+          "direction": "UP",
           "conviction": "medium",
-          "reasoning": "The macro tailwind case is real and the analog is strong, but the score has moved \u00b12+ points in 0 of 36 recent 12h windows \u2014 this is a coil where HOLD with conviction is the statistically honest call until BTC momentum breaks above 60 with sustained ETF inflows.",
-          "brains_agree": "Both brains agree on UP direction and Hope as the next phase, but the analyst hedges heavily on conviction while the narrative commits more fully to the bullish story.",
-          "confirmed_if": "BTC momentum 30d climbs above 60 with ETF flows remaining elevated and VIX staying above 12",
-          "invalidated_if": "BTC momentum 30d reverses below 50 OR funding spikes above 0.015% with long_short_pct_30d rising above 15, indicating leveraged longs piling into a coil that snaps down",
-          "predicted_phase_clamped_from": "Hope",
-          "confidence_pct": 41.0,
-          "confidence_basis": "2/3 brains agree on DOWN; conviction 0.5/1.0"
+          "reasoning": "With 0 of 35 recent 12h windows showing \u00b12+ point moves, this is a confirmed coil and the statistically honest call is HOLD \u2014 the bullish macro factors justify staying LONG but the score is not moving yet, so no directional phase transition is warranted.",
+          "brains_agree": "No \u2014 analyst says HOLD (correct for a coil) while narrative leans bullish continuation; consensus sides with the analyst's HOLD on direction but maintains the LONG position signal",
+          "confirmed_if": "ETF flows sustain above 90 AND btc_momentum_30d pushes above 60 with funding staying moderate (below 60), allowing score to drift up into Anxiety or Disbelief",
+          "invalidated_if": "VIX spikes above 80 OR btc_exchange_reserves_pct_30d drops sharply below 70 with funding spiking above 70, indicating distribution and forced selling",
+          "predicted_phase_clamped_from": "Anxiety",
+          "confidence_pct": 43.0,
+          "confidence_basis": "2/3 brains agree on UP; conviction 0.6/1.0"
         }
       },
       "legacy": {
@@ -180,6 +174,6 @@
     },
     "advisory": true
   },
-  "timestamp": "2026-08-08T14:59:42.684270-04:00",
+  "timestamp": "2026-08-08T16:02:00.604713-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
