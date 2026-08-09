@@ -1,9 +1,9 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "dxy_weakness",
-      "btc_dom_fade",
-      "etf_flows"
+      "etf_flows",
+      "vix",
+      "gold_strength"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -18,20 +18,20 @@
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
       "conviction": "medium",
-      "reasoning": "The 76.6% match to bottom_2024_aug is structurally sound (DXY weakness, BTC dominance fade, ETF flows all confirming recovery-from-bottom dynamics) but the score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; my 16.9% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that forcing direction here is the exact error pattern that destroyed my record \u2014 the coil itself is the signal, and the specific breaker would be fed_liquidity (currently 0, dead) waking up or VIX spiking above 20 to break the compression.",
-      "confirmed_if": "fed_liquidity rises above 20 AND btc_momentum_30d pushes above 60 with funding staying below 60",
-      "invalidated_if": "VIX breaks 20 with dxy_weakness reversing below 60 AND btc_exchange_reserves_pct_30d dropping sharply (selling into exchange)",
+      "reasoning": "Score sits at ~55-62 band (Disbelief), and the 0% base rate for \u00b12+ point moves in 12h windows over 7 days screams coil; my 16.9% direction accuracy says I don't see breakers others miss. ETF flows (+45 vs bottom) and DXY weakness (+24) confirm recovery DNA, but MVRV_zscore -16 (lower now than at Aug bottom) and fed_liquidity at 0 anchor skepticism. Long/short_pct at 15 shows positioning is already lopsided short \u2014 no fuel for forced selling, but also no panic washout to mark a clean bottom. The pattern analog says 'early recovery nobody trusts' but the live score is already AT Disbelief, not below it. Hold with upward bias: need funding to cool (currently 53, +18 vs bottom) or MVRV to lift before trusting a leg to Hope.",
+      "confirmed_if": "MVRV_zscore rises above 30 with BTC holding $62k and funding dropping below 40",
+      "invalidated_if": "BTC breaks $58k with exchange_netflow spiking above 75 and VIX pushing past 80",
       "predicted_phase_clamped_from": "Disbelief"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"dxy_weakness\", \"btc_dom_fade\", \"etf_flows\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 76.6% match to bottom_2024_aug is structurally sound (DXY weakness, BTC dominance f",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"vix\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~55-62 band (Disbelief), and the 0% base rate for \u00b12+ point moves in 12h windows ",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "classifier": {
     "top_matching_factors": [
-      "dxy_weakness",
-      "btc_dom_fade",
-      "etf_flows"
+      "etf_flows",
+      "vix",
+      "gold_strength"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -46,20 +46,20 @@
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
       "conviction": "medium",
-      "reasoning": "The 76.6% match to bottom_2024_aug is structurally sound (DXY weakness, BTC dominance fade, ETF flows all confirming recovery-from-bottom dynamics) but the score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; my 16.9% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that forcing direction here is the exact error pattern that destroyed my record \u2014 the coil itself is the signal, and the specific breaker would be fed_liquidity (currently 0, dead) waking up or VIX spiking above 20 to break the compression.",
-      "confirmed_if": "fed_liquidity rises above 20 AND btc_momentum_30d pushes above 60 with funding staying below 60",
-      "invalidated_if": "VIX breaks 20 with dxy_weakness reversing below 60 AND btc_exchange_reserves_pct_30d dropping sharply (selling into exchange)",
+      "reasoning": "Score sits at ~55-62 band (Disbelief), and the 0% base rate for \u00b12+ point moves in 12h windows over 7 days screams coil; my 16.9% direction accuracy says I don't see breakers others miss. ETF flows (+45 vs bottom) and DXY weakness (+24) confirm recovery DNA, but MVRV_zscore -16 (lower now than at Aug bottom) and fed_liquidity at 0 anchor skepticism. Long/short_pct at 15 shows positioning is already lopsided short \u2014 no fuel for forced selling, but also no panic washout to mark a clean bottom. The pattern analog says 'early recovery nobody trusts' but the live score is already AT Disbelief, not below it. Hold with upward bias: need funding to cool (currently 53, +18 vs bottom) or MVRV to lift before trusting a leg to Hope.",
+      "confirmed_if": "MVRV_zscore rises above 30 with BTC holding $62k and funding dropping below 40",
+      "invalidated_if": "BTC breaks $58k with exchange_netflow spiking above 75 and VIX pushing past 80",
       "predicted_phase_clamped_from": "Disbelief"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"dxy_weakness\", \"btc_dom_fade\", \"etf_flows\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 76.6% match to bottom_2024_aug is structurally sound (DXY weakness, BTC dominance f",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"vix\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~55-62 band (Disbelief), and the 0% base rate for \u00b12+ point moves in 12h windows ",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "analyst": {
     "top_matching_factors": [
-      "dxy_weakness",
-      "btc_dom_fade",
-      "etf_flows"
+      "etf_flows",
+      "vix",
+      "gold_strength"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -74,53 +74,53 @@
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
       "conviction": "medium",
-      "reasoning": "The 76.6% match to bottom_2024_aug is structurally sound (DXY weakness, BTC dominance fade, ETF flows all confirming recovery-from-bottom dynamics) but the score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; my 16.9% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that forcing direction here is the exact error pattern that destroyed my record \u2014 the coil itself is the signal, and the specific breaker would be fed_liquidity (currently 0, dead) waking up or VIX spiking above 20 to break the compression.",
-      "confirmed_if": "fed_liquidity rises above 20 AND btc_momentum_30d pushes above 60 with funding staying below 60",
-      "invalidated_if": "VIX breaks 20 with dxy_weakness reversing below 60 AND btc_exchange_reserves_pct_30d dropping sharply (selling into exchange)",
+      "reasoning": "Score sits at ~55-62 band (Disbelief), and the 0% base rate for \u00b12+ point moves in 12h windows over 7 days screams coil; my 16.9% direction accuracy says I don't see breakers others miss. ETF flows (+45 vs bottom) and DXY weakness (+24) confirm recovery DNA, but MVRV_zscore -16 (lower now than at Aug bottom) and fed_liquidity at 0 anchor skepticism. Long/short_pct at 15 shows positioning is already lopsided short \u2014 no fuel for forced selling, but also no panic washout to mark a clean bottom. The pattern analog says 'early recovery nobody trusts' but the live score is already AT Disbelief, not below it. Hold with upward bias: need funding to cool (currently 53, +18 vs bottom) or MVRV to lift before trusting a leg to Hope.",
+      "confirmed_if": "MVRV_zscore rises above 30 with BTC holding $62k and funding dropping below 40",
+      "invalidated_if": "BTC breaks $58k with exchange_netflow spiking above 75 and VIX pushing past 80",
       "predicted_phase_clamped_from": "Disbelief"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"dxy_weakness\", \"btc_dom_fade\", \"etf_flows\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 76.6% match to bottom_2024_aug is structurally sound (DXY weakness, BTC dominance f",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"vix\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~55-62 band (Disbelief), and the 0% base rate for \u00b12+ point moves in 12h windows ",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "narrative": {
-    "narrative": "Markets are shrugging off a textbook risk-on backdrop as DXY weakness and fading BTC dominance go ignored, trapping sentiment in the denial phase. This setup echoes the August 2024 bottom, where ETF flows turned quietly positive while fear peaked, laying the rails for the subsequent rally. The crowd\u2019s refusal to believe the improving macro signals is the tell, not the threat.",
-    "headline": "Fear Feasts While Smart Money Accumulates",
-    "confidence": 0.77,
+    "narrative": "Despite Bitcoin hovering near $65,000, the Fear & Greed Index at 31 screams denial, as strong gold prices and a buoyant VIX reveal capital rotating into traditional safe havens rather than digital risk assets. This echoes the August 2024 bottom, where weak ETF flows and macro uncertainty compressed crypto prices before a sharp re-pricing, suggesting the current risk-on regime is being ignored by sidelined institutional capital. The market is coiling tightly, mistaking a temporary liquidity pause for structural weakness.",
+    "headline": "Golden Shields Up as Bitcoin Denial Deepens",
+    "confidence": 0.765,
     "next_move": {
-      "outlook": "The narrative arc bends toward a stealth recovery as sidelined capital capitulates into a market that refuses to break lower, compressing the coil until the denial phase exhausts itself.",
+      "outlook": "The narrative arc suggests this denial phase will persist until ETF flows reverse and gold strength cools, forcing a violent mean reversion that catches the current bearish consensus off guard.",
       "direction": "HOLD",
       "conviction": "high"
     },
-    "raw_response": "{\n  \"narrative\": \"Markets are shrugging off a textbook risk-on backdrop as DXY weakness and fading BTC dominance go ignored, trapping sentiment in the denial phase. This setup echoes the August 2024 bottom, where ETF flows turned quietly positive while fear peaked, laying the rails for the subsequent rally. The crowd\u2019s refusal to believe the improving macro signals is the tell, not the threat.\",\n  \"headline\": \"Fear Feasts While Smart Money Accumulates\",\n  \"confidence\": 0.77,\n  \"next_move\": {\n   ",
+    "raw_response": "{\n  \"narrative\": \"Despite Bitcoin hovering near $65,000, the Fear & Greed Index at 31 screams denial, as strong gold prices and a buoyant VIX reveal capital rotating into traditional safe havens rather than digital risk assets. This echoes the August 2024 bottom, where weak ETF flows and macro uncertainty compressed crypto prices before a sharp re-pricing, suggesting the current risk-on regime is being ignored by sidelined institutional capital. The market is coiling tightly, mistaking a tempora",
     "brain": "narrative_writer"
   },
   "consensus": {
-    "final_signal": "HOLD",
+    "final_signal": "LONG",
     "final_phase": "Denial",
     "alert_tier": "HIGH",
-    "consensus_confidence": 0.68,
-    "key_reasoning": "Both brains agree on the structural risk-on setup (DXY weakness, ETF flows, 76.6% match to Aug 2024 bottom) but the score sits at 55-62 (Disbelief band) with 0% of recent 12h windows showing \u00b12+ point moves \u2014 this is a confirmed coil where forcing direction is the exact error pattern that destroyed the analyst's record. The pattern match is strong enough for HIGH alert tier, but the absence of any volatility breaker means HOLD is the only honest call until the coil resolves.",
+    "consensus_confidence": 0.64,
+    "key_reasoning": "Both brains align on a bottom-accumulation analog (76.5% match to Aug 2024) with recovery DNA in ETF flows and DXY weakness, but diverging MVRV and stablecoin growth plus a 0% base rate for directional breaks over 7 days cap conviction. The analyst's higher trust weight (7.67 vs 6.00) anchors the phase at Denial (score band 32-38) rather than the narrative's looser framing, while the LONG signal reflects accumulation-bottom positioning with short fuel exhausted.",
     "disagreements_noted": [
-      "Analyst calls current phase Denial (32-38 band) while the live score of 55-62 actually sits in the Disbelief band \u2014 the \u00b11 rung rule permits Denial as an adjacent call but the chart dot will sit at Disbelief, creating a visual mismatch",
-      "Analyst forward call is HOLD with medium conviction citing 0% directional accuracy and coil compression; narrative writer implies a bullish setup with 0.77 confidence but does not explicitly commit to a directional signal",
-      "Analyst confidence 0.52 vs narrative confidence 0.77 \u2014 a 0.25 gap where the analyst is hedging on its own pattern match due to historical execution failures"
+      "Analyst places current phase at Denial (32-38 band) with forward call to Disbelief; narrative headlines 'Denial Deepens' implying we sit deeper in Denial with less forward urgency",
+      "Analyst forward direction is HOLD (coiling, 0% base rate for breaks); narrative implies coiling toward re-pricing (directional bias UP)",
+      "Analyst confidence 0.52 with explicit skepticism (MVRV -16, fed_liquidity 0); narrative confidence 0.765 more bullish on institutional re-entry"
     ],
     "next_move": {
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
       "conviction": "medium",
-      "reasoning": "The 0-for-36 base rate on \u00b12+ point moves makes HOLD the statistically dominant call; the coil itself is the signal, and the specific breaker would be fed_liquidity waking up or VIX spiking above 20 to break the compression.",
-      "brains_agree": "Partial \u2014 both see the bullish accumulation structure but the analyst explicitly flags the coil as a HOLD while the narrative leans bullish without committing to a directional trigger; the split is on actionability, not on structure.",
-      "confirmed_if": "fed_liquidity rises above 20 AND btc_momentum_30d pushes above 60 with funding staying below 60",
-      "invalidated_if": "VIX breaks 20 with dxy_weakness reversing below 60 AND btc_exchange_reserves_pct_30d dropping sharply (selling into exchange)",
+      "reasoning": "0% base rate for \u00b12+ point moves across 36 windows screams coil \u2014 HOLD is the statistically honest call; a directional UP claim requires seeing the breaker (MVRV lift + funding cool) which has not arrived.",
+      "brains_agree": "Partial \u2014 both see bottom-accumulation structure, but analyst forward calls HOLD while narrative leans directional re-pricing; judge sides with analyst's HOLD given 0% base rate and analyst's higher trust weight",
+      "confirmed_if": "MVRV_zscore rises above 30 with BTC holding $62k and funding dropping below 40",
+      "invalidated_if": "BTC breaks $58k with exchange_netflow spiking above 75 and VIX pushing past 80",
       "predicted_phase_clamped_from": "Disbelief",
       "confidence_pct": 45.0,
       "confidence_basis": "2/3 brains agree on DOWN; conviction 0.7/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.68,\n  \"key_reasoning\": \"Both brains agree on the structural risk-on setup (DXY weakness, ETF flows, 76.6% match to Aug 2024 bottom) but the score sits at 55-62 (Disbelief band) with 0% of recent 12h windows showing \u00b12+ point moves \u2014 this is a confirmed coil where forcing direction is the exact error pattern that destroyed the analyst's record. The pattern match is strong enough for ",
+    "raw_response": "```json\n{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.64,\n  \"key_reasoning\": \"Both brains align on a bottom-accumulation analog (76.5% match to Aug 2024) with recovery DNA in ETF flows and DXY weakness, but diverging MVRV and stablecoin growth plus a 0% base rate for directional breaks over 7 days cap conviction. The analyst's higher trust weight (7.67 vs 6.00) anchors the phase at Denial (score band 32-38) rather than the narrative's ",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.645,
+    "brains_avg_confidence": 0.643,
     "brain_reads": {
       "analyst": {
         "signal": "LONG",
@@ -131,34 +131,34 @@
           "predicted_phase": "Capitulation",
           "direction": "DOWN",
           "conviction": "medium",
-          "reasoning": "The 76.6% match to bottom_2024_aug is structurally sound (DXY weakness, BTC dominance fade, ETF flows all confirming recovery-from-bottom dynamics) but the score sits at 55-62 band (Disbelief), and with 0% of recent 12h windows showing \u00b12+ point moves, this is a confirmed coil; my 16.9% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that forcing direction here is the exact error pattern that destroyed my record \u2014 the coil itself is the signal, and the specific breaker would be fed_liquidity (currently 0, dead) waking up or VIX spiking above 20 to break the compression.",
-          "confirmed_if": "fed_liquidity rises above 20 AND btc_momentum_30d pushes above 60 with funding staying below 60",
-          "invalidated_if": "VIX breaks 20 with dxy_weakness reversing below 60 AND btc_exchange_reserves_pct_30d dropping sharply (selling into exchange)",
+          "reasoning": "Score sits at ~55-62 band (Disbelief), and the 0% base rate for \u00b12+ point moves in 12h windows over 7 days screams coil; my 16.9% direction accuracy says I don't see breakers others miss. ETF flows (+45 vs bottom) and DXY weakness (+24) confirm recovery DNA, but MVRV_zscore -16 (lower now than at Aug bottom) and fed_liquidity at 0 anchor skepticism. Long/short_pct at 15 shows positioning is already lopsided short \u2014 no fuel for forced selling, but also no panic washout to mark a clean bottom. The pattern analog says 'early recovery nobody trusts' but the live score is already AT Disbelief, not below it. Hold with upward bias: need funding to cool (currently 53, +18 vs bottom) or MVRV to lift before trusting a leg to Hope.",
+          "confirmed_if": "MVRV_zscore rises above 30 with BTC holding $62k and funding dropping below 40",
+          "invalidated_if": "BTC breaks $58k with exchange_netflow spiking above 75 and VIX pushing past 80",
           "predicted_phase_clamped_from": "Disbelief"
         }
       },
       "narrative": {
-        "headline": "Fear Feasts While Smart Money Accumulates",
+        "headline": "Golden Shields Up as Bitcoin Denial Deepens",
         "phase": "Denial",
         "confidence": 0.77,
         "next_move": {
-          "outlook": "The narrative arc bends toward a stealth recovery as sidelined capital capitulates into a market that refuses to break lower, compressing the coil until the denial phase exhausts itself.",
+          "outlook": "The narrative arc suggests this denial phase will persist until ETF flows reverse and gold strength cools, forcing a violent mean reversion that catches the current bearish consensus off guard.",
           "direction": "HOLD",
           "conviction": "high"
         }
       },
       "judge": {
-        "signal": "HOLD",
+        "signal": "LONG",
         "phase": "Denial",
-        "confidence": 0.68,
+        "confidence": 0.64,
         "next_move": {
           "predicted_phase": "Capitulation",
           "direction": "DOWN",
           "conviction": "medium",
-          "reasoning": "The 0-for-36 base rate on \u00b12+ point moves makes HOLD the statistically dominant call; the coil itself is the signal, and the specific breaker would be fed_liquidity waking up or VIX spiking above 20 to break the compression.",
-          "brains_agree": "Partial \u2014 both see the bullish accumulation structure but the analyst explicitly flags the coil as a HOLD while the narrative leans bullish without committing to a directional trigger; the split is on actionability, not on structure.",
-          "confirmed_if": "fed_liquidity rises above 20 AND btc_momentum_30d pushes above 60 with funding staying below 60",
-          "invalidated_if": "VIX breaks 20 with dxy_weakness reversing below 60 AND btc_exchange_reserves_pct_30d dropping sharply (selling into exchange)",
+          "reasoning": "0% base rate for \u00b12+ point moves across 36 windows screams coil \u2014 HOLD is the statistically honest call; a directional UP claim requires seeing the breaker (MVRV lift + funding cool) which has not arrived.",
+          "brains_agree": "Partial \u2014 both see bottom-accumulation structure, but analyst forward calls HOLD while narrative leans directional re-pricing; judge sides with analyst's HOLD given 0% base rate and analyst's higher trust weight",
+          "confirmed_if": "MVRV_zscore rises above 30 with BTC holding $62k and funding dropping below 40",
+          "invalidated_if": "BTC breaks $58k with exchange_netflow spiking above 75 and VIX pushing past 80",
           "predicted_phase_clamped_from": "Disbelief",
           "confidence_pct": 45.0,
           "confidence_basis": "2/3 brains agree on DOWN; conviction 0.7/1.0"
@@ -174,6 +174,6 @@
     },
     "advisory": true
   },
-  "timestamp": "2026-08-09T07:27:29.562747-04:00",
+  "timestamp": "2026-08-09T08:29:42.706347-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
