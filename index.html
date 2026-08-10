@@ -1610,7 +1610,14 @@
 
     <!-- $GORK (preserved) -->
     <div class="card gork-card">
-      <div class="card-label">$GORK · Solana</div>
+      <!-- 2026-08-10: was "$GORK · Solana", which the browser bot's visual review
+           read as SOLANA THE ASSET and flagged as a mispriced SOL feed ($0.0024 vs
+           the real ~$77). The dot-separator made a CHAIN look like a ticker, and the
+           CRYPTO card a few panels up genuinely does show SOL at $77 - so the page
+           had two things saying "Solana" with a 30,000x price gap. The widget was
+           always correct; the label was ambiguous. Say "SPL token on Solana" so
+           neither a person nor a bot can parse the chain as the asset. -->
+      <div class="card-label">$GORK &nbsp;<span style="opacity:.6;font-weight:400">SPL token on Solana</span></div>
       <div class="gork-price" id="gorkPrice">--</div>
       <div class="gork-meta" id="gorkMeta">Loading...</div>
     </div>
