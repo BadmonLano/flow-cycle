@@ -1,167 +1,168 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "etf_flows",
-      "dxy_weakness",
-      "btc_momentum_30d"
+      "btc_momentum_30d",
+      "btc_dom_fade",
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "mvrv_zscore",
-      "stablecoin_growth"
+      "stablecoin_growth",
+      "vix"
     ],
-    "oracle_verdict": "DIVERGING",
+    "oracle_verdict": "APPROACHING",
     "phase": "Denial",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "HOLD",
-    "confidence": 0.35,
+    "classifier_signal": "LONG",
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
-      "conviction": "medium",
-      "reasoning": "The 77.2% match to bottom_2024_aug is structurally misleading: ETF flows (+45 diff), gold strength (+30), and VIX (+31) scream institutional flight-to-safety and macro hedging, not crypto-native accumulation; MVRV Z-score collapsed -16 points showing compressed on-chain profit even as price sits +25% above the August bottom, while fed_liquidity at 0 and long_short_pct_30d at 12 reveal extreme positioning compression with no fuel to break the coil. The 0% base rate for \u00b12 point moves in 12h windows over 7 days is the honest prior; my 17.1% direction accuracy and repeated 'predicted move, got HOLD' errors from regime-shift blindness demand I respect the coil rather than force a directional guess. The breaker I would need to see: either fed_liquidity lifting off 0 with ETF flows sustaining, or exchange reserves (97th percentile) collapsing into spot buying with CVD confirming.",
-      "confirmed_if": "fed_liquidity breaks above 20 with etf_flows holding above 80 and btc_exchange_reserves_pct_30d falling below 80",
-      "invalidated_if": "vix spikes above 80 with dxy strengthening below 95 and funding turning negative, pushing phase toward Anxiety",
-      "predicted_phase_clamped_from": "Disbelief"
+      "conviction": "low",
+      "reasoning": "The coil base rate demands HOLD as default\u20140% of recent 12h windows moved \u00b12+ points\u2014yet the pattern analog from August 2024 Disbelief showed this exact setup resolving upward into Hope when ETF flows hit extremes (now 100), momentum broke from bottom compression (52 vs 28), and alt dominance began rotating (btc_dom_fade +25); the breaker I claim to see is ETF flow persistence above 90 combined with funding staying benign (0.0075% is not greedy) and exchange reserves draining (97th percentile, coins moving off exchanges). But my 17.1% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that I'm seeing breakers that don't break\u2014this is likely another false resolution attempt.",
+      "confirmed_if": "BTC funding rises above 0.015% with price pushing $67K+ and Fear & Greed climbing past 35, confirming Hope-phase momentum; or ETH ETF flows spike above 85 with SOL flows following, validating alt rotation thesis",
+      "invalidated_if": "VIX spikes above 20 with DXY breaking 100.5 and BTC funding flipping negative, sending score back toward Anxiety; or exchange reserves reverse and netflow turns strongly positive (>60), indicating distribution not accumulation",
+      "predicted_phase_clamped_from": "Hope"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"dxy_weakness\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.35,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 77.2% match to bottom_2024_aug is structurally misleading: ETF flows (+45 diff), ",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"The coil base rate demands HOLD as default\u20140% of recent 12h windows moved \u00b12+ point",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "classifier": {
     "top_matching_factors": [
-      "etf_flows",
-      "dxy_weakness",
-      "btc_momentum_30d"
+      "btc_momentum_30d",
+      "btc_dom_fade",
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "mvrv_zscore",
-      "stablecoin_growth"
+      "stablecoin_growth",
+      "vix"
     ],
-    "oracle_verdict": "DIVERGING",
+    "oracle_verdict": "APPROACHING",
     "phase": "Denial",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "HOLD",
-    "confidence": 0.35,
+    "classifier_signal": "LONG",
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
-      "conviction": "medium",
-      "reasoning": "The 77.2% match to bottom_2024_aug is structurally misleading: ETF flows (+45 diff), gold strength (+30), and VIX (+31) scream institutional flight-to-safety and macro hedging, not crypto-native accumulation; MVRV Z-score collapsed -16 points showing compressed on-chain profit even as price sits +25% above the August bottom, while fed_liquidity at 0 and long_short_pct_30d at 12 reveal extreme positioning compression with no fuel to break the coil. The 0% base rate for \u00b12 point moves in 12h windows over 7 days is the honest prior; my 17.1% direction accuracy and repeated 'predicted move, got HOLD' errors from regime-shift blindness demand I respect the coil rather than force a directional guess. The breaker I would need to see: either fed_liquidity lifting off 0 with ETF flows sustaining, or exchange reserves (97th percentile) collapsing into spot buying with CVD confirming.",
-      "confirmed_if": "fed_liquidity breaks above 20 with etf_flows holding above 80 and btc_exchange_reserves_pct_30d falling below 80",
-      "invalidated_if": "vix spikes above 80 with dxy strengthening below 95 and funding turning negative, pushing phase toward Anxiety",
-      "predicted_phase_clamped_from": "Disbelief"
+      "conviction": "low",
+      "reasoning": "The coil base rate demands HOLD as default\u20140% of recent 12h windows moved \u00b12+ points\u2014yet the pattern analog from August 2024 Disbelief showed this exact setup resolving upward into Hope when ETF flows hit extremes (now 100), momentum broke from bottom compression (52 vs 28), and alt dominance began rotating (btc_dom_fade +25); the breaker I claim to see is ETF flow persistence above 90 combined with funding staying benign (0.0075% is not greedy) and exchange reserves draining (97th percentile, coins moving off exchanges). But my 17.1% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that I'm seeing breakers that don't break\u2014this is likely another false resolution attempt.",
+      "confirmed_if": "BTC funding rises above 0.015% with price pushing $67K+ and Fear & Greed climbing past 35, confirming Hope-phase momentum; or ETH ETF flows spike above 85 with SOL flows following, validating alt rotation thesis",
+      "invalidated_if": "VIX spikes above 20 with DXY breaking 100.5 and BTC funding flipping negative, sending score back toward Anxiety; or exchange reserves reverse and netflow turns strongly positive (>60), indicating distribution not accumulation",
+      "predicted_phase_clamped_from": "Hope"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"dxy_weakness\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.35,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 77.2% match to bottom_2024_aug is structurally misleading: ETF flows (+45 diff), ",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"The coil base rate demands HOLD as default\u20140% of recent 12h windows moved \u00b12+ point",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "analyst": {
     "top_matching_factors": [
-      "etf_flows",
-      "dxy_weakness",
-      "btc_momentum_30d"
+      "btc_momentum_30d",
+      "btc_dom_fade",
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "mvrv_zscore",
-      "stablecoin_growth"
+      "stablecoin_growth",
+      "vix"
     ],
-    "oracle_verdict": "DIVERGING",
+    "oracle_verdict": "APPROACHING",
     "phase": "Denial",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "HOLD",
-    "confidence": 0.35,
+    "classifier_signal": "LONG",
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Capitulation",
       "direction": "DOWN",
-      "conviction": "medium",
-      "reasoning": "The 77.2% match to bottom_2024_aug is structurally misleading: ETF flows (+45 diff), gold strength (+30), and VIX (+31) scream institutional flight-to-safety and macro hedging, not crypto-native accumulation; MVRV Z-score collapsed -16 points showing compressed on-chain profit even as price sits +25% above the August bottom, while fed_liquidity at 0 and long_short_pct_30d at 12 reveal extreme positioning compression with no fuel to break the coil. The 0% base rate for \u00b12 point moves in 12h windows over 7 days is the honest prior; my 17.1% direction accuracy and repeated 'predicted move, got HOLD' errors from regime-shift blindness demand I respect the coil rather than force a directional guess. The breaker I would need to see: either fed_liquidity lifting off 0 with ETF flows sustaining, or exchange reserves (97th percentile) collapsing into spot buying with CVD confirming.",
-      "confirmed_if": "fed_liquidity breaks above 20 with etf_flows holding above 80 and btc_exchange_reserves_pct_30d falling below 80",
-      "invalidated_if": "vix spikes above 80 with dxy strengthening below 95 and funding turning negative, pushing phase toward Anxiety",
-      "predicted_phase_clamped_from": "Disbelief"
+      "conviction": "low",
+      "reasoning": "The coil base rate demands HOLD as default\u20140% of recent 12h windows moved \u00b12+ points\u2014yet the pattern analog from August 2024 Disbelief showed this exact setup resolving upward into Hope when ETF flows hit extremes (now 100), momentum broke from bottom compression (52 vs 28), and alt dominance began rotating (btc_dom_fade +25); the breaker I claim to see is ETF flow persistence above 90 combined with funding staying benign (0.0075% is not greedy) and exchange reserves draining (97th percentile, coins moving off exchanges). But my 17.1% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that I'm seeing breakers that don't break\u2014this is likely another false resolution attempt.",
+      "confirmed_if": "BTC funding rises above 0.015% with price pushing $67K+ and Fear & Greed climbing past 35, confirming Hope-phase momentum; or ETH ETF flows spike above 85 with SOL flows following, validating alt rotation thesis",
+      "invalidated_if": "VIX spikes above 20 with DXY breaking 100.5 and BTC funding flipping negative, sending score back toward Anxiety; or exchange reserves reverse and netflow turns strongly positive (>60), indicating distribution not accumulation",
+      "predicted_phase_clamped_from": "Hope"
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"dxy_weakness\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.35,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 77.2% match to bottom_2024_aug is structurally misleading: ETF flows (+45 diff), ",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"The coil base rate demands HOLD as default\u20140% of recent 12h windows moved \u00b12+ point",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "narrative": {
-    "narrative": "Despite Bitcoin's modest uptick, the market remains trapped in a state of denial, with the Fear & Greed Index at 30 mirroring the accumulation zone seen in August 2024. ETF flows and a weakening DXY are quietly building a constructive undercurrent, yet the 30-day momentum remains fragile, keeping conviction low. This setup echoes the 'quiet before the storm' seen last August, suggesting the current consolidation is a coiled spring that has yet to declare its direction.",
-    "headline": "The Calm That Fools The Crowd",
-    "confidence": 0.77,
+    "narrative": "Bitcoin's 30-day momentum is stalling into a classic denial phase, with BTC dominance fading and a weakening DXY creating a risk-on backdrop that echoes the August 2024 bottom structure. The market is coiling just above $64,000 as fear grips sentiment at a 30 handle, a setup that previously resolved bullishly once the consolidation exhausted sellers. This compression beneath resistance, paired with dollar softness, suggests the path of least surprise is building for a breakout\u2014but patience remains the edge while the range holds.",
+    "headline": "Coiled in Denial, Primed for Resolution",
+    "confidence": 0.76,
     "next_move": {
-      "outlook": "The narrative arc points to a resolution of this tight consolidation, but the historical pattern suggests the market may first need to flush out remaining weak hands before a sustained move higher.",
+      "outlook": "The narrative arc points to an imminent resolution of the compression, with the historical pattern and macro tailwinds favoring an upside breakout once the denial phase exhausts.",
       "direction": "HOLD",
-      "conviction": "high"
+      "conviction": "medium"
     },
-    "raw_response": "{\n  \"narrative\": \"Despite Bitcoin's modest uptick, the market remains trapped in a state of denial, with the Fear & Greed Index at 30 mirroring the accumulation zone seen in August 2024. ETF flows and a weakening DXY are quietly building a constructive undercurrent, yet the 30-day momentum remains fragile, keeping conviction low. This setup echoes the 'quiet before the storm' seen last August, suggesting the current consolidation is a coiled spring that has yet to declare its direction.\",\n  \"hea",
+    "raw_response": "{\n  \"narrative\": \"Bitcoin's 30-day momentum is stalling into a classic denial phase, with BTC dominance fading and a weakening DXY creating a risk-on backdrop that echoes the August 2024 bottom structure. The market is coiling just above $64,000 as fear grips sentiment at a 30 handle, a setup that previously resolved bullishly once the consolidation exhausted sellers. This compression beneath resistance, paired with dollar softness, suggests the path of least surprise is building for a breakout\u2014",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
     "final_phase": "Denial",
     "alert_tier": "MED",
-    "consensus_confidence": 0.56,
-    "key_reasoning": "Both brains agree the market sits in Denial with a 77.2% match to the August 2024 accumulation bottom, but the analyst's high-trust factor analysis exposes this as structurally misleading \u2014 institutional flight-to-safety signals dominate while on-chain profit compression and zero fed liquidity leave no fuel to break the coil. With a 0% base rate for \u00b12 point moves over 7 days, HOLD is the statistically honest call until a confirmed breaker emerges.",
+    "consensus_confidence": 0.62,
+    "key_reasoning": "Both brains agree on a Denial-phase coil with a bullish August 2024 bottom analog, but the analyst's 17.1% direction accuracy and 0-for-34 base rate on \u00b12-point moves make a directional bet statistically reckless right now. HOLD with conviction is the skilled call \u2014 the setup is real but the breaker has not confirmed, and forcing direction in a 0% volatility coil is exactly how the record went 0-for-18.",
     "disagreements_noted": [
-      "Analyst confidence 0.35 vs Narrative confidence 0.77 \u2014 analyst is far more skeptical of the bottom analog's structural validity",
-      "Analyst identifies diverging factors (MVRV Z-score collapse, stagnant stablecoin growth) that the narrative glosses over",
-      "Narrative frames constructive undercurrent from ETF flows and DXY weakness; analyst reads same factors as institutional flight-to-safety, not crypto-native accumulation"
+      "Analyst calls LONG with 0.55 confidence while leaning on a 17.1% direction-accuracy track record and explicitly flagging 'this is likely another false resolution attempt' \u2014 the signal contradicts the brain's own autopsy data.",
+      "Narrative writer is more bullish (0.76 confidence) and frames the setup as 'primed for resolution' without wrestling with the base-rate evidence the analyst surfaced.",
+      "Analyst's diverging factors (MVRV z-score, stablecoin growth, VIX) are unaddressed in the narrative's bullish framing \u2014 these are macro headwinds that could keep the coil compressed."
     ],
     "next_move": {
-      "predicted_phase": "Capitulation",
-      "direction": "DOWN",
+      "predicted_phase": "Denial",
+      "direction": "UP",
       "conviction": "medium",
-      "reasoning": "The coil holds until either fed liquidity lifts off zero with sustained ETF inflows or exchange reserves collapse into confirmed spot buying \u2014 until then the statistically honest call is HOLD with medium conviction that the eventual break favors a drift into Disbelief.",
-      "brains_agree": "Partial \u2014 both point toward Disbelief as the next phase, but the analyst demands explicit breaker confirmation while the narrative treats it as a coiled spring awaiting direction.",
-      "confirmed_if": "fed_liquidity breaks above 20 with etf_flows holding above 80 and btc_exchange_reserves_pct_30d falling below 80",
-      "invalidated_if": "VIX spikes above 80 with DXY strengthening below 95 and funding turning negative, pushing phase toward Anxiety",
-      "predicted_phase_clamped_from": "Disbelief",
-      "confidence_pct": 45.0,
-      "confidence_basis": "2/3 brains agree on DOWN; conviction 0.7/1.0"
+      "reasoning": "The August 2024 analog is the highest-matching pattern at 76.6% and both brains see the same ETF-flow + DXY-weakness setup, but with 0 of 34 recent 12h windows producing a \u00b12-point move and the analyst's own direction accuracy at 17.1%, the statistically honest call is HOLD until the breaker confirms \u2014 not a guess at which way the coil resolves.",
+      "brains_agree": "Split \u2014 analyst calls direction UP with low conviction while explicitly doubting its own call; narrative implies UP resolution with higher conviction but does not address the base-rate coil reality.",
+      "confirmed_if": "BTC funding rises above 0.015% with price pushing $67K+ and Fear & Greed climbing past 35, or ETH ETF flows spike above 85 with SOL following \u2014 validating alt rotation and Hope-phase momentum.",
+      "invalidated_if": "VIX spikes above 20 with DXY breaking 100.5 and BTC funding flipping negative, or exchange reserves reverse with netflow turning strongly positive (>60), indicating distribution not accumulation.",
+      "confidence_pct": 31.0,
+      "confidence_basis": "1/3 brains agree on UP; conviction 0.5/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.56,\n  \"key_reasoning\": \"Both brains agree the market sits in Denial with a 77.2% match to the August 2024 accumulation bottom, but the analyst's high-trust factor analysis exposes this as structurally misleading \u2014 institutional flight-to-safety signals dominate while on-chain profit compression and zero fed liquidity leave no fuel to break the coil. With a 0% base rate for \u00b12 point m",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.62,\n  \"key_reasoning\": \"Both brains agree on a Denial-phase coil with a bullish August 2024 bottom analog, but the analyst's 17.1% direction accuracy and 0-for-34 base rate on \u00b12-point moves make a directional bet statistically reckless right now. HOLD with conviction is the skilled call \u2014 the setup is real but the breaker has not confirmed, and forcing direction in a 0% volatility c",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.56,
+    "brains_avg_confidence": 0.655,
     "brain_reads": {
       "analyst": {
-        "signal": "HOLD",
+        "signal": "LONG",
         "phase": "Denial",
-        "verdict": "DIVERGING",
-        "confidence": 0.35,
+        "verdict": "APPROACHING",
+        "confidence": 0.55,
         "next_move": {
           "predicted_phase": "Capitulation",
           "direction": "DOWN",
-          "conviction": "medium",
-          "reasoning": "The 77.2% match to bottom_2024_aug is structurally misleading: ETF flows (+45 diff), gold strength (+30), and VIX (+31) scream institutional flight-to-safety and macro hedging, not crypto-native accumulation; MVRV Z-score collapsed -16 points showing compressed on-chain profit even as price sits +25% above the August bottom, while fed_liquidity at 0 and long_short_pct_30d at 12 reveal extreme positioning compression with no fuel to break the coil. The 0% base rate for \u00b12 point moves in 12h windows over 7 days is the honest prior; my 17.1% direction accuracy and repeated 'predicted move, got HOLD' errors from regime-shift blindness demand I respect the coil rather than force a directional guess. The breaker I would need to see: either fed_liquidity lifting off 0 with ETF flows sustaining, or exchange reserves (97th percentile) collapsing into spot buying with CVD confirming.",
-          "confirmed_if": "fed_liquidity breaks above 20 with etf_flows holding above 80 and btc_exchange_reserves_pct_30d falling below 80",
-          "invalidated_if": "vix spikes above 80 with dxy strengthening below 95 and funding turning negative, pushing phase toward Anxiety",
-          "predicted_phase_clamped_from": "Disbelief"
+          "conviction": "low",
+          "reasoning": "The coil base rate demands HOLD as default\u20140% of recent 12h windows moved \u00b12+ points\u2014yet the pattern analog from August 2024 Disbelief showed this exact setup resolving upward into Hope when ETF flows hit extremes (now 100), momentum broke from bottom compression (52 vs 28), and alt dominance began rotating (btc_dom_fade +25); the breaker I claim to see is ETF flow persistence above 90 combined with funding staying benign (0.0075% is not greedy) and exchange reserves draining (97th percentile, coins moving off exchanges). But my 17.1% direction accuracy and repeated 'predicted UP/DOWN, got HOLD' autopsies scream that I'm seeing breakers that don't break\u2014this is likely another false resolution attempt.",
+          "confirmed_if": "BTC funding rises above 0.015% with price pushing $67K+ and Fear & Greed climbing past 35, confirming Hope-phase momentum; or ETH ETF flows spike above 85 with SOL flows following, validating alt rotation thesis",
+          "invalidated_if": "VIX spikes above 20 with DXY breaking 100.5 and BTC funding flipping negative, sending score back toward Anxiety; or exchange reserves reverse and netflow turns strongly positive (>60), indicating distribution not accumulation",
+          "predicted_phase_clamped_from": "Hope"
         }
       },
       "narrative": {
-        "headline": "The Calm That Fools The Crowd",
+        "headline": "Coiled in Denial, Primed for Resolution",
         "phase": "Denial",
-        "confidence": 0.77,
+        "confidence": 0.76,
         "next_move": {
-          "outlook": "The narrative arc points to a resolution of this tight consolidation, but the historical pattern suggests the market may first need to flush out remaining weak hands before a sustained move higher.",
+          "outlook": "The narrative arc points to an imminent resolution of the compression, with the historical pattern and macro tailwinds favoring an upside breakout once the denial phase exhausts.",
           "direction": "HOLD",
-          "conviction": "high"
+          "conviction": "medium"
         }
       },
       "judge": {
         "signal": "HOLD",
         "phase": "Denial",
-        "confidence": 0.56,
+        "confidence": 0.62,
         "next_move": {
-          "predicted_phase": "Capitulation",
-          "direction": "DOWN",
+          "predicted_phase": "Denial",
+          "direction": "UP",
           "conviction": "medium",
-          "reasoning": "The coil holds until either fed liquidity lifts off zero with sustained ETF inflows or exchange reserves collapse into confirmed spot buying \u2014 until then the statistically honest call is HOLD with medium conviction that the eventual break favors a drift into Disbelief.",
-          "brains_agree": "Partial \u2014 both point toward Disbelief as the next phase, but the analyst demands explicit breaker confirmation while the narrative treats it as a coiled spring awaiting direction.",
-          "confirmed_if": "fed_liquidity breaks above 20 with etf_flows holding above 80 and btc_exchange_reserves_pct_30d falling below 80",
-          "invalidated_if": "VIX spikes above 80 with DXY strengthening below 95 and funding turning negative, pushing phase toward Anxiety",
-          "predicted_phase_clamped_from": "Disbelief",
-          "confidence_pct": 45.0,
-          "confidence_basis": "2/3 brains agree on DOWN; conviction 0.7/1.0"
+          "reasoning": "The August 2024 analog is the highest-matching pattern at 76.6% and both brains see the same ETF-flow + DXY-weakness setup, but with 0 of 34 recent 12h windows producing a \u00b12-point move and the analyst's own direction accuracy at 17.1%, the statistically honest call is HOLD until the breaker confirms \u2014 not a guess at which way the coil resolves.",
+          "brains_agree": "Split \u2014 analyst calls direction UP with low conviction while explicitly doubting its own call; narrative implies UP resolution with higher conviction but does not address the base-rate coil reality.",
+          "confirmed_if": "BTC funding rises above 0.015% with price pushing $67K+ and Fear & Greed climbing past 35, or ETH ETF flows spike above 85 with SOL following \u2014 validating alt rotation and Hope-phase momentum.",
+          "invalidated_if": "VIX spikes above 20 with DXY breaking 100.5 and BTC funding flipping negative, or exchange reserves reverse with netflow turning strongly positive (>60), indicating distribution not accumulation.",
+          "confidence_pct": 31.0,
+          "confidence_basis": "1/3 brains agree on UP; conviction 0.5/1.0"
         }
       },
       "legacy": {
@@ -174,6 +175,6 @@
     },
     "advisory": true
   },
-  "timestamp": "2026-08-10T06:00:12.496261-04:00",
+  "timestamp": "2026-08-10T07:05:11.170174-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
