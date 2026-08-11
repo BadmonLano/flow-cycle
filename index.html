@@ -5711,27 +5711,69 @@ function renderPriceForecastCard() {
     if (!cur) return;
     const jDaily = (j && j.daily_price) || [];
     const aDaily = (a && a.daily_price) || [];
+    // ── F1 (2026-08-11): THE CARD SAID "forecast vs J6" AND DREW ONE LINE ──
+    // `jDaily.length ? jDaily : aDaily` - J6 if present, else mechanical, never
+    // both. The header promised a comparison the renderer could not produce, and
+    // on a day when J6 ≈ mechanical (tilt small, catalysts empty) the "curated"
+    // line was the mechanical one wearing a different name.
     const days = (jDaily.length ? jDaily : aDaily);
+    const usingJ6 = jDaily.length > 0;
     const beta = (j && j.beta) || (a && a.beta);
     const cat = (j && j.catalyst_bias_pct);
+    // ── F2: d0 IS THE ANCHOR, NOT DAY 1 ───────────────────────────────────
+    // days[0] is the 0% anchor. The old loop printed it as "d1" and read the last
+    // slot as the 7d target, so a 7-slot array made the headline a 6-day number.
     const d7 = days.length ? days[days.length-1] : null;
     const pct7 = (d7 && cur) ? (((d7 - cur) / cur) * 100) : null;
     const pctColor = pct7 == null ? 'var(--muted)' : (pct7 >= 0 ? 'var(--green)' : 'var(--red)');
-    // header row: symbol, current, beta, 7d target + %
+    // the mechanical target, so the delta is visible instead of implied
+    const aD7 = aDaily.length ? aDaily[aDaily.length-1] : null;
+    const aPct7 = (aD7 && cur) ? (((aD7 - cur) / cur) * 100) : null;
+    const delta = (pct7 != null && aPct7 != null) ? (pct7 - aPct7) : null;
+    const thin = (delta != null && Math.abs(delta) < 1.0);
     let betaStr = (sym !== 'BTC' && beta) ? ` <span style="color:var(--muted);font-size:0.75em">β${beta}</span>` : '';
     let catStr = cat ? ` <span style="color:#fbbf24;font-size:0.75em">⚡${cat>0?'+':''}${cat.toFixed(0)}%</span>` : '';
     html += `<div style="margin-bottom:10px;">
       <div class="etf-row" style="font-weight:600">
         <span class="etf-name">${sym}${betaStr}${catStr}</span>
         <span style="color:${pctColor}">${fmt(d7)} <span style="font-size:0.8em">(${pct7==null?'':(pct7>=0?'+':'')+pct7.toFixed(1)+'%'})</span></span>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:0.72rem;color:var(--muted);margin-top:3px;">`;
-    for (let i = 0; i < Math.min(7, days.length); i++) {
+      </div>`;
+    // BOTH lines, always — J6 and mechanical, with the delta named.
+    if (usingJ6 && aPct7 != null) {
+      html += `<div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">
+        <span style="color:#a78bfa">J6</span> ${fmt(d7)} (${pct7>=0?'+':''}${pct7.toFixed(1)}%)
+        &nbsp;·&nbsp; <span style="color:var(--muted)">mech</span> ${fmt(aD7)} (${aPct7>=0?'+':''}${aPct7.toFixed(1)}%)
+        &nbsp;·&nbsp; <b style="color:${thin ? 'var(--muted)' : '#a78bfa'}">Δ${delta>=0?'+':''}${delta.toFixed(2)}pt</b>
+        ${thin ? '<span style="color:#f5c518"> — J6 ≈ mechanical today; the curated line is adding almost nothing</span>' : ''}
+      </div>`;
+    } else if (!usingJ6) {
+      html += `<div style="font-size:0.72rem;color:#f5c518;margin-top:2px;">mechanical only — no J6 line this sweep</div>`;
+    }
+    html += `<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:0.72rem;color:var(--muted);margin-top:3px;">`;
+    for (let i = 1; i < days.length; i++) {     // skip index 0: it is the anchor
       if (days[i] == null) continue;
-      html += `<span style="white-space:nowrap">d${i+1} <span style="color:var(--text)">${fmt(days[i])}</span></span>`;
+      html += `<span style="white-space:nowrap">d${i} <span style="color:var(--text)">${fmt(days[i])}</span></span>`;
     }
     html += `</div></div>`;
   });
+
+  // ── F4/F5: seam + analog cluster, stated once under the assets ──────────
+  const pp = PRICE_PROJ || {};
+  const seam = pp.seam, ac = pp.analog_cluster;
+  if (seam && seam.coherent === false) {
+    html += `<div style="margin-top:8px;padding:7px;border-radius:4px;background:rgba(245,197,24,0.08);
+                  border-left:2px solid #f5c518;font-size:0.72rem;">
+      <b style="color:#f5c518">⚠ daily and weekly disagree</b>
+      <span style="color:var(--muted)"> — daily ends ${seam.daily_last_pct>=0?'+':''}${seam.daily_last_pct}%,
+      weekly opens ${seam.weekly_first_pct>=0?'+':''}${seam.weekly_first_pct}% (${seam.gap_pts>=0?'+':''}${seam.gap_pts}pt${seam.sign_flip?', SIGN FLIP':''}).
+      Two samplers, one brand — trust the regime read over either shape until they agree.</span></div>`;
+  }
+  if (ac && ac.cluster_label === 'ambiguous') {
+    html += `<div style="margin-top:6px;font-size:0.72rem;color:var(--muted);">
+      built on an <b style="color:#f5c518">ambiguous</b> analog cluster (${ac.margin_vs_second_pts}pt margin)
+      ${(ac.false_bottom_in_blend||[]).length ? `· <span style="color:#ff4d6a">${ac.false_bottom_in_blend.map(x=>x.replace(/_/g,' ')).join(', ')} is a flagged false bottom carrying real weight</span>` : ''}
+      · the zigzag is a blend artifact, not a predicted path</div>`;
+  }
   card.innerHTML = html || '<div style="color:var(--muted)">Projections populate after next sweep.</div>';
 }
 
@@ -5885,15 +5927,37 @@ function renderPriceAccuracyCard(acc) {
   ['BTC','ETH','SOL'].forEach(sym => {
     const c = coins[sym];
     if (!c || c.j6_avg_err_pct == null) return;
-    const fc = c.fc_avg_err_pct, j6 = c.j6_avg_err_pct;
+    const fc = c.fc_avg_err_pct, j6 = c.j6_avg_err_pct, da = c.da_avg_err_pct;
     const jWins = (fc != null && j6 != null && j6 < fc);
-    const edge = jWins ? '<span style="color:var(--green);font-size:0.8em"> ✓ J6 wins</span>'
-                       : '<span style="color:var(--muted);font-size:0.8em"> forecast tighter</span>';
-    html += `<div class="etf-row" style="margin-bottom:6px;">
+    // ── F8 (2026-08-11): A HORSE RACE WITH NO SAMPLE COUNT IS THEATRE ──────
+    // "fc 1.72% · J6 1.59% ✓ J6 wins" reads decisive. The gap is 0.13pt, the
+    // number is a 0.7-prior/0.3-new exponential blend, and n was never shown -
+    // so 1.5% on five samples looked identical to 1.5% on two hundred. A "win"
+    // inside the noise of an unknown sample is not a win.
+    const n = c.n_total != null ? c.n_total : (c.samples != null ? c.samples : null);
+    const gap = (fc != null && j6 != null) ? Math.abs(j6 - fc) : null;
+    const thin = (gap != null && gap < 0.25);
+    const edge = (thin || n == null || n < 10)
+      ? '<span style="color:var(--muted);font-size:0.8em"> too close / thin sample to call</span>'
+      : (jWins ? '<span style="color:var(--green);font-size:0.8em"> ✓ J6 tighter</span>'
+               : '<span style="color:var(--muted);font-size:0.8em"> forecast tighter</span>');
+    html += `<div class="etf-row" style="margin-bottom:2px;">
       <span class="etf-name">${sym}${edge}</span>
-      <span style="font-size:0.85em;"><span style="color:var(--muted)">fc ${fc==null?'--':fc+'%'}</span> · <span style="color:${jWins?'var(--green)':'var(--text)'}">J6 ${j6}%</span></span>
+      <span style="font-size:0.85em;"><span style="color:var(--muted)">fc ${fc==null?'--':fc+'%'}</span> · <span style="color:${(jWins&&!thin)?'var(--green)':'var(--text)'}">J6 ${j6}%</span>${da!=null?` · <span style="color:var(--muted)">DA ${da}%</span>`:''}</span>
+    </div>
+    <div style="font-size:0.68rem;color:var(--muted);margin-bottom:7px;">
+      ${n != null ? `n=<b>${n}</b> graded` : '<span style="color:#f5c518">n not published</span>'}
+      ${gap != null ? ` · gap ${gap.toFixed(2)}pt` : ''}
+      ${thin ? ' · <span style="color:#f5c518">inside the noise</span>' : ''}
     </div>`;
   });
+  // window + method, stated once. The number is smoothed, not a raw mean.
+  const lastG = acc && (acc.last_graded_at || acc.last_sig);
+  html += `<div style="font-size:0.68rem;color:var(--muted);margin-top:4px;border-top:1px solid var(--grid);padding-top:5px;">
+    avg % error on the 7d target, <b>exponentially smoothed</b> (0.7 prior + 0.3 each new grade) — not a raw mean over n.
+    ${lastG ? ` Last graded ${_escapeHtml(String(lastG).slice(0,16))}.` : ''}
+    ${acc && acc.samples_this_sweep != null ? ` ${acc.samples_this_sweep} new this sweep.` : ''}
+  </div>`;
   card.innerHTML = html;
 }
 
