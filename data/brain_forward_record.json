@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-08-11T16:07:49.558003-04:00",
+  "_updated": "2026-08-11T17:09:42.321823-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-11T15:04:31.320897-04:00",
+      "made_at": "2026-08-11T17:09:42.336823-04:00",
       "score_at_call": 39,
       "phase_at_call": "Panic",
       "predicted_phase": "Denial",
-      "direction": "UP",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "With 0/46 windows producing a \u00b12+ point move, the base rate screams coil\u2014HOLD is not inaction but a high-conviction statistical call that wins when the score stays in the 39-46 band.",
-      "confirmed_if": "Score remains within 39-46 (Anxiety band) for the next 12h window, validating the coil persists.",
-      "invalidated_if": "Score drops below 39 into Denial (\u226438) or spikes above 46 into Complacency, breaking the coil and requiring a reassessment of direction.",
+      "reasoning": "The coil regime has produced zero \u00b12-point moves across 46 windows (0%), no breaker is visible in ETF flows, stablecoin growth, or fed liquidity to push toward Hope, and no VIX spike or funding flip has appeared to push toward Anxiety \u2014 so the score stays pinned in Denial's band.",
+      "confirmed_if": "ETF flows sustain >30 for 3+ days AND stablecoin growth turns positive, indicating new capital entering rather than rotation",
+      "invalidated_if": "BTC breaks below $60,500 with funding flipping negative AND exchange netflow staying elevated, signaling distribution accelerating rather than stalling",
       "signals_at_call": {
         "fear_greed": 29,
-        "btc_funding": 0.002,
+        "btc_funding": 0.0083,
         "mvrv_zscore": 0.4177,
         "net_liquidity_chg_4w": -120305.0,
-        "btc_dom": 56.297680546369314,
+        "btc_dom": 56.31532899551478,
         "etf_net_total_musd": -144.67,
-        "vix": 15.36
+        "vix": 15.28
       }
     }
   ],
@@ -2757,6 +2757,32 @@
       "superseded_by": {
         "predicted_phase": "Denial",
         "direction": "UP"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
+    },
+    {
+      "made_at": "2026-08-11T15:04:31.320897-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "With 0/46 windows producing a \u00b12+ point move, the base rate screams coil\u2014HOLD is not inaction but a high-conviction statistical call that wins when the score stays in the 39-46 band.",
+      "confirmed_if": "Score remains within 39-46 (Anxiety band) for the next 12h window, validating the coil persists.",
+      "invalidated_if": "Score drops below 39 into Denial (\u226438) or spikes above 46 into Complacency, breaking the coil and requiring a reassessment of direction.",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.002,
+        "mvrv_zscore": 0.4177,
+        "net_liquidity_chg_4w": -120305.0,
+        "btc_dom": 56.297680546369314,
+        "etf_net_total_musd": -144.67,
+        "vix": 15.36
+      },
+      "superseded_at": "2026-08-11T17:09:42.335794-04:00",
+      "superseded_by": {
+        "predicted_phase": "Denial",
+        "direction": "HOLD"
       },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
