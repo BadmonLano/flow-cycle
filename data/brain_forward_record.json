@@ -1,23 +1,23 @@
 {
-  "_updated": "2026-08-11T18:12:15.193608-04:00",
+  "_updated": "2026-08-11T19:14:28.512047-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-11T17:09:42.336823-04:00",
-      "score_at_call": 39,
+      "made_at": "2026-08-11T19:14:28.526247-04:00",
+      "score_at_call": 40,
       "phase_at_call": "Panic",
-      "predicted_phase": "Denial",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The coil regime has produced zero \u00b12-point moves across 46 windows (0%), no breaker is visible in ETF flows, stablecoin growth, or fed liquidity to push toward Hope, and no VIX spike or funding flip has appeared to push toward Anxiety \u2014 so the score stays pinned in Denial's band.",
-      "confirmed_if": "ETF flows sustain >30 for 3+ days AND stablecoin growth turns positive, indicating new capital entering rather than rotation",
-      "invalidated_if": "BTC breaks below $60,500 with funding flipping negative AND exchange netflow staying elevated, signaling distribution accelerating rather than stalling",
+      "predicted_phase": "Capitulation",
+      "direction": "DOWN",
+      "conviction": "high",
+      "reasoning": "The 0-for-47 coil stat makes HOLD the only statistically honest call\u2014any directional bet is a claim you see the breaker, and neither brain has confirmed the trigger condition (ETF flows turning positive with funding below 0.015%).",
+      "confirmed_if": "ETF flows turn positive with funding staying below 0.015% and btc_momentum_30d clearing 60",
+      "invalidated_if": "ETF flows remain near 0 AND exchange_netflow stays elevated above 90 while BTC breaks below $60k with funding flipping negative",
       "signals_at_call": {
         "fear_greed": 29,
         "btc_funding": 0.0083,
         "mvrv_zscore": 0.4177,
         "net_liquidity_chg_4w": -120305.0,
-        "btc_dom": 56.31532899551478,
+        "btc_dom": null,
         "etf_net_total_musd": -144.67,
         "vix": 15.28
       }
@@ -2783,6 +2783,32 @@
       "superseded_by": {
         "predicted_phase": "Denial",
         "direction": "HOLD"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
+    },
+    {
+      "made_at": "2026-08-11T17:09:42.336823-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "The coil regime has produced zero \u00b12-point moves across 46 windows (0%), no breaker is visible in ETF flows, stablecoin growth, or fed liquidity to push toward Hope, and no VIX spike or funding flip has appeared to push toward Anxiety \u2014 so the score stays pinned in Denial's band.",
+      "confirmed_if": "ETF flows sustain >30 for 3+ days AND stablecoin growth turns positive, indicating new capital entering rather than rotation",
+      "invalidated_if": "BTC breaks below $60,500 with funding flipping negative AND exchange netflow staying elevated, signaling distribution accelerating rather than stalling",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.0083,
+        "mvrv_zscore": 0.4177,
+        "net_liquidity_chg_4w": -120305.0,
+        "btc_dom": 56.31532899551478,
+        "etf_net_total_musd": -144.67,
+        "vix": 15.28
+      },
+      "superseded_at": "2026-08-11T19:14:28.525247-04:00",
+      "superseded_by": {
+        "predicted_phase": "Capitulation",
+        "direction": "DOWN"
       },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
