@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-08-11T13:12:43.058714-04:00",
+  "_updated": "2026-08-11T14:16:46.051274-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-11T13:12:43.075077-04:00",
-      "score_at_call": 39,
+      "made_at": "2026-08-11T14:16:46.065280-04:00",
+      "score_at_call": 40,
       "phase_at_call": "Panic",
       "predicted_phase": "Denial",
-      "direction": "UP",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits in Denial (32-38); coil statistics demand HOLD as the graded, honest call\u2014directional guesses here are 0-for-18 in this regime.",
-      "confirmed_if": "etf_flows sustain above 30 for 2+ readings AND btc_momentum_30d breaks above 60",
-      "invalidated_if": "funding turns negative AND exchange_netflow drops below 80 (sudden outflow = positioning shift)",
+      "reasoning": "The score has moved \u00b12+ points in 0 of 45 12h windows (0%) \u2014 this is a verified coil and HOLD is the statistically honest default; no breaker is visible in the current factor configuration.",
+      "confirmed_if": "etf_flows break above 30 and stablecoin_growth recovers above 45 with btc_momentum holding 50+",
+      "invalidated_if": "vix spikes above 80 with funding flipping negative and exchange_netflow staying pinned at 100 \u2014 would signal panic-driven breakdown",
       "signals_at_call": {
         "fear_greed": 29,
         "btc_funding": 0.002,
         "mvrv_zscore": 0.4177,
-        "net_liquidity_chg_4w": -120304.0,
+        "net_liquidity_chg_4w": -120305.0,
         "btc_dom": null,
         "etf_net_total_musd": -144.67,
-        "vix": 15.45
+        "vix": 15.26
       }
     }
   ],
@@ -2705,6 +2705,32 @@
       "superseded_by": {
         "predicted_phase": "Denial",
         "direction": "UP"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
+    },
+    {
+      "made_at": "2026-08-11T13:12:43.075077-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "Score sits in Denial (32-38); coil statistics demand HOLD as the graded, honest call\u2014directional guesses here are 0-for-18 in this regime.",
+      "confirmed_if": "etf_flows sustain above 30 for 2+ readings AND btc_momentum_30d breaks above 60",
+      "invalidated_if": "funding turns negative AND exchange_netflow drops below 80 (sudden outflow = positioning shift)",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.002,
+        "mvrv_zscore": 0.4177,
+        "net_liquidity_chg_4w": -120304.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -144.67,
+        "vix": 15.45
+      },
+      "superseded_at": "2026-08-11T14:16:46.064280-04:00",
+      "superseded_by": {
+        "predicted_phase": "Denial",
+        "direction": "HOLD"
       },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
