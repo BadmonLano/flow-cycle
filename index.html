@@ -2600,6 +2600,39 @@ async function fetchBrainForward() {
     if (dr == null && tr == null) throw new Error('empty');
     let html = '';
     html += `<div style="font-size:0.62em;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">${is7d ? 'Last 7 days · rolling accuracy' : 'All-time (building 7-day window)'}</div>`;
+
+    // ── #11 (2026-08-11): OPEN CALLS FIRST ──────────────────────────────────
+    // The card showed the rate and the receipts but never what is LIVE RIGHT NOW.
+    // On 2026-08-11 three contradictory views were open at once (UP→Denial,
+    // DOWN→Capitulation, HOLD→Panic) and no surface said so. If more than one is
+    // open the system is multi-betting, and that has to be the first thing read,
+    // not something you learn by opening a json file.
+    const openCalls = d.open || [];
+    if (openCalls.length) {
+      const multi = openCalls.length > 1;
+      html += `<div style="margin-bottom:8px;padding:8px;border-radius:4px;
+                    background:${multi ? 'rgba(255,77,106,0.08)' : 'rgba(79,158,255,0.06)'};
+                    border-left:2px solid ${multi ? '#ff4d6a' : '#4f9eff'};">
+        <div style="font-size:0.62em;letter-spacing:0.08em;text-transform:uppercase;
+                    color:${multi ? '#ff4d6a' : '#4f9eff'};">
+          ${multi ? `⚠ ${openCalls.length} open calls — the brains are multi-betting` : 'Open call'}
+        </div>`;
+      openCalls.slice(0, 4).forEach(c => {
+        const made = c.made_at ? new Date(c.made_at) : null;
+        const ageH = made ? ((serverNow() - made.getTime()) / 3600000) : null;
+        const left = (ageH != null) ? Math.max(0, 12 - ageH) : null;
+        const dcol = c.direction === 'UP' ? 'var(--green)' : c.direction === 'DOWN' ? 'var(--red)' : 'var(--muted)';
+        html += `<div style="font-size:0.8em;margin-top:4px;">
+          <b style="color:${dcol}">${_escapeHtml(c.direction || '?')}</b>
+          <span style="color:var(--muted)"> → ${_escapeHtml(c.predicted_phase || '?')}</span>
+          ${left != null ? `<span style="color:var(--muted);float:right;">${left.toFixed(1)}h to grade</span>` : ''}
+        </div>`;
+      });
+      if (multi)
+        html += `<div style="font-size:0.72em;color:var(--muted);margin-top:5px;font-style:italic;">
+          At most one of these can be right. Each grades on its own 12h clock.</div>`;
+      html += `</div>`;
+    }
     if (dr != null) {
       const col = dr > 55 ? 'var(--green)' : dr < 45 ? 'var(--red)' : 'var(--muted)';
       html += `<div style="display:flex;justify-content:space-between;margin-bottom:6px;">
@@ -2607,7 +2640,11 @@ async function fetchBrainForward() {
         <span style="color:${col};font-weight:700;">${dr}% <span style="color:var(--muted);font-weight:400;font-size:0.85em;">(${drRec || ''})</span></span>
       </div>`;
     }
-    if (tr != null) {
+    // #11c: transition only when a transition was actually CLAIMED. Showing 5.6%
+    // when almost no call claimed a rung change reads as a failed skill; mostly it
+    // is a stat with no attempts behind it.
+    const _trClaimed = (trRec && String(trRec).split('/')[1] && +String(trRec).split('/')[1] > 0);
+    if (tr != null && _trClaimed) {
       html += `<div style="display:flex;justify-content:space-between;margin-bottom:8px;">
         <span style="color:var(--text);font-weight:600;">Transition <span style="color:var(--muted);font-weight:400;font-size:0.8em;">(rung change)</span></span>
         <span style="color:var(--muted);font-weight:700;">${tr}% <span style="font-weight:400;font-size:0.85em;">(${trRec || ''})</span></span>
@@ -2616,6 +2653,37 @@ async function fetchBrainForward() {
     // 2026-07-22 (the 0/18 lesson): regime context + splits — a cold streak in
     // a coil reads as regime information, not incompetence. And the stat Jordan
     // actually uses: when they claim a MOVE, does it move?
+    // ── #11b: HOLD vs MOVE as the HEADLINE, not a footnote ─────────────────
+    // The blended rate is a regime artifact: every resolved window realized HOLD,
+    // so "direction accuracy" is mostly "did you say HOLD in a frozen score". HOLD
+    // skill 14/14 and MOVE skill 0/72 are the two real numbers and they were
+    // buried under a blend that describes neither.
+    const sp0 = d.splits_7d || null;
+    if (sp0 && (sp0.hold_record || sp0.move_record)) {
+      const _p = r => { const m = String(r||'').split('/'); return (m[1] && +m[1] > 0) ? Math.round(+m[0]/+m[1]*100) : null; };
+      const hp = _p(sp0.hold_record), mp = _p(sp0.move_record);
+      html += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0;">
+        <div style="padding:7px;background:rgba(0,229,160,0.06);border-left:2px solid #00e5a0;">
+          <div style="font-size:0.55em;color:#00e5a0;text-transform:uppercase;letter-spacing:0.08em;">HOLD skill</div>
+          <div style="font-weight:700;color:#00e5a0;">${hp != null ? hp + '%' : '--'} <span style="font-weight:400;font-size:0.8em;color:var(--muted)">(${sp0.hold_record || '-'})</span></div>
+        </div>
+        <div style="padding:7px;background:rgba(255,77,106,0.06);border-left:2px solid #ff4d6a;">
+          <div style="font-size:0.55em;color:#ff4d6a;text-transform:uppercase;letter-spacing:0.08em;">MOVE skill</div>
+          <div style="font-weight:700;color:#ff4d6a;">${mp != null ? mp + '%' : '--'} <span style="font-weight:400;font-size:0.8em;color:var(--muted)">(${sp0.move_record || '-'})</span></div>
+        </div>
+      </div>`;
+    }
+    // void + contradicted counts — both are excluded from the rate, so both have to
+    // be visible or the denominator looks smaller than it is for no stated reason.
+    const _voids = (d.resolved || []).filter(g => g.void).length;
+    const _contra = (d.contradicted || {}).total || (d.resolved || []).filter(g => g.contradicted_by_prose).length;
+    if (_voids || _contra) {
+      const bits = [];
+      if (_voids) bits.push(`<b>${_voids}</b> void (no score coverage)`);
+      if (_contra) bits.push(`<b>${_contra}</b> contradicted (field said MOVE, reasoning said HOLD)`);
+      html += `<div style="font-size:0.72em;color:var(--muted);margin-bottom:6px;">Excluded from the rate: ${bits.join(' · ')}</div>`;
+    }
+
     const sp = d.splits_7d || null;
     if (sp && sp.regime_note) {
       html += `<div style="margin-top:6px;font-size:0.76em;color:var(--muted);font-style:italic;">${_escapeHtml(sp.regime_note)}</div>`;
