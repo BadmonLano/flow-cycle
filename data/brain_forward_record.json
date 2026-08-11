@@ -1,27 +1,7 @@
 {
-  "_updated": "2026-08-11T00:24:17.933118-04:00",
+  "_updated": "2026-08-11T01:28:20.685211-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
-    {
-      "made_at": "2026-08-10T13:20:31.212663-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Panic",
-      "predicted_phase": "Denial",
-      "direction": "UP",
-      "conviction": "medium",
-      "reasoning": "With 0 of 34 recent 12h windows showing \u00b12+ point score movement, this is a verified coil \u2014 no breaker is visible and HOLD with conviction is the skilled, statistically honest call rather than a forced directional guess in a compressed range.",
-      "confirmed_if": "btc_momentum_30d breaks above 60 with funding staying below 0.015% and exchange_netflow dropping below 40",
-      "invalidated_if": "vix spikes above 80 with dxy_weakness reversing below 50 and etf_flows collapsing below 60",
-      "signals_at_call": {
-        "fear_greed": 30,
-        "btc_funding": 0.0079,
-        "mvrv_zscore": 0.4202,
-        "net_liquidity_chg_4w": -120305.0,
-        "btc_dom": 56.47146100637389,
-        "etf_net_total_musd": 98.85,
-        "vix": 15.29
-      }
-    },
     {
       "made_at": "2026-08-10T18:33:36.416916-04:00",
       "score_at_call": 40,
@@ -35,6 +15,26 @@
       "signals_at_call": {
         "fear_greed": 30,
         "btc_funding": 0.0051,
+        "mvrv_zscore": 0.4202,
+        "net_liquidity_chg_4w": -120304.0,
+        "btc_dom": null,
+        "etf_net_total_musd": 98.85,
+        "vix": 15.46
+      }
+    },
+    {
+      "made_at": "2026-08-11T01:28:20.705212-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "The 0-for-39 base rate on \u00b12+ point moves combined with absent stablecoin growth and zero Fed liquidity makes HOLD the statistically and structurally honest call \u2014 the coil persists until a breaker appears.",
+      "confirmed_if": "stablecoin_growth rises above 45 AND fed_liquidity lifts off 0",
+      "invalidated_if": "vix spikes above 80 OR btc_exchange_reserves_pct_30d drops sharply (distribution into strength)",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.0023,
         "mvrv_zscore": 0.4202,
         "net_liquidity_chg_4w": -120304.0,
         "btc_dom": null,
@@ -2537,32 +2537,61 @@
       "transition_predicted": true,
       "transition_hit": false,
       "autopsy": "no single signal stands out \u2014 predicted DOWN, got HOLD. Regime shift or noise; watch if it repeats."
+    },
+    {
+      "made_at": "2026-08-10T13:20:31.212663-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "With 0 of 34 recent 12h windows showing \u00b12+ point score movement, this is a verified coil \u2014 no breaker is visible and HOLD with conviction is the skilled, statistically honest call rather than a forced directional guess in a compressed range.",
+      "confirmed_if": "btc_momentum_30d breaks above 60 with funding staying below 0.015% and exchange_netflow dropping below 40",
+      "invalidated_if": "vix spikes above 80 with dxy_weakness reversing below 50 and etf_flows collapsing below 60",
+      "signals_at_call": {
+        "fear_greed": 30,
+        "btc_funding": 0.0079,
+        "mvrv_zscore": 0.4202,
+        "net_liquidity_chg_4w": -120305.0,
+        "btc_dom": 56.47146100637389,
+        "etf_net_total_musd": 98.85,
+        "vix": 15.29
+      },
+      "graded_at": "2026-08-11T01:28:20.685211-04:00",
+      "score_at_grade": 39,
+      "score_delta": 0,
+      "realized_dir": "HOLD",
+      "realized_phase": "Anxiety",
+      "direction_hit": false,
+      "transition_predicted": true,
+      "transition_hit": false,
+      "autopsy": "no single signal stands out \u2014 predicted UP, got HOLD. Regime shift or noise; watch if it repeats."
     }
   ],
   "tally": {
     "direction": {
       "hit": 14,
-      "total": 84
+      "total": 85
     },
     "transition": {
       "hit": 4,
-      "total": 70
+      "total": 71
     }
   },
-  "direction_hit_rate_pct": 16.7,
-  "direction_record": "14/84",
-  "transition_hit_rate_pct": 5.7,
-  "transition_record": "4/70",
-  "direction_hit_rate_7d_pct": 6.7,
-  "direction_record_7d": "1/15",
+  "direction_hit_rate_pct": 16.5,
+  "direction_record": "14/85",
+  "transition_hit_rate_pct": 5.6,
+  "transition_record": "4/71",
+  "direction_hit_rate_7d_pct": 6.2,
+  "direction_record_7d": "1/16",
   "transition_hit_rate_7d_pct": 0.0,
-  "transition_record_7d": "0/14",
+  "transition_record_7d": "0/15",
   "splits_7d": {
     "hold_record": "1/1",
-    "move_record": "0/14",
+    "move_record": "0/15",
     "when_they_said_move_it_moved_pct": 0.0,
     "mover_windows_7d": 0,
-    "windows_7d": 15,
-    "regime_note": "score actually moved in 0 of 15 graded windows this week \u2014 a coil; HOLD is the honest default and a directional call is a breaker claim"
+    "windows_7d": 16,
+    "regime_note": "score actually moved in 0 of 16 graded windows this week \u2014 a coil; HOLD is the honest default and a directional call is a breaker claim"
   }
 }
