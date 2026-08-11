@@ -3277,9 +3277,56 @@ function renderPatternMatch(data) {
     .then(sim => {
       const matches = sim.all_matches || {};
       const keys = Object.keys(matches).sort((a,b) => matches[b].similarity - matches[a].similarity);
-      const html = keys.map(k => {
+      // ── F1 (2026-08-11): the SAME prefix bug lived here in JS ─────────────
+      // k.startsWith('top_') drove the colour, so mini_top_2019_jun rendered
+      // GREEN as a bottom. Read the real fingerprint_type off top3 when present.
+      const typeByName = {};
+      (sim.top3 || []).forEach(t => { if (t.name) typeByName[t.name] = t.fingerprint_type; });
+      const isTopOf = k => {
+        const ft = typeByName[k];
+        if (ft) return ft.includes('top');
+        return k.startsWith('top_') || k.includes('_top_') || k.startsWith('mini_top');
+      };
+      let html = '';
+
+      // ── F2/F4/F5: the banner. A max() winner with a 1.4pt gap is a REGIME
+      // read, not an identified analog - the card printed it as "the match".
+      const cl = sim.cluster_label, mg = sim.margin_vs_second_pts;
+      if (cl && cl !== 'single') {
+        const amb = (cl === 'ambiguous');
+        html += `<div style="margin-bottom:9px;padding:8px;border-radius:4px;
+          background:${amb ? 'rgba(245,197,24,0.08)' : 'rgba(0,229,160,0.06)'};
+          border-left:2px solid ${amb ? '#f5c518' : '#00e5a0'};">
+          <div style="font-size:0.6em;letter-spacing:0.08em;text-transform:uppercase;
+                      color:${amb ? '#f5c518' : '#00e5a0'};">
+            ${amb ? '⚠ ambiguous cluster' : cl + ' match'}${mg != null ? ` · ${mg}pt margin over #2` : ''}
+          </div>`;
+        const b = (sim.top3 || [])[0];
+        if (b) html += `<div style="font-size:0.82em;margin-top:3px;color:var(--text);">
+            <b>${_escapeHtml((b.name||'').replace(/_/g,' ').toUpperCase())}</b>
+            <span style="color:var(--muted);">· ${_escapeHtml(b.fingerprint_type || sim.pattern_type || '')}
+            · ${_escapeHtml(b.phase || '')} · ${_escapeHtml(b.date || '')}
+            ${b.btc_at_time ? '· BTC $' + Number(b.btc_at_time).toLocaleString() : ''}</span>
+          </div>`;
+        if (sim.cluster_note)
+          html += `<div style="font-size:0.72em;color:var(--muted);margin-top:4px;font-style:italic;">${_escapeHtml(sim.cluster_note)}</div>`;
+        if ((sim.false_bottom_in_top3 || []).length)
+          html += `<div style="font-size:0.72em;color:#ff4d6a;margin-top:4px;">
+            ⚠ ${sim.false_bottom_in_top3.map(x => _escapeHtml(x.replace(/_/g,' '))).join(', ')} is flagged in its own note as NOT a real bottom — and it is ranking in the top 3.</div>`;
+        html += `</div>`;
+      }
+      // ── F3: coverage, stated. 75% computed on 10 of 19 live factors.
+      if (sim.factor_coverage_pct != null) {
+        const ign = sim.factors_ignored_live_only || [];
+        html += `<div style="font-size:0.7em;color:var(--muted);margin-bottom:8px;">
+          scored on <b>${(sim.factors_used||[]).length}/${(sim.factors_used||[]).length + ign.length}</b>
+          live factors (${sim.factor_coverage_pct}% coverage)${ign.length ? ` · not scored: ${ign.slice(0,4).map(x=>_escapeHtml(x)).join(', ')}${ign.length>4?' +'+(ign.length-4):''}` : ''}
+        </div>`;
+      }
+
+      html += keys.map(k => {
         const m = matches[k];
-        const isTop = k.startsWith('top_');
+        const isTop = isTopOf(k);
         const pct = (m.similarity * 100).toFixed(1);
         const name = k.replace(/_/g, ' ').replace(/^top /, 'TOP · ').replace(/^bottom /, 'BTM · ').toUpperCase();
         return `
