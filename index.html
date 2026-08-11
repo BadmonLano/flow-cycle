@@ -1322,7 +1322,7 @@
       </div>
 
       <!-- headline stats -->
-      <div id="trackRecordStats" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
+      <div id="trackRecordStats" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-top:14px;">
         <div style="background:rgba(0,229,160,0.06); border-left:2px solid #00e5a0; padding:10px;">
           <div style="font-size:0.55em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase;">Hit Rate</div>
           <div id="trHitRate" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#00e5a0;">--</div>
@@ -1335,12 +1335,25 @@
           <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Current Streak</div>
           <div id="trStreak" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#f5c518;">--</div>
         </div>
+        <!-- #10 (2026-08-11): COVERAGE IS A HEADLINE NUMBER, not a footnote.
+             A hit rate without coverage is half a sentence - 47% on 5 calls and
+             47% on 50 are different claims, and abstaining is a decision he makes
+             on purpose. It was already computed and buried in the small grey line
+             under the tiles. Promoted. -->
+        <div style="background:rgba(167,139,250,0.06); border-left:2px solid #a78bfa; padding:10px;">
+          <div style="font-size:0.55em; color:#a78bfa; letter-spacing:0.1em; text-transform:uppercase;">Coverage</div>
+          <div id="trCoverage" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#a78bfa;">--</div>
+        </div>
       </div>
 
       <!-- Sprint 67: the honest companions — direction accuracy ex-partials (of the calls
            that resolved, how many were right), expectancy (avg % captured per directional
            call — the money question), coverage (how often he chose to call at all). -->
+      <!-- #10: hit rate never stands alone. -->
+      <div id="trKpi" style="display:none; font-size:0.95em; margin-top:12px; letter-spacing:0.02em;"></div>
       <div id="trHonest" style="display:none; font-size:0.68em; color:var(--muted); margin-top:8px; line-height:1.5;"></div>
+      <!-- #9: structure surfaced from the rows. -->
+      <div id="trStructure" style="display:none; font-size:0.68em; color:var(--muted); margin-top:6px; line-height:1.5;"></div>
 
       <!-- recent graded calls -->
       <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin:16px 0 6px;">Recent Calls</div>
@@ -1352,7 +1365,7 @@
       <div id="trackRecordHorseRace" style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05);"></div>
 
       <div style="font-size:0.55em; color:var(--muted); margin-top:12px; opacity:0.7;">
-        Each call owns ONE window: from the moment it's stamped to 12h later — the clock starts when he answers, not on a fixed grid. One revision per window: pulling that lever grades the live call instantly on however long it actually ran, and the revision then rides the REMAINDER of that same window before grading. The next stamp after that opens a clean 12h. It grades once against the real move, and then it's over — nothing re-grades a stance he didn't re-commit. Partial = half credit. A window that closes with no fresh call is logged as a no-call and counts toward coverage, never toward the rate: not calling is a choice, not a miss.
+        Each call owns ONE window: from the moment it's stamped to 12h later — the clock starts when he answers, not on a fixed grid. One revision per window: pulling that lever grades the live call instantly on however long it actually ran, and the revision then rides the REMAINDER of that same window before grading. The next stamp after that opens a clean 12h. It grades once against the real move, and then it's over — nothing re-grades a stance he didn't re-commit. Partial = half credit. A window that closes with no fresh call is logged as a no-call and counts toward coverage, never toward the rate: not calling is a choice, not a miss. <b>Revision economics:</b> one bullet per window. Spending it LOCKS an interim grade on the live call immediately — that grade is on the record whatever happens next — and the replacement rides only the remainder of that same window. Reaffirming costs the same bullet as flipping. There is no silent edit: every change of mind is a graded event.
       </div>
 
     <!-- BRAIN FORWARD CALLS (the brains' predictions, graded + autopsied) -->
@@ -4238,6 +4251,8 @@ async function fetchTrackRecord() {
     }
     if (daysEl) daysEl.textContent = n + ((d.carried_graded || 0) > 0 ? ` (+${d.carried_graded} legacy carried)` : '');
     if (streakEl) streakEl.textContent = (d.current_streak || 0) > 0 ? `${d.current_streak} ✓` : '—';
+    const covEl = document.getElementById('trCoverage');
+    if (covEl) covEl.textContent = (d.coverage_pct != null) ? `${d.coverage_pct}%` : '--';
 
     // Sprint 67: honest companions to the headline rate (only render what exists).
     const honestEl = document.getElementById('trHonest');
@@ -4247,10 +4262,56 @@ async function fetchTrackRecord() {
         bits.push(`<b style="color:#cbd5e0">${d.direction_accuracy_ex_partials_pct}%</b> direction accuracy (resolved calls only — partials excluded)`);
       if (d.expectancy_net_pct != null)
         bits.push(`<b style="color:${d.expectancy_net_pct >= 0 ? '#00e5a0' : '#ff4d6a'}">${d.expectancy_net_pct > 0 ? '+' : ''}${d.expectancy_net_pct}%</b> avg captured per directional call`);
-      if (d.coverage_pct != null)
-        bits.push(`<b style="color:#4f9eff">${d.coverage_pct}%</b> coverage (${d.no_calls || 0} no-call day${(d.no_calls||0)===1?'':'s'} — abstaining is a choice, not a miss)`);
+      // coverage moved UP to the tile + the KPI line (#10). Keeping it here too
+      // printed the same number three times in one card - repetition reads as
+      // padding, and the point of promoting it was to make it land, not to say it
+      // more often. What survives here is the part the tile cannot show: how many
+      // windows he chose to sit out.
+      if (d.no_calls != null)
+        bits.push(`<b style="color:#4f9eff">${d.no_calls}</b> no-call window${(d.no_calls||0)===1?'':'s'} — abstaining is a choice, not a miss`);
+      // #8 (2026-08-11): the PATH SPLIT. "wrong" and "right then gave it back" are
+      // different lessons and the headline grade calls both a miss. This is a
+      // second reading of the same rows - it never moves the hit rate.
+      if (d.path_split) {
+        const ps = d.path_split;
+        const wf = ps.worked_then_failed || 0, nw = ps.never_worked || 0, wh = ps.worked_and_held || 0;
+        if (wf + nw + wh > 0)
+          bits.push(`path: <b style="color:#f5c518">${wf}</b> worked-then-faded · ` +
+                    `<b style="color:#ff4d6a">${nw}</b> never-worked · ` +
+                    `<b style="color:#00e5a0">${wh}</b> held`);
+      }
       if (bits.length) { honestEl.innerHTML = bits.join(' &nbsp;·&nbsp; '); honestEl.style.display = 'block'; }
       else { honestEl.style.display = 'none'; }
+
+      // #10: the one-line KPI. Hit rate never appears alone again.
+      const kpiEl = document.getElementById('trKpi');
+      if (kpiEl && d.hit_rate_pct != null) {
+        const _ex = (d.expectancy_net_pct != null)
+          ? ` &nbsp;·&nbsp; expectancy <b style="color:${d.expectancy_net_pct >= 0 ? '#00e5a0' : '#ff4d6a'}">${d.expectancy_net_pct > 0 ? '+' : ''}${d.expectancy_net_pct}%</b>` : '';
+        kpiEl.innerHTML = `<b style="color:#00e5a0">${d.hit_rate_pct}%</b> hit &nbsp;·&nbsp; ` +
+                          `<b style="color:#a78bfa">${d.coverage_pct != null ? d.coverage_pct : '--'}%</b> coverage${_ex}`;
+        kpiEl.style.display = 'block';
+      }
+
+      // #9 (2026-08-11): STRUCTURE ON THE SURFACE. together / fracturing /
+      // btc-leading was already tagged on every row and only visible if you opened
+      // the json. A fracturing tape is the correlation breaking before a blow-off -
+      // that belongs on the card, not buried in a row.
+      const structEl = document.getElementById('trStructure');
+      if (structEl && d.splits && d.splits.by_structure) {
+        const rows = Object.entries(d.splits.by_structure)
+          .filter(([k, v]) => k && v && (v.n || 0) > 0)
+          .sort((a, b) => (b[1].n || 0) - (a[1].n || 0));
+        if (rows.length) {
+          structEl.innerHTML = '<span style="letter-spacing:0.1em; text-transform:uppercase; font-size:0.85em;">by structure</span> &nbsp; '
+            + rows.map(([k, v]) => {
+                const rate = (v.hit_rate_pct != null) ? v.hit_rate_pct : '--';
+                const col = k === 'fracturing' ? '#ff4d6a' : (k === 'together' ? '#00e5a0' : '#cbd5e0');
+                return `<b style="color:${col}">${k.replace(/_/g,' ')}</b> ${rate}% <span style="opacity:.6">(${v.n})</span>`;
+              }).join(' &nbsp;·&nbsp; ');
+          structEl.style.display = 'block';
+        } else { structEl.style.display = 'none'; }
+      }
     }
 
     // Recent graded calls: date · predicted dir · actual move · grade
@@ -4301,7 +4362,14 @@ async function fetchTrackRecord() {
                 <span style="color:#4f9eff; font-weight:700; min-width:18px; text-align:center;" title="grading in progress">⏱</span>
               </div>
               <div style="font-size:0.68em; color:var(--muted); padding:0 8px 6px; ">
-                Pending — grades when this window closes${revUsed ? '' : ', or instantly if he revises (1 edit left)'}. ${revUsed ? 'Revision used — this call rides the remainder of the window it revised, then grades.' : ''}
+                Pending — grades when this window closes${revUsed ? '' : ', or instantly if he revises'}.
+                <span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em;
+                             background:${revUsed ? 'rgba(255,77,106,0.12)' : 'rgba(0,229,160,0.12)'};
+                             color:${revUsed ? '#ff4d6a' : '#00e5a0'};">
+                  ${revUsed ? '● bullet SPENT' : '○ 1 bullet left'}
+                </span>
+                ${revUsed && live.is_revision ? `<span style="color:var(--muted);"> — interim grade LOCKED on the call this replaced; this one rides its remaining ${live.window_hours != null ? live.window_hours + 'h' : 'window'}, then grades.</span>` : ''}
+                ${revUsed && !live.is_revision ? '<span style="color:var(--muted);"> — revision already used this window; this call stands to the boundary.</span>' : ''}
               </div>`;
           } else if (live && live.direction && isCarried) {
             // CARRIED — a stance held past its decision window. Shadow-graded,
