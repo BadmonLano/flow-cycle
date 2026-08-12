@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-08-12T05:34:52.509110-04:00",
+  "_updated": "2026-08-12T06:37:06.470350-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-12T03:29:53.116979-04:00",
-      "score_at_call": 40,
+      "made_at": "2026-08-12T06:37:06.483982-04:00",
+      "score_at_call": 39,
       "phase_at_call": "Panic",
       "predicted_phase": "Denial",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The 0% directional movement rate over 51 windows and trapped positioning across exchange netflow, options skew, and long/short ratios confirm a coil with no breaker yet visible.",
-      "confirmed_if": "etf_flows recovers above 30 AND funding cools below 40 within 48h",
-      "invalidated_if": "btc_exchange_reserves_pct_30d stays above 95 AND cvd_btc_pct_30d rolls over below 50 AND btc breaks $60k with volume",
+      "direction": "UP",
+      "conviction": "high",
+      "reasoning": "The score has not moved \u00b12 points in 52 consecutive windows (0%), making HOLD a high-conviction graded call rather than a passive default \u2014 no brain has demonstrated the ability to call a breaker in this regime.",
+      "confirmed_if": "BTC funding drops below 0.005% with stablecoin_growth rising above 55 and exchange_netflow falling below 80 \u2014 would signal actual accumulation breaking the coil upward",
+      "invalidated_if": "VIX breaks above 20 with BTC funding rising above 0.012% and btc_dom_fade accelerating above 60 \u2014 would confirm risk-off is crushing crypto specifically, pushing toward Anxiety",
       "signals_at_call": {
         "fear_greed": 27,
-        "btc_funding": 0.01,
+        "btc_funding": 0.0086,
         "mvrv_zscore": 0.3873,
         "net_liquidity_chg_4w": -120305.0,
         "btc_dom": null,
-        "etf_net_total_musd": -144.67,
-        "vix": 15.28
+        "etf_net_total_musd": 4.89,
+        "vix": 15.39
       }
     }
   ],
@@ -2939,6 +2939,32 @@
       "superseded_by": {
         "predicted_phase": "Denial",
         "direction": "HOLD"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
+    },
+    {
+      "made_at": "2026-08-12T03:29:53.116979-04:00",
+      "score_at_call": 40,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Denial",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "The 0% directional movement rate over 51 windows and trapped positioning across exchange netflow, options skew, and long/short ratios confirm a coil with no breaker yet visible.",
+      "confirmed_if": "etf_flows recovers above 30 AND funding cools below 40 within 48h",
+      "invalidated_if": "btc_exchange_reserves_pct_30d stays above 95 AND cvd_btc_pct_30d rolls over below 50 AND btc breaks $60k with volume",
+      "signals_at_call": {
+        "fear_greed": 27,
+        "btc_funding": 0.01,
+        "mvrv_zscore": 0.3873,
+        "net_liquidity_chg_4w": -120305.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -144.67,
+        "vix": 15.28
+      },
+      "superseded_at": "2026-08-12T06:37:06.482975-04:00",
+      "superseded_by": {
+        "predicted_phase": "Denial",
+        "direction": "UP"
       },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
