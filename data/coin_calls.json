@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-12T11:01:09.442917-04:00",
+  "_updated": "2026-08-12T11:11:21.160261-04:00",
   "calls": {
     "BTC": {
       "direction": "LONG",
@@ -36,7 +36,11 @@
           "projection -0.4% \u2192 flat"
         ]
       },
-      "opened_at": "2026-08-12T11:01:09.442917-04:00"
+      "opened_at": "2026-08-12T11:01:09.442917-04:00",
+      "age_hours": 0.17,
+      "hours_left": 71.83,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "ETH": {
       "direction": "LONG",
@@ -73,7 +77,11 @@
           "projection -0.5% \u2192 flat"
         ]
       },
-      "opened_at": "2026-08-12T11:01:09.442917-04:00"
+      "opened_at": "2026-08-12T11:01:09.442917-04:00",
+      "age_hours": 0.17,
+      "hours_left": 71.83,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "SOL": {
       "direction": "LONG",
@@ -82,7 +90,7 @@
       "sl": 73.28,
       "horizon": "3d",
       "horizon_hours": 72,
-      "note": "live min-open SOL-PERP probe on the panic floor coil. mark ~76.205, lev_pnl ~-12.03%. hard SL 73.28 is invalidation; TP 84.85 is the stretch. not a stack signal.",
+      "note": "live min-open SOL-PERP probe on the panic floor coil. mark ~75.39, lev_pnl deep red on soft giveback. hard SL 73.28 is invalidation; TP 84.85 is the stretch. not a stack signal.",
       "source": "jordan",
       "opened_at": "2026-08-09T16:12:25.606830-04:00",
       "mechanical_confluence": {
@@ -90,13 +98,43 @@
         "conviction": "medium",
         "score": 2.34,
         "votes": [
-          "SOL 200wk 0.696x AT FLOOR \u2192 long",
-          "marker HUNTING_BOTTOM (conf 0.63) \u2192 short",
+          "SOL 200wk 0.698x AT FLOOR \u2192 long",
+          "bottom still ahead (HUNTING_BOTTOM, conf 0.63) \u2192 short",
           "SOL funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection -0.7% \u2192 flat"
+          "projection -0.8% \u2192 flat"
         ]
-      }
+      },
+      "probe_locked": true,
+      "probe_age_hours": 67.0,
+      "probe_agrees_with_live_stance": true,
+      "probe_note": "explicit override, frozen 67.0h - a probe outlives the 12h stance on purpose. Still agrees with your live stance."
     }
+  },
+  "perps_contract": {
+    "reads": [
+      "calls.<COIN>.direction",
+      "calls.<COIN>.entry",
+      "calls.<COIN>.tp",
+      "calls.<COIN>.sl",
+      "calls.<COIN>.source",
+      "calls.<COIN>.hours_left",
+      "calls.<COIN>.locked",
+      "calls.<COIN>.levels_stale"
+    ],
+    "do_not_size_when": {
+      "BTC": [
+        "levels_stale - direction flipped without a level rebuild",
+        "no TP/SL on the row"
+      ],
+      "ETH": [
+        "levels_stale - direction flipped without a level rebuild",
+        "no TP/SL on the row"
+      ]
+    },
+    "safe_to_size": [
+      "SOL"
+    ],
+    "_rule": "Size only from a call that is locked, directional, carries both levels, and has hours_left > 0. A row existing is not a call being tradeable - awaiting_jordan and FLAT are honest states that must never be sized."
   }
 }

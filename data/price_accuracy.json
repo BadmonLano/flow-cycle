@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-12T04:32:26.126278-04:00",
+  "_updated": "2026-08-12T11:11:21.203307-04:00",
   "horizon_days": 7,
   "_graded_sigs": [
     "2026-07-04T13:40:38.081210-04:00",
@@ -308,19 +308,80 @@
       "fc_avg_err_pct": 1.28,
       "j6_avg_err_pct": 1.16,
       "da_avg_err_pct": 2.36,
-      "samples_this_sweep": 1
+      "samples_this_sweep": 0,
+      "n_total": 0,
+      "fc_dir_hit_pct": null,
+      "j6_dir_hit_pct": null,
+      "da_dir_hit_pct": null,
+      "hold_baseline_err_pct": null,
+      "dir_samples_this_sweep": 0,
+      "dir_n_total": 0
     },
     "ETH": {
       "fc_avg_err_pct": 1.87,
       "j6_avg_err_pct": 1.8,
       "da_avg_err_pct": 2.49,
-      "samples_this_sweep": 1
+      "samples_this_sweep": 0,
+      "n_total": 0,
+      "fc_dir_hit_pct": null,
+      "j6_dir_hit_pct": null,
+      "da_dir_hit_pct": null,
+      "hold_baseline_err_pct": null,
+      "dir_samples_this_sweep": 0,
+      "dir_n_total": 0
     },
     "SOL": {
       "fc_avg_err_pct": 2.72,
       "j6_avg_err_pct": 2.35,
       "da_avg_err_pct": 4.81,
-      "samples_this_sweep": 1
+      "samples_this_sweep": 0,
+      "n_total": 0,
+      "fc_dir_hit_pct": null,
+      "j6_dir_hit_pct": null,
+      "da_dir_hit_pct": null,
+      "hold_baseline_err_pct": null,
+      "dir_samples_this_sweep": 0,
+      "dir_n_total": 0
     }
-  }
+  },
+  "n_total": 300,
+  "n_retained_sigs": 300,
+  "sigs_truncated": 0,
+  "sig_cap": 600,
+  "err_mode": "exponential_blend_0.7_prior_0.3_new",
+  "err_mode_note": "NOT a trailing-window mean. Each grade batch is folded in at 30% weight, so early-regime error persists and a single fresh vintage moves the board only slightly. Read it as stabilised memory, and never crown a levels line on a sub-epsilon gap.",
+  "grade_window_rule": "grades at snapshot + 7d; admitted until snapshot + 10d",
+  "last_grade_attempt_at": "2026-08-12T11:11:21.203307-04:00",
+  "pending_count": 20,
+  "missed_count": 91,
+  "next_due_at": "2026-08-14T03:28:45.708770-04:00",
+  "consumer_contract": {
+    "consumed_by": "coin_calls._mechanical_coin_call (levels_from)",
+    "j6_alpha_note": "if the 7d projection reports J6 within ~1pt of mechanical with no catalyst bias set, a J6 crown here is the mechanical line under another name - do not read it as curation paying off",
+    "reads": [
+      "coins.<COIN>.fc_avg_err_pct",
+      "coins.<COIN>.j6_avg_err_pct",
+      "coins.<COIN>.fc_dir_hit_pct",
+      "coins.<COIN>.j6_dir_hit_pct",
+      "coins.<COIN>.n_total",
+      "err_mode"
+    ],
+    "switch_rule": "forecast takes levels only when it is tighter by >= 0.35pt AND its direction hit rate is not materially worse. Otherwise j6 holds.",
+    "amber_when": [
+      "err_mode is a smoothed blend and the margin is inside epsilon - that is memory, not a result",
+      "n_total < 10 on the coin being switched",
+      "last_graded_at older than 10 days with no pending explanation",
+      "beats_hold_baseline is false - the models are losing to doing nothing"
+    ],
+    "_rule": "A number existing is not a number being decision-grade. When this board is amber, the levels pick should HOLD its default rather than switch on it.",
+    "amber_now": [
+      "BTC: n=0 (<10)",
+      "ETH: n=0 (<10)",
+      "SOL: n=0 (<10)"
+    ],
+    "decision_grade": false
+  },
+  "last_graded_at": null,
+  "last_graded_sig": null,
+  "board_frozen_reason": "no vintage matured this sweep. Board unchanged since never; next due 2026-08-14T03:28:45.708770-04:00"
 }
