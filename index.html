@@ -6008,7 +6008,19 @@ function renderPriceAccuracyCard(acc) {
     // inside the noise of an unknown sample is not a win.
     const n = c.n_total != null ? c.n_total : (c.samples != null ? c.samples : null);
     const gap = (fc != null && j6 != null) ? Math.abs(j6 - fc) : null;
-    const thin = (gap != null && gap < 0.25);
+    // ── pack 1 #8 (2026-08-12): EDGE MAGNITUDE, NOT A TICK ─────────────────
+    // "✓ J6 wins" reads the same at 0.07pt and 0.8pt. The epsilon the levels
+    // consumer actually uses is 0.35pt, so the card should speak in the same
+    // units the decision does - otherwise the operator and the code disagree
+    // about what counts as a win.
+    const EPS = 0.35;
+    const thin = (gap != null && gap < EPS);
+    // #9: direction skill sits beside the distance number. A line can be tighter
+    // on MAE and on the wrong side of every bounce.
+    const fcD = c.fc_dir_hit_pct, j6D = c.j6_dir_hit_pct;
+    const dirDisagrees = (fcD != null && j6D != null && ((j6 < fc) !== (j6D > fcD)));
+    // #15: did anything beat doing nothing?
+    const hold = c.hold_baseline_err_pct, beatsHold = c.beats_hold_baseline;
     const edge = (thin || n == null || n < 10)
       ? '<span style="color:var(--muted);font-size:0.8em"> too close / thin sample to call</span>'
       : (jWins ? '<span style="color:var(--green);font-size:0.8em"> ✓ J6 tighter</span>'
@@ -6017,16 +6029,49 @@ function renderPriceAccuracyCard(acc) {
       <span class="etf-name">${sym}${edge}</span>
       <span style="font-size:0.85em;"><span style="color:var(--muted)">fc ${fc==null?'--':fc+'%'}</span> · <span style="color:${(jWins&&!thin)?'var(--green)':'var(--text)'}">J6 ${j6}%</span>${da!=null?` · <span style="color:var(--muted)">DA ${da}%</span>`:''}</span>
     </div>
-    <div style="font-size:0.68rem;color:var(--muted);margin-bottom:7px;">
+    <div style="font-size:0.68rem;color:var(--muted);margin-bottom:2px;">
       ${n != null ? `n=<b>${n}</b> graded` : '<span style="color:#f5c518">n not published</span>'}
-      ${gap != null ? ` · gap ${gap.toFixed(2)}pt` : ''}
-      ${thin ? ' · <span style="color:#f5c518">inside the noise</span>' : ''}
-    </div>`;
+      ${gap != null ? ` · edge <b style="color:${thin ? '#f5c518' : 'var(--text)'}">${gap.toFixed(2)}pt</b>` : ''}
+      ${thin ? ` · <span style="color:#f5c518">inside the ${EPS}pt band the levels consumer uses — not a win</span>`
+             : ' · <span style="color:var(--green)">clear of the noise band</span>'}
+    </div>
+    ${(fcD != null || j6D != null) ? `<div style="font-size:0.68rem;color:var(--muted);margin-bottom:2px;">
+      direction: fc <b>${fcD==null?'--':fcD+'%'}</b> · J6 <b>${j6D==null?'--':j6D+'%'}</b>
+      ${dirDisagrees ? ' · <span style="color:#ff4d6a">⚠ distance and direction disagree — do not crown a levels line on MAE alone</span>' : ''}
+    </div>` : ''}
+    ${hold != null ? `<div style="font-size:0.68rem;color:${beatsHold === false ? '#ff4d6a' : 'var(--muted)'};margin-bottom:7px;">
+      vs doing nothing (spot-hold): <b>${hold}%</b>
+      ${beatsHold === false ? ' — <b>neither line beat it.</b> This board is measuring a quiet tape, not skill.'
+                            : (c.vs_hold_baseline_pts != null ? ` · best line beats it by ${c.vs_hold_baseline_pts}pt` : '')}
+    </div>` : '<div style="margin-bottom:7px;"></div>'}`;
   });
   // window + method, stated once. The number is smoothed, not a raw mean.
   const lastG = acc && (acc.last_graded_at || acc.last_sig);
+  // ── pack 1 #10 (2026-08-12): UPSTREAM HONESTY STRIP ────────────────────
+  // This card can crown a line that the 7d projection card has already shown is
+  // barely curated (J6 ≈ mech, catalysts empty) and built on an ambiguous analog
+  // cluster. Both flags are published now - read them here so the crown cannot
+  // outrun the honesty already on the page next door.
+  let upstream = [];
+  try {
+    const pj = (typeof PRICE_PROJ !== 'undefined' && PRICE_PROJ) || {};
+    const ac = pj.analog_cluster || {};
+    if (ac.cluster_label === 'ambiguous')
+      upstream.push(`the analog cluster feeding these paths is <b style="color:#f5c518">ambiguous</b> (${ac.margin_vs_second_pts}pt margin)`);
+    if ((ac.false_bottom_in_blend || []).length)
+      upstream.push(`a flagged <b style="color:#ff4d6a">false bottom</b> carries weight in the blend`);
+    const j6a = ((typeof J6_PRICE_PROJ !== 'undefined' && J6_PRICE_PROJ) || {}).assets || {};
+    const anyCat = ['BTC','ETH','SOL'].some(k => (j6a[k] || {}).catalyst_bias_pct);
+    if (!anyCat) upstream.push('J6 is running on tilt alone — <b>no catalyst bias is set</b>');
+  } catch (e) {}
+  if (upstream.length)
+    html += `<div style="font-size:0.68rem;color:var(--muted);margin-top:6px;padding:6px;
+                  background:rgba(245,197,24,0.05);border-left:2px solid #f5c518;">
+      before crowning a line: ${upstream.join(' · ')}</div>`;
+
   html += `<div style="font-size:0.68rem;color:var(--muted);margin-top:4px;border-top:1px solid var(--grid);padding-top:5px;">
-    avg % error on the 7d target, <b>exponentially smoothed</b> (0.7 prior + 0.3 each new grade) — not a raw mean over n.
+    avg % error on the 7d price TARGET, <b>exponentially smoothed</b> (0.7 prior + 0.3 each new grade) — not a raw mean over n.
+    This is the price-target race; the score-residual race is a separate board.
     ${lastG ? ` Last graded ${_escapeHtml(String(lastG).slice(0,16))}.` : ''}
     ${acc && acc.samples_this_sweep != null ? ` ${acc.samples_this_sweep} new this sweep.` : ''}
   </div>`;
