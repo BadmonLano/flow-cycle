@@ -1491,18 +1491,18 @@
         <div style="color:var(--muted)">Projections populate after next sweep.</div>
       </div>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
-        Day-by-day for the big 3. <b>BTC</b> projects off its own analogs; <b>ETH/SOL</b> = BTC's path × their beta (β, rises toward Euphoria). <b>⚡</b> = active catalyst bias on that coin (news-driven). The % is J6's 7-day move. Hover the chart for the full path.
+        Day-by-day for the big 3. <b>BTC</b> projects off its own analogs; <b>ETH/SOL</b> = BTC's path × their beta (β, rises toward Euphoria). <b>⚡</b> = active catalyst bias on that coin, when one is set. <span id="catalystState"></span> The % is J6's 7-day move vs spot; d1 is tomorrow, d7 is +7 days. Hover the chart for the full path.
       </div>
     </div>
 
     <!-- COIN CALLS (BTC/ETH/SOL leverage calls + graded record) -->
     <div class="card">
-      <div class="card-label">Coin Calls · BTC / ETH / SOL · graded</div>
+      <div class="card-label">Coin Calls · BTC / ETH / SOL · live tickets</div>
       <div id="coinCallsBody">
         <div style="color:var(--muted)">Calls populate after next sweep.</div>
       </div>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
-        Always-on direction calls (1h–3d), never silent: the <b>mechanical read + Jordan's committed stance</b> populate every hour; Jordan adjusts direction and levels with his edge, and FLAT stands only when he genuinely reads stillness. Graded: TP hit = win, SL hit = loss, expiry = timeout. Perps reads these when live.
+        Always-on direction calls (1h–3d), never silent: <b>Jordan's committed stance</b> sets direction, levels come from the tighter 7d price line, and FLAT stands only when he genuinely reads stillness. A call <b>locks when opened</b> — entry/TP/SL ride to the outcome, and the countdown drains for real. <b>Grades live elsewhere:</b> the 12h stance record is on Track Record, the 24h direction battle is on Mech vs Jordan. This card is the live leverage ticket, not a scoreboard. Perps reads these when live.
       </div>
     </div>
 
@@ -4537,12 +4537,54 @@ async function fetchTrackRecord() {
           }
           const pct = (r.actual_pct !== null && r.actual_pct !== undefined)
             ? `${r.actual_pct > 0 ? '+' : ''}${r.actual_pct}%` : '—';
+          // ── PEAK COLUMN (2026-08-11) ──────────────────────────────────────
+          // The score column is the CLOSE - what he is graded on. This is the best
+          // the window ever offered in his direction. A miss with a strong peak is
+          // a timing problem; a miss with no peak is a read problem, and the close
+          // alone cannot tell them apart.
+          const pk = r.peak_pct;
+          const sw = r.swing_pct;
+          const hasPk = (pk !== null && pk !== undefined);
+          const hasSw = (sw !== null && sw !== undefined);
+          const gb = r.gave_back_pct || 0;
+          let peakStr = '', peakTitle = '';
+          if (hasPk) {
+            // directional call: the best the window offered HIS way. Amber when a
+            // real giveback separates the peak from the close.
+            const pkCol = gb > 0.3 ? '#f5c518' : 'var(--muted)';
+            peakStr = `<span style="color:${pkCol}">pk ${pk > 0 ? '+' : ''}${pk}%</span>`;
+            // pk is SIGNED - a down call whose peak was a 2% fall shows -2.0%, matching
+            // the score column's convention. `fav` is the same move as "how far his
+            // way" (always positive) and is what the giveback is measured against.
+            const fav = (r.peak_favoured_pct !== null && r.peak_favoured_pct !== undefined)
+                        ? r.peak_favoured_pct : Math.abs(pk);
+            peakTitle = `best the window offered in his direction: ${pk > 0 ? '+' : ''}${pk}%`
+              + ` (${fav >= 0 ? fav : 0}% his way)`
+              + (gb > 0.3 ? ` — gave back ${gb}pp by the close` : '')
+              + (r.path_verdict ? ` (${String(r.path_verdict).replace(/_/g, ' ')})` : '');
+          } else if (hasSw) {
+            // ── FLAT (2026-08-11) ──────────────────────────────────────────
+            // A flat call has no direction, so it has no peak. What matters is the
+            // SWING - how far the tape got from the open either way - and it reads
+            // the opposite way round: for a directional call the close can
+            // understate, for flat it can OVERSTATE. A window that ran wide and
+            // came home quiet grades a hit while never being still.
+            const rt = !!r.flat_round_trip;
+            const swCol = rt ? '#ff4d6a' : (sw >= 0.5 ? '#f5c518' : 'var(--muted)');
+            peakStr = `<span style="color:${swCol}">sw ±${sw}%</span>`;
+            peakTitle = `FLAT call — no direction, so no peak. Widest the window got from the open: ±${sw}%.`
+              + (rt ? ' ROUND TRIP: it closed quiet but was never actually still — the grade flatters this one.'
+                    : (sw < 0.5 ? ' Genuinely still.' : ' It moved, and the close reflects it.'));
+          } else {
+            peakTitle = 'peak not recorded — this call was graded before path tracking existed';
+          }
           const dt = r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
           return `
             <div style="display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8em;">
               <span style="color:var(--muted); min-width:48px;">${dt}</span>
               <span style="color:#cbd5e0; flex:1;">Called <b>${dirWord(r.predicted)}</b>${(r.slot || '').includes('carried') ? ' <span style="font-size:0.78em; color:var(--muted); border:1px solid rgba(255,255,255,0.12); border-radius:4px; padding:0 4px;" title="LEGACY: a stance auto-re-graded past its window under the old carry rule. Abolished 2026-07-27 — a closed window now grades once and stops. Never counted toward the rate.">carried</span>' : ''}${(r.slot || '').includes('rev') ? ' <span style="font-size:0.78em; color:#4f9eff;" title="graded early on revision">rev</span>' : ''}</span>
               <span style="color:var(--muted); min-width:56px; text-align:right;">${pct}</span>
+              <span style="min-width:62px; text-align:right; font-size:0.92em;" title="${peakTitle}">${peakStr}</span>
               <span style="color:${gradeColor[g] || 'var(--muted)'}; font-weight:700; min-width:18px; text-align:center;">${gradeIcon[g] || ''}</span>
             </div>`;
         }).join('');
@@ -5760,6 +5802,23 @@ function renderPriceForecastCard() {
   // ── F4/F5: seam + analog cluster, stated once under the assets ──────────
   const pp = PRICE_PROJ || {};
   const seam = pp.seam, ac = pp.analog_cluster;
+
+  // ── 7d pack 0 #6 (2026-08-11): DON'T TEACH A FEATURE THAT IS NOT RUNNING ─
+  // catalyst_bias.json has never existed, active_catalyst_biases is {}, and the
+  // footer taught the ⚡ overlay as if it were live. "No catalyst set" is a real
+  // state and worth saying; a feature teach over zero data is not.
+  try {
+    const cs = document.getElementById('catalystState');
+    if (cs) {
+      const anyCat = ['BTC','ETH','SOL'].some(k => {
+        const j = (J6_PRICE_PROJ && J6_PRICE_PROJ.assets && J6_PRICE_PROJ.assets[k]) || null;
+        return j && j.catalyst_bias_pct;
+      });
+      cs.innerHTML = anyCat
+        ? ''
+        : '<span style="color:#f5c518">None active right now — no catalyst bias has been set, so J6 is running on directional tilt alone.</span>';
+    }
+  } catch (e) {}
   if (seam && seam.coherent === false) {
     html += `<div style="margin-top:8px;padding:7px;border-radius:4px;background:rgba(245,197,24,0.08);
                   border-left:2px solid #f5c518;font-size:0.72rem;">
@@ -5798,11 +5857,24 @@ function renderCoinCallsCard(calls, hist) {
     if (!c) return;
     const dir = c.direction || 'FLAT';
     const dirColor = dir === 'LONG' ? 'var(--green)' : dir === 'SHORT' ? 'var(--red)' : 'var(--muted)';
-    const src = c.source === 'jordan' ? 'J6' : 'mech';
-    const srcColor = c.source === 'jordan' ? 'var(--green)' : 'var(--muted)';
+    // ── F3 (2026-08-11): THE CHIP WAS A TWO-BUCKET LIE ─────────────────────
+    // `jordan ? 'J6' : 'mech'` cannot express four sources. jordan_committed - the
+    // DEFAULT since one-voice - rendered as "mech", so the card called Jordan's own
+    // stance a formula. And "J6" steals the price-line brand: on this card it meant
+    // "explicit Jordan", on the projection card it means the curated price curve.
+    // Two different meanings, one label, on the same page.
+    const SRC_MAP = {
+      'jordan':                  { chip: 'jordan',    color: 'var(--green)',  title: 'explicit editorial override - his own levels, frozen until he changes them' },
+      'jordan_committed':        { chip: 'committed', color: '#a78bfa',       title: "echoes Jordan's committed 12h stance - his direction, projection levels" },
+      'jordan_committed_mirror': { chip: 'committed', color: '#a78bfa',       title: "mirrors Jordan's committed stance" },
+      'mechanical':              { chip: 'mech',      color: 'var(--muted)',  title: 'confluence formula - no Jordan voice on this one' },
+      'awaiting_jordan':         { chip: 'awaiting',  color: '#f5c518',       title: 'no committed stance live - awaiting his call' },
+    };
+    const _sm = SRC_MAP[c.source] || { chip: c.source || '?', color: 'var(--muted)', title: '' };
+    const src = _sm.chip, srcColor = _sm.color, srcTitle = _sm.title;
     if (dir === 'FLAT') {
       html += `<div class="etf-row" style="margin-bottom:8px;">
-        <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em">${src}</span></span>
+        <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em" title="${_escapeHtml(srcTitle)}">${src}</span></span>
         <span style="color:var(--muted)">FLAT</span></div>`;
     } else {
       // countdown: opened_at + horizon_hours -> time remaining, ticks live
@@ -5811,7 +5883,7 @@ function renderCoinCallsCard(calls, hist) {
       const cdAttr = openedAt ? `data-opened="${openedAt}" data-horizon-h="${horizonH}"` : '';
       html += `<div style="margin-bottom:10px;">
         <div class="etf-row" style="font-weight:600">
-          <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em">${src}</span></span>
+          <span class="etf-name">${sym} <span style="color:${srcColor};font-size:0.7em" title="${_escapeHtml(srcTitle)}">${src}</span></span>
           <span style="color:${dirColor}">${dir} <span class="coin-call-countdown" ${cdAttr} style="font-size:0.8em;color:var(--muted)">[${c.horizon||'3d'}]</span></span>
         </div>
         <div style="font-size:0.78em;color:var(--muted);margin-top:2px;">
