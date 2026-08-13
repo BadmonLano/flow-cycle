@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-13T09:24:39.351425-04:00",
+  "_updated": "2026-08-13T10:44:01.489517-04:00",
   "_note": "Jordan's current editorial calls. His call > auto-computed. Loaded at boot. bots\\tuner is the truth.",
   "calls": {
     "phase": {
@@ -10,9 +10,9 @@
     },
     "winning_line": {
       "value": "forecast",
-      "reasoning": "autopsy 09:03: forecast residual 0.0, j6 3.6, da 21.8. forecast_winning_decisive. data unchanged from the last winning_line call.",
-      "called_at": "2026-08-13T09:24:39.296905-04:00",
-      "data_at_call": "forecast_winning_decisive"
+      "reasoning": "race state flipped forecast_winning_decisive to degraded_week0_pinned. that is not a new winner. last clean leader was still the cold line. a week-0 pin is not a j6 promotion.",
+      "called_at": "2026-08-13T10:44:01.436510-04:00",
+      "data_at_call": "degraded_week0_pinned"
     },
     "pattern_match": {
       "reasoning": "closest analog still accumulation bottom (76.3%). june panic LONG analogs mixed modest moves, so analog is floor context not permission to size up.",
@@ -32,10 +32,10 @@
       "value": 35.0
     },
     "invariants_firing": {
-      "reasoning": "keep book-state and funding honest vs prior restamp.",
-      "called_at": "2026-08-12T11:11:20.714374-04:00",
-      "data_at_call": null,
-      "value": "200-week floor still under test (btc ~0.99x). btc etf tiny green +4.9m, eth etf leak, sol etf tiny green. multi-source bearish confluence and liquidation headlines are watch-only (vix calm, equities firm). sol funding shorts_crowded = squeeze fuel not top. open book is one sol min-open long."
+      "value": "200-week floor still under test (btc ~0.995x). btc etf flipped to a leak this print, eth tiny green, sol flat. multi-source bearish confluence and liquidation headlines stay watch-only (vix 14.4, equities firm). open book is one sol min-open long.",
+      "reasoning": "etf print changed since last invariants stamp. floor + no-breadth rule unchanged.",
+      "called_at": "2026-08-13T10:13:00.143770-04:00",
+      "data_at_call": null
     },
     "exit_priority_signal": {
       "reasoning": "soft_trail_sensor_v1 live; tripwire matches open book.",
@@ -50,9 +50,9 @@
       "value": "NEUTRAL"
     },
     "the_read": {
-      "value": "no-call stands. 200-week floor is real, but fear/panic/long analogs are still split and the bearish news stack is louder than the bid. not stamping a graded day direction into a null score.",
-      "reasoning": "daily_read_refresh 09:03 asked confirm or update. tape still Panic, fear and greed 29, score null. same no-call as the 06:59 morning thesis.",
-      "called_at": "2026-08-13T09:24:39.166642-04:00",
+      "value": "no-call stands. 200-week floor is real, panic/fear/LONG analogs still 2-2 modest chop, and the btc etf print just leaked. not stamping a graded day direction into a null score.",
+      "reasoning": "pattern_trigger n=4 still split. etf flipped from tiny green to a leak. selectivity: do not over-call.",
+      "called_at": "2026-08-13T10:13:00.093773-04:00",
       "data_at_call": null
     },
     "voice": {
@@ -77,10 +77,10 @@
       "value": "low"
     },
     "detections": {
-      "reasoning": "this sweep's pattern_trigger and theme confluence folded as color, not a chase.",
-      "called_at": "2026-08-13T01:01:54.390054-04:00",
-      "data_at_call": null,
-      "value": "floor-coil + mixed panic-fear-LONG journal analogs n=4 (-0.24/-0.33/+1.59/+1.00) + 3/4-source bearish geo/liq confluence without risk breadth. no regime break."
+      "value": "floor-coil + mixed panic-fear-LONG journal analogs n=4 (-0.24/-0.33/+1.59/+1.00) + 3-source bearish confluence 1h/6h without risk breadth. no regime break.",
+      "reasoning": "this sweep pattern_trigger plus theme_convergence folded as color, not a chase.",
+      "called_at": "2026-08-13T10:13:00.191809-04:00",
+      "data_at_call": null
     },
     "data_gaps": {
       "reasoning": "same empty google_trends relay as prior nights. absence logged, not escalated.",
@@ -89,10 +89,10 @@
       "value": "google trends presweep empty again (retail attention incomplete; no blind retry). trade on file macro + already-ingested confluence envelopes."
     },
     "horse_race_read": {
-      "value": "the cold line is still tighter than my overrides. floor weights are a forward bet, not this week's residual win.",
-      "reasoning": "j6 error is shrinking but still behind. not promoting overrides.",
-      "called_at": "2026-08-13T09:24:39.350426-04:00",
-      "data_at_call": "forecast_winning_decisive"
+      "value": "the race just pinned at week zero. nobody is winning this week. last clean leader was the cold line. i am not promoting my overrides off a dead residual.",
+      "reasoning": "drift flag said the decisive forecast win died. say that in public language without pretending j6 took the lead.",
+      "called_at": "2026-08-13T10:44:01.489517-04:00",
+      "data_at_call": "degraded_week0_pinned"
     },
     "reset_euphoria": {
       "reasoning": "no euphoria reset signal.",
@@ -148,26 +148,26 @@
       }
     },
     "news_read": {
-      "reasoning": "refresh the stale aug 9 news card to this sweep's live catalysts.",
-      "called_at": "2026-08-13T01:01:54.409090-04:00",
-      "data_at_call": null,
       "value": [
         {
-          "headline": "Crypto liquidations near $1B as BTC/ETH retreat from highs",
-          "effect": "forced selling color under fear tape, not a fresh regime break while vix is 14.6 and equities firm",
-          "ts": "2026-08-13T01:01:54.408090-04:00"
+          "headline": "BTC ETF net flipped to a sizable outflow this print",
+          "effect": "the quiet bid leaked; supports no-call and no add, not a floor break by itself",
+          "ts": "2026-08-13T10:13:00.245291-04:00"
         },
         {
-          "headline": "Russia benefits from Iran war oil shocks (crucix + news + polymarket confluence)",
-          "effect": "loud geo headline stack; watch-only without risk-off breadth",
-          "ts": "2026-08-13T01:01:54.409090-04:00"
+          "headline": "Russia/Iran oil-shock geo stack still loud across sources",
+          "effect": "watch-only without risk-off breadth (vix 14.4, equities firm)",
+          "ts": "2026-08-13T10:13:00.245291-04:00"
         },
         {
-          "headline": "ETF tape tiny: BTC +5m, ETH -1.8m, SOL +1.4m",
-          "effect": "quiet mixed bid, not a green flood; supports floor patience not size-up",
-          "ts": "2026-08-13T01:01:54.409090-04:00"
+          "headline": "Crypto liquidation headlines under the same fear tape",
+          "effect": "forced-selling color, not a fresh regime break",
+          "ts": "2026-08-13T10:13:00.245291-04:00"
         }
-      ]
+      ],
+      "reasoning": "refresh the stale tiny-green etf card to this sweep's leak. geo/liq stay color only.",
+      "called_at": "2026-08-13T10:13:00.245291-04:00",
+      "data_at_call": null
     },
     "next_phase": {
       "reasoning": "legal +1 rung only if floor holds and etf bid persists. not priced as live yet.",
@@ -198,81 +198,81 @@
       ]
     },
     "confirmation": {
-      "reasoning": "prior confirmation said no live ticket. that was stale against the open sol book.",
-      "called_at": "2026-08-13T01:01:54.382049-04:00",
-      "data_at_call": null,
-      "value": "live ticket is one sol-perp min-open long from 77.13, sl 73.28. allow add only if btc holds the 200-week floor with calm funding AND fear clears 35 AND etf bid prints multi-day. geo or liquidation headlines alone do not flip size on."
+      "value": "live ticket is one sol-perp min-open long from 77.13, sl 73.28. add gate stays closed: this etf print leaked, fear is still 29, and analogs are still 2-2. geo or liquidation headlines alone do not flip size on.",
+      "reasoning": "prior add gate required multi-day etf bid. this print is the opposite, so say so.",
+      "called_at": "2026-08-13T10:13:00.293292-04:00",
+      "data_at_call": null
     }
   },
   "content_age_hours": {
-    "phase": 22.2,
+    "phase": 23.5,
     "winning_line": 0.0,
-    "pattern_match": 22.2,
-    "cycle_position": 22.2,
-    "surprise_index": 99.8,
-    "invariants_firing": 22.2,
-    "exit_priority_signal": 22.2,
-    "leverage_bias": 1.4,
-    "the_read": 0.0,
-    "voice": 6.3,
-    "falsification": 106.1,
-    "j6_line": 95.7,
-    "cliff_proximity": 106.1,
-    "detections": 8.4,
-    "data_gaps": 8.4,
+    "pattern_match": 23.5,
+    "cycle_position": 23.5,
+    "surprise_index": 101.1,
+    "invariants_firing": 0.5,
+    "exit_priority_signal": 23.5,
+    "leverage_bias": 2.8,
+    "the_read": 0.5,
+    "voice": 7.6,
+    "falsification": 107.4,
+    "j6_line": 97.0,
+    "cliff_proximity": 107.4,
+    "detections": 0.5,
+    "data_gaps": 9.7,
     "horse_race_read": 0.0,
-    "reset_euphoria": 106.1,
-    "daily_call": 22.2,
-    "btc_call": 22.2,
-    "eth_call": 22.2,
-    "sol_call": 22.2,
-    "news_read": 8.4,
-    "next_phase": 66.5,
-    "next_phase_conviction": 66.5,
-    "market_drivers": 89.1,
-    "confirmation": 8.4
+    "reset_euphoria": 107.4,
+    "daily_call": 23.5,
+    "btc_call": 23.5,
+    "eth_call": 23.5,
+    "sol_call": 23.5,
+    "news_read": 0.5,
+    "next_phase": 67.8,
+    "next_phase_conviction": 67.8,
+    "market_drivers": 90.4,
+    "confirmation": 0.5
   },
   "_content_clock_note": "per-item age from each call's OWN called_at. `_updated` above is the FILE clock and advances on any field - it is not evidence that any particular call is fresh.",
-  "news_read_age_hours": 8.4,
+  "news_read_age_hours": 0.5,
   "news_read_stale": false,
   "news_read_floor_hours": 24.0,
   "mechanical_draft": {
     "source": "signal_contracts (venue of record)",
     "items": [
       {
-        "headline": "[geo_conflict] Zelensky accuses Russia of using North Korean missiles in deadly attack - France 24",
+        "headline": "[meme_narrative] Malwarebytes Discovers $500 Tesla Token Pre-sale Scam Toolkit - ABAB News",
         "direction": "bearish",
         "severity": "critical",
-        "signal_type": "catalyst",
-        "emitted_at": "2026-08-13T13:16:02Z",
-        "id": "news_catalyst_1786626962_f37a37"
+        "signal_type": "sentiment",
+        "emitted_at": "2026-08-13T14:02:12Z",
+        "id": "news_catalyst_1786629732_435f87"
       },
       {
-        "headline": "[crypto_bearish] Ether\u2019s 20% Freefall Triggers $1B Liquidation Cascade as Crypto Losses Accelerate \u2013 Printhereum",
+        "headline": "[meme_narrative] Hypervault Vanishes With $3.6M \u2014 DeFi Rug Pull Exposed",
         "direction": "bearish",
         "severity": "critical",
-        "signal_type": "catalyst",
-        "emitted_at": "2026-08-13T12:59:09Z",
-        "id": "news_catalyst_1786625949_fc8ad9"
+        "signal_type": "sentiment",
+        "emitted_at": "2026-08-13T14:02:06Z",
+        "id": "news_catalyst_1786629726_ff3d72"
       },
       {
-        "headline": "[crypto_regulatory] Hackers Drain $7.9M From Coinsbuy; Monero Upgrade Kills Last Forensic Fallback",
+        "headline": "[meme_narrative] Crypto Disaster: Qubetics Token Crashes Nearly 100%\u2014Possible Rug Pull | Altcoin memecoins | CryptoRank.io",
         "direction": "bearish",
         "severity": "critical",
-        "signal_type": "catalyst",
-        "emitted_at": "2026-08-13T12:58:56Z",
-        "id": "news_catalyst_1786625936_e9c112"
+        "signal_type": "sentiment",
+        "emitted_at": "2026-08-13T14:02:06Z",
+        "id": "news_catalyst_1786629726_feb450"
       }
     ],
     "candidates": 40,
-    "drafted_at": "2026-08-13T09:24:39.365424-04:00",
+    "drafted_at": "2026-08-13T10:44:01.506087-04:00",
     "status": "standby",
     "_rule": "NEVER written into news_read and never rendered as Jordan's voice. Severity-ranked, newest-first, expired envelopes dropped. This is a labelled BACKSTOP for a stale curated rail, not a replacement for curation - the floor is freshness honesty, not an unfiltered dump."
   },
   "live_scan": {
-    "title": "US attacks Iran as Tehran fires at tankers in strait | AP News",
-    "at": "2026-08-13T09:21:30.349935-04:00",
-    "active_count": 5,
+    "title": "Global Liquidations Hit $301 Million in 24 Hours, Long Positions Account for $201 Million | Gate News",
+    "at": "2026-08-13T10:02:12.309027-04:00",
+    "active_count": 20,
     "_note": "read-only proof the news_catalyst pipe is producing. This is NOT the card body and never auto-publishes - it exists so a stale CURATION cannot be mistaken for a dead PIPELINE."
   }
 }
