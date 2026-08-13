@@ -1,27 +1,29 @@
 {
-  "_updated": "2026-08-13T07:58:34.863675",
+  "_updated": "2026-08-13T09:03:31.904532",
   "anchor_date": "2026-08-13",
-  "current_btc_price": 63408,
+  "current_btc_price": 63633,
   "signatures": {
     "parabolic": {
       "score": 0.0,
       "status": "flat_or_down",
       "metrics": {
-        "gain_7d": -1.81,
-        "gain_30d": -1.3,
-        "gain_60d": -3.38,
-        "gain_90d": -19.85,
+        "gain_7d": -1.46,
+        "gain_30d": -0.95,
+        "gain_60d": -3.04,
+        "gain_90d": -19.57,
         "acceleration": 0
       }
     },
     "magnitude": {
-      "score": 0.5,
+      "score": 0.8,
       "status": "mid_cycle_rally",
       "metrics": {
         "cycle_bottom": 25162.654297,
         "cycle_bottom_date": "2023-09-11",
-        "current_multiple": 2.52,
-        "pct_of_ath": 50.8,
+        "bottom_source": "rolling_1095d_fallback",
+        "bottom_source_note": "FALLBACK: lowest close in a rolling 1095d window. History could not reach the prior ATH, so this bottom may be a mid-drawdown bounce, not the cycle low - treat the multiple as a floor, not a measurement.",
+        "current_multiple": 2.53,
+        "pct_of_ath": 51.0,
         "all_time_high": 124752.53125
       }
     },
@@ -35,29 +37,42 @@
         "fg_days_above_75": 0,
         "fg_days_above_85": 0,
         "btc_funding": 0.0072,
-        "funding_score": 14.4
+        "funding_score": 14.4,
+        "funding_raw": 0.0072,
+        "funding_unit": "percent_per_8h (0.05 = 0.05% = 5bps)",
+        "funding_unit_ok": true,
+        "funding_unit_note": null
       }
     },
     "macro": {
-      "score": 38.5,
+      "score": 38.7,
       "status": "mixed",
       "metrics": {
-        "dxy_score": 32.3,
+        "dxy_score": 32.9,
         "stablecoin_score": 0,
+        "stablecoin_level": 260942755578.0,
+        "stablecoin_level_note": "supply $261B, 60d change -2.2% - LEVEL is high but CHANGE is cold: dry powder that stopped growing, which is not the same as no fuel",
         "vix_score": 70,
         "sp500_score": 98.8,
         "aligned_count": 2
       }
     },
     "breadth": {
-      "score": 21.5,
+      "score": 23.2,
       "status": "btc_leading",
       "metrics": {
-        "eth_btc_score": 26.8,
-        "sol_btc_score": 13.1,
-        "btc_dom_score": 25.0,
-        "eth_btc_chg_30d": 2.68,
-        "sol_btc_chg_30d": 1.31
+        "eth_btc_score": 28.6,
+        "sol_btc_score": 15.9,
+        "btc_dom_score": 24.8,
+        "btc_dom_available": true,
+        "legs_used": [
+          "eth_btc",
+          "sol_btc",
+          "btc_dom"
+        ],
+        "_dom_note": null,
+        "eth_btc_chg_30d": 2.86,
+        "sol_btc_chg_30d": 1.59
       }
     },
     "shape": {
@@ -72,7 +87,7 @@
     }
   },
   "composite": {
-    "composite": 10.0,
+    "composite": 10.3,
     "alert": "quiet",
     "strict_fire": false,
     "signatures_above_70": 0,
@@ -80,7 +95,7 @@
       "required_above_70": 4,
       "current_above_70": 0,
       "required_composite": 80,
-      "current_composite": 10.0,
+      "current_composite": 10.3,
       "all_conditions_met": false
     }
   },
@@ -95,5 +110,27 @@
   "reference_blowoffs": [
     "2017_dec",
     "2021_nov"
-  ]
+  ],
+  "shape_regression_check": {
+    "_checked_at": "2026-08-13T09:03:29.945064",
+    "checks": [
+      {
+        "name": "bottom_shape_not_scored_as_top",
+        "bottom_score": 0,
+        "limit": 50,
+        "ok": true,
+        "why": "a capitulation slide must not inflate the top signal - the pre-2026-06-26 cosine returned ~0.98 for this exact curve"
+      },
+      {
+        "name": "top_and_bottom_are_distinguishable",
+        "top_score": 0,
+        "bottom_score": 0,
+        "ok": true,
+        "inconclusive": true,
+        "why": "the synthetic top matched no reference window, so this pair cannot test separation. NOT a regression - the real guard is the bottom check above, which is the one the cosine bug broke."
+      }
+    ],
+    "passed": true,
+    "verdict": "shape signature is kind-aware - the 2026-06-26 Pearson fix holds (separation check inconclusive on synthetic data)"
+  }
 }

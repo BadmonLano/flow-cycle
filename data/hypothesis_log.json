@@ -1,5 +1,8 @@
 {
-  "_updated": "2026-08-13T07:58:30.313780-04:00",
+  "_updated": "2026-08-13T09:03:25.515385-04:00",
+  "grader_status": "not_implemented",
+  "grades": [],
+  "grader_note": "no grade_hypotheses function exists anywhere in bots/, despite the docstring naming it and the site footer claiming theses are 'scored as turns print'. fire_sweeps counts how often the CONDITIONS were true; it is not a record of whether the thesis was RIGHT. Grading needs a turn oracle - which past dates were real tops and bottoms - and that has not been built. Until it is, 0 fires is not 0-for-5.",
   "_doctrine": "Seed-and-track: named theses you proposed, tracked going forward. currently_firing = conditions live now. fire_sweeps = how many sweeps it's fired total. Scoring vs realized turns accrues over time \u2014 the euphoria thesis can't be backtested (too few tops), so we let the future grade it. Edit hypotheses.json to add your own.",
   "firing_now": [],
   "firing_count": 0,
@@ -10,7 +13,22 @@
       "fire_sweeps": 0,
       "first_fired": null,
       "last_fired": null,
-      "currently_firing": false
+      "currently_firing": false,
+      "legs": [
+        {
+          "ok": false,
+          "kind": "rotation_stage",
+          "need": "MEME_SEASON",
+          "actual": "BTC_LED"
+        }
+      ],
+      "legs_passing": 0,
+      "legs_total": 1,
+      "blocked_by": [
+        "rotation stage is BTC_LED, needs MEME_SEASON"
+      ],
+      "near_miss": false,
+      "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
     },
     "euphoria_sequence_stage2_alt": {
       "thesis": "Both SOL and ETH diverging (alt season) means we're mid-to-late in the run to the top",
@@ -18,7 +36,22 @@
       "fire_sweeps": 0,
       "first_fired": null,
       "last_fired": null,
-      "currently_firing": false
+      "currently_firing": false,
+      "legs": [
+        {
+          "ok": false,
+          "kind": "rotation_stage",
+          "need": "ALT_SEASON",
+          "actual": "BTC_LED"
+        }
+      ],
+      "legs_passing": 0,
+      "legs_total": 1,
+      "blocked_by": [
+        "rotation stage is BTC_LED, needs ALT_SEASON"
+      ],
+      "near_miss": false,
+      "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
     },
     "euphoria_blowoff": {
       "thesis": "Both alts diverging hard while BTC extended = blow-off zone",
@@ -26,7 +59,22 @@
       "fire_sweeps": 0,
       "first_fired": null,
       "last_fired": null,
-      "currently_firing": false
+      "currently_firing": false,
+      "legs": [
+        {
+          "ok": false,
+          "kind": "rotation_stage",
+          "need": "BLOWOFF_RISK",
+          "actual": "BTC_LED"
+        }
+      ],
+      "legs_passing": 0,
+      "legs_total": 1,
+      "blocked_by": [
+        "rotation stage is BTC_LED, needs BLOWOFF_RISK"
+      ],
+      "near_miss": false,
+      "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
     },
     "classic_top_froth": {
       "thesis": "Extreme greed + funding blown out + BTC stretched = classic top froth",
@@ -34,7 +82,32 @@
       "fire_sweeps": 0,
       "first_fired": null,
       "last_fired": null,
-      "currently_firing": false
+      "currently_firing": false,
+      "legs": [
+        {
+          "ok": false,
+          "kind": "factor",
+          "factor": "fear_greed",
+          "op": ">=",
+          "need": 75,
+          "actual": 29
+        },
+        {
+          "ok": true,
+          "kind": "factor",
+          "factor": "ma_200w_factor",
+          "op": ">=",
+          "need": 70,
+          "actual": 95.0
+        }
+      ],
+      "legs_passing": 1,
+      "legs_total": 2,
+      "blocked_by": [
+        "fear_greed is 29, needs >= 75"
+      ],
+      "near_miss": true,
+      "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
     },
     "generational_bottom": {
       "thesis": "Extreme fear + BTC at/below 200wk floor = generational accumulation",
@@ -42,7 +115,32 @@
       "fire_sweeps": 0,
       "first_fired": null,
       "last_fired": null,
-      "currently_firing": false
+      "currently_firing": false,
+      "legs": [
+        {
+          "ok": true,
+          "kind": "factor",
+          "factor": "fear_greed",
+          "op": "<=",
+          "need": 30,
+          "actual": 29
+        },
+        {
+          "ok": false,
+          "kind": "factor",
+          "factor": "ma_200w_factor",
+          "op": "<=",
+          "need": 20,
+          "actual": 95.0
+        }
+      ],
+      "legs_passing": 1,
+      "legs_total": 2,
+      "blocked_by": [
+        "ma_200w_factor is 95.0, needs <= 20"
+      ],
+      "near_miss": true,
+      "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
     }
   }
 }

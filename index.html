@@ -1142,8 +1142,13 @@
         </div>
         <div class="chart-actions">
           <button class="chart-action-btn" id="toggleMarkers" onclick="toggleMarkers()">◌ AI Markers</button>
+          <!-- H1 (2026-08-12): the card is titled "…AI Annotations" and JS has looked
+               up #toggleAnnotationsBtn since it was written, but no such element
+               existed in this row. 46 live shapes and a 2-min poll were unreachable -
+               off by omission, not by policy, under a title that advertised them. -->
+          <button class="chart-action-btn" id="toggleAnnotationsBtn" onclick="toggleAnnotationsBtn()" title="Jordan's shapes: pattern callouts, trendlines and event markers on the chart. Off by default for a clean canvas.">◌ Jordan</button>
           <button class="chart-action-btn on" id="togglePrediction" onclick="togglePrediction()">◉ Forecast</button>
-          <button class="chart-action-btn on" id="toggleDevilsAdvocate" onclick="toggleDevilsAdvocate()" title="Time-shifted inverse of forecast. Falsifiable counter-thesis: peak now / bottom in October instead of bottom now / peak in October.">◉ Devil's Advocate</button>
+          <button class="chart-action-btn on" id="toggleDevilsAdvocate" onclick="toggleDevilsAdvocate()" title="SAME-DATE inverse of the forecast (100 - fc on each date), per the Sprint 43 doctrine. A falsifiable mirror, not an independent model — when the forecast is pinned at the origin, DA's residual is pure arithmetic off it.">◉ Devil's Advocate</button>
           <button class="chart-action-btn on" id="toggleJ6" onclick="toggleJ6()" title="Jordan-curated curve (green) — Jordan's editorial overrides layered on the bot envelope tilt.">◉ J6</button>
           <button class="chart-action-btn" onclick="resetZoom()" title="Reset zoom">⊙ Reset</button>
         </div>
@@ -1533,10 +1538,10 @@
     <div class="card">
       <div class="card-label">Weight Fit · back-tester</div>
       <div id="weightFitBody">
-        <div style="color:var(--muted)">Fits daily — suggestion appears when a tighter weight set is found.</div>
+        <div style="color:var(--muted)">Fits every 10 days — suggestion appears when a tighter weight set is found.</div>
       </div>
       <div style="font-size:0.75rem;color:var(--muted);margin-top:8px;line-height:1.4;">
-        Fits all J6 weights against the full history + last 10 days. When a tighter set exists, it's suggested here for Jordan to accept/reject. Fits the past; his edge is the future.
+        Runs <b>every 10 days</b>, fitting the 31 tilt inputs against full history with the last 10 days overweighted. Two objectives are fitted: <b>score-residual agreement</b> (how closely J6 tracks the flow score) and <b>12h BTC direction</b> (the one that pays). When they disagree, <b>that disagreement is the finding</b>. Decide via <code>json_relay/weight_fit_decision.json</code> — this card is read-only by doctrine, and nothing is ever auto-applied. Fits the past; his edge is the future.
       </div>
     </div>
 
@@ -1602,6 +1607,9 @@
         </div>
       </div>
 
+      <!-- F4/F8: the three "top" products that are NOT this card, in one line -->
+      <div id="blowoffCollisionStrip" style="display:none;font-size:0.7em;color:var(--muted);
+           margin-top:8px;padding:6px;background:rgba(255,255,255,0.02);border-left:2px solid var(--grid);"></div>
       <div class="blowoff-footnote" id="blowoffFootnote">
         Strict detector fires when 4+ signatures above 70 AND composite above 80. Only fires on the real deal (like 2017 Dec / 2021 Nov).
       </div>
@@ -1641,6 +1649,12 @@
         <span class="tier-badge" id="invariantsTopStrength" style="margin-left:auto; background:rgba(255,77,106,0.15); color:#ff4d6a;">TOP --</span>
         <span class="tier-badge" id="invariantsBotStrength" style="margin-left:6px; background:rgba(0,229,160,0.15); color:#00e5a0;">BOT --</span>
       </div>
+      <!-- #5: how the ticks were decided, and who consumes them -->
+      <div id="invariantsMethod" style="display:none;font-size:0.68em;color:var(--muted);
+           margin-top:8px;padding:6px;background:rgba(255,255,255,0.02);border-left:2px solid var(--grid);"></div>
+      <!-- #2: Jordan's own invariants read, carried onto the payload -->
+      <div id="invariantsJordan" style="display:none;font-size:0.72em;color:var(--text);
+           margin-top:8px;padding:7px;background:rgba(79,158,255,0.05);border-left:2px solid #4f9eff;"></div>
       <div id="invariantsInterpretation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
         Awaiting invariants...
       </div>
@@ -1758,7 +1772,7 @@
         <button class="card-label-action" onclick="refreshMarkers()" title="Refresh">↻</button>
       </div>
       <div style="font-size:0.7em; color:var(--muted); margin:4px 0 8px; line-height:1.45;">
-        The system flags moments when current conditions strongly resemble a specific historical top or bottom. The dots on the chart mark them; Jordan's read on what they mean is below.
+        The engine stamps a detection every sweep — the live read is at the top, Jordan's words on it below. <b>Chart pins are off by default</b>; toggle <b>◌ AI Markers</b> to see them. A detection is only called HIGH when the analog cluster actually separates — a strong similarity against an unresolved cluster is a regime rhyme, not an identified turn.
       </div>
       <div class="markers-list" id="markersList">
         <div style="color: var(--muted); font-size: 0.75em; text-align: center; padding: 20px;">Loading...</div>
@@ -2454,8 +2468,35 @@ async function fetchNews() {
     const calls = (d && d.calls) || {};
     const nr = calls.news_read;
     const items = nr && (nr.value || nr);
+    // ── #7/#8 (2026-08-12): AWAITING IS NOT EMPTY ──────────────────────────
+    // When curation is cleared or absent the rail said "awaiting" and showed
+    // nothing, which is honest but useless - and it made clearing feel worse than
+    // leaving stale lines up. The mechanical draft (built from signal_contracts,
+    // the venue of record) fills that space as a CLEARLY LABELLED backstop.
+    //
+    // It never wears Jordan's voice: different colour, an explicit "not his read"
+    // label, and no cause→effect framing, because the effect line IS the curation.
+    const draft = d.mechanical_draft;
+    const drawDraft = (why) => {
+      if (!draft || !(draft.items || []).length) return '';
+      return `<div style="margin-top:8px;padding:7px;border-radius:4px;
+                  background:rgba(107,122,144,0.10);border-left:2px solid #6b7a90;">
+        <div style="font-size:0.62em;color:#6b7a90;letter-spacing:0.08em;text-transform:uppercase;">
+          machine draft · not Jordan's read${why ? ' · ' + why : ''}</div>
+        ${draft.items.map(i => `<div style="font-size:0.8em;margin-top:3px;color:var(--muted);">
+          <span style="color:${i.severity === 'critical' ? '#ff4d6a' : i.severity === 'high' ? '#f5c518' : 'var(--muted)'};
+                       font-size:0.85em;">[${_escapeHtml(i.severity || '?')}]</span>
+          ${_escapeHtml(i.headline)}</div>`).join('')}
+        <div style="font-size:0.68em;color:var(--muted);margin-top:4px;opacity:.8;">
+          top ${draft.items.length} of ${draft.candidates} live catalyst envelopes — what the pipe is seeing,
+          not what he says it means.</div>
+      </div>`;
+    };
+
     if (!Array.isArray(items) || !items.length) {
-      document.getElementById('newsBody').innerHTML = '<span style="color:var(--muted)">Awaiting Jordan\'s read — surfaces when news actually moves the tape.</span>';
+      document.getElementById('newsBody').innerHTML =
+        '<span style="color:var(--muted)">Awaiting Jordan\'s read — surfaces when news actually moves the tape.</span>'
+        + drawDraft('curated rail is empty');
       return;
     }
     const ago = (ts) => {
@@ -2464,13 +2505,60 @@ async function fetchNews() {
         if (h < 24) return h + 'h ago'; return Math.floor(h/24) + 'd ago'; } catch { return ''; }
     };
     let html = '';
+
+    // ── #2/#4 (2026-08-12): THE DAILY FLOOR, ON THE CARD ────────────────────
+    // Lano: "That's gotta be at least daily. 2 day old news is not okay."
+    // The card had no age gate at all - only a muted "2d ago" beside a headline,
+    // so 48-hour-old curation rendered as a normal, current card. MVJ got a stale
+    // banner after its 6-day freeze; this one never did.
+    //
+    // Age comes from the CONTENT clock (called_at / item ts), never from the file.
+    // editorial_calls.json rewrites whole on any field, so its `_updated` read
+    // 08-11 07:45 while news_read.called_at was still 08-09 15:18 - a file-mtime
+    // check answers "is the news fresh?" confidently and wrongly.
+    const FLOOR_H = (d.news_read_floor_hours != null) ? d.news_read_floor_hours : 24;
+    let ageH = d.news_read_age_hours;
+    if (ageH == null) {
+      const stamps = [nr && nr.called_at, ...items.map(i => i.ts)].filter(Boolean)
+        .map(t => Date.parse(t)).filter(n => !isNaN(n));
+      if (stamps.length) ageH = (serverNow() - Math.max(...stamps)) / 3600000;
+    }
+    if (ageH != null && ageH >= FLOOR_H) {
+      const days = (ageH / 24).toFixed(1);
+      html += `<div style="border:1px solid rgba(255,77,106,0.6); background:rgba(255,77,106,0.12);
+                    border-radius:6px; padding:7px 9px; margin-bottom:10px; font-size:0.78em; color:var(--red);">
+        ⚠ <b>NEWS READ STALE</b> — last curated <b>${ageH.toFixed(0)}h</b> ago (${days}d).
+        The lines below are <b>history, not today's tape</b>. The floor is ${FLOOR_H}h.
+      </div>`;
+    }
+
     for (const it of items.slice(0, 3)) {
       const when = it.ts ? `<span style="color:var(--muted);font-size:0.75em"> · ${ago(it.ts)}</span>` : '';
-      html += `<div style="margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05);">
+      html += `<div style="margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05);
+                    ${(ageH != null && ageH >= FLOOR_H) ? 'opacity:0.65;' : ''}">
         <div style="font-weight:600;color:var(--text);line-height:1.3">${it.headline || ''}${when}</div>
         ${it.effect ? `<div style="font-size:0.85em;color:var(--green);margin-top:2px;">→ ${it.effect}</div>` : ''}
       </div>`;
     }
+
+    // ── #1/#5/#6: KILL THE BRAND COLLISION ─────────────────────────────────
+    // This card is Jordan's CURATION, not the news_catalyst feed - and when it
+    // goes stale the natural read is "the news pipeline broke". It has not: the
+    // producer wrote 198 envelopes on the day the card sat at 48h. One read-only
+    // line separates a stale curation from a dead pipe.
+    html += `<div style="font-size:0.68em;color:var(--muted);margin-top:4px;border-top:1px solid var(--grid);padding-top:5px;">
+      Jordan-curated — <b>not</b> the live news_catalyst feed.
+      ${ageH != null ? ` Last curated ${ageH < 24 ? ageH.toFixed(0) + 'h' : (ageH/24).toFixed(1) + 'd'} ago.` : ''}`;
+    if (d.live_scan && d.live_scan.title) {
+      html += `<div style="margin-top:3px;color:var(--muted);">
+        live scan: <span style="color:var(--text)">${_escapeHtml(d.live_scan.title)}</span>
+        ${d.live_scan.active_count ? ` <span style="opacity:.7">(${d.live_scan.active_count} active catalysts — the pipe is running)</span>` : ''}
+      </div>`;
+    }
+    html += `</div>`;
+    // when the curated rail is past its floor, the draft rides underneath it
+    if (ageH != null && ageH >= FLOOR_H) html += drawDraft('curated rail is stale');
+
     document.getElementById('newsBody').innerHTML = html;
   } catch (e) {
     document.getElementById('newsBody').innerHTML = '<span style="color:var(--muted)">News read builds as Jordan curates.</span>';
@@ -2531,6 +2619,58 @@ async function fetchMechVsJordan() {
         }
       }
     } catch (e) { /* staleness banner is best-effort */ }
+
+    // ── #6 (2026-08-12): QUEUE HEALTH IS THE REAL TRIPWIRE ─────────────────
+    // The stale banner above only watches _updated. The 7/19-7/27 freeze had a
+    // FRESH _updated the whole time while grading was structurally impossible -
+    // the queue was evicting snapshots before they could reach their horizon, so
+    // the file kept rewriting and the banner stayed green for eight days.
+    // _queue_health has existed in the json since that fix and has never been on
+    // the card. A failure the data already knows about should not be invisible.
+    try {
+      const qh = d._queue_health || {};
+      if (qh.ok === false) {
+        html += `<div style="border:1px solid rgba(255,77,106,0.6); background:rgba(255,77,106,0.12); border-radius:6px; padding:7px 9px; margin-bottom:10px; font-size:0.78em; color:var(--red);">
+          🚨 QUEUE UNHEALTHY — ${_escapeHtml(qh.note || 'snapshots are being evicted before they can grade')}.
+          This is stronger than a stale banner: the board can keep updating while grading is impossible.
+        </div>`;
+      }
+      if (qh.open_count != null) {
+        html += `<div style="font-size:0.66em;color:var(--muted);margin-bottom:8px;">
+          queue: ${qh.open_count}${qh.cap ? '/' + qh.cap : ''} open
+          ${qh.oldest_open_h != null ? ` · oldest ${Number(qh.oldest_open_h).toFixed(1)}h` : ''}
+          ${qh.horizon_hours != null ? ` · horizon ${qh.horizon_hours}h` : ''}
+        </div>`;
+      }
+    } catch (e) { /* queue health is best-effort */ }
+
+    // ── #4 (2026-08-12): SAY WHAT SHAPE THE BATTLE IS ──────────────────────
+    // The diverged line reads as a head-to-head. On the live board every single
+    // divergence is mech LONG vs jordan FLAT - zero direction-vs-direction - and
+    // the "edge" is flat-in-chop collecting free wins. One line, so the headline
+    // cannot imply a fight that never happened.
+    try {
+      const t0 = (d.tally || {});
+      let pairs = {};
+      for (const k in t0) {
+        const dp = (t0[k] || {}).dir_pairs || {};
+        for (const p in dp) pairs[p] = (pairs[p] || 0) + dp[p];
+      }
+      const tot = Object.values(pairs).reduce((a, b) => a + b, 0);
+      if (tot > 0) {
+        const top = Object.entries(pairs).sort((a, b) => b[1] - a[1])[0];
+        const share = top[1] / tot;
+        if (share >= 0.8) {
+          html += `<div style="font-size:0.7em;color:#f5c518;margin-bottom:8px;padding:6px;
+                        background:rgba(245,197,24,0.06);border-left:2px solid #f5c518;">
+            battle shape: <b>${Math.round(share * 100)}%</b> of divergences are
+            <b>${_escapeHtml(top[0].replace(/-vs-/, ' vs '))}</b> — the edge here is mostly
+            flat-in-chop, not direction against direction.
+          </div>`;
+        }
+      }
+    } catch (e) {}
+
     for (const c of coins) {
       const s = summary[c];
       const mWr = s.mechanical_wr, jWr = s.jordan_wr;
@@ -2542,10 +2682,24 @@ async function fetchMechVsJordan() {
       if (wd.total) {
         const edge = wd.mechanical_edge_pct;
         const edgeColor = edge > 15 ? 'var(--red)' : edge <= 0 ? 'var(--green)' : 'var(--muted)';
+        // ── pack 0 #1 (2026-08-12): the diverged line was the loudest lie ───
+        // "mech edge -60%" reads as "jordan out-traded the formula". On the live
+        // board every divergence is mech LONG vs jordan FLAT and 63 of jordan's 63
+        // diverged wins are FLAT-in-chop against a mech SCRATCH. The percentage was
+        // measuring an accounting asymmetry, not skill. Decided/scratch split now
+        // comes from the backend; the flat-chop count is stated outright.
+        const dDec = wd.decided, dScr = wd.scratch_rounds, dFlat = wd.flat_chop_wins;
         divTxt = `<div style="font-size:0.78em;color:var(--muted);margin-top:2px;">
           diverged ${wd.total}× · mech won ${wd.mechanical_won}, jordan won ${wd.jordan_won}
           ${edge != null ? `<span style="color:${edgeColor}"> (${edge > 0 ? '+' : ''}${edge}% mech edge)</span>` : ''}
-        </div>`;
+        </div>
+        ${dDec != null ? `<div style="font-size:0.72em;color:var(--muted);margin-top:1px;">
+          of those: <b>${dDec}</b> decided · ${dScr || 0} scratched
+          ${dFlat ? ` · <b style="color:#f5c518">${dFlat}</b> of jordan's wins are FLAT-in-chop against a mech scratch` : ''}
+        </div>` : ''}
+        ${dFlat && wd.jordan_won && (dFlat / wd.jordan_won) >= 0.8 ? `<div style="font-size:0.72em;color:#f5c518;margin-top:1px;font-style:italic;">
+          ${Math.round(dFlat / wd.jordan_won * 100)}% of the diverged edge is "he stood still in a quiet tape while the formula stayed long" — not a directional win.
+        </div>` : ''}`;
       }
       html += `<div style="margin-bottom:10px;">
         <div style="font-weight:600;color:var(--text)">${c}</div>
@@ -2560,6 +2714,62 @@ async function fetchMechVsJordan() {
     // take its word for it. idk what the battle is"): THE BATTLE, named — this
     // grades the COIN CALLS: the mechanical confluence's direction vs Jordan's
     // committed/override direction, both scored against what price actually did
+    // ── pack 1 #7 (2026-08-12): THE ROUND THAT IS ACTUALLY RUNNING ─────────
+    // The card showed lifetime win rates and nine finished receipts, and nothing
+    // about the fight in progress. The open queue is the only part an operator can
+    // still act on.
+    try {
+      const openRows = (d.open || []);
+      const byCoin = {};
+      for (const o of openRows) {
+        const a = o.asset;
+        if (!a) continue;
+        if (!byCoin[a] || (o.opened_at || '') > (byCoin[a].opened_at || '')) byCoin[a] = o;
+      }
+      const live = ['BTC', 'ETH', 'SOL'].map(k => byCoin[k]).filter(Boolean);
+      if (live.length) {
+        html += `<div style="margin:8px 0;padding:7px;background:rgba(79,158,255,0.05);border-left:2px solid #4f9eff;">
+          <div style="font-size:0.6em;color:#4f9eff;letter-spacing:0.08em;text-transform:uppercase;">Live round</div>`;
+        for (const o of live) {
+          const agreed = String(o.mechanical_direction) === String(o.jordan_direction);
+          const ageH = o.opened_at ? (serverNow() - Date.parse(o.opened_at)) / 3600000 : null;
+          const left = ageH != null ? Math.max(0, 24 - ageH) : null;
+          // #5: which Jordan is this? explicit probe / committed echo / no call
+          const voice = o.jordan_voice === 'explicit_probe' ? 'probe'
+                      : o.jordan_voice === 'committed_echo' ? 'committed'
+                      : o.jordan_voice === 'absent_no_call' ? '<span style="color:#f5c518">no call</span>' : '';
+          html += `<div style="font-size:0.8em;margin-top:3px;">
+            <b>${_escapeHtml(o.asset)}</b>
+            <span style="color:var(--muted)">mech</span> ${_escapeHtml(o.mechanical_direction || '?')}
+            <span style="color:var(--muted)">vs jordan</span> ${_escapeHtml(o.jordan_direction || '?')}
+            ${voice ? `<span style="color:var(--muted);font-size:0.85em"> (${voice})</span>` : ''}
+            ${agreed ? '<span style="color:var(--muted);font-size:0.85em"> · agree</span>'
+                     : '<span style="color:#f5c518;font-size:0.85em"> · DIVERGED</span>'}
+            ${left != null ? `<span style="float:right;color:var(--muted)">${left.toFixed(1)}h to grade</span>` : ''}
+          </div>`;
+        }
+        html += `</div>`;
+      }
+    } catch (e) {}
+
+    // ── pack 3 #15: is the opponent two-sided at all ────────────────────────
+    try {
+      const mp = d.mech_pressure || {};
+      if (mp.monotone && mp.note) {
+        html += `<div style="font-size:0.72em;color:#f5c518;margin-bottom:8px;padding:6px;
+                      background:rgba(245,197,24,0.06);border-left:2px solid #f5c518;">
+          ⚠ ${_escapeHtml(mp.note)}</div>`;
+      }
+    } catch (e) {}
+
+    // ── pack 1 #10: three clocks, three questions ──────────────────────────
+    // "graded" appears on this card, on Coin Calls and on Track Record, and they
+    // answer different questions. One line so nobody cites the wrong board.
+    html += `<div style="font-size:0.66em;color:var(--muted);margin-bottom:8px;font-style:italic;">
+      this card is <b>24h direction only</b> · 72h TP/SL tickets → Coin Calls · 12h stance → Track Record ·
+      7d price-target race → Price Accuracy · score residuals → Horse Race
+    </div>`;
+
     // 24h later. And the receipts: the last 9 resolved rounds, row by row.
     const recentRounds = (d.resolved || []).slice(-9).reverse();
     if (recentRounds.length) {
@@ -2567,13 +2777,25 @@ async function fetchMechVsJordan() {
       recentRounds.forEach(g => {
         const dt = g.opened_at ? new Date(g.opened_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
         const mv = (g.moved_pct != null) ? `${g.moved_pct > 0 ? '+' : ''}${g.moved_pct}%` : '—';
+        // ── pack 1 #8 (2026-08-12): SAY "SCRATCH" ──────────────────────────
+        // A round where the tape never moved rendered as a mute "neither", which
+        // reads as "both were wrong". It is not - nothing was proven, and those
+        // rounds are the MAJORITY here (209 of 300 moved under 1.5%). The word
+        // matters because the scratch economy is what drives the headline edge.
         const mOk = g.mechanical_result === 'win', jOk = g.jordan_result === 'win';
-        const winner = (mOk && !jOk) ? 'mech' : (jOk && !mOk) ? 'jordan' : (mOk && jOk) ? 'both' : 'neither';
-        const wc = winner === 'jordan' ? 'var(--green)' : winner === 'mech' ? '#4f9eff' : 'var(--muted)';
+        const bothScratch = g.mechanical_result === 'scratch' && g.jordan_result === 'scratch';
+        const anyScratch = g.mechanical_result === 'scratch' || g.jordan_result === 'scratch';
+        const winner = bothScratch ? 'scratch'
+                     : (mOk && !jOk) ? 'mech' : (jOk && !mOk) ? 'jordan'
+                     : (mOk && jOk) ? 'both' : 'neither';
+        const wc = winner === 'jordan' ? 'var(--green)' : winner === 'mech' ? '#4f9eff'
+                 : winner === 'scratch' ? '#6b7a90' : 'var(--muted)';
         html += `<div style="display:flex;align-items:center;gap:8px;margin-top:4px;font-size:0.76em;">
           <span style="color:var(--muted);min-width:44px;">${dt}</span>
           <span style="color:var(--muted);min-width:30px;">${g.asset || ''}</span>
-          <span style="color:var(--text);flex:1;">mech <b>${g.mechanical_direction || '?'}</b> · jordan <b>${g.jordan_direction || '?'}</b> · price ${mv}</span>
+          <span style="color:var(--text);flex:1;">mech <b>${g.mechanical_direction || '?'}</b> · jordan <b>${g.jordan_direction || '?'}</b> · price ${mv}
+            ${(anyScratch && !bothScratch) ? `<span style="color:#6b7a90;font-size:0.9em"> · ${g.mechanical_result === 'scratch' ? 'mech' : 'jordan'} scratched</span>` : ''}
+            ${g.regime === 'chop' ? '<span style="color:#6b7a90;font-size:0.9em"> · chop</span>' : ''}</span>
           <span style="color:${wc};font-weight:700;min-width:52px;text-align:right;">${winner}</span>
         </div>`;
       });
@@ -2746,15 +2968,54 @@ async function fetchCalledDates() {
     let html = '';
     for (const [label, st] of rows) {
       if (!st || !st.mode_week) continue;
-      const drift = st.drift_days_per_day;
+      // ── #2 (2026-08-12): DRIFT, WITH THE CALENDAR WALK REMOVED ───────────
+      // The old row read `drift_days_per_day` - an endpoint measure over the whole
+      // log. But start_date is TODAY on both curve writers, so a frozen shape
+      // still walks its called date +1d every day. That printed as ~5d/day and the
+      // 0.15 "stable" threshold could never fire, so the card said "slipping" on
+      // calls that had not moved at all.
+      const drift = (st.drift_7d != null) ? st.drift_7d
+                  : (st.drift_shape != null) ? st.drift_shape
+                  : st.drift_days_per_day;
+      const driftIsClean = (st.drift_7d != null || st.drift_shape != null);
       const driftTxt = (drift == null) ? '' :
-        Math.abs(drift) < 0.15 ? ' · stable' :
-        ` · ${drift > 0 ? 'slipping later' : 'pulling earlier'} ${Math.abs(drift).toFixed(1)}d/day`;
-      const driftColor = (drift == null || Math.abs(drift) < 0.15) ? 'var(--green)' : 'var(--muted)';
-      html += `<div style="margin-bottom:8px;">
-        <div style="font-weight:600;color:var(--text)">${label}</div>
-        <div style="font-size:0.85em;">conviction: ${fmtD(st.avg)} <span style="color:var(--muted)">(${st.mode_count}/${st.sample} on wk ${st.mode_week ? st.mode_week.split('-W')[1] : '?'})</span></div>
-        <div style="font-size:0.8em;color:${driftColor}">${driftTxt.replace(/^ · /,'')}</div>
+        Math.abs(drift) < 0.5 ? 'stable' :
+        `${drift > 0 ? 'slipping later' : 'pulling earlier'} ${Math.abs(drift).toFixed(1)}d/day`;
+      const driftColor = (drift == null || Math.abs(drift) < 0.5) ? 'var(--green)' : '#f5c518';
+
+      // ── #1: CONVICTION IS THE MODE, NOT THE MEAN ─────────────────────────
+      // The producer's own doctrine says mode-of-week is the conviction date; this
+      // card printed `avg`. Live forecast_top: avg 2027-05-31 vs latest 2026-11-10
+      // vs mode 2027-W13 - three different dates under one label, and the mean of
+      // a bimodal distribution can name a week no sweep ever called.
+      const wk = st.mode_week ? st.mode_week.split('-W')[1] : '?';
+      // #4: mode_count against UNIQUE DAYS, not against 500 hourly clones
+      const denom = st.unique_days ? `${st.unique_days} days` : `${st.sample} sweeps`;
+
+      // ── #3: geometry badges - not every extremum is a dated call ──────────
+      let badge = '';
+      if (st.geometry_pin === 'path_extreme_at_start')
+        badge = `<span style="color:#f5c518;font-size:0.82em"> · path low/high AT THE START — geometry, not a dated call</span>`;
+      else if (st.geometry_pin === 'horizon_pin')
+        badge = `<span style="color:#f5c518;font-size:0.82em"> · pinned at the far end of the 104w horizon</span>`;
+
+      html += `<div style="margin-bottom:10px;">
+        <div style="font-weight:600;color:var(--text)">${label}${badge}</div>
+        <div style="font-size:0.85em;">calling <b>${fmtD(st.latest)}</b>
+          <span style="color:var(--muted)">· conviction wk ${wk} (${st.mode_count} of ${denom})</span></div>
+        <div style="font-size:0.78em;color:var(--muted)">
+          mean ${fmtD(st.avg)} <span style="opacity:.7">(mean of a bimodal set — not the call)</span>
+        </div>
+        <div style="font-size:0.8em;color:${driftColor}">${driftTxt}${driftIsClean ? '' : ' <span style="opacity:.7">(endpoint measure — includes the +1d/day calendar walk)</span>'}</div>
+      </div>`;
+    }
+    // #6 / #13: this product has no realization ledger and no staleness banner.
+    // Say so once rather than letting four confident dates imply a graded record.
+    if (html) {
+      const age = d._updated ? ((serverNow() - Date.parse(d._updated)) / 3600000) : null;
+      html += `<div style="font-size:0.68em;color:var(--muted);margin-top:8px;border-top:1px solid var(--grid);padding-top:5px;">
+        these are turn dates on the SCORE curve, not price targets — and nothing grades them when they pass.
+        ${age != null ? `Updated ${age.toFixed(1)}h ago.${age > 3 ? ' <span style="color:#f5c518">Writer may be stale.</span>' : ''}` : ''}
       </div>`;
     }
     document.getElementById('calledDatesBody').innerHTML = html || '<span style="color:var(--muted)">Building history — needs a few sweeps.</span>';
@@ -3458,10 +3719,54 @@ function renderBlowoffDetector(data) {
     }
   });
 
+  // ── F4/F8 (2026-08-12): THE COLLISION STRIP ─────────────────────────────
+  // Three different products use "top" language and only ONE of them is this
+  // card. The dangerous pair: HUNTING_TOP means BOTTOM IS IN — it is a LONG bias
+  // that shifts the projection analogs and votes long on every coin call. This
+  // detector saying "quiet" and the marker saying HUNTING_TOP are both correct
+  // and mean opposite things, and the site has never put them in one frame.
+  //
+  // One line, so a glance cannot conflate them.
+  try {
+    const strip = [];
+    const mac = (typeof MACRO_DATA !== 'undefined' && MACRO_DATA) || {};
+    const fi = mac.flow_index != null ? mac.flow_index : mac.blowoff_score;
+    if (fi != null)
+      strip.push(`flow index <b>${fi}</b> ${_escapeHtml(mac.flow_index_signal || mac.blowoff_signal || '')}
+        <span style="opacity:.7">(euphoria ladder — a different instrument from this card)</span>`);
+    const cyc = ((typeof PRICE_PROJ !== 'undefined' && PRICE_PROJ) || {}).cycle_position || {};
+    if (cyc.marker) {
+      const isTopHunt = String(cyc.marker).includes('TOP');
+      strip.push(`marker <b style="color:${isTopHunt ? '#00e5a0' : '#f5c518'}">${_escapeHtml(cyc.marker)}</b>
+        ${cyc.confidence != null ? `conf ${cyc.confidence}` : ''}
+        <span style="opacity:.7">(${isTopHunt ? 'bottom is IN → LONG bias, NOT a top warning' : 'bottom still ahead → short bias'})</span>`);
+    }
+    const eu = (typeof EUPHORIA_STATE !== 'undefined' && EUPHORIA_STATE) || {};
+    strip.push(`euphoria lock <b>${eu.euphoria_hit ? 'ON' : 'off'}</b>`);
+    const rot = (typeof ROTATION_STATE !== 'undefined' && ROTATION_STATE) || {};
+    if (rot.stage) strip.push(`rotation <b>${_escapeHtml(rot.stage)}</b>`);
+    const el = document.getElementById('blowoffCollisionStrip');
+    if (el && strip.length) {
+      el.innerHTML = strip.join(' &nbsp;·&nbsp; ');
+      el.style.display = 'block';
+    }
+  } catch (e) { /* collision strip is best-effort */ }
+
   // Update footnote with current context
   if (strict) {
     document.getElementById('blowoffFootnote').innerHTML =
       '🚨 <strong style="color:var(--red)">STRICT DETECTOR FIRED.</strong> 4+ signatures above 70 AND composite above 80. This is the real deal.';
+  } else {
+    // F3: a quiet reading is only meaningful if the gate can fire at all. The
+    // backtest receipt says whether 2017/2021 would have tripped this codepath.
+    try {
+      const bt = (typeof BLOWOFF_BACKTEST !== 'undefined' && BLOWOFF_BACKTEST) || {};
+      if (bt.verdict && bt.verdict !== 'CALIBRATED') {
+        document.getElementById('blowoffFootnote').innerHTML =
+          `⚠ <strong style="color:#f5c518">STRICT GATE ${_escapeHtml(bt.verdict)}</strong> — ` +
+          `${_escapeHtml(bt.verdict_note || '')} Read "quiet" as "the detector said nothing", not as "no blow-off is forming".`;
+      }
+    } catch (e) {}
   }
 }
 
@@ -3526,17 +3831,88 @@ async function renderMarkersFeed() {
       const ec = await res.json();
       call = (ec && ec.calls && ec.calls.detections) || null;
     }
+    // ── #1 (2026-08-12): THE CARD IS NOT EDITORIAL-ONLY ─────────────────────
+    // The card claims "the system flags moments when current conditions strongly
+    // resemble a specific historical top or bottom" - and then renders ONLY
+    // Jordan's prose. When his read goes stale (54h on the live file) the entire
+    // card is stale, while the engine has been stamping a marker every sweep the
+    // whole time. Same shape as the news card: a stale CURATION reading as a dead
+    // ENGINE.
+    //
+    // The live engine strip always renders. Editorial sits below it, labelled.
+    let strip = '';
+    try {
+      // the cache is chart._markerCache (set in fetchMarkers) - verified by reading
+      // the fetcher, not assumed. MARKERS_CACHE was my invention and does not exist.
+      const _mc = (typeof chart !== 'undefined' && chart && chart._markerCache) || [];
+      const mk = _mc.length ? _mc[_mc.length - 1] : null;
+      if (mk) {
+        const simPct = mk.similarity != null ? (mk.similarity * 100).toFixed(1) + '%' : '?';
+        const ageH = mk.timestamp ? ((serverNow() - Date.parse(mk.timestamp)) / 3600000) : null;
+        const tierCol = mk.tier === 'CRITICAL' ? '#ff4d6a' : mk.tier === 'HIGH' ? '#4f9eff'
+                      : mk.tier === 'MED' ? '#f5c518' : 'var(--muted)';
+        strip = `<div style="padding:8px;margin-bottom:8px;background:rgba(255,255,255,0.02);
+                      border-left:2px solid ${tierCol};">
+          <div style="font-size:0.6em;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;">
+            live engine · stamped every sweep</div>
+          <div style="font-size:0.85em;margin-top:2px;">
+            <b style="color:${tierCol}">${_escapeHtml(mk.tier || '?')}</b>
+            ${mk.tier_capped ? `<span style="color:var(--muted);font-size:0.85em"> (raw ${_escapeHtml(mk.tier_raw)}, capped)</span>` : ''}
+            · ${_escapeHtml((mk.best_match || '').replace(/_/g, ' '))} <b>${simPct}</b>
+            ${mk.fingerprint_type ? `<span style="color:var(--muted)"> · ${_escapeHtml(mk.fingerprint_type)}</span>` : ''}
+          </div>
+          <div style="font-size:0.72em;color:var(--muted);margin-top:2px;">
+            ${mk.cluster_label ? `cluster <b style="color:${mk.cluster_label === 'ambiguous' ? '#f5c518' : 'var(--green)'}">${_escapeHtml(mk.cluster_label)}</b>` : ''}
+            ${mk.margin_vs_second_pts != null ? ` · ${mk.margin_vs_second_pts}pt over #2` : ''}
+            ${mk.factor_coverage_pct != null ? ` · ${mk.factor_coverage_pct}% factor coverage` : ''}
+            ${ageH != null ? ` · ${ageH < 1 ? Math.round(ageH * 60) + 'm' : ageH.toFixed(1) + 'h'} ago` : ''}
+          </div>
+          ${(mk.false_bottom_in_top3 || []).length ? `<div style="font-size:0.72em;color:#ff4d6a;margin-top:2px;">
+            ⚠ ${mk.false_bottom_in_top3.map(x => _escapeHtml(x.replace(/_/g, ' '))).join(', ')} is a flagged false bottom inside this cluster</div>` : ''}
+          ${mk.tier_cap_reason ? `<div style="font-size:0.7em;color:var(--muted);margin-top:2px;font-style:italic;">${_escapeHtml(mk.tier_cap_reason)}</div>` : ''}
+          ${mk.detection_kind === 'regime_rhyme' ? `<div style="font-size:0.7em;color:#f5c518;margin-top:2px;">
+            regime rhyme — which FAMILY of turns today resembles, not an identified one</div>` : ''}
+        </div>`;
+      }
+    } catch (e) {}
+
+    // ── #2: stale banner on the editorial half ──────────────────────────────
+    let jAge = null;
+    if (call && call.called_at) jAge = (serverNow() - Date.parse(call.called_at)) / 3600000;
+    const jStale = (jAge != null && jAge >= 36);
+    const jAmber = (jAge != null && jAge >= 18 && !jStale);
+
     if (!call || !call.value || !String(call.value).trim()) {
-      list.innerHTML = '<div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 14px;">Awaiting Jordan’s read. The dots on the chart are the raw detections; this panel is his words on them.</div>';
+      list.innerHTML = strip + '<div style="color: var(--muted); font-size: 0.72em; text-align: center; padding: 10px;">Awaiting Jordan’s read on the detection above.</div>';
       return;
     }
     const lines = String(call.value).split(/\n+/).map(s => s.trim()).filter(Boolean);
-    list.innerHTML = lines.map(line =>
-      `<div class="marker-item"><div class="mt-headline" style="line-height:1.5;">${line}</div></div>`
+    const jHdr = `<div style="font-size:0.6em;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;">
+        Jordan's read${jAge != null ? ` · ${jAge < 24 ? jAge.toFixed(0) + 'h' : (jAge / 24).toFixed(1) + 'd'} ago` : ''}</div>`
+      + (jStale ? `<div style="border:1px solid rgba(255,77,106,0.6);background:rgba(255,77,106,0.12);
+             border-radius:4px;padding:6px;margin-bottom:6px;font-size:0.74em;color:var(--red);">
+           ⚠ <b>READ IS STALE</b> — ${(jAge / 24).toFixed(1)}d old. The engine above has kept stamping the whole time.</div>`
+         : jAmber ? `<div style="font-size:0.72em;color:#f5c518;margin-bottom:5px;">read is ${jAge.toFixed(0)}h old</div>` : '');
+    list.innerHTML = strip + jHdr + lines.map(line =>
+      `<div class="marker-item" style="${jStale ? 'opacity:0.65;' : ''}"><div class="mt-headline" style="line-height:1.5;">${line}</div></div>`
     ).join('');
   } catch(e) { console.log('detections feed failed', e); }
 }
 
+// ── H1 (2026-08-12): THE CARD TITLE PROMISED A CONTROL THAT DID NOT EXIST ──
+// The card is titled "…AI Annotations", `toggleAnnotationsBtn` is looked up in JS,
+// and there was NO SUCH ELEMENT in the controls row - only Markers/Forecast/DA/J6/
+// Reset. So 46 live shapes and a 2-minute poll were unreachable: not off by policy,
+// off by omission, with a title advertising them.
+//
+// H6 fallout, handled here rather than later: the PROTECTED/KEEP sets that survive
+// an annotation refresh list fc/da peaks and today_dot only. Enabling this without
+// adding the j6 peaks would delete them on every refresh - a latent bug that only
+// becomes real the moment the button works.
+// The handler ALREADY EXISTS below as toggleAnnotationsBtn() - complete, with its
+// own KEEP set. Only the BUTTON was missing from the controls row, which is why 46
+// shapes were unreachable. I nearly shipped a second handler here before reading
+// far enough to find the first; wiring the existing one is the fix.
 function toggleMarkers() {
   // Button removed in sprint 32 v2.7. Function kept for compatibility; if anything
   // still calls it externally, it'll just no-op since the button doesn't exist.
@@ -4013,7 +4389,12 @@ function renderAnnotations(shapes) {
   // Sprint 32 v2.7+ (this session): blowBox/bottom25 retired (deleted). Replaced
   // with dynamic forecast_next_top/forecast_next_bottom/da_next_top/da_next_bottom
   // — those need preservation on annotation refresh just like AI markers.
-  const PROTECTED = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label']);
+  // H6 (2026-08-12): j6_next_top/bottom were NOT protected. Latent while the
+  // annotations button did not exist; the moment H1 wires it, a refresh would
+  // delete the J6 peaks until the next j6 fetch. Fixed in the same pass that
+  // makes the button real - a latent bug shipped alongside its trigger is just
+  // a bug.
+  const PROTECTED = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label', 'j6_next_top', 'j6_next_bottom']);
   Object.keys(ann).forEach(k => {
     if (PROTECTED.has(k)) return;
     if (k.startsWith('aimarker_')) return;
@@ -4218,7 +4599,7 @@ function toggleAnnotationsBtn() {
     const ann = chart.options.plugins.annotation.annotations;
     // Sprint 32 v2.7+ (this session): KEEP set updated. blowBox/bottom25 retired,
     // replaced with the 4 dynamic peak markers.
-    const KEEP = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label']);
+    const KEEP = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label', 'j6_next_top', 'j6_next_bottom']);
     Object.keys(ann).forEach(k => {
       if (KEEP.has(k)) return;
       if (k.startsWith('aimarker_')) return;
@@ -4710,7 +5091,18 @@ async function fetchMarketDrivers() {
   } catch(e) { console.log('market drivers fetch failed', e); }
 }
 
-async function fetchInvariants() {
+async // #5/#7: a factor 1 point outside the range is not the same as one 40 points
+// outside, and the card rendered both as a bare ✗. Near-miss is the interesting
+// state - live `funding` sits ONE point from firing with no UI for it at all.
+function _invDist(inv) {
+  const d = inv.distance_from_range_edge;
+  if (inv.firing_now) return 'fire=✓';
+  if (d == null) return 'fire=✗';
+  if (d <= 5) return `<span style="color:#f5c518">✗ near-miss, ${d} outside</span>`;
+  return `✗ ${d} outside`;
+}
+
+function fetchInvariants() {
   try {
     const res = await fetch('data/invariants.json?t=' + Date.now());
     if (!res.ok) return;
@@ -4722,7 +5114,60 @@ async function fetchInvariants() {
     document.getElementById('invariantsBotStrength').textContent =
       `BOT ${firing.bottom_invariants_firing || 0}/${firing.bottom_invariants_total || 0} (${(firing.bottom_signal_strength_pct ?? 0).toFixed(0)}%)`;
     
-    document.getElementById('invariantsInterpretation').textContent = data.interpretation || '--';
+    // ── #5 (2026-08-12): SHOW THE METHOD, NOT JUST THE VERDICT ─────────────
+    // The card showed badges and a red/green list and nothing about HOW anything
+    // was decided: no rule, no tolerance, no distance, no pool composition, no
+    // near-miss, and no mention that the only consumer of this file is the
+    // forecast band. A tick that cannot be interrogated reads as authoritative
+    // when the underlying test is soft and thresholdy.
+    let _interp = data.interpretation || '--';
+    // #13: name the thin basis rather than letting one factor read as a pattern
+    const _bf = (data.currently_firing || {}).bottom_invariants_firing;
+    const _tf = (data.currently_firing || {}).top_invariants_firing;
+    if (_bf === 1 || _tf === 1) {
+      const _one = ((data.confirmed_bottom_invariants || []).find(i => i.firing_now)
+                 || (data.confirmed_top_invariants || []).find(i => i.firing_now) || {});
+      if (_one.factor) _interp += ` (the entire signal is one factor: ${_one.factor})`;
+    }
+    document.getElementById('invariantsInterpretation').textContent = _interp;
+
+    // method strip: rule, pool mix, consumer effect, staleness
+    try {
+      const meth = [];
+      if (data.firing_rule) meth.push(`rule: ${_escapeHtml(data.firing_rule)}`);
+      const pm = data.pool_mix || {};
+      if (pm.top_total)
+        meth.push(`top pool: <b>${pm.cycle_top}</b> cycle_top of ${pm.top_total}
+          <span style="color:#f5c518">(the rest are intermediate tops — "Top-Cycle" oversells this)</span>`);
+      // the ONLY live consumer of this file
+      const fc = (typeof FORECAST_CURVE !== 'undefined' && FORECAST_CURVE) || {};
+      if (fc.invariant_confidence_mult != null)
+        meth.push(`consumer: widens the forecast band <b>×${fc.invariant_confidence_mult}</b>
+          ${fc.amplitude_blend != null ? `· amplitude blend ${fc.amplitude_blend}` : ''}`);
+      if (data.updated_at || data._updated) {
+        const ts = Date.parse(data.updated_at || data._updated);
+        const ageH = (serverNow() - ts) / 3600000;
+        meth.push(`updated ${ageH.toFixed(1)}h ago` + (ageH > 3 ? ' <span style="color:#f5c518">— writer may be stale</span>' : ''));
+      }
+      if ((data.rows_where_rules_disagree || []).length)
+        meth.push(`<span style="color:#f5c518">${data.rows_where_rules_disagree.length} factor(s) fire under the OLD mean-based rule but not the range rule</span>`);
+      const mEl = document.getElementById('invariantsMethod');
+      if (mEl && meth.length) { mEl.innerHTML = meth.join(' &nbsp;·&nbsp; '); mEl.style.display = 'block'; }
+    } catch (e) {}
+
+    // #2: Jordan's own read, carried on the payload by the mechanical writer
+    try {
+      const jEl = document.getElementById('invariantsJordan');
+      if (jEl && data.jordan_read) {
+        jEl.innerHTML = `<div style="font-size:0.6em;color:#4f9eff;letter-spacing:0.08em;text-transform:uppercase;">Jordan's read</div>
+          <div style="margin-top:2px;">${_escapeHtml(data.jordan_read)}</div>
+          <div style="font-size:0.9em;opacity:.7;margin-top:2px;">
+            ${data.jordan_read_age_hours != null ? `${data.jordan_read_age_hours}h ago` : ''}
+            ${data.jordan_read_stale ? ' <span style="color:#f5c518">— stale</span>' : ''}
+            · he answers a different question from the mechanical list below</div>`;
+        jEl.style.display = 'block';
+      }
+    } catch (e) {}
     
     const topInvs = data.confirmed_top_invariants || [];
     const botInvs = data.confirmed_bottom_invariants || [];
@@ -4732,7 +5177,7 @@ async function fetchInvariants() {
       : topInvs.map(inv => `
           <div style="display:flex; justify-content:space-between; padding:6px 8px; margin-bottom:4px; background:${inv.firing_now ? 'rgba(255,77,106,0.08)' : 'rgba(255,255,255,0.02)'}; border-left:2px solid ${inv.firing_now ? '#ff4d6a' : '#2d3748'};">
             <span style="font-family:'Space Mono',monospace; font-size:0.8em; color:${inv.firing_now ? '#ff4d6a' : '#a0aec0'};">${inv.factor}</span>
-            <span style="font-size:0.75em; color:#cbd5e0;">cur=${inv.current ?? '?'} | mean=${inv.mean} | fire=${inv.firing_now ? '✓' : '✗'}</span>
+            <span style="font-size:0.75em; color:#cbd5e0;">cur=${inv.current ?? '?'} | range=${inv.range ? inv.range.join('–') : inv.mean} | ${_invDist(inv)}</span>
           </div>`).join('');
     
     document.getElementById('invariantsBotList').innerHTML = botInvs.length === 0
@@ -4740,7 +5185,7 @@ async function fetchInvariants() {
       : botInvs.map(inv => `
           <div style="display:flex; justify-content:space-between; padding:6px 8px; margin-bottom:4px; background:${inv.firing_now ? 'rgba(0,229,160,0.08)' : 'rgba(255,255,255,0.02)'}; border-left:2px solid ${inv.firing_now ? '#00e5a0' : '#2d3748'};">
             <span style="font-family:'Space Mono',monospace; font-size:0.8em; color:${inv.firing_now ? '#00e5a0' : '#a0aec0'};">${inv.factor}</span>
-            <span style="font-size:0.75em; color:#cbd5e0;">cur=${inv.current ?? '?'} | mean=${inv.mean} | fire=${inv.firing_now ? '✓' : '✗'}</span>
+            <span style="font-size:0.75em; color:#cbd5e0;">cur=${inv.current ?? '?'} | range=${inv.range ? inv.range.join('–') : inv.mean} | ${_invDist(inv)}</span>
           </div>`).join('');
   } catch(e) { console.log('invariants fetch failed', e); }
 }
@@ -4754,11 +5199,35 @@ async function fetchDataGaps() {
     const listEl = document.getElementById('dataGapsList');
     const cardEl = document.getElementById('dataGapsCard');
 
-    // Sprint 66: when every gap is filled, HIDE the whole section (it's done its job).
-    // While genuine blind spots remain (e.g. options_skew — no free US-legal source),
-    // it stays and shows only those.
+    // ── #6 (2026-08-12): A TOMBSTONE, NOT A DISAPPEARING ACT ────────────────
+    // Hiding the card at count 0 turns blindness into the same pixels as
+    // completion. And count 0 was itself soft: `is not None` let an empty kalshi
+    // markets list and a dry x_noise close their own gaps (fixed backend-side).
+    //
+    // Two facts survive a zero count and both matter: pipes that are wired and
+    // returning nothing, and factors that are live but on no fingerprint — the
+    // latter can NEVER become invariants, which is the whole point of this
+    // registry. Neither is a gap in the old sense; neither is done.
+    const dry = data.wired_but_dry || [];
+    const orphan = data.live_but_not_in_fingerprints || [];
     if (gaps.length === 0) {
-      if (cardEl) cardEl.style.display = 'none';
+      if (cardEl) {
+        if (dry.length || orphan.length) {
+          cardEl.style.display = '';
+          listEl.innerHTML = `<div style="font-size:0.78em;color:var(--muted);line-height:1.6;">
+            <b style="color:var(--green)">0 open gaps</b>
+            ${dry.length ? ` · <b style="color:#f5c518">${dry.length} wired but dry</b>
+              <span style="opacity:.8">(${dry.map(d => _escapeHtml(d.name)).join(', ')} — the pipe exists and returned nothing this sweep)</span>` : ''}
+            ${orphan.length ? `<div style="margin-top:4px;"><b style="color:#f5c518">${orphan.length} live but on no fingerprint</b>
+              <span style="opacity:.8">(${orphan.slice(0, 6).map(o => _escapeHtml(o)).join(', ')}${orphan.length > 6 ? ` +${orphan.length - 6}` : ''})
+              — measured every sweep and unable to become invariants until they are backfilled onto the fingerprint set</span></div>` : ''}
+          </div>`;
+        } else {
+          cardEl.style.display = '';
+          listEl.innerHTML = `<div style="font-size:0.78em;color:var(--green);">
+            0 open gaps · 0 dry pipes · every live factor is represented on the fingerprint set.</div>`;
+        }
+      }
       return;
     }
     if (cardEl) cardEl.style.display = '';
@@ -5627,16 +6096,40 @@ function _formatCliff(cliff) {
 }
 
 function _formatHorseRace(hr) {
+  // ── #9 (2026-08-12): THE CHIP COULD NOT RENDER A J6 WIN ──────────────────
+  // Four branches: both_wrong / forecast / da / convergence. `j6_winning_decisive`,
+  // `j6_leading` and `all_three_wrong` all fell through to a muted raw slug - so
+  // the one outcome that would mean the empire's own intel layer is adding alpha
+  // rendered as unstyled text on the empire card.
+  //
+  // Also: the old `state.includes('da')` was a substring test on a slug. Loose
+  // matching on state names is how a new state silently inherits an old branch -
+  // ordered exact-prefix checks instead.
   const state = (hr.state || 'unknown').toLowerCase();
-  if (state.includes('both_wrong') || state.includes('regime_break'))
-    return '<span style="color:#ff4d6a;font-weight:700;">REGIME BREAK</span>';
-  if (state.includes('forecast'))
-    return '<span style="color:var(--yellow);">forecast leading</span>';
-  if (state.includes('da') || state.includes("devil"))
-    return '<span style="color:#a855f7;">DA leading</span>';
-  if (state.includes('convergence') || state.includes('mixed'))
-    return '<span style="color:var(--muted);">mixed</span>';
-  return `<span style="color:var(--muted);">${_escapeHtml(state)}</span>`;
+  const resid = (hr.forecast_avg_residual != null && hr.j6_avg_residual != null)
+    ? ` <span style="color:var(--muted);font-size:0.85em">(fc ${hr.forecast_avg_residual} · j6 ${hr.j6_avg_residual}${hr.devils_avg_residual != null ? ' · da ' + hr.devils_avg_residual : ''})</span>`
+    : '';
+
+  // #1: a pinned board must not render as a leader
+  if (state.startsWith('degraded') || hr.week0_pinned)
+    return '<span style="color:#f5c518;font-weight:700;">RACE DEGRADED</span>' +
+           '<span style="color:var(--muted);font-size:0.85em"> · week-0 pinned to spot, no verdict</span>';
+  if (state === 'all_three_wrong')
+    return '<span style="color:#ff4d6a;font-weight:700;">ALL THREE WRONG</span>' + resid;
+  if (state === 'both_wrong' || state.includes('regime_break'))
+    return '<span style="color:#ff4d6a;font-weight:700;">REGIME BREAK</span>' + resid;
+  if (state.startsWith('j6_winning'))
+    return '<span style="color:#00e5a0;font-weight:700;">J6 LEADING (decisive)</span>' + resid;
+  if (state.startsWith('j6_'))
+    return '<span style="color:#00e5a0;">J6 ahead</span>' + resid;
+  if (state.startsWith('forecast'))
+    return '<span style="color:var(--yellow);">forecast leading</span>' + resid;
+  if (state.startsWith('devils') || state.startsWith('da_'))
+    return '<span style="color:#a855f7;">DA leading</span>' +
+           '<span style="color:var(--muted);font-size:0.85em"> · DA is the inverse mirror, not a third model</span>' + resid;
+  if (state === 'convergence' || state.includes('mixed'))
+    return '<span style="color:var(--muted);">mixed</span>' + resid;
+  return `<span style="color:var(--muted);">${_escapeHtml(state)}</span>` + resid;
 }
 
 async function fetchBrains() {
@@ -6088,16 +6581,84 @@ async function fetchWeightFit() {
 function renderWeightFitCard(fit) {
   const card = document.getElementById('weightFitBody');
   if (!card) return;
-  if (!fit || !fit.ok) { card.innerHTML = '<div style="color:var(--muted)">Fits daily — suggestion appears when a tighter weight set is found.</div>'; return; }
+  if (!fit || !fit.ok) { card.innerHTML = '<div style="color:var(--muted)">Fits every 10 days — suggestion appears when a tighter weight set is found.</div>'; return; }
   const impr = fit.improvement || 0;
   if (impr < 0.5) {
     card.innerHTML = `<div style="color:var(--muted)">Current weights already track history well (error ${fit.error_after}). No change suggested.</div>`;
     return;
   }
   const diffs = fit.diffs || [];
-  let html = `<div style="margin-bottom:8px;font-size:0.85em;">
+  let html = '';
+
+  // ── #4 (2026-08-12): OVERFIT RISK, LOUD ────────────────────────────────
+  // 69 samples across 31 free parameters is 2.2 per parameter. The DIRECTIONAL
+  // fitter would call that SEVERE and say so; the residual fitter shipped
+  // "-11.79 tighter" naked. Same number, same threshold, both paths.
+  if (fit.overfit_risk && ['SEVERE', 'HIGH'].includes(fit.overfit_risk)) {
+    html += `<div style="margin-bottom:8px;padding:7px;border-radius:4px;
+                  background:rgba(255,77,106,0.10);border-left:2px solid #ff4d6a;font-size:0.78em;">
+      <b style="color:#ff4d6a">⚠ ${_escapeHtml(fit.overfit_risk)} OVERFIT RISK</b>
+      <span style="color:var(--muted)"> — ${fit.samples} samples / ${fit.free_parameters} free parameters
+      = <b>${fit.samples_per_parameter}</b> per parameter. The improvement below is
+      <b>in-sample</b> greedy descent on the window it reports, so "tighter" is guaranteed
+      by construction — it is not evidence of forward skill.</span>
+    </div>`;
+  }
+
+  // ── #2/#10 (2026-08-12): NAME THE OBJECTIVE ────────────────────────────
+  // This number is |predicted_score − realized_score|. It measures AGREEMENT with
+  // the flow score, not price skill. The card sold it as a "back-tester" for five
+  // sprints without ever saying what was being minimised.
+  html += `<div style="margin-bottom:8px;font-size:0.85em;">
+    <div style="font-size:0.7em;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;">
+      score-residual agreement <span style="text-transform:none;">(not price skill)</span></div>
     Error <b style="color:var(--red)">${fit.error_before}</b> → <b style="color:var(--green)">${fit.error_after}</b>
     <span style="color:var(--muted)">(${impr} tighter, ${fit.samples} samples)</span></div>`;
+
+  // ── #3 (2026-08-12): THE PAYING OBJECTIVE, BESIDE IT ───────────────────
+  const dir = fit.directional || {};
+  if (dir.hit_rate_after != null || dir.hit_rate != null) {
+    const hb = dir.hit_rate_before, ha = (dir.hit_rate_after != null ? dir.hit_rate_after : dir.hit_rate);
+    const nul = dir.null_hit_rate != null ? dir.null_hit_rate : dir.best_null;
+    const bn = dir.beats_null;
+    html += `<div style="margin-bottom:8px;font-size:0.85em;padding:7px;
+                  background:rgba(0,229,160,0.05);border-left:2px solid #00e5a0;">
+      <div style="font-size:0.7em;color:#00e5a0;letter-spacing:0.06em;text-transform:uppercase;">
+        12h BTC direction <span style="text-transform:none;">— the objective that pays</span></div>
+      ${hb != null ? `<b style="color:var(--muted)">${hb}%</b> → ` : ''}<b style="color:${bn ? 'var(--green)' : 'var(--muted)'}">${ha}%</b>
+      ${nul != null ? `<span style="color:var(--muted)"> vs null ${nul}%</span>` : ''}
+      ${bn === false ? '<span style="color:#ff4d6a"> — does NOT beat the null</span>' : ''}
+      ${dir.samples_per_parameter != null ? `<div style="font-size:0.72em;color:var(--muted);margin-top:2px;">
+        ${dir.samples} samples / ${dir.free_parameters} params = ${dir.samples_per_parameter} per param
+        ${dir.overfit_risk ? ` · ${_escapeHtml(dir.overfit_risk)} risk` : ''}</div>` : ''}
+    </div>`;
+  }
+
+  // ── #3: THE DISAGREEMENT IS THE FINDING ────────────────────────────────
+  const dis = fit.disagreement || {};
+  if ((dis.pairs || []).length) {
+    html += `<div style="margin-bottom:8px;padding:7px;border-radius:4px;
+                  background:rgba(245,197,24,0.08);border-left:2px solid #f5c518;font-size:0.78em;">
+      <b style="color:#f5c518">⚠ THE TWO FITTERS DISAGREE ON ${dis.count} FACTOR(S)</b>
+      ${dis.pairs.slice(0, 4).map(p => `<div style="margin-top:2px;color:var(--muted);">
+        ${_escapeHtml(p.factor)}: residual wants <b>${p.residual_says}</b>, direction wants <b>${p.directional_says}</b></div>`).join('')}
+      <div style="margin-top:3px;color:var(--muted);font-style:italic;">
+        They optimise different things. Accepting either set is choosing an objective, not just a number.</div>
+    </div>`;
+  }
+
+  // ── #6 (2026-08-12): DECISION STATE + STALENESS ────────────────────────
+  const bits6 = [];
+  if (fit.last_fit_at) {
+    const ageD = (serverNow() - Date.parse(fit.last_fit_at)) / 86400000;
+    bits6.push(`fitted ${ageD.toFixed(1)}d ago`);
+    if (ageD > 12) bits6.push('<span style="color:#f5c518">suggestion is stale</span>');
+  }
+  if (fit.next_due_at) bits6.push(`next due ${_escapeHtml(String(fit.next_due_at).slice(0, 10))}`);
+  if (fit.accept_is_noop) bits6.push('<span style="color:#f5c518">accepting this would change nothing — every weight already matches live</span>');
+  else if (fit.would_change != null) bits6.push(`${fit.would_change} weight(s) would actually change`);
+  if (bits6.length)
+    html += `<div style="font-size:0.72em;color:var(--muted);margin-bottom:6px;">${bits6.join(' · ')}</div>`;
   html += `<div style="font-size:0.8em;color:var(--muted);margin-bottom:4px;">Biggest suggested adjustments:</div>`;
   diffs.slice(0, 6).forEach(d => {
     const arrow = d.delta > 0 ? '↑' : '↓';
@@ -6107,8 +6668,14 @@ function renderWeightFitCard(fit) {
       <span><span style="color:var(--muted)">${d.from}</span> <span style="color:${ac}">${arrow} ${d.to}</span></span>
     </div>`;
   });
-  if (diffs.length > 6) html += `<div style="font-size:0.75em;color:var(--muted);margin-top:4px;">+${diffs.length-6} smaller · awaiting Jordan's yes/no</div>`;
-  else html += `<div style="font-size:0.75em;color:var(--muted);margin-top:6px;">awaiting Jordan's yes/no</div>`;
+  // ── #5/#9: say HOW a decision is made, not just that one is awaited ────
+  const tail = (diffs.length > 6 ? `+${diffs.length - 6} smaller · ` : '');
+  html += `<div style="font-size:0.75em;color:var(--muted);margin-top:6px;">
+    ${tail}awaiting Jordan's yes/no — dropped as <code>weight_fit_decision.json</code>
+    (<code>{"decision":"yes"|"no"}</code>, optional <code>modified_weights</code>).
+    <span style="color:#f5c518">"modified" alone is not a valid decision</span> — a partial is
+    <code>yes</code> + <code>modified_weights</code>. Nothing here is ever auto-applied.
+  </div>`;
   card.innerHTML = html;
 }
 
@@ -6170,10 +6737,18 @@ async function fetchForecastCurve() {
     const ab = data.amplitude_blend;
     const confEl = document.getElementById('forecastConfidence');
     if (confEl) {
+      // ── H3 (2026-08-12): THE CHIP WAS ON THE WRONG SCALE ─────────────────
+      // amplitude_blend is produced on a 0-1 scale: 0.10 default, 0.35 mid, 0.60
+      // committed. These thresholds tested < 1.0 and < 3.0, so EVERY real value
+      // fell into the first branch and the chip has said "Low confidence" for its
+      // entire life - including when the producer was signalling a full commit.
+      //
+      // A chip that can only say one thing teaches the operator to stop reading it,
+      // which costs more than the missing information.
       if (ab == null) confEl.textContent = '';
-      else if (ab < 1.0) confEl.innerHTML = '<span style="color:var(--muted);">Low confidence right now , no strong cycle signal is firing, so the forecast stays cautious and close to the middle. The swings widen as real signals build.</span>';
-      else if (ab < 3.0) confEl.innerHTML = '<span style="color:var(--muted);">Building confidence , some signals are firing and the forecast is starting to commit to a direction.</span>';
-      else confEl.innerHTML = '<span style="color:var(--green,#00e5a0);">High confidence , strong signals firing, the forecast is committing to a full cycle move.</span>';
+      else if (ab < 0.30) confEl.innerHTML = `<span style="color:var(--muted);">Low confidence (amp ${ab}) — no strong cycle signal is firing, so the forecast stays close to the middle. The swings widen as real signals build.</span>`;
+      else if (ab < 0.55) confEl.innerHTML = `<span style="color:#f5c518;">Building confidence (amp ${ab}) — signals are firing and the forecast is starting to commit to a direction.</span>`;
+      else confEl.innerHTML = `<span style="color:var(--green,#00e5a0);">High confidence (amp ${ab}) — strong signals firing, the forecast is committing to a full cycle move.</span>`;
     }
 
     console.log(`forecast_curve loaded: ${fcData.length} fc, ${daData.length} DA, band ${bandLo.length}/${bandHi.length}, fingerprints=${contribs.length}, anchored ${anchorStr}, current_score=${currentScore}`);
