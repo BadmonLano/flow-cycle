@@ -1,23 +1,23 @@
 {
-  "_updated": "2026-08-12T21:37:34.168425-04:00",
+  "_updated": "2026-08-12T22:39:35.135075-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-12T20:35:12.582076-04:00",
-      "score_at_call": 39,
+      "made_at": "2026-08-12T22:39:35.158121-04:00",
+      "score_at_call": 40,
       "phase_at_call": "Panic",
-      "predicted_phase": "Capitulation",
-      "direction": "DOWN",
+      "predicted_phase": "Denial",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The coil persists until either fed_liquidity breaks from zero with actual injection or options_skew collapses from 100 with realized vol catching down \u2014 neither breaker is present, making HOLD the statistically honest call while the phase drifts toward Disbelief.",
-      "confirmed_if": "fed_liquidity rises above 15 AND btc_momentum_30d sustains above 60 with funding staying below 60",
-      "invalidated_if": "VIX spikes above 20 with DXY breaking 101 and exchange_netflow staying elevated \u2014 risk-off acceleration, not coil resolution",
+      "reasoning": "With 0 of 59 windows producing a \u00b12-point move, the coil regime makes HOLD the only statistically honest call until the breaker\u2014funding collapse below 35 or momentum break below 40\u2014actually fires.",
+      "confirmed_if": "BTC momentum_30d holds above 45 while funding stays elevated 45-60, confirming Disbelief grind with embedded strength",
+      "invalidated_if": "Funding drops below 35 AND btc_momentum_30d breaks below 40 simultaneously, signaling the Denial bounce was a headfake and we roll toward Anxiety",
       "signals_at_call": {
         "fear_greed": 29,
         "btc_funding": 0.0066,
         "mvrv_zscore": 0.3873,
         "net_liquidity_chg_4w": -120305.0,
-        "btc_dom": 56.29466141135995,
+        "btc_dom": null,
         "etf_net_total_musd": 4.89,
         "vix": 14.55
       }
@@ -3251,6 +3251,32 @@
       "superseded_by": {
         "predicted_phase": "Capitulation",
         "direction": "DOWN"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
+    },
+    {
+      "made_at": "2026-08-12T20:35:12.582076-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Capitulation",
+      "direction": "DOWN",
+      "conviction": "medium",
+      "reasoning": "The coil persists until either fed_liquidity breaks from zero with actual injection or options_skew collapses from 100 with realized vol catching down \u2014 neither breaker is present, making HOLD the statistically honest call while the phase drifts toward Disbelief.",
+      "confirmed_if": "fed_liquidity rises above 15 AND btc_momentum_30d sustains above 60 with funding staying below 60",
+      "invalidated_if": "VIX spikes above 20 with DXY breaking 101 and exchange_netflow staying elevated \u2014 risk-off acceleration, not coil resolution",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.0066,
+        "mvrv_zscore": 0.3873,
+        "net_liquidity_chg_4w": -120305.0,
+        "btc_dom": 56.29466141135995,
+        "etf_net_total_musd": 4.89,
+        "vix": 14.55
+      },
+      "superseded_at": "2026-08-12T22:39:35.157115-04:00",
+      "superseded_by": {
+        "predicted_phase": "Denial",
+        "direction": "HOLD"
       },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
