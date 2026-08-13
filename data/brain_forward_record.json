@@ -1,23 +1,23 @@
 {
-  "_updated": "2026-08-13T17:09:51.516481-04:00",
+  "_updated": "2026-08-13T18:12:01.105678-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-13T17:09:51.531482-04:00",
+      "made_at": "2026-08-13T18:12:01.121714-04:00",
       "score_at_call": 39,
       "phase_at_call": "Anxiety",
-      "predicted_phase": "Capitulation",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The coil statistics (0% of 68 windows moved \u00b12+) make HOLD the base-rate honest call, while the analyst's forward lean to Disbelief is the most logical adjacent rung if sentiment thaws \u2014 but only confirmed by a sustained score push into 55-62, not assumed.",
-      "confirmed_if": "Score holds 55-62 (Disbelief band) through next 12h window; btc_momentum_30d stays 40-50, funding remains neutral 45-55, and VIX doesn't spike above 80 or collapse below 50.",
-      "invalidated_if": "VIX breaks above 80 with btc_momentum_30d dropping below 35 (panic acceleration, pushes to Panic leg down), OR fed_liquidity lifts above 20 with etf_flows surging above 60 and stablecoin_growth above 55 (liquidity breakout, pushes to Hope leg up).",
+      "reasoning": "With zero 12h windows showing \u00b12+ point score movement over 69 observations, this is a textbook coil where HOLD with conviction is the skilled call \u2014 the August 2024 analog tells us what may come next but does not move the current phase up the ladder.",
+      "confirmed_if": "fear_greed breaks below 25 with VIX spiking above 20 and funding turning negative = Panic leg down",
+      "invalidated_if": "btc_momentum_30d clears 60 with stablecoin_growth reversing above 55 and etf_flows turning positive = Hope leg up",
       "signals_at_call": {
         "fear_greed": 29,
         "btc_funding": 0.0078,
         "mvrv_zscore": 0.3772,
         "net_liquidity_chg_4w": -190805.0,
-        "btc_dom": 56.22731786914634,
+        "btc_dom": null,
         "etf_net_total_musd": -61.16,
         "vix": 14.63
       }
@@ -3818,12 +3818,46 @@
         "predicted_phase": "Capitulation",
         "direction": "HOLD"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-08-13T18:12:01.104679-04:00",
+      "window_hours_actual": 2.07,
+      "partial_window": true,
+      "score_at_close": 39,
+      "realized_direction": "HOLD",
+      "direction_hit": true,
+      "score_delta": 0,
+      "grade_note": "graded on the 2.07h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-08-13T17:09:51.531482-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Capitulation",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "The coil statistics (0% of 68 windows moved \u00b12+) make HOLD the base-rate honest call, while the analyst's forward lean to Disbelief is the most logical adjacent rung if sentiment thaws \u2014 but only confirmed by a sustained score push into 55-62, not assumed.",
+      "confirmed_if": "Score holds 55-62 (Disbelief band) through next 12h window; btc_momentum_30d stays 40-50, funding remains neutral 45-55, and VIX doesn't spike above 80 or collapse below 50.",
+      "invalidated_if": "VIX breaks above 80 with btc_momentum_30d dropping below 35 (panic acceleration, pushes to Panic leg down), OR fed_liquidity lifts above 20 with etf_flows surging above 60 and stablecoin_growth above 55 (liquidity breakout, pushes to Hope leg up).",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.0078,
+        "mvrv_zscore": 0.3772,
+        "net_liquidity_chg_4w": -190805.0,
+        "btc_dom": 56.22731786914634,
+        "etf_net_total_musd": -61.16,
+        "vix": 14.63
+      },
+      "superseded_at": "2026-08-13T18:12:01.121714-04:00",
+      "superseded_by": {
+        "predicted_phase": "Denial",
+        "direction": "HOLD"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
-    "hit": 17,
-    "total": 35,
+    "hit": 18,
+    "total": 36,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
