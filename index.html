@@ -1750,6 +1750,12 @@
         <div class="price-tile"><div class="ticker">SOL</div><div class="val" id="solPrice">--</div><div class="chg" id="solChg">--</div></div>
         <div class="price-tile"><div class="ticker">BNB</div><div class="val" id="bnbPrice">--</div><div class="chg" id="bnbChg">--</div></div>
       </div>
+      <!-- F1 (2026-08-12): these tiles are BROWSER CoinGecko, live to the second.
+           Everything the system reasons with - score, projections, call grading,
+           coin-call entries - reads the engine's macro snapshot, frozen at the last
+           sweep. No render path connects macro to this DOM. Useful as a ticker,
+           dangerous if read as "the price the system used". -->
+      <div id="cryptoStripNote" style="display:none;font-size:0.62em;margin-top:5px;letter-spacing:0.03em;"></div>
     </div>
 
     <!-- 200-week MA cycle floor (NEW) -->
@@ -3140,7 +3146,18 @@ function cgFetch(url, { retries = 2, gap = 350 } = {}) {
 
 async function fetchCrypto() {
   try {
-    const data = await cgFetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,binancecoin&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h');
+    // ── F1 (2026-08-12): TWO CLOCKS, ONE STRIP ──────────────────────────────
+    // These tiles are BROWSER CoinGecko, live to the second. Every number the
+    // system actually reasons with - score, projections, call grading, coin-call
+    // entries - comes from the engine's macro snapshot, frozen at the last sweep
+    // (up to ~1h old). There is no render path from macro to this DOM.
+    //
+    // That is a defensible design (a live ticker IS useful) and an undisclosed
+    // one: the operator can stamp a call while reading a price the freeze never
+    // saw, then wonder why the grade disagrees. The tiles now carry the engine's
+    // number alongside when the two have separated.
+    const _cryptoUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,binancecoin&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h';
+    const data = await cgFetch(_cryptoUrl);
     if (!Array.isArray(data)) throw new Error('crypto payload not an array');
     const map = {};
     data.forEach(c => map[c.id] = c);
@@ -3158,6 +3175,33 @@ async function fetchCrypto() {
       document.getElementById('ethPrice').textContent = fmt(eth.current_price, 0);
       document.getElementById('ethChg').innerHTML = chgHTML(eth.price_change_percentage_24h);
     }
+    // F1: compare each live tile against the ENGINE's frozen price and disclose
+    // any material gap. Nothing is overwritten - the live tick stays the headline,
+    // because that is what the tile is for.
+    try {
+      const mac = (typeof MACRO_DATA !== 'undefined' && MACRO_DATA) || {};
+      const macAgeH = mac._updated ? (serverNow() - Date.parse(mac._updated)) / 3600000 : null;
+      const pairs = [['btc', btc, mac.btc_price], ['eth', eth, mac.eth_price], ['sol', sol, mac.sol_price]];
+      let worst = 0, worstSym = '';
+      for (const [sym, live, eng] of pairs) {
+        if (!live || eng == null || !eng) continue;
+        const gap = Math.abs(live.current_price - eng) / eng * 100;
+        if (gap > worst) { worst = gap; worstSym = sym.toUpperCase(); }
+      }
+      const el = document.getElementById('cryptoStripNote');
+      if (el) {
+        if (worst >= 0.5) {
+          el.innerHTML = `<span style="color:#f5c518">live tiles · engine is ${macAgeH != null ? macAgeH.toFixed(1) + 'h' : '?'} behind`
+            + ` (${worstSym} differs ${worst.toFixed(1)}%)</span> — grading and calls use the engine number, not these`;
+          el.style.display = '';
+        } else {
+          el.innerHTML = `<span style="color:var(--muted)">live tiles · engine snapshot agrees`
+            + `${macAgeH != null ? ` (${macAgeH.toFixed(1)}h old)` : ''}</span>`;
+          el.style.display = '';
+        }
+      }
+    } catch (e) {}
+
     if (sol) {
       document.getElementById('solPrice').textContent = fmt(sol.current_price, 2);
       document.getElementById('solChg').innerHTML = chgHTML(sol.price_change_percentage_24h);
