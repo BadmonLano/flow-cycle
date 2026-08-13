@@ -1,10 +1,16 @@
 {
-  "updated_at": "2026-08-13T09:03:38.639035-04:00",
+  "updated_at": "2026-08-13T09:24:38.763143-04:00",
   "doctrine": "Suspected invariants we don't have data sources for yet. Each one is a possible blind spot in the discovery engine. REALITY-CHECKED each sweep against live data \u2014 a factor that IS being fetched/computed will not be listed here, so this list can't go stale and send you chasing data you already have.",
-  "unknown_factors": [],
-  "count": 0,
+  "unknown_factors": [
+    {
+      "name": "retail_noise",
+      "description": "Retail social noise from x_intel's X search (volume / sentiment / velocity). Hypothesis: retail_noise_volume is MID at actual tops, peaking weeks earlier. WIRED but currently dry - x_intel's OAuth and daily-search budget starve the noise scan, so the producer writes zero-tweet scans. Auto-clears the moment a sweep sees measured noise FROM X - not from the App Store proxy. (2026-08-12: the proof key used to be `retail_noise_volume`, which compute_retail_signals fills from App Store ranking, so this gap was closing on a completely different sensor while x_noise reported zero tweets. Now keyed to retail_noise_volume_raw / x_noise_total_tweets, which only the X scan can fill.)",
+      "data_source_needed": "x_intel.py run_noise_scan (already built - needs live auth + reserved search budget)",
+      "priority": "HIGH"
+    }
+  ],
+  "count": 1,
   "resolved_now_live": [
-    "retail_noise",
     "long_short_ratio",
     "cvd_btc",
     "exchange_reserves",
@@ -13,10 +19,21 @@
     "copper_gold_ratio",
     "kalshi_poly_implied_probs"
   ],
-  "wired_but_dry": [],
-  "wired_but_dry_count": 0,
+  "wired_but_dry": [
+    {
+      "name": "retail_noise",
+      "keys_present": [
+        "retail_noise_volume_raw"
+      ],
+      "values": {
+        "retail_noise_volume_raw": null
+      },
+      "note": "the source is wired and returned an empty/zero value this sweep. That is not a filled gap and not a missing integration - it is a dry pipe, and it used to close the gap silently."
+    }
+  ],
+  "wired_but_dry_count": 1,
   "gap_states_note": "THREE states, not two: FILLED (a real value was measured this sweep), WIRED_BUT_DRY (the pipe exists and returned nothing - still a gap), MISSING (no integration at all). The old test was `is not None`, which let an empty list or a zero close its own gap - kalshi markets [] and a dry x_noise both did exactly that.",
   "live_but_not_in_fingerprints": [],
   "live_but_not_in_fingerprints_note": "measured every sweep, present on NO historical fingerprint. The invariant detector iterates fingerprint keys, so these can never become confirmed invariants however live they are. Closing their gap was half the job; backfilling them onto the fingerprints is the other half.",
-  "_note": "8 previously-listed gap(s) are now LIVE and filtered out: retail_noise, long_short_ratio, cvd_btc, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
+  "_note": "7 previously-listed gap(s) are now LIVE and filtered out: long_short_ratio, cvd_btc, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
 }

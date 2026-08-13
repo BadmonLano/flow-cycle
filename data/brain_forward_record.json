@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-08-13T09:03:39.741845-04:00",
+  "_updated": "2026-08-13T09:24:40.041749-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-13T05:54:59.189620-04:00",
+      "made_at": "2026-08-13T09:24:40.058725-04:00",
       "score_at_call": 39,
       "phase_at_call": "Panic",
       "predicted_phase": "Capitulation",
-      "direction": "DOWN",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "With 0 of 62 recent windows producing a \u00b12+ point move, the coil regime is the dominant base rate and neither brain has identified a confirmed breaker \u2014 HOLD with conviction is the skilled call that wins when the score holds.",
-      "confirmed_if": "ETF flows sustain above 40 for 2+ sessions with stablecoin growth turning positive and exchange netflow dropping below 50",
-      "invalidated_if": "BTC breaks below $60,500 with funding flipping negative and CVD dropping below 15, confirming distribution not accumulation",
+      "reasoning": "The coil regime (0/64 windows moved \u00b12+) makes HOLD the skilled default, but if the coil breaks upward, the next rung is Disbelief \u2014 the analyst's forward call \u2014 supported by the fear_greed and momentum factors that do align with the August analog even as structural divergences prevent calling it a true bottom replay.",
+      "confirmed_if": "BTC funding drops below 0.003% with CVD_pct_30d rising above 40 and exchange netflow flipping negative (accumulation signal)",
+      "invalidated_if": "VIX spikes above 20 with DXY breaking 101 and funding climbing above 0.012% (risk-off liquidation cascade)",
       "signals_at_call": {
         "fear_greed": 29,
-        "btc_funding": 0.0066,
+        "btc_funding": 0.0072,
         "mvrv_zscore": 0.3772,
         "net_liquidity_chg_4w": -120305.0,
-        "btc_dom": 56.28163328150695,
+        "btc_dom": 56.3010017346693,
         "etf_net_total_musd": -61.16,
-        "vix": 14.66
+        "vix": 14.44
       }
     }
   ],
@@ -3409,6 +3409,37 @@
         "direction": "DOWN"
       },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
+    },
+    {
+      "made_at": "2026-08-13T05:54:59.189620-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Panic",
+      "predicted_phase": "Capitulation",
+      "direction": "DOWN",
+      "conviction": "medium",
+      "reasoning": "With 0 of 62 recent windows producing a \u00b12+ point move, the coil regime is the dominant base rate and neither brain has identified a confirmed breaker \u2014 HOLD with conviction is the skilled call that wins when the score holds.",
+      "confirmed_if": "ETF flows sustain above 40 for 2+ sessions with stablecoin growth turning positive and exchange netflow dropping below 50",
+      "invalidated_if": "BTC breaks below $60,500 with funding flipping negative and CVD dropping below 15, confirming distribution not accumulation",
+      "signals_at_call": {
+        "fear_greed": 29,
+        "btc_funding": 0.0066,
+        "mvrv_zscore": 0.3772,
+        "net_liquidity_chg_4w": -120305.0,
+        "btc_dom": 56.28163328150695,
+        "etf_net_total_musd": -61.16,
+        "vix": 14.66
+      },
+      "superseded_at": "2026-08-13T09:24:40.058725-04:00",
+      "superseded_by": {
+        "predicted_phase": "Capitulation",
+        "direction": "HOLD"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
-  ]
+  ],
+  "superseded_tally": {
+    "hit": 0,
+    "total": 0,
+    "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
+  }
 }
