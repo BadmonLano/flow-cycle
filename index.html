@@ -1639,6 +1639,17 @@
            always correct; the label was ambiguous. Say "SPL token on Solana" so
            neither a person nor a bot can parse the chain as the asset. -->
       <div class="card-label">$GORK &nbsp;<span style="opacity:.6;font-weight:400">SPL token on Solana</span></div>
+      <!-- pack 0 #2 (2026-08-12): KEEP was the call, so say what this is in one
+           glance. The card sits on a board of factor panels, so "flow tracks $GORK"
+           is the natural misread - and it does not: macro.json carries zero gork
+           keys by allowlist, and no factor, brain input or sniper hook reads it.
+           Community pin, priced live from the contract address. #8: the CA tail is
+           in the DOM now, not only in a JS const, so a human or a visual bot can
+           verify the mint without reading the script. -->
+      <div style="font-size:0.62em;color:var(--muted);letter-spacing:0.04em;margin-top:-2px;">
+        community pin · not a flow factor ·
+        <span title="76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump" style="font-family:monospace;">76ED…pump</span>
+      </div>
       <div class="gork-price" id="gorkPrice">--</div>
       <div class="gork-meta" id="gorkMeta">Loading...</div>
     </div>
@@ -3095,6 +3106,9 @@ function serverNow() { return Date.now() + SERVER_TIME_OFFSET; }
 // never blanks once it has a value. Not a data leak — just resilience.
 const _cgLastGood = {};
 let _cgChain = Promise.resolve();
+// which urls are currently being served from last-good. Read by the caller to
+// paint a "cached" chip; never affects what cgFetch returns.
+const _cgServedStale = {};
 function cgFetch(url, { retries = 2, gap = 350 } = {}) {
   const run = async () => {
     for (let attempt = 0; attempt <= retries; attempt++) {
@@ -3104,10 +3118,17 @@ function cgFetch(url, { retries = 2, gap = 350 } = {}) {
         if (!res.ok) throw new Error('cg_http_' + res.status);
         const json = await res.json();
         _cgLastGood[url] = json;
+        // 2026-08-12: record FRESHNESS per url without touching the return value.
+        // cgFetch serves _cgLastGood on failure with no marker, so a caller cannot
+        // distinguish a live payload from a cached one - the SOL tile and the $GORK
+        // sticker both render stale numbers as live indefinitely when CoinGecko
+        // 429s, which it does often. Side-channel map: no shape change, no risk to
+        // existing callers, and a caller that cares can now ask.
+        _cgServedStale[url] = false;
         return json;
       } catch (e) {
         if (attempt < retries) { await new Promise(r => setTimeout(r, 600 * Math.pow(2, attempt))); continue; }
-        if (_cgLastGood[url] !== undefined) { console.log('cgFetch serving stale for', url); return _cgLastGood[url]; }
+        if (_cgLastGood[url] !== undefined) { console.log('cgFetch serving stale for', url); _cgServedStale[url] = true; return _cgLastGood[url]; }
         throw e;
       }
     }
@@ -3176,7 +3197,8 @@ async function fetchGork() {
   // which would otherwise silently swap in a $54k namesake for the real ~$2.4M token.
   const CA = '76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump';
   try {
-    const d = await cgFetch('https://api.coingecko.com/api/v3/simple/token_price/solana?contract_addresses=' + CA + '&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true');
+    const _gorkUrl = 'https://api.coingecko.com/api/v3/simple/token_price/solana?contract_addresses=' + CA + '&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true';
+    const d = await cgFetch(_gorkUrl);
     const g = d && (d[CA] || d[CA.toLowerCase()]);
     const price = g && g.usd;
     if (price == null) throw new Error('gork payload empty');
@@ -3184,15 +3206,51 @@ async function fetchGork() {
     document.getElementById('gorkMeta').innerHTML = `
       MC: ${fmt(g.usd_market_cap)}<br>
       24h Vol: ${fmt(g.usd_24h_vol)} &nbsp; <span class="${(g.usd_24h_change ?? 0) >= 0 ? 'up' : 'down'}">${g.usd_24h_change != null ? g.usd_24h_change.toFixed(2) : '--'}%</span><br>
-      <a href="https://www.coingecko.com/en/coins/gork" target="_blank" style="color:var(--blue);text-decoration:none;font-size:0.85em;">↗ CoinGecko</a>
+      <a href="https://www.coingecko.com/en/coins/solana/contract/${CA}" target="_blank" style="color:var(--blue);text-decoration:none;font-size:0.85em;">↗ CoinGecko</a>
     `;
+    // pack 0 #3: the fetch above can serve a LAST-GOOD payload on a 429 and the
+    // card would render it as live forever. Stamp the paint so a cached number
+    // cannot masquerade as a fresh one - same honesty class as every other panel,
+    // just lighter.
+    _gorkPaintedAt = Date.now();
+    // `__cached` was my invention - cgFetch returns the last-good OBJECT with no
+    // marker, so the payload cannot tell you. Read the side-channel it now sets.
+    _gorkWasCached = !!_cgServedStale[_gorkUrl];
+    _gorkRenderAge();
   } catch(e) {
     // keep the last good $GORK price if we ever had one — only show unavailable
     // when the card has literally never loaded (never overwrite a good value).
     if (document.getElementById('gorkPrice').textContent === '--')
       document.getElementById('gorkMeta').innerHTML = '<span style="color:var(--muted)">Data unavailable</span>';
+    else
+      _gorkRenderAge();     // #3: a held value must show its age, not look live
   }
 }
+
+// pack 0 #3 (2026-08-12): a "cached" / age chip for the sticker.
+// cgFetch returns last-good JSON on failure and fetchGork deliberately keeps the
+// prior price - correct behaviour, but with no chip a stale number looks live
+// indefinitely. CoinGecko 429s often enough that this is a real state, not a
+// theoretical one.
+let _gorkPaintedAt = null, _gorkWasCached = false;
+function _gorkRenderAge() {
+  try {
+    const el = document.getElementById('gorkMeta');
+    if (!el || _gorkPaintedAt == null) return;
+    const mins = (Date.now() - _gorkPaintedAt) / 60000;
+    const old = document.getElementById('gorkAgeChip');
+    if (old) old.remove();
+    if (mins < 10 && !_gorkWasCached) return;      // fresh enough to say nothing
+    const chip = document.createElement('div');
+    chip.id = 'gorkAgeChip';
+    chip.style.cssText = 'font-size:0.72em;color:#f5c518;margin-top:2px;';
+    chip.textContent = _gorkWasCached
+      ? `cached — CoinGecko rate-limited, showing last good${mins >= 1 ? ` (${mins < 60 ? Math.round(mins) + 'm' : (mins/60).toFixed(1) + 'h'} old)` : ''}`
+      : `${mins < 60 ? Math.round(mins) + 'm' : (mins/60).toFixed(1) + 'h'} old`;
+    el.appendChild(chip);
+  } catch (e) {}
+}
+setInterval(_gorkRenderAge, 60000);
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MACRO.JSON - reads ALL engine outputs
@@ -5091,7 +5149,7 @@ async function fetchMarketDrivers() {
   } catch(e) { console.log('market drivers fetch failed', e); }
 }
 
-async // #5/#7: a factor 1 point outside the range is not the same as one 40 points
+// #5/#7: a factor 1 point outside the range is not the same as one 40 points
 // outside, and the card rendered both as a bare ✗. Near-miss is the interesting
 // state - live `funding` sits ONE point from firing with no UI for it at all.
 function _invDist(inv) {
@@ -5102,7 +5160,7 @@ function _invDist(inv) {
   return `✗ ${d} outside`;
 }
 
-function fetchInvariants() {
+async function fetchInvariants() {
   try {
     const res = await fetch('data/invariants.json?t=' + Date.now());
     if (!res.ok) return;
