@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-15T00:17:17.871558-04:00",
+  "updated_at": "2026-08-15T01:18:51.962886-04:00",
   "fingerprints_used": {
     "tops": [
       "top_2017_dec",
@@ -174,18 +174,18 @@
       ],
       "spread": 20,
       "mean": 20.0,
-      "current": 50,
+      "current": 44,
       "firing_now": false,
       "in_range": false,
-      "near_mean": false,
+      "near_mean": true,
       "range": [
         10,
         30
       ],
-      "distance_from_range_edge": 20,
-      "distance_from_mean": 30.0,
+      "distance_from_range_edge": 14,
+      "distance_from_mean": 24.0,
       "firing_rule": "in [min-5, max+5] of the fingerprint values",
-      "_disagrees_with_old_rule": false
+      "_disagrees_with_old_rule": true
     },
     {
       "factor": "btc_momentum_30d",
@@ -272,7 +272,7 @@
         70
       ],
       "spread": 40,
-      "current": 50,
+      "current": 44,
       "interpretation": "different at every cycle top, may not be a true signature"
     },
     {
@@ -381,13 +381,14 @@
   "firing_rule_eps": 5.0,
   "firing_rule_note": "the OLD rule was |current - mean| <= 25, which could fire on a value OUTSIDE every fingerprint ever recorded - live bottom fear_greed history is [8,10,12,20,25] and 29 read as firing. Both tests are published per row (in_range / near_mean) so the change is auditable and the forecast consumer can be migrated deliberately rather than silently.",
   "rows_where_rules_disagree": [
+    "btc_dom_fade",
     "fear_greed",
     "funding"
   ],
   "doctrine": "An invariant is a factor that fires identically across all fingerprinted tops (or bottoms). When current data matches the invariant pattern, that's signal. When it doesn't, that's evidence the cycle is breaking pattern.",
   "jordan_read": "200-week floor still under test (btc ~0.995x). btc etf flipped to a leak this print, eth tiny green, sol flat. multi-source bearish confluence and liquidation headlines stay watch-only (vix 14.4, equities firm). open book is one sol min-open long.",
   "jordan_called_at": "2026-08-13T10:13:00.143770-04:00",
-  "jordan_read_age_hours": 38.1,
+  "jordan_read_age_hours": 39.1,
   "jordan_read_stale": false,
   "_jordan_read_note": "Jordan's own invariants read, authored in editorial_calls.json and carried here so one card can show both. The mechanical detector does NOT write it and does not agree or disagree with it - they answer different questions."
 }
