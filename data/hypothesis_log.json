@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-14T19:06:32.810218-04:00",
+  "_updated": "2026-08-14T20:08:42.766678-04:00",
   "grader_status": "not_implemented",
   "grades": [],
   "grader_note": "no grade_hypotheses function exists anywhere in bots/, despite the docstring naming it and the site footer claiming theses are 'scored as turns print'. fire_sweeps counts how often the CONDITIONS were true; it is not a record of whether the thesis was RIGHT. Grading needs a turn oracle - which past dates were real tops and bottoms - and that has not been built. Until it is, 0 fires is not 0-for-5.",
@@ -90,7 +90,7 @@
           "factor": "fear_greed",
           "op": ">=",
           "need": 75,
-          "actual": 29
+          "actual": 34
         },
         {
           "ok": true,
@@ -104,7 +104,7 @@
       "legs_passing": 1,
       "legs_total": 2,
       "blocked_by": [
-        "fear_greed is 29, needs >= 75"
+        "fear_greed is 34, needs >= 75"
       ],
       "near_miss": true,
       "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
@@ -118,12 +118,12 @@
       "currently_firing": false,
       "legs": [
         {
-          "ok": true,
+          "ok": false,
           "kind": "factor",
           "factor": "fear_greed",
           "op": "<=",
           "need": 30,
-          "actual": 29
+          "actual": 34
         },
         {
           "ok": false,
@@ -134,12 +134,13 @@
           "actual": 95.0
         }
       ],
-      "legs_passing": 1,
+      "legs_passing": 0,
       "legs_total": 2,
       "blocked_by": [
+        "fear_greed is 34, needs <= 30",
         "ma_200w_factor is 95.0, needs <= 20"
       ],
-      "near_miss": true,
+      "near_miss": false,
       "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
     }
   }

@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-14T19:06:32.704270-04:00",
+  "_updated": "2026-08-14T20:08:42.624174-04:00",
   "offline_days": 4,
   "offline_dates": [
     "2026-07-15",
@@ -7,41 +7,41 @@
     "2026-08-06",
     "2026-08-10"
   ],
-  "graded_days": 22,
-  "graded_sessions": 22,
+  "graded_days": 23,
+  "graded_sessions": 23,
   "hits": 7,
-  "partials": 5,
+  "partials": 6,
   "misses": 10,
   "hit_rate_pct": 43,
   "direction_accuracy_ex_partials_pct": 41.2,
-  "expectancy_net_pct": -0.192,
-  "coverage_pct": 55.3,
+  "expectancy_net_pct": -0.183,
+  "coverage_pct": 57.9,
   "coverage_detail": {
-    "slots_with_decision": 21,
+    "slots_with_decision": 22,
     "elapsed_slots": 38,
-    "logged_no_calls": 20,
+    "logged_no_calls": 21,
     "basis": "elapsed_slots",
     "_note": "coverage = distinct 12h slots that got a decision / slots elapsed since epoch. A slot that expired with no stamp counts against you even if no no_call was logged \u2014 that invisible-expiry gap was the 100%-vs-52.6% split."
   },
-  "no_calls": 20,
+  "no_calls": 21,
   "carried_graded": 0,
   "legacy_excluded": 4,
   "unpriced_excluded": 0,
   "path_split": {
-    "worked_then_failed": 15,
+    "worked_then_failed": 16,
     "never_worked": 2,
     "worked_and_held": 1,
     "held_still": 1,
     "round_trip": 2,
     "never_still": 1,
     "unknown": 0,
-    "soft_misses": 2
+    "soft_misses": 3
   },
   "projection_reality": {
     "move_arrived": 0,
     "move_half_arrived": 0,
     "move_never_existed": 0,
-    "not_measurable": 22
+    "not_measurable": 23
   },
   "path_split_note": "Reads the tape path, not the close. worked_then_failed means the call was right first and gave it back - a timing/exit lesson, not a read lesson. never_worked means the tape never moved his way. Flat calls use held_still / round_trip / never_still (not unknown). The headline hit rate is unchanged by any of this.",
   "unpriced_note": "A call the engine could not price - usually a mid-window basis flip when the cap feed rate-limits. Since 2026-08-08 the grader re-prices both ends on BTC-only rather than voiding the call, so this should stay at 0.",
@@ -65,9 +65,9 @@
       },
       "fracturing": {
         "hit": 1,
-        "partial": 2,
+        "partial": 3,
         "miss": 1,
-        "n": 4,
+        "n": 5,
         "hit_rate_pct": 50.0
       },
       "btc_leading": {
@@ -88,41 +88,24 @@
       },
       "up_micro": {
         "hit": 7,
-        "partial": 3,
+        "partial": 4,
         "miss": 8,
-        "n": 18,
-        "hit_rate_pct": 47.2
+        "n": 19,
+        "hit_rate_pct": 47.4
       }
     },
     "by_call_source": {
       "daily_call": {
         "hit": 7,
-        "partial": 5,
+        "partial": 6,
         "miss": 10,
-        "n": 22,
-        "hit_rate_pct": 43.2
+        "n": 23,
+        "hit_rate_pct": 43.5
       }
     }
   },
   "current_streak": 0,
   "recent": [
-    {
-      "date": "2026-08-01",
-      "slot": "12h",
-      "predicted": "flat",
-      "actual_pct": -0.855,
-      "grade": "miss",
-      "phase": null,
-      "peak_pct": null,
-      "peak_favoured_pct": null,
-      "swing_pct": 1.282,
-      "flat_round_trip": true,
-      "gave_back_pct": null,
-      "path_verdict": "round_trip",
-      "peak_at_hour": null,
-      "path_backfilled": true,
-      "path_points": 43
-    },
     {
       "date": "2026-08-01",
       "slot": "12h",
@@ -325,15 +308,32 @@
       "peak_at_hour": 3.15,
       "path_backfilled": null,
       "path_points": 11
+    },
+    {
+      "date": "2026-08-14",
+      "slot": "12h",
+      "predicted": "up_micro",
+      "actual_pct": -0.01,
+      "grade": "partial",
+      "phase": null,
+      "peak_pct": 0.559,
+      "peak_favoured_pct": 0.559,
+      "swing_pct": null,
+      "flat_round_trip": null,
+      "gave_back_pct": 0.401,
+      "path_verdict": "worked_then_failed",
+      "peak_at_hour": 5.17,
+      "path_backfilled": null,
+      "path_points": 11
     }
   ],
   "horse_race_trend": {
     "forecast_avg_residual": 0.0,
     "devils_avg_residual": 21.5,
-    "j6_avg_residual": 4.5,
+    "j6_avg_residual": 4.4,
     "j6_direction": [
       "improving",
-      -1.4
+      -2.0
     ],
     "snapshots": 12
   },
