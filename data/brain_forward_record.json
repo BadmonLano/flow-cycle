@@ -1,17 +1,17 @@
 {
-  "_updated": "2026-08-14T23:15:34.523954-04:00",
+  "_updated": "2026-08-15T00:17:23.063317-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-14T23:15:34.554920-04:00",
+      "made_at": "2026-08-15T00:17:23.080335-04:00",
       "score_at_call": 40,
       "phase_at_call": "Anxiety",
-      "predicted_phase": "Capitulation",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The coil's base rate is 0% directional movement across 73 windows, so the statistically honest call is HOLD with medium conviction while watching for the analyst's named breakers: UP requires fed_liquidity rising off 0 with dvol expansion, DOWN requires cvd_btc_pct_30d collapsing below 50 with exchange_netflow spiking above 90.",
-      "confirmed_if": "fed_liquidity rises off 0 AND dvol expands with spot follow-through (UP breaker) OR cvd_btc_pct_30d collapses below 50 with exchange_netflow spiking above 90 (DOWN breaker)",
-      "invalidated_if": "Score moves \u00b12+ points without a confirmed breaker \u2014 a forced directional guess in this 0-for-73 coil is how the record hit 0-for-18",
+      "reasoning": "The 0% movement rate across 72 windows makes HOLD the skilled call \u2014 the coil holds until a breaker (fear_greed < 25 or ETF flows positive) actually fires, and forcing a directional guess in this regime is how records go 0-for-18.",
+      "confirmed_if": "fear_greed drops below 25 with btc_momentum_30d staying below 35 and etf_flows turning positive \u2014 confirms true bottom formation and allows Denial\u2192Anxiety leg up",
+      "invalidated_if": "vix spikes above 80 with funding collapsing below 20 and btc_exchange_reserves_pct_30d dropping sharply \u2014 signals panic selling forcing Denial\u2192Panic down-move",
       "signals_at_call": {
         "fear_greed": 34,
         "btc_funding": 0.0006,
@@ -4226,12 +4226,46 @@
         "predicted_phase": "Capitulation",
         "direction": "HOLD"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-08-15T00:17:23.063317-04:00",
+      "window_hours_actual": 8.3,
+      "partial_window": true,
+      "score_at_close": 40,
+      "realized_direction": "HOLD",
+      "direction_hit": true,
+      "score_delta": 1,
+      "grade_note": "graded on the 8.3h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-08-14T23:15:34.554920-04:00",
+      "score_at_call": 40,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Capitulation",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "The coil's base rate is 0% directional movement across 73 windows, so the statistically honest call is HOLD with medium conviction while watching for the analyst's named breakers: UP requires fed_liquidity rising off 0 with dvol expansion, DOWN requires cvd_btc_pct_30d collapsing below 50 with exchange_netflow spiking above 90.",
+      "confirmed_if": "fed_liquidity rises off 0 AND dvol expands with spot follow-through (UP breaker) OR cvd_btc_pct_30d collapses below 50 with exchange_netflow spiking above 90 (DOWN breaker)",
+      "invalidated_if": "Score moves \u00b12+ points without a confirmed breaker \u2014 a forced directional guess in this 0-for-73 coil is how the record hit 0-for-18",
+      "signals_at_call": {
+        "fear_greed": 34,
+        "btc_funding": 0.0006,
+        "mvrv_zscore": 0.3699,
+        "net_liquidity_chg_4w": -190805.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -131.13,
+        "vix": 14.25
+      },
+      "superseded_at": "2026-08-15T00:17:23.079330-04:00",
+      "superseded_by": {
+        "predicted_phase": "Denial",
+        "direction": "HOLD"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
-    "hit": 29,
-    "total": 47,
+    "hit": 30,
+    "total": 48,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
