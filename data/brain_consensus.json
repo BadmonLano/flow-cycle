@@ -1,112 +1,112 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "fear_greed",
       "btc_momentum_30d",
-      "dxy_weakness"
+      "dxy_weakness",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
       "mvrv_zscore",
       "etf_flows",
       "vix"
     ],
-    "oracle_verdict": "DIVERGING",
+    "oracle_verdict": "APPROACHING",
     "phase": "Anxiety",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "HOLD",
-    "confidence": 0.45,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (MVRV Z-score -17 vs then, ETF flows -19, VIX +33) show this is NOT a bottom replay but a higher-level coil where recovery momentum has already been partially priced; the 0% 12h window move rate and my 0/10 MOVE call record demand HOLD as the graded default, with fed_liquidity at 0 and long_short_pct_30d at 96 showing extreme positioning compression that typically resolves explosively but directionally ambiguous.",
-      "confirmed_if": "HOLD",
-      "invalidated_if": "LONG_AGGRESSIVE or SHORT \u2014 any directional signal on a breakout of $60k-$66k range with volume confirmation and funding regime shift",
+      "reasoning": "Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like levels but current-only data screams coil: fed_liquidity at 0, long_short_pct_30d at 97, btc_exchange_reserves_pct_30d at 97, cvd_btc_pct_30d at 23 \u2014 extreme positioning without extreme price action means trapped capital, not trend. The 79.3% match to bottom_2024_aug is misleading: that was Disbelief (score ~55-62), we're at 34. The analog says what comes AFTER Disbelief (Hope/Optimism), but we're not there yet. VIX 14.25 contradicts its own 71 reading (percentile vs spot confusion), and the 0% 12h score-move base rate over 7 days means directional calls are lottery tickets. My 0-for-10 move-call record confirms this \u2014 I keep calling breaks that don't break. The honest read: coil persists, score holds in Anxiety/Disbelief border zone.",
+      "confirmed_if": "HOLD \u2014 score stays 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+      "invalidated_if": "LONG_AGGRESSIVE \u2014 if fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume; or SHORT \u2014 if VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"etf_flows\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.45,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (M",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"etf_flows\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like le",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
-      "fear_greed",
       "btc_momentum_30d",
-      "dxy_weakness"
+      "dxy_weakness",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
       "mvrv_zscore",
       "etf_flows",
       "vix"
     ],
-    "oracle_verdict": "DIVERGING",
+    "oracle_verdict": "APPROACHING",
     "phase": "Anxiety",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "HOLD",
-    "confidence": 0.45,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (MVRV Z-score -17 vs then, ETF flows -19, VIX +33) show this is NOT a bottom replay but a higher-level coil where recovery momentum has already been partially priced; the 0% 12h window move rate and my 0/10 MOVE call record demand HOLD as the graded default, with fed_liquidity at 0 and long_short_pct_30d at 96 showing extreme positioning compression that typically resolves explosively but directionally ambiguous.",
-      "confirmed_if": "HOLD",
-      "invalidated_if": "LONG_AGGRESSIVE or SHORT \u2014 any directional signal on a breakout of $60k-$66k range with volume confirmation and funding regime shift",
+      "reasoning": "Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like levels but current-only data screams coil: fed_liquidity at 0, long_short_pct_30d at 97, btc_exchange_reserves_pct_30d at 97, cvd_btc_pct_30d at 23 \u2014 extreme positioning without extreme price action means trapped capital, not trend. The 79.3% match to bottom_2024_aug is misleading: that was Disbelief (score ~55-62), we're at 34. The analog says what comes AFTER Disbelief (Hope/Optimism), but we're not there yet. VIX 14.25 contradicts its own 71 reading (percentile vs spot confusion), and the 0% 12h score-move base rate over 7 days means directional calls are lottery tickets. My 0-for-10 move-call record confirms this \u2014 I keep calling breaks that don't break. The honest read: coil persists, score holds in Anxiety/Disbelief border zone.",
+      "confirmed_if": "HOLD \u2014 score stays 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+      "invalidated_if": "LONG_AGGRESSIVE \u2014 if fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume; or SHORT \u2014 if VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"etf_flows\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.45,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (M",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"etf_flows\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like le",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
-      "fear_greed",
       "btc_momentum_30d",
-      "dxy_weakness"
+      "dxy_weakness",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
       "mvrv_zscore",
       "etf_flows",
       "vix"
     ],
-    "oracle_verdict": "DIVERGING",
+    "oracle_verdict": "APPROACHING",
     "phase": "Anxiety",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "HOLD",
-    "confidence": 0.45,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (MVRV Z-score -17 vs then, ETF flows -19, VIX +33) show this is NOT a bottom replay but a higher-level coil where recovery momentum has already been partially priced; the 0% 12h window move rate and my 0/10 MOVE call record demand HOLD as the graded default, with fed_liquidity at 0 and long_short_pct_30d at 96 showing extreme positioning compression that typically resolves explosively but directionally ambiguous.",
-      "confirmed_if": "HOLD",
-      "invalidated_if": "LONG_AGGRESSIVE or SHORT \u2014 any directional signal on a breakout of $60k-$66k range with volume confirmation and funding regime shift",
+      "reasoning": "Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like levels but current-only data screams coil: fed_liquidity at 0, long_short_pct_30d at 97, btc_exchange_reserves_pct_30d at 97, cvd_btc_pct_30d at 23 \u2014 extreme positioning without extreme price action means trapped capital, not trend. The 79.3% match to bottom_2024_aug is misleading: that was Disbelief (score ~55-62), we're at 34. The analog says what comes AFTER Disbelief (Hope/Optimism), but we're not there yet. VIX 14.25 contradicts its own 71 reading (percentile vs spot confusion), and the 0% 12h score-move base rate over 7 days means directional calls are lottery tickets. My 0-for-10 move-call record confirms this \u2014 I keep calling breaks that don't break. The honest read: coil persists, score holds in Anxiety/Disbelief border zone.",
+      "confirmed_if": "HOLD \u2014 score stays 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+      "invalidated_if": "LONG_AGGRESSIVE \u2014 if fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume; or SHORT \u2014 if VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"etf_flows\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.45,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (M",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"etf_flows\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like le",
     "brain": "analyst"
   },
   "narrative": {
-    "narrative": "Fear is back at 34 while BTC clings to $63K, with 30-day momentum fading and a weak dollar failing to spark bids \u2014 the same cocktail that marked the August 2024 bottom. The tape is coiled, not broken, and the historical echo suggests this anxiety is a setup rather than a surrender.",
-    "headline": "Anxiety Coils at the August Echo",
-    "confidence": 0.79,
+    "narrative": "Bitcoin's 30-day momentum has stalled into a sideways coil, with fading BTC dominance and a weakening dollar creating a tense standoff between risk-on and risk-off forces. This setup echoes the August 2024 bottoming structure, where similar anxiety-phase conditions preceded a sharp resolution. The market is compressing energy, waiting for a catalyst to break the range.",
+    "headline": "Coiled Spring Waits for Catalyst",
+    "confidence": 0.68,
     "next_move": {
-      "outlook": "The story holds in a tight coil until a catalyst breaks the stalemate, with the August 2024 pattern suggesting any resolution leans upward.",
+      "outlook": "The narrative arc suggests a violent expansion is coming, but the coil has not yet chosen its direction \u2014 patience is the position until the breaker reveals itself.",
       "direction": "HOLD",
       "predicted_phase": "Denial",
-      "conviction": "medium",
+      "conviction": "high",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"narrative\": \"Fear is back at 34 while BTC clings to $63K, with 30-day momentum fading and a weak dollar failing to spark bids \u2014 the same cocktail that marked the August 2024 bottom. The tape is coiled, not broken, and the historical echo suggests this anxiety is a setup rather than a surrender.\",\n  \"headline\": \"Anxiety Coils at the August Echo\",\n  \"confidence\": 0.79,\n  \"next_move\": {\n    \"outlook\": \"The story holds in a tight coil until a catalyst breaks the stalemate, with the Augu",
+    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's 30-day momentum has stalled into a sideways coil, with fading BTC dominance and a weakening dollar creating a tense standoff between risk-on and risk-off forces. This setup echoes the August 2024 bottoming structure, where similar anxiety-phase conditions preceded a sharp resolution. The market is compressing energy, waiting for a catalyst to break the range.\",\n  \"headline\": \"Coiled Spring Waits for Catalyst\",\n  \"confidence\": 0.68,\n  \"next_move\": {\n    \"outloo",
     "brain": "narrative_writer"
   },
   "consensus": {
@@ -114,43 +114,43 @@
     "final_phase": "Anxiety",
     "alert_tier": "MED",
     "consensus_confidence": 0.58,
-    "key_reasoning": "Both brains agree on Anxiety positioning but diverge on interpretation: the analyst's higher trust weight (7.67) correctly flags that MVRV, ETF flows, and VIX divergences make the 79.3% August bottom analog structurally misleading, while the narrative writer (6.00) leans into the bullish echo. With 0% 12h move rate, 0/10 directional call record, and extreme positioning compression resolving ambiguously, HOLD is the only statistically honest call in this coil.",
+    "key_reasoning": "Score sits at ~34 (Denial/Anxiety border) with extreme positioning metrics coiling without directional resolution, and the 0% 12h score-move base rate over 7 days confirms this is a trapped-capital range. The 79.3% August 2024 analog is informative for what comes NEXT but does not relocate the current phase up the ladder \u2014 we are not at Disbelief yet.",
     "disagreements_noted": [
-      "Analyst sees the August 2024 pattern as structurally misleading due to key divergences (MVRV Z-score -17, ETF flows -19, VIX +33) and calls it a higher-level coil, not a bottom replay",
-      "Narrative writer interprets the same 79.3% match as a bullish setup echo, implying accumulation opportunity rather than ambiguity",
-      "Analyst confidence 0.45 vs narrative confidence 0.79 \u2014 analyst is more cautious about the historical analog's predictive value"
+      "Analyst explicitly warns the 79.3% bottom_2024_aug match is misleading because that analog sat at Disbelief (~55-62) while current score is ~34; Narrative leans on the same analog to frame a coiled-spring breakout setup",
+      "Analist confidence 0.55 vs Narrative confidence 0.68 \u2014 Narrative is more optimistic on imminent resolution",
+      "Analyst flags VIX 14.25 contradicting its own percentile reading (spot vs percentile confusion) and notes 0-for-10 directional call record; Narrative does not address these contradictions"
     ],
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The score has moved \u00b12+ points in 0 of 72 12h windows (0%) over 7 days \u2014 this is a textbook coil where HOLD with conviction is the skilled, graded call; a directional breakout of $60K-$66K with volume and funding shift is required to claim the breaker.",
-      "brains_agree": "Partial \u2014 both place the phase at Anxiety, but the analyst explicitly rejects the narrative's bullish bottom-replay framing and defaults to HOLD on statistical grounds while the narrative implies a bullish setup",
-      "confirmed_if": "Breakout above $66K with volume confirmation and funding regime shift triggers LONG_AGGRESSIVE; breakdown below $60K with same triggers SHORT",
-      "invalidated_if": "Any directional signal fires on a confirmed breakout of the $60K-$66K range with volume and funding regime shift",
+      "reasoning": "With 0 of 72 12h windows producing a \u00b12+ score move over the last 7 days, HOLD is the statistically honest call \u2014 no breaker has been identified and forced directional guesses in this coil are how the record hit 0-for-18.",
+      "brains_agree": "Partial split \u2014 both see a coil, but Analyst frames it as trapped capital with no edge while Narrative frames it as a coiled spring waiting for catalyst; Analyst's invalidation conditions define what the catalyst must look like.",
+      "confirmed_if": "Score holds 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+      "invalidated_if": "fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume (LONG_AGGRESSIVE); or VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K (SHORT)",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-      "confidence_pct": 88.0,
-      "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+      "confidence_pct": 92.0,
+      "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.8/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Both brains agree on Anxiety positioning but diverge on interpretation: the analyst's higher trust weight (7.67) correctly flags that MVRV, ETF flows, and VIX divergences make the 79.3% August bottom analog structurally misleading, while the narrative writer (6.00) leans into the bullish echo. With 0% 12h move rate, 0/10 directional call record, and extreme p",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Score sits at ~34 (Denial/Anxiety border) with extreme positioning metrics coiling without directional resolution, and the 0% 12h score-move base rate over 7 days confirms this is a trapped-capital range. The 79.3% August 2024 analog is informative for what comes NEXT but does not relocate the current phase up the ladder \u2014 we are not at Disbelief yet.\",\n  \"di",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.62,
+    "brains_avg_confidence": 0.615,
     "brain_reads": {
       "analyst": {
         "signal": "HOLD",
         "phase": "Anxiety",
-        "verdict": "DIVERGING",
-        "confidence": 0.45,
+        "verdict": "APPROACHING",
+        "confidence": 0.55,
         "next_move": {
           "predicted_phase": "Denial",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (MVRV Z-score -17 vs then, ETF flows -19, VIX +33) show this is NOT a bottom replay but a higher-level coil where recovery momentum has already been partially priced; the 0% 12h window move rate and my 0/10 MOVE call record demand HOLD as the graded default, with fed_liquidity at 0 and long_short_pct_30d at 96 showing extreme positioning compression that typically resolves explosively but directionally ambiguous.",
-          "confirmed_if": "HOLD",
-          "invalidated_if": "LONG_AGGRESSIVE or SHORT \u2014 any directional signal on a breakout of $60k-$66k range with volume confirmation and funding regime shift",
+          "reasoning": "Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like levels but current-only data screams coil: fed_liquidity at 0, long_short_pct_30d at 97, btc_exchange_reserves_pct_30d at 97, cvd_btc_pct_30d at 23 \u2014 extreme positioning without extreme price action means trapped capital, not trend. The 79.3% match to bottom_2024_aug is misleading: that was Disbelief (score ~55-62), we're at 34. The analog says what comes AFTER Disbelief (Hope/Optimism), but we're not there yet. VIX 14.25 contradicts its own 71 reading (percentile vs spot confusion), and the 0% 12h score-move base rate over 7 days means directional calls are lottery tickets. My 0-for-10 move-call record confirms this \u2014 I keep calling breaks that don't break. The honest read: coil persists, score holds in Anxiety/Disbelief border zone.",
+          "confirmed_if": "HOLD \u2014 score stays 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+          "invalidated_if": "LONG_AGGRESSIVE \u2014 if fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume; or SHORT \u2014 if VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K",
           "predicted_phase_clamped_from": "Anxiety",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
@@ -158,14 +158,14 @@
         }
       },
       "narrative": {
-        "headline": "Anxiety Coils at the August Echo",
+        "headline": "Coiled Spring Waits for Catalyst",
         "phase": "Anxiety",
-        "confidence": 0.79,
+        "confidence": 0.68,
         "next_move": {
-          "outlook": "The story holds in a tight coil until a catalyst breaks the stalemate, with the August 2024 pattern suggesting any resolution leans upward.",
+          "outlook": "The narrative arc suggests a violent expansion is coming, but the coil has not yet chosen its direction \u2014 patience is the position until the breaker reveals itself.",
           "direction": "HOLD",
           "predicted_phase": "Denial",
-          "conviction": "medium",
+          "conviction": "high",
           "predicted_phase_clamped_from": "Anxiety",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
@@ -180,16 +180,16 @@
           "predicted_phase": "Denial",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "The score has moved \u00b12+ points in 0 of 72 12h windows (0%) over 7 days \u2014 this is a textbook coil where HOLD with conviction is the skilled, graded call; a directional breakout of $60K-$66K with volume and funding shift is required to claim the breaker.",
-          "brains_agree": "Partial \u2014 both place the phase at Anxiety, but the analyst explicitly rejects the narrative's bullish bottom-replay framing and defaults to HOLD on statistical grounds while the narrative implies a bullish setup",
-          "confirmed_if": "Breakout above $66K with volume confirmation and funding regime shift triggers LONG_AGGRESSIVE; breakdown below $60K with same triggers SHORT",
-          "invalidated_if": "Any directional signal fires on a confirmed breakout of the $60K-$66K range with volume and funding regime shift",
+          "reasoning": "With 0 of 72 12h windows producing a \u00b12+ score move over the last 7 days, HOLD is the statistically honest call \u2014 no breaker has been identified and forced directional guesses in this coil are how the record hit 0-for-18.",
+          "brains_agree": "Partial split \u2014 both see a coil, but Analyst frames it as trapped capital with no edge while Narrative frames it as a coiled spring waiting for catalyst; Analyst's invalidation conditions define what the catalyst must look like.",
+          "confirmed_if": "Score holds 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+          "invalidated_if": "fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume (LONG_AGGRESSIVE); or VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K (SHORT)",
           "predicted_phase_clamped_from": "Anxiety",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-          "confidence_pct": 88.0,
-          "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+          "confidence_pct": 92.0,
+          "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.8/1.0"
         }
       },
       "legacy": {
@@ -205,14 +205,14 @@
   "brain_reads": {
     "analyst": {
       "phase": "Anxiety",
-      "confidence": 0.45,
+      "confidence": 0.55,
       "next_move": {
         "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The 79.3% match to bottom_2024_aug is structurally misleading: key divergence signals (MVRV Z-score -17 vs then, ETF flows -19, VIX +33) show this is NOT a bottom replay but a higher-level coil where recovery momentum has already been partially priced; the 0% 12h window move rate and my 0/10 MOVE call record demand HOLD as the graded default, with fed_liquidity at 0 and long_short_pct_30d at 96 showing extreme positioning compression that typically resolves explosively but directionally ambiguous.",
-        "confirmed_if": "HOLD",
-        "invalidated_if": "LONG_AGGRESSIVE or SHORT \u2014 any directional signal on a breakout of $60k-$66k range with volume confirmation and funding regime shift",
+        "reasoning": "Score sits at ~34 (Fear&Greed 34, composite factors averaging near Disbelief-like levels but current-only data screams coil: fed_liquidity at 0, long_short_pct_30d at 97, btc_exchange_reserves_pct_30d at 97, cvd_btc_pct_30d at 23 \u2014 extreme positioning without extreme price action means trapped capital, not trend. The 79.3% match to bottom_2024_aug is misleading: that was Disbelief (score ~55-62), we're at 34. The analog says what comes AFTER Disbelief (Hope/Optimism), but we're not there yet. VIX 14.25 contradicts its own 71 reading (percentile vs spot confusion), and the 0% 12h score-move base rate over 7 days means directional calls are lottery tickets. My 0-for-10 move-call record confirms this \u2014 I keep calling breaks that don't break. The honest read: coil persists, score holds in Anxiety/Disbelief border zone.",
+        "confirmed_if": "HOLD \u2014 score stays 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+        "invalidated_if": "LONG_AGGRESSIVE \u2014 if fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume; or SHORT \u2014 if VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K",
         "predicted_phase_clamped_from": "Anxiety",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
@@ -220,13 +220,13 @@
       }
     },
     "narrative": {
-      "headline": "Anxiety Coils at the August Echo",
-      "confidence": 0.79,
+      "headline": "Coiled Spring Waits for Catalyst",
+      "confidence": 0.68,
       "next_move": {
-        "outlook": "The story holds in a tight coil until a catalyst breaks the stalemate, with the August 2024 pattern suggesting any resolution leans upward.",
+        "outlook": "The narrative arc suggests a violent expansion is coming, but the coil has not yet chosen its direction \u2014 patience is the position until the breaker reveals itself.",
         "direction": "HOLD",
         "predicted_phase": "Denial",
-        "conviction": "medium",
+        "conviction": "high",
         "predicted_phase_clamped_from": "Anxiety",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
@@ -240,21 +240,21 @@
         "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The score has moved \u00b12+ points in 0 of 72 12h windows (0%) over 7 days \u2014 this is a textbook coil where HOLD with conviction is the skilled, graded call; a directional breakout of $60K-$66K with volume and funding shift is required to claim the breaker.",
-        "brains_agree": "Partial \u2014 both place the phase at Anxiety, but the analyst explicitly rejects the narrative's bullish bottom-replay framing and defaults to HOLD on statistical grounds while the narrative implies a bullish setup",
-        "confirmed_if": "Breakout above $66K with volume confirmation and funding regime shift triggers LONG_AGGRESSIVE; breakdown below $60K with same triggers SHORT",
-        "invalidated_if": "Any directional signal fires on a confirmed breakout of the $60K-$66K range with volume and funding regime shift",
+        "reasoning": "With 0 of 72 12h windows producing a \u00b12+ score move over the last 7 days, HOLD is the statistically honest call \u2014 no breaker has been identified and forced directional guesses in this coil are how the record hit 0-for-18.",
+        "brains_agree": "Partial split \u2014 both see a coil, but Analyst frames it as trapped capital with no edge while Narrative frames it as a coiled spring waiting for catalyst; Analyst's invalidation conditions define what the catalyst must look like.",
+        "confirmed_if": "Score holds 32-46 range, BTC holds $60-65K, funding stays neutral, no ETF flow shock",
+        "invalidated_if": "fed_liquidity breaks above 20 + etf_flows spike above 60 + btc_momentum_30d clears 60 with volume (LONG_AGGRESSIVE); or VIX spot breaks 20, DXY rips above 102, exchange netflow flips heavily positive with price rejection at $65K (SHORT)",
         "predicted_phase_clamped_from": "Anxiety",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-        "confidence_pct": 88.0,
-        "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+        "confidence_pct": 92.0,
+        "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.8/1.0"
       }
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-08-15T13:17:48.088584-04:00",
+  "timestamp": "2026-08-15T14:19:44.055250-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
