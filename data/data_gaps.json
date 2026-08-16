@@ -1,10 +1,16 @@
 {
-  "updated_at": "2026-08-16T04:46:56.431847-04:00",
+  "updated_at": "2026-08-16T05:48:24.706088-04:00",
   "doctrine": "Suspected invariants we don't have data sources for yet. Each one is a possible blind spot in the discovery engine. REALITY-CHECKED each sweep against live data \u2014 a factor that IS being fetched/computed will not be listed here, so this list can't go stale and send you chasing data you already have.",
-  "unknown_factors": [],
-  "count": 0,
+  "unknown_factors": [
+    {
+      "name": "retail_noise",
+      "description": "Retail social noise from x_intel's X search (volume / sentiment / velocity). Hypothesis: retail_noise_volume is MID at actual tops, peaking weeks earlier. WIRED, still dry - but the reason has changed twice in two days, so read the history before diagnosing.\n\n2026-08-12 - WRONG PROOF KEY. The gap was keyed to `retail_noise_volume`, which compute_retail_signals fills from APP STORE ranking. So it was closing on a completely different sensor while x_noise reported zero tweets. Now keyed to retail_noise_volume_raw / x_noise_total_tweets, which only the X scan can fill.\n\n2026-08-13 - THE SEARCH BUDGET WAS NEVER ACTUALLY FENCED. x_intel declared NOISE_RESERVED_SEARCHES=6 and taught the KEYWORD lane to stop at 14, but the noise loop then checked the same global cap of 20 - so the reserve existed as a constant and nothing drew from it. Anything else touching the pool took the noise scan's searches. Fixed: noise now counts its own spend against the reserve.\n\n2026-08-13 - THE CLASSIFIER HAD NO CLOUD. run_noise_scan reached tweets and then died at LLM classification, calling LOCAL ollama only, with an empty error message (httpx connect errors carry no str()). On the same box, at the same minute, flow_cycle had three warm CLOUD brains and the same API key in the same .env. Fixed: cloud ladder first (kimi/deepseek/glm) with local as fallback and a per-rung cooldown.\n\nWHAT IS STILL UNKNOWN: whether the scan now produces MEASURED noise end to end. Two blockers are gone; live auth on the X side is the remaining candidate and has not been isolated. Do not re-diagnose this as 'budget' - that one is closed.\n\nAuto-clears the moment a sweep sees measured noise FROM X - never from the App Store proxy. NOTE: a failed classification does not produce silence, it produces NEUTRAL-labelled tweets that read like a calm market, so 'the card looks fine' is not evidence this works.",
+      "data_source_needed": "x_intel.py run_noise_scan - built, budget fenced (2026-08-13), classifier now cloud-first. Remaining candidate: live X auth.",
+      "priority": "HIGH"
+    }
+  ],
+  "count": 1,
   "resolved_now_live": [
-    "retail_noise",
     "long_short_ratio",
     "cvd_btc",
     "exchange_reserves",
@@ -13,10 +19,21 @@
     "copper_gold_ratio",
     "kalshi_poly_implied_probs"
   ],
-  "wired_but_dry": [],
-  "wired_but_dry_count": 0,
+  "wired_but_dry": [
+    {
+      "name": "retail_noise",
+      "keys_present": [
+        "retail_noise_volume_raw"
+      ],
+      "values": {
+        "retail_noise_volume_raw": null
+      },
+      "note": "the source is wired and returned an empty/zero value this sweep. That is not a filled gap and not a missing integration - it is a dry pipe, and it used to close the gap silently."
+    }
+  ],
+  "wired_but_dry_count": 1,
   "gap_states_note": "THREE states, not two: FILLED (a real value was measured this sweep), WIRED_BUT_DRY (the pipe exists and returned nothing - still a gap), MISSING (no integration at all). The old test was `is not None`, which let an empty list or a zero close its own gap - kalshi markets [] and a dry x_noise both did exactly that.",
   "live_but_not_in_fingerprints": [],
   "live_but_not_in_fingerprints_note": "measured every sweep, present on NO historical fingerprint. The invariant detector iterates fingerprint keys, so these can never become confirmed invariants however live they are. Closing their gap was half the job; backfilling them onto the fingerprints is the other half.",
-  "_note": "8 previously-listed gap(s) are now LIVE and filtered out: retail_noise, long_short_ratio, cvd_btc, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
+  "_note": "7 previously-listed gap(s) are now LIVE and filtered out: long_short_ratio, cvd_btc, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
 }
