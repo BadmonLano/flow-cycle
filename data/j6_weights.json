@@ -1,7 +1,7 @@
 {
   "version": 2,
   "schema_version": "unified_v2_2026-05-26",
-  "updated_at": "2026-08-08T16:09:09.642621-04:00",
+  "updated_at": "2026-08-16T12:05:36.100472-04:00",
   "updated_by": "jordan_via_j6_action",
   "calibration_source": "Claude + Doc1 + Grok + Doc3 + Doc4 + Doc5 \u2014 6-model arithmetic mean",
   "reasoning": "Unified weight file governing all 4 chart lines. base_weights = 6-model averaged calibration (Claude + 5 others, arithmetic mean). Forecast uses these weights with envelopes off. J6 uses these weights + j6_overrides + envelopes weighted 1.5x. DA inverts forecast. History is realized data. All four lines, one file.",
@@ -143,7 +143,7 @@
       "nasdaq": 0.0,
       "russell": 1.5,
       "fed_balance": 1.0,
-      "ma_200w_factor": 9.0,
+      "ma_200w_factor": 6.0,
       "copper": 0.3,
       "copper_gold_ratio": 2.0,
       "btc_oi_total": 1.0,
@@ -327,6 +327,22 @@
               "fed_balance": 1.0,
               "btc_oi_total": 1.0,
               "btc_funding": 2.5
+            }
+          }
+        }
+      },
+      {
+        "timestamp": "2026-08-16T12:05:36.100472-04:00",
+        "action": "update_j6_overrides",
+        "reasoning": "forecast residual 0.0 still owns the race. j6 residual 4.2 and growing (+0.6). the miss is durable (33x): actual pins 39 while j6 clusters 43.5-45 because ma_200w_factor at 9.0 contributes +5.57. AT_FLOOR is real (btc 0.986x) but it confirms a cycle-floor, not a higher cycle-score. cutting ma_200w 9.0 -> 6.0 keeps the floor toolkit and stops translating the floor into a 4.5pt optimistic residual. not accepting the full weight-fit (that zeros pi_cycle/funding_reset/realized_price).",
+        "summary": "updated overrides: 1 weights changed",
+        "payload": {
+          "action": "update_j6_overrides",
+          "timestamp": "2026-08-16T12:00:00-04:00",
+          "reasoning": "forecast residual 0.0 still owns the race. j6 residual 4.2 and growing (+0.6). the miss is durable (33x): actual pins 39 while j6 clusters 43.5-45 because ma_200w_factor at 9.0 contributes +5.57. AT_FLOOR is real (btc 0.986x) but it confirms a cycle-floor, not a higher cycle-score. cutting ma_200w 9.0 -> 6.0 keeps the floor toolkit and stops translating the floor into a 4.5pt optimistic residual. not accepting the full weight-fit (that zeros pi_cycle/funding_reset/realized_price).",
+          "overrides": {
+            "factor_weights": {
+              "ma_200w_factor": 6.0
             }
           }
         }
