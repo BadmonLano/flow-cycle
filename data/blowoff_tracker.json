@@ -1,21 +1,21 @@
 {
-  "_updated": "2026-08-16T13:01:07.031996",
+  "_updated": "2026-08-16T14:03:18.651331",
   "anchor_date": "2026-08-16",
-  "current_btc_price": 63200,
+  "current_btc_price": 63078.005,
   "signatures": {
     "parabolic": {
       "score": 0.0,
       "status": "flat_or_down",
       "metrics": {
-        "gain_7d": -2.89,
-        "gain_30d": -1.17,
-        "gain_60d": -2.47,
-        "gain_90d": -17.91,
+        "gain_7d": -3.08,
+        "gain_30d": -1.36,
+        "gain_60d": -2.66,
+        "gain_90d": -18.07,
         "acceleration": 0
       }
     },
     "magnitude": {
-      "score": 0.3,
+      "score": 0.2,
       "status": "mid_cycle_rally",
       "metrics": {
         "cycle_bottom": 25162.654297,
@@ -23,7 +23,7 @@
         "bottom_source": "rolling_1095d_fallback",
         "bottom_source_note": "FALLBACK: lowest close in a rolling 1095d window. History could not reach the prior ATH, so this bottom may be a mid-drawdown bounce, not the cycle low - treat the multiple as a floor, not a measurement.",
         "current_multiple": 2.51,
-        "pct_of_ath": 50.7,
+        "pct_of_ath": 50.6,
         "all_time_high": 124752.53125
       }
     },
@@ -50,7 +50,7 @@
       "metrics": {
         "dxy_score": 36.6,
         "stablecoin_score": 0,
-        "stablecoin_level": 260822743709.0,
+        "stablecoin_level": 260816142965.0,
         "stablecoin_level_note": "supply $261B, 60d change -2.2% - LEVEL is high but CHANGE is cold: dry powder that stopped growing, which is not the same as no fuel",
         "vix_score": 70,
         "sp500_score": 98.3,
@@ -58,21 +58,20 @@
       }
     },
     "breadth": {
-      "score": 27.8,
-      "status": "btc_leading",
+      "score": 27.5,
+      "status": "btc_leading_dom_missing",
       "metrics": {
-        "eth_btc_score": 34.2,
-        "sol_btc_score": 22.4,
-        "btc_dom_score": 25.3,
-        "btc_dom_available": true,
+        "eth_btc_score": 33.7,
+        "sol_btc_score": 20.3,
+        "btc_dom_score": null,
+        "btc_dom_available": false,
         "legs_used": [
           "eth_btc",
-          "sol_btc",
-          "btc_dom"
+          "sol_btc"
         ],
-        "_dom_note": null,
-        "eth_btc_chg_30d": 3.7,
-        "sol_btc_chg_30d": 2.24
+        "_dom_note": "macro.btc_dom was null - the dominance leg was DROPPED and the remaining legs renormalised. It is not scored as 0; a missing feed is not evidence of btc dominance.",
+        "eth_btc_chg_30d": 3.62,
+        "sol_btc_chg_30d": 2.03
       }
     },
     "shape": {
@@ -87,7 +86,7 @@
     }
   },
   "composite": {
-    "composite": 10.4,
+    "composite": 10.3,
     "alert": "quiet",
     "strict_fire": false,
     "signatures_above_70": 0,
@@ -95,7 +94,7 @@
       "required_above_70": 4,
       "current_above_70": 0,
       "required_composite": 80,
-      "current_composite": 10.4,
+      "current_composite": 10.3,
       "all_conditions_met": false
     }
   },
@@ -112,7 +111,7 @@
     "2021_nov"
   ],
   "shape_regression_check": {
-    "_checked_at": "2026-08-16T13:01:07.026992",
+    "_checked_at": "2026-08-16T14:03:18.646332",
     "checks": [
       {
         "name": "bottom_shape_not_scored_as_top",
