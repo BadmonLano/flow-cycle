@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-08-17T12:24:01.841060-04:00",
+  "_updated": "2026-08-17T12:27:29.302760-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-17T12:24:01.859842-04:00",
+      "made_at": "2026-08-17T12:27:29.320887-04:00",
       "score_at_call": 39,
       "phase_at_call": "Anxiety",
-      "predicted_phase": "Capitulation",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "With 0 of 73 windows moving \u00b12+ points, this is a nested coil where the analog suggests early recovery but live factors say stuck\u2014HOLD with conviction is the skilled call until a spot-absorption breaker arrives.",
-      "confirmed_if": "etf_flows >60 combined with exchange_netflow dropping below 30 and retail_noise_velocity spiking above 70",
-      "invalidated_if": "funding >65 with long_short_pct_30d >75 and options_skew >90 (leverage pile-on without spot follow-through), or VIX breaking 20 with DXY ripping through 101",
+      "reasoning": "The 0-for-73 coil window and analyst's 0-for-3 recent move-call record in this regime make HOLD the skilled, statistically grounded default \u2014 no breaker is visible.",
+      "confirmed_if": "BTC funding drops below 35 with MVRV ticking up and price holding $62K+, or VIX breaks below 13 with DXY under 98 capturing macro risk-on flow.",
+      "invalidated_if": "MVRV breaks below 15 with funding above 60 and exchange netflow turns positive >60 (collapse into Anxiety), or gold breaks 100 with VIX >20 and BTC loses $60K (Denial in a larger down-structure).",
       "signals_at_call": {
         "fear_greed": 31,
         "btc_funding": 0.0071,
         "mvrv_zscore": 0.3592,
         "net_liquidity_chg_4w": -190805.0,
-        "btc_dom": 56.41207426331915,
+        "btc_dom": 56.41328802626997,
         "etf_net_total_musd": -57.63,
-        "vix": 15.06
+        "vix": 15.05
       }
     }
   ],
@@ -4737,12 +4737,46 @@
         "predicted_phase": "Capitulation",
         "direction": "HOLD"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-08-17T12:27:29.301759-04:00",
+      "window_hours_actual": 9.88,
+      "partial_window": false,
+      "score_at_close": 39,
+      "realized_direction": "HOLD",
+      "direction_hit": true,
+      "score_delta": 0,
+      "grade_note": "graded on the 9.88h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-08-17T12:24:01.859842-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Capitulation",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "With 0 of 73 windows moving \u00b12+ points, this is a nested coil where the analog suggests early recovery but live factors say stuck\u2014HOLD with conviction is the skilled call until a spot-absorption breaker arrives.",
+      "confirmed_if": "etf_flows >60 combined with exchange_netflow dropping below 30 and retail_noise_velocity spiking above 70",
+      "invalidated_if": "funding >65 with long_short_pct_30d >75 and options_skew >90 (leverage pile-on without spot follow-through), or VIX breaking 20 with DXY ripping through 101",
+      "signals_at_call": {
+        "fear_greed": 31,
+        "btc_funding": 0.0071,
+        "mvrv_zscore": 0.3592,
+        "net_liquidity_chg_4w": -190805.0,
+        "btc_dom": 56.41207426331915,
+        "etf_net_total_musd": -57.63,
+        "vix": 15.06
+      },
+      "superseded_at": "2026-08-17T12:27:29.319872-04:00",
+      "superseded_by": {
+        "predicted_phase": "Denial",
+        "direction": "HOLD"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
-    "hit": 43,
-    "total": 61,
+    "hit": 44,
+    "total": 62,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
