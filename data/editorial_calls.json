@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-17T07:52:05.515598-04:00",
+  "_updated": "2026-08-17T09:33:44.372057-04:00",
   "_note": "Jordan's current editorial calls. His call > auto-computed. Loaded at boot. bots\\tuner is the truth.",
   "calls": {
     "phase": {
@@ -21,10 +21,10 @@
       "value": "bottom_2024_aug"
     },
     "cycle_position": {
-      "reasoning": "number refresh to live tape. same floor-coil read.",
-      "called_at": "2026-08-15T08:43:08.055747-04:00",
-      "data_at_call": null,
-      "value": "floor test panic, score 40, bitcoin about 0.984x the 200-week average, one SOL min-open long is the only live ticket, everything else dry"
+      "value": "floor test panic, score 40, bitcoin about 63624 near 0.99x the 200-week average, one sol min-open long is the only live ticket, everything else dry",
+      "reasoning": "number refresh to the live tape. same floor-coil read.",
+      "called_at": "2026-08-17T09:33:44.208401-04:00",
+      "data_at_call": null
     },
     "surprise_index": {
       "reasoning": "soft nudge reconfirm",
@@ -32,16 +32,16 @@
       "value": 35.0
     },
     "invariants_firing": {
-      "reasoning": "etf print changed since last invariants stamp. floor + no-breadth rule unchanged.",
-      "called_at": "2026-08-13T10:13:00.143770-04:00",
-      "data_at_call": null,
-      "value": "200-week floor still under test (btc ~0.995x). btc etf flipped to a leak this print, eth tiny green, sol flat. multi-source bearish confluence and liquidation headlines stay watch-only (vix 14.4, equities firm). open book is one sol min-open long."
+      "value": "200-week floor still under test (btc ~0.99x, about 63624). etf print leaked on the last committed context. multi-source bearish confluence and liquidation headlines stay watch-only (vix ~14.9). open book is one sol min-open long.",
+      "reasoning": "floor + no-breadth rule unchanged. numbers from the live call context.",
+      "called_at": "2026-08-17T09:33:44.371085-04:00",
+      "data_at_call": null
     },
     "exit_priority_signal": {
-      "reasoning": "soft_trail_sensor_v1 live; tripwire matches open book.",
-      "called_at": "2026-08-12T11:11:20.709374-04:00",
-      "data_at_call": null,
-      "value": "open book: sol-perp long only. hard invalidation is the live stop at 73.28 or a clean break under the 200-week floor with expanding volatility. soft trail and drawdown sensors are not exits while the floor thesis holds. no open meme tickets."
+      "value": "open book: sol-perp long only. hard invalidation is the live stop at 73.28 or a clean break under the 200-week floor with expanding volatility. soft trail and drawdown sensors are not exits while the floor thesis holds.",
+      "reasoning": "tripwire matches the open book. no meme tickets.",
+      "called_at": "2026-08-17T09:33:44.329551-04:00",
+      "data_at_call": null
     },
     "leverage_bias": {
       "value": "NEUTRAL",
@@ -56,10 +56,10 @@
       "data_at_call": null
     },
     "voice": {
-      "reasoning": "public-safe. matches the live no-call and the open one-chain book without levels.",
-      "called_at": "2026-08-15T06:41:44.427014-04:00",
-      "data_at_call": null,
-      "value": "floor still underfoot at 0.985x. machine flipped long, i did not. headlines are loud, breadth is not."
+      "value": "floor still underfoot near 0.99x. committed lean is a tiny up-micro on sol. headlines are loud, breadth is not.",
+      "reasoning": "public-safe. matches the live committed up_micro and the one-chain book without extra levels.",
+      "called_at": "2026-08-17T09:33:44.247431-04:00",
+      "data_at_call": null
     },
     "falsification": {
       "reasoning": "machine-checkable kill still true; soft-nudge stamp.",
@@ -106,67 +106,67 @@
       "value": "UP_MICRO"
     },
     "btc_call": {
-      "reasoning": "one-chain concentrate.",
-      "called_at": "2026-08-12T11:11:20.740375-04:00",
-      "data_at_call": null,
       "value": {
         "direction": "FLAT",
         "entry": null,
         "tp": null,
         "sl": null,
-        "horizon": "1d",
+        "horizon": "12h",
         "horizon_hours": 12,
-        "note": "no btc size. floor interesting and day lean up_micro; expression stays on sol until cleaner edge. FLAT = no ticket, not a claim price cannot grind."
-      }
+        "note": "no btc ticket. one-chain. sol already expresses the floor lean. FLAT means no ticket, not a claim price cannot grind."
+      },
+      "reasoning": "corr-guard / one-chain. live committed lean is up_micro on sol only.",
+      "called_at": "2026-08-17T09:33:44.033214-04:00",
+      "data_at_call": null
     },
     "eth_call": {
-      "reasoning": "correlation guard / one-chain doctrine.",
-      "called_at": "2026-08-12T11:11:20.744382-04:00",
-      "data_at_call": null,
       "value": {
         "direction": "FLAT",
         "entry": null,
         "tp": null,
         "sl": null,
-        "horizon": "1d",
+        "horizon": "12h",
         "horizon_hours": 12,
-        "note": "no eth size. no stack while sol already expresses the floor lean."
-      }
+        "note": "no eth ticket. no stack while sol already expresses the floor lean."
+      },
+      "reasoning": "corr-guard / one-chain. same as btc.",
+      "called_at": "2026-08-17T09:33:44.071227-04:00",
+      "data_at_call": null
     },
     "sol_call": {
-      "reasoning": "public coin call must match the open ticket.",
-      "called_at": "2026-08-12T11:11:20.735376-04:00",
-      "data_at_call": null,
       "value": {
         "direction": "LONG",
-        "entry": 77.13326859,
+        "entry": 77.13,
         "tp": 84.85,
         "sl": 73.28,
         "horizon": "3d",
         "horizon_hours": 72,
-        "note": "live min-open SOL-PERP probe on the panic floor coil. mark ~75.39, lev_pnl deep red on soft giveback. hard SL 73.28 is invalidation; TP 84.85 is the stretch. not a stack signal."
-      }
+        "note": "live sol-perp min-open long. hold_no_add. hard invalidation is sl 73.28. tp 84.85 is the stretch. not a stack signal."
+      },
+      "reasoning": "public coin call must match the open ticket. sl 73.28 hold_no_add. no fresh mark invented this write.",
+      "called_at": "2026-08-17T09:33:44.105749-04:00",
+      "data_at_call": null
     },
     "news_read": {
       "value": [
         {
           "headline": "altcoin bloodbath / 40 percent of tokens at all-time lows",
           "effect": "forced selling color on a fear tape. not proof the 200-week floor broke.",
-          "ts": "2026-08-17T07:52:05.514598-04:00"
+          "ts": "2026-08-17T09:33:44.138779-04:00"
         },
         {
-          "headline": "us-iran deal collapse headlines still stacking",
-          "effect": "watch-only while vix sits near 15 and the s&p holds 7786. no risk-off breadth.",
-          "ts": "2026-08-17T07:52:05.514598-04:00"
+          "headline": "us-iran deal collapse and vance low-oil-price headlines still stacking",
+          "effect": "watch-only while vix sits near 15 and equities hold. no risk-off breadth.",
+          "ts": "2026-08-17T09:33:44.138779-04:00"
         },
         {
-          "headline": "billion-dollar liquidation recaps plus futures open interest scare notes",
-          "effect": "liquidation-risk color, not a new short thesis. floor coil still the live read.",
-          "ts": "2026-08-17T07:52:05.514598-04:00"
+          "headline": "liquidation recaps plus futures open interest scare notes",
+          "effect": "liq-risk color, not a new short thesis. floor coil still the live read.",
+          "ts": "2026-08-17T09:33:44.138779-04:00"
         }
       ],
-      "reasoning": "news_read was 25h stale. bessent line aged out. same floor-coil read, current headlines only.",
-      "called_at": "2026-08-17T07:52:05.514598-04:00",
+      "reasoning": "refresh the public news card off the live catalyst stack. same floor-coil read.",
+      "called_at": "2026-08-17T09:33:44.138779-04:00",
       "data_at_call": null
     },
     "next_phase": {
@@ -180,58 +180,58 @@
       "value": "low"
     },
     "market_drivers": {
-      "reasoning": "same three drivers, first line corrected from stale 1.02x to live 0.985x. third driver absorbs this morning's geo stack.",
-      "called_at": "2026-08-15T06:41:44.512015-04:00",
-      "data_at_call": null,
       "value": [
         {
           "driver": "200-week moving average test",
-          "effect": "bitcoin sitting at 0.985x the floor; this level decides bounce versus a deeper leg"
+          "effect": "bitcoin about 63624, sitting near 0.99x the floor. this level decides bounce versus a deeper leg."
         },
         {
           "driver": "fear tape with a flat score",
-          "effect": "caps fresh leverage and blocks stacking while journal analogs stay mixed chop"
+          "effect": "fg 31, score 40, panic. caps fresh leverage and blocks stacking while analogs stay mixed chop."
         },
         {
           "driver": "geo and liquidation headline risk without breadth",
-          "effect": "ukraine, lebanon/iran, hormuz and liq prints are loud, but vix 14.3 and firm equities keep them watch-only"
+          "effect": "iran/oil headlines are loud, vix about 14.9 and firm equities keep them watch-only."
         }
-      ]
+      ],
+      "reasoning": "same three drivers, numbers from the live 07:43 call_cycle context. no newer print invented.",
+      "called_at": "2026-08-17T09:33:44.173376-04:00",
+      "data_at_call": null
     },
     "confirmation": {
-      "reasoning": "fear printed 34 not 29. add gate still closed.",
-      "called_at": "2026-08-15T08:43:08.012744-04:00",
-      "data_at_call": null,
-      "value": "live ticket is one sol-perp min-open long from 77.13, sl 73.28. add gate stays closed: etf still leaked, fear 34, analogs still 2-2. geo or liquidation headlines alone do not flip size on."
+      "value": "live ticket is one sol-perp min-open long from 77.13, sl 73.28, hold_no_add. add gate stays closed. geo or liquidation headlines alone do not flip size on.",
+      "reasoning": "open book unchanged. panic floor, mixed analogs, one-chain.",
+      "called_at": "2026-08-17T09:33:44.287950-04:00",
+      "data_at_call": null
     }
   },
   "content_age_hours": {
-    "phase": 65.8,
-    "winning_line": 93.1,
-    "pattern_match": 116.7,
-    "cycle_position": 47.1,
-    "surprise_index": 194.2,
-    "invariants_firing": 93.7,
-    "exit_priority_signal": 116.7,
-    "leverage_bias": 0.2,
-    "the_read": 7.1,
-    "voice": 49.2,
-    "falsification": 200.5,
-    "j6_line": 19.8,
-    "cliff_proximity": 200.5,
-    "detections": 47.1,
-    "data_gaps": 47.1,
-    "horse_race_read": 93.1,
-    "reset_euphoria": 200.5,
-    "daily_call": 116.7,
-    "btc_call": 116.7,
-    "eth_call": 116.7,
-    "sol_call": 116.7,
+    "phase": 67.5,
+    "winning_line": 94.8,
+    "pattern_match": 118.4,
+    "cycle_position": 0.0,
+    "surprise_index": 195.9,
+    "invariants_firing": 0.0,
+    "exit_priority_signal": 0.0,
+    "leverage_bias": 1.8,
+    "the_read": 8.8,
+    "voice": 0.0,
+    "falsification": 202.2,
+    "j6_line": 21.5,
+    "cliff_proximity": 202.2,
+    "detections": 48.8,
+    "data_gaps": 48.8,
+    "horse_race_read": 94.8,
+    "reset_euphoria": 202.2,
+    "daily_call": 118.4,
+    "btc_call": 0.0,
+    "eth_call": 0.0,
+    "sol_call": 0.0,
     "news_read": 0.0,
-    "next_phase": 161.0,
-    "next_phase_conviction": 161.0,
-    "market_drivers": 49.2,
-    "confirmation": 47.1
+    "next_phase": 162.7,
+    "next_phase_conviction": 162.7,
+    "market_drivers": 0.0,
+    "confirmation": 0.0
   },
   "_content_clock_note": "per-item age from each call's OWN called_at. `_updated` above is the FILE clock and advances on any field - it is not evidence that any particular call is fresh.",
   "news_read_age_hours": 0.0,
@@ -266,13 +266,13 @@
       }
     ],
     "candidates": 40,
-    "drafted_at": "2026-08-17T07:52:05.527603-04:00",
+    "drafted_at": "2026-08-17T09:33:44.385660-04:00",
     "status": "standby",
     "_rule": "NEVER written into news_read and never rendered as Jordan's voice. Severity-ranked, newest-first, expired envelopes dropped. This is a labelled BACKSTOP for a stale curated rail, not a replacement for curation - the floor is freshness honesty, not an unfiltered dump."
   },
   "live_scan": {
-    "title": "Altcoin Bloodbath 2026: 40% of Tokens Crash to All-Time Lows",
-    "at": "2026-08-17T07:39:39.666551-04:00",
+    "title": "Crypto Market Overview: Bitcoin holds at $63,000 \u2013 WLD, WLFI lead gains",
+    "at": "2026-08-17T08:41:14.054452-04:00",
     "active_count": 20,
     "_note": "read-only proof the news_catalyst pipe is producing. This is NOT the card body and never auto-publishes - it exists so a stale CURATION cannot be mistaken for a dead PIPELINE."
   }
