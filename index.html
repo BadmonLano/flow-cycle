@@ -2278,6 +2278,87 @@ chart._markerCache = [];   // stored markers for reapplication after zoom
 const PHASE_ORDER = ['Anger','Depression','Capitulation','Panic','Denial','Anxiety',
                      'Complacency','Disbelief','Hope','Optimism','Belief','Thrill','Euphoria'];
 
+function lastGoodEditorial(item) {
+  try {
+    const raw = localStorage.getItem('fc_editorial_last_good');
+    const map = raw ? JSON.parse(raw) : {};
+    const s = map && map[item];
+    return (typeof s === 'string' && s && s !== '[object Object]') ? s : '';
+  } catch (e) { return ''; }
+}
+function rememberEditorial(item, text) {
+  if (!item || !text || text === '[object Object]' || text === 'awaiting') return;
+  try {
+    const raw = localStorage.getItem('fc_editorial_last_good');
+    const map = raw ? JSON.parse(raw) : {};
+    map[item] = text;
+    localStorage.setItem('fc_editorial_last_good', JSON.stringify(map));
+  } catch (e) {}
+}
+function fmtEditorialValue(item, entry) {
+  if (entry == null) return lastGoodEditorial(item) || "awaiting";
+  var v = (entry && typeof entry === "object" && "value" in entry) ? entry.value : entry;
+  var display = (entry && typeof entry === "object") ? (entry.display || entry.display_text) : null;
+  if (typeof display === "string" && display && display !== "[object Object]") {
+    rememberEditorial(item, display);
+    return display;
+  }
+  if (v == null || v === "") return lastGoodEditorial(item) || "awaiting";
+  if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
+    rememberEditorial(item, String(v));
+    return String(v);
+  }
+  if (Array.isArray(v)) {
+    var joined = v.map(function (it) {
+      if (it == null) return "";
+      if (typeof it === "string") return it;
+      if (typeof it === "object") {
+        var h = it.headline || it.driver || it.direction || "";
+        var e = it.effect || it.note || "";
+        return e ? (h + ": " + e) : String(h);
+      }
+      return "";
+    }).filter(Boolean).join(" | ");
+    if (joined) { rememberEditorial(item, joined); return joined; }
+    return lastGoodEditorial(item) || "awaiting";
+  }
+  if (typeof v === "object") {
+    var bits = [];
+    if (v.direction) bits.push(String(v.direction));
+    if (v.entry != null && v.entry !== "") bits.push("entry " + v.entry);
+    if (v.sl != null && v.sl !== "") bits.push("sl " + v.sl);
+    if (v.tp != null && v.tp !== "") bits.push("tp " + v.tp);
+    if (v.horizon) bits.push(String(v.horizon));
+    if (v.note) bits.push(String(v.note));
+    var s = bits.join(" · ");
+    if (s && s !== "[object Object]") { rememberEditorial(item, s); return s; }
+    return lastGoodEditorial(item) || "awaiting";
+  }
+  return lastGoodEditorial(item) || "awaiting";
+}
+function _bankLine(live, cc) {
+  const fade = (live && live.fade_sensor) || {};
+  const bank = (live && live.bank_sensor) || {};
+  const used = !!(cc && cc.revision_used);
+  const fav = (bank.favoured_pct != null ? bank.favoured_pct : fade.favoured_pct);
+  const gave = (bank.gave_back_pp != null ? bank.gave_back_pp : fade.gave_back_pp);
+  const pkH = (bank.peak_at_hour != null ? bank.peak_at_hour : fade.peak_at_hour);
+  const bits = [];
+  if (fav != null) bits.push(`${fav >= 0 ? '+' : ''}${Number(fav).toFixed(2)}% your way`);
+  if (gave != null) bits.push(`gave ${Number(gave).toFixed(2)}pp`);
+  if (pkH != null) bits.push(`peak ${Number(pkH).toFixed(1)}h in`);
+  if (used) bits.push('bullet spent');
+  else bits.push('bullet loaded');
+  if (used) return bits.join(' · ') + ' · second leg live';
+  if (bank.fires) {
+    const sug = (bank.suggested_direction || bank.suggestion || 'restamp').toString().replace('banked_', '');
+    return 'BANK first wave in · suggested ' + sug.toUpperCase() + ' · ' + bits.join(' · ') + ' · spend the bullet or hold';
+  }
+  if (fav == null) return used ? 'bullet spent' : 'bullet loaded · peak not sampled yet';
+  if (Number(fav) < 0.10) return bits.join(' · ') + ' · nothing to bank yet';
+  return bits.join(' · ') + ' · wave still going';
+}
+
 async function renderForwardCard(nextMove, phaseCall) {
   // Sprint 66: this card shows JORDAN'S COMMITTED forward call — his actual move, the one
   // on the hit rate (from call_cycle.json live_call) — NOT the brains' suggestion. The
@@ -2321,17 +2402,12 @@ async function renderForwardCard(nextMove, phaseCall) {
     // slot_id is now only a CALENDAR TAG for where the stamp fell - it does not
     // bound the window any more (stamp-anchored since 2026-08-07). Labelling it
     // "slot" next to a countdown that runs past the slot end read as a contradiction.
-    const slotTxt = (cd && cd.slot_id) ? ` · stamped in ${cd.slot_id}` : '';
-    // 2026-08-07: "slot" language retired. Windows are stamp-anchored now
-    // (stamp -> stamp+12h), not a 06/18 calendar grid, so this is the CALL's own
-    // window. A revision inherits the remainder of the window it revised, which
-    // is why the hours can read less than 12 without anything being wrong.
-    const endTxt = (cd && cd.hours_left != null) ? ` · window ends in ${cd.hours_left}h` : '';
+    const endTxt = (cd && cd.hours_left != null) ? ` · last window leftover ${cd.hours_left}h` : '';
     if (arrowEl) { arrowEl.textContent = '…'; arrowEl.style.color = 'var(--muted)'; }
     if (phaseEl) { phaseEl.textContent = 'Awaiting Jordan'; phaseEl.style.color = 'var(--muted)'; }
     if (adviceEl) adviceEl.textContent = (live && live.carried)
-      ? `last stance expired and shadow-carries (not a decision)${slotTxt}${endTxt} — his fresh call lands here the moment he stamps it`
-      : `no committed call for this slot yet${slotTxt}${endTxt} — the call_expired packet is in his inbox`;
+      ? `last stance expired and shadow-carries (not a decision)${endTxt} — stamp the next 12h now`
+      : `no committed call. window closed, stamp the next 12h now`;
     if (barEl) { barEl.style.width = '0%'; }
     return;
   }
@@ -2364,11 +2440,17 @@ async function renderForwardCard(nextMove, phaseCall) {
     if (cd && cd.stamped_ago_min != null) {
       const m = cd.stamped_ago_min;
       stampedTxt = m < 60 ? `stamped ${m}m ago` : `stamped ${(m/60).toFixed(1)}h ago`;
-      if (cd.slot_id) stampedTxt += ` · stamped in ${cd.slot_id}`;
     }
-    adviceEl.textContent = (live.reasoning || 'His forward call for the next window — front-running the move.')
+    const bankTxt = _bankLine(live, {revision_used: !!(cd && cd.revision_available === false)});
+    adviceEl.textContent = (live.reasoning || live.thesis_text || 'His forward call for the next window.')
       + (stampedTxt ? `  ·  ${stampedTxt}` : '')
-      + (leftTxt ? `  ·  ${leftTxt}` : '');
+      + (leftTxt ? `  ·  ${leftTxt}` : '')
+      + (bankTxt ? `  ·  ${bankTxt}` : '');
+    if (live && live.bank_sensor && live.bank_sensor.fires && !(cd && cd.revision_available === false)) {
+      adviceEl.style.color = '#f5c518';
+    } else {
+      adviceEl.style.color = '';
+    }
     barEl.style.width = elapsedPct.toFixed(0) + '%';
     barEl.style.background = col;
     return;
@@ -3600,15 +3682,17 @@ async function fetchMacro() {
 
       list.innerHTML = sorted.map(k => {
         const c = calls[k] || {};
-        const val = String(c.value ?? '').trim();
-        const shortVal = val.length > 48 ? val.slice(0, 48) + '…' : (val || '—');
+        const val = fmtEditorialValue(k, c);
+        const safeVal = (val === '[object Object]') ? 'awaiting' : val;
+        const shortVal = safeVal.length > 48 ? safeVal.slice(0, 48) + '…' : (safeVal || '—');
+        const label = (k === 'daily_call') ? 'Editorial Daily Call' : pretty(k);
         const a = ago(c.called_at);
         const timeStyle = a.stale
           ? 'color:var(--yellow); font-weight:600;'
           : 'color:var(--muted);';
         return `
           <div style="display:flex; align-items:baseline; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
-            <span style="color:#4f9eff; font-size:0.82em; flex-shrink:0; min-width:120px;">${pretty(k)}</span>
+            <span style="color:#4f9eff; font-size:0.82em; flex-shrink:0; min-width:120px;">${label}</span>
             <span style="color:#cbd5e0; font-size:0.82em; flex:1;">${shortVal}</span>
             <span style="font-size:0.7em; ${timeStyle} flex-shrink:0;">${a.txt}${a.stale ? ' ⚠' : ''}</span>
           </div>`;
@@ -4945,8 +5029,8 @@ async function fetchTrackRecord() {
           const isCarried = !!(live && live.carried);
           const madeSrc = live ? (live.stamped_at || live.window_start_iso) : null;
           const madeAt = madeSrc ? new Date(madeSrc).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
-          const slotTxt = (ccCd && ccCd.slot_id) ? ` · stamped in ${ccCd.slot_id}` : '';
-          const slotEndTxt = (ccCd && ccCd.hours_left != null) ? ` · window ends in ${ccCd.hours_left}h` : '';
+          const slotTxt = '';
+          const slotEndTxt = (ccCd && ccCd.hours_left != null) ? ` · ${ccCd.hours_left}h left in last window` : '';
           if (live && live.direction && !isCarried) {
             // FRESH STAMP — the only state that is genuinely LIVE.
             // Sprint 66: LIVE-ticking countdown from window_start + 12h, not the frozen
@@ -4960,12 +5044,20 @@ async function fetchTrackRecord() {
                 <span style="color:#4f9eff; font-weight:700; min-width:18px; text-align:center;" title="grading in progress">⏱</span>
               </div>
               <div style="font-size:0.68em; color:var(--muted); padding:0 8px 6px; ">
-                Pending — grades when this window closes${revUsed ? '' : ', or instantly if he revises'}.
+                Pending — grades when this window closes, or instantly if he spends the bullet. unused reset is a miss if a first wave already printed.
                 <span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em;
                              background:${revUsed ? 'rgba(255,77,106,0.12)' : 'rgba(0,229,160,0.12)'};
                              color:${revUsed ? '#ff4d6a' : '#00e5a0'};">
                   ${revUsed ? '● bullet SPENT' : '○ 1 bullet left'}
                 </span>
+                ${(() => {
+                  const fade = live.fade_sensor || {};
+                  const bank = live.bank_sensor || {};
+                  const fav = (bank.favoured_pct != null ? bank.favoured_pct : fade.favoured_pct);
+                  const pkChip = (fav == null) ? '' : `<span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em; background:rgba(79,158,255,0.12); color:#4f9eff;">pk ${fav >= 0 ? '+' : ''}${Number(fav).toFixed(2)}%</span>`;
+                  const bankChip = (bank.fires && !revUsed) ? `<span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em; background:rgba(245,197,24,0.14); color:#f5c518;">BANK → ${(bank.suggested_direction || 'restamp').toString().replace('banked_','').toUpperCase()}</span>` : '';
+                  return pkChip + bankChip;
+                })()}
                 ${revUsed && live.is_revision ? `<span style="color:var(--muted);"> — interim grade LOCKED on the call this replaced; this one rides its remaining ${live.window_hours != null ? live.window_hours + 'h' : 'window'}, then grades.</span>` : ''}
                 ${revUsed && !live.is_revision ? '<span style="color:var(--muted);"> — revision already used this window; this call stands to the boundary.</span>' : ''}
               </div>`;
@@ -4994,7 +5086,7 @@ async function fetchTrackRecord() {
                 <span style="color:var(--muted); font-weight:700; min-width:18px; text-align:center;" title="no call stamped for this slot">…</span>
               </div>
               <div style="font-size:0.68em; color:var(--muted); padding:0 8px 6px; ">
-                No committed call for this slot${slotTxt} — the call_expired packet is in his inbox. Abstaining is a choice, not a miss; an unstamped slot is neither.
+                No committed call. window closed, stamp the next 12h now. Abstaining is a choice; awaiting time is not a coverage hole.
               </div>`;
           }
         }
