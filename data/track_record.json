@@ -1,29 +1,29 @@
 {
-  "_updated": "2026-08-18T11:14:59.496523-04:00",
+  "_updated": "2026-08-18T12:17:07.829580-04:00",
   "offline_days": 2,
   "offline_dates": [
     "2026-08-06",
     "2026-08-10"
   ],
-  "graded_days": 26,
-  "graded_sessions": 26,
+  "graded_days": 27,
+  "graded_sessions": 27,
   "hits": 8,
   "partials": 8,
-  "misses": 10,
-  "hit_rate_pct": 46,
-  "direction_accuracy_ex_partials_pct": 44.4,
+  "misses": 11,
+  "hit_rate_pct": 44,
+  "direction_accuracy_ex_partials_pct": 42.1,
   "expectancy_net_pct": -0.103,
   "coverage_pct": 100.0,
   "coverage_detail": {
-    "completed_committed_windows": 25,
+    "completed_committed_windows": 26,
     "explicit_sitouts": 0,
-    "denominator": 25,
+    "denominator": 26,
     "coverage_pct": 100.0,
     "basis": "completed_windows_plus_explicit_sitouts",
     "ignored_auto_no_calls": 25,
     "_note": "coverage = completed 12h committed windows / (those windows + explicit sit-outs). Auto-logged AM/PM no-calls and empty awaiting time are not holes. Historical graded rows are untouched.",
-    "slots_with_decision": 25,
-    "elapsed_slots": 25,
+    "slots_with_decision": 26,
+    "elapsed_slots": 26,
     "logged_no_calls": 0
   },
   "no_calls": 25,
@@ -36,7 +36,7 @@
     "worked_and_held": 2,
     "held_still": 1,
     "round_trip": 2,
-    "never_still": 1,
+    "never_still": 2,
     "unknown": 0,
     "soft_misses": 4
   },
@@ -44,7 +44,7 @@
     "move_arrived": 0,
     "move_half_arrived": 0,
     "move_never_existed": 0,
-    "not_measurable": 26
+    "not_measurable": 27
   },
   "path_split_note": "Reads the tape path, not the close. worked_then_failed means the call was right first and gave it back - a timing/exit lesson, not a read lesson. never_worked means the tape never moved his way. Flat calls use held_still / round_trip / never_still (not unknown). The headline hit rate is unchanged by any of this.",
   "unpriced_note": "A call the engine could not price - usually a mid-window basis flip when the cap feed rate-limits. Since 2026-08-08 the grader re-prices both ends on BTC-only rather than voiding the call, so this should stay at 0.",
@@ -55,9 +55,9 @@
       "together": {
         "hit": 6,
         "partial": 5,
-        "miss": 6,
-        "n": 17,
-        "hit_rate_pct": 50.0
+        "miss": 7,
+        "n": 18,
+        "hit_rate_pct": 47.2
       },
       "alts_leading": {
         "hit": 1,
@@ -85,9 +85,9 @@
       "flat": {
         "hit": 0,
         "partial": 2,
-        "miss": 2,
-        "n": 4,
-        "hit_rate_pct": 25.0
+        "miss": 3,
+        "n": 5,
+        "hit_rate_pct": 20.0
       },
       "up_micro": {
         "hit": 8,
@@ -101,22 +101,14 @@
       "daily_call": {
         "hit": 8,
         "partial": 8,
-        "miss": 10,
-        "n": 26,
-        "hit_rate_pct": 46.2
+        "miss": 11,
+        "n": 27,
+        "hit_rate_pct": 44.4
       }
     }
   },
-  "current_streak": 1,
+  "current_streak": 0,
   "recent": [
-    {
-      "date": "2026-08-06",
-      "slot": "\u2014",
-      "predicted": "offline",
-      "grade": "offline",
-      "actual_pct": null,
-      "label": "flow offline \u2014 no call"
-    },
     {
       "date": "2026-08-07",
       "slot": "12h",
@@ -328,15 +320,32 @@
       "peak_at_hour": 6.85,
       "path_backfilled": null,
       "path_points": 12
+    },
+    {
+      "date": "2026-08-18",
+      "slot": "12h",
+      "predicted": "flat",
+      "actual_pct": 0.95,
+      "grade": "miss",
+      "phase": null,
+      "peak_pct": null,
+      "peak_favoured_pct": null,
+      "swing_pct": 0.829,
+      "flat_round_trip": false,
+      "gave_back_pct": 0.0,
+      "path_verdict": "never_still",
+      "peak_at_hour": null,
+      "path_backfilled": null,
+      "path_points": 12
     }
   ],
   "horse_race_trend": {
     "forecast_avg_residual": 0.0,
-    "devils_avg_residual": 20.2,
-    "j6_avg_residual": 1.9,
+    "devils_avg_residual": 20.0,
+    "j6_avg_residual": 1.8,
     "j6_direction": [
       "flat",
-      -0.4
+      0.0
     ],
     "snapshots": 12
   },
