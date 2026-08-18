@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-18T06:59:48.800414-04:00",
+  "_updated": "2026-08-18T08:03:39.683928-04:00",
   "_doctrine": "Patterns FIRING right now (today's factor bins match a mined pattern). firing[] = PROVEN patterns (>=5 separate historical turns) \u2014 real confirmation signals to weigh. watching[] = THIN patterns (3-4 turns) that also match today but haven't earned a live voice yet. Observational; never auto-gates.",
   "firing": [],
   "watching": [],
@@ -16,7 +16,7 @@
     "fear_greed": "all_data",
     "stablecoin_total": "all_data",
     "dxy": "all_data",
-    "net_liquidity_bn": "all_data",
+    "net_liquidity_bn": "unresolved",
     "oil": "all_data"
   },
   "threshold_drift": {
@@ -39,13 +39,15 @@
   "mine_ran_at": "2026-07-11T08:42:31.398526",
   "threshold_drift_note": "the mine ran on 2026-07-11 against 4056 history rows; the matcher now recomputes bins from 4094. Where a factor appears below, its quartile cutpoints have MOVED under a label that has not - a fire or a miss on that factor may be coordinate drift, not market change.",
   "spurious_rule_note": "the mined file's _doctrine describes spurious_risk as support < 8, but pattern_miner.py sets it on distinct < 5. Seven of eight rules are muted by this flag, so which definition is intended materially changes how much of the library can ever speak.",
-  "unresolved_factors": [],
+  "unresolved_factors": [
+    "net_liquidity_bn"
+  ],
   "today_bins": {
     "dxy": "mid high",
     "fear_greed": "mid low",
     "lumber": "mid high",
     "natgas": "mid low",
-    "net_liquidity_bn": "mid low",
+    "net_liquidity_bn": null,
     "oil": "high",
     "silver": "high",
     "stablecoin_total": "high",
@@ -63,5 +65,5 @@
     ],
     "distance": 1
   },
-  "why_quiet": "genuinely quiet: every mined factor read cleanly and no pattern's bins match today. This is the engine working."
+  "why_quiet": "NOT necessarily quiet tape. 1 of 10 mined factors could not be read (net_liquidity_bn), so every pattern using one of them is UNMATCHABLE. Fix the inputs before reading this card as silence."
 }
