@@ -2,9 +2,8 @@
   "oracle": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "gold_strength",
       "dxy_weakness",
-      "vix"
+      "gold_strength"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -14,28 +13,27 @@
     "phase": "Anxiety",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.52,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similarity but score 21 points higher than that bottom; the pattern is 'bottom_2024_aug recovered' not 'bottom_2024_aug now'. Momentum factors (BTC +33, DXY weakness +29, gold +35) scream early-cycle recovery, but current-only factors reveal extreme positioning stress: fed_liquidity at 0, long_short_pct_30d at 10 (heavily short), options_skew 94, dvol 100, CVD 100, retail_noise maxed \u2014 this is a coiled spring with no fuel release visible. MVRV_zscore DOWN 16 vs bottom means we're LESS oversold despite higher price, and stablecoin growth flat at 50 shows no new money entering. The 0% 12h window move rate over 7 days demands HOLD as base case; calling direction requires identifying a breaker, and the only visible one is fed_liquidity at 0 \u2014 if that spikes, the coil breaks UP aggressively, but until then this is accumulation chop.",
-      "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-      "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (would signal distribution into weak hands, not accumulation)",
+      "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
+      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
+      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"gold_strength\", \"dxy_weakness\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similari",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recov",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "gold_strength",
       "dxy_weakness",
-      "vix"
+      "gold_strength"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -45,28 +43,27 @@
     "phase": "Anxiety",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.52,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similarity but score 21 points higher than that bottom; the pattern is 'bottom_2024_aug recovered' not 'bottom_2024_aug now'. Momentum factors (BTC +33, DXY weakness +29, gold +35) scream early-cycle recovery, but current-only factors reveal extreme positioning stress: fed_liquidity at 0, long_short_pct_30d at 10 (heavily short), options_skew 94, dvol 100, CVD 100, retail_noise maxed \u2014 this is a coiled spring with no fuel release visible. MVRV_zscore DOWN 16 vs bottom means we're LESS oversold despite higher price, and stablecoin growth flat at 50 shows no new money entering. The 0% 12h window move rate over 7 days demands HOLD as base case; calling direction requires identifying a breaker, and the only visible one is fed_liquidity at 0 \u2014 if that spikes, the coil breaks UP aggressively, but until then this is accumulation chop.",
-      "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-      "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (would signal distribution into weak hands, not accumulation)",
+      "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
+      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
+      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"gold_strength\", \"dxy_weakness\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similari",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recov",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "gold_strength",
       "dxy_weakness",
-      "vix"
+      "gold_strength"
     ],
     "diverging_factors": [
       "mvrv_zscore",
@@ -76,28 +73,28 @@
     "phase": "Anxiety",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.52,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similarity but score 21 points higher than that bottom; the pattern is 'bottom_2024_aug recovered' not 'bottom_2024_aug now'. Momentum factors (BTC +33, DXY weakness +29, gold +35) scream early-cycle recovery, but current-only factors reveal extreme positioning stress: fed_liquidity at 0, long_short_pct_30d at 10 (heavily short), options_skew 94, dvol 100, CVD 100, retail_noise maxed \u2014 this is a coiled spring with no fuel release visible. MVRV_zscore DOWN 16 vs bottom means we're LESS oversold despite higher price, and stablecoin growth flat at 50 shows no new money entering. The 0% 12h window move rate over 7 days demands HOLD as base case; calling direction requires identifying a breaker, and the only visible one is fed_liquidity at 0 \u2014 if that spikes, the coil breaks UP aggressively, but until then this is accumulation chop.",
-      "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-      "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (would signal distribution into weak hands, not accumulation)",
+      "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
+      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
+      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"gold_strength\", \"dxy_weakness\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similari",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recov",
     "brain": "analyst"
   },
   "narrative": {
-    "narrative": "Bitcoin's 7.9% surge to $69,600 is being fueled by a powerful trifecta: strengthening 30-day momentum, a flight to gold as a store of value, and a weakening dollar that's pushing capital into risk assets. This setup mirrors the August 2024 bottom formation with 76.3% similarity, suggesting the current anxiety phase may be a precursor to accumulation rather than capitulation. The market is coiling with tension, waiting for a catalyst to confirm whether this is a genuine breakout or a head-fake before the next leg.",
-    "headline": "Anxiety Coils as Momentum Builds",
-    "confidence": 0.68,
+    "narrative": "Bitcoin's 7.2% surge to $69,285 is being fueled by a powerful macro tailwind\u201430-day momentum turning sharply positive while dollar weakness and gold strength confirm a broader risk-on rotation into hard assets. This setup mirrors the August 2024 bottom formation with 76.5% similarity, where a coiled market broke upward after weeks of anxiety-driven consolidation. The fear and greed index at 46 suggests the crowd remains skeptical, which historically has been the fuel for continuation rather than exhaustion.",
+    "headline": "Coiled Spring Loaded With Gold",
+    "confidence": 0.72,
     "next_move": {
-      "outlook": "The narrative arc suggests this anxiety phase is compressing into a decision point, with the historical pattern implying a resolution upward if the dollar continues to weaken and gold's strength persists.",
+      "outlook": "The narrative arc suggests this anxiety phase is compressing into a spring\u2014if the macro tailwinds persist, the story resolves with a breakout that forces the skeptical crowd to chase.",
       "direction": "HOLD",
       "predicted_phase": "Denial",
       "conviction": "medium",
@@ -106,28 +103,27 @@
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's 7.9% surge to $69,600 is being fueled by a powerful trifecta: strengthening 30-day momentum, a flight to gold as a store of value, and a weakening dollar that's pushing capital into risk assets. This setup mirrors the August 2024 bottom formation with 76.3% similarity, suggesting the current anxiety phase may be a precursor to accumulation rather than capitulation. The market is coiling with tension, waiting for a catalyst to confirm whether this is a genuine ",
+    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's 7.2% surge to $69,285 is being fueled by a powerful macro tailwind\u201430-day momentum turning sharply positive while dollar weakness and gold strength confirm a broader risk-on rotation into hard assets. This setup mirrors the August 2024 bottom formation with 76.5% similarity, where a coiled market broke upward after weeks of anxiety-driven consolidation. The fear and greed index at 46 suggests the crowd remains skeptical, which historically has been the fuel fo",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
     "final_phase": "Anxiety",
     "alert_tier": "HIGH",
-    "consensus_confidence": 0.6,
-    "key_reasoning": "Score 46 anchors Anxiety (39-46) with both brains aligned on a coiled market lacking the fuel to break directionally \u2014 fed_liquidity at 0 and flat stablecoin growth mean no new capital is entering despite strong momentum signals. The 76.3% August 2024 bottom analog is informative for what comes NEXT but does not move the current phase; with 0% of 12h windows showing \u00b12+ point moves over 7 days, HOLD is the statistically honest call until a breaker (fed_liquidity >20) arrives.",
+    "consensus_confidence": 0.62,
+    "key_reasoning": "Both brains agree the market is a coiled spring at the Anxiety 39-46 band edge with strong macro tailwinds (DXY weakness, gold strength, BTC momentum) but compressed positioning that has not yet broken. The analyst's 0% movement rate over 75 windows and 100% HOLD accuracy vs 5.4% transition accuracy statistically demands respecting the coil until a confirmed breaker appears.",
     "disagreements_noted": [
-      "Analyst confidence 0.52 vs narrative confidence 0.68 \u2014 narrative is more bullish on the recovery framing but does not translate it into a directional signal",
-      "Analyst explicitly flags positioning stress (options_skew 94, dvol 100, CVD 100, retail_noise maxed) as a coiled spring with no fuel release, while narrative frames the setup more optimistically as 'accumulation rather than capitulation' without addressing the positioning extremes",
-      "Analyst identifies MVRV_zscore DOWN 16 vs the analog bottom (less oversold at higher price) and stablecoin growth flat at 50 as divergences that temper the bullish analog; narrative does not weigh these counterarguments"
+      "Analyst calls HOLD with 0.55 confidence citing trapped positioning and zero historical movement; Narrative Writer implies directional continuation with 0.72 confidence citing 76.5% pattern match to Aug 2024 bottom \u2014 a split between statistical patience and narrative conviction",
+      "Analyst emphasizes institutional positioning stress (fed_liquidity=0, long_short_pct=5, options_skew=89) as compression evidence; Narrative Writer emphasizes crowd skepticism (F&G=46) as fuel for continuation"
     ],
     "next_move": {
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The coil is statistically confirmed (0 of 74 windows moved \u00b12+ points) and the only visible breaker is fed_liquidity at 0 \u2014 until that spikes, accumulation chop is the base case and a forced directional guess would be a low-probability gamble.",
-      "brains_agree": "Yes \u2014 both call HOLD with Anxiety as the phase; analyst is more cautious on positioning stress while narrative is more optimistic on the analog, but neither translates to a directional call.",
-      "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-      "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (distribution into weak hands, not accumulation)",
+      "reasoning": "The base rate is 0% movement over 75 windows \u2014 this is a verified coil where HOLD with conviction is the statistically honest call, and forcing a directional guess in a 0-for-18 transition environment is how you lose.",
+      "brains_agree": "No \u2014 the analyst calls HOLD while the narrative writer implies directional continuation; the judge sides with the analyst's statistical evidence and Jordan's higher trust weight (7.67 vs 6.00), but acknowledges the narrative's pattern match as a setup worth monitoring for the breaker.",
+      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative, confirming short squeeze ignition",
+      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown",
       "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
@@ -135,22 +131,22 @@
       "confidence_pct": 88.0,
       "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.60,\n  \"key_reasoning\": \"Score 46 anchors Anxiety (39-46) with both brains aligned on a coiled market lacking the fuel to break directionally \u2014 fed_liquidity at 0 and flat stablecoin growth mean no new capital is entering despite strong momentum signals. The 76.3% August 2024 bottom analog is informative for what comes NEXT but does not move the current phase; with 0% of 12h windows",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.62,\n  \"key_reasoning\": \"Both brains agree the market is a coiled spring at the Anxiety 39-46 band edge with strong macro tailwinds (DXY weakness, gold strength, BTC momentum) but compressed positioning that has not yet broken. The analyst's 0% movement rate over 75 windows and 100% HOLD accuracy vs 5.4% transition accuracy statistically demands respecting the coil until a confirmed",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.6,
+    "brains_avg_confidence": 0.635,
     "brain_reads": {
       "analyst": {
         "signal": "HOLD",
         "phase": "Anxiety",
         "verdict": "APPROACHING",
-        "confidence": 0.52,
+        "confidence": 0.55,
         "next_move": {
           "predicted_phase": "Denial",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similarity but score 21 points higher than that bottom; the pattern is 'bottom_2024_aug recovered' not 'bottom_2024_aug now'. Momentum factors (BTC +33, DXY weakness +29, gold +35) scream early-cycle recovery, but current-only factors reveal extreme positioning stress: fed_liquidity at 0, long_short_pct_30d at 10 (heavily short), options_skew 94, dvol 100, CVD 100, retail_noise maxed \u2014 this is a coiled spring with no fuel release visible. MVRV_zscore DOWN 16 vs bottom means we're LESS oversold despite higher price, and stablecoin growth flat at 50 shows no new money entering. The 0% 12h window move rate over 7 days demands HOLD as base case; calling direction requires identifying a breaker, and the only visible one is fed_liquidity at 0 \u2014 if that spikes, the coil breaks UP aggressively, but until then this is accumulation chop.",
-          "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-          "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (would signal distribution into weak hands, not accumulation)",
+          "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
+          "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
+          "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
           "predicted_phase_clamped_from": "Anxiety",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
@@ -158,11 +154,11 @@
         }
       },
       "narrative": {
-        "headline": "Anxiety Coils as Momentum Builds",
+        "headline": "Coiled Spring Loaded With Gold",
         "phase": "Anxiety",
-        "confidence": 0.68,
+        "confidence": 0.72,
         "next_move": {
-          "outlook": "The narrative arc suggests this anxiety phase is compressing into a decision point, with the historical pattern implying a resolution upward if the dollar continues to weaken and gold's strength persists.",
+          "outlook": "The narrative arc suggests this anxiety phase is compressing into a spring\u2014if the macro tailwinds persist, the story resolves with a breakout that forces the skeptical crowd to chase.",
           "direction": "HOLD",
           "predicted_phase": "Denial",
           "conviction": "medium",
@@ -175,15 +171,15 @@
       "judge": {
         "signal": "HOLD",
         "phase": "Anxiety",
-        "confidence": 0.6,
+        "confidence": 0.62,
         "next_move": {
           "predicted_phase": "Denial",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "The coil is statistically confirmed (0 of 74 windows moved \u00b12+ points) and the only visible breaker is fed_liquidity at 0 \u2014 until that spikes, accumulation chop is the base case and a forced directional guess would be a low-probability gamble.",
-          "brains_agree": "Yes \u2014 both call HOLD with Anxiety as the phase; analyst is more cautious on positioning stress while narrative is more optimistic on the analog, but neither translates to a directional call.",
-          "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-          "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (distribution into weak hands, not accumulation)",
+          "reasoning": "The base rate is 0% movement over 75 windows \u2014 this is a verified coil where HOLD with conviction is the statistically honest call, and forcing a directional guess in a 0-for-18 transition environment is how you lose.",
+          "brains_agree": "No \u2014 the analyst calls HOLD while the narrative writer implies directional continuation; the judge sides with the analyst's statistical evidence and Jordan's higher trust weight (7.67 vs 6.00), but acknowledges the narrative's pattern match as a setup worth monitoring for the breaker.",
+          "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative, confirming short squeeze ignition",
+          "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown",
           "predicted_phase_clamped_from": "Anxiety",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
@@ -205,14 +201,14 @@
   "brain_reads": {
     "analyst": {
       "phase": "Anxiety",
-      "confidence": 0.52,
+      "confidence": 0.55,
       "next_move": {
         "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Score sits at 46 (Anxiety 39-46 band), with Disbelief analog at 76% similarity but score 21 points higher than that bottom; the pattern is 'bottom_2024_aug recovered' not 'bottom_2024_aug now'. Momentum factors (BTC +33, DXY weakness +29, gold +35) scream early-cycle recovery, but current-only factors reveal extreme positioning stress: fed_liquidity at 0, long_short_pct_30d at 10 (heavily short), options_skew 94, dvol 100, CVD 100, retail_noise maxed \u2014 this is a coiled spring with no fuel release visible. MVRV_zscore DOWN 16 vs bottom means we're LESS oversold despite higher price, and stablecoin growth flat at 50 shows no new money entering. The 0% 12h window move rate over 7 days demands HOLD as base case; calling direction requires identifying a breaker, and the only visible one is fed_liquidity at 0 \u2014 if that spikes, the coil breaks UP aggressively, but until then this is accumulation chop.",
-        "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-        "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (would signal distribution into weak hands, not accumulation)",
+        "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
+        "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
+        "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
         "predicted_phase_clamped_from": "Anxiety",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
@@ -220,10 +216,10 @@
       }
     },
     "narrative": {
-      "headline": "Anxiety Coils as Momentum Builds",
-      "confidence": 0.68,
+      "headline": "Coiled Spring Loaded With Gold",
+      "confidence": 0.72,
       "next_move": {
-        "outlook": "The narrative arc suggests this anxiety phase is compressing into a decision point, with the historical pattern implying a resolution upward if the dollar continues to weaken and gold's strength persists.",
+        "outlook": "The narrative arc suggests this anxiety phase is compressing into a spring\u2014if the macro tailwinds persist, the story resolves with a breakout that forces the skeptical crowd to chase.",
         "direction": "HOLD",
         "predicted_phase": "Denial",
         "conviction": "medium",
@@ -235,15 +231,15 @@
     },
     "judge": {
       "signal": "HOLD",
-      "confidence": 0.6,
+      "confidence": 0.62,
       "next_move": {
         "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The coil is statistically confirmed (0 of 74 windows moved \u00b12+ points) and the only visible breaker is fed_liquidity at 0 \u2014 until that spikes, accumulation chop is the base case and a forced directional guess would be a low-probability gamble.",
-        "brains_agree": "Yes \u2014 both call HOLD with Anxiety as the phase; analyst is more cautious on positioning stress while narrative is more optimistic on the analog, but neither translates to a directional call.",
-        "confirmed_if": "fed_liquidity breaks above 20 with btc_exchange_reserves_pct_30d climbing above 85 (outflow acceleration = spot buying) and funding stays below 0.03%",
-        "invalidated_if": "retail_noise_volume stays pinned at 100 while btc_momentum_30d rolls over below 50 and mvrv_zscore drops below 15 (distribution into weak hands, not accumulation)",
+        "reasoning": "The base rate is 0% movement over 75 windows \u2014 this is a verified coil where HOLD with conviction is the statistically honest call, and forcing a directional guess in a 0-for-18 transition environment is how you lose.",
+        "brains_agree": "No \u2014 the analyst calls HOLD while the narrative writer implies directional continuation; the judge sides with the analyst's statistical evidence and Jordan's higher trust weight (7.67 vs 6.00), but acknowledges the narrative's pattern match as a setup worth monitoring for the breaker.",
+        "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative, confirming short squeeze ignition",
+        "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown",
         "predicted_phase_clamped_from": "Anxiety",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
@@ -255,6 +251,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-08-19T18:05:08.227298-04:00",
+  "timestamp": "2026-08-19T19:06:55.539800-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
