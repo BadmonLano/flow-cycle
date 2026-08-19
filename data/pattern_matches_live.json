@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-08-19T01:00:02.984015-04:00",
+  "_updated": "2026-08-19T02:03:52.360501-04:00",
   "_doctrine": "Patterns FIRING right now (today's factor bins match a mined pattern). firing[] = PROVEN patterns (>=5 separate historical turns) \u2014 real confirmation signals to weigh. watching[] = THIN patterns (3-4 turns) that also match today but haven't earned a live voice yet. Observational; never auto-gates.",
   "firing": [],
   "watching": [],
@@ -17,7 +17,7 @@
     "yield_spread_10_2": "all_data",
     "oil": "all_data",
     "net_liquidity_bn": "all_data",
-    "us_m2": "all_data"
+    "us_m2": "unresolved"
   },
   "threshold_drift": {
     "us_m2": {
@@ -39,7 +39,9 @@
   "mine_ran_at": "2026-07-11T08:42:31.398526",
   "threshold_drift_note": "the mine ran on 2026-07-11 against 4056 history rows; the matcher now recomputes bins from 4095. Where a factor appears below, its quartile cutpoints have MOVED under a label that has not - a fire or a miss on that factor may be coordinate drift, not market change.",
   "spurious_rule_note": "the mined file's _doctrine describes spurious_risk as support < 8, but pattern_miner.py sets it on distinct < 5. Seven of eight rules are muted by this flag, so which definition is intended materially changes how much of the library can ever speak.",
-  "unresolved_factors": [],
+  "unresolved_factors": [
+    "us_m2"
+  ],
   "today_bins": {
     "dxy": "mid high",
     "fear_greed": "mid high",
@@ -49,19 +51,20 @@
     "oil": "high",
     "silver": "high",
     "stablecoin_total": "high",
-    "us_m2": "high",
+    "us_m2": null,
     "yield_spread_10_2": "mid high"
   },
   "mine_age_days": null,
   "nearest_miss": {
     "pattern": null,
     "outcome": null,
-    "proven": false,
+    "proven": true,
     "unreadable_factors": [],
     "wrong_bins": [
-      "us_m2 is high, needs mid high"
+      "fear_greed is mid high, needs mid low",
+      "lumber is mid high, needs mid low"
     ],
-    "distance": 1
+    "distance": 2
   },
-  "why_quiet": "genuinely quiet: every mined factor read cleanly and no pattern's bins match today. This is the engine working."
+  "why_quiet": "NOT necessarily quiet tape. 1 of 10 mined factors could not be read (us_m2), so every pattern using one of them is UNMATCHABLE. Fix the inputs before reading this card as silence."
 }
