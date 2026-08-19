@@ -1,21 +1,21 @@
 {
-  "_updated": "2026-08-18T19:34:24.474020",
+  "_updated": "2026-08-18T20:36:23.068729",
   "anchor_date": "2026-08-18",
-  "current_btc_price": 64694.075,
+  "current_btc_price": 64601,
   "signatures": {
     "parabolic": {
-      "score": 60.0,
-      "status": "accelerating",
+      "score": 0.0,
+      "status": "flat_or_down",
       "metrics": {
-        "gain_7d": 1.59,
-        "gain_30d": 0.46,
-        "gain_60d": 2.16,
-        "gain_90d": -16.48,
-        "acceleration": 13.79
+        "gain_7d": 1.45,
+        "gain_30d": 0.32,
+        "gain_60d": 2.01,
+        "gain_90d": -16.6,
+        "acceleration": 0
       }
     },
     "magnitude": {
-      "score": 1.9,
+      "score": 1.8,
       "status": "mid_cycle_rally",
       "metrics": {
         "cycle_bottom": 25162.654297,
@@ -23,7 +23,7 @@
         "bottom_source": "rolling_1095d_fallback",
         "bottom_source_note": "FALLBACK: lowest close in a rolling 1095d window. History could not reach the prior ATH, so this bottom may be a mid-drawdown bounce, not the cycle low - treat the multiple as a floor, not a measurement.",
         "current_multiple": 2.57,
-        "pct_of_ath": 51.9,
+        "pct_of_ath": 51.8,
         "all_time_high": 124752.53125
       }
     },
@@ -31,9 +31,9 @@
       "score": 2.2,
       "status": "fear_dominant",
       "metrics": {
-        "fg_current": 41,
-        "fg_avg_30d": 29.5,
-        "fg_max_30d": 41,
+        "fg_current": 46,
+        "fg_avg_30d": 29.7,
+        "fg_max_30d": 46,
         "fg_days_above_75": 0,
         "fg_days_above_85": 0,
         "btc_funding": 0.0037,
@@ -45,12 +45,12 @@
       }
     },
     "macro": {
-      "score": 34.1,
+      "score": 34.3,
       "status": "weak_alignment",
       "metrics": {
-        "dxy_score": 37.2,
+        "dxy_score": 37.8,
         "stablecoin_score": 0,
-        "stablecoin_level": 260809468669.0,
+        "stablecoin_level": 260799137414.0,
         "stablecoin_level_note": "supply $261B, 60d change -2.2% - LEVEL is high but CHANGE is cold: dry powder that stopped growing, which is not the same as no fuel",
         "vix_score": 50,
         "sp500_score": 86.3,
@@ -58,20 +58,21 @@
       }
     },
     "breadth": {
-      "score": 5.2,
-      "status": "btc_dominant_dom_missing",
+      "score": 10.0,
+      "status": "btc_dominant",
       "metrics": {
-        "eth_btc_score": 9.8,
+        "eth_btc_score": 10.3,
         "sol_btc_score": 0,
-        "btc_dom_score": null,
-        "btc_dom_available": false,
+        "btc_dom_score": 23.5,
+        "btc_dom_available": true,
         "legs_used": [
           "eth_btc",
-          "sol_btc"
+          "sol_btc",
+          "btc_dom"
         ],
-        "_dom_note": "macro.btc_dom was null - the dominance leg was DROPPED and the remaining legs renormalised. It is not scored as 0; a missing feed is not evidence of btc dominance.",
-        "eth_btc_chg_30d": 0.98,
-        "sol_btc_chg_30d": -0.25
+        "_dom_note": null,
+        "eth_btc_chg_30d": 1.03,
+        "sol_btc_chg_30d": -0.28
       }
     },
     "shape": {
@@ -86,7 +87,7 @@
     }
   },
   "composite": {
-    "composite": 18.7,
+    "composite": 7.4,
     "alert": "quiet",
     "strict_fire": false,
     "signatures_above_70": 0,
@@ -94,7 +95,7 @@
       "required_above_70": 4,
       "current_above_70": 0,
       "required_composite": 80,
-      "current_composite": 18.7,
+      "current_composite": 7.4,
       "all_conditions_met": false
     }
   },
@@ -111,7 +112,7 @@
     "2021_nov"
   ],
   "shape_regression_check": {
-    "_checked_at": "2026-08-18T19:34:24.471019",
+    "_checked_at": "2026-08-18T20:36:23.065724",
     "checks": [
       {
         "name": "bottom_shape_not_scored_as_top",
