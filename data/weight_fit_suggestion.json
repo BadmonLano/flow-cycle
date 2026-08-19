@@ -1,54 +1,61 @@
 {
   "ok": true,
-  "_updated": "2026-08-09T11:36:41.769215-04:00",
-  "samples": 69,
-  "error_before": 24.15,
-  "error_after": 12.36,
-  "improvement": 11.79,
+  "_updated": "2026-08-19T13:56:44.577206-04:00",
+  "samples": 70,
+  "free_parameters": 31,
+  "samples_per_parameter": 2.26,
+  "overfit_risk": "SEVERE",
+  "in_sample": true,
+  "objective": "score_residual_MAE",
+  "_objective_note": "this fitter minimises |predicted_score - realized_score| - it teaches J6 to AGREE WITH THE FLOW SCORE, not to predict price. A tighter number here is agreement, not edge. The directional fitter is the one whose objective pays.",
+  "_overfit_note": "70 samples across 31 free parameters = 2.26 per parameter - SEVERE overfit risk. The improvement below is IN-SAMPLE greedy coordinate descent on the same window it reports; it cannot be evidence of forward skill.",
+  "error_before": 26.16,
+  "error_after": 11.22,
+  "improvement": 14.94,
   "suggested_weights": {
     "lth_supply": 7.7,
     "btc_oi_total": 0.0,
-    "btc_funding": 6.5,
-    "eth_funding": 4.5,
+    "btc_funding": 4.5,
+    "eth_funding": 0.0,
     "us10y": 0.0,
     "us02y": 0.0,
     "fed_balance": 0.0,
     "pvp_ratio": 8.3,
     "avg_hold_mins": 7.5,
-    "btc_chg": 0.0,
+    "btc_chg": 3.0,
     "sp500": 0.0,
     "nasdaq": 0.0,
     "russell": 0.0,
     "silver": 0.0,
     "copper": 0.0,
     "oil": 0.0,
-    "natgas": 4.5,
+    "natgas": 5.0,
     "uranium": 0.0,
     "lumber": 0.0,
     "fertilizer": 0.0,
     "baltic_dry": 3.3,
     "gold_chg": 0.0,
-    "silver_chg": 1.0,
-    "copper_chg": 4.0,
+    "silver_chg": 1.2,
+    "copper_chg": 3.0,
     "oil_chg": 0.0,
-    "realized_vol_7d": 6.0,
-    "copper_gold_ratio": 2.5,
-    "ma_200w_factor": 5.0,
+    "realized_vol_7d": 8.0,
+    "copper_gold_ratio": 3.5,
+    "ma_200w_factor": 2.0,
     "pi_cycle_factor": 0.0,
     "realized_price_factor": 3.5,
     "funding_reset_factor": 0.0
   },
   "diffs": [
     {
-      "factor": "btc_funding",
-      "from": 2.5,
-      "to": 6.5,
+      "factor": "realized_vol_7d",
+      "from": 4.0,
+      "to": 8.0,
       "delta": 4.0
     },
     {
       "factor": "ma_200w_factor",
-      "from": 9.0,
-      "to": 5.0,
+      "from": 6.0,
+      "to": 2.0,
       "delta": -4.0
     },
     {
@@ -70,12 +77,6 @@
       "delta": -3.5
     },
     {
-      "factor": "btc_chg",
-      "from": 3.0,
-      "to": 0.0,
-      "delta": -3.0
-    },
-    {
       "factor": "gold_chg",
       "from": 2.8,
       "to": 0.0,
@@ -84,19 +85,19 @@
     {
       "factor": "eth_funding",
       "from": 2.5,
-      "to": 4.5,
-      "delta": 2.0
+      "to": 0.0,
+      "delta": -2.5
     },
     {
       "factor": "natgas",
       "from": 2.5,
-      "to": 4.5,
-      "delta": 2.0
+      "to": 5.0,
+      "delta": 2.5
     },
     {
-      "factor": "realized_vol_7d",
-      "from": 4.0,
-      "to": 6.0,
+      "factor": "btc_funding",
+      "from": 2.5,
+      "to": 4.5,
       "delta": 2.0
     },
     {
@@ -124,10 +125,10 @@
       "delta": -1.5
     },
     {
-      "factor": "silver_chg",
-      "from": 2.2,
-      "to": 1.0,
-      "delta": -1.2
+      "factor": "copper_gold_ratio",
+      "from": 2.0,
+      "to": 3.5,
+      "delta": 1.5
     },
     {
       "factor": "btc_oi_total",
@@ -148,22 +149,16 @@
       "delta": -1.0
     },
     {
-      "factor": "copper_chg",
-      "from": 3.0,
-      "to": 4.0,
-      "delta": 1.0
+      "factor": "silver_chg",
+      "from": 2.2,
+      "to": 1.2,
+      "delta": -1.0
     },
     {
       "factor": "oil",
       "from": 0.5,
       "to": 0.0,
       "delta": -0.5
-    },
-    {
-      "factor": "copper_gold_ratio",
-      "from": 2.0,
-      "to": 2.5,
-      "delta": 0.5
     },
     {
       "factor": "copper",
@@ -174,26 +169,26 @@
   ],
   "directional": {
     "ok": true,
-    "samples": 205,
+    "samples": 317,
     "sample_source": "intraday_2h_12h_horizon",
     "free_parameters": 31,
-    "samples_per_parameter": 6.6,
-    "overfitting_risk": "\u26a0 HIGH \u2014 under 10 samples per parameter. Treat any suggested change with real suspicion; the fit has enough freedom to explain randomness.",
-    "hit_rate_before_pct": 58.06,
-    "hit_rate_after_pct": 61.83,
-    "improvement_pts": 3.77,
-    "null_always_up_pct": 54.3,
-    "null_always_down_pct": 45.7,
-    "best_null_pct": 54.3,
-    "beats_null": true,
+    "samples_per_parameter": 10.2,
+    "overfitting_risk": "acceptable \u2014 enough samples per parameter that a fit can mean something.",
+    "hit_rate_before_pct": 48.94,
+    "hit_rate_after_pct": 51.76,
+    "improvement_pts": 2.82,
+    "null_always_up_pct": 53.17,
+    "null_always_down_pct": 46.83,
+    "best_null_pct": 53.17,
+    "beats_null": false,
     "suggested_weights": {
       "lth_supply": 7.7,
       "btc_oi_total": 0.0,
       "btc_funding": 2.5,
-      "eth_funding": 3.5,
-      "us10y": 0.5,
-      "us02y": 1.5,
-      "fed_balance": 0.0,
+      "eth_funding": 2.5,
+      "us10y": 0.0,
+      "us02y": 2.5,
+      "fed_balance": 1.5,
       "pvp_ratio": 8.3,
       "avg_hold_mins": 7.5,
       "btc_chg": 3.0,
@@ -214,19 +209,19 @@
       "oil_chg": 0.0,
       "realized_vol_7d": 4.0,
       "copper_gold_ratio": 2.0,
-      "ma_200w_factor": 10.0,
+      "ma_200w_factor": 6.0,
       "pi_cycle_factor": 4.0,
       "realized_price_factor": 7.5,
       "funding_reset_factor": 3.5
     },
     "diff_vs_current": {
       "btc_oi_total": -1.0,
-      "eth_funding": 1.0,
-      "us10y": -0.5,
-      "fed_balance": -1.0,
-      "ma_200w_factor": 1.0
+      "us10y": -1.0,
+      "us02y": 1.0,
+      "fed_balance": 0.5
     },
-    "verdict": "\u2705 The fitted weights hit 61.83% directionally vs a 54.3% null. That is real information \u2014 the tilt model IS predictive. Worth accepting.",
+    "verdict": "\ud83d\udea8 THE TILT MODEL CARRIES NO DIRECTIONAL INFORMATION. Even after fitting, it hits 51.76% \u2014 and a brainless 'always up' hits 53.17% on the same samples. NO AMOUNT OF WEIGHT TUNING FIXES THIS. The factors you're weighting do not predict BTC direction at this horizon. Either change the factors, change the horizon, or accept that the line is a REGIME DESCRIPTOR and stop asking it to forecast.",
     "_doctrine": "The existing fitter minimizes |predicted_score - realized_score| \u2014 it teaches the J6 line to IMITATE the flow score. But the score is itself a model. Fitting a model to agree with another model optimizes for AGREEMENT, not TRUTH, and nobody gets paid for agreeing with a score. THIS fitter optimizes directional accuracy on BTC \u2014 the only objective that pays. When the two fitters disagree, that disagreement is the finding."
-  }
+  },
+  "_WARNING": "\u26a0 DO NOT ACCEPT THESE WEIGHTS ON FAITH. The directional fitter says the tilt model cannot beat a brainless null even AFTER fitting \u2014 meaning these factors carry no directional information at this horizon. A tighter score-fit on a model that can't forecast is a better-polished mirror. It will make the line hug the score more closely and will NOT make your calls any better."
 }
