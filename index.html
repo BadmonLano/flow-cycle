@@ -2442,10 +2442,24 @@ async function renderForwardCard(nextMove, phaseCall) {
       stampedTxt = m < 60 ? `stamped ${m}m ago` : `stamped ${(m/60).toFixed(1)}h ago`;
     }
     const bankTxt = _bankLine(live, {revision_used: !!(cd && cd.revision_available === false)});
+    const lastChk = (cd && cd.live_bullet_last_check_iso) || live.live_bullet_last_check_iso;
+    let lbTxt = '';
+    if (lastChk) {
+      const lbMs = Date.parse(lastChk);
+      const agoMin = isNaN(lbMs) ? null : Math.max(0, Math.round((serverNow() - lbMs) / 60000));
+      const drift = (cd && cd.live_bullet_drift_vs_call_pct != null)
+        ? cd.live_bullet_drift_vs_call_pct
+        : (live.live_bullet_drift_vs_call_pct != null ? live.live_bullet_drift_vs_call_pct
+           : ((live.bank_sensor && live.bank_sensor.net_pct_so_far != null) ? live.bank_sensor.net_pct_so_far : null));
+      const agoTxt = agoMin == null ? String(lastChk) : (agoMin < 60 ? (agoMin + 'm ago') : ((agoMin/60).toFixed(1) + 'h ago'));
+      const driftTxt = (drift != null) ? (`drift ${drift >= 0 ? '+' : ''}${Number(drift).toFixed(2)}% vs open`) : '';
+      lbTxt = ['last live-bullet check ' + agoTxt, driftTxt].filter(Boolean).join(' · ');
+    }
     adviceEl.textContent = (live.reasoning || live.thesis_text || 'His forward call for the next window.')
       + (stampedTxt ? `  ·  ${stampedTxt}` : '')
       + (leftTxt ? `  ·  ${leftTxt}` : '')
-      + (bankTxt ? `  ·  ${bankTxt}` : '');
+      + (bankTxt ? `  ·  ${bankTxt}` : '')
+      + (lbTxt ? `  ·  ${lbTxt}` : '');
     if (live && live.bank_sensor && live.bank_sensor.fires && !(cd && cd.revision_available === false)) {
       adviceEl.style.color = '#f5c518';
     } else {
@@ -5056,7 +5070,21 @@ async function fetchTrackRecord() {
                   const fav = (bank.favoured_pct != null ? bank.favoured_pct : fade.favoured_pct);
                   const pkChip = (fav == null) ? '' : `<span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em; background:rgba(79,158,255,0.12); color:#4f9eff;">pk ${fav >= 0 ? '+' : ''}${Number(fav).toFixed(2)}%</span>`;
                   const bankChip = (bank.fires && !revUsed) ? `<span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em; background:rgba(245,197,24,0.14); color:#f5c518;">BANK → ${(bank.suggested_direction || 'restamp').toString().replace('banked_','').toUpperCase()}</span>` : '';
-                  return pkChip + bankChip;
+                  const lastChk = (cc.live_bullet && cc.live_bullet.last_check_iso) || (ccCd && ccCd.live_bullet_last_check_iso) || live.live_bullet_last_check_iso;
+                  let chkChip = '';
+                  if (lastChk) {
+                    const lbMs = Date.parse(lastChk);
+                    const agoMin = isNaN(lbMs) ? null : Math.max(0, Math.round((serverNow() - lbMs) / 60000));
+                    const agoTxt = agoMin == null ? 'check' : (agoMin < 60 ? (agoMin + 'm ago') : ((agoMin/60).toFixed(1) + 'h ago'));
+                    chkChip = `<span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em; background:rgba(160,174,192,0.12); color:#a0aec0;">last check ${agoTxt}</span>`;
+                  }
+                  const drift = (cc.live_bullet && cc.live_bullet.drift_vs_call_pct != null)
+                    ? cc.live_bullet.drift_vs_call_pct
+                    : ((ccCd && ccCd.live_bullet_drift_vs_call_pct != null) ? ccCd.live_bullet_drift_vs_call_pct
+                       : (live.live_bullet_drift_vs_call_pct != null ? live.live_bullet_drift_vs_call_pct
+                          : (bank.net_pct_so_far != null ? bank.net_pct_so_far : null)));
+                  const driftChip = (drift == null) ? '' : `<span style="display:inline-block; margin-left:6px; padding:1px 6px; border-radius:3px; font-size:0.9em; background:rgba(79,158,255,0.10); color:#4f9eff;">drift ${drift >= 0 ? '+' : ''}${Number(drift).toFixed(2)}% vs open</span>`;
+                  return pkChip + bankChip + chkChip + driftChip;
                 })()}
                 ${revUsed && live.is_revision ? `<span style="color:var(--muted);"> — interim grade LOCKED on the call this replaced; this one rides its remaining ${live.window_hours != null ? live.window_hours + 'h' : 'window'}, then grades.</span>` : ''}
                 ${revUsed && !live.is_revision ? '<span style="color:var(--muted);"> — revision already used this window; this call stands to the boundary.</span>' : ''}
@@ -5154,10 +5182,15 @@ async function fetchTrackRecord() {
             peakTitle = 'peak not recorded — this call was graded before path tracking existed';
           }
           const dt = r.date ? new Date(r.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+          const bulletChip = (r.bullet_status === 'unused')
+            ? ` <span style="font-size:0.78em; color:#ff4d6a; border:1px solid rgba(255,77,106,0.35); border-radius:4px; padding:0 4px;" title="bullet sat unused through the boundary. unused is the miss, not discipline.">unused</span>`
+            : (r.bullet_status === 'spent'
+               ? ` <span style="font-size:0.78em; color:#00e5a0; border:1px solid rgba(0,229,160,0.28); border-radius:4px; padding:0 4px;" title="bullet spent. first leg locked, remainder rode.">bullet used</span>`
+               : '');
           return `
             <div style="display:flex; align-items:center; gap:10px; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.8em;">
               <span style="color:var(--muted); min-width:48px;">${dt}</span>
-              <span style="color:#cbd5e0; flex:1;">Called <b>${dirWord(r.predicted)}</b>${(r.slot || '').includes('carried') ? ' <span style="font-size:0.78em; color:var(--muted); border:1px solid rgba(255,255,255,0.12); border-radius:4px; padding:0 4px;" title="LEGACY: a stance auto-re-graded past its window under the old carry rule. Abolished 2026-07-27 — a closed window now grades once and stops. Never counted toward the rate.">carried</span>' : ''}${(r.slot || '').includes('rev') ? ' <span style="font-size:0.78em; color:#4f9eff;" title="graded early on revision">rev</span>' : ''}</span>
+              <span style="color:#cbd5e0; flex:1;">Called <b>${dirWord(r.predicted)}</b>${(r.slot || '').includes('carried') ? ' <span style="font-size:0.78em; color:var(--muted); border:1px solid rgba(255,255,255,0.12); border-radius:4px; padding:0 4px;" title="LEGACY: a stance auto-re-graded past its window under the old carry rule. Abolished 2026-07-27 — a closed window now grades once and stops. Never counted toward the rate.">carried</span>' : ''}${(r.slot || '').includes('rev') ? ' <span style="font-size:0.78em; color:#4f9eff;" title="graded early on revision">rev</span>' : ''}${bulletChip}</span>
               <span style="color:var(--muted); min-width:56px; text-align:right;">${pct}</span>
               <span style="min-width:62px; text-align:right; font-size:0.92em;" title="${peakTitle}">${peakStr}</span>
               <span style="color:${gradeColor[g] || 'var(--muted)'}; font-weight:700; min-width:18px; text-align:center;">${gradeIcon[g] || ''}</span>

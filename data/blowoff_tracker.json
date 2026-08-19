@@ -1,16 +1,16 @@
 {
-  "_updated": "2026-08-18T21:38:41.541922",
+  "_updated": "2026-08-18T21:55:14.299401",
   "anchor_date": "2026-08-18",
-  "current_btc_price": 64422.355,
+  "current_btc_price": 64387.195,
   "signatures": {
     "parabolic": {
       "score": 0.0,
       "status": "flat_or_down",
       "metrics": {
-        "gain_7d": 1.17,
-        "gain_30d": 0.04,
-        "gain_60d": 1.73,
-        "gain_90d": -16.83,
+        "gain_7d": 1.11,
+        "gain_30d": -0.01,
+        "gain_60d": 1.67,
+        "gain_90d": -16.87,
         "acceleration": 0
       }
     },
@@ -45,10 +45,10 @@
       }
     },
     "macro": {
-      "score": 33.9,
+      "score": 34.1,
       "status": "weak_alignment",
       "metrics": {
-        "dxy_score": 36.6,
+        "dxy_score": 37.2,
         "stablecoin_score": 0,
         "stablecoin_level": 260791417086.0,
         "stablecoin_level_note": "supply $261B, 60d change -2.2% - LEVEL is high but CHANGE is cold: dry powder that stopped growing, which is not the same as no fuel",
@@ -58,20 +58,21 @@
       }
     },
     "breadth": {
-      "score": 6.3,
-      "status": "btc_dominant_dom_missing",
+      "score": 10.9,
+      "status": "btc_dominant",
       "metrics": {
-        "eth_btc_score": 11.8,
+        "eth_btc_score": 12.3,
         "sol_btc_score": 0,
-        "btc_dom_score": null,
-        "btc_dom_available": false,
+        "btc_dom_score": 23.8,
+        "btc_dom_available": true,
         "legs_used": [
           "eth_btc",
-          "sol_btc"
+          "sol_btc",
+          "btc_dom"
         ],
-        "_dom_note": "macro.btc_dom was null - the dominance leg was DROPPED and the remaining legs renormalised. It is not scored as 0; a missing feed is not evidence of btc dominance.",
-        "eth_btc_chg_30d": 1.18,
-        "sol_btc_chg_30d": -0.23
+        "_dom_note": null,
+        "eth_btc_chg_30d": 1.23,
+        "sol_btc_chg_30d": -0.19
       }
     },
     "shape": {
@@ -86,7 +87,7 @@
     }
   },
   "composite": {
-    "composite": 6.8,
+    "composite": 7.5,
     "alert": "quiet",
     "strict_fire": false,
     "signatures_above_70": 0,
@@ -94,7 +95,7 @@
       "required_above_70": 4,
       "current_above_70": 0,
       "required_composite": 80,
-      "current_composite": 6.8,
+      "current_composite": 7.5,
       "all_conditions_met": false
     }
   },
@@ -111,7 +112,7 @@
     "2021_nov"
   ],
   "shape_regression_check": {
-    "_checked_at": "2026-08-18T21:38:41.538921",
+    "_checked_at": "2026-08-18T21:55:14.296401",
     "checks": [
       {
         "name": "bottom_shape_not_scored_as_top",
