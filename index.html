@@ -2962,6 +2962,9 @@ async function fetchBrainForward() {
           <span style="color:var(--muted)"> → ${_escapeHtml(c.predicted_phase || '?')}</span>
           ${left != null ? `<span style="color:var(--muted);float:right;">${left.toFixed(1)}h to grade</span>` : ''}
         </div>`;
+        if ((c.phase_flicker_count || 0) > 0) {
+          html += `<div style="font-size:0.7em;color:var(--muted);margin-top:2px;">phase flickered ${c.phase_flicker_count} times, clock kept</div>`;
+        }
       });
       if (multi)
         html += `<div style="font-size:0.72em;color:var(--muted);margin-top:5px;font-style:italic;">
@@ -3047,6 +3050,21 @@ async function fetchBrainForward() {
             <span style="color:${hit ? 'var(--green)' : 'var(--red)'};font-weight:700;">${hit ? '✓' : '✗'}</span>
           </div>`;
         }
+      });
+    }
+    const recentPartial = (d.superseded || []).slice(-6).reverse();
+    if (recentPartial.length) {
+      html += `<div style="margin-top:10px;font-size:0.72em;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;">Partial windows · view changed before 12h · not in the 7d rate</div>`;
+      recentPartial.forEach(g => {
+        const dt = g.made_at ? new Date(g.made_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+        const hit = !!g.direction_hit;
+        const hrs = (g.window_hours_actual != null) ? Number(g.window_hours_actual).toFixed(1) + 'h' : '';
+        const got = g.realized_direction || g.realized_dir || '?';
+        html += `<div style="display:flex;align-items:center;gap:8px;margin-top:4px;font-size:0.78em;opacity:0.7;">
+          <span style="color:var(--muted);min-width:44px;">${dt}</span>
+          <span style="color:var(--text);flex:1;">called <b>${_escapeHtml(g.direction || '?')}</b> → ${_escapeHtml(g.predicted_phase || '')} · got <b>${_escapeHtml(got)}</b>${hrs ? ` · ${hrs}` : ''}</span>
+          <span style="color:${hit ? 'var(--green)' : 'var(--red)'};font-weight:700;">${hit ? '✓' : '✗'}</span>
+        </div>`;
       });
     }
     // recent misses + autopsies (the teaching part) — voids are not misses
