@@ -1,168 +1,170 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "btc_momentum_30d",
-      "dxy_weakness",
-      "gold_strength"
+      "fear_greed",
+      "gold_strength",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
       "mvrv_zscore",
       "stablecoin_growth"
     ],
     "oracle_verdict": "APPROACHING",
-    "phase": "Anxiety",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
     "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Capitulation",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
-      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
-      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
-      "predicted_phase_clamped_from": "Anxiety",
-      "direction_geometry_would_be": "UP",
+      "reasoning": "Score sits at 62, dead-center Disbelief band (55-62); historical analog from bottom_2024_aug shows recovery trajectory but current-only factors reveal tension \u2014 fed_liquidity at 0 is a structural brake, while ma_200w_factor at 92 and pi_cycle_factor at 90 suggest late-cycle positioning, not early-recovery. Retail noise at extremes (volume 100, sentiment 97) with velocity only 38 means retail is frothy but not accelerating, a classic Disbelief topping signature. CVD at 100 shows aggressive spot buying but long_short_pct at 6 reveals positioning is already heavily long. The coil evidence is overwhelming: 0% of 74 windows saw \u00b12+ point moves. No breaker visible.",
+      "confirmed_if": "HOLD",
+      "invalidated_if": "LONG_AGGRESSIVE",
+      "predicted_phase_clamped_from": "Disbelief",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recov",
-    "brain": "analyst"
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"gold_strength\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 62, dead-center Disbelief band (55-62); historical analog from bott",
+    "brain": "analyst",
+    "phase_clamped_from": "Disbelief"
   },
   "classifier": {
     "top_matching_factors": [
-      "btc_momentum_30d",
-      "dxy_weakness",
-      "gold_strength"
+      "fear_greed",
+      "gold_strength",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
       "mvrv_zscore",
       "stablecoin_growth"
     ],
     "oracle_verdict": "APPROACHING",
-    "phase": "Anxiety",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
     "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Capitulation",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
-      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
-      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
-      "predicted_phase_clamped_from": "Anxiety",
-      "direction_geometry_would_be": "UP",
+      "reasoning": "Score sits at 62, dead-center Disbelief band (55-62); historical analog from bottom_2024_aug shows recovery trajectory but current-only factors reveal tension \u2014 fed_liquidity at 0 is a structural brake, while ma_200w_factor at 92 and pi_cycle_factor at 90 suggest late-cycle positioning, not early-recovery. Retail noise at extremes (volume 100, sentiment 97) with velocity only 38 means retail is frothy but not accelerating, a classic Disbelief topping signature. CVD at 100 shows aggressive spot buying but long_short_pct at 6 reveals positioning is already heavily long. The coil evidence is overwhelming: 0% of 74 windows saw \u00b12+ point moves. No breaker visible.",
+      "confirmed_if": "HOLD",
+      "invalidated_if": "LONG_AGGRESSIVE",
+      "predicted_phase_clamped_from": "Disbelief",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recov",
-    "brain": "analyst"
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"gold_strength\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 62, dead-center Disbelief band (55-62); historical analog from bott",
+    "brain": "analyst",
+    "phase_clamped_from": "Disbelief"
   },
   "analyst": {
     "top_matching_factors": [
-      "btc_momentum_30d",
-      "dxy_weakness",
-      "gold_strength"
+      "fear_greed",
+      "gold_strength",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
       "mvrv_zscore",
       "stablecoin_growth"
     ],
     "oracle_verdict": "APPROACHING",
-    "phase": "Anxiety",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
     "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Capitulation",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
-      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
-      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
-      "predicted_phase_clamped_from": "Anxiety",
-      "direction_geometry_would_be": "UP",
+      "reasoning": "Score sits at 62, dead-center Disbelief band (55-62); historical analog from bottom_2024_aug shows recovery trajectory but current-only factors reveal tension \u2014 fed_liquidity at 0 is a structural brake, while ma_200w_factor at 92 and pi_cycle_factor at 90 suggest late-cycle positioning, not early-recovery. Retail noise at extremes (volume 100, sentiment 97) with velocity only 38 means retail is frothy but not accelerating, a classic Disbelief topping signature. CVD at 100 shows aggressive spot buying but long_short_pct at 6 reveals positioning is already heavily long. The coil evidence is overwhelming: 0% of 74 windows saw \u00b12+ point moves. No breaker visible.",
+      "confirmed_if": "HOLD",
+      "invalidated_if": "LONG_AGGRESSIVE",
+      "predicted_phase_clamped_from": "Disbelief",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"dxy_weakness\", \"gold_strength\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recov",
-    "brain": "analyst"
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"gold_strength\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 62, dead-center Disbelief band (55-62); historical analog from bott",
+    "brain": "analyst",
+    "phase_clamped_from": "Disbelief"
   },
   "narrative": {
-    "narrative": "Bitcoin's 7.2% surge to $69,285 is being fueled by a powerful macro tailwind\u201430-day momentum turning sharply positive while dollar weakness and gold strength confirm a broader risk-on rotation into hard assets. This setup mirrors the August 2024 bottom formation with 76.5% similarity, where a coiled market broke upward after weeks of anxiety-driven consolidation. The fear and greed index at 46 suggests the crowd remains skeptical, which historically has been the fuel for continuation rather than exhaustion.",
-    "headline": "Coiled Spring Loaded With Gold",
-    "confidence": 0.72,
+    "narrative": "Bitcoin's 7.2% surge to $69,517 is being fueled by a rare alignment of risk-on appetite, strengthening gold, and recovering 30-day momentum\u2014yet the Fear & Greed Index at 62 suggests the crowd is still hesitant to believe the move. This setup echoes the August 2024 bottom formation, where similar conditions preceded a sustained recovery despite widespread denial. The market is climbing a wall of worry, and the longer disbelief persists, the more fuel accumulates for continuation.",
+    "headline": "Wall of Worry Gets Steeper",
+    "confidence": 0.73,
     "next_move": {
-      "outlook": "The narrative arc suggests this anxiety phase is compressing into a spring\u2014if the macro tailwinds persist, the story resolves with a breakout that forces the skeptical crowd to chase.",
+      "outlook": "The narrative arc suggests disbelief will gradually erode as price holds gains, forcing sidelined capital to chase.",
       "direction": "HOLD",
       "predicted_phase": "Denial",
       "conviction": "medium",
-      "predicted_phase_clamped_from": "Anxiety",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's 7.2% surge to $69,285 is being fueled by a powerful macro tailwind\u201430-day momentum turning sharply positive while dollar weakness and gold strength confirm a broader risk-on rotation into hard assets. This setup mirrors the August 2024 bottom formation with 76.5% similarity, where a coiled market broke upward after weeks of anxiety-driven consolidation. The fear and greed index at 46 suggests the crowd remains skeptical, which historically has been the fuel fo",
+    "raw_response": "{\n  \"narrative\": \"Bitcoin's 7.2% surge to $69,517 is being fueled by a rare alignment of risk-on appetite, strengthening gold, and recovering 30-day momentum\u2014yet the Fear & Greed Index at 62 suggests the crowd is still hesitant to believe the move. This setup echoes the August 2024 bottom formation, where similar conditions preceded a sustained recovery despite widespread denial. The market is climbing a wall of worry, and the longer disbelief persists, the more fuel accumulates for continuation",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
-    "final_phase": "Anxiety",
-    "alert_tier": "HIGH",
-    "consensus_confidence": 0.62,
-    "key_reasoning": "Both brains agree the market is a coiled spring at the Anxiety 39-46 band edge with strong macro tailwinds (DXY weakness, gold strength, BTC momentum) but compressed positioning that has not yet broken. The analyst's 0% movement rate over 75 windows and 100% HOLD accuracy vs 5.4% transition accuracy statistically demands respecting the coil until a confirmed breaker appears.",
+    "final_phase": "Disbelief",
+    "alert_tier": "MED",
+    "consensus_confidence": 0.64,
+    "key_reasoning": "Score at 62 anchors the phase in Disbelief, and the 0-for-74 window coil statistic makes HOLD the only statistically honest call despite a 73.4% pattern match to an accumulation bottom. Late-cycle structural factors (fed_liquidity at 0, heavy long positioning at 6) brake the early-recovery narrative, so we wait for the coil to break before committing.",
     "disagreements_noted": [
-      "Analyst calls HOLD with 0.55 confidence citing trapped positioning and zero historical movement; Narrative Writer implies directional continuation with 0.72 confidence citing 76.5% pattern match to Aug 2024 bottom \u2014 a split between statistical patience and narrative conviction",
-      "Analyst emphasizes institutional positioning stress (fed_liquidity=0, long_short_pct=5, options_skew=89) as compression evidence; Narrative Writer emphasizes crowd skepticism (F&G=46) as fuel for continuation"
+      "Analyst labels phase Denial while citing score 62 dead-center Disbelief \u2014 Denial (32-38) is 3 rungs below 62, making it an illegal call under the \u00b11 rule; Disbelief (55-62) is the correct legal phase.",
+      "Narrative leans bullish continuation (wall-of-worry climb) while Analyst emphasizes topping tension (retail froth + already-long positioning + zero liquidity).",
+      "Analyst forward direction is HOLD; Narrative implies directional continuation UP."
     ],
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Capitulation",
       "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The base rate is 0% movement over 75 windows \u2014 this is a verified coil where HOLD with conviction is the statistically honest call, and forcing a directional guess in a 0-for-18 transition environment is how you lose.",
-      "brains_agree": "No \u2014 the analyst calls HOLD while the narrative writer implies directional continuation; the judge sides with the analyst's statistical evidence and Jordan's higher trust weight (7.67 vs 6.00), but acknowledges the narrative's pattern match as a setup worth monitoring for the breaker.",
-      "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative, confirming short squeeze ignition",
-      "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown",
-      "predicted_phase_clamped_from": "Anxiety",
-      "direction_geometry_would_be": "UP",
+      "conviction": "high",
+      "reasoning": "Zero percent of 74 windows produced a \u00b12+ point move \u2014 this is a textbook coil where HOLD with conviction is the skilled call, not a forced directional guess.",
+      "brains_agree": "No \u2014 analyst calls HOLD while narrative implies UP continuation; the coil statistic and structural brakes side with the analyst.",
+      "confirmed_if": "LONG_AGGRESSIVE",
+      "invalidated_if": "LONG_AGGRESSIVE",
+      "predicted_phase_clamped_from": "Disbelief",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 88.0,
       "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.62,\n  \"key_reasoning\": \"Both brains agree the market is a coiled spring at the Anxiety 39-46 band edge with strong macro tailwinds (DXY weakness, gold strength, BTC momentum) but compressed positioning that has not yet broken. The analyst's 0% movement rate over 75 windows and 100% HOLD accuracy vs 5.4% transition accuracy statistically demands respecting the coil until a confirmed",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Disbelief\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.64,\n  \"key_reasoning\": \"Score at 62 anchors the phase in Disbelief, and the 0-for-74 window coil statistic makes HOLD the only statistically honest call despite a 73.4% pattern match to an accumulation bottom. Late-cycle structural factors (fed_liquidity at 0, heavy long positioning at 6) brake the early-recovery narrative, so we wait for the coil to break before committing.\",\n  ",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.635,
+    "brains_avg_confidence": 0.64,
     "brain_reads": {
       "analyst": {
         "signal": "HOLD",
-        "phase": "Anxiety",
+        "phase": "Denial",
         "verdict": "APPROACHING",
         "confidence": 0.55,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Capitulation",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
-          "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
-          "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
-          "predicted_phase_clamped_from": "Anxiety",
-          "direction_geometry_would_be": "UP",
+          "reasoning": "Score sits at 62, dead-center Disbelief band (55-62); historical analog from bottom_2024_aug shows recovery trajectory but current-only factors reveal tension \u2014 fed_liquidity at 0 is a structural brake, while ma_200w_factor at 92 and pi_cycle_factor at 90 suggest late-cycle positioning, not early-recovery. Retail noise at extremes (volume 100, sentiment 97) with velocity only 38 means retail is frothy but not accelerating, a classic Disbelief topping signature. CVD at 100 shows aggressive spot buying but long_short_pct at 6 reveals positioning is already heavily long. The coil evidence is overwhelming: 0% of 74 windows saw \u00b12+ point moves. No breaker visible.",
+          "confirmed_if": "HOLD",
+          "invalidated_if": "LONG_AGGRESSIVE",
+          "predicted_phase_clamped_from": "Disbelief",
+          "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+          "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
-        "headline": "Coiled Spring Loaded With Gold",
-        "phase": "Anxiety",
-        "confidence": 0.72,
+        "headline": "Wall of Worry Gets Steeper",
+        "phase": "Disbelief",
+        "confidence": 0.73,
         "next_move": {
-          "outlook": "The narrative arc suggests this anxiety phase is compressing into a spring\u2014if the macro tailwinds persist, the story resolves with a breakout that forces the skeptical crowd to chase.",
+          "outlook": "The narrative arc suggests disbelief will gradually erode as price holds gains, forcing sidelined capital to chase.",
           "direction": "HOLD",
           "predicted_phase": "Denial",
           "conviction": "medium",
-          "predicted_phase_clamped_from": "Anxiety",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
@@ -170,20 +172,20 @@
       },
       "judge": {
         "signal": "HOLD",
-        "phase": "Anxiety",
-        "confidence": 0.62,
+        "phase": "Disbelief",
+        "confidence": 0.64,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Capitulation",
           "direction": "HOLD",
-          "conviction": "medium",
-          "reasoning": "The base rate is 0% movement over 75 windows \u2014 this is a verified coil where HOLD with conviction is the statistically honest call, and forcing a directional guess in a 0-for-18 transition environment is how you lose.",
-          "brains_agree": "No \u2014 the analyst calls HOLD while the narrative writer implies directional continuation; the judge sides with the analyst's statistical evidence and Jordan's higher trust weight (7.67 vs 6.00), but acknowledges the narrative's pattern match as a setup worth monitoring for the breaker.",
-          "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative, confirming short squeeze ignition",
-          "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown",
-          "predicted_phase_clamped_from": "Anxiety",
-          "direction_geometry_would_be": "UP",
+          "conviction": "high",
+          "reasoning": "Zero percent of 74 windows produced a \u00b12+ point move \u2014 this is a textbook coil where HOLD with conviction is the skilled call, not a forced directional guess.",
+          "brains_agree": "No \u2014 analyst calls HOLD while narrative implies UP continuation; the coil statistic and structural brakes side with the analyst.",
+          "confirmed_if": "LONG_AGGRESSIVE",
+          "invalidated_if": "LONG_AGGRESSIVE",
+          "predicted_phase_clamped_from": "Disbelief",
+          "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+          "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 88.0,
           "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -200,30 +202,29 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Anxiety",
+      "phase": "Denial",
       "confidence": 0.55,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Capitulation",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Score sits at 46 (Anxiety 39-46 band edge), historical analog shows Disbelief recovery from deeper fear but current-only factors reveal extreme institutional positioning stress: fed_liquidity at 0, long_short_pct_30d at 5 (heavily short), options_skew at 89, dvol/cvd at 100 \u2014 this is a compressed coil with trapped positioning, not a clean Disbelief continuation; 0% of recent 12h windows moved \u00b12+ points, and my own 100% HOLD accuracy vs 5.4% transition accuracy demands respecting the coil until a breaker appears.",
-        "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative (accumulation), confirming short squeeze ignition",
-        "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown to Complacency/Disbelief retest",
-        "predicted_phase_clamped_from": "Anxiety",
-        "direction_geometry_would_be": "UP",
+        "reasoning": "Score sits at 62, dead-center Disbelief band (55-62); historical analog from bottom_2024_aug shows recovery trajectory but current-only factors reveal tension \u2014 fed_liquidity at 0 is a structural brake, while ma_200w_factor at 92 and pi_cycle_factor at 90 suggest late-cycle positioning, not early-recovery. Retail noise at extremes (volume 100, sentiment 97) with velocity only 38 means retail is frothy but not accelerating, a classic Disbelief topping signature. CVD at 100 shows aggressive spot buying but long_short_pct at 6 reveals positioning is already heavily long. The coil evidence is overwhelming: 0% of 74 windows saw \u00b12+ point moves. No breaker visible.",
+        "confirmed_if": "HOLD",
+        "invalidated_if": "LONG_AGGRESSIVE",
+        "predicted_phase_clamped_from": "Disbelief",
+        "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
-      "headline": "Coiled Spring Loaded With Gold",
-      "confidence": 0.72,
+      "headline": "Wall of Worry Gets Steeper",
+      "confidence": 0.73,
       "next_move": {
-        "outlook": "The narrative arc suggests this anxiety phase is compressing into a spring\u2014if the macro tailwinds persist, the story resolves with a breakout that forces the skeptical crowd to chase.",
+        "outlook": "The narrative arc suggests disbelief will gradually erode as price holds gains, forcing sidelined capital to chase.",
         "direction": "HOLD",
         "predicted_phase": "Denial",
         "conviction": "medium",
-        "predicted_phase_clamped_from": "Anxiety",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
@@ -231,19 +232,19 @@
     },
     "judge": {
       "signal": "HOLD",
-      "confidence": 0.62,
+      "confidence": 0.64,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Capitulation",
         "direction": "HOLD",
-        "conviction": "medium",
-        "reasoning": "The base rate is 0% movement over 75 windows \u2014 this is a verified coil where HOLD with conviction is the statistically honest call, and forcing a directional guess in a 0-for-18 transition environment is how you lose.",
-        "brains_agree": "No \u2014 the analyst calls HOLD while the narrative writer implies directional continuation; the judge sides with the analyst's statistical evidence and Jordan's higher trust weight (7.67 vs 6.00), but acknowledges the narrative's pattern match as a setup worth monitoring for the breaker.",
-        "confirmed_if": "BTC breaks above $71,500 with funding staying below 0.02% and exchange netflow flipping negative, confirming short squeeze ignition",
-        "invalidated_if": "BTC loses $67,000 with VIX spiking above 18 and retail_noise_velocity accelerating above 30, confirming coil breakdown",
-        "predicted_phase_clamped_from": "Anxiety",
-        "direction_geometry_would_be": "UP",
+        "conviction": "high",
+        "reasoning": "Zero percent of 74 windows produced a \u00b12+ point move \u2014 this is a textbook coil where HOLD with conviction is the skilled call, not a forced directional guess.",
+        "brains_agree": "No \u2014 analyst calls HOLD while narrative implies UP continuation; the coil statistic and structural brakes side with the analyst.",
+        "confirmed_if": "LONG_AGGRESSIVE",
+        "invalidated_if": "LONG_AGGRESSIVE",
+        "predicted_phase_clamped_from": "Disbelief",
+        "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+        "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 88.0,
         "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -251,6 +252,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-08-19T19:06:55.539800-04:00",
+  "timestamp": "2026-08-19T20:08:37.670564-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
