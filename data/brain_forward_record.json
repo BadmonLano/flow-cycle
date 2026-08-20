@@ -1,23 +1,23 @@
 {
-  "_updated": "2026-08-20T12:49:33.007575-04:00",
+  "_updated": "2026-08-20T13:51:37.192905-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-08-20T12:49:33.028179-04:00",
+      "made_at": "2026-08-20T13:51:37.215158-04:00",
       "score_at_call": 43,
       "phase_at_call": "Anxiety",
       "predicted_phase": "Capitulation",
-      "direction": "DOWN",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The 73.4% bottom analog and aligned fear_greed/momentum/gold factors point toward the Denial-to-Hope handoff, but the coil's 3% directional hit rate means this is a conditional claim on the named breaker firing, not a base-rate call.",
-      "confirmed_if": "fear_greed breaks 68 with btc_momentum_30d holding 60+ and retail_noise_velocity rising above 35",
-      "invalidated_if": "fear_greed drops below 55 with funding turning negative and exchange_netflow spiking above 85",
+      "reasoning": "The 73.3% bottom analog and recovering momentum suggest upward resolution is the base case, but with only 3% of 12h windows showing \u00b12+ point moves and no breaker yet fired, HOLD is the skilled call \u2014 claiming UP requires seeing the liquidity trigger and none has materialized.",
+      "confirmed_if": "fed_liquidity lifts above 20 with btc_momentum_30d sustaining above 60 and ETH ETF flows remaining elevated \u2014 coordinated risk-on liquidity injection pushing score into Hope (63-70)",
+      "invalidated_if": "vix spikes above 22 with dxy breaking 100 and funding flipping negative \u2014 risk-off recoil dragging score toward Anxiety (39-46) or Complacency (47-54) floor",
       "signals_at_call": {
         "fear_greed": 62,
         "btc_funding": 0.01,
         "mvrv_zscore": 0.4146,
         "net_liquidity_chg_4w": -190805.0,
-        "btc_dom": 58.49876877491907,
+        "btc_dom": 58.44904487024046,
         "etf_net_total_musd": 189.3,
         "vix": 15.85
       }
@@ -5248,12 +5248,46 @@
         "predicted_phase": "Capitulation",
         "direction": "DOWN"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-08-20T13:51:37.191935-04:00",
+      "window_hours_actual": 1.26,
+      "partial_window": true,
+      "score_at_close": 43,
+      "realized_direction": "HOLD",
+      "direction_hit": true,
+      "score_delta": 1,
+      "grade_note": "graded on the 1.26h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-08-20T12:49:33.028179-04:00",
+      "score_at_call": 43,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Capitulation",
+      "direction": "DOWN",
+      "conviction": "medium",
+      "reasoning": "The 73.4% bottom analog and aligned fear_greed/momentum/gold factors point toward the Denial-to-Hope handoff, but the coil's 3% directional hit rate means this is a conditional claim on the named breaker firing, not a base-rate call.",
+      "confirmed_if": "fear_greed breaks 68 with btc_momentum_30d holding 60+ and retail_noise_velocity rising above 35",
+      "invalidated_if": "fear_greed drops below 55 with funding turning negative and exchange_netflow spiking above 85",
+      "signals_at_call": {
+        "fear_greed": 62,
+        "btc_funding": 0.01,
+        "mvrv_zscore": 0.4146,
+        "net_liquidity_chg_4w": -190805.0,
+        "btc_dom": 58.49876877491907,
+        "etf_net_total_musd": 189.3,
+        "vix": 15.85
+      },
+      "superseded_at": "2026-08-20T13:51:37.215158-04:00",
+      "superseded_by": {
+        "predicted_phase": "Capitulation",
+        "direction": "HOLD"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
-    "hit": 54,
-    "total": 73,
+    "hit": 55,
+    "total": 74,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
