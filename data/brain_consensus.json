@@ -2,195 +2,200 @@
   "oracle": {
     "top_matching_factors": [
       "etf_flows",
-      "btc_momentum_30d",
-      "fear_greed"
+      "fear_greed",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
-      "vix",
       "mvrv_zscore",
+      "vix",
       "gold_strength",
-      "dxy_weakness"
+      "dxy_weakness",
+      "funding"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Disbelief",
+    "phase": "Hope",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "HOLD",
-    "confidence": 0.62,
+    "classifier_signal": "CAUTION",
+    "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Capitulation",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% similarity but massive divergences: VIX +49 points vs calm 2024 March, MVRV Z-score -46 points showing no overheating, and gold at 100 vs 65 indicating flight-to-safety bid rather than risk-seeking; the coil evidence is brutal\u2014only 3% of 12h windows move \u00b12+ points\u2014yet retail noise metrics (100/90/94) show speculative heat building while long_short_pct_30d at 0 and options_skew at 0 reveal positioning is washed-out bearish, creating tension but no breaker visible; fed_liquidity at 0 is an anchor preventing thrust, and the 100% eth_etf_flows is a one-off distortion not a trend.",
-      "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-      "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-      "predicted_phase_clamped_from": "Disbelief",
-      "direction_geometry_would_be": "DOWN",
+      "reasoning": "Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages to ~54 but ETF flows at 100 and price at identical $73K to March top pulls composite toward Thrill band); the 72.9% pattern match to March 2024 Thrill is surface-level\u2014price and ETF flows align but VIX +49, MVRV -46, and funding -21 show this is a structurally different rally with weak retail participation (stablecoin -10, funding -21) and extreme hedging (options_skew 0, dvol 99). The coil regime (3% 12h move rate) plus my 3/3 HOLD streak and 5.3% transition accuracy screams don't force a directional call; the analog says Thrill but the divergences say fragile Thrill, not ascending Euphoria.",
+      "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35\u2014would signal genuine euphoria momentum matching the March structure",
+      "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80\u2014would signal this Thrill is a distribution top, not a launchpad, forcing phase down to Belief or Optimism",
+      "predicted_phase_clamped_from": "Thrill",
+      "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_momentum_30d\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% s",
-    "brain": "analyst"
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"vix\", \"gold_strength\", \"dxy_weakness\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Thrill\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Thrill\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages ",
+    "brain": "analyst",
+    "phase_clamped_from": "Thrill"
   },
   "classifier": {
     "top_matching_factors": [
       "etf_flows",
-      "btc_momentum_30d",
-      "fear_greed"
+      "fear_greed",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
-      "vix",
       "mvrv_zscore",
+      "vix",
       "gold_strength",
-      "dxy_weakness"
+      "dxy_weakness",
+      "funding"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Disbelief",
+    "phase": "Hope",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "HOLD",
-    "confidence": 0.62,
+    "classifier_signal": "CAUTION",
+    "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Capitulation",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% similarity but massive divergences: VIX +49 points vs calm 2024 March, MVRV Z-score -46 points showing no overheating, and gold at 100 vs 65 indicating flight-to-safety bid rather than risk-seeking; the coil evidence is brutal\u2014only 3% of 12h windows move \u00b12+ points\u2014yet retail noise metrics (100/90/94) show speculative heat building while long_short_pct_30d at 0 and options_skew at 0 reveal positioning is washed-out bearish, creating tension but no breaker visible; fed_liquidity at 0 is an anchor preventing thrust, and the 100% eth_etf_flows is a one-off distortion not a trend.",
-      "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-      "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-      "predicted_phase_clamped_from": "Disbelief",
-      "direction_geometry_would_be": "DOWN",
+      "reasoning": "Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages to ~54 but ETF flows at 100 and price at identical $73K to March top pulls composite toward Thrill band); the 72.9% pattern match to March 2024 Thrill is surface-level\u2014price and ETF flows align but VIX +49, MVRV -46, and funding -21 show this is a structurally different rally with weak retail participation (stablecoin -10, funding -21) and extreme hedging (options_skew 0, dvol 99). The coil regime (3% 12h move rate) plus my 3/3 HOLD streak and 5.3% transition accuracy screams don't force a directional call; the analog says Thrill but the divergences say fragile Thrill, not ascending Euphoria.",
+      "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35\u2014would signal genuine euphoria momentum matching the March structure",
+      "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80\u2014would signal this Thrill is a distribution top, not a launchpad, forcing phase down to Belief or Optimism",
+      "predicted_phase_clamped_from": "Thrill",
+      "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_momentum_30d\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% s",
-    "brain": "analyst"
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"vix\", \"gold_strength\", \"dxy_weakness\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Thrill\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Thrill\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages ",
+    "brain": "analyst",
+    "phase_clamped_from": "Thrill"
   },
   "analyst": {
     "top_matching_factors": [
       "etf_flows",
-      "btc_momentum_30d",
-      "fear_greed"
+      "fear_greed",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
-      "vix",
       "mvrv_zscore",
+      "vix",
       "gold_strength",
-      "dxy_weakness"
+      "dxy_weakness",
+      "funding"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Disbelief",
+    "phase": "Hope",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "HOLD",
-    "confidence": 0.62,
+    "classifier_signal": "CAUTION",
+    "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Capitulation",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% similarity but massive divergences: VIX +49 points vs calm 2024 March, MVRV Z-score -46 points showing no overheating, and gold at 100 vs 65 indicating flight-to-safety bid rather than risk-seeking; the coil evidence is brutal\u2014only 3% of 12h windows move \u00b12+ points\u2014yet retail noise metrics (100/90/94) show speculative heat building while long_short_pct_30d at 0 and options_skew at 0 reveal positioning is washed-out bearish, creating tension but no breaker visible; fed_liquidity at 0 is an anchor preventing thrust, and the 100% eth_etf_flows is a one-off distortion not a trend.",
-      "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-      "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-      "predicted_phase_clamped_from": "Disbelief",
-      "direction_geometry_would_be": "DOWN",
+      "reasoning": "Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages to ~54 but ETF flows at 100 and price at identical $73K to March top pulls composite toward Thrill band); the 72.9% pattern match to March 2024 Thrill is surface-level\u2014price and ETF flows align but VIX +49, MVRV -46, and funding -21 show this is a structurally different rally with weak retail participation (stablecoin -10, funding -21) and extreme hedging (options_skew 0, dvol 99). The coil regime (3% 12h move rate) plus my 3/3 HOLD streak and 5.3% transition accuracy screams don't force a directional call; the analog says Thrill but the divergences say fragile Thrill, not ascending Euphoria.",
+      "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35\u2014would signal genuine euphoria momentum matching the March structure",
+      "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80\u2014would signal this Thrill is a distribution top, not a launchpad, forcing phase down to Belief or Optimism",
+      "predicted_phase_clamped_from": "Thrill",
+      "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_momentum_30d\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% s",
-    "brain": "analyst"
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"vix\", \"gold_strength\", \"dxy_weakness\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Thrill\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Thrill\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages ",
+    "brain": "analyst",
+    "phase_clamped_from": "Thrill"
   },
   "narrative": {
-    "narrative": "Bitcoin's push above $72,700 is being fueled by sustained ETF inflows and strengthening 30-day momentum, with the Fear & Greed Index at 62 confirming risk appetite without euphoria. This setup echoes the March 2024 ETF-driven top pattern at 72.1% similarity, where early institutional accumulation preceded a sharp repricing. The market is climbing a wall of worry, and the disbelief phase suggests the move is not yet fully trusted.",
-    "headline": "ETF Flows Fuel Disbelieving Rally",
-    "confidence": 0.72,
+    "narrative": "Bitcoin's surge to $73,029 is being fueled by a powerful confluence of sustained ETF inflows, fading BTC dominance as capital rotates into risk assets, and a Fear & Greed reading of 72 that confirms the market's hopeful appetite. This setup echoes the March 2024 top pattern with 72.9% similarity, where a similar burst of ETF-driven optimism preceded a sharp liquidity squeeze. The market is chasing momentum into a historically fragile structure, suggesting the current euphoria may be borrowing from future returns.",
+    "headline": "ETF Euphoria Echoes March Top",
+    "confidence": 0.73,
     "next_move": {
-      "outlook": "The narrative arc suggests continued grind higher as ETF inflows persist, but the coil-like score behavior warns that a breakout may be delayed until a catalyst forces the next rung.",
+      "outlook": "The narrative arc suggests this hope-driven rally is approaching a structural ceiling where the March 2024 analog warns of a violent mean-reversion once ETF flows stall.",
       "direction": "HOLD",
       "predicted_phase": "Capitulation",
       "conviction": "medium",
-      "predicted_phase_clamped_from": "Disbelief",
+      "predicted_phase_clamped_from": "Hope",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"narrative\": \"Bitcoin's push above $72,700 is being fueled by sustained ETF inflows and strengthening 30-day momentum, with the Fear & Greed Index at 62 confirming risk appetite without euphoria. This setup echoes the March 2024 ETF-driven top pattern at 72.1% similarity, where early institutional accumulation preceded a sharp repricing. The market is climbing a wall of worry, and the disbelief phase suggests the move is not yet fully trusted.\",\n  \"headline\": \"ETF Flows Fuel Disbelieving Ral",
+    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's surge to $73,029 is being fueled by a powerful confluence of sustained ETF inflows, fading BTC dominance as capital rotates into risk assets, and a Fear & Greed reading of 72 that confirms the market's hopeful appetite. This setup echoes the March 2024 top pattern with 72.9% similarity, where a similar burst of ETF-driven optimism preceded a sharp liquidity squeeze. The market is chasing momentum into a historically fragile structure, suggesting the current eu",
     "brain": "narrative_writer"
   },
   "consensus": {
-    "final_signal": "HOLD",
-    "final_phase": "Disbelief",
+    "final_signal": "CAUTION",
+    "final_phase": "Hope",
     "alert_tier": "MED",
-    "consensus_confidence": 0.66,
-    "key_reasoning": "Score at 62 anchors the phase in Disbelief (55-62 band), and while both brains agree on the phase, the 72% top_2024_mar_etf analog is undermined by brutal divergences: VIX +49 points, MVRV Z-score -46, and gold at 100 vs 65 all signal flight-to-safety rather than risk-seeking euphoria. The 3% coil frequency over 7 days makes HOLD the statistically honest call \u2014 no breaker is visible despite the tension between washed-out bearish positioning and speculative retail noise.",
+    "consensus_confidence": 0.68,
+    "key_reasoning": "Both brains independently flag a 72.9% pattern match to the March 2024 ETF blowoff top at identical $73K price, with the analyst's higher-trust factor analysis revealing critical structural divergences (VIX +49, MVRV -46, funding -21) that make this a fragile rally borrowing from future returns. The analyst's 7.67 trust weight anchors the call at Hope (score ~72) rather than chasing the Thrill analog, while the narrative's 0.73 confidence in the top-matching story confirms elevated risk warrants defensive positioning.",
     "disagreements_noted": [
-      "Analyst sees divergent risk signals (VIX, gold, MVRV) as anchors preventing thrust and treats ETF flows as one-off distortion; Narrative frames ETF flows as sustained fuel for a climbing-wall-of-worry rally",
-      "Analist confidence 0.62 vs Narrative confidence 0.72 \u2014 Narrative more trusting of the bullish ETF-flow story, Analyst more cautious of the cross-asset divergences",
-      "Analyst explicitly flags fed_liquidity at 0 as an anchor; Narrative does not address liquidity conditions"
+      "Analyst calls current phase Hope with CAUTION signal; narrative headline implies Euphoria/Thrill territory",
+      "Analyst forward call is HOLD with medium conviction; narrative implies directional risk (borrowing from future returns) without explicit signal",
+      "Analyst emphasizes structural divergences weaken the Thrill analog; narrative treats the 72.9% match as primary signal",
+      "Analyst confidence 0.55 vs narrative confidence 0.73 \u2014 narrative more convinced the top pattern is active"
     ],
     "next_move": {
-      "predicted_phase": "Capitulation",
+      "predicted_phase": "Optimism",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "With only 3% of 12h windows moving \u00b12+ points and no visible breaker \u2014 fed_liquidity at 0 anchoring thrust while cross-asset divergences (VIX, gold, MVRV) counter the ETF-flow narrative \u2014 the coil holds and HOLD is the skilled call.",
-      "brains_agree": "Both agree on Disbelief phase and HOLD direction, but split on conviction: Analyst hedges medium with divergence caveats while Narrative leans more bullish at 0.72 confidence on the ETF-flow story.",
-      "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-      "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-      "predicted_phase_clamped_from": "Disbelief",
+      "reasoning": "The 3% 12h move rate and 5.3% transition accuracy over 7 days define a tight coil where HOLD is the statistically honest default \u2014 the analyst's 3/3 HOLD streak and the coil regime both say wait for the breaker rather than force a directional guess into a fragile structure.",
+      "brains_agree": "Partial \u2014 both flag the March top analog as active and elevated risk, but the analyst explicitly calls HOLD while the narrative implies directional risk without an explicit forward signal; the analyst's higher trust weight (7.67 vs 6.00) tips the consensus to HOLD.",
+      "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35 \u2014 genuine euphoria momentum matching the March structure would shift phase to Optimism or Thrill",
+      "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80 \u2014 distribution top signature forces phase down to Anxiety or Complacency",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+      "clamp_note": "the clamp moved the rung to Optimism, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 88.0,
       "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Disbelief\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.66,\n  \"key_reasoning\": \"Score at 62 anchors the phase in Disbelief (55-62 band), and while both brains agree on the phase, the 72% top_2024_mar_etf analog is undermined by brutal divergences: VIX +49 points, MVRV Z-score -46, and gold at 100 vs 65 all signal flight-to-safety rather than risk-seeking euphoria. The 3% coil frequency over 7 days makes HOLD the statistically honest c",
+    "raw_response": "```json\n{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.68,\n  \"key_reasoning\": \"Both brains independently flag a 72.9% pattern match to the March 2024 ETF blowoff top at identical $73K price, with the analyst's higher-trust factor analysis revealing critical structural divergences (VIX +49, MVRV -46, funding -21) that make this a fragile rally borrowing from future returns. The analyst's 7.67 trust weight anchors the call at Hope (score",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.67,
+    "brains_avg_confidence": 0.64,
     "brain_reads": {
       "analyst": {
-        "signal": "HOLD",
-        "phase": "Disbelief",
+        "signal": "CAUTION",
+        "phase": "Hope",
         "verdict": "DIVERGING",
-        "confidence": 0.62,
+        "confidence": 0.55,
         "next_move": {
-          "predicted_phase": "Capitulation",
+          "predicted_phase": "Denial",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% similarity but massive divergences: VIX +49 points vs calm 2024 March, MVRV Z-score -46 points showing no overheating, and gold at 100 vs 65 indicating flight-to-safety bid rather than risk-seeking; the coil evidence is brutal\u2014only 3% of 12h windows move \u00b12+ points\u2014yet retail noise metrics (100/90/94) show speculative heat building while long_short_pct_30d at 0 and options_skew at 0 reveal positioning is washed-out bearish, creating tension but no breaker visible; fed_liquidity at 0 is an anchor preventing thrust, and the 100% eth_etf_flows is a one-off distortion not a trend.",
-          "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-          "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-          "predicted_phase_clamped_from": "Disbelief",
-          "direction_geometry_would_be": "DOWN",
+          "reasoning": "Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages to ~54 but ETF flows at 100 and price at identical $73K to March top pulls composite toward Thrill band); the 72.9% pattern match to March 2024 Thrill is surface-level\u2014price and ETF flows align but VIX +49, MVRV -46, and funding -21 show this is a structurally different rally with weak retail participation (stablecoin -10, funding -21) and extreme hedging (options_skew 0, dvol 99). The coil regime (3% 12h move rate) plus my 3/3 HOLD streak and 5.3% transition accuracy screams don't force a directional call; the analog says Thrill but the divergences say fragile Thrill, not ascending Euphoria.",
+          "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35\u2014would signal genuine euphoria momentum matching the March structure",
+          "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80\u2014would signal this Thrill is a distribution top, not a launchpad, forcing phase down to Belief or Optimism",
+          "predicted_phase_clamped_from": "Thrill",
+          "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+          "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
-        "headline": "ETF Flows Fuel Disbelieving Rally",
-        "phase": "Disbelief",
-        "confidence": 0.72,
+        "headline": "ETF Euphoria Echoes March Top",
+        "phase": "Hope",
+        "confidence": 0.73,
         "next_move": {
-          "outlook": "The narrative arc suggests continued grind higher as ETF inflows persist, but the coil-like score behavior warns that a breakout may be delayed until a catalyst forces the next rung.",
+          "outlook": "The narrative arc suggests this hope-driven rally is approaching a structural ceiling where the March 2024 analog warns of a violent mean-reversion once ETF flows stall.",
           "direction": "HOLD",
           "predicted_phase": "Capitulation",
           "conviction": "medium",
-          "predicted_phase_clamped_from": "Disbelief",
+          "predicted_phase_clamped_from": "Hope",
           "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "judge": {
-        "signal": "HOLD",
-        "phase": "Disbelief",
-        "confidence": 0.66,
+        "signal": "CAUTION",
+        "phase": "Hope",
+        "confidence": 0.68,
         "next_move": {
-          "predicted_phase": "Capitulation",
+          "predicted_phase": "Optimism",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "With only 3% of 12h windows moving \u00b12+ points and no visible breaker \u2014 fed_liquidity at 0 anchoring thrust while cross-asset divergences (VIX, gold, MVRV) counter the ETF-flow narrative \u2014 the coil holds and HOLD is the skilled call.",
-          "brains_agree": "Both agree on Disbelief phase and HOLD direction, but split on conviction: Analyst hedges medium with divergence caveats while Narrative leans more bullish at 0.72 confidence on the ETF-flow story.",
-          "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-          "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-          "predicted_phase_clamped_from": "Disbelief",
+          "reasoning": "The 3% 12h move rate and 5.3% transition accuracy over 7 days define a tight coil where HOLD is the statistically honest default \u2014 the analyst's 3/3 HOLD streak and the coil regime both say wait for the breaker rather than force a directional guess into a fragile structure.",
+          "brains_agree": "Partial \u2014 both flag the March top analog as active and elevated risk, but the analyst explicitly calls HOLD while the narrative implies directional risk without an explicit forward signal; the analyst's higher trust weight (7.67 vs 6.00) tips the consensus to HOLD.",
+          "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35 \u2014 genuine euphoria momentum matching the March structure would shift phase to Optimism or Thrill",
+          "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80 \u2014 distribution top signature forces phase down to Anxiety or Complacency",
           "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+          "clamp_note": "the clamp moved the rung to Optimism, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 88.0,
           "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -207,50 +212,49 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Disbelief",
-      "confidence": 0.62,
+      "phase": "Hope",
+      "confidence": 0.55,
       "next_move": {
-        "predicted_phase": "Capitulation",
+        "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Score sits at 62 (Disbelief 55-62 band), with Thrill analog at 72% similarity but massive divergences: VIX +49 points vs calm 2024 March, MVRV Z-score -46 points showing no overheating, and gold at 100 vs 65 indicating flight-to-safety bid rather than risk-seeking; the coil evidence is brutal\u2014only 3% of 12h windows move \u00b12+ points\u2014yet retail noise metrics (100/90/94) show speculative heat building while long_short_pct_30d at 0 and options_skew at 0 reveal positioning is washed-out bearish, creating tension but no breaker visible; fed_liquidity at 0 is an anchor preventing thrust, and the 100% eth_etf_flows is a one-off distortion not a trend.",
-        "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-        "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-        "predicted_phase_clamped_from": "Disbelief",
-        "direction_geometry_would_be": "DOWN",
+        "reasoning": "Score sits at ~72 (Fear&Greed 72, momentum 67, MVRV 24 averages to ~54 but ETF flows at 100 and price at identical $73K to March top pulls composite toward Thrill band); the 72.9% pattern match to March 2024 Thrill is surface-level\u2014price and ETF flows align but VIX +49, MVRV -46, and funding -21 show this is a structurally different rally with weak retail participation (stablecoin -10, funding -21) and extreme hedging (options_skew 0, dvol 99). The coil regime (3% 12h move rate) plus my 3/3 HOLD streak and 5.3% transition accuracy screams don't force a directional call; the analog says Thrill but the divergences say fragile Thrill, not ascending Euphoria.",
+        "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35\u2014would signal genuine euphoria momentum matching the March structure",
+        "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80\u2014would signal this Thrill is a distribution top, not a launchpad, forcing phase down to Belief or Optimism",
+        "predicted_phase_clamped_from": "Thrill",
+        "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
-      "headline": "ETF Flows Fuel Disbelieving Rally",
-      "confidence": 0.72,
+      "headline": "ETF Euphoria Echoes March Top",
+      "confidence": 0.73,
       "next_move": {
-        "outlook": "The narrative arc suggests continued grind higher as ETF inflows persist, but the coil-like score behavior warns that a breakout may be delayed until a catalyst forces the next rung.",
+        "outlook": "The narrative arc suggests this hope-driven rally is approaching a structural ceiling where the March 2024 analog warns of a violent mean-reversion once ETF flows stall.",
         "direction": "HOLD",
         "predicted_phase": "Capitulation",
         "conviction": "medium",
-        "predicted_phase_clamped_from": "Disbelief",
+        "predicted_phase_clamped_from": "Hope",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "judge": {
-      "signal": "HOLD",
-      "confidence": 0.66,
+      "signal": "CAUTION",
+      "confidence": 0.68,
       "next_move": {
-        "predicted_phase": "Capitulation",
+        "predicted_phase": "Optimism",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "With only 3% of 12h windows moving \u00b12+ points and no visible breaker \u2014 fed_liquidity at 0 anchoring thrust while cross-asset divergences (VIX, gold, MVRV) counter the ETF-flow narrative \u2014 the coil holds and HOLD is the skilled call.",
-        "brains_agree": "Both agree on Disbelief phase and HOLD direction, but split on conviction: Analyst hedges medium with divergence caveats while Narrative leans more bullish at 0.72 confidence on the ETF-flow story.",
-        "confirmed_if": "fear_greed breaks above 70 with funding rising above 0.02% and VIX collapsing below 12",
-        "invalidated_if": "VIX spikes above 20 with btc_momentum_30d dropping below 50 and exchange_netflow flipping above 80 (inflow panic)",
-        "predicted_phase_clamped_from": "Disbelief",
+        "reasoning": "The 3% 12h move rate and 5.3% transition accuracy over 7 days define a tight coil where HOLD is the statistically honest default \u2014 the analyst's 3/3 HOLD streak and the coil regime both say wait for the breaker rather than force a directional guess into a fragile structure.",
+        "brains_agree": "Partial \u2014 both flag the March top analog as active and elevated risk, but the analyst explicitly calls HOLD while the narrative implies directional risk without an explicit forward signal; the analyst's higher trust weight (7.67 vs 6.00) tips the consensus to HOLD.",
+        "confirmed_if": "BTC breaks $75K with funding climbing above 0.015% and MVRV z-score pushing above 35 \u2014 genuine euphoria momentum matching the March structure would shift phase to Optimism or Thrill",
+        "invalidated_if": "VIX spikes above 20 with BTC funding flipping negative and exchange netflow surging above 80 \u2014 distribution top signature forces phase down to Anxiety or Complacency",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Capitulation, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+        "clamp_note": "the clamp moved the rung to Optimism, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 88.0,
         "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -258,6 +262,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-08-20T19:00:05.905854-04:00",
+  "timestamp": "2026-08-20T20:03:29.287629-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
