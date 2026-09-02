@@ -1,32 +1,36 @@
 {
-  "_updated": "2026-08-20T21:05:51.389237-04:00",
+  "_updated": "2026-09-01T23:09:00.877314-04:00",
   "grader_status": "not_implemented",
   "grades": [],
   "grader_note": "no grade_hypotheses function exists anywhere in bots/, despite the docstring naming it and the site footer claiming theses are 'scored as turns print'. fire_sweeps counts how often the CONDITIONS were true; it is not a record of whether the thesis was RIGHT. Grading needs a turn oracle - which past dates were real tops and bottoms - and that has not been built. Until it is, 0 fires is not 0-for-5.",
   "_doctrine": "Seed-and-track: named theses you proposed, tracked going forward. currently_firing = conditions live now. fire_sweeps = how many sweeps it's fired total. Scoring vs realized turns accrues over time \u2014 the euphoria thesis can't be backtested (too few tops), so we let the future grade it. Edit hypotheses.json to add your own.",
-  "firing_now": [],
-  "firing_count": 0,
+  "firing_now": [
+    {
+      "name": "euphoria_sequence_stage1_meme",
+      "thesis": "SOL diverging from BTC (meme season) is the first leg toward a euphoric top",
+      "expects": "precedes eventual BTC top"
+    }
+  ],
+  "firing_count": 1,
   "entries": {
     "euphoria_sequence_stage1_meme": {
       "thesis": "SOL diverging from BTC (meme season) is the first leg toward a euphoric top",
       "expects": "precedes eventual BTC top",
-      "fire_sweeps": 0,
-      "first_fired": null,
-      "last_fired": null,
-      "currently_firing": false,
+      "fire_sweeps": 1,
+      "first_fired": "2026-09-01T23:09:00.877314-04:00",
+      "last_fired": "2026-09-01T23:09:00.877314-04:00",
+      "currently_firing": true,
       "legs": [
         {
-          "ok": false,
+          "ok": true,
           "kind": "rotation_stage",
           "need": "MEME_SEASON",
-          "actual": "BTC_LED"
+          "actual": "MEME_SEASON"
         }
       ],
-      "legs_passing": 0,
+      "legs_passing": 1,
       "legs_total": 1,
-      "blocked_by": [
-        "rotation stage is BTC_LED, needs MEME_SEASON"
-      ],
+      "blocked_by": [],
       "near_miss": false,
       "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
     },
@@ -42,13 +46,13 @@
           "ok": false,
           "kind": "rotation_stage",
           "need": "ALT_SEASON",
-          "actual": "BTC_LED"
+          "actual": "MEME_SEASON"
         }
       ],
       "legs_passing": 0,
       "legs_total": 1,
       "blocked_by": [
-        "rotation stage is BTC_LED, needs ALT_SEASON"
+        "rotation stage is MEME_SEASON, needs ALT_SEASON"
       ],
       "near_miss": false,
       "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
@@ -65,13 +69,13 @@
           "ok": false,
           "kind": "rotation_stage",
           "need": "BLOWOFF_RISK",
-          "actual": "BTC_LED"
+          "actual": "MEME_SEASON"
         }
       ],
       "legs_passing": 0,
       "legs_total": 1,
       "blocked_by": [
-        "rotation stage is BTC_LED, needs BLOWOFF_RISK"
+        "rotation stage is MEME_SEASON, needs BLOWOFF_RISK"
       ],
       "near_miss": false,
       "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
@@ -90,7 +94,7 @@
           "factor": "fear_greed",
           "op": ">=",
           "need": 75,
-          "actual": 72
+          "actual": 63
         },
         {
           "ok": true,
@@ -98,13 +102,13 @@
           "factor": "ma_200w_factor",
           "op": ">=",
           "need": 70,
-          "actual": 90.5
+          "actual": 89.2
         }
       ],
       "legs_passing": 1,
       "legs_total": 2,
       "blocked_by": [
-        "fear_greed is 72, needs >= 75"
+        "fear_greed is 63, needs >= 75"
       ],
       "near_miss": true,
       "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
@@ -123,7 +127,7 @@
           "factor": "fear_greed",
           "op": "<=",
           "need": 30,
-          "actual": 72
+          "actual": 63
         },
         {
           "ok": false,
@@ -131,14 +135,14 @@
           "factor": "ma_200w_factor",
           "op": "<=",
           "need": 20,
-          "actual": 90.5
+          "actual": 89.2
         }
       ],
       "legs_passing": 0,
       "legs_total": 2,
       "blocked_by": [
-        "fear_greed is 72, needs <= 30",
-        "ma_200w_factor is 90.5, needs <= 20"
+        "fear_greed is 63, needs <= 30",
+        "ma_200w_factor is 89.2, needs <= 20"
       ],
       "near_miss": false,
       "never_fired_note": "never fired since seed. Read the legs above before treating that as falsification - a condition that cannot be satisfied is not a thesis that was tested. (Both ma_200w legs were inverted until 2026-08-12.)"
