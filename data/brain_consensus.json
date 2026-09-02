@@ -2,108 +2,105 @@
   "oracle": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "btc_dom_fade",
-      "stablecoin_growth"
+      "fear_greed",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
       "vix",
       "mvrv_zscore",
       "gold_strength",
-      "funding",
       "etf_flows",
-      "fear_greed"
+      "funding"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.52,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
-      "conviction": "low",
-      "reasoning": "The 73% similarity to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.27 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70), and gold at 96 signals macro flight-to-safety that didn't exist at the ETF top. Yet BTC momentum is +3 above that Thrill peak, price is $4K higher, and the current-only factors show extreme institutional positioning (options_skew 100, eth_etf_flows 93, ma_200w_factor 89, pi_cycle_factor 90) against catastrophic liquidity (fed_liquidity 2). This is a coil: two engines pulling opposite directions. The 5.3% transition accuracy and 0/18 forced-move record demand I respect the base rate \u2014 67% of 12h windows move \u00b12+ points, but direction is coin-flip. The specific breaker I need: if VIX breaks below 14 and funding pushes above 0.015%, the Thrill analog reactivates; if fed_liquidity stays at 2 and exchange_netflow spikes from 0, the coil breaks down toward Anxiety.",
-      "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 re-establishes Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d dropping below 80 confirms Hope continuation with upside bias",
-      "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d drops below 5 \u2014 this would break the Hope floor and push toward Anxiety/Complacency; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows (eth_etf_flows, etf_flows) collapse signals distribution top",
+      "conviction": "medium",
+      "reasoning": "The 73% match to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.2 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70, nowhere near overheated), ETF flows are -24 points weaker, and gold at 96 screams macro hedging not risk-seeking. The current-only factors reveal the real story: fed_liquidity at 2 is catastrophic (QT still biting), options_skew at 100 is max fear, CVD at 10 shows spot selling dominance, yet exchange reserves at 93 with netflow at 0 suggests supply squeeze mechanics. This is Hope (63 score band) with Thrill-like momentum but Depression-like liquidity conditions \u2014 a bifurcated market. The coil statistics (25% move rate) plus my own 5.3% transition accuracy demand HOLD; calling a breakout here would ignore that I've been wrong 95% of the time on transitions by forcing direction in compressed regimes.",
+      "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation",
+      "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, the Thrill analog fully rejected",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"btc_dom_fade\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"funding\", \"etf_flows\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"The 73% similarity to March 2024 Thrill is struct",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"etf_flows\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 73% match to March 2024 Thrill is structurally broken: VIX is +",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "btc_dom_fade",
-      "stablecoin_growth"
+      "fear_greed",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
       "vix",
       "mvrv_zscore",
       "gold_strength",
-      "funding",
       "etf_flows",
-      "fear_greed"
+      "funding"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.52,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
-      "conviction": "low",
-      "reasoning": "The 73% similarity to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.27 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70), and gold at 96 signals macro flight-to-safety that didn't exist at the ETF top. Yet BTC momentum is +3 above that Thrill peak, price is $4K higher, and the current-only factors show extreme institutional positioning (options_skew 100, eth_etf_flows 93, ma_200w_factor 89, pi_cycle_factor 90) against catastrophic liquidity (fed_liquidity 2). This is a coil: two engines pulling opposite directions. The 5.3% transition accuracy and 0/18 forced-move record demand I respect the base rate \u2014 67% of 12h windows move \u00b12+ points, but direction is coin-flip. The specific breaker I need: if VIX breaks below 14 and funding pushes above 0.015%, the Thrill analog reactivates; if fed_liquidity stays at 2 and exchange_netflow spikes from 0, the coil breaks down toward Anxiety.",
-      "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 re-establishes Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d dropping below 80 confirms Hope continuation with upside bias",
-      "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d drops below 5 \u2014 this would break the Hope floor and push toward Anxiety/Complacency; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows (eth_etf_flows, etf_flows) collapse signals distribution top",
+      "conviction": "medium",
+      "reasoning": "The 73% match to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.2 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70, nowhere near overheated), ETF flows are -24 points weaker, and gold at 96 screams macro hedging not risk-seeking. The current-only factors reveal the real story: fed_liquidity at 2 is catastrophic (QT still biting), options_skew at 100 is max fear, CVD at 10 shows spot selling dominance, yet exchange reserves at 93 with netflow at 0 suggests supply squeeze mechanics. This is Hope (63 score band) with Thrill-like momentum but Depression-like liquidity conditions \u2014 a bifurcated market. The coil statistics (25% move rate) plus my own 5.3% transition accuracy demand HOLD; calling a breakout here would ignore that I've been wrong 95% of the time on transitions by forcing direction in compressed regimes.",
+      "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation",
+      "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, the Thrill analog fully rejected",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"btc_dom_fade\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"funding\", \"etf_flows\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"The 73% similarity to March 2024 Thrill is struct",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"etf_flows\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 73% match to March 2024 Thrill is structurally broken: VIX is +",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
       "btc_momentum_30d",
-      "btc_dom_fade",
-      "stablecoin_growth"
+      "fear_greed",
+      "btc_dom_fade"
     ],
     "diverging_factors": [
       "vix",
       "mvrv_zscore",
       "gold_strength",
-      "funding",
       "etf_flows",
-      "fear_greed"
+      "funding"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.52,
+    "confidence": 0.55,
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
-      "conviction": "low",
-      "reasoning": "The 73% similarity to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.27 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70), and gold at 96 signals macro flight-to-safety that didn't exist at the ETF top. Yet BTC momentum is +3 above that Thrill peak, price is $4K higher, and the current-only factors show extreme institutional positioning (options_skew 100, eth_etf_flows 93, ma_200w_factor 89, pi_cycle_factor 90) against catastrophic liquidity (fed_liquidity 2). This is a coil: two engines pulling opposite directions. The 5.3% transition accuracy and 0/18 forced-move record demand I respect the base rate \u2014 67% of 12h windows move \u00b12+ points, but direction is coin-flip. The specific breaker I need: if VIX breaks below 14 and funding pushes above 0.015%, the Thrill analog reactivates; if fed_liquidity stays at 2 and exchange_netflow spikes from 0, the coil breaks down toward Anxiety.",
-      "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 re-establishes Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d dropping below 80 confirms Hope continuation with upside bias",
-      "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d drops below 5 \u2014 this would break the Hope floor and push toward Anxiety/Complacency; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows (eth_etf_flows, etf_flows) collapse signals distribution top",
+      "conviction": "medium",
+      "reasoning": "The 73% match to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.2 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70, nowhere near overheated), ETF flows are -24 points weaker, and gold at 96 screams macro hedging not risk-seeking. The current-only factors reveal the real story: fed_liquidity at 2 is catastrophic (QT still biting), options_skew at 100 is max fear, CVD at 10 shows spot selling dominance, yet exchange reserves at 93 with netflow at 0 suggests supply squeeze mechanics. This is Hope (63 score band) with Thrill-like momentum but Depression-like liquidity conditions \u2014 a bifurcated market. The coil statistics (25% move rate) plus my own 5.3% transition accuracy demand HOLD; calling a breakout here would ignore that I've been wrong 95% of the time on transitions by forcing direction in compressed regimes.",
+      "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation",
+      "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, the Thrill analog fully rejected",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"btc_dom_fade\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"funding\", \"etf_flows\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"The 73% similarity to March 2024 Thrill is struct",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_momentum_30d\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\", \"gold_strength\", \"etf_flows\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The 73% match to March 2024 Thrill is structurally broken: VIX is +",
     "brain": "analyst"
   },
   "narrative": {
-    "narrative": "Bitcoin's 30-day momentum is stabilizing while dominance fades and stablecoin liquidity quietly expands, creating a classic Hope-phase setup where sidelined capital begins rotating into risk. This configuration echoes March 2024's ETF-driven top formation, when a similar liquidity-and-momentum mix preceded a sharp repricing. The market is pricing in continuation, but the historical parallel suggests the current calm may be the story's second act rather than its conclusion.",
-    "headline": "Liquidity Whispers While Momentum Holds Its Breath",
+    "narrative": "Bitcoin's 30-day momentum is fading while fear and greed hold at 63, a setup that echoes the March 2024 ETF top where dominance began to roll over. The RISK_ON regime is still intact, but the pattern match suggests the easy leg of this rally is behind us. The market is coiling between hope and hesitation, waiting for a catalyst to confirm whether this is a pause or a pivot.",
+    "headline": "Momentum Fades as Hope Meets Resistance",
     "confidence": 0.73,
     "next_move": {
-      "outlook": "The narrative arc points toward a decisive move as stablecoin fuel meets fading dominance, with the historical match warning that Hope-phase rallies can exhaust quickly once momentum stalls.",
+      "outlook": "The narrative arc suggests a consolidation phase where hope persists but momentum stalls, leaving the market vulnerable to a sharp move once the coil resolves.",
       "direction": "HOLD",
       "predicted_phase": "Hope",
       "conviction": "medium",
@@ -111,61 +108,61 @@
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"narrative\": \"Bitcoin's 30-day momentum is stabilizing while dominance fades and stablecoin liquidity quietly expands, creating a classic Hope-phase setup where sidelined capital begins rotating into risk. This configuration echoes March 2024's ETF-driven top formation, when a similar liquidity-and-momentum mix preceded a sharp repricing. The market is pricing in continuation, but the historical parallel suggests the current calm may be the story's second act rather than its conclusion.\",\n  ",
+    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's 30-day momentum is fading while fear and greed hold at 63, a setup that echoes the March 2024 ETF top where dominance began to roll over. The RISK_ON regime is still intact, but the pattern match suggests the easy leg of this rally is behind us. The market is coiling between hope and hesitation, waiting for a catalyst to confirm whether this is a pause or a pivot.\",\n  \"headline\": \"Momentum Fades as Hope Meets Resistance\",\n  \"confidence\": 0.73,\n  \"next_move\": {",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
     "final_phase": "Hope",
     "alert_tier": "MED",
-    "consensus_confidence": 0.58,
-    "key_reasoning": "Both brains agree on Hope phase but the 73% Thrill analog is structurally broken by VIX +51 points and MVRV Z-score -42 points versus the March 2024 top, while catastrophic fed_liquidity (2) collides with extreme institutional positioning \u2014 a classic coil where forced directional bets have historically gone 0-for-18. The analyst's higher trust weight (7.67 vs 6.00) and explicit HOLD with low conviction correctly respects the base rate that direction is coin-flip in this configuration.",
+    "consensus_confidence": 0.62,
+    "key_reasoning": "Both brains converge on a HOLD at the Hope rung (score 63), recognizing that strong 30-day BTC momentum is structurally undermined by a 73% match to a blowoff-top analog that lacks confirmation \u2014 VIX is elevated, MVRV is far from overheated, and fed liquidity remains catastrophic. The analyst's own 5.3% transition accuracy in compressed coil regimes makes HOLD the only statistically honest call, as forcing direction here has historically been a 95% losing bet.",
     "disagreements_noted": [
-      "Analyst confidence 0.52 vs Narrative confidence 0.73 \u2014 analyst is more cautious given broken analog structure",
-      "Analyst explicitly flags the March 2024 Thrill parallel as 'structurally broken' while Narrative leans into it as 'echoing' the ETF-driven top",
-      "Analyst identifies catastrophic fed_liquidity (2) as a breakdown risk; Narrative frames stablecoin expansion as a Hope-phase tailwind without addressing the liquidity divergence"
+      "Analyst sees a structurally broken Thrill analog with Depression-like liquidity conditions creating a bifurcated market, while the Narrative Writer frames it more simply as momentum fading at resistance without emphasizing the severe liquidity deficit.",
+      "Analyst confidence is 0.55 with explicit distrust of the pattern match; Narrative Writer confidence is higher at 0.73, treating the top analog as a meaningful warning rather than a broken signal.",
+      "Analyst identifies specific divergent factors (VIX +51pts higher, MVRV -42pts lower, ETF flows -24pts weaker, gold at 96) that the Narrative Writer does not surface."
     ],
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
-      "conviction": "low",
-      "reasoning": "The coil between institutional momentum and macro liquidity risk has no confirmed breaker in either direction, making HOLD the skilled call that wins if the score stabilizes in the 63-70 band while waiting for VIX or fed_liquidity to resolve the tension.",
-      "brains_agree": "Partial \u2014 both call Hope phase, but analyst signals HOLD with low conviction while Narrative implies continuation bias toward a second-act repricing; the forward directional call splits between caution and optimism",
-      "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 reactivates Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d <80 confirms Hope continuation with upside bias",
-      "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d <5 breaks the Hope floor toward Anxiety; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows collapse signals distribution top",
+      "conviction": "medium",
+      "reasoning": "The score sits at 63 in a compressed coil where the analyst's 5.3% transition accuracy and 25% move rate make HOLD the only statistically defensible call \u2014 no breaker is visible and both brains agree the easy leg is behind us.",
+      "brains_agree": "Yes \u2014 both brains agree on HOLD with Hope as the current phase; the analyst is more cautious (0.55 confidence, emphasizes broken analog and liquidity starvation) while the narrative writer is slightly more confident (0.73) but still lands on the same signal.",
+      "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation.",
+      "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, fully rejecting the Thrill analog.",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-      "confidence_pct": 84.0,
-      "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.4/1.0"
+      "confidence_pct": 88.0,
+      "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Both brains agree on Hope phase but the 73% Thrill analog is structurally broken by VIX +51 points and MVRV Z-score -42 points versus the March 2024 top, while catastrophic fed_liquidity (2) collides with extreme institutional positioning \u2014 a classic coil where forced directional bets have historically gone 0-for-18. The analyst's higher trust weight (7.67 vs 6.",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.62,\n  \"key_reasoning\": \"Both brains converge on a HOLD at the Hope rung (score 63), recognizing that strong 30-day BTC momentum is structurally undermined by a 73% match to a blowoff-top analog that lacks confirmation \u2014 VIX is elevated, MVRV is far from overheated, and fed liquidity remains catastrophic. The analyst's own 5.3% transition accuracy in compressed coil regimes makes HOLD ",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.625,
+    "brains_avg_confidence": 0.64,
     "brain_reads": {
       "analyst": {
         "signal": "HOLD",
         "phase": "Hope",
         "verdict": "DIVERGING",
-        "confidence": 0.52,
+        "confidence": 0.55,
         "next_move": {
           "predicted_phase": "Hope",
           "direction": "HOLD",
-          "conviction": "low",
-          "reasoning": "The 73% similarity to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.27 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70), and gold at 96 signals macro flight-to-safety that didn't exist at the ETF top. Yet BTC momentum is +3 above that Thrill peak, price is $4K higher, and the current-only factors show extreme institutional positioning (options_skew 100, eth_etf_flows 93, ma_200w_factor 89, pi_cycle_factor 90) against catastrophic liquidity (fed_liquidity 2). This is a coil: two engines pulling opposite directions. The 5.3% transition accuracy and 0/18 forced-move record demand I respect the base rate \u2014 67% of 12h windows move \u00b12+ points, but direction is coin-flip. The specific breaker I need: if VIX breaks below 14 and funding pushes above 0.015%, the Thrill analog reactivates; if fed_liquidity stays at 2 and exchange_netflow spikes from 0, the coil breaks down toward Anxiety.",
-          "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 re-establishes Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d dropping below 80 confirms Hope continuation with upside bias",
-          "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d drops below 5 \u2014 this would break the Hope floor and push toward Anxiety/Complacency; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows (eth_etf_flows, etf_flows) collapse signals distribution top",
+          "conviction": "medium",
+          "reasoning": "The 73% match to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.2 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70, nowhere near overheated), ETF flows are -24 points weaker, and gold at 96 screams macro hedging not risk-seeking. The current-only factors reveal the real story: fed_liquidity at 2 is catastrophic (QT still biting), options_skew at 100 is max fear, CVD at 10 shows spot selling dominance, yet exchange reserves at 93 with netflow at 0 suggests supply squeeze mechanics. This is Hope (63 score band) with Thrill-like momentum but Depression-like liquidity conditions \u2014 a bifurcated market. The coil statistics (25% move rate) plus my own 5.3% transition accuracy demand HOLD; calling a breakout here would ignore that I've been wrong 95% of the time on transitions by forcing direction in compressed regimes.",
+          "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation",
+          "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, the Thrill analog fully rejected",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
-        "headline": "Liquidity Whispers While Momentum Holds Its Breath",
+        "headline": "Momentum Fades as Hope Meets Resistance",
         "phase": "Hope",
         "confidence": 0.73,
         "next_move": {
-          "outlook": "The narrative arc points toward a decisive move as stablecoin fuel meets fading dominance, with the historical match warning that Hope-phase rallies can exhaust quickly once momentum stalls.",
+          "outlook": "The narrative arc suggests a consolidation phase where hope persists but momentum stalls, leaving the market vulnerable to a sharp move once the coil resolves.",
           "direction": "HOLD",
           "predicted_phase": "Hope",
           "conviction": "medium",
@@ -177,20 +174,20 @@
       "judge": {
         "signal": "HOLD",
         "phase": "Hope",
-        "confidence": 0.58,
+        "confidence": 0.62,
         "next_move": {
           "predicted_phase": "Hope",
           "direction": "HOLD",
-          "conviction": "low",
-          "reasoning": "The coil between institutional momentum and macro liquidity risk has no confirmed breaker in either direction, making HOLD the skilled call that wins if the score stabilizes in the 63-70 band while waiting for VIX or fed_liquidity to resolve the tension.",
-          "brains_agree": "Partial \u2014 both call Hope phase, but analyst signals HOLD with low conviction while Narrative implies continuation bias toward a second-act repricing; the forward directional call splits between caution and optimism",
-          "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 reactivates Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d <80 confirms Hope continuation with upside bias",
-          "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d <5 breaks the Hope floor toward Anxiety; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows collapse signals distribution top",
+          "conviction": "medium",
+          "reasoning": "The score sits at 63 in a compressed coil where the analyst's 5.3% transition accuracy and 25% move rate make HOLD the only statistically defensible call \u2014 no breaker is visible and both brains agree the easy leg is behind us.",
+          "brains_agree": "Yes \u2014 both brains agree on HOLD with Hope as the current phase; the analyst is more cautious (0.55 confidence, emphasizes broken analog and liquidity starvation) while the narrative writer is slightly more confident (0.73) but still lands on the same signal.",
+          "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation.",
+          "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, fully rejecting the Thrill analog.",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-          "confidence_pct": 84.0,
-          "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.4/1.0"
+          "confidence_pct": 88.0,
+          "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
       },
       "legacy": {
@@ -206,24 +203,24 @@
   "brain_reads": {
     "analyst": {
       "phase": "Hope",
-      "confidence": 0.52,
+      "confidence": 0.55,
       "next_move": {
         "predicted_phase": "Hope",
         "direction": "HOLD",
-        "conviction": "low",
-        "reasoning": "The 73% similarity to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.27 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70), and gold at 96 signals macro flight-to-safety that didn't exist at the ETF top. Yet BTC momentum is +3 above that Thrill peak, price is $4K higher, and the current-only factors show extreme institutional positioning (options_skew 100, eth_etf_flows 93, ma_200w_factor 89, pi_cycle_factor 90) against catastrophic liquidity (fed_liquidity 2). This is a coil: two engines pulling opposite directions. The 5.3% transition accuracy and 0/18 forced-move record demand I respect the base rate \u2014 67% of 12h windows move \u00b12+ points, but direction is coin-flip. The specific breaker I need: if VIX breaks below 14 and funding pushes above 0.015%, the Thrill analog reactivates; if fed_liquidity stays at 2 and exchange_netflow spikes from 0, the coil breaks down toward Anxiety.",
-        "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 re-establishes Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d dropping below 80 confirms Hope continuation with upside bias",
-        "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d drops below 5 \u2014 this would break the Hope floor and push toward Anxiety/Complacency; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows (eth_etf_flows, etf_flows) collapse signals distribution top",
+        "conviction": "medium",
+        "reasoning": "The 73% match to March 2024 Thrill is structurally broken: VIX is +51 points higher (15.2 vs implied ~8), MVRV Z-score is -42 points lower (28 vs 70, nowhere near overheated), ETF flows are -24 points weaker, and gold at 96 screams macro hedging not risk-seeking. The current-only factors reveal the real story: fed_liquidity at 2 is catastrophic (QT still biting), options_skew at 100 is max fear, CVD at 10 shows spot selling dominance, yet exchange reserves at 93 with netflow at 0 suggests supply squeeze mechanics. This is Hope (63 score band) with Thrill-like momentum but Depression-like liquidity conditions \u2014 a bifurcated market. The coil statistics (25% move rate) plus my own 5.3% transition accuracy demand HOLD; calling a breakout here would ignore that I've been wrong 95% of the time on transitions by forcing direction in compressed regimes.",
+        "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation",
+        "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, the Thrill analog fully rejected",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
-      "headline": "Liquidity Whispers While Momentum Holds Its Breath",
+      "headline": "Momentum Fades as Hope Meets Resistance",
       "confidence": 0.73,
       "next_move": {
-        "outlook": "The narrative arc points toward a decisive move as stablecoin fuel meets fading dominance, with the historical match warning that Hope-phase rallies can exhaust quickly once momentum stalls.",
+        "outlook": "The narrative arc suggests a consolidation phase where hope persists but momentum stalls, leaving the market vulnerable to a sharp move once the coil resolves.",
         "direction": "HOLD",
         "predicted_phase": "Hope",
         "conviction": "medium",
@@ -234,25 +231,25 @@
     },
     "judge": {
       "signal": "HOLD",
-      "confidence": 0.58,
+      "confidence": 0.62,
       "next_move": {
         "predicted_phase": "Hope",
         "direction": "HOLD",
-        "conviction": "low",
-        "reasoning": "The coil between institutional momentum and macro liquidity risk has no confirmed breaker in either direction, making HOLD the skilled call that wins if the score stabilizes in the 63-70 band while waiting for VIX or fed_liquidity to resolve the tension.",
-        "brains_agree": "Partial \u2014 both call Hope phase, but analyst signals HOLD with low conviction while Narrative implies continuation bias toward a second-act repricing; the forward directional call splits between caution and optimism",
-        "confirmed_if": "VIX <14 AND funding >0.015% AND etf_flows >85 reactivates Thrill momentum; OR fed_liquidity >15 AND exchange_netflow >30 with btc_exchange_reserves_pct_30d <80 confirms Hope continuation with upside bias",
-        "invalidated_if": "VIX >18 AND mvrv_zscore <20 AND exchange_netflow >40 AND cvd_btc_pct_30d <5 breaks the Hope floor toward Anxiety; OR retail_noise_volume >95 with retail_noise_sentiment >85 while institutional flows collapse signals distribution top",
+        "conviction": "medium",
+        "reasoning": "The score sits at 63 in a compressed coil where the analyst's 5.3% transition accuracy and 25% move rate make HOLD the only statistically defensible call \u2014 no breaker is visible and both brains agree the easy leg is behind us.",
+        "brains_agree": "Yes \u2014 both brains agree on HOLD with Hope as the current phase; the analyst is more cautious (0.55 confidence, emphasizes broken analog and liquidity starvation) while the narrative writer is slightly more confident (0.73) but still lands on the same signal.",
+        "confirmed_if": "ETF flows break above 85 AND funding resets above 65 with VIX collapsing below 12 \u2014 this would validate the Thrill analog and signal true risk-on continuation.",
+        "invalidated_if": "fed_liquidity stays below 10 AND options_skew remains pinned at 100 while BTC breaks $74K \u2014 this confirms the liquidity-starved Hope phase rolling into Anxiety/Complacency, fully rejecting the Thrill analog.",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-        "confidence_pct": 84.0,
-        "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.4/1.0"
+        "confidence_pct": 88.0,
+        "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-09-02T15:58:23.728405-04:00",
+  "timestamp": "2026-09-02T17:02:46.357063-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
