@@ -1,17 +1,17 @@
 {
-  "_updated": "2026-09-03T03:16:56.062740-04:00",
+  "_updated": "2026-09-03T04:19:03.507394-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-09-03T03:16:56.085977-04:00",
-      "score_at_call": 50,
+      "made_at": "2026-09-03T04:19:03.525934-04:00",
+      "score_at_call": 51,
       "phase_at_call": "Complacency",
       "predicted_phase": "Hope",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "With fed_liquidity at extreme tightness and stablecoin_growth below confirmation threshold, the coil lacks capital deployment fuel to break in either direction, and the 56% base rate for \u00b12+ point moves doesn't specify direction \u2014 forcing a directional guess in a coil is how the record went 0-for-18.",
-      "confirmed_if": "stablecoin_growth breaks above 60 AND btc_momentum_30d reclaims 65 with funding rising above 60",
-      "invalidated_if": "vix climbs above 75 AND gold_strength holds 95+ while btc_momentum_30d drops below 40",
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Structural BTC momentum and ETF flows support a push toward the final Euphoria rung, but the analyst's high-trust divergence read (VIX, gold, Fed liquidity) means this leg up is conditional on macro risk signals compressing rather than a base-case extrapolation.",
+      "confirmed_if": "fed_liquidity rises above 15 + stablecoin_growth recovers above 60 + VIX compresses below 50",
+      "invalidated_if": "gold_strength stays pinned above 95 + VIX spikes above 75 + exchange_netflow turns positive with btc_exchange_reserves_pct_30d climbing above 95",
       "signals_at_call": {
         "fear_greed": 65,
         "btc_funding": 0.0073,
@@ -19,7 +19,7 @@
         "net_liquidity_chg_4w": -47237.0,
         "btc_dom": null,
         "etf_net_total_musd": -236.46,
-        "vix": 15.2
+        "vix": 15.18
       }
     }
   ],
@@ -5554,12 +5554,46 @@
         "predicted_phase": "Hope",
         "direction": "HOLD"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-09-03T04:19:03.507394-04:00",
+      "window_hours_actual": 1.05,
+      "partial_window": true,
+      "score_at_close": 51,
+      "realized_direction": "HOLD",
+      "direction_hit": false,
+      "score_delta": 0,
+      "grade_note": "graded on the 1.05h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-09-03T03:16:56.085977-04:00",
+      "score_at_call": 50,
+      "phase_at_call": "Complacency",
+      "predicted_phase": "Hope",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "With fed_liquidity at extreme tightness and stablecoin_growth below confirmation threshold, the coil lacks capital deployment fuel to break in either direction, and the 56% base rate for \u00b12+ point moves doesn't specify direction \u2014 forcing a directional guess in a coil is how the record went 0-for-18.",
+      "confirmed_if": "stablecoin_growth breaks above 60 AND btc_momentum_30d reclaims 65 with funding rising above 60",
+      "invalidated_if": "vix climbs above 75 AND gold_strength holds 95+ while btc_momentum_30d drops below 40",
+      "signals_at_call": {
+        "fear_greed": 65,
+        "btc_funding": 0.0073,
+        "mvrv_zscore": 0.8197,
+        "net_liquidity_chg_4w": -47237.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -236.46,
+        "vix": 15.2
+      },
+      "superseded_at": "2026-09-03T04:19:03.524962-04:00",
+      "superseded_by": {
+        "predicted_phase": "Hope",
+        "direction": "UP"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
     "hit": 56,
-    "total": 80,
+    "total": 81,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
