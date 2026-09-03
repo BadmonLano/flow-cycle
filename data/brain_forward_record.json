@@ -1,17 +1,17 @@
 {
-  "_updated": "2026-09-03T02:13:48.419413-04:00",
+  "_updated": "2026-09-03T03:16:56.062740-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-09-03T02:13:48.437410-04:00",
-      "score_at_call": 51,
+      "made_at": "2026-09-03T03:16:56.085977-04:00",
+      "score_at_call": 50,
       "phase_at_call": "Complacency",
       "predicted_phase": "Hope",
-      "direction": "UP",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The 2020 Dec analog and institutional ETF flows support upward continuation, but with the score already at Thrill the coil must resolve through confirmed liquidity expansion rather than momentum alone.",
-      "confirmed_if": "BTC funding rises above 0.015% with stablecoin growth breaking above 60 and DXY sustained below 99",
-      "invalidated_if": "VIX spikes above 20 with gold continuing its parabolic run and BTC funding flips negative, or fed_liquidity drops to 0",
+      "reasoning": "With fed_liquidity at extreme tightness and stablecoin_growth below confirmation threshold, the coil lacks capital deployment fuel to break in either direction, and the 56% base rate for \u00b12+ point moves doesn't specify direction \u2014 forcing a directional guess in a coil is how the record went 0-for-18.",
+      "confirmed_if": "stablecoin_growth breaks above 60 AND btc_momentum_30d reclaims 65 with funding rising above 60",
+      "invalidated_if": "vix climbs above 75 AND gold_strength holds 95+ while btc_momentum_30d drops below 40",
       "signals_at_call": {
         "fear_greed": 65,
         "btc_funding": 0.0073,
@@ -5520,12 +5520,46 @@
         "predicted_phase": "Hope",
         "direction": "UP"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-09-03T03:16:56.062740-04:00",
+      "window_hours_actual": 1.04,
+      "partial_window": true,
+      "score_at_close": 50,
+      "realized_direction": "UP",
+      "direction_hit": false,
+      "score_delta": 7,
+      "grade_note": "graded on the 1.04h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-09-03T02:13:48.437410-04:00",
+      "score_at_call": 51,
+      "phase_at_call": "Complacency",
+      "predicted_phase": "Hope",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "The 2020 Dec analog and institutional ETF flows support upward continuation, but with the score already at Thrill the coil must resolve through confirmed liquidity expansion rather than momentum alone.",
+      "confirmed_if": "BTC funding rises above 0.015% with stablecoin growth breaking above 60 and DXY sustained below 99",
+      "invalidated_if": "VIX spikes above 20 with gold continuing its parabolic run and BTC funding flips negative, or fed_liquidity drops to 0",
+      "signals_at_call": {
+        "fear_greed": 65,
+        "btc_funding": 0.0073,
+        "mvrv_zscore": 0.8197,
+        "net_liquidity_chg_4w": -47237.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -236.46,
+        "vix": 15.2
+      },
+      "superseded_at": "2026-09-03T03:16:56.084977-04:00",
+      "superseded_by": {
+        "predicted_phase": "Hope",
+        "direction": "HOLD"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
     "hit": 56,
-    "total": 79,
+    "total": 80,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
