@@ -1,29 +1,29 @@
 {
-  "_updated": "2026-09-03T10:39:34.180206",
+  "_updated": "2026-09-03T11:45:17.483033",
   "anchor_date": "2026-09-03",
-  "current_btc_price": 79768,
+  "current_btc_price": 80965.025,
   "signatures": {
     "parabolic": {
-      "score": 75.7,
+      "score": 77.0,
       "status": "PARABOLIC",
       "metrics": {
-        "gain_7d": 26.05,
-        "gain_30d": 24.66,
-        "gain_60d": 31.37,
-        "gain_90d": 4.24,
-        "acceleration": 4.23
+        "gain_7d": 27.94,
+        "gain_30d": 26.53,
+        "gain_60d": 33.34,
+        "gain_90d": 5.81,
+        "acceleration": 4.21
       }
     },
     "magnitude": {
-      "score": 17.9,
+      "score": 19.1,
       "status": "mid_cycle_rally",
       "metrics": {
         "cycle_bottom": 25162.654297,
         "cycle_bottom_date": "2023-09-11",
         "bottom_source": "rolling_1095d_fallback",
         "bottom_source_note": "FALLBACK: lowest close in a rolling 1095d window. History could not reach the prior ATH, so this bottom may be a mid-drawdown bounce, not the cycle low - treat the multiple as a floor, not a measurement.",
-        "current_multiple": 3.17,
-        "pct_of_ath": 63.9,
+        "current_multiple": 3.22,
+        "pct_of_ath": 64.9,
         "all_time_high": 124752.53125
       }
     },
@@ -45,32 +45,31 @@
       }
     },
     "macro": {
-      "score": 40.3,
+      "score": 41.3,
       "status": "mixed",
       "metrics": {
-        "dxy_score": 44.0,
+        "dxy_score": 44.7,
         "stablecoin_score": 0,
-        "stablecoin_level": 262586146600.0,
+        "stablecoin_level": 262587914461.0,
         "stablecoin_level_note": "supply $263B, 60d change -0.3% - LEVEL is high but CHANGE is cold: dry powder that stopped growing, which is not the same as no fuel",
         "vix_score": 70,
-        "sp500_score": 87.1,
+        "sp500_score": 92.4,
         "aligned_count": 2
       }
     },
     "breadth": {
-      "score": 3.2,
-      "status": "btc_dominant",
+      "score": 0.0,
+      "status": "btc_dominant_dom_missing",
       "metrics": {
         "eth_btc_score": 0,
         "sol_btc_score": 0,
-        "btc_dom_score": 12.9,
-        "btc_dom_available": true,
+        "btc_dom_score": null,
+        "btc_dom_available": false,
         "legs_used": [
           "eth_btc",
-          "sol_btc",
-          "btc_dom"
+          "sol_btc"
         ],
-        "_dom_note": null,
+        "_dom_note": "macro.btc_dom was null - the dominance leg was DROPPED and the remaining legs renormalised. It is not scored as 0; a missing feed is not evidence of btc dominance.",
         "eth_btc_chg_30d": null,
         "sol_btc_chg_30d": null
       }
@@ -87,7 +86,7 @@
     }
   },
   "composite": {
-    "composite": 27.5,
+    "composite": 27.7,
     "alert": "early_stage",
     "strict_fire": false,
     "signatures_above_70": 1,
@@ -95,7 +94,7 @@
       "required_above_70": 4,
       "current_above_70": 1,
       "required_composite": 80,
-      "current_composite": 27.5,
+      "current_composite": 27.7,
       "all_conditions_met": false
     }
   },
@@ -112,7 +111,7 @@
     "2021_nov"
   ],
   "shape_regression_check": {
-    "_checked_at": "2026-09-03T10:39:34.177206",
+    "_checked_at": "2026-09-03T11:45:17.480062",
     "checks": [
       {
         "name": "bottom_shape_not_scored_as_top",
@@ -135,10 +134,10 @@
   },
   "trend": {
     "composite_7_sweeps_ago": 11.0,
-    "delta_7": 16.5,
+    "delta_7": 16.7,
     "direction": "rising",
-    "peak_composite_on_record": 27.5,
-    "peak_gap_to_strict": 52.5,
+    "peak_composite_on_record": 27.7,
+    "peak_gap_to_strict": 52.3,
     "rows": 11,
     "_note": "a rising composite that has not fired yet is a different tape from a flat one at the same level. Both read 'quiet' without this."
   }
