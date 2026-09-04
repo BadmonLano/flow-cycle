@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-09-04T17:07:42.115043-04:00",
+  "updated_at": "2026-09-04T18:20:26.275641-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Blowoff score increases to 80 or higher within 14 days",
-      "what_it_would_mean": "A significant rise in blowoff score would indicate imminent market exhaustion, directly contradicting the current HOLD signal."
+      "condition": "The ETF's price drops by 10% below its 200-day moving average within 14 days",
+      "what_it_would_mean": "A significant bearish trend would contradict the 'HOLD' signal and invalidate the UNKNOWN verdict by showing clear downside momentum"
     },
     {
       "id": 2,
-      "condition": "Pattern match percentage drops below 50% for top_2024_mar_etf within 14 days",
-      "what_it_would_mean": "A sharp decline in pattern similarity would invalidate the basis for the current UNKNOWN verdict, suggesting the model's reference pattern no longer applies."
+      "condition": "The ETF's 14-day volatility exceeds 20% (200% increase from current levels)",
+      "what_it_would_mean": "Sustained extreme volatility would indicate a blowoff top scenario, directly contradicting the 'HOLD' signal and falsifying the UNKNOWN phase assumption"
     },
     {
       "id": 3,
-      "condition": "top_2024_mar_etf experiences a 10%+ price decline within 14 days",
-      "what_it_would_mean": "A significant reversal in the ETF's price would contradict the implied directional bias of the current HOLD, proving the verdict incorrect."
+      "condition": "The ETF's price diverges by 15% from the top_2024_mar_etf pattern's projected trajectory within 14 days",
+      "what_it_would_mean": "A material deviation from the matched pattern would invalidate the 71% similarity basis and prove the current UNKNOWN verdict incorrect"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
