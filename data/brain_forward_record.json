@@ -1,20 +1,20 @@
 {
-  "_updated": "2026-09-03T22:16:31.342158-04:00",
+  "_updated": "2026-09-03T23:21:30.410975-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-09-03T17:00:21.387096-04:00",
-      "score_at_call": 52,
-      "phase_at_call": "Complacency",
-      "predicted_phase": "Hope",
-      "direction": "UP",
-      "conviction": "medium",
-      "reasoning": "Momentum, ETF flows, and supply dynamics support continued upward travel toward Euphoria, but the analyst's divergences cap conviction at medium until fed_liquidity confirms the risk-on regime.",
-      "confirmed_if": "fed_liquidity ticks above 20 with stablecoin_growth recovering above 60 and funding staying below 70",
-      "invalidated_if": "VIX spikes above 85 with gold_strength holding 100 and btc_momentum_30d rolling below 80 \u2014 risk-off macro override",
+      "made_at": "2026-09-03T23:21:30.429942-04:00",
+      "score_at_call": 45,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Disbelief",
+      "direction": "HOLD",
+      "conviction": "low",
+      "reasoning": "The analyst's forward call to Disbelief is adopted as consensus \u2014 a one-rung step up the ladder \u2014 but direction stays HOLD because the specific breakers needed for UP (funding >0.012% + retail velocity >60 + 30d momentum positive) or DOWN (VIX >16 + DXY >100 + exchange reserves dropping) are both absent, making a forced directional guess in this coil a losing base-rate play.",
+      "confirmed_if": "Funding sustains above 0.012% AND retail_noise_velocity breaks above 60 AND btc_momentum_30d turns positive (UP confirmation) OR VIX closes above 16 with DXY reclaiming 100 and exchange reserves dropping below 60 (DOWN confirmation \u2014 either breaker resolves the coil)",
+      "invalidated_if": "Score drifts below 32 entering Panic territory (bearish resolution without the macro breaker firing) OR above 39 entering Anxiety with sustained momentum (bullish resolution invalidating the Denial framing)",
       "signals_at_call": {
-        "fear_greed": 65,
-        "btc_funding": 0.0059,
+        "fear_greed": 74,
+        "btc_funding": 0.0089,
         "mvrv_zscore": 0.8197,
         "net_liquidity_chg_4w": -71973.0,
         "btc_dom": null,
@@ -5667,6 +5667,32 @@
       "direction_hit": false,
       "score_delta": 8,
       "grade_note": "graded on the 5.25h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-09-03T17:00:21.387096-04:00",
+      "score_at_call": 52,
+      "phase_at_call": "Complacency",
+      "predicted_phase": "Hope",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "Momentum, ETF flows, and supply dynamics support continued upward travel toward Euphoria, but the analyst's divergences cap conviction at medium until fed_liquidity confirms the risk-on regime.",
+      "confirmed_if": "fed_liquidity ticks above 20 with stablecoin_growth recovering above 60 and funding staying below 70",
+      "invalidated_if": "VIX spikes above 85 with gold_strength holding 100 and btc_momentum_30d rolling below 80 \u2014 risk-off macro override",
+      "signals_at_call": {
+        "fear_greed": 65,
+        "btc_funding": 0.0059,
+        "mvrv_zscore": 0.8197,
+        "net_liquidity_chg_4w": -71973.0,
+        "btc_dom": null,
+        "etf_net_total_musd": 101.15,
+        "vix": 14.32
+      },
+      "superseded_at": "2026-09-03T23:21:30.429942-04:00",
+      "superseded_by": {
+        "predicted_phase": "Disbelief",
+        "direction": "HOLD"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
