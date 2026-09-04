@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-09-04T15:55:03.674421-04:00",
+  "updated_at": "2026-09-04T17:07:42.115043-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The asset's price increases by 5% or more over 14 days",
-      "what_it_would_mean": "A clear upward trend would contradict the 'HOLD' signal and indicate a bullish breakout, invalidating the unknown verdict."
+      "condition": "Blowoff score increases to 80 or higher within 14 days",
+      "what_it_would_mean": "A significant rise in blowoff score would indicate imminent market exhaustion, directly contradicting the current HOLD signal."
     },
     {
       "id": 2,
-      "condition": "Trading volume exceeds 200% of the 30-day average volume",
-      "what_it_would_mean": "Sustained extreme volume would suggest a blowoff top or breakout, directly opposing the 'HOLD' signal and proving the verdict incorrect."
+      "condition": "Pattern match percentage drops below 50% for top_2024_mar_etf within 14 days",
+      "what_it_would_mean": "A sharp decline in pattern similarity would invalidate the basis for the current UNKNOWN verdict, suggesting the model's reference pattern no longer applies."
     },
     {
       "id": 3,
-      "condition": "The top_2024_mar_etf rises 10% while the asset falls 5% over 14 days",
-      "what_it_would_mean": "Divergence between the asset and its pattern-matched ETF would invalidate the 73% similarity assumption, proving the current call wrong."
+      "condition": "top_2024_mar_etf experiences a 10%+ price decline within 14 days",
+      "what_it_would_mean": "A significant reversal in the ETF's price would contradict the implied directional bias of the current HOLD, proving the verdict incorrect."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
