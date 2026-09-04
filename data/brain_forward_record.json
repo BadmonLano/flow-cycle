@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-09-04T12:18:23.765185-04:00",
+  "_updated": "2026-09-04T13:31:35.020385-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-09-04T06:18:13.217563-04:00",
-      "score_at_call": 53,
-      "phase_at_call": "Complacency",
+      "made_at": "2026-09-04T13:31:35.039353-04:00",
+      "score_at_call": 60,
+      "phase_at_call": "Disbelief",
       "predicted_phase": "Hope",
-      "direction": "UP",
+      "direction": "HOLD",
       "conviction": "high",
-      "reasoning": "The strong ETF flows, gold strength, and BTC momentum suggest a continuation of the upward trend, aligning with the transition to the Belief phase.",
-      "confirmed_if": "Fear & Greed index > 78 and BTC price > $85,000",
-      "invalidated_if": "VIX > 20 or ETF flows drop below 40",
+      "reasoning": "The consensus view is that the market is in a balanced state, with no clear directional bias. A HOLD position is appropriate given the mixed signals and the current phase of Hope.",
+      "confirmed_if": "Fear & Greed remains above 74 and VIX remains below 20.",
+      "invalidated_if": "VIX rises above 20 indicating a risk-off sentiment or a significant drop in Fear & Greed below 74 suggesting a shift in market sentiment.",
       "signals_at_call": {
         "fear_greed": 74,
-        "btc_funding": 0.0086,
+        "btc_funding": 0.0065,
         "mvrv_zscore": 0.8098,
         "net_liquidity_chg_4w": -71973.0,
         "btc_dom": null,
-        "etf_net_total_musd": 101.15,
-        "vix": 14.23
+        "etf_net_total_musd": 730.87,
+        "vix": 14.09
       }
     }
   ],
@@ -5805,6 +5805,32 @@
       "direction_hit": false,
       "score_delta": 6,
       "grade_note": "graded on the 1.18h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-09-04T06:18:13.217563-04:00",
+      "score_at_call": 53,
+      "phase_at_call": "Complacency",
+      "predicted_phase": "Hope",
+      "direction": "UP",
+      "conviction": "high",
+      "reasoning": "The strong ETF flows, gold strength, and BTC momentum suggest a continuation of the upward trend, aligning with the transition to the Belief phase.",
+      "confirmed_if": "Fear & Greed index > 78 and BTC price > $85,000",
+      "invalidated_if": "VIX > 20 or ETF flows drop below 40",
+      "signals_at_call": {
+        "fear_greed": 74,
+        "btc_funding": 0.0086,
+        "mvrv_zscore": 0.8098,
+        "net_liquidity_chg_4w": -71973.0,
+        "btc_dom": null,
+        "etf_net_total_musd": 101.15,
+        "vix": 14.23
+      },
+      "superseded_at": "2026-09-04T13:31:35.038354-04:00",
+      "superseded_by": {
+        "predicted_phase": "Hope",
+        "direction": "HOLD"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
