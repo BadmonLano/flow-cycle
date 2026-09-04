@@ -1,17 +1,17 @@
 {
-  "_updated": "2026-09-04T18:19:35.065786-04:00",
+  "_updated": "2026-09-04T19:31:32.964484-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-09-04T18:19:35.085786-04:00",
+      "made_at": "2026-09-04T19:31:32.984482-04:00",
       "score_at_call": 59,
       "phase_at_call": "Disbelief",
       "predicted_phase": "Hope",
-      "direction": "HOLD",
-      "conviction": "high",
-      "reasoning": "The current phase of 'Hope' indicates a tentative optimism, and both experts agree that maintaining a hold position is appropriate given the mixed signals and potential for market uncertainty.",
-      "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
-      "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "The mixed signals suggest a potential move towards optimism, with the current phase of Hope indicating a recovery phase. The experts' agreement on the regime being RISK_ON supports this upward movement.",
+      "confirmed_if": "Fear/Greed index rises above 80 and ETF flows remain strong",
+      "invalidated_if": "A significant spike in VIX or a drop in MVRV Z-score below 20",
       "signals_at_call": {
         "fear_greed": 74,
         "btc_funding": 0.0045,
@@ -5898,12 +5898,46 @@
         "predicted_phase": "Hope",
         "direction": "HOLD"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-09-04T19:31:32.964484-04:00",
+      "window_hours_actual": 3.6,
+      "partial_window": true,
+      "score_at_close": 59,
+      "realized_direction": "HOLD",
+      "direction_hit": false,
+      "score_delta": -1,
+      "grade_note": "graded on the 3.6h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-09-04T18:19:35.085786-04:00",
+      "score_at_call": 59,
+      "phase_at_call": "Disbelief",
+      "predicted_phase": "Hope",
+      "direction": "HOLD",
+      "conviction": "high",
+      "reasoning": "The current phase of 'Hope' indicates a tentative optimism, and both experts agree that maintaining a hold position is appropriate given the mixed signals and potential for market uncertainty.",
+      "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+      "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+      "signals_at_call": {
+        "fear_greed": 74,
+        "btc_funding": 0.0045,
+        "mvrv_zscore": 0.8098,
+        "net_liquidity_chg_4w": -71973.0,
+        "btc_dom": null,
+        "etf_net_total_musd": 730.87,
+        "vix": 14.53
+      },
+      "superseded_at": "2026-09-04T19:31:32.984482-04:00",
+      "superseded_by": {
+        "predicted_phase": "Hope",
+        "direction": "UP"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
     "hit": 60,
-    "total": 90,
+    "total": 91,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
