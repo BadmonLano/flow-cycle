@@ -1,170 +1,183 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "fear_greed",
-      "etf_flows",
-      "btc_dom_fade"
+      "gold_strength",
+      "vix",
+      "mvrv_zscore"
     ],
     "diverging_factors": [
-      "vix",
-      "gold_strength",
-      "dxy_weakness"
+      "btc_momentum_30d",
+      "stablecoin_growth"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
-    "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
-    "confidence": 0.75,
+    "regime_direction": "RISK_OFF",
+    "classifier_signal": "CAUTION",
+    "confidence": 0.65,
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flows (100) align with bullish momentum, suggesting a move toward Belief (phase 10) as the market consolidates greed.",
-      "confirmed_if": "etf_flows > 105 AND vix < 15",
-      "invalidated_if": "vix > 20 AND fear_greed < 65",
-      "predicted_phase_clamped_from": "Belief"
+      "reasoning": "Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bullish), but VIX remains low and BTC funding is near-zero, suggesting market uncertainty and potential for a correction.",
+      "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+      "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+      "predicted_phase_clamped_from": "Thrill",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"etf_flows\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Optimism\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Belief\",\n    \"direction\": \"UP\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flow",
+    "raw_response": "{\n  \"top_matching_factors\": [\"gold_strength\", \"vix\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Thrill\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.65,\n  \"next_move\": {\n    \"predicted_phase\": \"Thrill\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bu",
     "brain": "analyst",
-    "phase_clamped_from": "Optimism"
+    "phase_clamped_from": "Thrill"
   },
   "classifier": {
     "top_matching_factors": [
-      "fear_greed",
-      "etf_flows",
-      "btc_dom_fade"
+      "gold_strength",
+      "vix",
+      "mvrv_zscore"
     ],
     "diverging_factors": [
-      "vix",
-      "gold_strength",
-      "dxy_weakness"
+      "btc_momentum_30d",
+      "stablecoin_growth"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
-    "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
-    "confidence": 0.75,
+    "regime_direction": "RISK_OFF",
+    "classifier_signal": "CAUTION",
+    "confidence": 0.65,
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flows (100) align with bullish momentum, suggesting a move toward Belief (phase 10) as the market consolidates greed.",
-      "confirmed_if": "etf_flows > 105 AND vix < 15",
-      "invalidated_if": "vix > 20 AND fear_greed < 65",
-      "predicted_phase_clamped_from": "Belief"
+      "reasoning": "Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bullish), but VIX remains low and BTC funding is near-zero, suggesting market uncertainty and potential for a correction.",
+      "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+      "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+      "predicted_phase_clamped_from": "Thrill",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"etf_flows\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Optimism\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Belief\",\n    \"direction\": \"UP\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flow",
+    "raw_response": "{\n  \"top_matching_factors\": [\"gold_strength\", \"vix\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Thrill\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.65,\n  \"next_move\": {\n    \"predicted_phase\": \"Thrill\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bu",
     "brain": "analyst",
-    "phase_clamped_from": "Optimism"
+    "phase_clamped_from": "Thrill"
   },
   "analyst": {
     "top_matching_factors": [
-      "fear_greed",
-      "etf_flows",
-      "btc_dom_fade"
+      "gold_strength",
+      "vix",
+      "mvrv_zscore"
     ],
     "diverging_factors": [
-      "vix",
-      "gold_strength",
-      "dxy_weakness"
+      "btc_momentum_30d",
+      "stablecoin_growth"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
-    "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
-    "confidence": 0.75,
+    "regime_direction": "RISK_OFF",
+    "classifier_signal": "CAUTION",
+    "confidence": 0.65,
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flows (100) align with bullish momentum, suggesting a move toward Belief (phase 10) as the market consolidates greed.",
-      "confirmed_if": "etf_flows > 105 AND vix < 15",
-      "invalidated_if": "vix > 20 AND fear_greed < 65",
-      "predicted_phase_clamped_from": "Belief"
+      "reasoning": "Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bullish), but VIX remains low and BTC funding is near-zero, suggesting market uncertainty and potential for a correction.",
+      "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+      "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+      "predicted_phase_clamped_from": "Thrill",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"etf_flows\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Optimism\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Belief\",\n    \"direction\": \"UP\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flow",
+    "raw_response": "{\n  \"top_matching_factors\": [\"gold_strength\", \"vix\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Thrill\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.65,\n  \"next_move\": {\n    \"predicted_phase\": \"Thrill\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bu",
     "brain": "analyst",
-    "phase_clamped_from": "Optimism"
+    "phase_clamped_from": "Thrill"
   },
   "narrative": {
-    "narrative": "Investors' confidence surges as indicated by the high Fear & Greed index, reminiscent of the bullish run in March 2024, driving ETF inflows and a fading Bitcoin dominance. This optimism could fuel further gains, but a reality check suggests a pause in the upward trajectory.",
-    "headline": "Bitcoin Bulls Charge Ahead, But Momentum May Stall",
-    "confidence": 0.712,
+    "narrative": "Gold's strength and a volatile VIX are driving this market, reminiscent of March 2024's top when BTC surged despite a Risk-Off regime. Fear & Greed at 74 hints at a potential pullback.",
+    "headline": "Gold's Might Fuels Market Volatility",
+    "confidence": 0.75,
     "next_move": {
-      "outlook": "A potential consolidation phase could follow, as the market takes a breather from the recent rally.",
-      "direction": "HOLD",
-      "predicted_phase": "current",
+      "outlook": "The narrative suggests a possible correction, with BTC testing support around $75,000 before potentially resuming its uptrend.",
+      "direction": "DOWN",
+      "predicted_phase": "CONDITIONAL: IF the score moves down, it reaches -1 rung.",
       "conviction": "medium"
     },
-    "raw_response": "{\n  \"narrative\": \"Investors' confidence surges as indicated by the high Fear & Greed index, reminiscent of the bullish run in March 2024, driving ETF inflows and a fading Bitcoin dominance. This optimism could fuel further gains, but a reality check suggests a pause in the upward trajectory.\",\n  \"headline\": \"Bitcoin Bulls Charge Ahead, But Momentum May Stall\",\n  \"confidence\": 0.712,\n  \"next_move\": {\n    \"outlook\": \"A potential consolidation phase could follow, as the market takes a breather from",
+    "raw_response": "{\n  \"narrative\": \"Gold's strength and a volatile VIX are driving this market, reminiscent of March 2024's top when BTC surged despite a Risk-Off regime. Fear & Greed at 74 hints at a potential pullback.\",\n  \"headline\": \"Gold's Might Fuels Market Volatility\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"outlook\": \"The narrative suggests a possible correction, with BTC testing support around $75,000 before potentially resuming its uptrend.\",\n    \"direction\": \"DOWN\",\n    \"predicted_phase\": \"CONDITIO",
     "brain": "narrative_writer"
   },
   "consensus": {
-    "final_signal": "LONG",
+    "final_signal": "HOLD",
     "final_phase": "Hope",
     "alert_tier": "MED",
-    "consensus_confidence": 0.717,
-    "key_reasoning": "Both experts agree on a LONG signal, with the Pattern Analyst suggesting a move towards Belief phase and the Narrative Writer indicating strong investor confidence and potential for further gains.",
+    "consensus_confidence": 0.7,
+    "key_reasoning": "The Pattern Analyst's cautionary signal of 'Hope' with a risk-off stance is in line with the Narrative Writer's narrative about market volatility, suggesting a cautious approach is warranted. Both experts agree on the current phase of 'Hope', and their signals are in alignment with the current market conditions.",
     "disagreements_noted": [
       "None"
     ],
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
-      "conviction": "medium",
-      "reasoning": "The Pattern Analyst's forward call suggests a move towards Belief phase, and the Narrative Writer's narrative supports this with investor confidence and potential for further gains.",
+      "direction": "HOLD",
+      "conviction": "high",
+      "reasoning": "The current phase of 'Hope' indicates a tentative optimism, and both experts agree that maintaining a hold position is appropriate given the mixed signals and potential for market uncertainty.",
       "brains_agree": "Yes",
-      "confirmed_if": "etf_flows > 105 AND vix < 15",
-      "invalidated_if": "vix > 20 AND fear_greed < 65",
-      "predicted_phase_clamped_from": "Belief",
+      "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+      "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 63.0,
-      "confidence_basis": "1/2 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+      "confidence_basis": "1/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "```json\n{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.717,\n  \"key_reasoning\": \"Both experts agree on a LONG signal, with the Pattern Analyst suggesting a move towards Belief phase and the Narrative Writer indicating strong investor confidence and potential for further gains.\",\n  \"disagreements_noted\": [\"None\"],\n  \"next_move\": {\n    \"predicted_phase\": \"Belief\",\n    \"direction\": \"UP\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The Patte",
+    "raw_response": "```json\n{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"CRITICAL\",\n  \"consensus_confidence\": 0.7,\n  \"key_reasoning\": \"The Pattern Analyst's cautionary signal of 'Hope' with a risk-off stance is in line with the Narrative Writer's narrative about market volatility, suggesting a cautious approach is warranted. Both experts agree on the current phase of 'Hope', and their signals are in alignment with the current market conditions.\",\n  \"disagreements_noted\": [\"None\"],\n  \"next_m",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.731,
+    "brains_avg_confidence": 0.7,
     "brain_reads": {
       "analyst": {
-        "signal": "LONG",
+        "signal": "CAUTION",
         "phase": "Hope",
         "verdict": "DIVERGING",
-        "confidence": 0.75,
+        "confidence": 0.65,
         "next_move": {
           "predicted_phase": "Hope",
-          "direction": "UP",
+          "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flows (100) align with bullish momentum, suggesting a move toward Belief (phase 10) as the market consolidates greed.",
-          "confirmed_if": "etf_flows > 105 AND vix < 15",
-          "invalidated_if": "vix > 20 AND fear_greed < 65",
-          "predicted_phase_clamped_from": "Belief"
+          "reasoning": "Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bullish), but VIX remains low and BTC funding is near-zero, suggesting market uncertainty and potential for a correction.",
+          "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+          "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+          "predicted_phase_clamped_from": "Thrill",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
-        "headline": "Bitcoin Bulls Charge Ahead, But Momentum May Stall",
+        "headline": "Gold's Might Fuels Market Volatility",
         "phase": "Hope",
-        "confidence": 0.71,
+        "confidence": 0.75,
         "next_move": {
-          "outlook": "A potential consolidation phase could follow, as the market takes a breather from the recent rally.",
-          "direction": "HOLD",
-          "predicted_phase": "current",
+          "outlook": "The narrative suggests a possible correction, with BTC testing support around $75,000 before potentially resuming its uptrend.",
+          "direction": "DOWN",
+          "predicted_phase": "CONDITIONAL: IF the score moves down, it reaches -1 rung.",
           "conviction": "medium"
         }
       },
       "judge": {
-        "signal": "LONG",
+        "signal": "HOLD",
         "phase": "Hope",
-        "confidence": 0.717,
+        "confidence": 0.7,
         "next_move": {
           "predicted_phase": "Hope",
-          "direction": "UP",
-          "conviction": "medium",
-          "reasoning": "The Pattern Analyst's forward call suggests a move towards Belief phase, and the Narrative Writer's narrative supports this with investor confidence and potential for further gains.",
+          "direction": "HOLD",
+          "conviction": "high",
+          "reasoning": "The current phase of 'Hope' indicates a tentative optimism, and both experts agree that maintaining a hold position is appropriate given the mixed signals and potential for market uncertainty.",
           "brains_agree": "Yes",
-          "confirmed_if": "etf_flows > 105 AND vix < 15",
-          "invalidated_if": "vix > 20 AND fear_greed < 65",
-          "predicted_phase_clamped_from": "Belief",
+          "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+          "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 63.0,
-          "confidence_basis": "1/2 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+          "confidence_basis": "1/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
       },
       "legacy": {
@@ -180,46 +193,51 @@
   "brain_reads": {
     "analyst": {
       "phase": "Hope",
-      "confidence": 0.75,
+      "confidence": 0.65,
       "next_move": {
         "predicted_phase": "Hope",
-        "direction": "UP",
+        "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Gold_strength and dxy_weakness diverge from historical Thrill phase, but fear_greed (74) and etf_flows (100) align with bullish momentum, suggesting a move toward Belief (phase 10) as the market consolidates greed.",
-        "confirmed_if": "etf_flows > 105 AND vix < 15",
-        "invalidated_if": "vix > 20 AND fear_greed < 65",
-        "predicted_phase_clamped_from": "Belief"
+        "reasoning": "Mixed signals: gold_strength and DXY weakness (risk-off) conflict with ETF flows and mvrv_zscore (bullish), but VIX remains low and BTC funding is near-zero, suggesting market uncertainty and potential for a correction.",
+        "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+        "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+        "predicted_phase_clamped_from": "Thrill",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
-      "headline": "Bitcoin Bulls Charge Ahead, But Momentum May Stall",
-      "confidence": 0.712,
+      "headline": "Gold's Might Fuels Market Volatility",
+      "confidence": 0.75,
       "next_move": {
-        "outlook": "A potential consolidation phase could follow, as the market takes a breather from the recent rally.",
-        "direction": "HOLD",
-        "predicted_phase": "current",
+        "outlook": "The narrative suggests a possible correction, with BTC testing support around $75,000 before potentially resuming its uptrend.",
+        "direction": "DOWN",
+        "predicted_phase": "CONDITIONAL: IF the score moves down, it reaches -1 rung.",
         "conviction": "medium"
       }
     },
     "judge": {
-      "signal": "LONG",
-      "confidence": 0.717,
+      "signal": "HOLD",
+      "confidence": 0.7,
       "next_move": {
         "predicted_phase": "Hope",
-        "direction": "UP",
-        "conviction": "medium",
-        "reasoning": "The Pattern Analyst's forward call suggests a move towards Belief phase, and the Narrative Writer's narrative supports this with investor confidence and potential for further gains.",
+        "direction": "HOLD",
+        "conviction": "high",
+        "reasoning": "The current phase of 'Hope' indicates a tentative optimism, and both experts agree that maintaining a hold position is appropriate given the mixed signals and potential for market uncertainty.",
         "brains_agree": "Yes",
-        "confirmed_if": "etf_flows > 105 AND vix < 15",
-        "invalidated_if": "vix > 20 AND fear_greed < 65",
-        "predicted_phase_clamped_from": "Belief",
+        "confirmed_if": "ETF_flows surge above 100 and VIX drops below 12",
+        "invalidated_if": "VIX spikes above 20 and BTC funding turns negative",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 63.0,
-        "confidence_basis": "1/2 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+        "confidence_basis": "1/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-09-04T17:00:14.275874-04:00",
+  "timestamp": "2026-09-04T18:12:03.272018-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
