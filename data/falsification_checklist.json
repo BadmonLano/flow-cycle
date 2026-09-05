@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-09-05T14:09:23.753625-04:00",
+  "updated_at": "2026-09-05T15:19:59.813435-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The blowoff score drops below 40",
-      "what_it_would_mean": "A blowoff score below 40 would indicate reduced market pressure, contradicting the current HOLD signal and suggesting the pattern is no longer valid."
+      "condition": "The blowoff score increases to 85 or higher within 14 days",
+      "what_it_would_mean": "A blowoff score exceeding 85 would indicate extreme market momentum, invalidating the 'UNKNOWN' verdict by confirming a clear trend phase (e.g., blowoff top/bottom)."
     },
     {
       "id": 2,
-      "condition": "The pattern similarity to top_2024_mar_etf falls below 50%",
-      "what_it_would_mean": "A drop in similarity below 50% would invalidate the basis of the current verdict, as the pattern would no longer align with the reference ETF."
+      "condition": "The ETF's price closes below the 200-day moving average by 5% or more",
+      "what_it_would_mean": "This would break the pattern similarity to top_2024_mar_etf (which likely reflects a bullish trend), invalidating the 'HOLD' signal by confirming a bearish reversal."
     },
     {
       "id": 3,
-      "condition": "A 10%+ price increase or decrease occurs within 14 days",
-      "what_it_would_mean": "A significant price move would indicate a clear trend (bullish or bearish), directly contradicting the HOLD signal and UNKNOWN phase."
+      "condition": "Volume spikes to 200% above the 30-day average on a single day",
+      "what_it_would_mean": "Such a spike would indicate a clear market event (e.g., panic selling or buying), falsifying the 'UNKNOWN' phase by confirming a definitive market direction."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
