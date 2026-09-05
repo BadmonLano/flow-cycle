@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-09-05T15:19:59.813435-04:00",
+  "updated_at": "2026-09-05T16:31:33.052721-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The blowoff score increases to 85 or higher within 14 days",
-      "what_it_would_mean": "A blowoff score exceeding 85 would indicate extreme market momentum, invalidating the 'UNKNOWN' verdict by confirming a clear trend phase (e.g., blowoff top/bottom)."
+      "condition": "The blowoff score drops below 40 within 14 days",
+      "what_it_would_mean": "A significant decline in blowoff momentum would invalidate the current HOLD signal by indicating a loss of upward pressure"
     },
     {
       "id": 2,
-      "condition": "The ETF's price closes below the 200-day moving average by 5% or more",
-      "what_it_would_mean": "This would break the pattern similarity to top_2024_mar_etf (which likely reflects a bullish trend), invalidating the 'HOLD' signal by confirming a bearish reversal."
+      "condition": "The ETF's price deviates by >15% from the top_2024_mar_etf pattern's projected trajectory",
+      "what_it_would_mean": "A material divergence from the reference pattern would falsify the 72% similarity claim and undermine the UNKNOWN verdict"
     },
     {
       "id": 3,
-      "condition": "Volume spikes to 200% above the 30-day average on a single day",
-      "what_it_would_mean": "Such a spike would indicate a clear market event (e.g., panic selling or buying), falsifying the 'UNKNOWN' phase by confirming a definitive market direction."
+      "condition": "A confirmed breakout above the 200-day moving average with >20% volume surge",
+      "what_it_would_mean": "This would indicate a clear trend reversal contradicting the HOLD signal and proving the pattern analysis incomplete"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
