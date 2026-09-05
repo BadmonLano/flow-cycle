@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-09-04T21:17:55.212928-04:00",
+  "updated_at": "2026-09-04T22:30:47.421746-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The ETF's price increases by more than 10% over the next 14 days",
-      "what_it_would_mean": "A significant upward trend would contradict the HOLD signal and suggest the UNKNOWN verdict is incorrect, as the pattern would indicate a clear bullish move rather than uncertainty."
+      "condition": "The blowoff score drops below 30 within 14 days",
+      "what_it_would_mean": "A significant decrease in blowoff score indicates loss of momentum, invalidating the HOLD signal by showing no extreme market movement"
     },
     {
       "id": 2,
-      "condition": "Trading volume spikes to 50% above the 30-day average within 14 days",
-      "what_it_would_mean": "A sharp increase in volume would indicate strong market participation, invalidating the HOLD signal by showing a clear directional bias contrary to the current UNKNOWN verdict."
+      "condition": "The ETF's price closes above $350 (20% above its 2024 Mar ETF price)",
+      "what_it_would_mean": "A sustained price increase beyond this threshold would contradict the pattern match and suggest a bullish trend, disproving the UNKNOWN verdict"
     },
     {
       "id": 3,
-      "condition": "The blowoff score decreases to below 40 within 14 days",
-      "what_it_would_mean": "A drop in the blowoff score would suggest the market is no longer approaching a blowoff top, directly contradicting the current UNKNOWN verdict and proving the HOLD signal is unfounded."
+      "condition": "The VIX index spikes above 35 for 3 consecutive days",
+      "what_it_would_mean": "A sharp rise in volatility would indicate market panic or extreme uncertainty, directly contradicting the HOLD signal's implication of stability"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
