@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-09-05T04:33:09.414964-04:00",
+  "updated_at": "2026-09-05T05:45:28.681326-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The top_2024_mar_etf's price increases by more than 10% over the next 14 days",
-      "what_it_would_mean": "A significant upward move in the ETF would contradict the current HOLD signal, indicating the pattern is not a blowoff but a continuation, invalidating the UNKNOWN verdict."
+      "condition": "The blowoff score decreases below 40 within 14 days",
+      "what_it_would_mean": "A significant drop in blowoff score would indicate loss of momentum, contradicting the current HOLD signal and invalidating the UNKNOWN verdict."
     },
     {
       "id": 2,
-      "condition": "The blowoff score increases beyond 80",
-      "what_it_would_mean": "A blowoff score exceeding 80 would indicate a confirmed blowoff top is imminent, directly contradicting the current HOLD signal and proving the UNKNOWN verdict incorrect."
+      "condition": "The top_2024_mar_etf price declines by more than 5% from current levels within 14 days",
+      "what_it_would_mean": "A sharp price drop in the reference ETF would directly contradict the pattern match assumption, proving the current call incorrect."
     },
     {
       "id": 3,
-      "condition": "The CBOE VIX drops below 15",
-      "what_it_would_mean": "A VIX below 15 would signal extreme market complacency and low volatility, contradicting the pattern's implied high-volatility blowoff scenario and invalidating the current analysis."
+      "condition": "The VIX volatility index spikes above 30 for 3 consecutive trading days",
+      "what_it_would_mean": "Sustained extreme volatility would invalidate the current HOLD signal by indicating a market phase shift not accounted for in the UNKNOWN verdict."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
