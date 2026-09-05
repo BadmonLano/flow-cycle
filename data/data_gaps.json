@@ -1,20 +1,14 @@
 {
-  "updated_at": "2026-09-05T05:44:58.823296-04:00",
+  "updated_at": "2026-09-05T06:54:56.127710-04:00",
   "doctrine": "Suspected invariants we don't have data sources for yet. Each one is a possible blind spot in the discovery engine. REALITY-CHECKED each sweep against live data \u2014 a factor that IS being fetched/computed will not be listed here, so this list can't go stale and send you chasing data you already have.",
-  "unknown_factors": [
-    {
-      "name": "options_skew",
-      "description": "BTC options put/call skew - institutional hedging behavior. Positive skew = downside protection bid over upside. WIRED 2026-08-07. The old note here said there was no free US-legal source because Deribit is US-banned; that ban is on TRADING, and Deribit's PUBLIC market-data endpoints answer fine from a US IP (verified: 834 BTC options with mark_iv, plus 30d hourly DVOL). METHOD CAVEAT: proper 25-delta skew needs greeks the book summary does not carry, so this is a MONEYNESS PROXY - nearest strikes to +-10% of spot on the nearest forward expiry with open interest. It tracks the same thing but is not the exact 25d convention a desk would quote.",
-      "data_source_needed": "Deribit public get_book_summary_by_currency + get_volatility_index_data - WIRED 2026-08-07, free and keyless. If this row is showing, that fetch is failing.",
-      "priority": "LOW"
-    }
-  ],
-  "count": 1,
+  "unknown_factors": [],
+  "count": 0,
   "resolved_now_live": [
     "retail_noise",
     "long_short_ratio",
     "cvd_btc",
     "exchange_reserves",
+    "options_skew",
     "realized_vol_7d_30d",
     "copper_gold_ratio",
     "kalshi_poly_implied_probs"
@@ -24,5 +18,5 @@
   "gap_states_note": "THREE states, not two: FILLED (a real value was measured this sweep), WIRED_BUT_DRY (the pipe exists and returned nothing - still a gap), MISSING (no integration at all). The old test was `is not None`, which let an empty list or a zero close its own gap - kalshi markets [] and a dry x_noise both did exactly that.",
   "live_but_not_in_fingerprints": [],
   "live_but_not_in_fingerprints_note": "measured every sweep, present on NO historical fingerprint. The invariant detector iterates fingerprint keys, so these can never become confirmed invariants however live they are. Closing their gap was half the job; backfilling them onto the fingerprints is the other half.",
-  "_note": "7 previously-listed gap(s) are now LIVE and filtered out: retail_noise, long_short_ratio, cvd_btc, exchange_reserves, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
+  "_note": "8 previously-listed gap(s) are now LIVE and filtered out: retail_noise, long_short_ratio, cvd_btc, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
 }
