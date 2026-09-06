@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-09-06T02:14:05.020999-04:00",
+  "_updated": "2026-09-06T03:26:30.398672-04:00",
   "calls": {
     "BTC": {
       "direction": "SHORT",
@@ -52,8 +52,8 @@
         ]
       },
       "opened_at": "2026-09-05T22:37:19.294825-04:00",
-      "age_hours": 3.61,
-      "hours_left": 7.17,
+      "age_hours": 4.82,
+      "hours_left": 5.96,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
@@ -108,36 +108,36 @@
         ]
       },
       "opened_at": "2026-09-05T22:37:19.294825-04:00",
-      "age_hours": 3.61,
-      "hours_left": 7.17,
+      "age_hours": 4.82,
+      "hours_left": 5.96,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "SOL": {
-      "direction": "LONG",
-      "entry": 101.95,
-      "tp": null,
-      "sl": 99.87,
+      "direction": "SHORT",
+      "entry": 106.28,
+      "tp": 105.0,
+      "sl": 107.8,
       "horizon": "12h",
       "horizon_hours": 12,
-      "note": "sol is the live gun. 99.87 is the named stop. FLAT would lie about an empty book.",
+      "note": "one-chain. down_micro rides sol. leftover long from the 08:26 up_micro window is dead. FLAT would lie about the lean.",
       "source": "jordan",
-      "opened_at": "2026-09-05T09:18:34.663021-04:00",
+      "opened_at": "2026-09-06T03:26:30.398672-04:00",
       "mechanical_confluence": {
         "direction": "FLAT",
         "conviction": "low",
         "score": 1.24,
         "votes": [
-          "SOL 200wk 0.971x AT FLOOR \u2192 long",
+          "SOL 200wk 0.96x AT FLOOR \u2192 long",
           "bottom still ahead (HUNTING_BOTTOM, conf 0.72) \u2192 short",
           "pi cycle far from top \u2192 room to run long",
           "projection +0.9% \u2192 flat"
         ]
       },
       "probe_locked": true,
-      "probe_age_hours": 16.9,
-      "probe_agrees_with_live_stance": false,
-      "probe_note": "explicit override, frozen 16.9h - a probe outlives the 12h stance on purpose. Your live stance is now SHORT - this probe disagrees and is riding on its own."
+      "probe_age_hours": 0.0,
+      "probe_agrees_with_live_stance": true,
+      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. Still agrees with your live stance."
     }
   },
   "perps_contract": {
@@ -159,12 +159,11 @@
       "ETH": [
         "levels_stale - direction flipped without a level rebuild",
         "no TP/SL on the row"
-      ],
-      "SOL": [
-        "no TP/SL on the row"
       ]
     },
-    "safe_to_size": [],
+    "safe_to_size": [
+      "SOL"
+    ],
     "_rule": "Size only from a call that is locked, directional, carries both levels, and has hours_left > 0. A row existing is not a call being tradeable - awaiting_jordan and FLAT are honest states that must never be sized."
   }
 }
