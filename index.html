@@ -5065,9 +5065,25 @@ async function fetchTrackRecord() {
           const slotEndTxt = (ccCd && ccCd.hours_left != null) ? ` · ${ccCd.hours_left}h left in last window` : '';
           if (live && live.direction && !isCarried) {
             // FRESH STAMP — the only state that is genuinely LIVE.
-            // Sprint 66: LIVE-ticking countdown from window_start + 12h, not the frozen
-            // stored hours_left. data attrs drive tickCallCycleCountdowns() every minute.
-            const cdAttr = live.window_start_iso ? `data-cc-opened="${live.window_start_iso}" data-cc-horizon-h="12"` : '';
+            // Countdown ticks against the call's own window end (next_boundary_iso),
+            // not a hardcoded stamp+12h. A spent-bullet restamp inherits the remainder
+            // (window_hours / decision_clock.end). Hardcoding 12h here painted a fresh
+            // 12h clock over a leftover window. Frozen hours_left stays unused. we tick live.
+            const _ccEnd = live.next_boundary_iso
+              || (ccCd && ccCd.next_boundary_iso)
+              || (live.decision_clock && live.decision_clock.end)
+              || null;
+            const _ccOpened = live.window_start_iso || null;
+            const _ccHorizon = (live.window_hours != null && isFinite(Number(live.window_hours)))
+              ? Number(live.window_hours)
+              : 12;
+            let cdAttr = '';
+            if (_ccEnd) {
+              cdAttr = `data-cc-expires="${_ccEnd}"`;
+              if (_ccOpened) cdAttr += ` data-cc-opened="${_ccOpened}"`;
+            } else if (_ccOpened) {
+              cdAttr = `data-cc-opened="${_ccOpened}" data-cc-horizon-h="${_ccHorizon}"`;
+            }
             pendingHtml = `
               <div style="display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(79,158,255,0.25); font-size:0.8em; background:rgba(79,158,255,0.06); border-radius:6px; padding-left:8px; margin-bottom:4px;">
                 <span style="color:#4f9eff; min-width:48px; font-weight:700;">LIVE</span>
@@ -6691,18 +6707,22 @@ function tickCoinCallCountdowns() {
   }
 }
 
-// Sprint 66: LIVE countdown for the 12h call-cycle window (and any .cc-countdown element).
-// Fixes the frozen "12h left" bug — computes remaining time from window_start + horizon on
-// every tick, not from a stored value that only refreshed on sweep.
+// LIVE countdown for the call-cycle window (and any .cc-countdown element).
+// Prefer data-cc-expires (next_boundary_iso). Fall back to opened + horizon.
+// A revision restamp must NOT get a fresh 12h. Tick against serverNow().
 let _ccTicker = null;
 function tickCallCycleCountdowns() {
-  const els = document.querySelectorAll('.cc-countdown[data-cc-opened]');
-  const now = Date.now();
+  const els = document.querySelectorAll('.cc-countdown[data-cc-opened], .cc-countdown[data-cc-expires]');
+  const now = (typeof serverNow === 'function') ? serverNow() : Date.now();
   els.forEach(el => {
-    const opened = Date.parse(el.getAttribute('data-cc-opened'));
-    const horizonH = parseFloat(el.getAttribute('data-cc-horizon-h')) || 12;
-    if (!opened) { el.textContent = 'pending'; return; }
-    const expires = opened + horizonH * 3600 * 1000;
+    const expiresAttr = el.getAttribute('data-cc-expires');
+    let expires = expiresAttr ? Date.parse(expiresAttr) : NaN;
+    if (!expires) {
+      const opened = Date.parse(el.getAttribute('data-cc-opened'));
+      const horizonH = parseFloat(el.getAttribute('data-cc-horizon-h')) || 12;
+      if (!opened) { el.textContent = 'pending'; return; }
+      expires = opened + horizonH * 3600 * 1000;
+    }
     let remMs = expires - now;
     if (remMs <= 0) {
       el.textContent = 'grading now';
