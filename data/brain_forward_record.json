@@ -1,23 +1,23 @@
 {
-  "_updated": "2026-09-07T23:36:52.893774-04:00",
+  "_updated": "2026-09-08T00:50:22.288923-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-09-07T23:36:52.913809-04:00",
-      "score_at_call": 59,
+      "made_at": "2026-09-08T00:50:22.309924-04:00",
+      "score_at_call": 60,
       "phase_at_call": "Disbelief",
       "predicted_phase": "Hope",
-      "direction": "HOLD",
-      "conviction": "high",
-      "reasoning": "The mixed signals suggest a consolidation phase, and both experts agree on holding the position. The base rate of market movement supports a HOLD call.",
-      "confirmed_if": "BTC price remains above $70,000 with ETF flows above 75",
-      "invalidated_if": "BTC price drops below $70,000 with VIX above 25",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "The strong retail participation and long-term support suggest upward momentum, aligning with the cautious optimism from the narrative.",
+      "confirmed_if": "Fear & Greed index crosses 70 with ETF flows above 75",
+      "invalidated_if": "VIX spikes above 20 with BTC funding turning negative",
       "signals_at_call": {
         "fear_greed": 69,
         "btc_funding": 0.0022,
         "mvrv_zscore": 0.8969,
         "net_liquidity_chg_4w": -71973.0,
-        "btc_dom": 59.10466048073191,
+        "btc_dom": 59.039554889988445,
         "etf_net_total_musd": 174.6,
         "vix": 15.3
       }
@@ -6276,12 +6276,46 @@
         "predicted_phase": "Hope",
         "direction": "HOLD"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-09-08T00:50:22.287921-04:00",
+      "window_hours_actual": 6.01,
+      "partial_window": true,
+      "score_at_close": 60,
+      "realized_direction": "HOLD",
+      "direction_hit": false,
+      "score_delta": 0,
+      "grade_note": "graded on the 6.01h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-09-07T23:36:52.913809-04:00",
+      "score_at_call": 59,
+      "phase_at_call": "Disbelief",
+      "predicted_phase": "Hope",
+      "direction": "HOLD",
+      "conviction": "high",
+      "reasoning": "The mixed signals suggest a consolidation phase, and both experts agree on holding the position. The base rate of market movement supports a HOLD call.",
+      "confirmed_if": "BTC price remains above $70,000 with ETF flows above 75",
+      "invalidated_if": "BTC price drops below $70,000 with VIX above 25",
+      "signals_at_call": {
+        "fear_greed": 69,
+        "btc_funding": 0.0022,
+        "mvrv_zscore": 0.8969,
+        "net_liquidity_chg_4w": -71973.0,
+        "btc_dom": 59.10466048073191,
+        "etf_net_total_musd": 174.6,
+        "vix": 15.3
+      },
+      "superseded_at": "2026-09-08T00:50:22.309924-04:00",
+      "superseded_by": {
+        "predicted_phase": "Hope",
+        "direction": "UP"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
     "hit": 64,
-    "total": 97,
+    "total": 98,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
