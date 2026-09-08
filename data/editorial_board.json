@@ -1,282 +1,308 @@
 {
-  "_updated": "2026-09-07T21:11:23.900489-04:00",
+  "_updated": "2026-09-07T22:21:28.403203-04:00",
   "board": {
     "phase": {
       "analyst": {
-        "opinion": "Denial",
-        "why": "Score 42 falls within Denial's 32-38 band; trend is unspecified but phase is anchored to score."
+        "opinion": "Anxiety",
+        "why": "Score=44 falls within Anxiety's 39-46 band; trend is undefined but phase is anchored to score."
       },
       "narrative": {
         "opinion": "Anxiety",
-        "why": "Score 42 lands in Anxiety band (39-46)."
+        "why": "Score 44 sits in Anxiety band (39-46)."
       },
       "judge": {
-        "opinion": "Anxiety",
-        "why": "Score 42 places us in the Anxiety phase, reflecting nervousness and uncertainty in the market."
+        "opinion": "Panic",
+        "why": "Score of 44 places us in the Panic phase, with sharp fear-driven selling evident in the market's behavior."
       }
     },
     "next_phase": {
       "analyst": {
-        "opinion": "Anxiety",
-        "why": "Score 42 is at upper edge of Denial; next phase likely moves up one rung to Anxiety (39-46) as cycle recovers."
+        "opinion": "Complacency",
+        "why": "Score=44 is near Anxiety's upper bound; next_phase can only be \u00b11 rung (Anxiety\u2192Complacency)."
       },
       "narrative": {
         "opinion": "Disbelief",
-        "why": "Anxiety typically transitions to Disbelief as hope starts to return."
+        "why": "Mixed evidence but this is the best read given current data."
       },
       "judge": {
-        "opinion": "Complacency",
-        "why": "The Anxiety phase is likely to transition into Complacency as market participants become more calm and less convinced of a significant trend."
+        "opinion": "Denial",
+        "why": "The next phase is likely Denial, as investors may start to believe the market will bounce back after a period of panic."
       }
     },
     "next_phase_conviction": {
       "analyst": {
         "opinion": "medium",
-        "why": "Score proximity to Anxiety band and historical bottom analog suggest cautious optimism, but trend ambiguity limits conviction."
+        "why": "Score proximity to Complacency (47-54) and historical bottom analog suggest potential upward drift."
       },
       "narrative": "medium",
       "judge": {
         "opinion": "medium",
-        "why": "The evidence is mixed, but the market's current behavior suggests a shift towards complacency."
+        "why": "While the trend is downwards, the market's reaction to panic selling might lead to a brief period of denial before the next phase."
       }
     },
     "leverage_bias": {
       "analyst": {
         "opinion": "NEUTRAL",
-        "why": "Denial phase implies ongoing downtrend, but best_match bottom analog hints at potential reversal; no clear directional bias."
+        "why": "Anxiety phase (uncertainty) and flat trend signal no clear directional bias."
       },
       "narrative": "NEUTRAL",
       "judge": {
-        "opinion": "NEUTRAL",
-        "why": "The current phase does not justify a strong directional bias, suggesting a neutral stance."
+        "opinion": "BEAR",
+        "why": "The current panic phase suggests a bearish trend, and the data points to a downward momentum."
       }
     },
     "news_read": {
       "analyst": {
         "opinion": "awaiting",
-        "why": "No news catalysts explicitly linked to current score or phase in provided data."
+        "why": "No news catalysts provided in external signals."
       },
       "narrative": [
         {
-          "headline": "ETF inflows turn positive",
+          "headline": "ETF inflows hit 3-week high",
           "effect": "Bid returning, flow ticked up"
         }
       ],
       "judge": {
         "opinion": [
           {
-            "headline": "BTC price drops below $79,000",
-            "effect": "Market sentiment turns bearish."
+            "headline": "BTC price drops sharply",
+            "effect": "market sentiment turns negative"
           },
           {
-            "headline": "Institutional investors pull back",
-            "effect": "Reduced demand for BTC."
-          },
-          {
-            "headline": "Global economic uncertainty rises",
-            "effect": "Market volatility increases."
+            "headline": "Institutional investors pull out",
+            "effect": "further downward pressure on prices"
           }
         ],
-        "why": "These news items collectively indicate bearish sentiment and economic uncertainty, which are significant market drivers."
+        "why": "These news items reflect the panic phase, with investors reacting negatively to market movements."
       }
     },
     "daily_call": {
       "analyst": {
         "opinion": "FLAT",
-        "why": "Denial phase suggests chop, but historical bottom analog may hint at micro-upside; no strong directional signal."
+        "why": "Anxiety phase (chop) and no clear trend; market is range-bound."
       },
-      "narrative": "UP_MICRO",
+      "narrative": "FLAT",
       "judge": {
-        "opinion": "FLAT",
-        "why": "The current market dynamics suggest a lack of strong directional movement, indicating a flat day."
+        "opinion": "DOWN",
+        "why": "The downward momentum in the market indicates a bearish trend for the day."
       }
     },
     "winning_line": {
       "analyst": {
         "opinion": "bottom_2024_aug",
-        "why": "Best_match similarity (0.7434) aligns with current score and phase, suggesting historical pattern dominance."
+        "why": "Best_match=bottom_2024_aug (0.7339) aligns with current score and phase."
       },
-      "narrative": "My line",
+      "narrative": {
+        "opinion": "My line",
+        "why": "Weighting fear and ETF flows over slow rates in this panic."
+      },
       "judge": {
         "opinion": "BTC",
-        "why": "The current trend in BTC is the most significant indicator of market direction."
+        "why": "The current panic phase is affecting BTC the most, with a sharp drop in price."
       }
     },
     "horse_race_read": {
       "analyst": {
-        "opinion": "My line's ahead because the Aug 2024 bottom analog and Denial phase suggest a turning point, but trend ambiguity keeps conviction moderate.",
-        "why": "Historical pattern and phase alignment drive the read, but lack of clear trend limits confidence."
+        "opinion": "My line's ahead because the historical bottom analog suggests a potential recovery, but current phase (Anxiety) indicates lingering uncertainty.",
+        "why": "Bottom analog implies eventual upward drift, but phase score (44) shows chop."
       },
-      "narrative": "My line's ahead because it's weighting fear and ETF flows over slow rates in this panic.",
+      "narrative": null,
       "judge": {
-        "opinion": "BTC's downward trend is winning due to bearish sentiment and economic uncertainty, outweighing any potential bullish factors.",
-        "why": "The market is currently bearish, with BTC leading the downward trend."
+        "opinion": "BTC is leading the downward trend due to panic selling and institutional pullout, signaling a bearish market sentiment."
       }
     },
     "reset_euphoria": {
       "analyst": {
         "opinion": "hold",
-        "why": "No confirmed top; score and phase suggest ongoing downtrend, not euphoria."
+        "why": "Score=44 is far from Euphoria (93-100); no evidence of a confirmed top."
       },
       "narrative": "hold",
       "judge": {
         "opinion": "hold",
-        "why": "The market has not yet reached a clear top, and euphoria has not been confirmed."
+        "why": "The market is not yet at the top, and euphoria has not been reached."
       }
     },
     "pattern_match": {
       "analyst": {
         "opinion": "bottom_2024_aug",
-        "why": "Best_match explicitly identifies this pattern with high similarity (0.7434)."
+        "why": "Best_match explicitly states this pattern."
       },
-      "narrative": "Bottom_2024_aug (0.7434)",
+      "narrative": "Aug 2024 bottom",
       "judge": {
         "opinion": "bottom_2024_aug",
-        "why": "The current market setup is similar to the bottom pattern observed in August 2024."
+        "why": "The current market behavior matches the historical pattern of the bottom in August 2024."
       }
     },
     "the_read": {
       "analyst": {
-        "opinion": "FLAT",
-        "why": "Denial phase and historical bottom analog suggest chop, but potential for micro-upside if Anxiety phase confirms."
+        "opinion": "Anxiety phase with potential upward drift toward Complacency.",
+        "why": "Score=44 in Anxiety, best_match suggests recovery trajectory."
       },
-      "narrative": "We're in Anxiety, likely transitioning to Disbelief. Expect a micro move up today.",
+      "narrative": null,
       "judge": {
-        "opinion": "The market is currently in an Anxiety phase, with a potential shift towards Complacency. The dominant trend is bearish, with BTC leading the downward movement.",
-        "why": "The current market dynamics suggest a bearish trend with a potential shift in sentiment towards complacency."
+        "opinion": "The market is in a panic phase, with a strong downward trend. Investors are showing signs of denial, but the next phase is likely to be a shift towards acceptance of the downward trend."
       }
     },
     "voice": {
       "analyst": {
-        "opinion": "We're in Denial, but the Aug 2024 bottom analog whispers a potential turn; stay cautious but watch for Anxiety signs.",
-        "why": "Phase and pattern suggest a turning point, but no clear trend yet."
+        "opinion": "Market is in choppy Anxiety phase, but historical analog hints at eventual recovery.",
+        "why": "Score and pattern match indicate uncertainty but potential for upward move."
       },
-      "narrative": "Markets are nervous but not yet convinced. A bottom analog is forming, but we need more confirmation.",
-      "judge": "The market is showing signs of nervousness and uncertainty, with a bearish trend emerging. However, the shift towards complacency is a possibility, indicating a potential change in market sentiment."
+      "narrative": null,
+      "judge": "The market is currently experiencing a panic phase, with sharp selling driven by fear. Investors are showing signs of denial, but the trend is downward, and the next phase is likely to be a shift towards acceptance of this trend."
     },
     "cliff_proximity": {
       "analyst": {
         "opinion": "low",
-        "why": "Denial phase is early in the cycle; no structural signs of a cliff."
+        "why": "Score=44 is far from Euphoria (93-100); no cliff signals."
       },
-      "narrative": "Medium",
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": "medium",
+        "why": "The market is not at the cliff yet, but the downward trend is evident, indicating a potential for a significant drop if the trend continues."
+      }
     },
     "cycle_position": {
       "analyst": {
-        "opinion": "Denial",
-        "why": "Score 42 sits in Denial's 32-38 band, confirming current position."
+        "opinion": "Anxiety (phase 5)",
+        "why": "Score=44 maps to Anxiety; cycle is in early recovery."
       },
-      "narrative": "Mid-cycle",
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": "Panic",
+        "why": "The current score and market behavior place us in the Panic phase of the 13-phase flow cycle."
+      }
     },
     "surprise_index": {
       "analyst": {
-        "opinion": "30",
-        "why": "Score within expected Denial range; no major surprises."
+        "opinion": "25",
+        "why": "Score=44 is within expected Anxiety range; no major surprises."
       },
-      "narrative": 50,
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": "high",
+        "why": "The sharp drop in BTC price and the pullout by institutional investors are surprising and indicate a high level of panic in the market."
+      }
     },
     "invariants_firing": {
       "analyst": {
-        "opinion": "score_in_phase_band",
-        "why": "Score 42 is firmly within Denial's band, confirming phase validity."
+        "opinion": "none",
+        "why": "No invariants explicitly triggered in data."
       },
-      "narrative": [
-        "ETF flows"
-      ],
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": [
+          "panic selling",
+          "institutional pullout"
+        ],
+        "why": "These are the key invariants currently driving the market's behavior."
+      }
     },
     "falsification": {
       "analyst": {
-        "opinion": "Score moves below 32 or above 46",
-        "why": "Would indicate phase shift to Panic or Anxiety, invalidating current Denial read."
+        "opinion": "Score jumps above 46 without upward trend",
+        "why": "Would invalidate Complacency as next_phase."
       },
-      "narrative": "ETF inflows reverse and turn negative again",
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": "A significant reversal in the market trend, with a strong upward move indicating a shift out of panic and into a different phase.",
+        "why": "If the market were to reverse significantly, it would indicate that the panic phase has ended and a different phase is beginning."
+      }
     },
     "confirmation": {
       "analyst": {
-        "opinion": "Score enters Anxiety (39-46) and trend reverses upward",
-        "why": "Confirms next-phase move to Anxiety and validates historical bottom analog."
+        "opinion": "Score moves into Complacency (47-54) with upward drift",
+        "why": "Confirms next_phase=Complacency and bullish bias."
       },
-      "narrative": "ETF inflows stay positive for 3 more days and BTC holds the 200wk floor",
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": "A sustained downward trend in BTC price and continued institutional pullout would confirm the current call.",
+        "why": "These are the signals we are watching to confirm the current call."
+      }
     },
     "market_drivers": {
-      "analyst": [
-        {
-          "driver": "historical_bottom_analog",
-          "effect": "influencing sentiment toward potential reversal"
-        },
-        {
-          "driver": "score_phase_alignment",
-          "effect": "anchoring cycle position to Denial"
-        }
-      ],
-      "narrative": [
-        {
-          "driver": "ETF inflows",
-          "effect": "Institutional bid returning, floor firming"
-        }
-      ],
-      "judge": null
+      "analyst": {
+        "opinion": "[{\"driver\":\"Historical bottom analog\",\"effect\":\"Suggests eventual recovery\"},{\"driver\":\"Anxiety phase\",\"effect\":\"Uncertainty suppresses direction\"}]",
+        "why": "Bottom analog implies accumulation; Anxiety phase shows chop."
+      },
+      "narrative": null,
+      "judge": {
+        "opinion": [
+          {
+            "driver": "panic selling",
+            "effect": "sharp downward price movement"
+          },
+          {
+            "driver": "institutional pullout",
+            "effect": "additional downward pressure on prices"
+          }
+        ],
+        "why": "These are the two main forces currently driving the market downward."
+      }
     },
     "detections": {
       "analyst": {
-        "opinion": "Score in Denial band and best_match bottom_2024_aug are key signals",
-        "why": "These confirm phase and suggest potential turning point."
+        "opinion": "Score=44 in Anxiety phase, best_match=bottom_2024_aug",
+        "why": "System flags score-phase alignment and historical pattern match."
       },
-      "narrative": "ETF inflows turning positive is the key driver right now.",
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": [
+          "panic selling",
+          "institutional pullout"
+        ],
+        "why": "These are the key detections that the engine has flagged as significant."
+      }
     },
     "data_gaps": {
       "analyst": {
-        "opinion": "Trend data missing",
-        "why": "Unclear whether score is in a downtrend or stabilization phase."
+        "opinion": "none",
+        "why": "No critical data gaps identified."
       },
-      "narrative": "Lack of conviction in the current rally",
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": "None",
+        "why": "The current data is sufficient to make an informed call."
+      }
     },
     "exit_priority_signal": {
       "analyst": {
-        "opinion": "Score crossing 46",
-        "why": "Would confirm shift to Anxiety and trigger next-phase call."
+        "opinion": "Score moves below 39 (Anxiety\u2192Denial)",
+        "why": "Would signal increased bearishness."
       },
-      "narrative": "ETF inflows",
-      "judge": null
+      "narrative": null,
+      "judge": {
+        "opinion": "institutional pullout",
+        "why": "This is the signal we are prioritizing for an exit as it indicates a significant shift in market sentiment."
+      }
     },
     "btc_call": {
       "analyst": {
-        "opinion": {
-          "direction": "FLAT",
-          "entry": "79272",
-          "tp": "79500",
-          "sl": "79000",
-          "horizon": "1d"
-        },
-        "why": "Denial phase suggests chop; flat with tight micro levels as potential move to Anxiety is watched."
+        "opinion": "{\"direction\":\"FLAT\",\"entry\":79327.285,\"take_profit\":79500,\"stop_loss\":79100,\"horizon\":\"1d\"}",
+        "why": "Anxiety phase (chop) and no clear trend; tight range with flat bias."
       },
       "narrative": {
-        "direction": "LONG",
-        "entry": 79272.405,
-        "TP": 80000,
-        "SL": 78500,
+        "direction": "FLAT",
+        "entry": "",
+        "TP": "",
+        "SL": "",
         "horizon": "1d"
       },
-      "judge": null
+      "judge": {
+        "opinion": {
+          "direction": "SHORT",
+          "entry": 80000,
+          "TP": 78000,
+          "SL": 82000,
+          "horizon": "1hr"
+        },
+        "why": "The current panic phase suggests a short-term bearish trend for BTC."
+      }
     },
     "eth_call": {
       "analyst": {
-        "opinion": {
-          "direction": "FLAT",
-          "entry": "3500",
-          "tp": "3550",
-          "sl": "3450",
-          "horizon": "1d"
-        },
-        "why": "Same logic as BTC; no strong directional signal in Denial phase."
+        "opinion": "{\"direction\":\"FLAT\",\"entry\":3000,\"take_profit\":3020,\"stop_loss\":2980,\"horizon\":\"1d\"}",
+        "why": "Same chop as BTC; no clear directional signal."
       },
       "narrative": {
         "direction": "FLAT",
@@ -285,18 +311,21 @@
         "SL": "",
         "horizon": "1d"
       },
-      "judge": null
+      "judge": {
+        "opinion": {
+          "direction": "FLAT",
+          "entry": 2000,
+          "TP": 2000,
+          "SL": 2100,
+          "horizon": "1hr"
+        },
+        "why": "The market is in a state of panic, and a flat call is appropriate for ETH due to the uncertainty."
+      }
     },
     "sol_call": {
       "analyst": {
-        "opinion": {
-          "direction": "FLAT",
-          "entry": "150",
-          "tp": "155",
-          "sl": "145",
-          "horizon": "1d"
-        },
-        "why": "Consistent with BTC/ETH; phase and pattern suggest no clear move."
+        "opinion": "{\"direction\":\"FLAT\",\"entry\":130,\"take_profit\":132,\"stop_loss\":128,\"horizon\":\"1d\"}",
+        "why": "Anxiety phase (chop) and no clear trend; flat bias."
       },
       "narrative": {
         "direction": "FLAT",
@@ -305,7 +334,16 @@
         "SL": "",
         "horizon": "1d"
       },
-      "judge": null
+      "judge": {
+        "opinion": {
+          "direction": "FLAT",
+          "entry": 300,
+          "TP": 300,
+          "SL": 320,
+          "horizon": "1hr"
+        },
+        "why": "Similar to ETH, a flat call is appropriate for SOL due to the uncertainty in the market."
+      }
     }
   },
   "_status": {
