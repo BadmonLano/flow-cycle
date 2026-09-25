@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-09-08T05:40:51.846753-04:00",
+  "_updated": "2026-09-25T14:28:38.338617-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-09-08T05:40:51.865724-04:00",
-      "score_at_call": 60,
-      "phase_at_call": "Disbelief",
-      "predicted_phase": "Hope",
-      "direction": "UP",
-      "conviction": "high",
-      "reasoning": "The strong momentum and optimism suggest that the market is likely to move upwards in the near term.",
-      "confirmed_if": "BTC price continues to rise with strong momentum and low VIX, and fear and greed metrics remain supportive of a risk-on environment.",
-      "invalidated_if": "BTC price drops significantly, VIX spikes, or gold strength increases, indicating a shift towards caution or a potential reversal.",
+      "made_at": "2026-09-25T14:28:38.377146-04:00",
+      "score_at_call": 42,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Disbelief",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Denial is beginning to give way to early optimism, moving one rung up to Disbelief.",
+      "confirmed_if": "BTC price breaks above $85k with VIX remaining below 16 and sentiment staying elevated",
+      "invalidated_if": "BTC price falls below $80k or VIX spikes above 25, indicating a shift back toward Panic/Anxiety",
       "signals_at_call": {
-        "fear_greed": 69,
-        "btc_funding": 0.0045,
-        "mvrv_zscore": 0.9116,
-        "net_liquidity_chg_4w": -71973.0,
-        "btc_dom": 58.89236776555716,
+        "fear_greed": 71,
+        "btc_funding": 0.0085,
+        "mvrv_zscore": 0.78,
+        "net_liquidity_chg_4w": -9556.0,
+        "btc_dom": null,
         "etf_net_total_musd": 174.6,
-        "vix": 15.8
+        "vix": 14.99
       }
     }
   ],
@@ -2919,6 +2919,35 @@
       "forward_path_class": "dead_score",
       "score_travel": 0.0,
       "honest_coil": false
+    },
+    {
+      "made_at": "2026-09-08T05:40:51.865724-04:00",
+      "score_at_call": 60,
+      "phase_at_call": "Disbelief",
+      "predicted_phase": "Hope",
+      "direction": "UP",
+      "conviction": "high",
+      "reasoning": "The strong momentum and optimism suggest that the market is likely to move upwards in the near term.",
+      "confirmed_if": "BTC price continues to rise with strong momentum and low VIX, and fear and greed metrics remain supportive of a risk-on environment.",
+      "invalidated_if": "BTC price drops significantly, VIX spikes, or gold strength increases, indicating a shift towards caution or a potential reversal.",
+      "signals_at_call": {
+        "fear_greed": 69,
+        "btc_funding": 0.0045,
+        "mvrv_zscore": 0.9116,
+        "net_liquidity_chg_4w": -71973.0,
+        "btc_dom": 58.89236776555716,
+        "etf_net_total_musd": 174.6,
+        "vix": 15.8
+      },
+      "graded_at": "2026-09-25T14:28:38.337615-04:00",
+      "void": true,
+      "void_reason": "no score coverage in window (0 intraday rows) \u2014 flow was down/stalled; ungradable, excluded from tally",
+      "realized_dir": null,
+      "direction_hit": null,
+      "transition_predicted": false,
+      "transition_hit": null,
+      "score_delta": null,
+      "autopsy": ""
     }
   ],
   "tally": {
@@ -2935,17 +2964,17 @@
   "direction_record": "18/94",
   "transition_hit_rate_pct": 5.0,
   "transition_record": "4/80",
-  "direction_hit_rate_7d_pct": 20.0,
-  "direction_record_7d": "1/5",
-  "transition_hit_rate_7d_pct": 0.0,
-  "transition_record_7d": "0/5",
+  "direction_hit_rate_7d_pct": null,
+  "direction_record_7d": "0/0",
+  "transition_hit_rate_7d_pct": null,
+  "transition_record_7d": "0/0",
   "splits_7d": {
-    "hold_record": "1/1",
-    "move_record": "0/4",
-    "when_they_said_move_it_moved_pct": 25.0,
-    "mover_windows_7d": 1,
-    "windows_7d": 5,
-    "regime_note": "score actually moved in 1 of 5 graded windows this week \u2014 a coil; HOLD is the honest default and a directional call is a breaker claim"
+    "hold_record": "0/0",
+    "move_record": "0/0",
+    "when_they_said_move_it_moved_pct": null,
+    "mover_windows_7d": 0,
+    "windows_7d": 0,
+    "regime_note": "score actually moved in 0 of 0 graded windows this week"
   },
   "superseded": [
     {
@@ -6344,12 +6373,20 @@
         "predicted_phase": "Hope",
         "direction": "UP"
       },
-      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-09-25T14:28:38.336609-04:00",
+      "window_hours_actual": 1.2,
+      "partial_window": true,
+      "score_at_close": 42,
+      "realized_direction": "DOWN",
+      "direction_hit": false,
+      "score_delta": -18,
+      "grade_note": "graded on the 1.2h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
     }
   ],
   "superseded_tally": {
     "hit": 64,
-    "total": 100,
+    "total": 101,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
