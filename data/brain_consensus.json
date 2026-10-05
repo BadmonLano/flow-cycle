@@ -2,13 +2,12 @@
   "oracle": {
     "top_matching_factors": [
       "fear_greed",
-      "btc_momentum_30d",
-      "vix"
+      "btc_dom_fade",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
-      "mvrv_zscore",
-      "dxy_weakness",
-      "stablecoin_growth"
+      "vix",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "APPROACHING",
     "phase": "Denial",
@@ -19,28 +18,27 @@
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows and gold strength, but the historical analog is Disbelief (one rung below) and current-only factors show retail noise at 100 while CVD is at 9 \u2014 a divergence that says the rally is loud but not yet confirmed by real spot buying, so holding this phase is more honest than forcing a move.",
-      "confirmed_if": "CVD_btc_pct_30d rises above 30 and long_short_pct_30d climbs above 50, showing real spot demand joining the retail noise",
-      "invalidated_if": "Fear & Greed drops below 55 or BTC loses $82,000 on rising VIX, breaking the Hope rung downward",
+      "reasoning": "The score sits at 70 (Hope band 63-70), but the current-only factors show extreme retail noise (84-92) and pi_cycle at 90 while CVD is at 5 and exchange netflow at 27 \u2014 a coil where euphoric retail sentiment is not yet confirmed by on-chain flow, so the most honest call is to hold this phase until either BTC breaks $88k with rising CVD or loses $82k with negative funding.",
+      "confirmed_if": "BTC closes above $88,000 with CVD_btc_pct_30d rising above 20 and funding turning positive above 0.01%",
+      "invalidated_if": "BTC closes below $82,000 with exchange_netflow dropping below 15 and options_skew flipping negative",
       "predicted_phase_clamped_from": "Hope",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"dxy_weakness\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows and gold str",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"fear_greed\",\n    \"btc_dom_fade\",\n    \"btc_momentum_30d\"\n  ],\n  \"diverging_factors\": [\n    \"vix\",\n    \"mvrv_zscore\"\n  ],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 70 (Hope band 63-70), but the current-only factors show extr",
     "brain": "analyst",
     "phase_clamped_from": "Hope"
   },
   "classifier": {
     "top_matching_factors": [
       "fear_greed",
-      "btc_momentum_30d",
-      "vix"
+      "btc_dom_fade",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
-      "mvrv_zscore",
-      "dxy_weakness",
-      "stablecoin_growth"
+      "vix",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "APPROACHING",
     "phase": "Denial",
@@ -51,28 +49,27 @@
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows and gold strength, but the historical analog is Disbelief (one rung below) and current-only factors show retail noise at 100 while CVD is at 9 \u2014 a divergence that says the rally is loud but not yet confirmed by real spot buying, so holding this phase is more honest than forcing a move.",
-      "confirmed_if": "CVD_btc_pct_30d rises above 30 and long_short_pct_30d climbs above 50, showing real spot demand joining the retail noise",
-      "invalidated_if": "Fear & Greed drops below 55 or BTC loses $82,000 on rising VIX, breaking the Hope rung downward",
+      "reasoning": "The score sits at 70 (Hope band 63-70), but the current-only factors show extreme retail noise (84-92) and pi_cycle at 90 while CVD is at 5 and exchange netflow at 27 \u2014 a coil where euphoric retail sentiment is not yet confirmed by on-chain flow, so the most honest call is to hold this phase until either BTC breaks $88k with rising CVD or loses $82k with negative funding.",
+      "confirmed_if": "BTC closes above $88,000 with CVD_btc_pct_30d rising above 20 and funding turning positive above 0.01%",
+      "invalidated_if": "BTC closes below $82,000 with exchange_netflow dropping below 15 and options_skew flipping negative",
       "predicted_phase_clamped_from": "Hope",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"dxy_weakness\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows and gold str",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"fear_greed\",\n    \"btc_dom_fade\",\n    \"btc_momentum_30d\"\n  ],\n  \"diverging_factors\": [\n    \"vix\",\n    \"mvrv_zscore\"\n  ],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 70 (Hope band 63-70), but the current-only factors show extr",
     "brain": "analyst",
     "phase_clamped_from": "Hope"
   },
   "analyst": {
     "top_matching_factors": [
       "fear_greed",
-      "btc_momentum_30d",
-      "vix"
+      "btc_dom_fade",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
-      "mvrv_zscore",
-      "dxy_weakness",
-      "stablecoin_growth"
+      "vix",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "APPROACHING",
     "phase": "Denial",
@@ -83,44 +80,41 @@
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows and gold strength, but the historical analog is Disbelief (one rung below) and current-only factors show retail noise at 100 while CVD is at 9 \u2014 a divergence that says the rally is loud but not yet confirmed by real spot buying, so holding this phase is more honest than forcing a move.",
-      "confirmed_if": "CVD_btc_pct_30d rises above 30 and long_short_pct_30d climbs above 50, showing real spot demand joining the retail noise",
-      "invalidated_if": "Fear & Greed drops below 55 or BTC loses $82,000 on rising VIX, breaking the Hope rung downward",
+      "reasoning": "The score sits at 70 (Hope band 63-70), but the current-only factors show extreme retail noise (84-92) and pi_cycle at 90 while CVD is at 5 and exchange netflow at 27 \u2014 a coil where euphoric retail sentiment is not yet confirmed by on-chain flow, so the most honest call is to hold this phase until either BTC breaks $88k with rising CVD or loses $82k with negative funding.",
+      "confirmed_if": "BTC closes above $88,000 with CVD_btc_pct_30d rising above 20 and funding turning positive above 0.01%",
+      "invalidated_if": "BTC closes below $82,000 with exchange_netflow dropping below 15 and options_skew flipping negative",
       "predicted_phase_clamped_from": "Hope",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"vix\"],\n  \"diverging_factors\": [\"mvrv_zscore\", \"dxy_weakness\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows and gold str",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"fear_greed\",\n    \"btc_dom_fade\",\n    \"btc_momentum_30d\"\n  ],\n  \"diverging_factors\": [\n    \"vix\",\n    \"mvrv_zscore\"\n  ],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 70 (Hope band 63-70), but the current-only factors show extr",
     "brain": "analyst",
     "phase_clamped_from": "Hope"
   },
   "narrative": {
-    "narrative": "Despite the tape holding near $86K with a Fear & Greed reading of 70, the 30-day momentum has stalled, and the VIX is quietly signaling complacency\u2014creating a setup that echoes the structural denial seen before the August 2024 bottom. With a 74.2% pattern match to that prior inflection, the current RISK_ON regime is masking a market that is refusing to price in the possibility of a sharper flush.",
-    "headline": "Complacent Bulls Ignore the Echo of August",
-    "confidence": 0.74,
+    "narrative": "With fear and greed still elevated at 70 and Bitcoin dominance fading, risk appetite remains alive even as price consolidates near $85,725 \u2014 a setup that echoes the late-August 2024 bottom, when fading BTC dominance and stabilizing momentum preceded a sharp recovery. The 75% similarity to that prior inflection suggests the current hesitation is more about disbelief than distribution, keeping the regime tilted risk-on despite the lack of immediate upside follow-through.",
+    "headline": "Denial Holds as Risk Appetite Refuses to Break",
+    "confidence": 0.68,
     "next_move": {
-      "outlook": "The narrative arc suggests the market remains trapped in denial until a volatility spike forces a rapid repricing toward the historical bottom structure.",
-      "direction": "HOLD",
+      "outlook": "The narrative arc points toward a resolution higher once the consolidation shakes out late doubters, mirroring the August 2024 recovery sequence.",
+      "direction": "DOWN",
       "predicted_phase": "Denial",
-      "conviction": "medium",
-      "direction_geometry_would_be": "DOWN",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "conviction": "medium"
     },
-    "raw_response": "```json\n{\n  \"narrative\": \"Despite the tape holding near $86K with a Fear & Greed reading of 70, the 30-day momentum has stalled, and the VIX is quietly signaling complacency\u2014creating a setup that echoes the structural denial seen before the August 2024 bottom. With a 74.2% pattern match to that prior inflection, the current RISK_ON regime is masking a market that is refusing to price in the possibility of a sharper flush.\",\n  \"headline\": \"Complacent Bulls Ignore the Echo of August\",\n  \"confidenc",
+    "raw_response": "```json\n{\n  \"narrative\": \"With fear and greed still elevated at 70 and Bitcoin dominance fading, risk appetite remains alive even as price consolidates near $85,725 \u2014 a setup that echoes the late-August 2024 bottom, when fading BTC dominance and stabilizing momentum preceded a sharp recovery. The 75% similarity to that prior inflection suggests the current hesitation is more about disbelief than distribution, keeping the regime tilted risk-on despite the lack of immediate upside follow-through.\"",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
     "final_phase": "Denial",
     "alert_tier": "LOW",
-    "consensus_confidence": 0.68,
-    "key_reasoning": "Pattern match 74% to bottom_2024_aug",
+    "consensus_confidence": 0.65,
+    "key_reasoning": "Pattern match 75% to bottom_2024_aug",
     "disagreements_noted": [],
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.68,
-    "raw_response": "Let me work through this carefully.\n\nThe setup: I'm the consensus judge for a macro trading engine. Two brains:\n\n**Brain 1 (Pattern Analyst)**: verdict=APPROACHING, phase=Denial, signal=HOLD, regime=RISK_ON, confidence=0.62\n- Top factors: fear_greed, btc_momentum_30d, vix\n- Diverging: mvrv_zscore, dxy_weakness, stablecoin_growth\n- Forward call: predicted_phase=Hope, direction=HOLD, conviction=medium\n- Reasoning mentions: \"The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows a"
+    "brains_avg_confidence": 0.65,
+    "raw_response": "Let me work through this carefully.\n\nThe live score is 70 (per the analyst's reasoning: \"The score sits at 70 (Hope band 63-70)\"). Wait \u2014 but the analyst called phase=Denial? Let me re-read.\n\nPATTERN ANALYST (brain 1): verdict=APPROACHING, phase=Denial, signal=HOLD, regime=RISK_ON, confidence=0.62\n\nHmm, the analyst's phase is \"Denial\" but their reasoning says \"The score sits at 70 (Hope band 63-70)\". That's a contradiction. Wait \u2014 the hard rule: score 70 sits in Hope band (63-70). Legal calls: D"
   },
   "brain_reads": {
     "analyst": {
@@ -130,9 +124,9 @@
         "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The live score sits in Hope (63-70) with RISK_ON momentum from ETF flows and gold strength, but the historical analog is Disbelief (one rung below) and current-only factors show retail noise at 100 while CVD is at 9 \u2014 a divergence that says the rally is loud but not yet confirmed by real spot buying, so holding this phase is more honest than forcing a move.",
-        "confirmed_if": "CVD_btc_pct_30d rises above 30 and long_short_pct_30d climbs above 50, showing real spot demand joining the retail noise",
-        "invalidated_if": "Fear & Greed drops below 55 or BTC loses $82,000 on rising VIX, breaking the Hope rung downward",
+        "reasoning": "The score sits at 70 (Hope band 63-70), but the current-only factors show extreme retail noise (84-92) and pi_cycle at 90 while CVD is at 5 and exchange netflow at 27 \u2014 a coil where euphoric retail sentiment is not yet confirmed by on-chain flow, so the most honest call is to hold this phase until either BTC breaks $88k with rising CVD or loses $82k with negative funding.",
+        "confirmed_if": "BTC closes above $88,000 with CVD_btc_pct_30d rising above 20 and funding turning positive above 0.01%",
+        "invalidated_if": "BTC closes below $82,000 with exchange_netflow dropping below 15 and options_skew flipping negative",
         "predicted_phase_clamped_from": "Hope",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
@@ -140,26 +134,23 @@
       }
     },
     "narrative": {
-      "headline": "Complacent Bulls Ignore the Echo of August",
-      "confidence": 0.74,
+      "headline": "Denial Holds as Risk Appetite Refuses to Break",
+      "confidence": 0.68,
       "next_move": {
-        "outlook": "The narrative arc suggests the market remains trapped in denial until a volatility spike forces a rapid repricing toward the historical bottom structure.",
-        "direction": "HOLD",
+        "outlook": "The narrative arc points toward a resolution higher once the consolidation shakes out late doubters, mirroring the August 2024 recovery sequence.",
+        "direction": "DOWN",
         "predicted_phase": "Denial",
-        "conviction": "medium",
-        "direction_geometry_would_be": "DOWN",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "conviction": "medium"
       }
     },
     "judge": {
       "signal": "HOLD",
-      "confidence": 0.68,
+      "confidence": 0.65,
       "next_move": null
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-05T18:46:40.696616-04:00",
+  "timestamp": "2026-10-05T19:48:54.491004-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
