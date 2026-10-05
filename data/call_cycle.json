@@ -110,18 +110,45 @@
     "carried": false,
     "fade_sensor": {
       "fires": false,
-      "status": "insufficient_data",
-      "_unvalidated": true
+      "status": "watching",
+      "_unvalidated": true,
+      "peak_pct_so_far": 0.0,
+      "favoured_pct": -0.0,
+      "gave_back_pp": 0.0,
+      "peak_at_hour": 1.04,
+      "elapsed_hours": 2.09,
+      "reading": "nothing decisive yet (-0.00% your way at 2.09h).",
+      "_caveat": "UNVALIDATED. This rule was fitted to 13 directional calls and has never been tested on data nobody tuned it on. It is a reading, not an instruction - the revision lever is still yours, and spending it on a sensor this young is a bet on the sensor, not on the tape.",
+      "_thresholds": {
+        "peak_before_h": 3.0,
+        "giveback_at_least_pp": 0.5
+      }
     },
     "bank_sensor": {
       "fires": false,
-      "status": "insufficient_data",
+      "status": "watching",
       "suggestion": "held",
       "_unvalidated": true,
-      "reason": null
+      "reason": null,
+      "peak_pct_so_far": 0.0,
+      "favoured_pct": -0.0,
+      "gave_back_pp": 0.0,
+      "peak_at_hour": 1.04,
+      "elapsed_hours": 2.09,
+      "net_pct_so_far": 0.0,
+      "stalled": false,
+      "time_left_min": 594,
+      "reading": "no first wave yet (-0.00% your way at 2.09h). nothing to bank.",
+      "_thresholds": {
+        "fav_min_pct": 0.25,
+        "giveback_min_pp": 0.35,
+        "stall_hours": 1.5,
+        "min_left_min": 120
+      },
+      "_caveat": "BANK SENSOR. advisory only. never auto-restamps. unused bullet at the boundary is the miss of the lever, not discipline."
     },
-    "live_bullet_last_check_iso": "2026-10-05T10:04:24.051175-04:00",
-    "live_bullet_drift_vs_call_pct": -0.0
+    "live_bullet_last_check_iso": "2026-10-05T11:07:20.832369-04:00",
+    "live_bullet_drift_vs_call_pct": 0.551
   },
   "revision_used": false,
   "graded": [
@@ -10122,10 +10149,10 @@
     "next_boundary_iso": "2026-10-05T21:01:47.906666-04:00",
     "slot_id": "2026-10-05-AM",
     "stamped_at": "2026-10-05T09:01:47.881665-04:00",
-    "stamped_ago_min": 62,
-    "seconds_left": 39443,
-    "minutes_left": 657,
-    "hours_left": 11.0,
+    "stamped_ago_min": 125,
+    "seconds_left": 35667,
+    "minutes_left": 594,
+    "hours_left": 9.9,
     "as_of": "2026-10-05T09:01:47.881665-04:00",
     "invalidate_if": [
       "bitcoin reclaims 87800",
@@ -10133,10 +10160,10 @@
     ],
     "revision_available": true,
     "bullet": "loaded",
-    "live_bullet_last_check_iso": "2026-10-05T09:01:47.929666-04:00",
+    "live_bullet_last_check_iso": "2026-10-05T10:04:24.051175-04:00",
     "live_bullet_drift_vs_call_pct": -0.0,
     "carried": false,
-    "note": "11.0h left in this 12h window (anchored to the call stamp). Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
+    "note": "9.9h left in this 12h window (anchored to the call stamp). Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
   },
   "no_calls": [
     {
@@ -11111,11 +11138,11 @@
       "_archived_epoch": "2026-07-27"
     }
   ],
-  "revision_prompt_fired": false,
+  "revision_prompt_fired": true,
   "revision_read_snapshot": {
-    "reason": "structure",
-    "at": "2026-09-07T11:24:11.675455-04:00",
-    "clock_left_min": 42
+    "reason": "drift",
+    "at": "2026-10-05T11:07:20.821371-04:00",
+    "clock_left_min": 594
   },
   "offline_windows": [
     {
@@ -11394,7 +11421,7 @@
   "call_state": {
     "state": "LIVE",
     "since": "2026-10-05T09:01:47.911664-04:00",
-    "sweeps_in_state": 1,
+    "sweeps_in_state": 2,
     "_meaning": "stamped, clock running"
   },
   "bakeoff": {
@@ -11412,10 +11439,16 @@
   },
   "bank_prompt_fired": false,
   "live_bullet": {
-    "last_check_iso": "2026-10-05T10:04:24.051175-04:00",
+    "last_check_iso": "2026-10-05T11:07:20.832369-04:00",
     "call_id": "c_5dac029ca73c",
-    "drift_vs_call_pct": -0.0,
-    "time_left_min": 657,
+    "drift_vs_call_pct": 0.551,
+    "time_left_min": 594,
     "clock_band": "normal"
+  },
+  "revision_fire_state": {
+    "in_material_band": true,
+    "bank_sensor": false,
+    "clock_band": "normal",
+    "at": "2026-10-05T11:07:20.822370-04:00"
   }
 }
