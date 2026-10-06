@@ -1,27 +1,6 @@
 {
-  "_updated": "2026-10-06T17:44:10.537390-04:00",
+  "_updated": "2026-10-06T18:46:04.357262-04:00",
   "log": [
-    {
-      "ts": "2026-08-07T03:28:45.611284-04:00",
-      "forecast": {
-        "top_date": "2026-11-06",
-        "top_score": 76.7,
-        "bottom_date": "2026-08-07",
-        "bottom_score": 39.0
-      },
-      "j6": {
-        "top_date": "2026-11-06",
-        "top_score": 73.0,
-        "bottom_date": "2028-07-28",
-        "bottom_score": 22.9
-      },
-      "da": {
-        "top_date": "2026-08-07",
-        "top_score": null,
-        "bottom_date": "2026-11-06",
-        "bottom_score": null
-      }
-    },
     {
       "ts": "2026-08-07T04:13:26.772359-04:00",
       "forecast": {
@@ -12546,6 +12525,33 @@
         "bottom_date": "2026-12-22",
         "bottom_score": null
       }
+    },
+    {
+      "ts": "2026-10-06T18:46:04.357262-04:00",
+      "forecast": {
+        "top_date": "2026-12-22",
+        "top_score": 53.9,
+        "top_i": 11,
+        "bottom_date": "2027-09-07",
+        "bottom_score": 24.7,
+        "bottom_i": 48,
+        "horizon_weeks": 104
+      },
+      "j6": {
+        "top_date": "2027-01-05",
+        "top_score": 95.4,
+        "top_i": 13,
+        "bottom_date": "2026-10-06",
+        "bottom_score": 45.6,
+        "bottom_i": 0,
+        "horizon_weeks": 104
+      },
+      "da": {
+        "top_date": "2027-09-07",
+        "top_score": null,
+        "bottom_date": "2026-12-22",
+        "bottom_score": null
+      }
     }
   ],
   "stats": {
@@ -12557,10 +12563,30 @@
       "sample": 500,
       "conviction_is": "mode_week",
       "conviction_note": "mode-of-week is the date the line KEEPS landing on. `avg` is the mean of a bimodal distribution and can name a week no sweep ever called.",
-      "drift_days_per_day": 0.77,
-      "drift_endpoint": 0.77,
+      "drift_days_per_day": -1.92,
+      "drift_endpoint": -1.92,
       "drift_shape": 0.0,
       "drift_7d": 7.0,
+      "drift_default": "drift_7d",
+      "drift_note": "drift_shape and drift_7d SUBTRACT the +1 day/day calendar walk that a frozen curve produces because start_date is today. drift_endpoint does not, which is why it reads ~5 and the 'stable' badge never fires.",
+      "geometry_pin": null,
+      "geometry_note": null,
+      "unique_days": 26,
+      "unique_dates_called": 64,
+      "sample_note": "`sample` counts SWEEPS, not independent calls - these are hourly clones of a slow-moving curve. Read mode_count against unique_days, not against sample."
+    },
+    "forecast_bottom": {
+      "latest": "2027-09-07",
+      "avg": "2027-04-25",
+      "mode_week": "2026-W33",
+      "mode_count": 65,
+      "sample": 500,
+      "conviction_is": "mode_week",
+      "conviction_note": "mode-of-week is the date the line KEEPS landing on. `avg` is the mean of a bimodal distribution and can name a week no sweep ever called.",
+      "drift_days_per_day": 3.92,
+      "drift_endpoint": 3.92,
+      "drift_shape": 0.0,
+      "drift_7d": -2.0,
       "drift_default": "drift_7d",
       "drift_note": "drift_shape and drift_7d SUBTRACT the +1 day/day calendar walk that a frozen curve produces because start_date is today. drift_endpoint does not, which is why it reads ~5 and the 'stable' badge never fires.",
       "geometry_pin": null,
@@ -12569,29 +12595,9 @@
       "unique_dates_called": 65,
       "sample_note": "`sample` counts SWEEPS, not independent calls - these are hourly clones of a slow-moving curve. Read mode_count against unique_days, not against sample."
     },
-    "forecast_bottom": {
-      "latest": "2027-09-07",
-      "avg": "2027-04-24",
-      "mode_week": "2026-W33",
-      "mode_count": 65,
-      "sample": 500,
-      "conviction_is": "mode_week",
-      "conviction_note": "mode-of-week is the date the line KEEPS landing on. `avg` is the mean of a bimodal distribution and can name a week no sweep ever called.",
-      "drift_days_per_day": 6.6,
-      "drift_endpoint": 6.6,
-      "drift_shape": 0.0,
-      "drift_7d": -2.0,
-      "drift_default": "drift_7d",
-      "drift_note": "drift_shape and drift_7d SUBTRACT the +1 day/day calendar walk that a frozen curve produces because start_date is today. drift_endpoint does not, which is why it reads ~5 and the 'stable' badge never fires.",
-      "geometry_pin": null,
-      "geometry_note": null,
-      "unique_days": 26,
-      "unique_dates_called": 66,
-      "sample_note": "`sample` counts SWEEPS, not independent calls - these are hourly clones of a slow-moving curve. Read mode_count against unique_days, not against sample."
-    },
     "j6_top": {
       "latest": "2027-01-05",
-      "avg": "2026-12-11",
+      "avg": "2026-12-12",
       "mode_week": "2026-W46",
       "mode_count": 71,
       "sample": 500,
@@ -12611,9 +12617,9 @@
     },
     "j6_bottom": {
       "latest": "2026-10-06",
-      "avg": "2027-12-23",
+      "avg": "2027-12-21",
       "mode_week": "2028-W30",
-      "mode_count": 64,
+      "mode_count": 63,
       "sample": 500,
       "conviction_is": "mode_week",
       "conviction_note": "mode-of-week is the date the line KEEPS landing on. `avg` is the mean of a bimodal distribution and can name a week no sweep ever called.",
@@ -12631,14 +12637,14 @@
     },
     "da_top": {
       "latest": "2027-09-07",
-      "avg": "2027-04-24",
+      "avg": "2027-04-25",
       "mode_week": "2026-W33",
       "mode_count": 65,
       "sample": 500,
       "conviction_is": "mode_week",
       "conviction_note": "mode-of-week is the date the line KEEPS landing on. `avg` is the mean of a bimodal distribution and can name a week no sweep ever called.",
-      "drift_days_per_day": 6.6,
-      "drift_endpoint": 6.6,
+      "drift_days_per_day": 3.92,
+      "drift_endpoint": 3.92,
       "drift_shape": 0.0,
       "drift_7d": -2.0,
       "drift_default": "drift_7d",
@@ -12646,7 +12652,7 @@
       "geometry_pin": null,
       "geometry_note": null,
       "unique_days": 26,
-      "unique_dates_called": 66,
+      "unique_dates_called": 65,
       "sample_note": "`sample` counts SWEEPS, not independent calls - these are hourly clones of a slow-moving curve. Read mode_count against unique_days, not against sample."
     },
     "da_bottom": {
@@ -12657,8 +12663,8 @@
       "sample": 500,
       "conviction_is": "mode_week",
       "conviction_note": "mode-of-week is the date the line KEEPS landing on. `avg` is the mean of a bimodal distribution and can name a week no sweep ever called.",
-      "drift_days_per_day": 0.77,
-      "drift_endpoint": 0.77,
+      "drift_days_per_day": -1.92,
+      "drift_endpoint": -1.92,
       "drift_shape": 0.0,
       "drift_7d": 7.0,
       "drift_default": "drift_7d",
@@ -12666,7 +12672,7 @@
       "geometry_pin": null,
       "geometry_note": null,
       "unique_days": 26,
-      "unique_dates_called": 65,
+      "unique_dates_called": 64,
       "sample_note": "`sample` counts SWEEPS, not independent calls - these are hourly clones of a slow-moving curve. Read mode_count against unique_days, not against sample."
     }
   }
