@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-07T09:24:32.009205-04:00",
+  "_updated": "2026-10-07T10:28:10.918285-04:00",
   "calls": {
     "BTC": {
       "direction": "SHORT",
@@ -52,8 +52,8 @@
         ]
       },
       "opened_at": "2026-10-07T03:09:12.211691-04:00",
-      "age_hours": 6.26,
-      "hours_left": 4.71,
+      "age_hours": 7.32,
+      "hours_left": 3.65,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
@@ -108,18 +108,18 @@
         ]
       },
       "opened_at": "2026-10-07T03:09:12.211691-04:00",
-      "age_hours": 6.26,
-      "hours_left": 4.71,
+      "age_hours": 7.32,
+      "hours_left": 3.65,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "SOL": {
       "direction": "SHORT",
-      "entry": 117.64,
-      "tp": 116.91,
-      "sl": 119.99,
+      "entry": 116.07,
+      "tp": null,
+      "sl": null,
       "levels_from": "j6",
-      "levels_note": "levels from j6 (7d race: fc 7.84% vs j6 7.54%) - j6 tighter by 0.30pt",
+      "levels_note": "direction flipped but levels could not be rebuilt - DO NOT SIZE off these",
       "race_dir_hit_fc": 77.19,
       "race_dir_hit_j6": 77.19,
       "race_dir_veto": false,
@@ -132,52 +132,38 @@
       "race_da_err": 16.02,
       "race_n": 28,
       "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
-      "tp_mode": "path_target",
-      "tp_distance_pct": 0.62,
-      "horizon": "6.8h",
-      "horizon_hours": 6.81,
+      "tp_mode": "none_flat_call",
+      "tp_distance_pct": null,
+      "horizon": "3.7h",
+      "horizon_hours": 3.65,
       "source": "jordan_committed",
       "conviction": "medium",
-      "confluence_score": 1.9,
+      "confluence_score": 0.9,
       "confluence_votes": [
-        "SOL 200wk 1.05x AT FLOOR \u2192 long",
+        "SOL 200wk 1.036x AT FLOOR \u2192 long",
         "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
-        "SOL funding negative (squeeze fuel) \u2192 long",
         "pi cycle far from top \u2192 room to run long",
-        "projection +0.6% \u2192 flat"
+        "projection +0.7% \u2192 flat"
       ],
       "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit sol_call in the editorial packet to adjust levels/direction.",
-      "levels_rebuilt_on_flip": {
-        "from_direction": "LONG",
-        "to_direction": "SHORT",
-        "old_tp": 118.37,
-        "old_sl": 115.29,
-        "method": "mirrored around entry - same implied move size, opposite side"
-      },
+      "levels_stale": true,
       "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
       "mirrored_from": {
         "live_call": "down_micro",
         "stamped_at": "2026-10-07T02:07:24.726504-04:00"
       },
       "mechanical_confluence": {
-        "direction": "LONG",
+        "direction": "FLAT",
         "conviction": null,
-        "score": 1.9,
+        "score": 0.9,
         "votes": [
-          "SOL 200wk 1.05x AT FLOOR \u2192 long",
+          "SOL 200wk 1.036x AT FLOOR \u2192 long",
           "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
-          "SOL funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +0.6% \u2192 flat"
+          "projection +0.7% \u2192 flat"
         ]
       },
-      "opened_at": "2026-10-07T07:18:39.447160-04:00",
-      "age_hours": 2.1,
-      "hours_left": 4.71,
-      "locked": true,
-      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded.",
-      "resolved": true,
-      "resolved_result": "win"
+      "opened_at": "2026-10-07T10:28:10.918285-04:00"
     }
   },
   "perps_contract": {
@@ -199,11 +185,13 @@
       "ETH": [
         "levels_stale - direction flipped without a level rebuild",
         "no TP/SL on the row"
+      ],
+      "SOL": [
+        "levels_stale - direction flipped without a level rebuild",
+        "no TP/SL on the row"
       ]
     },
-    "safe_to_size": [
-      "SOL"
-    ],
+    "safe_to_size": [],
     "_rule": "Size only from a call that is locked, directional, carries both levels, and has hours_left > 0. A row existing is not a call being tradeable - awaiting_jordan and FLAT are honest states that must never be sized."
   }
 }
