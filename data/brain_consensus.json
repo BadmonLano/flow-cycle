@@ -1,260 +1,161 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
-      "fear_greed"
+      "fear_greed",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
+      "etf_flows",
       "vix",
-      "gold_strength",
       "mvrv_zscore"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Thrill",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.42,
+    "confidence": 0.62,
     "next_move": {
       "predicted_phase": "Thrill",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-only readings (options_skew 100, retail_noise_velocity 100, pi_cycle 90, long_short 94) scream late-cycle euphoria while the historical analog (2020 Dec breakout) and weak momentum/mvrv (30) argue for early-cycle recovery \u2014 this tension is a coil, not a trend, and my recent HOLD calls failed because I under-weighted building breakers, so I'm holding only because no single breaker has fired yet.",
-      "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-      "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-      "predicted_phase_clamped_from": "Hope",
+      "reasoning": "The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom analog, but current-only factors show extreme retail noise (91-94) and options skew (100) that historically mark local tops, not bottoms \u2014 the coil is real and the last two HOLD calls failed by under-weighting building break signals, so I'm holding only because neither the ETF flow divergence (-33) nor the VIX spike (+30) has resolved into a directional trigger yet.",
+      "confirmed_if": "BTC 30d momentum breaks above 55 AND ETF flows turn positive for 3 consecutive sessions",
+      "invalidated_if": "VIX breaks above 20 while BTC funding goes negative and retail noise velocity stays above 90",
+      "predicted_phase_clamped_from": "Disbelief",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-on",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"fear_greed\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom a",
     "brain": "analyst",
-    "phase_clamped_from": "Hope"
+    "phase_clamped_from": "Disbelief"
   },
   "classifier": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
-      "fear_greed"
+      "fear_greed",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
+      "etf_flows",
       "vix",
-      "gold_strength",
       "mvrv_zscore"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Thrill",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.42,
+    "confidence": 0.62,
     "next_move": {
       "predicted_phase": "Thrill",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-only readings (options_skew 100, retail_noise_velocity 100, pi_cycle 90, long_short 94) scream late-cycle euphoria while the historical analog (2020 Dec breakout) and weak momentum/mvrv (30) argue for early-cycle recovery \u2014 this tension is a coil, not a trend, and my recent HOLD calls failed because I under-weighted building breakers, so I'm holding only because no single breaker has fired yet.",
-      "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-      "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-      "predicted_phase_clamped_from": "Hope",
+      "reasoning": "The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom analog, but current-only factors show extreme retail noise (91-94) and options skew (100) that historically mark local tops, not bottoms \u2014 the coil is real and the last two HOLD calls failed by under-weighting building break signals, so I'm holding only because neither the ETF flow divergence (-33) nor the VIX spike (+30) has resolved into a directional trigger yet.",
+      "confirmed_if": "BTC 30d momentum breaks above 55 AND ETF flows turn positive for 3 consecutive sessions",
+      "invalidated_if": "VIX breaks above 20 while BTC funding goes negative and retail noise velocity stays above 90",
+      "predicted_phase_clamped_from": "Disbelief",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-on",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"fear_greed\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom a",
     "brain": "analyst",
-    "phase_clamped_from": "Hope"
+    "phase_clamped_from": "Disbelief"
   },
   "analyst": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
-      "fear_greed"
+      "fear_greed",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
+      "etf_flows",
       "vix",
-      "gold_strength",
       "mvrv_zscore"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Thrill",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.42,
+    "confidence": 0.62,
     "next_move": {
       "predicted_phase": "Thrill",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-only readings (options_skew 100, retail_noise_velocity 100, pi_cycle 90, long_short 94) scream late-cycle euphoria while the historical analog (2020 Dec breakout) and weak momentum/mvrv (30) argue for early-cycle recovery \u2014 this tension is a coil, not a trend, and my recent HOLD calls failed because I under-weighted building breakers, so I'm holding only because no single breaker has fired yet.",
-      "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-      "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-      "predicted_phase_clamped_from": "Hope",
+      "reasoning": "The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom analog, but current-only factors show extreme retail noise (91-94) and options skew (100) that historically mark local tops, not bottoms \u2014 the coil is real and the last two HOLD calls failed by under-weighting building break signals, so I'm holding only because neither the ETF flow divergence (-33) nor the VIX spike (+30) has resolved into a directional trigger yet.",
+      "confirmed_if": "BTC 30d momentum breaks above 55 AND ETF flows turn positive for 3 consecutive sessions",
+      "invalidated_if": "VIX breaks above 20 while BTC funding goes negative and retail noise velocity stays above 90",
+      "predicted_phase_clamped_from": "Disbelief",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-on",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"fear_greed\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom a",
     "brain": "analyst",
-    "phase_clamped_from": "Hope"
+    "phase_clamped_from": "Disbelief"
   },
   "narrative": {
-    "narrative": "ETF inflows are steady while Bitcoin dominance fades, creating a classic risk-on rotation into altcoins as greed holds at 64. This setup echoes the December 2020 breakout, where similar ETF flow patterns and dominance decay preceded a broad market expansion. The tape is rewarding patience, but the coil is winding tighter.",
-    "headline": "Altcoins Stir as Dominance Fades",
-    "confidence": 0.76,
+    "narrative": "Bitcoin's fading dominance and recovering risk appetite are quietly shifting capital toward the edges of the market, even as price action remains trapped in a skeptical, show-me-first stance. The current setup echoes August 2024's bottoming structure, when a similar fade in BTC dominance and a reset in 30-day momentum preceded a broad risk-on expansion. The crowd is still doubting the tape, but the underlying currents are beginning to lean the other way.",
+    "headline": "Skeptics Ignore the Shifting Tide",
+    "confidence": 0.72,
     "next_move": {
-      "outlook": "The rotation narrative suggests altcoin outperformance continues, but Bitcoin must hold $80k or the risk-on thesis cracks.",
-      "direction": "HOLD",
+      "outlook": "The denial phase persists until a momentum spark forces late skeptics to chase, with the historical parallel suggesting the next leg resolves upward once BTC dominance stabilizes.",
+      "direction": "DOWN",
       "predicted_phase": "Thrill",
       "conviction": "medium",
-      "direction_geometry_would_be": "DOWN",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "predicted_phase_clamped_from": "Denial"
     },
-    "raw_response": "```json\n{\n  \"narrative\": \"ETF inflows are steady while Bitcoin dominance fades, creating a classic risk-on rotation into altcoins as greed holds at 64. This setup echoes the December 2020 breakout, where similar ETF flow patterns and dominance decay preceded a broad market expansion. The tape is rewarding patience, but the coil is winding tighter.\",\n  \"headline\": \"Altcoins Stir as Dominance Fades\",\n  \"confidence\": 0.76,\n  \"next_move\": {\n    \"outlook\": \"The rotation narrative suggests altcoin out",
+    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's fading dominance and recovering risk appetite are quietly shifting capital toward the edges of the market, even as price action remains trapped in a skeptical, show-me-first stance. The current setup echoes August 2024's bottoming structure, when a similar fade in BTC dominance and a reset in 30-day momentum preceded a broad risk-on expansion. The crowd is still doubting the tape, but the underlying currents are beginning to lean the other way.\",\n  \"headline\":",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
-    "final_phase": "Hope",
-    "alert_tier": "MED",
-    "consensus_confidence": 0.57,
-    "key_reasoning": "Score 64 anchors at Hope (63-70), so the analyst's Thrill label is illegal under the \u00b11-rung rule and is corrected to Hope \u2014 which the analyst's own reasoning already concedes. Both brains read a tightening risk-on coil echoing Dec 2020, but the factor profile is deeply split (euphoria-like extremes vs weak momentum/MVRV) with no breaker fired, so HOLD pending confirmation is the skilled call, not a forced directional guess.",
-    "disagreements_noted": [
-      "Analyst labeled phase 'Thrill' (86-92 band) while the live score of 64 sits in Hope \u2014 a >1-rung violation; corrected to Hope per the analyst's own reasoning which anchors at 64/Hope",
-      "Analyst is cautious (confidence 0.42, diverging VIX/gold_strength/mvrv_zscore, admits recent HOLD calls under-weighted breakers) while narrative writer is more bullish (0.76, Dec 2020 expansion analog, altcoin rotation framing)",
-      "Narrative tilts toward bullish resolution of the coil; analyst demands explicit breaker confirmation (funding + CVD) before committing to direction"
-    ],
-    "next_move": {
-      "predicted_phase": "Thrill",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The coil at Hope can resolve either way and no single breaker has fired, so holding the current rung with defined confirmation triggers beats a forced directional guess in a 52%-move tape.",
-      "brains_agree": "Partially \u2014 both see the same tightening risk-on coil at Hope; the narrative leans toward bullish resolution via the Dec 2020 analog while the analyst (higher trust weight, 7.67 vs 6.00) holds until a breaker confirms, and the judge sides with the analyst's wait-for-confirmation stance",
-      "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-      "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-      "predicted_phase_clamped_from": "Hope",
-      "direction_geometry_would_be": "DOWN",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-      "confidence_pct": 56.0,
-      "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
-    },
-    "raw_response": "Let me work through this carefully.\n\nThe live score is 64, which sits in the Hope band (63-70). The analyst called phase=Thrill, which is 86-92 band \u2014 that's WAY off from score 64. Wait, the hard rule says: find the rung whose score band contains the live score (64 \u2192 Hope, 63-70), then you may call THAT rung or one immediately adjacent. Legal calls: Disbelief (55-62), Hope (63-70), or Optimism (71-77). The analyst called Thrill, which is illegal \u2014 more than one rung away. So as consensus judge, ",
+    "final_phase": "Denial",
+    "alert_tier": "LOW",
+    "consensus_confidence": 0.67,
+    "key_reasoning": "Pattern match 75% to bottom_2024_aug",
+    "disagreements_noted": [],
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.59,
-    "brain_reads": {
-      "analyst": {
-        "signal": "HOLD",
-        "phase": "Thrill",
-        "verdict": "DIVERGING",
-        "confidence": 0.42,
-        "next_move": {
-          "predicted_phase": "Thrill",
-          "direction": "HOLD",
-          "conviction": "medium",
-          "reasoning": "The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-only readings (options_skew 100, retail_noise_velocity 100, pi_cycle 90, long_short 94) scream late-cycle euphoria while the historical analog (2020 Dec breakout) and weak momentum/mvrv (30) argue for early-cycle recovery \u2014 this tension is a coil, not a trend, and my recent HOLD calls failed because I under-weighted building breakers, so I'm holding only because no single breaker has fired yet.",
-          "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-          "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-          "predicted_phase_clamped_from": "Hope",
-          "direction_geometry_would_be": "DOWN",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
-        }
-      },
-      "narrative": {
-        "headline": "Altcoins Stir as Dominance Fades",
-        "phase": "Hope",
-        "confidence": 0.76,
-        "next_move": {
-          "outlook": "The rotation narrative suggests altcoin outperformance continues, but Bitcoin must hold $80k or the risk-on thesis cracks.",
-          "direction": "HOLD",
-          "predicted_phase": "Thrill",
-          "conviction": "medium",
-          "direction_geometry_would_be": "DOWN",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
-        }
-      },
-      "judge": {
-        "signal": "HOLD",
-        "phase": "Hope",
-        "confidence": 0.57,
-        "next_move": {
-          "predicted_phase": "Thrill",
-          "direction": "HOLD",
-          "conviction": "medium",
-          "reasoning": "The coil at Hope can resolve either way and no single breaker has fired, so holding the current rung with defined confirmation triggers beats a forced directional guess in a 52%-move tape.",
-          "brains_agree": "Partially \u2014 both see the same tightening risk-on coil at Hope; the narrative leans toward bullish resolution via the Dec 2020 analog while the analyst (higher trust weight, 7.67 vs 6.00) holds until a breaker confirms, and the judge sides with the analyst's wait-for-confirmation stance",
-          "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-          "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-          "predicted_phase_clamped_from": "Hope",
-          "direction_geometry_would_be": "DOWN",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-          "confidence_pct": 56.0,
-          "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
-        }
-      },
-      "legacy": {
-        "signal": null,
-        "phase": null,
-        "score": null,
-        "confidence": null,
-        "next_move": null
-      }
-    },
-    "advisory": true
+    "brains_avg_confidence": 0.67,
+    "raw_response": "Let me work through this carefully.\n\nFirst, I need to figure out the current score. The prompt doesn't explicitly give the live score... wait, let me re-read.\n\nThe Pattern Analyst says: \"The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom analog\" \u2014 so the analyst says the score is mid-band in Disbelief. Disbelief band is 55-62, so mid-band would be around 58-59.\n\nBut the analyst's verdict field says: verdict=APPROACHING, phase=Denial, signal=HOLD, regime=RISK_ON, co"
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Thrill",
-      "confidence": 0.42,
+      "phase": "Denial",
+      "confidence": 0.62,
       "next_move": {
         "predicted_phase": "Thrill",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The score sits at 64 (Hope band 63-70), but the factor profile is deeply split: extreme current-only readings (options_skew 100, retail_noise_velocity 100, pi_cycle 90, long_short 94) scream late-cycle euphoria while the historical analog (2020 Dec breakout) and weak momentum/mvrv (30) argue for early-cycle recovery \u2014 this tension is a coil, not a trend, and my recent HOLD calls failed because I under-weighted building breakers, so I'm holding only because no single breaker has fired yet.",
-        "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-        "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-        "predicted_phase_clamped_from": "Hope",
+        "reasoning": "The score sits mid-band in Disbelief with a 75% similarity to the Aug 2024 bottom analog, but current-only factors show extreme retail noise (91-94) and options skew (100) that historically mark local tops, not bottoms \u2014 the coil is real and the last two HOLD calls failed by under-weighting building break signals, so I'm holding only because neither the ETF flow divergence (-33) nor the VIX spike (+30) has resolved into a directional trigger yet.",
+        "confirmed_if": "BTC 30d momentum breaks above 55 AND ETF flows turn positive for 3 consecutive sessions",
+        "invalidated_if": "VIX breaks above 20 while BTC funding goes negative and retail noise velocity stays above 90",
+        "predicted_phase_clamped_from": "Disbelief",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
-      "headline": "Altcoins Stir as Dominance Fades",
-      "confidence": 0.76,
+      "headline": "Skeptics Ignore the Shifting Tide",
+      "confidence": 0.72,
       "next_move": {
-        "outlook": "The rotation narrative suggests altcoin outperformance continues, but Bitcoin must hold $80k or the risk-on thesis cracks.",
-        "direction": "HOLD",
+        "outlook": "The denial phase persists until a momentum spark forces late skeptics to chase, with the historical parallel suggesting the next leg resolves upward once BTC dominance stabilizes.",
+        "direction": "DOWN",
         "predicted_phase": "Thrill",
         "conviction": "medium",
-        "direction_geometry_would_be": "DOWN",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "predicted_phase_clamped_from": "Denial"
       }
     },
     "judge": {
       "signal": "HOLD",
-      "confidence": 0.57,
-      "next_move": {
-        "predicted_phase": "Thrill",
-        "direction": "HOLD",
-        "conviction": "medium",
-        "reasoning": "The coil at Hope can resolve either way and no single breaker has fired, so holding the current rung with defined confirmation triggers beats a forced directional guess in a 52%-move tape.",
-        "brains_agree": "Partially \u2014 both see the same tightening risk-on coil at Hope; the narrative leans toward bullish resolution via the Dec 2020 analog while the analyst (higher trust weight, 7.67 vs 6.00) holds until a breaker confirms, and the judge sides with the analyst's wait-for-confirmation stance",
-        "confirmed_if": "BTC funding pushes above 0.015% with CVD flipping positive for 3 consecutive 12h windows",
-        "invalidated_if": "VIX closes above 20 while BTC loses $78k support on rising exchange netflow",
-        "predicted_phase_clamped_from": "Hope",
-        "direction_geometry_would_be": "DOWN",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-        "confidence_pct": 56.0,
-        "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
-      }
+      "confidence": 0.67,
+      "next_move": null
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-08T07:15:12.256645-04:00",
+  "timestamp": "2026-10-08T08:17:28.972397-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
