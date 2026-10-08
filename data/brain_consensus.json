@@ -2,12 +2,12 @@
   "oracle": {
     "top_matching_factors": [
       "fear_greed",
-      "btc_momentum_30d",
-      "vix"
+      "btc_dom_fade",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
-      "mvrv_zscore",
-      "funding"
+      "vix",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "APPROACHING",
     "phase": "Denial",
@@ -18,27 +18,27 @@
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The tape is coiling between Disbelief and Hope with no clear breaker: fear_greed at 71 and VIX at 69 show risk appetite, but mvrv_zscore at 30 and funding at 50 show no mania, so the score likely holds this rung until ETF flows or retail noise break the range.",
-      "confirmed_if": "Sustained ETF inflows push fear_greed above 75 and btc_momentum_30d above 65, confirming a move to Optimism.",
-      "invalidated_if": "VIX spikes above 80 or mvrv_zscore drops below 25, signaling a fall back to Disbelief.",
+      "reasoning": "The tape is in a coil with mixed momentum signals \u2014 fear_greed at 64 and ma_200w_factor at 87 show underlying bid, but cvd_btc_pct_30d at 26 and btc_exchange_reserves_pct_30d at 0 show distribution pressure, so the score likely holds in the 63-70 band until one side breaks.",
+      "confirmed_if": "A sustained push above 70 on the composite score with btc_momentum_30d rising above 60 and cvd_btc_pct_30d flipping above 50 would confirm the next leg up toward Optimism.",
+      "invalidated_if": "A drop below 63 with fear_greed falling under 50 and exchange_netflow staying above 80 would kill the hold and signal a slide back to Disbelief.",
       "predicted_phase_clamped_from": "Hope",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"fear_greed\",\n    \"btc_momentum_30d\",\n    \"vix\"\n  ],\n  \"diverging_factors\": [\n    \"mvrv_zscore\",\n    \"funding\"\n  ],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is coiling between Disbelief and Hope with no clear breaker: fear_greed at",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is in a coil with mixed momentum signals \u2014 fear_greed at 64 and ma_200w_factor at 87 show underly",
     "brain": "analyst",
     "phase_clamped_from": "Hope"
   },
   "classifier": {
     "top_matching_factors": [
       "fear_greed",
-      "btc_momentum_30d",
-      "vix"
+      "btc_dom_fade",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
-      "mvrv_zscore",
-      "funding"
+      "vix",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "APPROACHING",
     "phase": "Denial",
@@ -49,27 +49,27 @@
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The tape is coiling between Disbelief and Hope with no clear breaker: fear_greed at 71 and VIX at 69 show risk appetite, but mvrv_zscore at 30 and funding at 50 show no mania, so the score likely holds this rung until ETF flows or retail noise break the range.",
-      "confirmed_if": "Sustained ETF inflows push fear_greed above 75 and btc_momentum_30d above 65, confirming a move to Optimism.",
-      "invalidated_if": "VIX spikes above 80 or mvrv_zscore drops below 25, signaling a fall back to Disbelief.",
+      "reasoning": "The tape is in a coil with mixed momentum signals \u2014 fear_greed at 64 and ma_200w_factor at 87 show underlying bid, but cvd_btc_pct_30d at 26 and btc_exchange_reserves_pct_30d at 0 show distribution pressure, so the score likely holds in the 63-70 band until one side breaks.",
+      "confirmed_if": "A sustained push above 70 on the composite score with btc_momentum_30d rising above 60 and cvd_btc_pct_30d flipping above 50 would confirm the next leg up toward Optimism.",
+      "invalidated_if": "A drop below 63 with fear_greed falling under 50 and exchange_netflow staying above 80 would kill the hold and signal a slide back to Disbelief.",
       "predicted_phase_clamped_from": "Hope",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"fear_greed\",\n    \"btc_momentum_30d\",\n    \"vix\"\n  ],\n  \"diverging_factors\": [\n    \"mvrv_zscore\",\n    \"funding\"\n  ],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is coiling between Disbelief and Hope with no clear breaker: fear_greed at",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is in a coil with mixed momentum signals \u2014 fear_greed at 64 and ma_200w_factor at 87 show underly",
     "brain": "analyst",
     "phase_clamped_from": "Hope"
   },
   "analyst": {
     "top_matching_factors": [
       "fear_greed",
-      "btc_momentum_30d",
-      "vix"
+      "btc_dom_fade",
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
-      "mvrv_zscore",
-      "funding"
+      "vix",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "APPROACHING",
     "phase": "Denial",
@@ -80,44 +80,41 @@
       "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The tape is coiling between Disbelief and Hope with no clear breaker: fear_greed at 71 and VIX at 69 show risk appetite, but mvrv_zscore at 30 and funding at 50 show no mania, so the score likely holds this rung until ETF flows or retail noise break the range.",
-      "confirmed_if": "Sustained ETF inflows push fear_greed above 75 and btc_momentum_30d above 65, confirming a move to Optimism.",
-      "invalidated_if": "VIX spikes above 80 or mvrv_zscore drops below 25, signaling a fall back to Disbelief.",
+      "reasoning": "The tape is in a coil with mixed momentum signals \u2014 fear_greed at 64 and ma_200w_factor at 87 show underlying bid, but cvd_btc_pct_30d at 26 and btc_exchange_reserves_pct_30d at 0 show distribution pressure, so the score likely holds in the 63-70 band until one side breaks.",
+      "confirmed_if": "A sustained push above 70 on the composite score with btc_momentum_30d rising above 60 and cvd_btc_pct_30d flipping above 50 would confirm the next leg up toward Optimism.",
+      "invalidated_if": "A drop below 63 with fear_greed falling under 50 and exchange_netflow staying above 80 would kill the hold and signal a slide back to Disbelief.",
       "predicted_phase_clamped_from": "Hope",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"fear_greed\",\n    \"btc_momentum_30d\",\n    \"vix\"\n  ],\n  \"diverging_factors\": [\n    \"mvrv_zscore\",\n    \"funding\"\n  ],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is coiling between Disbelief and Hope with no clear breaker: fear_greed at",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is in a coil with mixed momentum signals \u2014 fear_greed at 64 and ma_200w_factor at 87 show underly",
     "brain": "analyst",
     "phase_clamped_from": "Hope"
   },
   "narrative": {
-    "narrative": "Despite the tape slipping 2.67% to $83,306, the Fear & Greed Index remains stubbornly elevated at 71, while 30-day BTC momentum has stalled into a classic denial-phase coil. This mirrors the August 2024 bottoming structure, where sentiment refused to capitulate even as price carved out a higher low beneath the surface. The VIX's calm in a RISK_ON regime suggests the market is digesting rather than distributing, setting up for a narrative resolution that punishes the impatient.",
-    "headline": "Denial Coils While Momentum Whispers Bottom",
-    "confidence": 0.72,
+    "narrative": "Bitcoin\u2019s grind near $83K is being driven by a fading dominance regime and 30-day momentum that has quietly turned risk-on, even as the Fear & Greed index sits at a complacent 64. This setup is tracking 77% similar to the August 2024 bottom, when denial masked an early recovery before a sharp repricing higher. The tape is not yet confirming the move, but the historical script suggests the market is coiling while sentiment lags price structure.",
+    "headline": "Denial Holds as Momentum Turns Risk-On",
+    "confidence": 0.68,
     "next_move": {
-      "outlook": "The denial phase compresses until the momentum divergence resolves, likely forcing a sharp re-rating once the Fear & Greed Index finally cracks or price reclaims the 30-day trend.",
-      "direction": "HOLD",
+      "outlook": "The narrative arc points toward a resolution of the denial phase, with a historical precedent for upside once the dominance fade and momentum shift are acknowledged by the broader market.",
+      "direction": "DOWN",
       "predicted_phase": "Denial",
-      "conviction": "medium",
-      "direction_geometry_would_be": "DOWN",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "conviction": "medium"
     },
-    "raw_response": "```json\n{\n  \"narrative\": \"Despite the tape slipping 2.67% to $83,306, the Fear & Greed Index remains stubbornly elevated at 71, while 30-day BTC momentum has stalled into a classic denial-phase coil. This mirrors the August 2024 bottoming structure, where sentiment refused to capitulate even as price carved out a higher low beneath the surface. The VIX's calm in a RISK_ON regime suggests the market is digesting rather than distributing, setting up for a narrative resolution that punishes the imp",
+    "raw_response": "{\n  \"narrative\": \"Bitcoin\u2019s grind near $83K is being driven by a fading dominance regime and 30-day momentum that has quietly turned risk-on, even as the Fear & Greed index sits at a complacent 64. This setup is tracking 77% similar to the August 2024 bottom, when denial masked an early recovery before a sharp repricing higher. The tape is not yet confirming the move, but the historical script suggests the market is coiling while sentiment lags price structure.\",\n  \"headline\": \"Denial Holds as M",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
     "final_phase": "Denial",
     "alert_tier": "LOW",
-    "consensus_confidence": 0.67,
-    "key_reasoning": "Pattern match 75% to bottom_2024_aug",
+    "consensus_confidence": 0.65,
+    "key_reasoning": "Pattern match 77% to bottom_2024_aug",
     "disagreements_noted": [],
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.67,
-    "raw_response": "Let me work through this carefully.\n\nWe have two brains:\n\n**Brain 1 (Pattern Analyst)** \u2014 trust weight 7.67:\n- verdict=APPROACHING, phase=Denial, signal=HOLD, regime=RISK_ON, confidence=0.62\n- Top factors: fear_greed, btc_momentum_30d, vix\n- Diverging: mvrv_zscore, funding\n- Forward call: predicted_phase=Hope, direction=HOLD, conviction=medium\n- Reasoning: tape coiling between Disbelief and Hope; fear_greed at 71 and VIX at 69 show risk appetite, but mvrv_zscore at 30 and funding at 50 show no m"
+    "brains_avg_confidence": 0.65,
+    "raw_response": "Let me work through this carefully.\n\nWe have two brains:\n1. Pattern Analyst: verdict=APPROACHING, phase=Denial, signal=HOLD, regime=RISK_ON, confidence=0.62\n2. Narrative Writer: headline about \"Denial Holds as Momentum Turns Risk-On\", confidence=0.68, pattern match 77% to bottom_2024_aug (ACCUMULATION_BOTTOM)\n\nTrust weights:\n- Analyst brother: 7.67\n- Narrative writer brother: 6.00\n- Myself (consensus judge): 7.50\n\nSo when brains disagree, lean toward the analyst (7.67) over the narrative writer "
   },
   "brain_reads": {
     "analyst": {
@@ -127,9 +124,9 @@
         "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The tape is coiling between Disbelief and Hope with no clear breaker: fear_greed at 71 and VIX at 69 show risk appetite, but mvrv_zscore at 30 and funding at 50 show no mania, so the score likely holds this rung until ETF flows or retail noise break the range.",
-        "confirmed_if": "Sustained ETF inflows push fear_greed above 75 and btc_momentum_30d above 65, confirming a move to Optimism.",
-        "invalidated_if": "VIX spikes above 80 or mvrv_zscore drops below 25, signaling a fall back to Disbelief.",
+        "reasoning": "The tape is in a coil with mixed momentum signals \u2014 fear_greed at 64 and ma_200w_factor at 87 show underlying bid, but cvd_btc_pct_30d at 26 and btc_exchange_reserves_pct_30d at 0 show distribution pressure, so the score likely holds in the 63-70 band until one side breaks.",
+        "confirmed_if": "A sustained push above 70 on the composite score with btc_momentum_30d rising above 60 and cvd_btc_pct_30d flipping above 50 would confirm the next leg up toward Optimism.",
+        "invalidated_if": "A drop below 63 with fear_greed falling under 50 and exchange_netflow staying above 80 would kill the hold and signal a slide back to Disbelief.",
         "predicted_phase_clamped_from": "Hope",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
@@ -137,26 +134,23 @@
       }
     },
     "narrative": {
-      "headline": "Denial Coils While Momentum Whispers Bottom",
-      "confidence": 0.72,
+      "headline": "Denial Holds as Momentum Turns Risk-On",
+      "confidence": 0.68,
       "next_move": {
-        "outlook": "The denial phase compresses until the momentum divergence resolves, likely forcing a sharp re-rating once the Fear & Greed Index finally cracks or price reclaims the 30-day trend.",
-        "direction": "HOLD",
+        "outlook": "The narrative arc points toward a resolution of the denial phase, with a historical precedent for upside once the dominance fade and momentum shift are acknowledged by the broader market.",
+        "direction": "DOWN",
         "predicted_phase": "Denial",
-        "conviction": "medium",
-        "direction_geometry_would_be": "DOWN",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "conviction": "medium"
       }
     },
     "judge": {
       "signal": "HOLD",
-      "confidence": 0.67,
+      "confidence": 0.65,
       "next_move": null
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-07T19:47:53.718092-04:00",
+  "timestamp": "2026-10-07T20:50:09.078610-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
