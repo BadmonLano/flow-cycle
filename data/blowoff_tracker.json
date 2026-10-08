@@ -1,21 +1,21 @@
 {
-  "_updated": "2026-10-07T23:58:21.871886",
-  "anchor_date": "2026-10-07",
-  "current_btc_price": 82695.27,
+  "_updated": "2026-10-08T01:00:13.121758",
+  "anchor_date": "2026-10-08",
+  "current_btc_price": 82594,
   "signatures": {
     "parabolic": {
-      "score": 19.3,
+      "score": 19.2,
       "status": "mild_uptrend",
       "metrics": {
-        "gain_7d": -2.04,
-        "gain_30d": 30.13,
-        "gain_60d": 32.75,
-        "gain_90d": 28.2,
-        "acceleration": -0.27
+        "gain_7d": -2.2,
+        "gain_30d": 30.07,
+        "gain_60d": 28.57,
+        "gain_90d": 25.85,
+        "acceleration": -0.29
       }
     },
     "magnitude": {
-      "score": 15.8,
+      "score": 15.7,
       "status": "mid_cycle_rally",
       "metrics": {
         "cycle_bottom": 26756.798828,
@@ -23,16 +23,16 @@
         "bottom_source": "rolling_1095d_fallback",
         "bottom_source_note": "FALLBACK: lowest close in a rolling 1095d window. History could not reach the prior ATH, so this bottom may be a mid-drawdown bounce, not the cycle low - treat the multiple as a floor, not a measurement.",
         "current_multiple": 3.09,
-        "pct_of_ath": 66.3,
+        "pct_of_ath": 66.2,
         "all_time_high": 124752.53125
       }
     },
     "retail": {
-      "score": 21.9,
+      "score": 21.6,
       "status": "neutral",
       "metrics": {
         "fg_current": 64,
-        "fg_avg_30d": 67.8,
+        "fg_avg_30d": 67.6,
         "fg_max_30d": 78,
         "fg_days_above_75": 1,
         "fg_days_above_85": 0,
@@ -50,7 +50,7 @@
       "metrics": {
         "dxy_score": 0.0,
         "stablecoin_score": 0.3,
-        "stablecoin_level": 263970154924.0,
+        "stablecoin_level": 263939109617.0,
         "stablecoin_level_note": "supply $264B, 60d change +1.0%",
         "vix_score": 50,
         "sp500_score": 97.8,
@@ -58,35 +58,36 @@
       }
     },
     "breadth": {
-      "score": 0.0,
-      "status": "btc_dominant_dom_missing",
+      "score": 3.8,
+      "status": "btc_dominant",
       "metrics": {
         "eth_btc_score": 0,
         "sol_btc_score": 0,
-        "btc_dom_score": null,
-        "btc_dom_available": false,
+        "btc_dom_score": 15.1,
+        "btc_dom_available": true,
         "legs_used": [
           "eth_btc",
-          "sol_btc"
+          "sol_btc",
+          "btc_dom"
         ],
-        "_dom_note": "macro.btc_dom was null - the dominance leg was DROPPED and the remaining legs renormalised. It is not scored as 0; a missing feed is not evidence of btc dominance.",
+        "_dom_note": null,
         "eth_btc_chg_30d": null,
         "sol_btc_chg_30d": null
       }
     },
     "shape": {
-      "score": 48.8,
-      "status": "weak_match",
+      "score": 57.3,
+      "status": "partial_match",
       "metrics": {
         "best_match": "2021_nov",
         "best_kind": "top",
-        "best_similarity": 0.915,
-        "top_signal_sim": 0.915
+        "best_similarity": 0.929,
+        "top_signal_sim": 0.929
       }
     }
   },
   "composite": {
-    "composite": 20.0,
+    "composite": 21.3,
     "alert": "quiet",
     "strict_fire": false,
     "signatures_above_70": 0,
@@ -94,7 +95,7 @@
       "required_above_70": 4,
       "current_above_70": 0,
       "required_composite": 80,
-      "current_composite": 20.0,
+      "current_composite": 21.3,
       "all_conditions_met": false
     }
   },
@@ -111,7 +112,7 @@
     "2021_nov"
   ],
   "shape_regression_check": {
-    "_checked_at": "2026-10-07T23:58:21.867887",
+    "_checked_at": "2026-10-08T01:00:13.116246",
     "checks": [
       {
         "name": "bottom_shape_not_scored_as_top",
@@ -133,12 +134,12 @@
     "verdict": "shape signature is kind-aware - the 2026-06-26 Pearson fix holds (separation check inconclusive on synthetic data)"
   },
   "trend": {
-    "composite_7_sweeps_ago": 25.6,
-    "delta_7": -5.6,
-    "direction": "falling",
+    "composite_7_sweeps_ago": 17.1,
+    "delta_7": 4.2,
+    "direction": "rising",
     "peak_composite_on_record": 28.1,
     "peak_gap_to_strict": 51.9,
-    "rows": 21,
+    "rows": 22,
     "_note": "a rising composite that has not fired yet is a different tape from a flat one at the same level. Both read 'quiet' without this."
   }
 }
