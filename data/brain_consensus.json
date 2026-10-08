@@ -1,260 +1,161 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
+      "etf_flows",
       "vix",
-      "gold_strength",
       "mvrv_zscore"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Thrill",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.42,
+    "confidence": 0.62,
     "next_move": {
       "predicted_phase": "Thrill",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The score sits at 64 (Hope band 63-70) with a 75.7% similarity to a breakout analog, but the divergences are severe \u2014 VIX is +47 points above the analog, MVRV is -35 below, and gold strength is +27 above, meaning this is not a clean 2020-style breakout; the tape is moving (59% base rate) but the factor mix is too conflicted to force a direction, so I hold the phase and wait for either the VIX to collapse or MVRV to climb before trusting the analog.",
-      "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, confirming the 2020 breakout analog is actually activating",
-      "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on structure is breaking down",
-      "predicted_phase_clamped_from": "Hope",
+      "reasoning": "The tape is coiled between a 74.9% bottom_2024_aug analog (which wants a recovery leg) and a live tape where ETF flows are -33 vs the analog and VIX is +31, so the score is pinned in the Disbelief band until one of those breaks.",
+      "confirmed_if": "ETF flows turn positive for 3 consecutive sessions or VIX drops below 13",
+      "invalidated_if": "BTC loses $78,000 on rising VIX above 18",
+      "predicted_phase_clamped_from": "Disbelief",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"etf_flows\",\n    \"btc_dom_fade\",\n    \"fear_greed\"\n  ],\n  \"diverging_factors\": [\n    \"vix\",\n    \"gold_strength\",\n    \"mvrv_zscore\"\n  ],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 64 (Hope band 63-70) with a 75.7% similarity to ",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is coiled between a 74.9% bottom_2024_aug analog (which wants a recovery l",
     "brain": "analyst",
-    "phase_clamped_from": "Hope"
+    "phase_clamped_from": "Disbelief"
   },
   "classifier": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
+      "etf_flows",
       "vix",
-      "gold_strength",
       "mvrv_zscore"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Thrill",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.42,
+    "confidence": 0.62,
     "next_move": {
       "predicted_phase": "Thrill",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The score sits at 64 (Hope band 63-70) with a 75.7% similarity to a breakout analog, but the divergences are severe \u2014 VIX is +47 points above the analog, MVRV is -35 below, and gold strength is +27 above, meaning this is not a clean 2020-style breakout; the tape is moving (59% base rate) but the factor mix is too conflicted to force a direction, so I hold the phase and wait for either the VIX to collapse or MVRV to climb before trusting the analog.",
-      "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, confirming the 2020 breakout analog is actually activating",
-      "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on structure is breaking down",
-      "predicted_phase_clamped_from": "Hope",
+      "reasoning": "The tape is coiled between a 74.9% bottom_2024_aug analog (which wants a recovery leg) and a live tape where ETF flows are -33 vs the analog and VIX is +31, so the score is pinned in the Disbelief band until one of those breaks.",
+      "confirmed_if": "ETF flows turn positive for 3 consecutive sessions or VIX drops below 13",
+      "invalidated_if": "BTC loses $78,000 on rising VIX above 18",
+      "predicted_phase_clamped_from": "Disbelief",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"etf_flows\",\n    \"btc_dom_fade\",\n    \"fear_greed\"\n  ],\n  \"diverging_factors\": [\n    \"vix\",\n    \"gold_strength\",\n    \"mvrv_zscore\"\n  ],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 64 (Hope band 63-70) with a 75.7% similarity to ",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is coiled between a 74.9% bottom_2024_aug analog (which wants a recovery l",
     "brain": "analyst",
-    "phase_clamped_from": "Hope"
+    "phase_clamped_from": "Disbelief"
   },
   "analyst": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "btc_momentum_30d"
     ],
     "diverging_factors": [
+      "etf_flows",
       "vix",
-      "gold_strength",
       "mvrv_zscore"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Thrill",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Denial",
     "regime_direction": "RISK_ON",
     "classifier_signal": "HOLD",
-    "confidence": 0.42,
+    "confidence": 0.62,
     "next_move": {
       "predicted_phase": "Thrill",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The score sits at 64 (Hope band 63-70) with a 75.7% similarity to a breakout analog, but the divergences are severe \u2014 VIX is +47 points above the analog, MVRV is -35 below, and gold strength is +27 above, meaning this is not a clean 2020-style breakout; the tape is moving (59% base rate) but the factor mix is too conflicted to force a direction, so I hold the phase and wait for either the VIX to collapse or MVRV to climb before trusting the analog.",
-      "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, confirming the 2020 breakout analog is actually activating",
-      "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on structure is breaking down",
-      "predicted_phase_clamped_from": "Hope",
+      "reasoning": "The tape is coiled between a 74.9% bottom_2024_aug analog (which wants a recovery leg) and a live tape where ETF flows are -33 vs the analog and VIX is +31, so the score is pinned in the Disbelief band until one of those breaks.",
+      "confirmed_if": "ETF flows turn positive for 3 consecutive sessions or VIX drops below 13",
+      "invalidated_if": "BTC loses $78,000 on rising VIX above 18",
+      "predicted_phase_clamped_from": "Disbelief",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "```json\n{\n  \"top_matching_factors\": [\n    \"etf_flows\",\n    \"btc_dom_fade\",\n    \"fear_greed\"\n  ],\n  \"diverging_factors\": [\n    \"vix\",\n    \"gold_strength\",\n    \"mvrv_zscore\"\n  ],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The score sits at 64 (Hope band 63-70) with a 75.7% similarity to ",
+    "raw_response": "```json\n{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"btc_momentum_30d\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The tape is coiled between a 74.9% bottom_2024_aug analog (which wants a recovery l",
     "brain": "analyst",
-    "phase_clamped_from": "Hope"
+    "phase_clamped_from": "Disbelief"
   },
   "narrative": {
-    "narrative": "ETF flows are quietly accumulating while BTC dominance fades, a signature of capital rotating into risk-on alt exposure even as spot price consolidates near $81.6k. This mirrors the December 2020 breakout setup, where sustained institutional bid and a greed-reading in the mid-60s preceded a violent expansion. The tape is coiling with rising participation beneath the surface \u2014 patience here is a position, not a pause.",
-    "headline": "Quiet Flows, Fading Dominance, Coiled Breakout",
-    "confidence": 0.76,
+    "narrative": "Bitcoin's tape is flashing a familiar sequence: greed is cooling from euphoric extremes, BTC dominance is fading as capital rotates, and 30-day momentum has stalled near $82K \u2014 the same trio that marked the August 2024 bottom before the next leg. The Fear & Greed Index at 64 suggests the crowd still believes the dip is buyable, which is exactly the denial phase that historically precedes a sharp re-rating. The setup rhymes with a bottom, but the market hasn't yet proven it.",
+    "headline": "Denial Holds the Line at $82K",
+    "confidence": 0.74,
     "next_move": {
-      "outlook": "The narrative arc suggests accumulation under the surface resolves into a sharp expansion once BTC dominance breaks its support shelf.",
-      "direction": "HOLD",
+      "outlook": "The narrative arc suggests a final flush or consolidation before momentum reasserts, with the August 2024 pattern implying the next impulse is higher once denial breaks.",
+      "direction": "DOWN",
       "predicted_phase": "Thrill",
       "conviction": "medium",
-      "direction_geometry_would_be": "DOWN",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "predicted_phase_clamped_from": "Denial"
     },
-    "raw_response": "{\n  \"narrative\": \"ETF flows are quietly accumulating while BTC dominance fades, a signature of capital rotating into risk-on alt exposure even as spot price consolidates near $81.6k. This mirrors the December 2020 breakout setup, where sustained institutional bid and a greed-reading in the mid-60s preceded a violent expansion. The tape is coiling with rising participation beneath the surface \u2014 patience here is a position, not a pause.\",\n  \"headline\": \"Quiet Flows, Fading Dominance, Coiled Breako",
+    "raw_response": "```json\n{\n  \"narrative\": \"Bitcoin's tape is flashing a familiar sequence: greed is cooling from euphoric extremes, BTC dominance is fading as capital rotates, and 30-day momentum has stalled near $82K \u2014 the same trio that marked the August 2024 bottom before the next leg. The Fear & Greed Index at 64 suggests the crowd still believes the dip is buyable, which is exactly the denial phase that historically precedes a sharp re-rating. The setup rhymes with a bottom, but the market hasn't yet proven",
     "brain": "narrative_writer"
   },
   "consensus": {
     "final_signal": "HOLD",
-    "final_phase": "Hope",
-    "alert_tier": "MED",
-    "consensus_confidence": 0.58,
-    "key_reasoning": "Score 64 anchors at Hope (63-70), so the analyst's 'Thrill' label is rejected as 5 rungs off the legal \u00b11 band and corrected to Hope per its own reasoning. The higher-trust analyst's DIVERGING verdict \u2014 VIX +47, MVRV -35, gold +27 versus the 2020 analog \u2014 overrides the narrative's cleaner breakout story, so we hold the coil until the divergences resolve.",
-    "disagreements_noted": [
-      "Analyst's phase label 'Thrill' (86-92 band) contradicts its own score reading of 64 (Hope band); corrected to Hope under the \u00b11 rung hard rule.",
-      "Conviction split: analyst at 0.42 with DIVERGING verdict vs narrative at 0.76 bullish breakout framing that ignores the VIX/MVRV/gold divergences.",
-      "Both converge on patience \u2014 analyst's explicit HOLD matches the narrative's 'patience is a position' \u2014 but for different reasons."
-    ],
-    "next_move": {
-      "predicted_phase": "Thrill",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "In a coiled 59%-moving tape with severe factor divergences against the analog, holding the Hope rung and waiting for VIX/MVRV confirmation beats forcing a direction that historically went 0-for-18.",
-      "brains_agree": "Yes on patience/HOLD (analyst explicit, narrative's 'patience is a position'), but split on conviction \u2014 analyst 0.42 DIVERGING vs narrative 0.76 bullish; trust weights lean analyst.",
-      "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, activating the 2020 breakout analog (ETF inflows and dominance fade continuing would add confirmation).",
-      "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on rotation structure is breaking down.",
-      "predicted_phase_clamped_from": "Hope",
-      "direction_geometry_would_be": "DOWN",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-      "confidence_pct": 56.0,
-      "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
-    },
-    "raw_response": "Let me work through this carefully.\n\nThe setup:\n- Pattern Analyst (brain 1): verdict=DIVERGING, phase=Thrill, signal=HOLD, regime=RISK_ON, confidence=0.42. Forward call: predicted_phase=Hope, direction=HOLD, conviction=medium. Reasoning mentions score sits at 64 (Hope band 63-70) with 75.7% similarity to breakout analog, but severe divergences (VIX +47 above analog, MVRV -35 below, gold strength +27 above).\n- Narrative Writer (brain 2): headline \"Quiet Flows, Fading Dominance, Coiled Breakout\", ",
+    "final_phase": "Denial",
+    "alert_tier": "LOW",
+    "consensus_confidence": 0.68,
+    "key_reasoning": "Pattern match 75% to bottom_2024_aug",
+    "disagreements_noted": [],
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.59,
-    "brain_reads": {
-      "analyst": {
-        "signal": "HOLD",
-        "phase": "Thrill",
-        "verdict": "DIVERGING",
-        "confidence": 0.42,
-        "next_move": {
-          "predicted_phase": "Thrill",
-          "direction": "HOLD",
-          "conviction": "medium",
-          "reasoning": "The score sits at 64 (Hope band 63-70) with a 75.7% similarity to a breakout analog, but the divergences are severe \u2014 VIX is +47 points above the analog, MVRV is -35 below, and gold strength is +27 above, meaning this is not a clean 2020-style breakout; the tape is moving (59% base rate) but the factor mix is too conflicted to force a direction, so I hold the phase and wait for either the VIX to collapse or MVRV to climb before trusting the analog.",
-          "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, confirming the 2020 breakout analog is actually activating",
-          "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on structure is breaking down",
-          "predicted_phase_clamped_from": "Hope",
-          "direction_geometry_would_be": "DOWN",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
-        }
-      },
-      "narrative": {
-        "headline": "Quiet Flows, Fading Dominance, Coiled Breakout",
-        "phase": "Hope",
-        "confidence": 0.76,
-        "next_move": {
-          "outlook": "The narrative arc suggests accumulation under the surface resolves into a sharp expansion once BTC dominance breaks its support shelf.",
-          "direction": "HOLD",
-          "predicted_phase": "Thrill",
-          "conviction": "medium",
-          "direction_geometry_would_be": "DOWN",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
-        }
-      },
-      "judge": {
-        "signal": "HOLD",
-        "phase": "Hope",
-        "confidence": 0.58,
-        "next_move": {
-          "predicted_phase": "Thrill",
-          "direction": "HOLD",
-          "conviction": "medium",
-          "reasoning": "In a coiled 59%-moving tape with severe factor divergences against the analog, holding the Hope rung and waiting for VIX/MVRV confirmation beats forcing a direction that historically went 0-for-18.",
-          "brains_agree": "Yes on patience/HOLD (analyst explicit, narrative's 'patience is a position'), but split on conviction \u2014 analyst 0.42 DIVERGING vs narrative 0.76 bullish; trust weights lean analyst.",
-          "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, activating the 2020 breakout analog (ETF inflows and dominance fade continuing would add confirmation).",
-          "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on rotation structure is breaking down.",
-          "predicted_phase_clamped_from": "Hope",
-          "direction_geometry_would_be": "DOWN",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-          "confidence_pct": 56.0,
-          "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
-        }
-      },
-      "legacy": {
-        "signal": null,
-        "phase": null,
-        "score": null,
-        "confidence": null,
-        "next_move": null
-      }
-    },
-    "advisory": true
+    "brains_avg_confidence": 0.68,
+    "raw_response": "Let me work through this carefully.\n\nThe setup:\n- Pattern match: 74.9% similarity to bottom_2024_aug (ACCUMULATION_BOTTOM)\n- Analyst brain (trust 7.67): verdict=APPROACHING, phase=Denial, signal=HOLD, regime=RISK_ON, confidence=0.62. Forward call: predicted_phase=Disbelief, direction=HOLD, conviction=medium. Reasoning: tape coiled between the analog (which wants recovery) and live tape where ETF flows are -33 vs analog and VIX +31, so score pinned in Disbelief band until one breaks. Confirmed if"
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Thrill",
-      "confidence": 0.42,
+      "phase": "Denial",
+      "confidence": 0.62,
       "next_move": {
         "predicted_phase": "Thrill",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The score sits at 64 (Hope band 63-70) with a 75.7% similarity to a breakout analog, but the divergences are severe \u2014 VIX is +47 points above the analog, MVRV is -35 below, and gold strength is +27 above, meaning this is not a clean 2020-style breakout; the tape is moving (59% base rate) but the factor mix is too conflicted to force a direction, so I hold the phase and wait for either the VIX to collapse or MVRV to climb before trusting the analog.",
-        "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, confirming the 2020 breakout analog is actually activating",
-        "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on structure is breaking down",
-        "predicted_phase_clamped_from": "Hope",
+        "reasoning": "The tape is coiled between a 74.9% bottom_2024_aug analog (which wants a recovery leg) and a live tape where ETF flows are -33 vs the analog and VIX is +31, so the score is pinned in the Disbelief band until one of those breaks.",
+        "confirmed_if": "ETF flows turn positive for 3 consecutive sessions or VIX drops below 13",
+        "invalidated_if": "BTC loses $78,000 on rising VIX above 18",
+        "predicted_phase_clamped_from": "Disbelief",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
-      "headline": "Quiet Flows, Fading Dominance, Coiled Breakout",
-      "confidence": 0.76,
+      "headline": "Denial Holds the Line at $82K",
+      "confidence": 0.74,
       "next_move": {
-        "outlook": "The narrative arc suggests accumulation under the surface resolves into a sharp expansion once BTC dominance breaks its support shelf.",
-        "direction": "HOLD",
+        "outlook": "The narrative arc suggests a final flush or consolidation before momentum reasserts, with the August 2024 pattern implying the next impulse is higher once denial breaks.",
+        "direction": "DOWN",
         "predicted_phase": "Thrill",
         "conviction": "medium",
-        "direction_geometry_would_be": "DOWN",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "predicted_phase_clamped_from": "Denial"
       }
     },
     "judge": {
       "signal": "HOLD",
-      "confidence": 0.58,
-      "next_move": {
-        "predicted_phase": "Thrill",
-        "direction": "HOLD",
-        "conviction": "medium",
-        "reasoning": "In a coiled 59%-moving tape with severe factor divergences against the analog, holding the Hope rung and waiting for VIX/MVRV confirmation beats forcing a direction that historically went 0-for-18.",
-        "brains_agree": "Yes on patience/HOLD (analyst explicit, narrative's 'patience is a position'), but split on conviction \u2014 analyst 0.42 DIVERGING vs narrative 0.76 bullish; trust weights lean analyst.",
-        "confirmed_if": "VIX drops below 12 AND MVRV z-score climbs above 45, activating the 2020 breakout analog (ETF inflows and dominance fade continuing would add confirmation).",
-        "invalidated_if": "BTC funding flips negative AND stablecoin growth drops below 40, signaling the risk-on rotation structure is breaking down.",
-        "predicted_phase_clamped_from": "Hope",
-        "direction_geometry_would_be": "DOWN",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Thrill, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-        "confidence_pct": 56.0,
-        "confidence_basis": "2/2 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
-      }
+      "confidence": 0.68,
+      "next_move": null
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-08T17:41:31.542584-04:00",
+  "timestamp": "2026-10-08T18:44:01.069814-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
