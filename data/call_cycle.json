@@ -111,10 +111,10 @@
       "_unvalidated": true,
       "peak_pct_so_far": 0.0,
       "favoured_pct": -0.0,
-      "gave_back_pp": 0.963,
+      "gave_back_pp": 1.051,
       "peak_at_hour": 1.04,
-      "elapsed_hours": 9.33,
-      "reading": "this call peaked 1.04h in (-0.00% your way) and has given back 0.96pp since. In the 19-call backfill that shape preceded a MISS 5 times out of 6.",
+      "elapsed_hours": 10.37,
+      "reading": "this call peaked 1.04h in (-0.00% your way) and has given back 1.05pp since. In the 19-call backfill that shape preceded a MISS 5 times out of 6.",
       "_caveat": "UNVALIDATED. This rule was fitted to 13 directional calls and has never been tested on data nobody tuned it on. It is a reading, not an instruction - the revision lever is still yours, and spending it on a sensor this young is a bet on the sensor, not on the tape.",
       "_thresholds": {
         "peak_before_h": 3.0,
@@ -123,26 +123,12 @@
     },
     "bank_sensor": {
       "fires": false,
-      "status": "watching",
+      "status": "clock_short",
       "suggestion": "held",
       "_unvalidated": true,
       "reason": null,
-      "peak_pct_so_far": 0.0,
-      "favoured_pct": -0.0,
-      "gave_back_pp": 0.963,
-      "peak_at_hour": 1.04,
-      "elapsed_hours": 9.33,
-      "net_pct_so_far": 0.963,
-      "stalled": true,
-      "time_left_min": 160,
-      "reading": "no first wave yet (-0.00% your way at 9.33h). nothing to bank.",
-      "_thresholds": {
-        "fav_min_pct": 0.25,
-        "giveback_min_pp": 0.35,
-        "stall_hours": 1.5,
-        "min_left_min": 120
-      },
-      "_caveat": "BANK SENSOR. advisory only. never auto-restamps. unused bullet at the boundary is the miss of the lever, not discipline."
+      "reading": "only 97m left. bank needs >=120m so the second leg is not a coin flip.",
+      "time_left_min": 97
     },
     "live_bullet_last_check_iso": "2026-10-09T04:04:53.372184-04:00",
     "live_bullet_drift_vs_call_pct": 0.818,
@@ -12965,20 +12951,20 @@
     "next_boundary_iso": "2026-10-09T06:45:17.185349-04:00",
     "slot_id": "2026-10-08-PM",
     "stamped_at": "2026-10-08T18:45:17.152348-04:00",
-    "stamped_ago_min": 559,
-    "seconds_left": 9623,
-    "minutes_left": 160,
-    "hours_left": 2.7,
+    "stamped_ago_min": 622,
+    "seconds_left": 5868,
+    "minutes_left": 97,
+    "hours_left": 1.6,
     "as_of": "2026-10-08T18:45:17.152348-04:00",
     "invalidate_if": [
       "btc reclaim 84800"
     ],
     "revision_available": true,
     "bullet": "loaded",
-    "live_bullet_last_check_iso": "2026-10-09T03:02:44.946548-04:00",
-    "live_bullet_drift_vs_call_pct": 0.617,
+    "live_bullet_last_check_iso": "2026-10-09T04:04:53.372184-04:00",
+    "live_bullet_drift_vs_call_pct": 0.818,
     "carried": false,
-    "note": "2.7h left in this 12h window (anchored to the call stamp). Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
+    "note": "1.6h left in this 12h window (anchored to the call stamp). Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
   },
   "no_calls": [
     {
@@ -13961,9 +13947,10 @@
   ],
   "revision_prompt_fired": true,
   "revision_read_snapshot": {
-    "reason": "structure",
-    "at": "2026-10-08T22:54:42.735002-04:00",
-    "clock_left_min": 470
+    "reason": "state_flip",
+    "at": "2026-10-09T05:07:28.332092-04:00",
+    "clock_left_min": 97,
+    "flip": "clock_band"
   },
   "offline_windows": [
     {
@@ -14242,7 +14229,7 @@
   "call_state": {
     "state": "LIVE",
     "since": "2026-10-08T18:45:17.191347-04:00",
-    "sweeps_in_state": 9,
+    "sweeps_in_state": 10,
     "_meaning": "stamped, clock running"
   },
   "bakeoff": {
@@ -14269,7 +14256,7 @@
   "revision_fire_state": {
     "in_material_band": false,
     "bank_sensor": false,
-    "clock_band": "normal",
-    "at": "2026-10-09T04:04:53.357185-04:00"
+    "clock_band": "short",
+    "at": "2026-10-09T05:07:28.332092-04:00"
   }
 }
