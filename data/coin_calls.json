@@ -1,27 +1,27 @@
 {
-  "_updated": "2026-10-09T07:13:19.672096-04:00",
+  "_updated": "2026-10-09T08:15:56.012637-04:00",
   "calls": {
     "BTC": {
-      "direction": "FLAT",
-      "entry": null,
-      "tp": null,
-      "sl": null,
+      "direction": "LONG",
+      "entry": 82494,
+      "tp": 83700,
+      "sl": 81400,
       "horizon": "12h",
-      "note": "No bitcoin ticket. Flat means no ticket, not a claim that price is stuck. Price about 82498. Kill is a reclaim of 84800. Window has under two hours left, so no new graded ticket.",
+      "horizon_hours": 12,
+      "reason": "bounce held and the fade never worked. micro long, not a chase. dies if 81400 breaks.",
+      "opened_at": "2026-10-09T08:15:55.872665-04:00",
       "source": "jordan",
-      "opened_at": "2026-10-09T07:13:19.672096-04:00",
       "mechanical_confluence": {
-        "direction": "FLAT",
-        "conviction": "low",
-        "score": 0.92,
+        "direction": "LONG",
+        "conviction": "medium",
+        "score": 1.8,
         "votes": [
-          "BTC 200wk 1.24x mid \u2192 neutral",
-          "bottom still ahead (HUNTING_BOTTOM, conf 0.4) \u2192 short",
+          "BTC 200wk 1.252x mid \u2192 neutral",
+          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +1.7% \u2192 long"
+          "projection +0.8% \u2192 flat"
         ]
       },
-      "horizon_hours": 72,
       "probe_locked": true,
       "probe_age_hours": 0.0,
       "probe_agrees_with_live_stance": null,
@@ -39,20 +39,20 @@
       "mechanical_confluence": {
         "direction": "LONG",
         "conviction": "high",
-        "score": 3.42,
+        "score": 5.1,
         "votes": [
-          "ETH 200wk 0.982x AT FLOOR \u2192 long",
-          "bottom still ahead (HUNTING_BOTTOM, conf 0.4) \u2192 short",
+          "ETH 200wk 0.988x AT FLOOR \u2192 long",
+          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "ETH funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +2.2% \u2192 long"
+          "projection +1.0% \u2192 long"
         ]
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 0.0,
+      "probe_age_hours": 1.0,
       "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. No live stance to compare against."
+      "probe_note": "explicit override, frozen 1.0h - a probe outlives the 12h stance on purpose. No live stance to compare against."
     },
     "SOL": {
       "direction": "FLAT",
@@ -66,20 +66,20 @@
       "mechanical_confluence": {
         "direction": "LONG",
         "conviction": "high",
-        "score": 3.42,
+        "score": 5.1,
         "votes": [
-          "SOL 200wk 0.979x AT FLOOR \u2192 long",
-          "bottom still ahead (HUNTING_BOTTOM, conf 0.4) \u2192 short",
+          "SOL 200wk 0.992x AT FLOOR \u2192 long",
+          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "SOL funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +2.7% \u2192 long"
+          "projection +1.2% \u2192 long"
         ]
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 0.0,
+      "probe_age_hours": 1.0,
       "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. No live stance to compare against."
+      "probe_note": "explicit override, frozen 1.0h - a probe outlives the 12h stance on purpose. No live stance to compare against."
     }
   },
   "perps_contract": {
@@ -94,10 +94,6 @@
       "calls.<COIN>.levels_stale"
     ],
     "do_not_size_when": {
-      "BTC": [
-        "FLAT - a stance, not a ticket; there are no levels to ride",
-        "no TP/SL on the row"
-      ],
       "ETH": [
         "FLAT - a stance, not a ticket; there are no levels to ride",
         "no TP/SL on the row"
@@ -107,7 +103,9 @@
         "no TP/SL on the row"
       ]
     },
-    "safe_to_size": [],
+    "safe_to_size": [
+      "BTC"
+    ],
     "_rule": "Size only from a call that is locked, directional, carries both levels, and has hours_left > 0. A row existing is not a call being tradeable - awaiting_jordan and FLAT are honest states that must never be sized."
   }
 }
