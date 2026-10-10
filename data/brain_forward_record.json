@@ -1,23 +1,23 @@
 {
-  "_updated": "2026-10-10T00:02:32.127529-04:00",
+  "_updated": "2026-10-10T01:16:43.280182-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-10T00:02:32.156529-04:00",
+      "made_at": "2026-10-10T01:16:43.313152-04:00",
       "score_at_call": 56,
       "phase_at_call": "Disbelief",
-      "predicted_phase": "Hope",
-      "direction": "UP",
+      "predicted_phase": "Disbelief",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The consensus indicates a positive trend with a high confidence level, suggesting that the market may continue to move upwards.",
-      "confirmed_if": "BTC's 30-day momentum continues to rise and VIX remains stable",
-      "invalidated_if": "A significant spike in VIX or a drop in BTC momentum",
+      "reasoning": "The Pattern Analyst's analysis of high VIX and gold strength readings indicates a bearish reversal, which is the consensus next phase.",
+      "confirmed_if": "VIX spikes above 80 and gold_strength >90",
+      "invalidated_if": "BTC 30d momentum rebounds above 65 and retail_noise_sentiment drops below 70",
       "signals_at_call": {
         "fear_greed": 64,
-        "btc_funding": 0.007,
-        "mvrv_zscore": 1.0288,
+        "btc_funding": 0.0012,
+        "mvrv_zscore": 1.0339,
         "net_liquidity_chg_4w": 10028.0,
-        "btc_dom": 59.109601887331124,
+        "btc_dom": null,
         "etf_net_total_musd": -487.07,
         "vix": 14.84
       }
@@ -3216,40 +3216,6 @@
     "regime_note": "score actually moved in 3 of 5 graded windows this week"
   },
   "superseded": [
-    {
-      "made_at": "2026-08-11T08:59:55.390224-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Panic",
-      "predicted_phase": "Panic",
-      "direction": "HOLD",
-      "conviction": "high",
-      "reasoning": "With 0 of 43 windows showing meaningful movement and no accumulation breaker (ETF flows >30, stablecoin growth >45) yet present, HOLD is the only statistically honest call in this coil.",
-      "confirmed_if": "ETF flows >30 AND stablecoin_growth >45",
-      "invalidated_if": "LONG_AGGRESSIVE forced before accumulation breakers appear",
-      "signals_at_call": {
-        "fear_greed": 29,
-        "btc_funding": 0.0023,
-        "mvrv_zscore": 0.4177,
-        "net_liquidity_chg_4w": -120304.0,
-        "btc_dom": 56.54458422695136,
-        "etf_net_total_musd": -144.67,
-        "vix": 15.53
-      },
-      "superseded_at": "2026-08-11T11:45:30.806869-04:00",
-      "superseded_by": {
-        "predicted_phase": "Denial",
-        "direction": "UP"
-      },
-      "closed_reason": "dirty-open heal: more than one view was open at once. Kept the view matching the live consensus; this one stops accruing clock.",
-      "graded_at": "2026-08-13T10:05:48.940578-04:00",
-      "window_hours_actual": 2.76,
-      "partial_window": true,
-      "score_at_close": 39,
-      "realized_direction": "HOLD",
-      "direction_hit": true,
-      "score_delta": 0,
-      "grade_note": "graded on the 2.76h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
-    },
     {
       "made_at": "2026-08-11T01:28:20.705212-04:00",
       "score_at_call": 39,
@@ -6621,6 +6587,32 @@
       "direction_hit": false,
       "score_delta": -18,
       "grade_note": "graded on the 1.2h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-10-10T00:02:32.156529-04:00",
+      "score_at_call": 56,
+      "phase_at_call": "Disbelief",
+      "predicted_phase": "Hope",
+      "direction": "UP",
+      "conviction": "medium",
+      "reasoning": "The consensus indicates a positive trend with a high confidence level, suggesting that the market may continue to move upwards.",
+      "confirmed_if": "BTC's 30-day momentum continues to rise and VIX remains stable",
+      "invalidated_if": "A significant spike in VIX or a drop in BTC momentum",
+      "signals_at_call": {
+        "fear_greed": 64,
+        "btc_funding": 0.007,
+        "mvrv_zscore": 1.0288,
+        "net_liquidity_chg_4w": 10028.0,
+        "btc_dom": 59.109601887331124,
+        "etf_net_total_musd": -487.07,
+        "vix": 14.84
+      },
+      "superseded_at": "2026-10-10T01:16:43.313152-04:00",
+      "superseded_by": {
+        "predicted_phase": "Disbelief",
+        "direction": "HOLD"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
