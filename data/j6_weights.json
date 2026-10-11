@@ -1,7 +1,7 @@
 {
   "version": 2,
   "schema_version": "unified_v2_2026-05-26",
-  "updated_at": "2026-08-16T12:05:36.100472-04:00",
+  "updated_at": "2026-10-11T02:25:24.552386-04:00",
   "updated_by": "jordan_via_j6_action",
   "calibration_source": "Claude + Doc1 + Grok + Doc3 + Doc4 + Doc5 \u2014 6-model arithmetic mean",
   "reasoning": "Unified weight file governing all 4 chart lines. base_weights = 6-model averaged calibration (Claude + 5 others, arithmetic mean). Forecast uses these weights with envelopes off. J6 uses these weights + j6_overrides + envelopes weighted 1.5x. DA inverts forecast. History is realized data. All four lines, one file.",
@@ -143,7 +143,7 @@
       "nasdaq": 0.0,
       "russell": 1.5,
       "fed_balance": 1.0,
-      "ma_200w_factor": 6.0,
+      "ma_200w_factor": 2.5,
       "copper": 0.3,
       "copper_gold_ratio": 2.0,
       "btc_oi_total": 1.0,
@@ -155,7 +155,8 @@
       "eth_funding": 2.5,
       "lumber": 0.0,
       "uranium": 0.0,
-      "funding_reset_factor": 3.5
+      "funding_reset_factor": 3.5,
+      "realized_price_factor": 2.0
     },
     "fingerprint_trust": {
       "2022-05-12": 9.0,
@@ -343,6 +344,40 @@
           "overrides": {
             "factor_weights": {
               "ma_200w_factor": 6.0
+            }
+          }
+        }
+      },
+      {
+        "timestamp": "2026-10-11T02:24:24.471908-04:00",
+        "action": "update_j6_overrides",
+        "reasoning": "Forecast residual 0.0 still owns the race. J6 residual 5.8 and growing (+0.7), line 49.5 vs forecast 56. Same durable miss: forecast exact, J6 low. Top raw drag is realized_price_factor contribution -5.80 at base weight 7.5 (percentile 11.3) while the packet reads BTC 1.62x realized, mid-cycle, not capitulation. ma_200w_factor override 6.0 still contributes -5.06 at percentile 7.9 while price is only 1.25x the 200w MA, early mid bull, Pi Cycle 0.463 and far from a top. Those two cycle-floor factors are translating not-at-the-floor into a top-sized bearish pull. Cut realized_price_factor to 2.0 and ma_200w_factor to 2.5. Leave ETF and liquidity overrides. Live 12h flat is not restamped: drift 0 inside the band, bank sensor insufficient, bullet held.",
+        "summary": "updated overrides: 2 weights changed",
+        "payload": {
+          "action": "update_j6_overrides",
+          "timestamp": "2026-10-11T06:22:00Z",
+          "reasoning": "Forecast residual 0.0 still owns the race. J6 residual 5.8 and growing (+0.7), line 49.5 vs forecast 56. Same durable miss: forecast exact, J6 low. Top raw drag is realized_price_factor contribution -5.80 at base weight 7.5 (percentile 11.3) while the packet reads BTC 1.62x realized, mid-cycle, not capitulation. ma_200w_factor override 6.0 still contributes -5.06 at percentile 7.9 while price is only 1.25x the 200w MA, early mid bull, Pi Cycle 0.463 and far from a top. Those two cycle-floor factors are translating not-at-the-floor into a top-sized bearish pull. Cut realized_price_factor to 2.0 and ma_200w_factor to 2.5. Leave ETF and liquidity overrides. Live 12h flat is not restamped: drift 0 inside the band, bank sensor insufficient, bullet held.",
+          "overrides": {
+            "factor_weights": {
+              "realized_price_factor": 2.0,
+              "ma_200w_factor": 2.5
+            }
+          }
+        }
+      },
+      {
+        "timestamp": "2026-10-11T02:25:24.552386-04:00",
+        "action": "update_j6_overrides",
+        "reasoning": "Forecast residual 0.0 still owns the race. J6 residual 5.8 and growing (+0.7), line 49.5 vs forecast 56. Same durable miss: forecast exact, J6 low. Top raw drag is realized_price_factor contribution -5.80 at base weight 7.5 (percentile 11.3) while the packet reads BTC 1.62x realized, mid-cycle, not capitulation. ma_200w_factor override 6.0 still contributes -5.06 at percentile 7.9 while price is only 1.25x the 200w MA, early mid bull, Pi Cycle 0.463 and far from a top. Those two cycle-floor factors are translating not-at-the-floor into a top-sized bearish pull. Cut realized_price_factor to 2.0 and ma_200w_factor to 2.5. Leave ETF and liquidity overrides. Live 12h flat is not restamped: drift 0 inside the band, bank sensor insufficient, bullet held.",
+        "summary": "updated overrides: 2 weights changed",
+        "payload": {
+          "action": "update_j6_overrides",
+          "timestamp": "2026-10-11T06:22:00Z",
+          "reasoning": "Forecast residual 0.0 still owns the race. J6 residual 5.8 and growing (+0.7), line 49.5 vs forecast 56. Same durable miss: forecast exact, J6 low. Top raw drag is realized_price_factor contribution -5.80 at base weight 7.5 (percentile 11.3) while the packet reads BTC 1.62x realized, mid-cycle, not capitulation. ma_200w_factor override 6.0 still contributes -5.06 at percentile 7.9 while price is only 1.25x the 200w MA, early mid bull, Pi Cycle 0.463 and far from a top. Those two cycle-floor factors are translating not-at-the-floor into a top-sized bearish pull. Cut realized_price_factor to 2.0 and ma_200w_factor to 2.5. Leave ETF and liquidity overrides. Live 12h flat is not restamped: drift 0 inside the band, bank sensor insufficient, bullet held.",
+          "overrides": {
+            "factor_weights": {
+              "realized_price_factor": 2.0,
+              "ma_200w_factor": 2.5
             }
           }
         }
