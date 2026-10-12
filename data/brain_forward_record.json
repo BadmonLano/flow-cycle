@@ -1,17 +1,17 @@
 {
-  "_updated": "2026-10-12T13:43:14.240462-04:00",
+  "_updated": "2026-10-12T14:53:03.275218-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-12T12:17:26.172960-04:00",
+      "made_at": "2026-10-12T14:53:03.306217-04:00",
       "score_at_call": 57,
       "phase_at_call": "Disbelief",
-      "predicted_phase": "Thrill",
-      "direction": "DOWN",
+      "predicted_phase": "Complacency",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The current phase is 'Hope', and the consensus is that the market may consolidate here, suggesting an upward movement on the ladder. Both experts agree that the market is in a favorable position to move upwards.",
-      "confirmed_if": "The market continues to show signs of consolidation and the 'Fear & Greed' score remains high.",
-      "invalidated_if": "Significant bearish indicators, such as a spike in VIX or a drop in the Fear & Greed score, indicating a shift to a more negative phase.",
+      "reasoning": "The current phase is Hope, and the consensus suggests holding as the next move, given the conflicting signals and the cautionary tone from the Pattern Analyst.",
+      "confirmed_if": "a sustained period of market inactivity or a minor correction without a shift in the Hope phase",
+      "invalidated_if": "a significant market downturn or a shift in the Hope phase to a more bearish phase",
       "signals_at_call": {
         "fear_greed": 69,
         "btc_funding": 0.0038,
@@ -19,7 +19,7 @@
         "net_liquidity_chg_4w": 10028.0,
         "btc_dom": null,
         "etf_net_total_musd": -487.07,
-        "vix": 15.14
+        "vix": 15.25
       }
     }
   ],
@@ -3253,40 +3253,6 @@
     "regime_note": "score actually moved in 3 of 6 graded windows this week"
   },
   "superseded": [
-    {
-      "made_at": "2026-08-12T11:11:21.273761-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Panic",
-      "predicted_phase": "Denial",
-      "direction": "UP",
-      "conviction": "medium",
-      "reasoning": "The coil is real \u2014 0 of 54 windows saw a \u00b12+ score move, both brains see compressed energy with no catalyst, and forcing a directional call in this regime is how the record went 0-for-14; HOLD with conviction is the skilled call until a genuine breaker appears.",
-      "confirmed_if": "BTC funding drops below 0.005% AND exchange_netflow falls below 80 with price holding $62K \u2014 signals accumulation under the surface validating a coil-to-up break into Disbelief",
-      "invalidated_if": "BTC breaks below $60K with VIX spiking above 20 and funding going negative \u2014 confirms Denial was actually sliding to Panic, killing the coil read",
-      "signals_at_call": {
-        "fear_greed": 27,
-        "btc_funding": 0.0086,
-        "mvrv_zscore": 0.3873,
-        "net_liquidity_chg_4w": -120305.0,
-        "btc_dom": 56.20020331021048,
-        "etf_net_total_musd": 4.89,
-        "vix": 14.86
-      },
-      "superseded_at": "2026-08-12T12:13:41.582910-04:00",
-      "superseded_by": {
-        "predicted_phase": "Capitulation",
-        "direction": "HOLD"
-      },
-      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
-      "graded_at": "2026-08-13T10:05:48.941579-04:00",
-      "window_hours_actual": 1.04,
-      "partial_window": true,
-      "score_at_close": 39,
-      "realized_direction": "HOLD",
-      "direction_hit": false,
-      "score_delta": 0,
-      "grade_note": "graded on the 1.04h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
-    },
     {
       "made_at": "2026-08-12T12:13:41.582910-04:00",
       "score_at_call": 39,
@@ -6660,6 +6626,32 @@
       "direction_hit": true,
       "score_delta": -1,
       "grade_note": "graded on the 1.22h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-10-12T12:17:26.172960-04:00",
+      "score_at_call": 57,
+      "phase_at_call": "Disbelief",
+      "predicted_phase": "Thrill",
+      "direction": "DOWN",
+      "conviction": "medium",
+      "reasoning": "The current phase is 'Hope', and the consensus is that the market may consolidate here, suggesting an upward movement on the ladder. Both experts agree that the market is in a favorable position to move upwards.",
+      "confirmed_if": "The market continues to show signs of consolidation and the 'Fear & Greed' score remains high.",
+      "invalidated_if": "Significant bearish indicators, such as a spike in VIX or a drop in the Fear & Greed score, indicating a shift to a more negative phase.",
+      "signals_at_call": {
+        "fear_greed": 69,
+        "btc_funding": 0.0038,
+        "mvrv_zscore": 1.0651,
+        "net_liquidity_chg_4w": 10028.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -487.07,
+        "vix": 15.14
+      },
+      "superseded_at": "2026-10-12T14:53:03.306217-04:00",
+      "superseded_by": {
+        "predicted_phase": "Complacency",
+        "direction": "HOLD"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
