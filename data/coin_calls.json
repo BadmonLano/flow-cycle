@@ -1,82 +1,179 @@
 {
-  "_updated": "2026-10-12T03:46:39.330215-04:00",
+  "_updated": "2026-10-12T05:00:18.602515-04:00",
   "calls": {
     "BTC": {
-      "direction": "FLAT",
-      "entry": null,
-      "tp": null,
-      "sl": null,
-      "horizon": "12h",
-      "note": "No bitcoin ticket. Flat means no ticket, matching the live flat day call. Price about 82960. Kills are 84000 and 81000. Window is under an hour, so no new graded ticket.",
-      "source": "jordan",
-      "opened_at": "2026-10-12T02:34:15.474492-04:00",
+      "direction": "SHORT",
+      "entry": 83560,
+      "tp": 82897.15,
+      "sl": 85231.2,
+      "levels_from": "j6",
+      "levels_note": "levels from j6 (7d race: fc 4.28% vs j6 3.43%) - j6 tighter by 0.85pt",
+      "race_dir_hit_fc": 97.98,
+      "race_dir_hit_j6": 97.98,
+      "race_dir_veto": false,
+      "race_margin_pts": -0.85,
+      "race_epsilon_pts": 0.35,
+      "race_pick_reason": "j6 tighter by 0.85pt",
+      "race_within_epsilon": false,
+      "race_fc_err": 4.28,
+      "race_j6_err": 3.43,
+      "race_da_err": 13.57,
+      "race_n": 28,
+      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
+      "tp_mode": "path_target",
+      "tp_distance_pct": 0.79,
+      "horizon": "10.8h",
+      "horizon_hours": 10.78,
+      "source": "jordan_committed",
+      "conviction": "medium",
+      "confluence_score": 1.8,
+      "confluence_votes": [
+        "BTC 200wk 1.251x mid \u2192 neutral",
+        "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
+        "pi cycle far from top \u2192 room to run long",
+        "projection +0.8% \u2192 flat"
+      ],
+      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit btc_call in the editorial packet to adjust levels/direction.",
+      "levels_rebuilt_on_flip": {
+        "from_direction": "LONG",
+        "to_direction": "SHORT",
+        "old_tp": 84222.85,
+        "old_sl": 81888.8,
+        "method": "mirrored around entry - same implied move size, opposite side"
+      },
+      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
+      "mirrored_from": {
+        "live_call": "down_micro",
+        "stamped_at": "2026-10-12T03:47:18.490206-04:00"
+      },
       "mechanical_confluence": {
         "direction": "LONG",
-        "conviction": "medium",
+        "conviction": null,
         "score": 1.8,
         "votes": [
-          "BTC 200wk 1.256x mid \u2192 neutral",
+          "BTC 200wk 1.251x mid \u2192 neutral",
           "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
           "projection +0.8% \u2192 flat"
         ]
       },
-      "horizon_hours": 72,
-      "probe_locked": true,
-      "probe_age_hours": 1.2,
-      "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 1.2h - a probe outlives the 12h stance on purpose. No live stance to compare against."
+      "opened_at": "2026-10-12T05:00:18.602515-04:00"
     },
     "ETH": {
-      "direction": "FLAT",
-      "entry": null,
-      "TP": null,
-      "SL": null,
-      "horizon": null,
-      "source": "jordan",
-      "opened_at": "2026-10-12T02:34:15.474492-04:00",
-      "mechanical_confluence": {
-        "direction": "LONG",
-        "conviction": "high",
-        "score": 5.1,
-        "votes": [
-          "ETH 200wk 1.008x AT FLOOR \u2192 long",
-          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
-          "ETH funding negative (squeeze fuel) \u2192 long",
-          "pi cycle far from top \u2192 room to run long",
-          "projection +1.0% \u2192 long"
-        ]
+      "direction": "SHORT",
+      "entry": 2553.12,
+      "tp": 2525.97,
+      "sl": 2604.18,
+      "levels_from": "j6",
+      "levels_note": "levels from j6 (7d race: fc 8.82% vs j6 7.98%) - j6 tighter by 0.84pt",
+      "race_dir_hit_fc": 97.98,
+      "race_dir_hit_j6": 97.98,
+      "race_dir_veto": false,
+      "race_margin_pts": -0.84,
+      "race_epsilon_pts": 0.35,
+      "race_pick_reason": "j6 tighter by 0.84pt",
+      "race_within_epsilon": false,
+      "race_fc_err": 8.82,
+      "race_j6_err": 7.98,
+      "race_da_err": 16.75,
+      "race_n": 28,
+      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
+      "tp_mode": "path_target",
+      "tp_distance_pct": 1.06,
+      "horizon": "10.8h",
+      "horizon_hours": 10.78,
+      "source": "jordan_committed",
+      "conviction": "medium",
+      "confluence_score": 4.1,
+      "confluence_votes": [
+        "ETH 200wk 1.005x AT FLOOR \u2192 long",
+        "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
+        "pi cycle far from top \u2192 room to run long",
+        "projection +1.1% \u2192 long"
+      ],
+      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit eth_call in the editorial packet to adjust levels/direction.",
+      "levels_rebuilt_on_flip": {
+        "from_direction": "LONG",
+        "to_direction": "SHORT",
+        "old_tp": 2580.27,
+        "old_sl": 2502.06,
+        "method": "mirrored around entry - same implied move size, opposite side"
       },
-      "horizon_hours": 72,
-      "probe_locked": true,
-      "probe_age_hours": 1.2,
-      "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 1.2h - a probe outlives the 12h stance on purpose. No live stance to compare against."
-    },
-    "SOL": {
-      "direction": "FLAT",
-      "entry": null,
-      "TP": null,
-      "SL": null,
-      "horizon": null,
-      "source": "jordan",
-      "opened_at": "2026-10-12T02:34:15.474492-04:00",
+      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
+      "mirrored_from": {
+        "live_call": "down_micro",
+        "stamped_at": "2026-10-12T03:47:18.490206-04:00"
+      },
       "mechanical_confluence": {
         "direction": "LONG",
-        "conviction": "high",
+        "conviction": null,
         "score": 4.1,
         "votes": [
-          "SOL 200wk 1.002x AT FLOOR \u2192 long",
+          "ETH 200wk 1.005x AT FLOOR \u2192 long",
           "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +1.2% \u2192 long"
+          "projection +1.1% \u2192 long"
         ]
       },
-      "horizon_hours": 72,
-      "probe_locked": true,
-      "probe_age_hours": 1.2,
-      "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 1.2h - a probe outlives the 12h stance on purpose. No live stance to compare against."
+      "opened_at": "2026-10-12T05:00:18.602515-04:00"
+    },
+    "SOL": {
+      "direction": "SHORT",
+      "entry": 111.8,
+      "tp": 110.38,
+      "sl": 114.04,
+      "levels_from": "j6",
+      "levels_note": "levels from j6 (7d race: fc 7.84% vs j6 7.54%) - j6 tighter by 0.30pt",
+      "race_dir_hit_fc": 77.19,
+      "race_dir_hit_j6": 77.19,
+      "race_dir_veto": false,
+      "race_margin_pts": -0.3,
+      "race_epsilon_pts": 0.35,
+      "race_pick_reason": "j6 tighter by 0.30pt",
+      "race_within_epsilon": true,
+      "race_fc_err": 7.84,
+      "race_j6_err": 7.54,
+      "race_da_err": 16.02,
+      "race_n": 28,
+      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
+      "tp_mode": "path_target",
+      "tp_distance_pct": 1.27,
+      "horizon": "10.8h",
+      "horizon_hours": 10.78,
+      "source": "jordan_committed",
+      "conviction": "medium",
+      "confluence_score": 4.1,
+      "confluence_votes": [
+        "SOL 200wk 0.995x AT FLOOR \u2192 long",
+        "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
+        "pi cycle far from top \u2192 room to run long",
+        "projection +1.3% \u2192 long"
+      ],
+      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit sol_call in the editorial packet to adjust levels/direction.",
+      "levels_rebuilt_on_flip": {
+        "from_direction": "LONG",
+        "to_direction": "SHORT",
+        "old_tp": 113.22,
+        "old_sl": 109.56,
+        "method": "mirrored around entry - same implied move size, opposite side"
+      },
+      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
+      "mirrored_from": {
+        "live_call": "down_micro",
+        "stamped_at": "2026-10-12T03:47:18.490206-04:00"
+      },
+      "mechanical_confluence": {
+        "direction": "LONG",
+        "conviction": null,
+        "score": 4.1,
+        "votes": [
+          "SOL 200wk 0.995x AT FLOOR \u2192 long",
+          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
+          "pi cycle far from top \u2192 room to run long",
+          "projection +1.3% \u2192 long"
+        ]
+      },
+      "opened_at": "2026-10-12T05:00:18.602515-04:00"
     }
   },
   "perps_contract": {
@@ -90,21 +187,12 @@
       "calls.<COIN>.locked",
       "calls.<COIN>.levels_stale"
     ],
-    "do_not_size_when": {
-      "BTC": [
-        "FLAT - a stance, not a ticket; there are no levels to ride",
-        "no TP/SL on the row"
-      ],
-      "ETH": [
-        "FLAT - a stance, not a ticket; there are no levels to ride",
-        "no TP/SL on the row"
-      ],
-      "SOL": [
-        "FLAT - a stance, not a ticket; there are no levels to ride",
-        "no TP/SL on the row"
-      ]
-    },
-    "safe_to_size": [],
+    "do_not_size_when": {},
+    "safe_to_size": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
     "_rule": "Size only from a call that is locked, directional, carries both levels, and has hours_left > 0. A row existing is not a call being tradeable - awaiting_jordan and FLAT are honest states that must never be sized."
   }
 }
