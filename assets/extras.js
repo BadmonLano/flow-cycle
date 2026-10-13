@@ -33,14 +33,57 @@
     if (rate && rate !== '--') parts.push('Track record: ' + rate);
     return 'Flow Cycle Index' + (parts.length ? ': ' + parts.join(' · ') : ' — live crypto cycle read');
   }
+  // ---- tweet built from the newest Jordan headline (data/jordan_headline.json, read fresh) ----
+  var URL_LEN = 23, LIMIT = 280;
+  function xlen(str) { // X weighting: URLs = 23, CJK/emoji count double
+    var n = 0, a = Array.from(str.replace(/https?:\/\/\S+/g, function () { n += URL_LEN; return ''; }));
+    a.forEach(function (c) { var cp = c.codePointAt(0); n += (cp <= 0x10FF || (cp >= 0x2000 && cp <= 0x200D) || (cp >= 0x2010 && cp <= 0x201F) || (cp >= 0x2032 && cp <= 0x2037)) ? 1 : 2; });
+    return n;
+  }
+  function trimTo(text, budget) {
+    if (xlen(text) <= budget) return text;
+    var room = budget - 1, cut = '';
+    var sents = text.split(/(?<=[a-z0-9%)]{2}[.!?])\s+(?=[A-Z"“])/).map(function (x) { return x + ' '; });
+    for (var i = 0; i < sents.length; i++) { if (xlen(cut + sents[i]) > room) break; cut += sents[i]; }
+    cut = cut.trim();
+    if (cut.length >= 60) return cut + (cut.length < text.trim().length ? ' …' : '');
+    var words = text.split(/\s+/), out = '';
+    for (var j = 0; j < words.length; j++) { var nx = out ? out + ' ' + words[j] : words[j]; if (xlen(nx) > room) break; out = nx; }
+    return out.replace(/[,;:\-–—]+$/, '') + '…';
+  }
+  function composeHeadline(h, para) {
+    var tail = '\n\n' + SITE, via = ' via @BadmonLano';
+    h = String(h).trim(); para = String(para || '').replace(/\s+/g, ' ').trim();
+    if (xlen(h + tail) > LIMIT) return trimTo(h, LIMIT - xlen(tail)) + tail;
+    var full = h + (para ? '\n\n' + para : '');
+    if (xlen(full + tail + via) <= LIMIT) return full + tail + via;
+    if (xlen(full + tail) <= LIMIT) return full + tail;
+    var budget = LIMIT - xlen(h + '\n\n' + tail);
+    if (budget < 25 || !para) return h + tail;
+    return h + '\n\n' + trimTo(para, budget) + tail;
+  }
+  function buildTweet() {
+    var fallback = function () { return shareText() + '\n\n' + SITE; };
+    return fetch('/data/jordan_headline.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return (j && j.headline) ? composeHeadline(j.headline, j.narrative) : fallback(); })
+      .catch(fallback);
+  }
+  window.__fciTweet = { buildTweet: buildTweet, xlen: xlen };
   function flash(b, msg) { var o = b.textContent; b.textContent = msg; setTimeout(function () { b.textContent = o; }, 1500); }
 
   function addTools() {
     var host = document.querySelector('.header-right'); if (!host || document.getElementById('fciTools')) return;
     var wrap = document.createElement('span'); wrap.id = 'fciTools'; wrap.className = 'fci-tools';
     wrap.appendChild(btn('𝕏 ' + T('Share'), T('Share on X'), function () {
-      var u = 'https://x.com/intent/tweet?text=' + encodeURIComponent(shareText()) + '&url=' + encodeURIComponent(SITE + '/') + '&via=BadmonLano';
-      window.open(u, '_blank', 'noopener,width=600,height=520');
+      // open synchronously (avoids popup blockers), then fill in once the fresh headline is read
+      var w = window.open('about:blank', '_blank', 'width=600,height=520');
+      if (w) { try { w.opener = null; } catch (e) {} }
+      buildTweet().then(function (text) {
+        var u = 'https://x.com/intent/tweet?text=' + encodeURIComponent(text);
+        window.__fciLastIntent = u;
+        if (w) w.location.href = u; else location.href = u;
+      });
     }));
     var copy = btn('🔗', T('Copy link'), function () {
       var done = function () { flash(copy, '✓'); };
