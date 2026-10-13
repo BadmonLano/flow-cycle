@@ -1,29 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--
-  index.html - Flow Cycle site
-  WHAT'S NEW (2026-08-01 - Part E: server-time render + atmosphere):
-    - SERVER-TIME RENDER: syncServerTime() anchors an offset from the HTTP Date
-      header; countdowns/stamps tick against next_boundary_iso (the call's own
-      window end — stamp+12h for a fresh call, the INHERITED remainder for a
-      revision; the 06/18 slot grid was retired 2026-08-07)
-      via serverNow(), not the browser clock. Kills clock-skew drift AND the stale
-      browser-clock assumption. All stamp-age readouts routed through serverNow().
-    - ATMOSPHERE (window.ATMO) - Jordan's design, top to bottom. Weather-as-pressure
-      behind the solid cards (data always wins, opacity ceiling). Commit-gust is the
-      one moment that punches: first = clean hard mark / reaffirm = banked lock-click /
-      revise = sharper+colder. Ambient = five NAMED PRESETS in Jordan's language
-      (held breath / lane locked / feels wrong / ash fall / thin air) - steer by
-      editing the PRESETS block; ATMO.preview('feels wrong') forces a mood live to
-      judge it. Respects prefers-reduced-motion. Win test: "why does this page feel
-      heavy today."
-    - SOL price tile hardened + $GORK pinned to its contract (cgFetch: serialized,
-      429-retry, last-good) so the SOL tile never blanks under CoinGecko rate limits.
--->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Flow Cycle Index</title>
+  <meta name="description" content="Live crypto market cycle dashboard tracking emotional phases, blow-off tops, and directional call accuracy for BTC, ETH, and SOL. Graded track record of calls with receipts." />
+  <link rel="canonical" href="https://theflowcycle.com/" />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Flow Cycle Index" />
+  <meta property="og:title" content="Flow Cycle Index" />
+  <meta property="og:description" content="Live crypto market cycle dashboard tracking emotional phases, blow-off tops, and directional call accuracy for BTC, ETH, and SOL. Graded track record of calls with receipts." />
+  <meta property="og:url" content="https://theflowcycle.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@BadmonLano" />
+  <meta name="twitter:title" content="Flow Cycle Index" />
+  <meta name="twitter:description" content="Live crypto market cycle dashboard tracking emotional phases, blow-off tops, and directional call accuracy for BTC, ETH, and SOL. Graded track record of calls with receipts." />
+  <!-- Logo pending: add og:image, twitter:image and favicon links here once the image is ready. -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
@@ -200,19 +193,17 @@
       color: #fff;
       border-bottom-color: var(--green);
     }
-    /* Sprint 45: every phase the cycle climbed through lights green (loading-bar). */
+
     .phase-pill.climbed {
       color: #9fe8c4;
       border-bottom-color: rgba(0,229,160,0.45);
     }
-    /* Sprint 45: Euphoria locks RED once the top is hit — stays red down the whole
-       descending leg until Jordan calls reset_euphoria. The "we already peaked" flag. */
+
     .phase-pill.euphoria-red {
       color: #ff6b81 !important;
       border-bottom-color: #ff4d6a !important;
       text-shadow: 0 0 8px rgba(255,77,106,0.4);
     }
-    /* Sprint 44: phase is Jordan's single call — one color, no per-phase buckets. */
 
     /* main grid */
     .grid {
@@ -431,12 +422,11 @@
     .cycle-bar-fill {
       height: 100%;
       border-radius: 3px;
-      background: var(--green);   /* Sprint 44: single color, fills to Jordan's phase position */
+      background: var(--green);
       transition: width 1s ease;
     }
 
-    /* Sprint 66: the forward-move card — same size as the phase card, blue accent so it
-       reads as "the prediction" vs the green "current" card directly above it. */
+
     .cycle-status-forward {
       border-color: color-mix(in srgb, var(--blue) 40%, var(--border));
       background: color-mix(in srgb, var(--blue) 6%, var(--surface2));
@@ -795,7 +785,7 @@
     /* blow-off meter (preserved, enhanced with dual signal) */
     .blowoff-meter { margin-top: 8px; }
 
-    /* BLOW-OFF TOP DETECTOR - Sprint 22 centerpiece */
+
     .blowoff-detector-card {
       border: 1px solid rgba(255,77,106,0.18);
       background: linear-gradient(135deg, rgba(255,77,106,0.04), var(--surface));
@@ -1086,6 +1076,12 @@
   </style>
 </head>
 <body>
+<noscript>
+  <div style="max-width:760px;margin:24px auto;padding:16px;font-family:sans-serif;color:#e2e8f0;">
+    <h1>Flow Cycle Index</h1>
+    <p>Flow Cycle Index is a live crypto market cycle dashboard for Bitcoin (BTC), Ethereum (ETH), and Solana (SOL). It scores where the market sits in its emotional cycle, from fear and capitulation to euphoria and blow-off tops, using price, sentiment, funding, ETF flows, stablecoin supply, and macro liquidity. Every directional call is published with a timestamp and graded afterward, so the track record shows receipts for both hits and misses. Enable JavaScript to see live data.</p>
+  </div>
+</noscript>
 <canvas id="atmosphere" aria-hidden="true"></canvas>
 <div id="atmoForecastGlow" aria-hidden="true"></div>
 
@@ -1102,13 +1098,6 @@
 </header>
 
 <div class="phase-strip" id="phaseStrip">
-  <!--
-    Phase pills: 13-phase doctrine bottom-to-top, in Lano's order.
-    Sprint 44: the active phase is JORDAN'S editorial call (data/editorial_calls.json
-    -> calls.phase), NOT derived from score/trend. The bar fills to the called phase's
-    position (index/13), single color. No call yet -> "awaiting", never an auto guess.
-  -->
-  <!-- order: Anger·Depression·Capitulation·Panic·Denial·Anxiety·Complacency·Disbelief·Hope·Optimism·Belief·Thrill·Euphoria -->
   <div class="phase-pill"    data-phase="Anger"        data-historical="2018-12-01,2022-06-01"  title="Click to jump to historical example: Dec 2018, Jun 2022">Anger</div>
   <div class="phase-pill"    data-phase="Depression"   data-historical="2019-06-01"             title="Click to jump to historical example: Jun 2019">Depression</div>
   <div class="phase-pill"    data-phase="Capitulation" data-historical="2020-03-12,2022-11-21"  title="Click to jump to historical example: Mar 2020 (COVID), Nov 2022 (FTX)">Capitulation</div>
@@ -1142,10 +1131,6 @@
         </div>
         <div class="chart-actions">
           <button class="chart-action-btn" id="toggleMarkers" onclick="toggleMarkers()">◌ AI Markers</button>
-          <!-- H1 (2026-08-12): the card is titled "…AI Annotations" and JS has looked
-               up #toggleAnnotationsBtn since it was written, but no such element
-               existed in this row. 46 live shapes and a 2-min poll were unreachable -
-               off by omission, not by policy, under a title that advertised them. -->
           <button class="chart-action-btn" id="toggleAnnotationsBtn" onclick="toggleAnnotationsBtn()" title="Jordan's shapes: pattern callouts, trendlines and event markers on the chart. Off by default for a clean canvas.">◌ Jordan</button>
           <button class="chart-action-btn on" id="togglePrediction" onclick="togglePrediction()">◉ Forecast</button>
           <button class="chart-action-btn on" id="toggleDevilsAdvocate" onclick="toggleDevilsAdvocate()" title="SAME-DATE inverse of the forecast (100 - fc on each date), per the Sprint 43 doctrine. A falsifiable mirror, not an independent model — when the forecast is pinned at the origin, DA's residual is pure arithmetic off it.">◉ Devil's Advocate</button>
@@ -1156,10 +1141,6 @@
       <div class="chart-wrap" style="position:relative">
         <canvas id="mainChart"></canvas>
       </div>
-      <!-- Sprint 32 v2.7+ (this session): Overlay indicators row HIDDEN by Lano.
-           Useless visual noise. DOM nodes preserved (display:none) so any code that
-           queries them doesn't crash, just nothing visible to user. To re-enable:
-           remove the `display:none` style below. -->
       <div style="margin-top: 14px; display: none;">
         <div style="font-size: 0.6em; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;">Overlay Indicators</div>
         <div class="overlay-toggles" id="overlayToggles">
@@ -1173,7 +1154,7 @@
       <div class="cycle-index" id="cycleIndex">--</div>
       <div class="cycle-info">
         <div class="cycle-phase" id="cyclePhase">Loading...</div>
-        <div class="cycle-advice" id="cycleAdvice">Fetching market data...</div>
+        <div class="cycle-advice" id="cycleAdvice">Live crypto market cycle read for BTC, ETH, and SOL: emotional phase, blow-off top risk, and graded directional calls. Fetching market data...</div>
         <div class="cycle-bar">
           <div class="cycle-bar-fill" id="cycleBarFill" style="width:0%"></div>
         </div>
@@ -1181,12 +1162,6 @@
     </div>
 
 
-    <!--
-      Sprint 32 v2.7+ (this session, fourth iteration): NEXT TURNS panel.
-      Reads from forecast_curve.json's projection array (populated by fetchForecastCurve).
-      Shows the 4 absolute extrema events: forecast top, forecast bottom, DA top, DA bottom.
-      Sorted chronologically (closest event first). Always visible, no chart-rendering quirks.
-    -->
     <div class="card" id="nextTurnsCard">
       <div class="card-label">
         The Race
@@ -1203,7 +1178,6 @@
         </div>
       </div>
 
-      <!-- Jordan's read: his called winner + one-line plain-language why. -->
       <div id="raceRead" style="display:none; font-size: 0.74em; line-height: 1.5; color: var(--text);
            background: rgba(0,229,160,0.04); border-left: 2px solid var(--green, #00e5a0);
            padding: 9px 12px; border-radius: 4px; margin-bottom: 14px;">
@@ -1224,13 +1198,6 @@
       </div>
     </div>
 
-    <!--
-      Sprint 32 v2.7+ (this session): EMPIRE READ panel.
-      Renders daily_read.json — the empire's synthesis packet generated by flow_cycle every sweep.
-      Shows the trade recommendation headline + supporting context (forecast targets, horse race
-      state, cliff proximity, abort conditions if any).
-      Updates from fetchDailyRead which already runs every 5 min.
-    -->
     <div class="card" id="empireReadCard">
       <div class="card-label">
         Empire Read
@@ -1301,9 +1268,6 @@
     </div>
 
 
-    <!-- FORWARD MOVE card (Sprint 66) — moved here, directly under Empire Read. Shows
-         JORDAN'S COMMITTED forward call (his actual move, the one graded on the hit rate),
-         not the brains' suggestion. Same size/weight as the phase card. -->
     <div class="cycle-status cycle-status-forward" id="forwardCard" style="margin-top:14px; display:none;">
       <div class="cycle-index" id="forwardArrow">--</div>
       <div class="cycle-info">
@@ -1340,20 +1304,12 @@
           <div style="font-size:0.55em; color:#f5c518; letter-spacing:0.1em; text-transform:uppercase;">Current Streak</div>
           <div id="trStreak" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#f5c518;">--</div>
         </div>
-        <!-- #10 (2026-08-11): COVERAGE IS A HEADLINE NUMBER, not a footnote.
-             A hit rate without coverage is half a sentence - 47% on 5 calls and
-             47% on 50 are different claims, and abstaining is a decision he makes
-             on purpose. It was already computed and buried in the small grey line
-             under the tiles. Promoted. -->
         <div style="background:rgba(167,139,250,0.06); border-left:2px solid #a78bfa; padding:10px;">
           <div style="font-size:0.55em; color:#a78bfa; letter-spacing:0.1em; text-transform:uppercase;">Coverage</div>
           <div id="trCoverage" style="font-size:1.4em; font-weight:700; margin-top:4px; color:#a78bfa;">--</div>
         </div>
       </div>
 
-      <!-- Sprint 67: the honest companions — direction accuracy ex-partials (of the calls
-           that resolved, how many were right), expectancy (avg % captured per directional
-           call — the money question), coverage (how often he chose to call at all). -->
       <!-- #10: hit rate never stands alone. -->
       <div id="trKpi" style="display:none; font-size:0.95em; margin-top:12px; letter-spacing:0.02em;"></div>
       <div id="trHonest" style="display:none; font-size:0.68em; color:var(--muted); margin-top:8px; line-height:1.5;"></div>
@@ -1386,7 +1342,6 @@
     </div>
 
 
-    <!-- Current Read — the 4 advisor inputs + Jordan's decision -->
     <div class="card brain-card">
       <div class="card-label">
         Current Read
@@ -1394,7 +1349,6 @@
       </div>
       <div style="font-size:0.62em; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin:2px 0 10px;">4 Input. 1 Decision.</div>
 
-      <!-- Jordan's read (authoritative) -->
       <div id="jordanReadBox" style="background:rgba(79,158,255,0.07); border-left:3px solid #4f9eff; padding:12px 14px; border-radius:4px; margin-bottom:14px;">
         <div style="font-size:0.55em; color:#4f9eff; letter-spacing:0.12em; text-transform:uppercase;">Jordan's Read <span id="jordanReadTag" style="opacity:0.7;"></span></div>
         <div id="jordanReadText" style="font-size:1.0em; line-height:1.5; color:#cbd5e0; margin-top:6px;">Awaiting Jordan's call...</div>
@@ -1420,7 +1374,6 @@
         </div>
       </div>
 
-      <!-- Sprint 66: What's Driving the Market — top 3 movers computed from the data -->
       <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
         <div style="font-size:0.6em; color:#4f9eff; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;">
           What's Driving the Market
@@ -1433,7 +1386,6 @@
         </div>
       </div>
 
-      <!-- Sprint 66: Jordan's Current Thesis moved INTO Current Read -->
       <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
         <div style="font-size:0.6em; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:2px;">
           Jordan's Current Thesis
@@ -1457,7 +1409,6 @@
         </div>
       </div>
 
-      <!-- Sprint 66: What Would Make Us WRONG moved into Current Read -->
       <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
         <div style="font-size:0.6em; color:#ff4d6a; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;">
           What Would Make Us Wrong
@@ -1470,7 +1421,6 @@
         </div>
       </div>
 
-      <!-- Sprint 66: NEW — What Would Make Us RIGHT (mirror of falsification) -->
       <div style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
         <div style="font-size:0.6em; color:#00e5a0; letter-spacing:0.1em; text-transform:uppercase; font-weight:700;">
           What Would Make Us Right
@@ -1488,8 +1438,6 @@
 
 
 
-    <!-- v2.7 Sprint 32: Invariants Display -->
-    <!-- 7-DAY PRICE PREDICTION (BTC/ETH/SOL) — forecast vs J6 curated -->
     <div class="card">
       <div class="card-label">7-Day Price Projection · daily · J6 line</div>
       <div id="priceForecastBody">
@@ -1511,7 +1459,6 @@
       </div>
     </div>
 
-    <!-- PRICE ACCURACY (forecast vs J6 price targets, graded) -->
     <div class="card">
       <div class="card-label">Price Accuracy · forecast vs J6 · 7d</div>
       <div id="priceAccuracyBody">
@@ -1522,7 +1469,6 @@
       </div>
     </div>
 
-    <!-- MECHANICAL vs JORDAN (the machine's read vs his calls, graded) -->
     <div class="card">
       <div class="card-label">Mechanical vs Jordan · who's right · graded</div>
       <div id="mechVsJordanBody">
@@ -1545,7 +1491,6 @@
       </div>
     </div>
 
-    <!-- BLOW-OFF TOP DETECTOR (Sprint 22 - the main event) -->
     <div class="card blowoff-detector-card">
       <div class="card-label">
         Blow-Off Top Detector
@@ -1615,7 +1560,6 @@
       </div>
     </div>
 
-    <!-- Editor's Calls — Jordan's live editorial overrides (any of the 14 items) -->
     <div class="card" id="editorCallsCard" style="display:none;">
       <div class="card-label">Editor's Calls · Live</div>
       <div style="font-size:0.6em; color:var(--muted); margin:4px 0 10px;">Everything Jordan has personally called this cycle, newest first. His call overrides the auto-compute. Amber ⚠ = call is getting old.</div>
@@ -1631,21 +1575,7 @@
 
     <!-- $GORK (preserved) -->
     <div class="card gork-card">
-      <!-- 2026-08-10: was "$GORK · Solana", which the browser bot's visual review
-           read as SOLANA THE ASSET and flagged as a mispriced SOL feed ($0.0024 vs
-           the real ~$77). The dot-separator made a CHAIN look like a ticker, and the
-           CRYPTO card a few panels up genuinely does show SOL at $77 - so the page
-           had two things saying "Solana" with a 30,000x price gap. The widget was
-           always correct; the label was ambiguous. Say "SPL token on Solana" so
-           neither a person nor a bot can parse the chain as the asset. -->
       <div class="card-label">$GORK &nbsp;<span style="opacity:.6;font-weight:400">SPL token on Solana</span></div>
-      <!-- pack 0 #2 (2026-08-12): KEEP was the call, so say what this is in one
-           glance. The card sits on a board of factor panels, so "flow tracks $GORK"
-           is the natural misread - and it does not: macro.json carries zero gork
-           keys by allowlist, and no factor, brain input or sniper hook reads it.
-           Community pin, priced live from the contract address. #8: the CA tail is
-           in the DOM now, not only in a JS const, so a human or a visual bot can
-           verify the mint without reading the script. -->
       <div style="font-size:0.62em;color:var(--muted);letter-spacing:0.04em;margin-top:-2px;">
         community pin · not a flow factor ·
         <span title="76EDL5qNcte2ZH29quTaFzagXjWAEY83CATEjyA6pump" style="font-family:monospace;">76ED…pump</span>
@@ -1663,7 +1593,6 @@
       <!-- #5: how the ticks were decided, and who consumes them -->
       <div id="invariantsMethod" style="display:none;font-size:0.68em;color:var(--muted);
            margin-top:8px;padding:6px;background:rgba(255,255,255,0.02);border-left:2px solid var(--grid);"></div>
-      <!-- #2: Jordan's own invariants read, carried onto the payload -->
       <div id="invariantsJordan" style="display:none;font-size:0.72em;color:var(--text);
            margin-top:8px;padding:7px;background:rgba(79,158,255,0.05);border-left:2px solid #4f9eff;"></div>
       <div id="invariantsInterpretation" style="font-size:0.85em; color:#cbd5e0; line-height:1.5; margin-top:10px;">
@@ -1682,7 +1611,6 @@
       </div>
     </div>
 
-    <!-- v2.7 Sprint 32: Data Gaps (suspected invariants without data sources) -->
     <div class="card" id="dataGapsCard">
       <div class="card-label">Data Gaps</div>
       <div style="font-size:0.7em; color:var(--muted); margin-top:6px; line-height:1.4;">
@@ -1750,11 +1678,6 @@
         <div class="price-tile"><div class="ticker">SOL</div><div class="val" id="solPrice">--</div><div class="chg" id="solChg">--</div></div>
         <div class="price-tile"><div class="ticker">BNB</div><div class="val" id="bnbPrice">--</div><div class="chg" id="bnbChg">--</div></div>
       </div>
-      <!-- F1 (2026-08-12): these tiles are BROWSER CoinGecko, live to the second.
-           Everything the system reasons with - score, projections, call grading,
-           coin-call entries - reads the engine's macro snapshot, frozen at the last
-           sweep. No render path connects macro to this DOM. Useful as a ticker,
-           dangerous if read as "the price the system used". -->
       <div id="cryptoStripNote" style="display:none;font-size:0.62em;margin-top:5px;letter-spacing:0.03em;"></div>
     </div>
 
@@ -1776,7 +1699,6 @@
       <div id="piCycleBody" style="font-size:0.85em;color:var(--muted)">Loading...</div>
     </div>
 
-    <!-- News · what moved the market (Jordan-curated) -->
     <div class="card" id="newsCard">
       <div class="card-label">News · What Moved The Market</div>
       <div id="newsBody" style="font-size:0.85em;color:var(--muted)">Loading...</div>
@@ -1796,7 +1718,6 @@
       </div>
     </div>
 
-    <!-- Rotation engine: where we are in meme->alt->blowoff (Sprint 52) -->
     <div class="card">
       <div class="card-label">Rotation · meme → alt → blowoff</div>
       <div id="rotationBody">
@@ -1804,7 +1725,6 @@
       </div>
     </div>
 
-    <!-- Hypothesis tracker (Sprint 52) -->
     <div class="card">
       <div class="card-label">Hypotheses · seed & track</div>
       <div id="hypothesisBody">
@@ -1842,9 +1762,6 @@
       <div class="macro-row"><span class="label">BTC Funding</span><span class="value" id="funding">--</span></div>
       <div class="macro-row"><span class="label">ETH Funding</span><span class="value" id="ethFunding">--</span></div>
       <div class="macro-row"><span class="label">BTC OI</span><span class="value" id="btcOI">--</span></div>
-      <!-- 2026-08-07: long/short ACCOUNT ratio (OKX, free). The percentile is the
-           signal, not the raw ratio - 2.89 on SOL and 1.30 on BTC are not
-           comparable numbers until you read each against its own 30d range. -->
       <div class="macro-row"><span class="label">BTC L/S</span><span class="value" id="lsBtc">--</span></div>
       <div class="macro-row"><span class="label">ETH L/S</span><span class="value" id="lsEth">--</span></div>
       <div class="macro-row"><span class="label">SOL L/S</span><span class="value" id="lsSol">--</span></div>
@@ -1853,9 +1770,6 @@
           ratio + percentile of its own 30d range. OKX accounts only, not size-weighted.
         </span>
       </div>
-      <!-- 2026-08-07: the closed data-gap factors. Each shows its RAW value plus
-           its percentile against its own 30d range, because none of these are
-           readable as bare numbers. -->
       <div class="macro-row"><span class="label">BTC CVD 24h</span><span class="value" id="cvdBtc">--</span></div>
       <div class="macro-row"><span class="label">Options Skew</span><span class="value" id="optSkew">--</span></div>
       <div class="macro-row"><span class="label">DVOL</span><span class="value" id="dvolBtc">--</span></div>
@@ -1906,7 +1820,6 @@ const OVERLAYS = {
 const activeOverlays = new Set();  // which ones are toggled on
 
 // Wording: raw data tokens (etf_net_total, mvrv_zscore, [crucix:sustained_narrative]) sometimes
-// leak into rendered prose from the brains / editorial text. humanize() swaps them for readable
 // words so a sentence reads "ETF net flows" instead of "etf_net_total". Safe on any string.
 const HUMANIZE_MAP = {
   etf_net_total: 'ETF net flows', mvrv_zscore: 'MVRV z-score', fear_greed: 'fear & greed',
@@ -1927,7 +1840,6 @@ function humanize(s) {
   out = out.replace(/\b([a-z]+_[a-z_]+)\b/g, (m) => m.replace(/_/g, ' '));  // any leftover snake_case
   return out;
 }
-// AI Markers default OFF (sprint 32 v2.7+, this session). Lano's call.
 // Toggle button shows on/off state, defaults to off so chart loads clean.
 // User clicks ◌ AI Markers button to enable, sees ◉ AI Markers when on.
 let showMarkers = false;
@@ -1943,7 +1855,6 @@ let showPrediction = true;
 // {x: 'YYYY-MM-DD', y: value} points carrying their own date, so:
 //   - history renders one point PER DAY from chart_history.json (real data),
 //     stops at today, never projects forward
-//   - forecast / DA / J6 are weekly points that all START at today and fan out
 //     a rolling 2 years (they re-anchor every day as new history lands)
 //   - hover reads date/fg/phase straight off the point — no weekly-index lookup,
 //     so F&G/phase show correctly per day
@@ -1960,7 +1871,7 @@ let j6Points        = [];   // [{x, y}]
 // Populated by fetchPriceProjections(). Used in the chart tooltip to show the
 // projected price for each of the big 3 at the hovered week.
 let PRICE_PROJ   = null;   // mechanical: { assets: {BTC:{weekly_price:[...]}, ...} }
-let J6_PRICE_PROJ = null;  // J6 curated: same shape
+let J6_PRICE_PROJ = null;
 let fcBandLower     = [];   // [{x, y}]  confidence band lower
 let fcBandUpper     = [];   // [{x, y}]  confidence band upper
 
@@ -2094,8 +2005,6 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
     plugins: {
       legend: { display: false },
       annotation: {
-        // Sprint 32 v2.7+ (this session): static blowBox + bottom25 annotations REMOVED.
-        // They were hardcoded to fixed dates (Jul-Nov 2026) and a fixed Y line (15).
         // Replaced with DYNAMIC next-top + next-bottom markers on both forecast and DA
         // lines, populated by renderNextPeakMarkers() after fetchForecastCurve runs.
         // 4 markers total: forecast_next_top (red), forecast_next_bottom (green),
@@ -2155,8 +2064,6 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
               if (p.eth) lines.push(`  ETH: $${Math.round(p.eth).toLocaleString()}`);
               if (p.sol) lines.push(`  SOL: $${Number(p.sol).toLocaleString(undefined,{maximumFractionDigits:2})}`);
             }
-            // Projected price for the big 3 at the hovered week (forecast + J6).
-            // Only show on forward points (forecast/j6/da hovered, not history).
             const fwd = items.find(it => it.dataset && ['fc','j6','da'].includes(it.dataset.key));
             if (fwd && (PRICE_PROJ || J6_PRICE_PROJ)) {
               // Map hovered date -> week index off the chart anchor.
@@ -2195,7 +2102,6 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
         }
       },
       zoom: {
-        // Sprint 32 v2.7 (this session): zoom + pan now work in BOTH x and y axes.
         // Previously locked to 'x' only, which meant y-axis stayed 0-100 and you
         // couldn't zoom in to see "the top half" of the chart at higher resolution.
         zoom: {
@@ -2226,7 +2132,6 @@ const chart = new Chart(document.getElementById('mainChart').getContext('2d'), {
   },
   plugins: [{
     // TODAY marker — dashed vertical line + label at the seam where realized
-    // history (blue) meets the projections (forecast/DA/J6). Anchored to the real
     // current date (last history point), so it moves forward as new data lands.
     id: 'todayMarker',
     afterDraw: (c) => {
@@ -2255,11 +2160,9 @@ chart._markerCache = [];   // stored markers for reapplication after zoom
 // ═══════════════════════════════════════════════════════════════════════════
 // PHASE LOGIC (preserved)
 // ═══════════════════════════════════════════════════════════════════════════
-// Sprint 32 v2.7+ (this session): 13-phase doctrine.
 //
 // Score + direction = phase. Same score means different phase depending on whether
 // the cycle is climbing (ascending leg) or falling (descending leg). This is core
-// doctrine — Panic at score 22 ≠ Disbelief at score 25, even though they're at
 // similar heights, because they mean opposite things emotionally.
 //
 // Ascending leg (climbing toward Euphoria peak):
@@ -2270,10 +2173,7 @@ chart._markerCache = [];   // stored markers for reapplication after zoom
 //
 // Anger appears at the BOTTOM of both legs as the rage/depression floor.
 // ═══════════════════════════════════════════════════════════════════════════
-// PHASE — Jordan's call ONLY. The site computes nothing here. The phase comes from
-// his editorial call (data/editorial_calls.json -> calls.phase); the score is a
 // fact (current_state.json -> score). No auto-fallback: if he hasn't called it,
-// the bar shows "awaiting", never a guessed phase. (Sprint 44 authorship redesign.)
 // ═══════════════════════════════════════════════════════════════════════════
 const PHASE_ORDER = ['Anger','Depression','Capitulation','Panic','Denial','Anxiety',
                      'Complacency','Disbelief','Hope','Optimism','Belief','Thrill','Euphoria'];
@@ -2360,7 +2260,6 @@ function _bankLine(live, cc) {
 }
 
 async function renderForwardCard(nextMove, phaseCall) {
-  // Sprint 66: this card shows JORDAN'S COMMITTED forward call — his actual move, the one
   // on the hit rate (from call_cycle.json live_call) — NOT the brains' suggestion. The
   // brains' next_move is advisory and shows in the brain cards. This is the decision.
   const card = document.getElementById('forwardCard');
@@ -2371,8 +2270,7 @@ async function renderForwardCard(nextMove, phaseCall) {
   const barEl = document.getElementById('forwardBarFill');
   const labelEl = card.querySelector('.cycle-forward-label');
 
-  // Jordan's committed call first
-  let live = null, hrsLeft = null, cd = null;   // 2026-07-22 v3: cd was UNDECLARED —
+  let live = null, hrsLeft = null, cd = null;
   try {                                          // the stamped-timer and awaiting blocks
     const ccRes = await fetch('data/call_cycle.json?t=' + Date.now());   // referenced it,
     if (ccRes.ok) {                              // ReferenceError killed the render after
@@ -2393,14 +2291,12 @@ async function renderForwardCard(nextMove, phaseCall) {
     const word = { up:'Go Long', up_micro:'Long (micro)', down:'Go Short', down_micro:'Short (micro)',
                    flat:'Stay Flat', long:'Go Long', short:'Go Short' }[dir.toLowerCase()] || dir;
     if (labelEl) labelEl.textContent = "JORDAN'S COMMITTED MOVE · ON THE HIT RATE";
-  // 2026-07-22 v2 (Lano caught v1 blanking a FRESH call): CARRIED IS NOT
   // COMMITTED — but live_call is the ONLY authority for that judgment. v1 also
   // gated on cd.carried (countdown lags one sweep behind a fresh stamp) and
   // used invented element names (dirEl → ReferenceError → dead card). Real
   // elements, one authority, and a fresh stamp renders the instant it exists.
   if (!live || live.carried === true) {
     // slot_id is now only a CALENDAR TAG for where the stamp fell - it does not
-    // bound the window any more (stamp-anchored since 2026-08-07). Labelling it
     // "slot" next to a countdown that runs past the slot end read as a contradiction.
     const endTxt = (cd && cd.hours_left != null) ? ` · last window leftover ${cd.hours_left}h` : '';
     if (arrowEl) { arrowEl.textContent = '…'; arrowEl.style.color = 'var(--muted)'; }
@@ -2415,7 +2311,6 @@ async function renderForwardCard(nextMove, phaseCall) {
     arrowEl.style.color = col;
     phaseEl.textContent = word;
     phaseEl.style.color = col;
-    // 2026-08-01 server-time render: tick against the WINDOW END (next_boundary_iso,
     // server-computed) anchored to serverNow() — never the browser-clock stamp+12h, which
     // both drifted under clock skew AND assumed a fresh 12h the slot model doesn't give.
     let liveHrsLeft = null, elapsedPct = 0;
@@ -2434,7 +2329,6 @@ async function renderForwardCard(nextMove, phaseCall) {
       ? (liveHrsLeft <= 0 ? 'grading now'
          : `${Math.floor(liveHrsLeft)}h ${Math.floor((liveHrsLeft % 1) * 60)}m left in this grading window${live && live.is_revision ? ' (remainder of the revised window)' : ''}`)
       : '';
-    // 2026-07-22 (Lano's ruling): show WHEN he last stamped/updated this call —
     // staleness of the committed move is a first-class fact on the card.
     let stampedTxt = '';
     if (cd && cd.stamped_ago_min != null) {
@@ -2504,11 +2398,9 @@ function renderPhaseBar(phaseCall, score, nextMove) {
   const adviceEl= document.getElementById('cycleAdvice');
   const idxEl   = document.getElementById('cycleIndex');
 
-  // Sprint 66: the forward move now has its OWN dedicated card below the phase card
   // (same size), not a tiny suffix. Populate it here from the brain consensus next_move.
   renderForwardCard(nextMove, phaseCall);
 
-  // The score is a FACT — always show it if we have one (Jordan can't edit numbers).
   if (score !== null && score !== undefined && !isNaN(score)) {
     idxEl.textContent = Math.round(score);
   }
@@ -2518,7 +2410,6 @@ function renderPhaseBar(phaseCall, score, nextMove) {
   pills.forEach(p => { p.classList.remove('active'); p.classList.remove('climbed'); p.classList.remove('euphoria-red'); });
 
   if (pos < 0) {
-    // No call yet — awaiting Jordan. Never auto-fill a phase.
     fill.style.width = '0%';
     phaseEl.textContent = 'Awaiting Jordan’s call';
     adviceEl.textContent = 'Phase is Jordan’s to call — it’s pinned to every packet.';
@@ -2538,7 +2429,6 @@ function renderPhaseBar(phaseCall, score, nextMove) {
   adviceEl.textContent = ((phaseCall.reasoning || '').trim() || ('Jordan’s call: ' + phase));
 
   // Euphoria red-lock: once we've hit the top, the Euphoria pill stays RED all the
-  // way down the descending leg (a "we already peaked" memory) until Jordan resets.
   fetch('data/euphoria_state.json?t=' + Date.now()).then(r => r.json()).then(es => {
     if (es && es.euphoria_hit && !es.reset) {
       pills.forEach(p => { if (p.dataset.phase === 'Euphoria') p.classList.add('euphoria-red'); });
@@ -2581,13 +2471,11 @@ async function fetchNews() {
     const calls = (d && d.calls) || {};
     const nr = calls.news_read;
     const items = nr && (nr.value || nr);
-    // ── #7/#8 (2026-08-12): AWAITING IS NOT EMPTY ──────────────────────────
     // When curation is cleared or absent the rail said "awaiting" and showed
     // nothing, which is honest but useless - and it made clearing feel worse than
     // leaving stale lines up. The mechanical draft (built from signal_contracts,
     // the venue of record) fills that space as a CLEARLY LABELLED backstop.
     //
-    // It never wears Jordan's voice: different colour, an explicit "not his read"
     // label, and no cause→effect framing, because the effect line IS the curation.
     const draft = d.mechanical_draft;
     const drawDraft = (why) => {
@@ -2619,14 +2507,11 @@ async function fetchNews() {
     };
     let html = '';
 
-    // ── #2/#4 (2026-08-12): THE DAILY FLOOR, ON THE CARD ────────────────────
-    // Lano: "That's gotta be at least daily. 2 day old news is not okay."
     // The card had no age gate at all - only a muted "2d ago" beside a headline,
     // so 48-hour-old curation rendered as a normal, current card. MVJ got a stale
     // banner after its 6-day freeze; this one never did.
     //
     // Age comes from the CONTENT clock (called_at / item ts), never from the file.
-    // editorial_calls.json rewrites whole on any field, so its `_updated` read
     // 08-11 07:45 while news_read.called_at was still 08-09 15:18 - a file-mtime
     // check answers "is the news fresh?" confidently and wrongly.
     const FLOOR_H = (d.news_read_floor_hours != null) ? d.news_read_floor_hours : 24;
@@ -2655,7 +2540,6 @@ async function fetchNews() {
     }
 
     // ── #1/#5/#6: KILL THE BRAND COLLISION ─────────────────────────────────
-    // This card is Jordan's CURATION, not the news_catalyst feed - and when it
     // goes stale the natural read is "the news pipeline broke". It has not: the
     // producer wrote 198 envelopes on the day the card sat at 48h. One read-only
     // line separates a stale curation from a dead pipe.
@@ -2717,7 +2601,6 @@ async function fetchMechVsJordan() {
     const coins = ['BTC', 'ETH', 'SOL'].filter(c => summary[c]);
     if (!coins.length) throw new Error('empty');
     let html = '';
-    // 2026-07-25 (Lano: "this hasn't updated in 6 days"): the scoreboard froze on
     // Jul 19 and the page kept rendering the stale tally as if it were live —
     // a frozen meter that LOOKS fresh is the worst kind. Say it out loud.
     try {
@@ -2733,12 +2616,10 @@ async function fetchMechVsJordan() {
       }
     } catch (e) { /* staleness banner is best-effort */ }
 
-    // ── #6 (2026-08-12): QUEUE HEALTH IS THE REAL TRIPWIRE ─────────────────
     // The stale banner above only watches _updated. The 7/19-7/27 freeze had a
     // FRESH _updated the whole time while grading was structurally impossible -
     // the queue was evicting snapshots before they could reach their horizon, so
     // the file kept rewriting and the banner stayed green for eight days.
-    // _queue_health has existed in the json since that fix and has never been on
     // the card. A failure the data already knows about should not be invisible.
     try {
       const qh = d._queue_health || {};
@@ -2757,9 +2638,7 @@ async function fetchMechVsJordan() {
       }
     } catch (e) { /* queue health is best-effort */ }
 
-    // ── #4 (2026-08-12): SAY WHAT SHAPE THE BATTLE IS ──────────────────────
     // The diverged line reads as a head-to-head. On the live board every single
-    // divergence is mech LONG vs jordan FLAT - zero direction-vs-direction - and
     // the "edge" is flat-in-chop collecting free wins. One line, so the headline
     // cannot imply a fight that never happened.
     try {
@@ -2795,9 +2674,6 @@ async function fetchMechVsJordan() {
       if (wd.total) {
         const edge = wd.mechanical_edge_pct;
         const edgeColor = edge > 15 ? 'var(--red)' : edge <= 0 ? 'var(--green)' : 'var(--muted)';
-        // ── pack 0 #1 (2026-08-12): the diverged line was the loudest lie ───
-        // "mech edge -60%" reads as "jordan out-traded the formula". On the live
-        // board every divergence is mech LONG vs jordan FLAT and 63 of jordan's 63
         // diverged wins are FLAT-in-chop against a mech SCRATCH. The percentage was
         // measuring an accounting asymmetry, not skill. Decided/scratch split now
         // comes from the backend; the flat-chop count is stated outright.
@@ -2823,13 +2699,9 @@ async function fetchMechVsJordan() {
         ${divTxt}
       </div>`;
     }
-    // 2026-07-20 (Lano: "13/13 but I don't even see the call history — I can't
     // take its word for it. idk what the battle is"): THE BATTLE, named — this
-    // grades the COIN CALLS: the mechanical confluence's direction vs Jordan's
     // committed/override direction, both scored against what price actually did
-    // ── pack 1 #7 (2026-08-12): THE ROUND THAT IS ACTUALLY RUNNING ─────────
     // The card showed lifetime win rates and nine finished receipts, and nothing
-    // about the fight in progress. The open queue is the only part an operator can
     // still act on.
     try {
       const openRows = (d.open || []);
@@ -2847,7 +2719,6 @@ async function fetchMechVsJordan() {
           const agreed = String(o.mechanical_direction) === String(o.jordan_direction);
           const ageH = o.opened_at ? (serverNow() - Date.parse(o.opened_at)) / 3600000 : null;
           const left = ageH != null ? Math.max(0, 24 - ageH) : null;
-          // #5: which Jordan is this? explicit probe / committed echo / no call
           const voice = o.jordan_voice === 'explicit_probe' ? 'probe'
                       : o.jordan_voice === 'committed_echo' ? 'committed'
                       : o.jordan_voice === 'absent_no_call' ? '<span style="color:#f5c518">no call</span>' : '';
@@ -2890,7 +2761,6 @@ async function fetchMechVsJordan() {
       recentRounds.forEach(g => {
         const dt = g.opened_at ? new Date(g.opened_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
         const mv = (g.moved_pct != null) ? `${g.moved_pct > 0 ? '+' : ''}${g.moved_pct}%` : '—';
-        // ── pack 1 #8 (2026-08-12): SAY "SCRATCH" ──────────────────────────
         // A round where the tape never moved rendered as a mute "neither", which
         // reads as "both were wrong". It is not - nothing was proven, and those
         // rounds are the MAJORITY here (209 of 300 moved under 1.5%). The word
@@ -2919,14 +2789,12 @@ async function fetchMechVsJordan() {
   }
 }
 
-// Sprint 65: the brains' forward-prediction scoreboard — hit rate + recent misses
 // with their autopsies. Reads brain_forward_record.json.
 async function fetchBrainForward() {
   try {
     const res = await fetch('data/brain_forward_record.json?t=' + Date.now());
     if (!res.ok) throw new Error('no file');
     const d = await res.json();
-    // Sprint 66: prefer the 7-DAY ROLLING rate (what to trust now); fall back to all-time.
     const dr = (d.direction_hit_rate_7d_pct != null) ? d.direction_hit_rate_7d_pct : d.direction_hit_rate_pct;
     const drRec = (d.direction_hit_rate_7d_pct != null) ? d.direction_record_7d : d.direction_record;
     const tr = (d.transition_hit_rate_7d_pct != null) ? d.transition_hit_rate_7d_pct : d.transition_hit_rate_pct;
@@ -2936,9 +2804,7 @@ async function fetchBrainForward() {
     let html = '';
     html += `<div style="font-size:0.62em;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">${is7d ? 'Last 7 days · rolling accuracy' : 'All-time (building 7-day window)'}</div>`;
 
-    // ── #11 (2026-08-11): OPEN CALLS FIRST ──────────────────────────────────
     // The card showed the rate and the receipts but never what is LIVE RIGHT NOW.
-    // On 2026-08-11 three contradictory views were open at once (UP→Denial,
     // DOWN→Capitulation, HOLD→Panic) and no surface said so. If more than one is
     // open the system is multi-betting, and that has to be the first thing read,
     // not something you learn by opening a json file.
@@ -2988,8 +2854,6 @@ async function fetchBrainForward() {
         <span style="color:var(--muted);font-weight:700;">${tr}% <span style="font-weight:400;font-size:0.85em;">(${trRec || ''})</span></span>
       </div>`;
     }
-    // 2026-07-22 (the 0/18 lesson): regime context + splits — a cold streak in
-    // a coil reads as regime information, not incompetence. And the stat Jordan
     // actually uses: when they claim a MOVE, does it move?
     // ── #11b: HOLD vs MOVE as the HEADLINE, not a footnote ─────────────────
     // The blended rate is a regime artifact: every resolved window realized HOLD,
@@ -3027,8 +2891,6 @@ async function fetchBrainForward() {
       html += `<div style="margin-top:6px;font-size:0.76em;color:var(--muted);font-style:italic;">${_escapeHtml(sp.regime_note)}</div>`;
       html += `<div style="margin-top:3px;font-size:0.76em;color:var(--text);">HOLD calls: <b>${sp.hold_record}</b> · MOVE calls: <b>${sp.move_record}</b>${sp.when_they_said_move_it_moved_pct != null ? ` · when they said move, it moved <b>${sp.when_they_said_move_it_moved_pct}%</b> of the time` : ''}</div>`;
     }
-    // 2026-07-20 (Lano: "idk what they called") — RECENT CALLS, rendered like
-    // Jordan's track record: date · called X → phase · got Y · ✓/✗, with VOID
     // rows (windows the score never ticked — flow down/stalled) shown dimmed
     // and excluded from the rate. The receipts, not just the rate.
     const recentCalls = (d.resolved || []).slice(-8).reverse();
@@ -3099,7 +2961,6 @@ async function fetchCalledDates() {
     let html = '';
     for (const [label, st] of rows) {
       if (!st || !st.mode_week) continue;
-      // ── #2 (2026-08-12): DRIFT, WITH THE CALENDAR WALK REMOVED ───────────
       // The old row read `drift_days_per_day` - an endpoint measure over the whole
       // log. But start_date is TODAY on both curve writers, so a frozen shape
       // still walks its called date +1d every day. That printed as ~5d/day and the
@@ -3115,8 +2976,6 @@ async function fetchCalledDates() {
       const driftColor = (drift == null || Math.abs(drift) < 0.5) ? 'var(--green)' : '#f5c518';
 
       // ── #1: CONVICTION IS THE MODE, NOT THE MEAN ─────────────────────────
-      // The producer's own doctrine says mode-of-week is the conviction date; this
-      // card printed `avg`. Live forecast_top: avg 2027-05-31 vs latest 2026-11-10
       // vs mode 2027-W13 - three different dates under one label, and the mean of
       // a bimodal distribution can name a week no sweep ever called.
       const wk = st.mode_week ? st.mode_week.split('-W')[1] : '?';
@@ -3238,7 +3097,6 @@ function cgFetch(url, { retries = 2, gap = 350 } = {}) {
         if (!res.ok) throw new Error('cg_http_' + res.status);
         const json = await res.json();
         _cgLastGood[url] = json;
-        // 2026-08-12: record FRESHNESS per url without touching the return value.
         // cgFetch serves _cgLastGood on failure with no marker, so a caller cannot
         // distinguish a live payload from a cached one - the SOL tile and the $GORK
         // sticker both render stale numbers as live indefinitely when CoinGecko
@@ -3260,14 +3118,12 @@ function cgFetch(url, { retries = 2, gap = 350 } = {}) {
 
 async function fetchCrypto() {
   try {
-    // ── F1 (2026-08-12): TWO CLOCKS, ONE STRIP ──────────────────────────────
     // These tiles are BROWSER CoinGecko, live to the second. Every number the
     // system actually reasons with - score, projections, call grading, coin-call
     // entries - comes from the engine's macro snapshot, frozen at the last sweep
     // (up to ~1h old). There is no render path from macro to this DOM.
     //
     // That is a defensible design (a live ticker IS useful) and an undisclosed
-    // one: the operator can stamp a call while reading a price the freeze never
     // saw, then wonder why the grade disagrees. The tiles now carry the engine's
     // number alongside when the two have separated.
     const _cryptoUrl = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana,binancecoin&order=market_cap_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h';
@@ -3385,7 +3241,6 @@ async function fetchGork() {
   }
 }
 
-// pack 0 #3 (2026-08-12): a "cached" / age chip for the sticker.
 // cgFetch returns last-good JSON on failure and fetchGork deliberately keeps the
 // prior price - correct behaviour, but with no chip a stale number looks live
 // indefinitely. CoinGecko 429s often enough that this is a real state, not a
@@ -3545,7 +3400,6 @@ async function fetchMacro() {
       });
     })();
 
-    // 2026-08-07 data-gap factors. Colour comes from the PERCENTILE where one
     // exists, never the raw value - a bare CVD or skew number has no scale, and
     // painting it would be inventing a threshold none of these have.
     (function renderGapFactors() {
@@ -3601,7 +3455,6 @@ async function fetchMacro() {
       }
     })();
 
-    // Brain reads — advisory (v3: 4 individual reads, Jordan decides)
     if (data.brain_consensus) {
       const bc = data.brain_consensus;
       document.getElementById('brainHeadline').textContent = bc.headline || 'Awaiting brain output...';
@@ -3642,7 +3495,6 @@ async function fetchMacro() {
       }
     }
 
-    // Reconciliation hint — internal plumbing, no longer surfaced on the site.
     // (Element removed; guard kept so nothing errors if the field is present.)
     const _reconEl = document.getElementById('reconHint');
     if (_reconEl && data.signals && data.signals.reconciliation_hint) {
@@ -3660,7 +3512,6 @@ async function fetchMacro() {
       renderPatternMatch(data);
     }
 
-    // Jordan's read (authoritative) — from daily_read; demotes the brains to advisory
     fetch('data/daily_read.json?t=' + Date.now()).then(r => r.json()).then(dr => {
       const box = document.getElementById('jordanReadText');
       const tag = document.getElementById('jordanReadTag');
@@ -3672,7 +3523,6 @@ async function fetchMacro() {
       }
     }).catch(() => {});
 
-    // Editor's Calls — the AUDIT LEDGER: every item Jordan has personally called,
     // with a clean label, a short value, and WHEN he last called it. The timestamp
     // is the point — it's the one place you can spot a stale call at a glance (e.g.
     // "Winning Line · forecast · 1d ago" stands out as needing a refresh).
@@ -3734,7 +3584,6 @@ async function fetchMacro() {
     // Blow-off meter with NEW factors (stablecoin supply, funding)
     renderBlowoff(data);
 
-    // Cycle phase: NOT set here. Phase is Jordan's editorial call (see fetchPhaseBar).
     // The site no longer derives the phase from macro/blowoff data.
 
   } catch(e) {
@@ -3756,7 +3605,6 @@ function renderPatternMatch(data) {
     .then(sim => {
       const matches = sim.all_matches || {};
       const keys = Object.keys(matches).sort((a,b) => matches[b].similarity - matches[a].similarity);
-      // ── F1 (2026-08-11): the SAME prefix bug lived here in JS ─────────────
       // k.startsWith('top_') drove the colour, so mini_top_2019_jun rendered
       // GREEN as a bottom. Read the real fingerprint_type off top3 when present.
       const typeByName = {};
@@ -3839,7 +3687,6 @@ function renderBlowoff(data) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// BLOW-OFF TOP DETECTOR (Sprint 22)
 // Reads blowoff_tracker.json and populates the 6-signature detector panel
 // ═══════════════════════════════════════════════════════════════════════════
 async function fetchBlowoffDetector() {
@@ -3937,7 +3784,6 @@ function renderBlowoffDetector(data) {
     }
   });
 
-  // ── F4/F8 (2026-08-12): THE COLLISION STRIP ─────────────────────────────
   // Three different products use "top" language and only ONE of them is this
   // card. The dangerous pair: HUNTING_TOP means BOTTOM IS IN — it is a LONG bias
   // that shifts the projection analogs and votes long on every coin call. This
@@ -4038,7 +3884,6 @@ function renderMarkersOnChart() {
 }
 
 async function renderMarkersFeed() {
-  // Sprint 44: Jordan authors this panel (calls.detections). The marker DOTS on the
   // chart stay data (renderMarkersOnChart, untouched) — this feed is his read on them.
   const list = document.getElementById('markersList');
   if (!list) return;
@@ -4049,15 +3894,12 @@ async function renderMarkersFeed() {
       const ec = await res.json();
       call = (ec && ec.calls && ec.calls.detections) || null;
     }
-    // ── #1 (2026-08-12): THE CARD IS NOT EDITORIAL-ONLY ─────────────────────
     // The card claims "the system flags moments when current conditions strongly
     // resemble a specific historical top or bottom" - and then renders ONLY
-    // Jordan's prose. When his read goes stale (54h on the live file) the entire
     // card is stale, while the engine has been stamping a marker every sweep the
     // whole time. Same shape as the news card: a stale CURATION reading as a dead
     // ENGINE.
     //
-    // The live engine strip always renders. Editorial sits below it, labelled.
     let strip = '';
     try {
       // the cache is chart._markerCache (set in fetchMarkers) - verified by reading
@@ -4094,7 +3936,6 @@ async function renderMarkersFeed() {
       }
     } catch (e) {}
 
-    // ── #2: stale banner on the editorial half ──────────────────────────────
     let jAge = null;
     if (call && call.called_at) jAge = (serverNow() - Date.parse(call.called_at)) / 3600000;
     const jStale = (jAge != null && jAge >= 36);
@@ -4117,22 +3958,17 @@ async function renderMarkersFeed() {
   } catch(e) { console.log('detections feed failed', e); }
 }
 
-// ── H1 (2026-08-12): THE CARD TITLE PROMISED A CONTROL THAT DID NOT EXIST ──
 // The card is titled "…AI Annotations", `toggleAnnotationsBtn` is looked up in JS,
-// and there was NO SUCH ELEMENT in the controls row - only Markers/Forecast/DA/J6/
 // Reset. So 46 live shapes and a 2-minute poll were unreachable: not off by policy,
 // off by omission, with a title advertising them.
 //
 // H6 fallout, handled here rather than later: the PROTECTED/KEEP sets that survive
 // an annotation refresh list fc/da peaks and today_dot only. Enabling this without
-// adding the j6 peaks would delete them on every refresh - a latent bug that only
 // becomes real the moment the button works.
 // The handler ALREADY EXISTS below as toggleAnnotationsBtn() - complete, with its
 // own KEEP set. Only the BUTTON was missing from the controls row, which is why 46
 // shapes were unreachable. I nearly shipped a second handler here before reading
-// far enough to find the first; wiring the existing one is the fix.
 function toggleMarkers() {
-  // Button removed in sprint 32 v2.7. Function kept for compatibility; if anything
   // still calls it externally, it'll just no-op since the button doesn't exist.
   const btn = document.getElementById('toggleMarkers');
   if (!btn) return;
@@ -4164,9 +4000,8 @@ function _setMarkerPairVisible(topKey, bottomKey, visible) {
   chart.update('none');
 }
 
-let showDevilsAdvocate = true;  // sprint 32 v2.7: DA auto-loaded, always visible
+let showDevilsAdvocate = true;
 function toggleDevilsAdvocate() {
-  // Button removed in sprint 32 v2.7. Function kept null-safe in case external code calls it.
   const btn = document.getElementById('toggleDevilsAdvocate');
   if (!btn) return;
   showDevilsAdvocate = !showDevilsAdvocate;
@@ -4178,7 +4013,7 @@ function toggleDevilsAdvocate() {
   _setMarkerPairVisible('da_next_top', 'da_next_bottom', showDevilsAdvocate);
 }
 
-let showJ6 = true;  // Sprint 44: J6 (Jordan-curated) line — visible by default, toggleable
+let showJ6 = true;
 function toggleJ6() {
   const btn = document.getElementById('toggleJ6');
   if (!btn) return;
@@ -4187,7 +4022,6 @@ function toggleJ6() {
   btn.textContent = (showJ6 ? '◉' : '◌') + ' J6';
   const j6Ds = chart.data.datasets.find(d => d.key === 'j6');
   if (j6Ds) { j6Ds.hidden = !showJ6; chart.update('none'); }
-  // Hide/show J6 dots with the J6 line so no orphan dots float.
   _setMarkerPairVisible('j6_next_top', 'j6_next_bottom', showJ6);
 }
 
@@ -4408,7 +4242,6 @@ function loadETFFlows() {
     .then(data => {
       // All three are net flow in $ MILLIONS (Apify/SoSoValue). BTC's millions
       // field is etf_net_total_musd (NOT etf_net_total, which is full dollars —
-      // formatting that with an "M" suffix was the -$113780000M bug).
       const fmt = (m) => (m == null || isNaN(m))
         ? '--'
         : (m >= 0 ? '+$' : '-$') + Math.abs(m).toFixed(1) + 'M';
@@ -4536,7 +4369,6 @@ async function loadChartHistory() {
     const history = await res.json();
     if (!history.length) return;
 
-    // Drop any future-dated rows (writer bug guard) — history is realized data only.
     const todayCutoff = new Date();
     todayCutoff.setHours(23, 59, 59, 999);
     const futureDated = history.filter(p => new Date(p.date + 'T00:00:00') > todayCutoff);
@@ -4577,9 +4409,7 @@ async function loadChartHistory() {
 // ═══════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════
-// SPRINT 21: ANNOTATIONS + SMART FORECAST
 // Renders shapes from chart_annotations.json (circles, arrows, zones, callouts)
-// Sprint 32 v2.7+ (this session): forecast_v2.json reference removed.
 // Forecast is data-driven via forecast_curve.json (see fetchForecastCurve below).
 // ═══════════════════════════════════════════════════════════════════════════
 let showAnnotations = false;
@@ -4604,14 +4434,9 @@ function renderAnnotations(shapes) {
   const ann = chart.options.plugins.annotation.annotations;
 
   // Clear old annotator shapes (keep AI markers + dynamic peak markers).
-  // Sprint 32 v2.7+ (this session): blowBox/bottom25 retired (deleted). Replaced
   // with dynamic forecast_next_top/forecast_next_bottom/da_next_top/da_next_bottom
   // — those need preservation on annotation refresh just like AI markers.
-  // H6 (2026-08-12): j6_next_top/bottom were NOT protected. Latent while the
   // annotations button did not exist; the moment H1 wires it, a refresh would
-  // delete the J6 peaks until the next j6 fetch. Fixed in the same pass that
-  // makes the button real - a latent bug shipped alongside its trigger is just
-  // a bug.
   const PROTECTED = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label', 'j6_next_top', 'j6_next_bottom']);
   Object.keys(ann).forEach(k => {
     if (PROTECTED.has(k)) return;
@@ -4791,12 +4616,10 @@ function renderAnnotations(shapes) {
   chart.update('none');
 }
 
-// Sprint 32 v2.7+ (this session): fetchSmartForecast() removed entirely.
 // 
 // Why: it was reading forecast_v2.json — a stale/zombie file we couldn't trace to
 // any active flow_cycle.py code path. Two competing forecast systems (forecast_v2.json
 // and forecast_curve.json) were both writing to the chart's prediction dataset,
-// fighting each other depending on load order. Result was a confused chart where the
 // visible forecast didn't match the DA inverse.
 // 
 // Single source of truth is now forecast_curve.json via fetchForecastCurve() below.
@@ -4815,7 +4638,6 @@ function toggleAnnotationsBtn() {
     fetchAnnotations();
   } else {
     const ann = chart.options.plugins.annotation.annotations;
-    // Sprint 32 v2.7+ (this session): KEEP set updated. blowBox/bottom25 retired,
     // replaced with the 4 dynamic peak markers.
     const KEEP = new Set(['forecast_next_top', 'forecast_next_bottom', 'da_next_top', 'da_next_bottom', 'today_dot', 'today_dot_label', 'j6_next_top', 'j6_next_bottom']);
     Object.keys(ann).forEach(k => {
@@ -4850,11 +4672,9 @@ async function init() {
     fetchRotation(),
     fetchHypotheses(),
     fetchAnnotations(),
-    // Sprint 32 v2.7+ (this session): fetchSmartForecast removed.
     // Was reading forecast_v2.json (a stale/zombie file). Single source of truth is
     // now forecast_curve.json via fetchForecastCurve below.
     fetchBlowoffDetector(),
-    // v2.7 Sprint 32: discovery engine outputs
     fetchJordanThesis(),
     fetchTrackRecord(),
     fetchRaceStandings(),
@@ -4864,15 +4684,14 @@ async function init() {
     fetchInvariants(),
     fetchDataGaps(),
     fetchForecastCurve(),  // data-driven forecast (single source of truth)
-    fetchBrains(),         // wiring fix: brain reads live in brain_consensus.json, not macro.json
-    fetchJ6Curve(),  // Sprint 43: J6 curated line
-    fetchCurrentState(),   // sprint 32 v2.7+ (this session): highlights active phase pill
-    fetchDailyRead(),      // sprint 32 v2.7+ (this session): reads empire synthesis packet
+    fetchBrains(),
+    fetchJ6Curve(),
+    fetchCurrentState(),
+    fetchDailyRead(),
   ]);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// SPRINT 32 v2.7: DISCOVERY ENGINE FETCHERS
 // ═══════════════════════════════════════════════════════════════════════════
 
 // Helper: format ISO timestamp into human-readable age
@@ -4918,8 +4737,6 @@ async function fetchJordanThesis() {
     biasEl.textContent = biasText;
     biasEl.style.color = biasColor;
 
-    // "What flips this" — the thesis-level falsification. Reuses Jordan's existing
-    // falsification editorial call (it IS the condition that would kill the thesis),
     // so no new field needed. Replaces the old redundant "Horse Race State" stat
     // (the race is already shown in The Race card + the Horse Race card below).
     const flipEl = document.getElementById('jordanThesisFlip');
@@ -4968,7 +4785,6 @@ async function fetchTrackRecord() {
     const covEl = document.getElementById('trCoverage');
     if (covEl) covEl.textContent = (d.coverage_pct != null) ? `${d.coverage_pct}%` : '--';
 
-    // Sprint 67: honest companions to the headline rate (only render what exists).
     const honestEl = document.getElementById('trHonest');
     if (honestEl) {
       const bits = [];
@@ -4983,7 +4799,6 @@ async function fetchTrackRecord() {
       // windows he chose to sit out.
       if (d.no_calls != null)
         bits.push(`<b style="color:#4f9eff">${d.no_calls}</b> no-call window${(d.no_calls||0)===1?'':'s'} — abstaining is a choice, not a miss`);
-      // #8 (2026-08-11): the PATH SPLIT. "wrong" and "right then gave it back" are
       // different lessons and the headline grade calls both a miss. This is a
       // second reading of the same rows - it never moves the hit rate.
       if (d.path_split) {
@@ -5007,7 +4822,6 @@ async function fetchTrackRecord() {
         kpiEl.style.display = 'block';
       }
 
-      // #9 (2026-08-11): STRUCTURE ON THE SURFACE. together / fracturing /
       // btc-leading was already tagged on every row and only visible if you opened
       // the json. A fracturing tape is the correlation breaking before a blow-off -
       // that belongs on the card, not buried in a row.
@@ -5039,7 +4853,6 @@ async function fetchTrackRecord() {
                     long:'Up', short:'Down' };
         return m[v] || v || '—';
       };
-      // Sprint 66: the LIVE pending call shows INSTANTLY at the top — the moment Jordan
       // calls, it's here, not hidden until the 12h resolves. Read from call_cycle.json's
       // live_call + countdown. Flips to a graded ✓/✗ row (below) when the window closes or
       // he revises. No more "mystery reveal at the end."
@@ -5049,8 +4862,6 @@ async function fetchTrackRecord() {
         if (ccRes.ok) {
           const cc = await ccRes.json();
           const live = cc.live_call;
-          // ── 2026-07-25 (Lano caught a TWO-VOICE bug): the committed-move card
-          // correctly said "Awaiting Jordan" (carried is not committed) while THIS
           // row rendered the very same dead stance as LIVE — with the SLOT's
           // countdown (10h) borrowed as if the expired call owned it, because
           // window_start_iso resets on every carry. One fact, two answers. The
@@ -5159,7 +4970,6 @@ async function fetchTrackRecord() {
       } else {
         const gradedHtml = recent.map(r => {
           const g = r.grade || '';
-          // 2026-07-20 (Lano's ruling): offline days render AS offline — a gap
           // shown as a gap, dimmed, never counted in the rate. A public record
           // that hides its downtime is lying by omission.
           if (g === 'offline') {
@@ -5174,7 +4984,6 @@ async function fetchTrackRecord() {
           }
           const pct = (r.actual_pct !== null && r.actual_pct !== undefined)
             ? `${r.actual_pct > 0 ? '+' : ''}${r.actual_pct}%` : '—';
-          // ── PEAK COLUMN (2026-08-11) ──────────────────────────────────────
           // The score column is the CLOSE - what he is graded on. This is the best
           // the window ever offered in his direction. A miss with a strong peak is
           // a timing problem; a miss with no peak is a read problem, and the close
@@ -5200,7 +5009,6 @@ async function fetchTrackRecord() {
               + (gb > 0.3 ? ` — gave back ${gb}pp by the close` : '')
               + (r.path_verdict ? ` (${String(r.path_verdict).replace(/_/g, ' ')})` : '');
           } else if (hasSw) {
-            // ── FLAT (2026-08-11) ──────────────────────────────────────────
             // A flat call has no direction, so it has no peak. What matters is the
             // SWING - how far the tape got from the open either way - and it reads
             // the opposite way round: for a directional call the close can
@@ -5231,7 +5039,7 @@ async function fetchTrackRecord() {
             </div>`;
         }).join('');
         recEl.innerHTML = pendingHtml + gradedHtml;
-        tickCallCycleCountdowns();  // Sprint 66: start/refresh the live countdown
+        tickCallCycleCountdowns();
       }
     }
 
@@ -5239,7 +5047,6 @@ async function fetchTrackRecord() {
     const hrEl = document.getElementById('trackRecordHorseRace');
     const hr = d.horse_race_trend;
     if (hrEl) {
-      // De-duped (Lano, 2026-06-21): the line-vs-reality "off by X avg" standings
       // already render in The Race card (#raceStandings). Showing them here too put
       // the same numbers on screen twice, so this strip now renders nothing. The
       // Track Record card keeps its unique "Recent Calls" content above.
@@ -5249,7 +5056,6 @@ async function fetchTrackRecord() {
 }
 
 async function fetchFalsificationChecklist() {
-  // Sprint 44: Jordan's call ONLY. Reads calls.falsification (his text). The analyst
   // brain's auto checklist is advisory (feeds his packet); the site shows his words.
   const listEl = document.getElementById('falsificationList');
   if (!listEl) return;
@@ -5275,8 +5081,6 @@ async function fetchFalsificationChecklist() {
 }
 
 async function fetchConfirmation() {
-  // Sprint 66: the mirror of falsification — what would make us RIGHT. Reads Jordan's
-  // editorial `confirmation` call. Green-accented conviction triggers.
   const listEl = document.getElementById('confirmationList');
   if (!listEl) return;
   try {
@@ -5300,7 +5104,6 @@ async function fetchConfirmation() {
 }
 
 async function fetchMarketDrivers() {
-  // Sprint 66: top 3 things moving the market, computed from daily_read.market_drivers
   // (factor vector ranked by distance-from-neutral × weight). Green = bullish force,
   // red = bearish force.
   const listEl = document.getElementById('marketDriversList');
@@ -5317,7 +5120,6 @@ async function fetchMarketDrivers() {
     listEl.innerHTML = drivers.map((dr, i) => {
       const isJordan = dr.source === 'jordan';
       if (isJordan) {
-        // Jordan's editorial call: driver + effect (cause->effect, his words)
         return `
           <div style="display:flex; gap:12px; padding:9px 12px; margin-bottom:8px;
                background:rgba(0,229,160,0.04); border-left:3px solid #00e5a0; border-radius:4px;">
@@ -5375,7 +5177,6 @@ async function fetchInvariants() {
     document.getElementById('invariantsBotStrength').textContent =
       `BOT ${firing.bottom_invariants_firing || 0}/${firing.bottom_invariants_total || 0} (${(firing.bottom_signal_strength_pct ?? 0).toFixed(0)}%)`;
     
-    // ── #5 (2026-08-12): SHOW THE METHOD, NOT JUST THE VERDICT ─────────────
     // The card showed badges and a red/green list and nothing about HOW anything
     // was decided: no rule, no tolerance, no distance, no pool composition, no
     // near-miss, and no mention that the only consumer of this file is the
@@ -5416,7 +5217,6 @@ async function fetchInvariants() {
       if (mEl && meth.length) { mEl.innerHTML = meth.join(' &nbsp;·&nbsp; '); mEl.style.display = 'block'; }
     } catch (e) {}
 
-    // #2: Jordan's own read, carried on the payload by the mechanical writer
     try {
       const jEl = document.getElementById('invariantsJordan');
       if (jEl && data.jordan_read) {
@@ -5460,10 +5260,7 @@ async function fetchDataGaps() {
     const listEl = document.getElementById('dataGapsList');
     const cardEl = document.getElementById('dataGapsCard');
 
-    // ── #6 (2026-08-12): A TOMBSTONE, NOT A DISAPPEARING ACT ────────────────
     // Hiding the card at count 0 turns blindness into the same pixels as
-    // completion. And count 0 was itself soft: `is not None` let an empty kalshi
-    // markets list and a dry x_noise close their own gaps (fixed backend-side).
     //
     // Two facts survive a zero count and both matter: pipes that are wired and
     // returning nothing, and factors that are live but on no fingerprint — the
@@ -5509,7 +5306,6 @@ async function fetchDataGaps() {
   } catch(e) { console.log('data gaps fetch failed', e); }
 }
 
-// v2.7 Sprint 32: data-driven forecast curve (replaces hardcoded prediction)
 // Reads forecast_curve.json (generated by flow_cycle.py projection engine every sweep).
 //
 // CRITICAL: this uses FLAT ARRAYS aligned with weeklyDates, matching how the
@@ -5517,7 +5313,6 @@ async function fetchDataGaps() {
 // and DA rendering because the chart uses interaction mode 'index' which requires
 // all datasets to share the same indexing system as labels[].
 // ═══════════════════════════════════════════════════════════════════════════
-// Sprint 32 v2.7+ (this session, fourth iteration): VERTICAL-LINE PEAK MARKERS
 // + SIDE PANEL READOUT
 // ═══════════════════════════════════════════════════════════════════════════
 // Replaces the dots+labels approach (which had three failed iterations due to
@@ -5605,7 +5400,6 @@ function findAbsoluteMax(arr, startIdx) {
       if (item.y == null) continue;
       if (!best || item.y > best.y) best = item;
     }
-    // Coerce the date-only string ("2026-06-19") to a real Date anchored at local
     // midnight (matching anchorDate). Without this, peakDate stayed a string and
     // _formatPeakDate(...).toLocaleDateString() threw — silently killing the whole
     // Next-Turns panel (left it stuck on "Awaiting forecast data"). weeksOut also
@@ -5657,13 +5451,10 @@ function _weeksFromToday(peakIdx, todayIdx) {
 }
 
 // Build a vertical-line annotation at a given date with a label at the top.
-// labelPosition param (Sprint 35 chart fix): 'top' or 'bottom' — controls where
 // the label renders on the vertical line. FC labels go top, DA labels go bottom
 // so they never visually overlap when forecast and DA extrema land near the
 // same date.
 function _peakDotAnnotation(labelText, peakDate, peakValue, color, labelYAdjust, dateStr, weeksOut) {
-  // Sprint 43: point annotations sitting on the line at peak coords.
-  // Sprint 44: HOVER DETAIL — short label always shown; on hover the label expands
   // to include the date + weeks-out (same info as the Next Turns panel) so the dots
   // explain themselves without leaving the chart. Mutates the annotation CONFIG by
   // id (ctx.id) so update() re-renders the new content reliably.
@@ -5712,7 +5503,6 @@ function updateNextTurnsPanel(events) {
     return;
   }
 
-  // Sort events by weeksOut so they read in chronological order (closest first)
   const sorted = events.slice().sort((a, b) => a.weeksOut - b.weeksOut);
 
   host.innerHTML = sorted.map(e => `
@@ -5749,7 +5539,6 @@ function updateNextTurnsPanel(events) {
   `).join('');
 }
 
-// Sprint 43: today_dot pulse — slow flash between radius 7 and 10 every ~1.4s.
 // Uses chart.update('normal') so the radius transitions smoothly (Chart.js animates).
 let _todayDotPulseInterval = null;
 let _todayDotPulseState = 0;
@@ -5768,9 +5557,7 @@ function _startTodayDotPulse() {
 
 
 function renderTodayDot(currentScore, startIdx) {
-  // Sprint 35 chart fix: draw a tracking red dot at TODAY's position on the
   // chart. Re-anchors every sweep via current_score from forecast_curve.json,
-  // so as data ingests and Jordan Empire's read of the cycle drifts, the dot
   // moves to where "today" actually is.
   if (!chart || !chart.options.plugins.annotation) return;
   if (currentScore === null || currentScore === undefined) return;
@@ -5779,7 +5566,6 @@ function renderTodayDot(currentScore, startIdx) {
 
   // Prefer the *actual* latest realized date from the loaded daily chart_history
   // (after loadChartHistory has merged real points). This stops the weekly grid
-  // from snapping "today" to the next bucket (the bug that made it show Jun 14
   // when it was really Jun 9).
   let anchorDate = new Date();
   anchorDate.setHours(0, 0, 0, 0);
@@ -5824,14 +5610,11 @@ function renderTodayDot(currentScore, startIdx) {
 }
 
 
-// Remembered today-index so any line update (forecast / DA / J6) can re-render
 // the markers without re-deriving it. Set by whichever fetch ran last.
 let _lastStartIdx = -1;
 
 function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
-  // Sprint 45 FIX: the dots used to drift because this read a mix of passed-in
   // arrays (which could be a stale module-global copy) for FC/DA and the live
-  // global j6Line for J6 — and two separate fetches (forecast vs j6) each called
   // it with different freshness. The dots ended up anchored to arrays that no
   // longer matched the lines actually drawn.
   //
@@ -5860,7 +5643,6 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
                       : ((typeof devilsAdvocate !== 'undefined' && Array.isArray(devilsAdvocate)) ? devilsAdvocate : []);
 
   // In object time-series mode (real dated projections from history anchor),
-  // we don't rely on the fixed weekly grid length — skip the legacy guard.
   const usingObjects = (forecastArr && forecastArr.length && forecastArr[0] && typeof forecastArr[0] === 'object' && forecastArr[0].x) ||
                        (daArr && daArr.length && daArr[0] && typeof daArr[0] === 'object' && daArr[0].x) ||
                        (j6Line && j6Line.length && j6Line[0] && typeof j6Line[0] === 'object' && j6Line[0].x);
@@ -5878,7 +5660,6 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
   // Then derive peak dates as anchor + N weeks. This makes the 6 dots report
   // correct calendar dates relative to *now* (e.g. "Jun 9 + 3w") instead of
   // snapping to whatever old weekly grid slot the min happened to land in
-  // (the bug that made J6 bottom show 3/27/26 months after we had already gone lower).
   let anchorDate = new Date();
   anchorDate.setHours(0, 0, 0, 0);
   if (CHART_TODAY) {
@@ -5943,7 +5724,6 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
     console.log(`[peaks] DA absolute bottom: ${peakDate.toISOString().split('T')[0]} score=${peakValue} (${w}w out)`);
   }
 
-  // J6 (Jordan-curated) extrema
   const J6C = '#00e5a0';
   if (typeof j6Line !== 'undefined' && Array.isArray(j6Line) && j6Line.some(v => v !== null && v !== undefined)) {
     const j6Max = findTurnMax(j6Line, startIdx);
@@ -5966,7 +5746,6 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
     }
   }
 
-  // Respect current line-toggle state: if DA or J6 is toggled off, the freshly
   // regenerated dots must start hidden too (otherwise a sweep re-reveals them
   // under a hidden line). FC has no toggle (always on).
   if (typeof showDevilsAdvocate !== 'undefined' && !showDevilsAdvocate) {
@@ -5985,27 +5764,24 @@ function renderNextPeakMarkers(_legacyForecastArr, _legacyDaArr, startIdx) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Sprint 32 v2.7+ (this session): CURRENT STATE + DAILY READ FETCHERS
 // ═══════════════════════════════════════════════════════════════════════════
 //
 // fetchCurrentState reads current_state.json (written by flow_cycle.py every sweep)
 // and highlights the matching phase pill at the top of the chart. Wires the
-// 13-phase doctrine — score + trend = which pill is active.
 //
 // fetchDailyRead reads daily_read.json (the empire's synthesis packet, also
 // written every sweep). For now it just console.logs the read for verification.
 // Future iteration will display it in a dedicated UI panel above the chart.
 
 async function fetchCurrentState() {
-  // Single owner of the top phase bar. Phase = JORDAN'S call (editorial_calls.json).
   // Score = FACT (current_state.json). The page derives no phase of its own.
   let score = null, phaseCall = null, nextMove = null;
   try {
     const res = await fetch('data/current_state.json?t=' + Date.now());
     if (res.ok) {
       const data = await res.json();
-      score = data.score;   // fact — Jordan can't edit numbers
-      nextMove = data.next_move || null;   // Sprint 65: brain forward prediction
+      score = data.score;
+      nextMove = data.next_move || null;
     }
   } catch(e) { console.log('current_state fetch failed', e); }
   try {
@@ -6049,7 +5825,6 @@ async function fetchDailyRead() {
   }
 }
 
-// Sprint 32 v2.7+ (this session): render the Empire Read panel from daily_read.json.
 // Inputs: full daily_read.json data object. Updates 4 sections of the panel:
 //   1. status badge (shows updated time + amplitude_blend)
 //   2. headline tiles + reasoning
@@ -6071,16 +5846,12 @@ function renderEmpireReadPanel(data) {
     status.textContent = `${ago} · ${confLabel}`;
   }
 
-  // 2. Headline: per-bot recommendation tiles + reasoning
   const tilesEl = document.getElementById('empireReadTiles');
   const reasoningEl = document.getElementById('empireReadReasoning');
   const headlineEl = document.getElementById('empireReadHeadline');
   if (tilesEl && reasoningEl && headlineEl) {
-    // Section 4 (this session): only the leverage direction is public. Kalshi +
     // sniper tiles removed — they exposed what the other bots are doing (the
-    // bots still consume the full daily_read internally; the SITE just shows the
     // one public-facing call). Single centered tile, mapped to plain language.
-    // Sprint 66: the LEVERAGE DIRECTION headline is now JORDAN'S COMMITTED CALL (his
     // front-running decision), not the mechanical phase-lookup. Leverage = his per-sweep
     // forward call now, so his committed move IS the leverage direction. The mechanical
     // phase-read still shows as a SECONDARY line so divergence is visible + labeled — when
@@ -6118,10 +5889,8 @@ function renderEmpireReadPanel(data) {
   // 4. Context grid: phase + cliff + forecast targets + horse race
   const ctxEl = document.getElementById('empireReadContext');
   if (ctxEl) {
-    // Sprint 66: the FORWARD box — now JORDAN'S editorial next-phase call (his forward
     // read) when he's made one, brains as fallback. Pulled OUT of the cramped context grid
     // into its own full-width row below so it fills the space and reads clearly. Shows whose
-    // call it is (Jordan vs brains-awaiting).
     let nextMoveRow = '';
     const nm = data.next_move;
     if (nm && nm.predicted_phase) {
@@ -6214,7 +5983,6 @@ function _escapeHtml(s) {
 
 // Recommendation tile color logic — green for longs, red for shorts, neutral for everything else
 function _leverageTile(mechValue, jordanCall) {
-  // Sprint 66: the headline is JORDAN'S committed call (his leverage direction — his
   // per-sweep front-run). The mechanical phase-lookup shows as a labeled secondary line so
   // you can SEE when he diverges from the tape (which is itself a signal). If he hasn't
   // committed a call yet, fall back to showing the mechanical read as the headline.
@@ -6229,7 +5997,6 @@ function _leverageTile(mechValue, jordanCall) {
   const mv = (mechValue || '').toLowerCase();
   const [mechText, mechColor] = mechMap[mv] || [_escapeHtml(mechValue || '—'), 'var(--muted)'];
 
-  // Jordan's committed call → headline
   let headText, headColor, jDir = null;
   if (jordanCall && jordanCall.direction) {
     jDir = jordanCall.direction.toLowerCase();
@@ -6244,7 +6011,6 @@ function _leverageTile(mechValue, jordanCall) {
     headText = mechText; headColor = mechColor;
   }
 
-  // divergence detection: is Jordan's direction opposite the mechanical read?
   const mechDir = mv.startsWith('long') ? 'long' : mv.startsWith('short') ? 'short' : 'flat';
   const jSide = jDir ? (['up','up_micro','long'].includes(jDir) ? 'long'
                        : ['down','down_micro','short'].includes(jDir) ? 'short' : 'flat') : null;
@@ -6252,7 +6018,6 @@ function _leverageTile(mechValue, jordanCall) {
 
   let secondary = '';
   if (jordanCall && jordanCall.direction) {
-    // show the mechanical read as a secondary line under Jordan's headline
     if (diverges) {
       secondary = `<div style="font-size:0.72em; color:var(--yellow); margin-top:8px; line-height:1.4;">
         his committed call — one voice: leverage direction = committed move = coin calls.
@@ -6357,7 +6122,6 @@ function _formatCliff(cliff) {
 }
 
 function _formatHorseRace(hr) {
-  // ── #9 (2026-08-12): THE CHIP COULD NOT RENDER A J6 WIN ──────────────────
   // Four branches: both_wrong / forecast / da / convergence. `j6_winning_decisive`,
   // `j6_leading` and `all_three_wrong` all fell through to a muted raw slug - so
   // the one outcome that would mean the empire's own intel layer is adding alpha
@@ -6365,7 +6129,6 @@ function _formatHorseRace(hr) {
   //
   // Also: the old `state.includes('da')` was a substring test on a slug. Loose
   // matching on state names is how a new state silently inherits an old branch -
-  // ordered exact-prefix checks instead.
   const state = (hr.state || 'unknown').toLowerCase();
   const resid = (hr.forecast_avg_residual != null && hr.j6_avg_residual != null)
     ? ` <span style="color:var(--muted);font-size:0.85em">(fc ${hr.forecast_avg_residual} · j6 ${hr.j6_avg_residual}${hr.devils_avg_residual != null ? ' · da ' + hr.devils_avg_residual : ''})</span>`
@@ -6394,7 +6157,6 @@ function _formatHorseRace(hr) {
 }
 
 async function fetchBrains() {
-  // Wiring fix: the brain panel used to read `data.brain_consensus` out of macro.json,
   // but the 3-brain consensus actually writes its own file (brain_consensus.json). The
   // two never met, so the panel showed "--" even though the brains were running fine.
   // This reads the real file and reshapes it into what the panel render expects.
@@ -6421,7 +6183,6 @@ async function fetchBrains() {
       const m = document.getElementById(metaId);
       if (m) m.textContent = (conf != null) ? `conf ${(conf * 100).toFixed(0)}%` : '--';
     };
-    // Sprint 65: append each brain's FORWARD call to its meta line, so every brain tile
     // shows current read + where that brain thinks it goes next. Quiet when no call.
     const addForward = (metaId, nm) => {
       const m = document.getElementById(metaId);
@@ -6429,7 +6190,6 @@ async function fetchBrains() {
       const dir = (nm.direction || 'HOLD').toUpperCase();
       const col = dir === 'UP' ? 'var(--green)' : dir === 'DOWN' ? 'var(--red)' : 'var(--muted)';
       const arrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
-      // Sprint 66: analyst/judge predict a PHASE; narrative predicts a STORY direction
       // (outlook, no phase). Handle both so all three brains show a forward line, not just
       // the phase-predictors. Wider/fuller line that fills the card.
       const tail = (nm.confidence_pct != null) ? ` · ${nm.confidence_pct}%`
@@ -6455,11 +6215,9 @@ async function fetchBrains() {
       const m = document.getElementById('narrativeMeta');
       if (m) m.textContent = (br.narrative.confidence != null) ? `conf ${(br.narrative.confidence * 100).toFixed(0)}%` : '--';
     }
-    // Sprint 65: paint each brain's forward call (after meta text is set, since addForward appends)
     if (br.analyst)   addForward('analystMeta', br.analyst.next_move);
     if (br.judge)     addForward('judgeMeta', br.judge.next_move);
     if (br.narrative) addForward('narrativeMeta', br.narrative.next_move);
-    // Sprint 66: legacy math gets its DETERMINISTIC forward lean too (the mechanical
     // counterpoint to the reasoning brains). Set its read + meta here if not already, then
     // append the forward line.
     if (br.legacy) {
@@ -6479,7 +6237,6 @@ async function fetchBrains() {
 
 
 async function fetchPriceProjections() {
-  // Pull mechanical + J6 price projections, populate globals (used by tooltip),
   // and render the 7-day big-3 prediction card.
   try {
     const [mRes, jRes] = await Promise.all([
@@ -6494,7 +6251,6 @@ async function fetchPriceProjections() {
 }
 
 function renderPriceForecastCard() {
-  // 7-day DAILY projection (day 1..7) for BTC/ETH/SOL — forecast vs J6.
   const card = document.getElementById('priceForecastBody');
   if (!card) return;
   const A = (PRICE_PROJ && PRICE_PROJ.assets) || {};
@@ -6507,10 +6263,7 @@ function renderPriceForecastCard() {
     if (!cur) return;
     const jDaily = (j && j.daily_price) || [];
     const aDaily = (a && a.daily_price) || [];
-    // ── F1 (2026-08-11): THE CARD SAID "forecast vs J6" AND DREW ONE LINE ──
-    // `jDaily.length ? jDaily : aDaily` - J6 if present, else mechanical, never
     // both. The header promised a comparison the renderer could not produce, and
-    // on a day when J6 ≈ mechanical (tilt small, catalysts empty) the "curated"
     // line was the mechanical one wearing a different name.
     const days = (jDaily.length ? jDaily : aDaily);
     const usingJ6 = jDaily.length > 0;
@@ -6534,7 +6287,6 @@ function renderPriceForecastCard() {
         <span class="etf-name">${sym}${betaStr}${catStr}</span>
         <span style="color:${pctColor}">${fmt(d7)} <span style="font-size:0.8em">(${pct7==null?'':(pct7>=0?'+':'')+pct7.toFixed(1)+'%'})</span></span>
       </div>`;
-    // BOTH lines, always — J6 and mechanical, with the delta named.
     if (usingJ6 && aPct7 != null) {
       html += `<div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">
         <span style="color:#a78bfa">J6</span> ${fmt(d7)} (${pct7>=0?'+':''}${pct7.toFixed(1)}%)
@@ -6557,7 +6309,6 @@ function renderPriceForecastCard() {
   const pp = PRICE_PROJ || {};
   const seam = pp.seam, ac = pp.analog_cluster;
 
-  // ── 7d pack 0 #6 (2026-08-11): DON'T TEACH A FEATURE THAT IS NOT RUNNING ─
   // catalyst_bias.json has never existed, active_catalyst_biases is {}, and the
   // footer taught the ⚡ overlay as if it were live. "No catalyst set" is a real
   // state and worth saying; a feature teach over zero data is not.
@@ -6611,11 +6362,6 @@ function renderCoinCallsCard(calls, hist) {
     if (!c) return;
     const dir = c.direction || 'FLAT';
     const dirColor = dir === 'LONG' ? 'var(--green)' : dir === 'SHORT' ? 'var(--red)' : 'var(--muted)';
-    // ── F3 (2026-08-11): THE CHIP WAS A TWO-BUCKET LIE ─────────────────────
-    // `jordan ? 'J6' : 'mech'` cannot express four sources. jordan_committed - the
-    // DEFAULT since one-voice - rendered as "mech", so the card called Jordan's own
-    // stance a formula. And "J6" steals the price-line brand: on this card it meant
-    // "explicit Jordan", on the projection card it means the curated price curve.
     // Two different meanings, one label, on the same page.
     const SRC_MAP = {
       'jordan':                  { chip: 'jordan',    color: 'var(--green)',  title: 'explicit editorial override - his own levels, frozen until he changes them' },
@@ -6645,9 +6391,7 @@ function renderCoinCallsCard(calls, hist) {
         </div></div>`;
     }
   });
-  // 2026-07-27 (Lano): the leverage record is NOT displayed on the Coin Calls
   // card. The card's job is the live call; the record lives in Track Record and
-  // Mechanical-vs-Jordan. Two places showing overlapping grades is two places
   // that can disagree. Kept behind a flag rather than deleted so the data path
   // stays intact if you want it back.
   const SHOW_COIN_CALL_RECORD = false;
@@ -6759,17 +6503,12 @@ function renderPriceAccuracyCard(acc) {
     if (!c || c.j6_avg_err_pct == null) return;
     const fc = c.fc_avg_err_pct, j6 = c.j6_avg_err_pct, da = c.da_avg_err_pct;
     const jWins = (fc != null && j6 != null && j6 < fc);
-    // ── F8 (2026-08-11): A HORSE RACE WITH NO SAMPLE COUNT IS THEATRE ──────
-    // "fc 1.72% · J6 1.59% ✓ J6 wins" reads decisive. The gap is 0.13pt, the
     // number is a 0.7-prior/0.3-new exponential blend, and n was never shown -
     // so 1.5% on five samples looked identical to 1.5% on two hundred. A "win"
     // inside the noise of an unknown sample is not a win.
     const n = c.n_total != null ? c.n_total : (c.samples != null ? c.samples : null);
     const gap = (fc != null && j6 != null) ? Math.abs(j6 - fc) : null;
-    // ── pack 1 #8 (2026-08-12): EDGE MAGNITUDE, NOT A TICK ─────────────────
-    // "✓ J6 wins" reads the same at 0.07pt and 0.8pt. The epsilon the levels
     // consumer actually uses is 0.35pt, so the card should speak in the same
-    // units the decision does - otherwise the operator and the code disagree
     // about what counts as a win.
     const EPS = 0.35;
     const thin = (gap != null && gap < EPS);
@@ -6805,9 +6544,7 @@ function renderPriceAccuracyCard(acc) {
   });
   // window + method, stated once. The number is smoothed, not a raw mean.
   const lastG = acc && (acc.last_graded_at || acc.last_sig);
-  // ── pack 1 #10 (2026-08-12): UPSTREAM HONESTY STRIP ────────────────────
   // This card can crown a line that the 7d projection card has already shown is
-  // barely curated (J6 ≈ mech, catalysts empty) and built on an ambiguous analog
   // cluster. Both flags are published now - read them here so the crown cannot
   // outrun the honesty already on the page next door.
   let upstream = [];
@@ -6855,7 +6592,6 @@ function renderWeightFitCard(fit) {
   const diffs = fit.diffs || [];
   let html = '';
 
-  // ── #4 (2026-08-12): OVERFIT RISK, LOUD ────────────────────────────────
   // 69 samples across 31 free parameters is 2.2 per parameter. The DIRECTIONAL
   // fitter would call that SEVERE and say so; the residual fitter shipped
   // "-11.79 tighter" naked. Same number, same threshold, both paths.
@@ -6870,17 +6606,14 @@ function renderWeightFitCard(fit) {
     </div>`;
   }
 
-  // ── #2/#10 (2026-08-12): NAME THE OBJECTIVE ────────────────────────────
   // This number is |predicted_score − realized_score|. It measures AGREEMENT with
   // the flow score, not price skill. The card sold it as a "back-tester" for five
-  // sprints without ever saying what was being minimised.
   html += `<div style="margin-bottom:8px;font-size:0.85em;">
     <div style="font-size:0.7em;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;">
       score-residual agreement <span style="text-transform:none;">(not price skill)</span></div>
     Error <b style="color:var(--red)">${fit.error_before}</b> → <b style="color:var(--green)">${fit.error_after}</b>
     <span style="color:var(--muted)">(${impr} tighter, ${fit.samples} samples)</span></div>`;
 
-  // ── #3 (2026-08-12): THE PAYING OBJECTIVE, BESIDE IT ───────────────────
   const dir = fit.directional || {};
   if (dir.hit_rate_after != null || dir.hit_rate != null) {
     const hb = dir.hit_rate_before, ha = (dir.hit_rate_after != null ? dir.hit_rate_after : dir.hit_rate);
@@ -6912,7 +6645,6 @@ function renderWeightFitCard(fit) {
     </div>`;
   }
 
-  // ── #6 (2026-08-12): DECISION STATE + STALENESS ────────────────────────
   const bits6 = [];
   if (fit.last_fit_at) {
     const ageD = (serverNow() - Date.parse(fit.last_fit_at)) / 86400000;
@@ -7002,13 +6734,11 @@ async function fetchForecastCurve() {
     const ab = data.amplitude_blend;
     const confEl = document.getElementById('forecastConfidence');
     if (confEl) {
-      // ── H3 (2026-08-12): THE CHIP WAS ON THE WRONG SCALE ─────────────────
       // amplitude_blend is produced on a 0-1 scale: 0.10 default, 0.35 mid, 0.60
       // committed. These thresholds tested < 1.0 and < 3.0, so EVERY real value
       // fell into the first branch and the chip has said "Low confidence" for its
       // entire life - including when the producer was signalling a full commit.
       //
-      // A chip that can only say one thing teaches the operator to stop reading it,
       // which costs more than the missing information.
       if (ab == null) confEl.textContent = '';
       else if (ab < 0.30) confEl.innerHTML = `<span style="color:var(--muted);">Low confidence (amp ${ab}) — no strong cycle signal is firing, so the forecast stays close to the middle. The swings widen as real signals build.</span>`;
@@ -7026,7 +6756,6 @@ async function fetchForecastCurve() {
 // ═══════════════════════════════════════════════════════════════════════════
 // THE RACE (quick read, near the chart) — mirrors the detailed Horse Race card
 // (Section 8). BOTH read the same horse_race_scoreboard.json, so they're always
-// in sync — this is the glance version (standings + Jordan's one-line read), the
 // Section 8 card is the full detail view. Same pattern as the phase strip (quick,
 // up top) mirroring the phase explanation (detailed, below).
 // NOTE: named fetchRaceStandings — the quick-read mirror near the chart. The old
@@ -7044,7 +6773,6 @@ async function fetchRaceStandings() {
       { key: 'j6',       label: 'J6 (Jordan)', color: '#00e5a0',            resid: d.avg_j6_residual_recent },
       { key: 'devils_advocate', label: "Devil's Advocate", color: '#a855f7', resid: d.avg_devils_residual_recent },
     ];
-    // Rank by residual ascending (lower = better). Nulls (e.g. J6 warming up) sink to bottom.
     const ranked = lines.slice().sort((a, b) => {
       if (a.resid == null) return 1;
       if (b.resid == null) return -1;
@@ -7077,7 +6805,6 @@ async function fetchRaceStandings() {
       }
     }
 
-    // Jordan's read: his called winner + his one-line why.
     const readHost = document.getElementById('raceRead');
     if (readHost) {
       const called = d.jordan_winning_line || (d.editorial && d.editorial.winning_line);
@@ -7132,8 +6859,6 @@ async function fetchJ6Curve() {
     const anchorStr = CHART_TODAY || new Date().toISOString().split('T')[0];
     const anchor = new Date(anchorStr + 'T00:00:00');
 
-    // J6 emanates from the realized today value (current_score), or the last
-    // history point, then follows Jordan's curated projection weekly.
     let j6Anchor = (data.current_score !== undefined && data.current_score !== null)
                    ? data.current_score
                    : (histPoints.length ? histPoints[histPoints.length - 1].y : null);
@@ -7152,8 +6877,6 @@ async function fetchJ6Curve() {
     if (j6Ds) j6Ds.data = j6Data;
     chart.update('none');
 
-    // Refresh the turning-points panel so J6's top/bottom turns appear alongside
-    // forecast + DA (renderNextPeakMarkers reads the live j6Line global for J6).
     try { renderNextPeakMarkers(forecastPoints, daPoints, null); } catch(e) {}
 
     const tilt = data.bot_envelope_tilt ?? '--';
@@ -7164,7 +6887,6 @@ async function fetchJ6Curve() {
   }
 }
 
-// v2.7 Sprint 32: Make phase pills clickable to jump to historical example dates
 document.querySelectorAll('.phase-pill').forEach(pill => {
   pill.style.cursor = 'pointer';
   pill.addEventListener('click', () => {
@@ -7195,11 +6917,9 @@ async function loadAll() {
 // in the periphery, never over a number. Win: "why does this page feel heavy
 // today." Fail: "nice animation."
 //
-// TWO THINGS, in Jordan's order:
 //  1) THE COMMIT-GUST is the ONLY moment that punches (GUST below). Opinion, not
 //     wallpaper. first = clean hard mark · reaffirm = smaller banked lock-click ·
 //     revise = sharper + colder. If this lands wrong, nothing else matters.
-//  2) AMBIENT is five NAMED PRESETS in Jordan's language (PRESETS below). Steer
 //     by editing these — "more held breath", "push feels wrong harder" — never by
 //     touching particle counts. weight = how present/heavy · motion = how restless.
 const ATMO = (function () {
@@ -7223,7 +6943,6 @@ const ATMO = (function () {
     revise:   { ms: 560, flash: 0.82, ring: 1.00, cold: 0.45, lean: 0.10, shape: 'cut'   },
   };
 
-  // ═══ 2) AMBIENT PRESETS — Jordan's names, Jordan's language ═══
   //   weight = presence/heaviness (0..1)   motion = restlessness (0..1)
   //   character knobs per preset: unglue/static (feels wrong) · gravity (ash fall) ·
   //   brightness/restless (thin air). Steer by nudging these.
@@ -7234,7 +6953,6 @@ const ATMO = (function () {
     'ash fall':    { style:'ash',     tint:'#0a0610', cols:['#6A1B9A','#3a1a4a'], dir:[0.00, 0.28], weight:0.70, motion:0.34, gravity:0.85 },
     'thin air':    { style:'haze',    tint:'#141006', cols:['#FFD700','#ffe680'], dir:[0.00,-0.34], weight:0.64, motion:0.62, brightness:0.90, restless:0.80 },
   };
-  // lane locked resolves color + flow by call direction
   const LANE = { up:{ tint:'#08120d', cols:['#00FF00'], dir:[0.75,-0.12] }, down:{ tint:'#120a0b', cols:['#B71C1C'], dir:[-0.75,0.12] } };
 
   const hx = h => ({ r:parseInt(h.slice(1,3),16), g:parseInt(h.slice(3,5),16), b:parseInt(h.slice(5,7),16) });
@@ -7329,7 +7047,6 @@ const ATMO = (function () {
     if(opts.intensity!=null) intensity=Math.max(0.2, Math.min(1.4, opts.intensity)); }
 
   return {
-    // climate. name ∈ 'held breath'|'lane locked'|'feels wrong'|'ash fall'|'thin air'
     set(name, opts){ setPreset(name, opts); },
     // THE PUNCH. type ∈ first|reaffirm|revise · colorHex = the call color
     commit(type, colorHex){ if(reduce) return; const g=GUST[type]||GUST.first; let cc=hx(colorHex||'#00e5a0');
@@ -7341,7 +7058,6 @@ const ATMO = (function () {
       const col=dir==='up'?'0,229,160':dir==='down'?'255,77,106':'148,163,184';
       glow.style.background=`radial-gradient(120% 90% at 100% 50%, rgba(${col},${(0.06+0.12*c).toFixed(3)}), transparent 70%)`;
       glow.style.opacity=String(0.5+0.5*c); },
-    // tuning helper: force a preset live (ignores data) so Jordan can judge each mood.
     // ATMO.preview('feels wrong') · ATMO.preview(null) to release back to data.
     preview(name){ if(name===null){ _previewLock=false; return; } if(PRESETS[name]){ _previewLock=true; setPreset(name,{intensity:1}); } },
     _presets: PRESETS, _gust: GUST,
@@ -7352,7 +7068,6 @@ let _previewLock = false;
 // ── wire the atmosphere to live data (regime → climate, stamp → the punch) ────
 let _atmoLastStamp = null, _atmoLastDir = null;
 function atmoPresetFromData(cc, blowoff, euphoria, phaseName) {
-  // returns [presetName, intensity, dir]. Jordan's names.
   try {
     const comp = (blowoff && blowoff.composite) || {};
     const alert = String(comp.alert || '').toLowerCase();
@@ -7413,11 +7128,9 @@ setInterval(init, 60000);              // refresh prices every minute
 setInterval(fetchMarkers, 300000);     // markers every 5 min
 setInterval(fetchMacro, 120000);       // macro every 2 min
 setInterval(fetchAnnotations, 120000); // annotations every 2 min
-// Sprint 32 v2.7+ (this session): setInterval(fetchSmartForecast, 120000) removed.
 // Single forecast source is fetchForecastCurve below.
 setInterval(fetchBlowoffDetector, 120000);  // blow-off detector every 2 min
 setInterval(loadChartHistory, 3600000); // chart history hourly
-// v2.7 Sprint 32: discovery engine refreshes
 setInterval(fetchJordanThesis, 120000);
 setInterval(fetchTrackRecord, 120000);
 setInterval(fetchRaceStandings, 120000);  // quick-read mirror near the chart
@@ -7425,8 +7138,7 @@ setInterval(fetchFalsificationChecklist, 240000);  // 4 min
 setInterval(fetchInvariants, 240000);              // 4 min
 setInterval(fetchDataGaps, 600000);                // 10 min (rarely changes)
 setInterval(fetchForecastCurve, 300000);           // 5 min (curve updates per sweep, sweeps are 4h)
-setInterval(fetchJ6Curve, 300000);                 // Sprint 43: J6 line same cadence as forecast
-// Sprint 32 v2.7+ (this session): refresh phase highlight + empire synthesis on the same cadence
+setInterval(fetchJ6Curve, 300000);
 setInterval(fetchCurrentState, 60000);             // 1 min (fresher highlight as sweeps complete)
 setInterval(fetchDailyRead, 300000);               // 5 min (synthesizes alongside forecast)
 </script>
