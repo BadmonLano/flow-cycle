@@ -1,28 +1,26 @@
 {
-  "_updated": "2026-10-13T01:46:11.924464-04:00",
+  "_updated": "2026-10-13T03:08:52.538405-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-12T20:58:20.738414-04:00",
-      "score_at_call": 56,
+      "made_at": "2026-10-13T03:08:52.566409-04:00",
+      "score_at_call": 55,
       "phase_at_call": "Disbelief",
-      "predicted_phase": "Disbelief",
-      "direction": "HOLD",
+      "predicted_phase": "Hope",
+      "direction": "UP",
       "conviction": "medium",
-      "reasoning": "The current phase of Disbelief suggests a period of uncertainty and hesitation, making a HOLD position appropriate.",
-      "confirmed_if": "BTC remains within the current range and VIX does not spike above 20, indicating sustained uncertainty.",
-      "invalidated_if": "BTC breaks above $85k with sustained 30d momentum >+10% or VIX spikes above 20, indicating a shift in market sentiment.",
+      "reasoning": "The narrative suggests a potential for optimism, and the pattern match to a previous blowoff top supports a move upwards on the ladder.",
+      "confirmed_if": "a sustained increase in market sentiment and price action",
+      "invalidated_if": "a significant reversal in market sentiment or price action indicating a downward trend",
       "signals_at_call": {
         "fear_greed": 57,
         "btc_funding": -0.0015,
         "mvrv_zscore": 1.0611,
         "net_liquidity_chg_4w": 10028.0,
-        "btc_dom": null,
+        "btc_dom": 59.17576514566232,
         "etf_net_total_musd": -487.07,
         "vix": 15.21
-      },
-      "phase_flicker_count": 2,
-      "last_phase_flicker_at": "2026-10-12T23:19:52.372679-04:00"
+      }
     }
   ],
   "resolved": [
@@ -3255,40 +3253,6 @@
     "regime_note": "score actually moved in 3 of 5 graded windows this week"
   },
   "superseded": [
-    {
-      "made_at": "2026-08-12T18:29:15.146903-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Panic",
-      "predicted_phase": "Denial",
-      "direction": "UP",
-      "conviction": "medium",
-      "reasoning": "The 0% base rate over 57 windows is the dominant statistical reality, and neither brain provides a confirmed trigger that overrides the coil\u2014HOLD with conviction is the skilled call until Fed liquidity or exchange reserves break the inertia.",
-      "confirmed_if": "Fed liquidity rises above 20 with btc_exchange_reserves_pct_30d falling from 97, confirming risk-on deployment that would shift phase to Disbelief and signal LONG.",
-      "invalidated_if": "Options skew stays at 100 with exchange_netflow at 100 and long_short_pct_30d above 85, showing trapped longs and distribution that would shift phase to Panic and signal REDUCE.",
-      "signals_at_call": {
-        "fear_greed": 27,
-        "btc_funding": 0.0066,
-        "mvrv_zscore": 0.3873,
-        "net_liquidity_chg_4w": -120305.0,
-        "btc_dom": 56.291237277257125,
-        "etf_net_total_musd": 4.89,
-        "vix": 14.55
-      },
-      "superseded_at": "2026-08-12T20:35:12.581073-04:00",
-      "superseded_by": {
-        "predicted_phase": "Capitulation",
-        "direction": "DOWN"
-      },
-      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
-      "graded_at": "2026-08-13T10:05:48.941579-04:00",
-      "window_hours_actual": 2.1,
-      "partial_window": true,
-      "score_at_close": 39,
-      "realized_direction": "HOLD",
-      "direction_hit": false,
-      "score_delta": 0,
-      "grade_note": "graded on the 2.1h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
-    },
     {
       "made_at": "2026-08-12T20:35:12.582076-04:00",
       "score_at_call": 39,
@@ -6664,6 +6628,34 @@
       "direction_hit": false,
       "score_delta": 0,
       "grade_note": "graded on the 1.14h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-10-12T20:58:20.738414-04:00",
+      "score_at_call": 56,
+      "phase_at_call": "Disbelief",
+      "predicted_phase": "Disbelief",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "The current phase of Disbelief suggests a period of uncertainty and hesitation, making a HOLD position appropriate.",
+      "confirmed_if": "BTC remains within the current range and VIX does not spike above 20, indicating sustained uncertainty.",
+      "invalidated_if": "BTC breaks above $85k with sustained 30d momentum >+10% or VIX spikes above 20, indicating a shift in market sentiment.",
+      "signals_at_call": {
+        "fear_greed": 57,
+        "btc_funding": -0.0015,
+        "mvrv_zscore": 1.0611,
+        "net_liquidity_chg_4w": 10028.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -487.07,
+        "vix": 15.21
+      },
+      "phase_flicker_count": 2,
+      "last_phase_flicker_at": "2026-10-12T23:19:52.372679-04:00",
+      "superseded_at": "2026-10-13T03:08:52.566409-04:00",
+      "superseded_by": {
+        "predicted_phase": "Hope",
+        "direction": "UP"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
