@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About · Flow Cycle Index</title>
+  <meta name="description" content="What Flow Cycle Index is: a live crypto market cycle dashboard for BTC, ETH and SOL that maps the 13 emotional phases of the market and grades every directional call with public receipts." />
+  <link rel="canonical" href="https://theflowcycle.com/about/" />
+  <meta name="theme-color" content="#080b10" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Flow Cycle Index" />
+  <meta property="og:title" content="About Flow Cycle Index" />
+  <meta property="og:description" content="A live crypto market cycle dashboard for BTC, ETH and SOL, with a graded track record of every call." />
+  <meta property="og:url" content="https://theflowcycle.com/about/" />
+  <meta property="og:image" content="https://theflowcycle.com/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@BadmonLano" />
+  <meta name="twitter:title" content="About Flow Cycle Index" />
+  <meta name="twitter:description" content="A live crypto market cycle dashboard for BTC, ETH and SOL, with a graded track record of every call." />
+  <meta name="twitter:image" content="https://theflowcycle.com/assets/og-image.png" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#080b10;--surface:#0d1219;--border:rgba(255,255,255,.08);--blue:#4f9eff;--green:#00e5a0;--text:#e2e8f0;--muted:#94a3b8}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;line-height:1.7}
+    a{color:var(--blue)}h1,h2{font-family:'Syne',sans-serif;line-height:1.2}h1 span{color:var(--blue)}
+    .wrap{max-width:820px;margin:0 auto;padding:32px 20px 60px}
+    .top{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);font-family:'Syne',sans-serif;font-weight:800;font-size:20px}
+    .top img{width:40px;height:40px;border-radius:8px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin:18px 0}
+    .muted{color:var(--muted);font-size:.9em}ol.phases{columns:2;padding-left:22px}@media(max-width:520px){ol.phases{columns:1}}
+    footer{color:var(--muted);font-size:12px;text-align:center;margin-top:40px}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a class="top" href="/"><img src="/assets/logo.png" alt="Flow Cycle Index logo" width="40" height="40">Flow Cycle Index</a>
+  <h1>About Flow <span>Cycle</span> Index</h1>
+  <p>Flow Cycle Index is a live dashboard that reads where the crypto market sits in its emotional cycle, for Bitcoin (BTC), Ethereum (ETH) and Solana (SOL). It combines market, sentiment, positioning and macro data into a single 0–100 cycle score, maps that score to a phase, and publishes directional calls that are graded in public afterwards, hits and misses alike.</p>
+
+  <div class="card">
+    <h2>The 13 phases</h2>
+    <p>Markets tend to move through a repeating sequence of crowd emotions. The index places today's market on that loop:</p>
+    <ol class="phases">
+      <li><b>Disbelief</b>: the recovery starts, few trust it</li>
+      <li><b>Hope</b>: a rebound looks possible</li>
+      <li><b>Optimism</b>: the trend is accepted</li>
+      <li><b>Belief</b>: buyers commit with conviction</li>
+      <li><b>Thrill</b>: gains accelerate</li>
+      <li><b>Euphoria</b>: peak greed, blow-off top risk</li>
+      <li><b>Complacency</b>: the first drop is shrugged off</li>
+      <li><b>Anxiety</b>: the dip doesn't recover</li>
+      <li><b>Denial</b>: "it will come back"</li>
+      <li><b>Panic</b>: forced and emotional selling</li>
+      <li><b>Capitulation</b>: holders give up</li>
+      <li><b>Anger</b>: blame and frustration</li>
+      <li><b>Depression</b>: interest dries up near the lows</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>How calls are graded: receipts</h2>
+    <p>Every directional call (up, down, flat, or a smaller "micro" lean) is stamped with the time it was made and graded over a fixed window, typically 12 hours, against the market-cap-weighted move of BTC, ETH and SOL together. Partial results get half credit. Windows with no call are logged as no-calls and count toward coverage, never toward the hit rate. Changing a call has a cost: a revision locks a grade on the call it replaces, so there are no silent edits.</p>
+    <p>The dashboard also keeps separate scoreboards: the mechanical model vs the editor's calls, 7-day price-target accuracy, and per-coin trade tickets with entry, take-profit and stop levels. The track record is the point. You can see how the reads actually performed, not just what they said.</p>
+  </div>
+
+  <div class="card">
+    <h2>Data sources</h2>
+    <p>At a high level the index uses:</p>
+    <ul>
+      <li>Crypto prices, market cap and BTC dominance</li>
+      <li>Sentiment: the Fear &amp; Greed index and narrative/news signals</li>
+      <li>Derivatives: funding rates, open interest, long/short ratios, options skew and implied volatility</li>
+      <li>Spot ETF net flows for BTC, ETH and SOL</li>
+      <li>Stablecoin supply and on-chain valuation (MVRV, realized price, active addresses)</li>
+      <li>Macro: Fed net liquidity, the dollar index, Treasury yields, VIX, commodities</li>
+      <li>Historical pattern matching against past cycle tops and bottoms since 2017</li>
+    </ul>
+    <p class="muted">The dashboard refreshes automatically several times a day.</p>
+  </div>
+
+  <div class="card">
+    <h2>Not financial advice</h2>
+    <p>Flow Cycle Index is for information and education only. Nothing on this site is financial, investment or trading advice, or a recommendation to buy or sell any asset. Crypto is highly volatile and you can lose money. Past performance, including the graded track record, does not guarantee future results. Do your own research.</p>
+  </div>
+
+  <p>Follow on X: <a href="https://x.com/BadmonLano" rel="me noopener">@BadmonLano</a> · Source: <a href="https://github.com/BadmonLano/flow-cycle" rel="noopener">GitHub</a> · <a href="/">Open the live dashboard →</a></p>
+  <footer>© Bentayga Empire LLC · Flow Cycle Index</footer>
+</div>
+</body>
+</html>
