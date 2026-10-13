@@ -1,21 +1,21 @@
 {
-  "_updated": "2026-10-13T11:36:50.866079-04:00",
+  "_updated": "2026-10-13T12:50:35.919377-04:00",
   "calls": {
     "BTC": {
-      "direction": "SHORT",
-      "entry": 81189,
-      "tp": 81000,
-      "sl": 84000,
+      "direction": "FLAT",
+      "entry": 83608,
+      "tp": null,
+      "sl": null,
       "horizon": "12h",
-      "note": "Print refresh of the live down_micro. Spot already tagged 81200. 81000 is the press line already on the card, not a new stamp. Dies if 84000 reclaims.",
+      "note": "Matches the live flat book. No trade until 84000 holds or 81200 breaks. Not a new stamp.",
       "source": "jordan",
-      "opened_at": "2026-10-12T22:11:07.111218-04:00",
+      "opened_at": "2026-10-13T12:50:35.919377-04:00",
       "mechanical_confluence": {
         "direction": "LONG",
         "conviction": "medium",
         "score": 2.78,
         "votes": [
-          "BTC 200wk 1.251x mid \u2192 neutral",
+          "BTC 200wk 1.249x mid \u2192 neutral",
           "top not in yet (HUNTING_TOP, conf 0.98) \u2192 long",
           "BTC funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
@@ -24,9 +24,9 @@
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 13.4,
-      "probe_agrees_with_live_stance": false,
-      "probe_note": "explicit override, frozen 13.4h - a probe outlives the 12h stance on purpose. Your live stance is now FLAT - this probe disagrees and is riding on its own."
+      "probe_age_hours": 0.0,
+      "probe_agrees_with_live_stance": true,
+      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. Still agrees with your live stance."
     },
     "ETH": {
       "direction": "SHORT",
@@ -40,20 +40,19 @@
       "mechanical_confluence": {
         "direction": "LONG",
         "conviction": "high",
-        "score": 5.08,
+        "score": 4.08,
         "votes": [
-          "ETH 200wk 0.991x AT FLOOR \u2192 long",
+          "ETH 200wk 0.99x AT FLOOR \u2192 long",
           "top not in yet (HUNTING_TOP, conf 0.98) \u2192 long",
-          "ETH funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +1.1% \u2192 long"
+          "projection +1.0% \u2192 long"
         ]
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 13.4,
+      "probe_age_hours": 14.7,
       "probe_agrees_with_live_stance": false,
-      "probe_note": "explicit override, frozen 13.4h - a probe outlives the 12h stance on purpose. Your live stance is now FLAT - this probe disagrees and is riding on its own."
+      "probe_note": "explicit override, frozen 14.7h - a probe outlives the 12h stance on purpose. Your live stance is now FLAT - this probe disagrees and is riding on its own."
     },
     "SOL": {
       "direction": "SHORT",
@@ -67,20 +66,19 @@
       "mechanical_confluence": {
         "direction": "LONG",
         "conviction": "high",
-        "score": 5.08,
+        "score": 4.08,
         "votes": [
           "SOL 200wk 0.957x AT FLOOR \u2192 long",
           "top not in yet (HUNTING_TOP, conf 0.98) \u2192 long",
-          "SOL funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
           "projection +1.2% \u2192 long"
         ]
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 13.4,
+      "probe_age_hours": 14.7,
       "probe_agrees_with_live_stance": false,
-      "probe_note": "explicit override, frozen 13.4h - a probe outlives the 12h stance on purpose. Your live stance is now FLAT - this probe disagrees and is riding on its own."
+      "probe_note": "explicit override, frozen 14.7h - a probe outlives the 12h stance on purpose. Your live stance is now FLAT - this probe disagrees and is riding on its own."
     }
   },
   "perps_contract": {
@@ -94,9 +92,13 @@
       "calls.<COIN>.locked",
       "calls.<COIN>.levels_stale"
     ],
-    "do_not_size_when": {},
+    "do_not_size_when": {
+      "BTC": [
+        "FLAT - a stance, not a ticket; there are no levels to ride",
+        "no TP/SL on the row"
+      ]
+    },
     "safe_to_size": [
-      "BTC",
       "ETH",
       "SOL"
     ],
