@@ -2,7 +2,7 @@
   "_meta": {
     "schema_version": "v2_2026-05-27",
     "purpose": "Extend HISTORICAL_FINGERPRINTS with percentile-rank scores (0-100) for the 25 raw inputs at each fingerprint date. Values represent where each input sat in its own 90-day rolling distribution at that moment (NOT absolute price). Match the semantics of the raw_factor_tilt percentile pipeline so similarity engine reads the same scale.",
-    "deploy_path": "C:\\\\Users\\\\delan\\\\.openclaw\\\\workspace\\\\bots\\\\flow_cycle_site\\\\data\\\\historical_fingerprints_raw_extensions.json",
+    "deploy_path": "<local flow_cycle_site/data path>",
     "calibration": "v1 had only 3 most-recent dates. v2 populates all 12 fingerprints with approximate percentile values derived from public market knowledge of each moment. _confidence field per date — refine with yfinance/FRED historical lookups for higher precision.",
     "rule": "Only include keys where the percentile is meaningfully off-neutral. Keys at exactly 50 (neutral) get omitted to avoid diluting similarity scoring.",
     "version_notes": "v2 adds the 9 previously empty fingerprints. All 12 now have data."
