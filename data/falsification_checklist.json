@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-14T00:03:41.489669-04:00",
+  "updated_at": "2026-10-14T03:36:57.904560-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The primary equity index closes at least 3.0% above its highest close of the prior 20 sessions on two consecutive sessions, and the mini_top_2019_jun pattern match falls below 50%.",
-      "what_it_would_mean": "A sustained breakout plus loss of the analogue would show this is trend continuation, not an unresolved mini-top, so UNKNOWN and HOLD would be wrong."
+      "condition": "Within 14 days, the S&P 500 closes at least 3.0% above its verdict-date close and at a new 63-trading-day high, on a session when the VIX closes at or below 14.0.",
+      "what_it_would_mean": "The tape resolved to a confirmed upside continuation, so the June 2019 mini-top analogue failed and both UNKNOWN and HOLD were the wrong call; the correct signal was risk-on."
     },
     {
       "id": 2,
-      "condition": "The primary equity index closes more than 5.0% below its highest close of the prior 20 sessions, and the blowoff score prints at or above 75 on the same day.",
-      "what_it_would_mean": "A sharp break with a confirmed blowoff reading would resolve the call into an actual top, falsifying both UNKNOWN and HOLD."
+      "condition": "Within 14 days, the S&P 500 closes at least 5.0% below its verdict-date close on a session when the VIX closes at or above 25.0.",
+      "what_it_would_mean": "Phase resolved into a volatility shock rather than an unknowable hold or a mild mini-top, so HOLD was wrong and the 77% mini_top_2019_jun match did not describe the regime."
     },
     {
       "id": 3,
-      "condition": "VIX closes below 13.0 while high-yield OAS tightens by at least 25 bps from today's level and the index sets a new 20-session closing high.",
-      "what_it_would_mean": "Simultaneous vol compression, credit tightening, and a new high would contradict mini-top risk and show the HOLD was incorrectly cautious."
+      "condition": "Within 14 days, the share of S&P 500 stocks above their 50-day moving average rises by at least 12 percentage points from the verdict-date reading and ICE BofA US High Yield OAS tightens by at least 40 basis points from the verdict-date level.",
+      "what_it_would_mean": "Broadening participation plus a credit bid contradict a developing mini-top and a moderate blowoff (score 56), so the pattern match and the UNKNOWN verdict are invalidated even if the index itself has not broken out."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
