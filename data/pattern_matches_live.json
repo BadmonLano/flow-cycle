@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-13T23:48:29.601121-04:00",
+  "_updated": "2026-10-14T00:02:47.806811-04:00",
   "_doctrine": "Patterns FIRING right now (today's factor bins match a mined pattern). firing[] = PROVEN patterns (>=5 separate historical turns) \u2014 real confirmation signals to weigh. watching[] = THIN patterns (3-4 turns) that also match today but haven't earned a live voice yet. Observational; never auto-gates.",
   "firing": [],
   "watching": [],
@@ -8,15 +8,15 @@
   "mined_count": 8,
   "proven_count": 1,
   "bin_sources": {
-    "stablecoin_total": "all_data",
     "natgas": "all_data",
+    "lumber": "all_data",
+    "stablecoin_total": "all_data",
+    "net_liquidity_bn": "all_data",
     "silver": "all_data",
     "dxy": "all_data",
-    "lumber": "all_data",
-    "us_m2": "all_data",
     "oil": "all_data",
     "yield_spread_10_2": "all_data",
-    "net_liquidity_bn": "all_data",
+    "us_m2": "all_data",
     "fear_greed": "all_data"
   },
   "threshold_drift": {
@@ -28,25 +28,11 @@
       ],
       "now": [
         16.628,
-        21.869,
-        27.252
+        21.884,
+        27.254
       ],
-      "max_shift": 1.104,
+      "max_shift": 1.106,
       "shift_pct_of_span": 10.4
-    },
-    "us_m2": {
-      "then": [
-        18184.3,
-        21451.6,
-        22686.0
-      ],
-      "now": [
-        20732.9,
-        22667.3,
-        23052.3
-      ],
-      "max_shift": 2548.6,
-      "shift_pct_of_span": 109.9
     },
     "oil": {
       "then": [
@@ -61,11 +47,25 @@
       ],
       "max_shift": 1.56,
       "shift_pct_of_span": 6.2
+    },
+    "us_m2": {
+      "then": [
+        18184.3,
+        21451.6,
+        22686.0
+      ],
+      "now": [
+        20746.4,
+        22667.3,
+        23052.3
+      ],
+      "max_shift": 2562.1,
+      "shift_pct_of_span": 111.1
     }
   },
   "threshold_drift_count": 3,
   "mine_ran_at": "2026-07-11T08:42:31.398526",
-  "threshold_drift_note": "the mine ran on 2026-07-11 against 4056 history rows; the matcher now recomputes bins from 4148. Where a factor appears below, its quartile cutpoints have MOVED under a label that has not - a fire or a miss on that factor may be coordinate drift, not market change.",
+  "threshold_drift_note": "the mine ran on 2026-07-11 against 4056 history rows; the matcher now recomputes bins from 4149. Where a factor appears below, its quartile cutpoints have MOVED under a label that has not - a fire or a miss on that factor may be coordinate drift, not market change.",
   "spurious_rule_note": "the mined file's _doctrine describes spurious_risk as support < 8, but pattern_miner.py sets it on distinct < 5. Seven of eight rules are muted by this flag, so which definition is intended materially changes how much of the library can ever speak.",
   "unresolved_factors": [],
   "today_bins": {
