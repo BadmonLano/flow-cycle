@@ -66,7 +66,11 @@
     var fallback = function () { return shareText() + '\n\n' + SITE; };
     return fetch('/data/jordan_headline.json?t=' + Date.now(), { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (j) { return (j && j.headline) ? composeHeadline(j.headline, j.narrative) : fallback(); })
+      .then(function (j) {
+        if (!j || !j.headline) return fallback();
+        if (window.isInternalNotPublic && (window.isInternalNotPublic(j.headline) || window.isInternalNotPublic(j.narrative))) return fallback();
+        return composeHeadline(j.headline, j.narrative);
+      })
       .catch(fallback);
   }
   window.__fciTweet = { buildTweet: buildTweet, xlen: xlen };

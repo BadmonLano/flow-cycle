@@ -2478,6 +2478,34 @@ function fmtPlain(n, dec=2) {
   return Number(n).toLocaleString('en-US', { maximumFractionDigits: dec });
 }
 
+// A tape-status line or a desk note is not a headline and not news.
+// Lano 2026-10-14: that text never renders on the public card.
+function isInternalNotPublic(text) {
+  const s = String(text || '').toLowerCase().replace(/_/g, ' ');
+  if (!s.trim()) return true;
+  const status = [
+    'tape is unchanged', 'tape unchanged', 'tape did not move',
+    'tape has not moved', 'nothing new moved', 'nothing moved',
+    'no change on the tape', 'the tape did not'
+  ];
+  if (status.some(p => s.includes(p))) return true;
+  const bare = s.replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (['unchanged', 'the tape is unchanged', 'tape unchanged', 'no change'].includes(bare)) return true;
+  const desk = [
+    'no size', 'size add', 'dies if', 'not the entry', 'down micro',
+    'is the upgrade', 'reclaims and holds', 'no size-up', 'no size up'
+  ];
+  if (desk.some(p => s.includes(p))) return true;
+  if (/\b8\d{4}\b/.test(s)) return true;
+  return false;
+}
+window.isInternalNotPublic = isInternalNotPublic;
+function publicCardText(text, fallback) {
+  const t = text == null ? '' : String(text);
+  if (!t.trim() || isInternalNotPublic(t)) return fallback;
+  return t;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // DATA FETCHERS - Direct from CoinGecko / alternative.me for realtime prices
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2548,7 +2576,8 @@ async function fetchNews() {
       </div>`;
     }
 
-    for (const it of items.slice(0, 3)) {
+    const publicItems = items.filter(it => !isInternalNotPublic((it && (it.headline || it.driver)) || ''));
+    for (const it of publicItems.slice(0, 3)) {
       const when = it.ts ? `<span style="color:var(--muted);font-size:0.75em"> · ${ago(it.ts)}</span>` : '';
       html += `<div style="margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05);
                     ${(ageH != null && ageH >= FLOOR_H) ? 'opacity:0.65;' : ''}">
@@ -3475,8 +3504,8 @@ async function fetchMacro() {
 
     if (data.brain_consensus) {
       const bc = data.brain_consensus;
-      document.getElementById('brainHeadline').textContent = bc.headline || 'Awaiting brain output...';
-      document.getElementById('brainNarrative').textContent = bc.narrative || '';
+      document.getElementById('brainHeadline').textContent = publicCardText(bc.headline, 'Awaiting a front-page read');
+      document.getElementById('brainNarrative').textContent = publicCardText(bc.narrative, '');
       const tEl = document.getElementById('brainTier');
       tEl.textContent = bc.alert_tier || 'LOW';
       tEl.className = 'tier-badge ' + (bc.alert_tier || 'low').toLowerCase();
@@ -3490,7 +3519,7 @@ async function fetchMacro() {
       if (br.analyst) setRead('analystRead','analystMeta', (br.analyst.signal||'--') + (br.analyst.phase ? ' · '+br.analyst.phase : ''), br.analyst.confidence);
       if (br.judge)   setRead('judgeRead','judgeMeta', (br.judge.signal||'--') + (br.judge.phase ? ' · '+br.judge.phase : ''), br.judge.confidence);
       if (br.narrative) {
-        const e=document.getElementById('narrativeRead'); if(e) e.textContent = br.narrative.headline || '--';
+        const e=document.getElementById('narrativeRead'); if(e) e.textContent = publicCardText(br.narrative.headline, '--');
         const m=document.getElementById('narrativeMeta');
         if(m) {
           const _np = br.narrative.phase ? br.narrative.phase : '';
@@ -3534,8 +3563,15 @@ async function fetchMacro() {
       const box = document.getElementById('jordanReadText');
       const tag = document.getElementById('jordanReadTag');
       if (!box) return;
-      if (dr && dr.read_source === 'jordan' && dr.jordan_read) {
-        box.textContent = humanize(dr.jordan_read); if (tag) tag.textContent = '· yours';
+      const wrap = document.getElementById('jordanReadBox');
+      const rawRead = (dr && dr.read_source === 'jordan' && dr.jordan_read) ? dr.jordan_read : '';
+      if (rawRead && isInternalNotPublic(rawRead)) {
+        if (wrap) wrap.style.display = 'none';
+        return;
+      }
+      if (wrap) wrap.style.display = '';
+      if (rawRead) {
+        box.textContent = humanize(rawRead); if (tag) tag.textContent = '· yours';
       } else {
         box.textContent = '(auto — no editor call yet)'; if (tag) tag.textContent = '· auto';
       }
@@ -6186,11 +6222,14 @@ async function fetchBrains() {
     const br = c.brain_reads || {};
 
     const headlineEl = document.getElementById('brainHeadline');
-    if (headlineEl) headlineEl.textContent =
-      humanize((br.narrative && br.narrative.headline) || (raw.narrative && raw.narrative.headline) || 'Awaiting brain output...');
+    if (headlineEl) headlineEl.textContent = humanize(publicCardText(
+      (br.narrative && br.narrative.headline) || (raw.narrative && raw.narrative.headline) || '',
+      'Awaiting a front-page read'));
 
     const narrEl = document.getElementById('brainNarrative');
-    if (narrEl) narrEl.textContent = humanize((raw.narrative && raw.narrative.narrative) || c.key_reasoning || '');
+    if (narrEl) narrEl.textContent = humanize(publicCardText(
+      (raw.narrative && raw.narrative.narrative) || '',
+      publicCardText(c.key_reasoning, '')));
 
     const tEl = document.getElementById('brainTier');
     if (tEl) { tEl.textContent = c.alert_tier || 'LOW'; tEl.className = 'tier-badge ' + String(c.alert_tier || 'low').toLowerCase(); }
@@ -6229,7 +6268,7 @@ async function fetchBrains() {
     if (br.judge)   setRead('judgeRead', 'judgeMeta', br.judge.signal, br.judge.confidence);
     if (br.narrative) {
       const e = document.getElementById('narrativeRead');
-      if (e) e.textContent = br.narrative.headline || '--';
+      if (e) e.textContent = publicCardText(br.narrative.headline, '--');
       const m = document.getElementById('narrativeMeta');
       if (m) m.textContent = (br.narrative.confidence != null) ? `conf ${(br.narrative.confidence * 100).toFixed(0)}%` : '--';
     }
