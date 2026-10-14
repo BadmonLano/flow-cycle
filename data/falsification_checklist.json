@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-13T23:49:17.706441-04:00",
+  "updated_at": "2026-10-14T00:03:41.489669-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Primary equity index closes at least 4% below its trailing 20-day high within 14 days, with high-yield OAS wider by at least 40 bps versus today",
-      "what_it_would_mean": "The mini_top_2019_jun analog resolved into a real risk-off move, so UNKNOWN/HOLD was the wrong call and should have been a sell or de-risk signal"
+      "condition": "The primary equity index closes at least 3.0% above its highest close of the prior 20 sessions on two consecutive sessions, and the mini_top_2019_jun pattern match falls below 50%.",
+      "what_it_would_mean": "A sustained breakout plus loss of the analogue would show this is trend continuation, not an unresolved mini-top, so UNKNOWN and HOLD would be wrong."
     },
     {
       "id": 2,
-      "condition": "Primary equity index prints a new 52-week high and closes above that high for 3 consecutive sessions while blowoff score falls below 40",
-      "what_it_would_mean": "The 77% mini-top match and mid-50s blowoff reading were false analogs; price continuation invalidates both the top pattern and the hold"
+      "condition": "The primary equity index closes more than 5.0% below its highest close of the prior 20 sessions, and the blowoff score prints at or above 75 on the same day.",
+      "what_it_would_mean": "A sharp break with a confirmed blowoff reading would resolve the call into an actual top, falsifying both UNKNOWN and HOLD."
     },
     {
       "id": 3,
-      "condition": "VIX closes outside the 13\u201322 band for 5 consecutive sessions (either above 22 or below 13) within 14 days",
-      "what_it_would_mean": "Volatility has left the indecision range that justifies UNKNOWN/HOLD, so the current non-call is falsified by a resolved regime"
+      "condition": "VIX closes below 13.0 while high-yield OAS tightens by at least 25 bps from today's level and the index sets a new 20-session closing high.",
+      "what_it_would_mean": "Simultaneous vol compression, credit tightening, and a new high would contradict mini-top risk and show the HOLD was incorrectly cautious."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
