@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-13T21:19:25.104319-04:00",
+  "updated_at": "2026-10-13T22:42:18.866514-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The blowoff score exceeds 70 within 14 days",
-      "what_it_would_mean": "A blowoff score above 70 indicates extreme volatility or momentum, contradicting the current HOLD signal and suggesting a market phase shift (e.g., bubble or crash) not aligned with the UNKNOWN verdict."
+      "condition": "The blowoff score decreases below 40 within 14 days",
+      "what_it_would_mean": "A drop in blowoff score would indicate the pattern is not forming, contradicting the current UNKNOWN verdict."
     },
     {
       "id": 2,
-      "condition": "The pattern similarity to mini_top_2019_jun drops below 60%",
-      "what_it_would_mean": "A significant divergence from the historical pattern invalidates the basis for the current UNKNOWN verdict, as the market behavior would no longer align with the reference model."
+      "condition": "The price closes above the historical peak of mini_top_2019_jun by 5% within 14 days",
+      "what_it_would_mean": "A sustained breakout above the historical pattern's peak would invalidate the blowoff scenario and suggest a new trend."
     },
     {
       "id": 3,
-      "condition": "The S&P 500 rises by 5% or more in a 7-day window",
-      "what_it_would_mean": "A sharp upward move in a major index would directly contradict the HOLD signal, proving the UNKNOWN verdict incorrect by demonstrating a clear trend reversal or breakout."
+      "condition": "The 14-day moving average of volatility (e.g., VIX) decreases below 20",
+      "what_it_would_mean": "A sharp decline in volatility would signal reduced urgency, contradicting the blowoff conditions implied by the current signal."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
