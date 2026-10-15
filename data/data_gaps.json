@@ -1,18 +1,12 @@
 {
-  "updated_at": "2026-10-15T06:04:21.212218-04:00",
+  "updated_at": "2026-10-15T07:07:34.155423-04:00",
   "doctrine": "Suspected invariants we don't have data sources for yet. Each one is a possible blind spot in the discovery engine. REALITY-CHECKED each sweep against live data \u2014 a factor that IS being fetched/computed will not be listed here, so this list can't go stale and send you chasing data you already have.",
-  "unknown_factors": [
-    {
-      "name": "cvd_btc",
-      "description": "Cumulative Volume Delta on BTC - aggressive buy volume minus aggressive sell volume, i.e. who is in actual control. Read as a PERCENTILE of the rolling 24h windows in its own 30-day sample; a raw delta is unreadable without one. WIRED 2026-08-07 via OKX taker volume (free, no key). SOURCE CAVEAT: OKX SPOT taker flow only - not a cross-venue tape and not inclusive of passive fills, so it proxies aggression rather than total volume delta. Binance and Bybit both geo-block US IPs.",
-      "data_source_needed": "OKX taker-volume endpoint - WIRED 2026-08-07. If this row is showing, that fetch is failing.",
-      "priority": "HIGH"
-    }
-  ],
-  "count": 1,
+  "unknown_factors": [],
+  "count": 0,
   "resolved_now_live": [
     "retail_noise",
     "long_short_ratio",
+    "cvd_btc",
     "exchange_reserves",
     "options_skew",
     "realized_vol_7d_30d",
@@ -24,5 +18,5 @@
   "gap_states_note": "THREE states, not two: FILLED (a real value was measured this sweep), WIRED_BUT_DRY (the pipe exists and returned nothing - still a gap), MISSING (no integration at all). The old test was `is not None`, which let an empty list or a zero close its own gap - kalshi markets [] and a dry x_noise both did exactly that.",
   "live_but_not_in_fingerprints": [],
   "live_but_not_in_fingerprints_note": "measured every sweep, present on NO historical fingerprint. The invariant detector iterates fingerprint keys, so these can never become confirmed invariants however live they are. Closing their gap was half the job; backfilling them onto the fingerprints is the other half.",
-  "_note": "7 previously-listed gap(s) are now LIVE and filtered out: retail_noise, long_short_ratio, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
+  "_note": "8 previously-listed gap(s) are now LIVE and filtered out: retail_noise, long_short_ratio, cvd_btc, exchange_reserves, options_skew, realized_vol_7d_30d, copper_gold_ratio, kalshi_poly_implied_probs"
 }
