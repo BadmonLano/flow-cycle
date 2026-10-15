@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-15T15:48:39.592994-04:00",
+  "updated_at": "2026-10-15T19:06:29.380218-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "SPX closes at least 3.0% above the signal-date close on any session in the next 14 days, and that breakout close is not fully retraced within the next 3 sessions.",
-      "what_it_would_mean": "The mini_top_2019_jun analog and HOLD are wrong: price resolved into a sustained upside break, so UNKNOWN was not an indecision state but a missed continuation."
+      "condition": "S&P 500 closes at least 5% below its close on the first session of this 14-day window, and VIX closes above 25 on that same day",
+      "what_it_would_mean": "The mini_top_2019_jun analog resolved into a real risk-off drawdown, so UNKNOWN/HOLD was the wrong call \u2014 the tape had already tipped into a confirmed top"
     },
     {
       "id": 2,
-      "condition": "SPX closes at least 5.0% below the signal-date close within 14 days and VIX closes above 24 on the same day or the following session.",
-      "what_it_would_mean": "UNKNOWN/HOLD is invalidated because the path already completed as a risk-off top: the correct call was downside, not an unresolved hold."
+      "condition": "S&P 500 closes at a new 52-week high and the NYSE cumulative advance-decline line also closes at a new high within the same 14 days",
+      "what_it_would_mean": "Breadth-confirmed upside invalidates the 76% mini-top pattern match; continuation, not a top, was the correct read, so HOLD/UNKNOWN missed a resolved bullish regime"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 75, or at or below 35, on 3 consecutive daily readings within 14 days.",
-      "what_it_would_mean": "The 55 score was not a stable ambiguous regime; leaving the 35\u201375 band forces a directional blowoff or no-blowoff verdict and falsifies UNKNOWN."
+      "condition": "ICE BofA US High Yield OAS either tightens by 50 bps or more, or widens by 75 bps or more, versus its level at the start of the window",
+      "what_it_would_mean": "Credit has left the ambiguous zone that justified UNKNOWN: a 50 bp tighten confirms risk-on continuation and kills the mini-top analog, while a 75 bp widen confirms stress and makes HOLD too passive"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
