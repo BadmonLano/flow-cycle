@@ -1,19 +1,7 @@
 {
-  "_updated": "2026-10-14T19:12:07.698464-04:00",
+  "_updated": "2026-10-14T20:18:55.111792-04:00",
   "_doctrine": "Mechanical confluence vs Jordan's calls, graded direction-only over a 24h horizon (1.5% move threshold; FLAT = correct if it stayed range-bound). Observational scoreboard \u2014 changes nothing about execution. If mechanical consistently beats Jordan when they diverge, that's signal to reweight or recalibrate.",
   "open": [
-    {
-      "asset": "BTC",
-      "opened_at": "2026-10-13T20:07:10.404645-04:00",
-      "entry_price": 83108,
-      "mechanical_direction": "LONG",
-      "jordan_direction": "SHORT",
-      "jordan_source": "jordan",
-      "jordan_voice": "explicit_probe",
-      "jordan_is_real_call": true,
-      "mechanical_conviction": "high",
-      "mechanical_score": 3.6
-    },
     {
       "asset": "ETH",
       "opened_at": "2026-10-14T17:03:37.138370-04:00",
@@ -73,15 +61,27 @@
       "jordan_is_real_call": true,
       "mechanical_conviction": "medium",
       "mechanical_score": 2.04
+    },
+    {
+      "asset": "BTC",
+      "opened_at": "2026-10-14T20:18:55.111792-04:00",
+      "entry_price": 81655,
+      "mechanical_direction": "FLAT",
+      "jordan_direction": "SHORT",
+      "jordan_source": "jordan_committed",
+      "jordan_voice": "committed_echo",
+      "jordan_is_real_call": true,
+      "mechanical_conviction": "low",
+      "mechanical_score": 0.54
     }
   ],
   "_queue_health": {
     "ok": true,
     "open_count": 6,
     "cap": 400,
-    "oldest_open_h": 23.1,
+    "oldest_open_h": 3.3,
     "horizon_h": 24.0,
-    "queue_hours": 23.1
+    "queue_hours": 3.3
   },
   "resolved": [
     {
@@ -2303,35 +2303,55 @@
       "graded_at": "2026-10-14T17:03:37.138370-04:00",
       "regime": "trend",
       "decided": true
+    },
+    {
+      "asset": "BTC",
+      "opened_at": "2026-10-13T20:07:10.404645-04:00",
+      "entry_price": 83108,
+      "mechanical_direction": "LONG",
+      "jordan_direction": "SHORT",
+      "jordan_source": "jordan",
+      "jordan_voice": "explicit_probe",
+      "jordan_is_real_call": true,
+      "mechanical_conviction": "high",
+      "mechanical_score": 3.6,
+      "close_price": 81655,
+      "moved_pct": -1.75,
+      "mechanical_result": "loss",
+      "jordan_result": "win",
+      "diverged": true,
+      "graded_at": "2026-10-14T20:18:55.111792-04:00",
+      "regime": "trend",
+      "decided": true
     }
   ],
   "tally": {
     "BTC": {
       "mech": {
         "win": 68,
-        "total": 130,
+        "total": 131,
         "scratch": 266
       },
       "jordan": {
-        "win": 129,
-        "total": 201,
+        "win": 130,
+        "total": 202,
         "scratch": 195
       },
       "diverged": {
         "mech_win": 31,
-        "jordan_win": 92,
-        "total": 143,
-        "decided": 40,
+        "jordan_win": 93,
+        "total": 144,
+        "decided": 41,
         "scratch_rounds": 4,
         "flat_chop_wins": 13,
         "decided_mech_win": 20,
-        "decided_jordan_win": 17
+        "decided_jordan_win": 18
       },
       "dir_pairs": {
         "FLAT-vs-LONG": 14,
         "LONG-vs-FLAT": 19,
         "FLAT-vs-SHORT": 6,
-        "LONG-vs-SHORT": 5
+        "LONG-vs-SHORT": 6
       }
     },
     "ETH": {
@@ -2410,17 +2430,17 @@
       "BTC": {
         "mech": {
           "win": 2,
-          "decided": 5,
+          "decided": 6,
           "scratch": 6,
-          "wr_pct": 40.0
+          "wr_pct": 33.3
         },
         "jordan": {
-          "win": 4,
-          "decided": 6,
+          "win": 5,
+          "decided": 7,
           "scratch": 5,
-          "wr_pct": 66.7
+          "wr_pct": 71.4
         },
-        "rounds": 11
+        "rounds": 12
       },
       "ETH": {
         "mech": {
@@ -2457,17 +2477,17 @@
       "BTC": {
         "mech": {
           "win": 7,
-          "decided": 13,
+          "decided": 14,
           "scratch": 6,
-          "wr_pct": 53.8
+          "wr_pct": 50.0
         },
         "jordan": {
-          "win": 7,
-          "decided": 13,
+          "win": 8,
+          "decided": 14,
           "scratch": 6,
-          "wr_pct": 53.8
+          "wr_pct": 57.1
         },
-        "rounds": 19
+        "rounds": 20
       },
       "ETH": {
         "mech": {
@@ -2503,7 +2523,7 @@
   },
   "mech_pressure": {
     "dirs_seen": {
-      "LONG": 72,
+      "LONG": 73,
       "FLAT": 39
     },
     "monotone": false,
@@ -2512,15 +2532,15 @@
   "summary_window_note": "windowed from the RETAINED resolved rows - the number the receipts below can actually justify. `tally` is lifetime and outlives the 300 cap, so the two will disagree; that is the point, not a bug.",
   "summary": {
     "BTC": {
-      "mechanical_wr": 52.3,
-      "jordan_wr": 64.2,
-      "mechanical_record": "68/130",
-      "jordan_record": "129/201",
+      "mechanical_wr": 51.9,
+      "jordan_wr": 64.4,
+      "mechanical_record": "68/131",
+      "jordan_record": "130/202",
       "when_diverged": {
         "mechanical_won": 31,
-        "jordan_won": 92,
-        "total": 143,
-        "mechanical_edge_pct": -42.7
+        "jordan_won": 93,
+        "total": 144,
+        "mechanical_edge_pct": -43.1
       }
     },
     "ETH": {
@@ -2549,9 +2569,9 @@
     }
   },
   "_health": {
-    "last_sweep": "2026-10-14T19:12:07.698464-04:00",
+    "last_sweep": "2026-10-14T20:18:55.111792-04:00",
     "open_snapshots": 6,
-    "resolved_total": 111,
+    "resolved_total": 112,
     "quarantined_this_sweep": 0
   },
   "_quarantined": []
