@@ -1,166 +1,155 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
+      "etf_flows",
       "fear_greed"
     ],
     "diverging_factors": [
       "vix",
-      "gold_strength"
+      "btc_momentum_30d",
+      "gold_strength",
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Hope",
+    "phase": "Disbelief",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.63,
+    "confidence": 0.58,
     "next_move": {
-      "predicted_phase": "Hope",
+      "predicted_phase": "Disbelief",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF flows are dead, raw VIX is calm at 16.46, and the 30d bid is already in the price, while the June 2019 thrill fingerprint is diverging on momentum, funding, MVRV, VIX, and gold.",
-      "confirmed_if": "Fear & Greed holds 55-70 with funding staying near flat and BTC chopping without a momentum or ETF-flow impulse",
-      "invalidated_if": "Momentum, funding, and ETF flows lift together and push the score through 71, or crowded longs unwind and Fear & Greed breaks under 55 with VIX rising",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "reasoning": "This is a coil, not a June-2019 thrill: 30d change is 0%, momentum and funding are neutral, and the up-fuel (CVD 81, retail sentiment 86) is cancelled by down-fuel (skew 96, crowded longs 84, gold 85, dead ETF flows), so no breaker is visible against a 6% break base rate.",
+      "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+      "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)"
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.63,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF fl",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"etf_flows\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a June-2019 thrill: 30d change is 0%, mom",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
+      "etf_flows",
       "fear_greed"
     ],
     "diverging_factors": [
       "vix",
-      "gold_strength"
+      "btc_momentum_30d",
+      "gold_strength",
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Hope",
+    "phase": "Disbelief",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.63,
+    "confidence": 0.58,
     "next_move": {
-      "predicted_phase": "Hope",
+      "predicted_phase": "Disbelief",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF flows are dead, raw VIX is calm at 16.46, and the 30d bid is already in the price, while the June 2019 thrill fingerprint is diverging on momentum, funding, MVRV, VIX, and gold.",
-      "confirmed_if": "Fear & Greed holds 55-70 with funding staying near flat and BTC chopping without a momentum or ETF-flow impulse",
-      "invalidated_if": "Momentum, funding, and ETF flows lift together and push the score through 71, or crowded longs unwind and Fear & Greed breaks under 55 with VIX rising",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "reasoning": "This is a coil, not a June-2019 thrill: 30d change is 0%, momentum and funding are neutral, and the up-fuel (CVD 81, retail sentiment 86) is cancelled by down-fuel (skew 96, crowded longs 84, gold 85, dead ETF flows), so no breaker is visible against a 6% break base rate.",
+      "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+      "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)"
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.63,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF fl",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"etf_flows\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a June-2019 thrill: 30d change is 0%, mom",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
+      "etf_flows",
       "fear_greed"
     ],
     "diverging_factors": [
       "vix",
-      "gold_strength"
+      "btc_momentum_30d",
+      "gold_strength",
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Hope",
+    "phase": "Disbelief",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.63,
+    "confidence": 0.58,
     "next_move": {
-      "predicted_phase": "Hope",
+      "predicted_phase": "Disbelief",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF flows are dead, raw VIX is calm at 16.46, and the 30d bid is already in the price, while the June 2019 thrill fingerprint is diverging on momentum, funding, MVRV, VIX, and gold.",
-      "confirmed_if": "Fear & Greed holds 55-70 with funding staying near flat and BTC chopping without a momentum or ETF-flow impulse",
-      "invalidated_if": "Momentum, funding, and ETF flows lift together and push the score through 71, or crowded longs unwind and Fear & Greed breaks under 55 with VIX rising",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "reasoning": "This is a coil, not a June-2019 thrill: 30d change is 0%, momentum and funding are neutral, and the up-fuel (CVD 81, retail sentiment 86) is cancelled by down-fuel (skew 96, crowded longs 84, gold 85, dead ETF flows), so no breaker is visible against a 6% break base rate.",
+      "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+      "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)"
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"gold_strength\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.63,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF fl",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"etf_flows\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a June-2019 thrill: 30d change is 0%, mom",
     "brain": "analyst"
   },
   "narrative": {
-    "headline": "Spot Taker Buying On OKX Rose To 317.1 BTC From 91.5 BTC",
-    "narrative": "Aggressive buyers on the OKX bitcoin spot market outpaced sellers by 317.1 BTC over the latest day, up from 91.5 BTC. The pipe measures aggressive buy volume minus aggressive sell volume on OKX spot, a proxy for who is lifting offers, not a cross-venue tape and not passive fills. The 317.1 BTC lead ranks in the 80.2 percentile of 24-hour windows over 30 days, up from the 61.0 percentile.",
-    "author": "jordan",
-    "brain": "jordan",
-    "jordan_written_at": "2026-10-16T00:20:03-04:00",
-    "confidence": 0.7
+    "headline": "Awaiting Jordan headline",
+    "narrative": "Measured only. Phase Disbelief. BTC $82,139. Fear and greed 63. mini_top_2019_jun at 75% is an analog name, not a current event. No fresh Jordan headline in the last 3h.",
+    "author": "measured_stub",
+    "brain": "measured_stub",
+    "confidence": 0.3
   },
   "consensus": {
     "final_signal": "CAUTION",
-    "final_phase": "Hope",
+    "final_phase": "Disbelief",
     "alert_tier": "MED",
-    "consensus_confidence": 0.66,
-    "key_reasoning": "Analyst leads on trust and flags a coil with diverging blowoff-top fingerprint (no funding/ETF/VIX breaker); narrative only shows localized OKX spot taker buy lift, not a regime shift. Statistically honest call remains CAUTION/HOLD inside Hope until a joint momentum-flow impulse or fear break appears.",
+    "consensus_confidence": 0.52,
+    "key_reasoning": "Analyst anchors Disbelief/SIDEWAYS coil with cancelled fuels and no visible breaker; 75% mini_top_2019_jun is analog-only, not live thrill. Narrative concurs on Disbelief at low confidence, so CAUTION holds over any directional lean.",
     "disagreements_noted": [
-      "Analyst: DIVERGING vs 2019 mini-top, CAUTION/HOLD in Hope coil",
-      "Narrative: bullish OKX spot taker delta (80th %ile) without phase or direction call",
-      "Pattern match 76.8% BLOWOFF_TOP label conflicts with analyst divergence and calm VIX/funding"
+      "Analyst conf 0.58 CAUTION/HOLD coil vs narrative conf 0.3 awaiting headline",
+      "75% blowoff-top analog named but both treat it as non-current (analyst explicitly rejects June-2019 thrill read)"
     ],
     "next_move": {
-      "predicted_phase": "Hope",
+      "predicted_phase": "Disbelief",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score is in a documented coil (only 6% of 12h windows moved \u00b12); no breaker (flat funding, dead ETF flows, VIX 16.46) so HOLD inside Hope is the graded base-rate call.",
-      "brains_agree": "No \u2014 analyst explicit HOLD/CAUTION in Hope; narrative is flow-positive color only and silent on forward phase/direction",
-      "confirmed_if": "Fear & Greed holds 55-70, funding near flat, BTC chops with no momentum or ETF-flow impulse",
-      "invalidated_if": "Momentum + funding + ETF flows lift together through score 71, or crowded longs unwind with Fear & Greed under 55 and VIX rising",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+      "reasoning": "Score sits in a coil with 6% break base rate, neutral momentum/funding, and offsetting fuels\u2014no breaker visible, so HOLD is the graded call.",
+      "brains_agree": "Yes on Disbelief and measured/non-directional stance; narrative adds no opposing forward call",
+      "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+      "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)",
       "confidence_pct": 88.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.66,\n  \"key_reasoning\": \"Analyst leads on trust and flags a coil with diverging blowoff-top fingerprint (no funding/ETF/VIX breaker); narrative only shows localized OKX spot taker buy lift, not a regime shift. Statistically honest call remains CAUTION/HOLD inside Hope until a joint momentum-flow impulse or fear break appears.\",\n  \"disagreements_noted\": [\n    \"Analyst: DIVERGING vs 2019 mini-",
+    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Disbelief\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.52,\n  \"key_reasoning\": \"Analyst anchors Disbelief/SIDEWAYS coil with cancelled fuels and no visible breaker; 75% mini_top_2019_jun is analog-only, not live thrill. Narrative concurs on Disbelief at low confidence, so CAUTION holds over any directional lean.\",\n  \"disagreements_noted\": [\n    \"Analyst conf 0.58 CAUTION/HOLD coil vs narrative conf 0.3 awaiting headline\",\n    \"75% blowoff-t",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.665,
+    "brains_avg_confidence": 0.44,
     "brain_reads": {
       "analyst": {
         "signal": "CAUTION",
-        "phase": "Hope",
+        "phase": "Disbelief",
         "verdict": "DIVERGING",
-        "confidence": 0.63,
+        "confidence": 0.58,
         "next_move": {
-          "predicted_phase": "Hope",
+          "predicted_phase": "Disbelief",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF flows are dead, raw VIX is calm at 16.46, and the 30d bid is already in the price, while the June 2019 thrill fingerprint is diverging on momentum, funding, MVRV, VIX, and gold.",
-          "confirmed_if": "Fear & Greed holds 55-70 with funding staying near flat and BTC chopping without a momentum or ETF-flow impulse",
-          "invalidated_if": "Momentum, funding, and ETF flows lift together and push the score through 71, or crowded longs unwind and Fear & Greed breaks under 55 with VIX rising",
-          "direction_geometry_would_be": "UP",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+          "reasoning": "This is a coil, not a June-2019 thrill: 30d change is 0%, momentum and funding are neutral, and the up-fuel (CVD 81, retail sentiment 86) is cancelled by down-fuel (skew 96, crowded longs 84, gold 85, dead ETF flows), so no breaker is visible against a 6% break base rate.",
+          "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+          "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)"
         }
       },
       "narrative": {
-        "headline": "Spot Taker Buying On OKX Rose To 317.1 BTC From 91.5 BTC",
-        "phase": "Hope",
-        "confidence": 0.7,
+        "headline": "Awaiting Jordan headline",
+        "phase": "Disbelief",
+        "confidence": 0.3,
         "next_move": null
       },
       "judge": {
         "signal": "CAUTION",
-        "phase": "Hope",
-        "confidence": 0.66,
+        "phase": "Disbelief",
+        "confidence": 0.52,
         "next_move": {
-          "predicted_phase": "Hope",
+          "predicted_phase": "Disbelief",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Score is in a documented coil (only 6% of 12h windows moved \u00b12); no breaker (flat funding, dead ETF flows, VIX 16.46) so HOLD inside Hope is the graded base-rate call.",
-          "brains_agree": "No \u2014 analyst explicit HOLD/CAUTION in Hope; narrative is flow-positive color only and silent on forward phase/direction",
-          "confirmed_if": "Fear & Greed holds 55-70, funding near flat, BTC chops with no momentum or ETF-flow impulse",
-          "invalidated_if": "Momentum + funding + ETF flows lift together through score 71, or crowded longs unwind with Fear & Greed under 55 and VIX rising",
-          "direction_geometry_would_be": "UP",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+          "reasoning": "Score sits in a coil with 6% break base rate, neutral momentum/funding, and offsetting fuels\u2014no breaker visible, so HOLD is the graded call.",
+          "brains_agree": "Yes on Disbelief and measured/non-directional stance; narrative adds no opposing forward call",
+          "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+          "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)",
           "confidence_pct": 88.0,
           "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -177,39 +166,33 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Hope",
-      "confidence": 0.63,
+      "phase": "Disbelief",
+      "confidence": 0.58,
       "next_move": {
-        "predicted_phase": "Hope",
+        "predicted_phase": "Disbelief",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "This is a coil (score moved \u00b12 in only 6% of recent 12h windows) and no breaker is triggered: funding is flat, ETF flows are dead, raw VIX is calm at 16.46, and the 30d bid is already in the price, while the June 2019 thrill fingerprint is diverging on momentum, funding, MVRV, VIX, and gold.",
-        "confirmed_if": "Fear & Greed holds 55-70 with funding staying near flat and BTC chopping without a momentum or ETF-flow impulse",
-        "invalidated_if": "Momentum, funding, and ETF flows lift together and push the score through 71, or crowded longs unwind and Fear & Greed breaks under 55 with VIX rising",
-        "direction_geometry_would_be": "UP",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "reasoning": "This is a coil, not a June-2019 thrill: 30d change is 0%, momentum and funding are neutral, and the up-fuel (CVD 81, retail sentiment 86) is cancelled by down-fuel (skew 96, crowded longs 84, gold 85, dead ETF flows), so no breaker is visible against a 6% break base rate.",
+        "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+        "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)"
       }
     },
     "narrative": {
-      "headline": "Spot Taker Buying On OKX Rose To 317.1 BTC From 91.5 BTC",
-      "confidence": 0.7,
+      "headline": "Awaiting Jordan headline",
+      "confidence": 0.3,
       "next_move": null
     },
     "judge": {
       "signal": "CAUTION",
-      "confidence": 0.66,
+      "confidence": 0.52,
       "next_move": {
-        "predicted_phase": "Hope",
+        "predicted_phase": "Disbelief",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Score is in a documented coil (only 6% of 12h windows moved \u00b12); no breaker (flat funding, dead ETF flows, VIX 16.46) so HOLD inside Hope is the graded base-rate call.",
-        "brains_agree": "No \u2014 analyst explicit HOLD/CAUTION in Hope; narrative is flow-positive color only and silent on forward phase/direction",
-        "confirmed_if": "Fear & Greed holds 55-70, funding near flat, BTC chops with no momentum or ETF-flow impulse",
-        "invalidated_if": "Momentum + funding + ETF flows lift together through score 71, or crowded longs unwind with Fear & Greed under 55 and VIX rising",
-        "direction_geometry_would_be": "UP",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+        "reasoning": "Score sits in a coil with 6% break base rate, neutral momentum/funding, and offsetting fuels\u2014no breaker visible, so HOLD is the graded call.",
+        "brains_agree": "Yes on Disbelief and measured/non-directional stance; narrative adds no opposing forward call",
+        "confirmed_if": "BTC 30d change stays inside roughly \u00b13% and momentum plus funding hold the 45-55 band with ETF flows still dead",
+        "invalidated_if": "Momentum breaks below ~40 with Fear & Greed through 50 and skew still extreme (down), or momentum breaks above ~65 with funding and ETF flows lifting together (up)",
         "confidence_pct": 88.0,
         "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -217,6 +200,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-16T02:48:14.898910-04:00",
+  "timestamp": "2026-10-16T03:57:34.059667-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
