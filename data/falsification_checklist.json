@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-16T06:11:59.703135-04:00",
+  "updated_at": "2026-10-16T14:21:52.831290-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 posts a daily close at least 2.5% above the highest close of the prior 20 sessions within 14 days, and the NYSE cumulative advance-decline line makes a new 20-day high on that same close.",
-      "what_it_would_mean": "Price and breadth are expanding through the stall, so the mini_top_2019_jun analog and the HOLD are wrong; the tape is a continuation, not an unresolved top."
+      "condition": "S&P 500 closes at least 3.0% above its highest close of the prior 20 sessions within 14 days, and VIX closes below 14 on that same session",
+      "what_it_would_mean": "The mini_top_2019_jun analog failed via upside breakout; UNKNOWN/HOLD was wrong because the correct call was risk-on continuation, not indecision."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes 6% or more below today's close within 14 days and the VIX closes above 30 on the same day.",
-      "what_it_would_mean": "The move is a real risk-off break, not a mini-top pause, so UNKNOWN/HOLD is invalidated; the correct call would have been risk-off."
+      "condition": "S&P 500 closes at least 5.0% below its latest close within 14 days, and VIX closes above 24 on that same session",
+      "what_it_would_mean": "The mini-top analog resolved into a real drawdown; UNKNOWN/HOLD was wrong because a risk-off signal was already justified."
     },
     {
       "id": 3,
-      "condition": "Pattern-match similarity to mini_top_2019_jun falls below 40% for three consecutive sessions, or the blowoff score closes outside 40-70 (below 40 or at or above 75) for three consecutive sessions, within 14 days.",
-      "what_it_would_mean": "The analog and blowoff reading that justify an unresolved HOLD no longer hold, so the UNKNOWN verdict is falsified either by a broken pattern or by a confirmed blowoff."
+      "condition": "ICE BofA US High Yield OAS tightens by 40 basis points or more from the latest reading and the share of S&P 500 members above their 50-day moving average closes above 75%, both within 14 days",
+      "what_it_would_mean": "Credit and breadth confirmed a broad risk-on regime, collapsing the mixed evidence behind UNKNOWN and invalidating HOLD in favor of a bullish verdict."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."

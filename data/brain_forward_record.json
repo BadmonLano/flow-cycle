@@ -1,28 +1,26 @@
 {
-  "_updated": "2026-10-16T07:17:07.727057-04:00",
+  "_updated": "2026-10-16T14:20:14.423077-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-16T01:44:33.388998-04:00",
+      "made_at": "2026-10-16T14:20:14.450085-04:00",
       "score_at_call": 56,
       "phase_at_call": "Disbelief",
       "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Coil base rate dominates: no range break, funding flat, and momentum still 40-60, so stay on the Hope rung until a confirmed breaker.",
-      "confirmed_if": "F&G 55-70, 30d momentum 40-60, price rangebound, funding near flat",
-      "invalidated_if": "Momentum exits 40-60 on range break with ETF/funding lift (up into Optimism) or F&G <55 plus long liquidation (down into Disbelief)",
+      "reasoning": "Coil regime with no single breaker (funding/momentum expansion or VIX-gold unwind) justified; base rate favors HOLD until score leaves 63-70.",
+      "confirmed_if": "Fear & Greed holds ~55-70 with funding near flat and 30d momentum stuck ~55-65",
+      "invalidated_if": "Funding and momentum expand into Optimism band, or crowded longs unwind with VIX/gold bid and momentum rolling into Disbelief",
       "signals_at_call": {
         "fear_greed": 63,
         "btc_funding": 0.0034,
         "mvrv_zscore": 0.9588,
-        "net_liquidity_chg_4w": 2750.0,
-        "btc_dom": 59.276275358702456,
+        "net_liquidity_chg_4w": 2746.0,
+        "btc_dom": 59.32588636532223,
         "etf_net_total_musd": -487.07,
-        "vix": 16.46
-      },
-      "phase_flicker_count": 2,
-      "last_phase_flicker_at": "2026-10-16T05:02:41.876225-04:00"
+        "vix": 20.7
+      }
     }
   ],
   "resolved": [
@@ -3374,6 +3372,37 @@
       "forward_path_class": "clean_hit",
       "score_travel": 1.0,
       "honest_coil": false
+    },
+    {
+      "made_at": "2026-10-16T01:44:33.388998-04:00",
+      "score_at_call": 56,
+      "phase_at_call": "Disbelief",
+      "predicted_phase": "Hope",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Coil base rate dominates: no range break, funding flat, and momentum still 40-60, so stay on the Hope rung until a confirmed breaker.",
+      "confirmed_if": "F&G 55-70, 30d momentum 40-60, price rangebound, funding near flat",
+      "invalidated_if": "Momentum exits 40-60 on range break with ETF/funding lift (up into Optimism) or F&G <55 plus long liquidation (down into Disbelief)",
+      "signals_at_call": {
+        "fear_greed": 63,
+        "btc_funding": 0.0034,
+        "mvrv_zscore": 0.9588,
+        "net_liquidity_chg_4w": 2750.0,
+        "btc_dom": 59.276275358702456,
+        "etf_net_total_musd": -487.07,
+        "vix": 16.46
+      },
+      "phase_flicker_count": 2,
+      "last_phase_flicker_at": "2026-10-16T05:02:41.876225-04:00",
+      "graded_at": "2026-10-16T14:20:14.423077-04:00",
+      "void": true,
+      "void_reason": "no score coverage in window (2 intraday rows) \u2014 flow was down/stalled; ungradable, excluded from tally",
+      "realized_dir": null,
+      "direction_hit": null,
+      "transition_predicted": false,
+      "transition_hit": null,
+      "score_delta": null,
+      "autopsy": ""
     }
   ],
   "tally": {
