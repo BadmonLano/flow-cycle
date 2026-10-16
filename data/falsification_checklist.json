@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-15T23:36:30.512805-04:00",
+  "updated_at": "2026-10-16T02:54:14.358377-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4.0% above today's close within 14 calendar days and finishes that window at a new 20-day closing high.",
-      "what_it_would_mean": "A clear upside resolution would falsify both HOLD and the mini_top_2019_jun analog: the setup was continuation, not an unresolved mini-top, so UNKNOWN/HOLD was the wrong call."
+      "condition": "Within 14 calendar days, the S&P 500 closes at least 4.0% above the signal-date close and at a 63-day closing high, on a day when spot VIX closes below 15.",
+      "what_it_would_mean": "The mini_top_2019_jun analog and blowoff-56 caution are false; price resolved as upside continuation, so UNKNOWN/HOLD was the wrong call and should have been risk-on."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 6.0% below today's close within 14 calendar days, or the VIX index closes at or above 30 on any session in that window.",
-      "what_it_would_mean": "A sharp drawdown or volatility spike would show the pattern already resolved as risk-off rather than an unknown hold, invalidating UNKNOWN, HOLD, and a mere mini-top classification."
+      "condition": "Within 14 calendar days, the S&P 500 closes at least 5.0% below the signal-date close, spot VIX closes above 24, and US high-yield OAS (ICE BofA US HY) is at least 50 bps wider than on the signal date.",
+      "what_it_would_mean": "The mini-top analog already resolved into a confirmed risk-off break with vol and credit stress; UNKNOWN/HOLD was indefensible and the correct call was defensive/risk-off."
     },
     {
       "id": 3,
-      "condition": "US high-yield option-adjusted spread widens by 75 basis points or more versus today's close, or the 10-year US Treasury yield moves 40 basis points or more in either direction, within 14 calendar days.",
-      "what_it_would_mean": "A rates or credit regime break would prove the moderate blowoff score (56) and 77% mini-top match did not describe a stable hold state, so the UNKNOWN verdict failed."
+      "condition": "Over the next 14 calendar days, the Russell 2000 outperforms the S&P 500 by at least 3.0 percentage points, the S&P 500 equal-weight index outperforms the cap-weight index by at least 1.5 percentage points, and US high-yield OAS tightens by at least 25 bps, while the S&P 500 itself is unchanged or higher.",
+      "what_it_would_mean": "Leadership broadened and credit eased instead of distributing, so the 77% mini-top match and blowoff score of 56 do not describe the regime; HOLD/UNKNOWN missed a broadening risk-on rotation."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
