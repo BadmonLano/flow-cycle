@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-16T14:21:52.831290-04:00",
+  "updated_at": "2026-10-16T17:39:14.834773-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 3.0% above its highest close of the prior 20 sessions within 14 days, and VIX closes below 14 on that same session",
-      "what_it_would_mean": "The mini_top_2019_jun analog failed via upside breakout; UNKNOWN/HOLD was wrong because the correct call was risk-on continuation, not indecision."
+      "condition": "Within 14 days, the S&P 500 closes at least 3.0% above its trailing 20-session high and the VIX closes below 14 on the same day and on the next two sessions.",
+      "what_it_would_mean": "The mini_top_2019_jun analog failed. Price and volatility confirm continuation, so UNKNOWN/HOLD is wrong and the call must flip to risk-on."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5.0% below its latest close within 14 days, and VIX closes above 24 on that same session",
-      "what_it_would_mean": "The mini-top analog resolved into a real drawdown; UNKNOWN/HOLD was wrong because a risk-off signal was already justified."
+      "condition": "Within 14 days, the S&P 500 closes at least 5.0% below its high of the prior 14 sessions and ICE BofA US High Yield OAS widens by at least 75 basis points from its level on the day of that high.",
+      "what_it_would_mean": "The suspected mini-top resolved into a real risk-off drawdown with credit confirmation, so HOLD is wrong and the call must flip to risk-off."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS tightens by 40 basis points or more from the latest reading and the share of S&P 500 members above their 50-day moving average closes above 75%, both within 14 days",
-      "what_it_would_mean": "Credit and breadth confirmed a broad risk-on regime, collapsing the mixed evidence behind UNKNOWN and invalidating HOLD in favor of a bullish verdict."
+      "condition": "Within 14 days, the US 10-year Treasury yield falls at least 40 basis points from its close on the signal date while DXY rises at least 2.0% and the S&P 500 is down at least 3.0% over the same window.",
+      "what_it_would_mean": "Rates, the dollar, and equities jointly confirm a flight-to-quality resolution of the topping pattern, falsifying an unresolved UNKNOWN/HOLD."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
