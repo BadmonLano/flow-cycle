@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-17T00:17:04.944082-04:00",
+  "updated_at": "2026-10-17T03:34:14.009443-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at a new 20-day high and is up more than 3% from today's close within 14 days, with NYSE advance/decline line also at a new 20-day high",
-      "what_it_would_mean": "The mini_top_2019_jun analog fails: price and breadth confirm continuation, so UNKNOWN/HOLD was wrong and the call should have been risk-on"
+      "condition": "Within 14 days the S&P 500 posts a daily close at least 2.5% above its highest close of the prior 20 sessions, and on that day or within the next two sessions the NYSE cumulative advance-decline line makes a new 20-day high.",
+      "what_it_would_mean": "Breadth-confirmed breakout invalidates both the June 2019 mini-top analogue and the HOLD: the tape resolved to trend continuation, so UNKNOWN was the wrong call."
     },
     {
       "id": 2,
-      "condition": "S&P 500 falls more than 4% peak-to-trough within 14 days and VIX closes above 25 on the same session as the low",
-      "what_it_would_mean": "The top already resolved into a selloff; HOLD was wrong because risk should have been reduced rather than left unresolved"
+      "condition": "Within 14 days the S&P 500 closes at least 5% below its close on the verdict day, and the VIX has at least one daily close at or above 24 in that same window.",
+      "what_it_would_mean": "A fast, volatility-confirmed drawdown is larger than a contained mini-top. HOLD and the 77% mini_top_2019_jun match are wrong; the correct call was risk-off, not unknown."
     },
     {
       "id": 3,
-      "condition": "Pattern similarity to mini_top_2019_jun drops below 60% and blowoff score moves outside 40-70 (either below 40 or above 75) before day 14",
-      "what_it_would_mean": "The 77% match and score of 56 that justified an unknown hold no longer describe the tape, so that verdict is invalidated"
+      "condition": "Within 14 days the blowoff score prints at or above 75 or at or below 40, and ICE BofA US High Yield OAS moves at least 50 basis points from its verdict-day level in the same direction as the equity move.",
+      "what_it_would_mean": "Leaving the moderate blowoff band (56) with a coincident credit move resolves the regime. UNKNOWN/HOLD cannot stand once price, credit, and the blowoff score all leave the ambiguous zone."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
