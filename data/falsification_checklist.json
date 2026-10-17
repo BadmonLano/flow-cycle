@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-16T17:39:14.834773-04:00",
+  "updated_at": "2026-10-16T21:01:52.377287-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days, the S&P 500 closes at least 3.0% above its trailing 20-session high and the VIX closes below 14 on the same day and on the next two sessions.",
-      "what_it_would_mean": "The mini_top_2019_jun analog failed. Price and volatility confirm continuation, so UNKNOWN/HOLD is wrong and the call must flip to risk-on."
+      "condition": "SPX daily close finishes at least 2.5% above its 20-day high within 14 days",
+      "what_it_would_mean": "The mini_top_2019_jun analog failed; a breakout means HOLD/UNKNOWN missed an identifiable upside resolution"
     },
     {
       "id": 2,
-      "condition": "Within 14 days, the S&P 500 closes at least 5.0% below its high of the prior 14 sessions and ICE BofA US High Yield OAS widens by at least 75 basis points from its level on the day of that high.",
-      "what_it_would_mean": "The suspected mini-top resolved into a real risk-off drawdown with credit confirmation, so HOLD is wrong and the call must flip to risk-off."
+      "condition": "SPX closes at least 4% below the signal-date close on a day when VIX also closes above 22, within 14 days",
+      "what_it_would_mean": "Risk-off resolved decisively; HOLD was the wrong signal and the phase was identifiable as a confirmed top"
     },
     {
       "id": 3,
-      "condition": "Within 14 days, the US 10-year Treasury yield falls at least 40 basis points from its close on the signal date while DXY rises at least 2.0% and the S&P 500 is down at least 3.0% over the same window.",
-      "what_it_would_mean": "Rates, the dollar, and equities jointly confirm a flight-to-quality resolution of the topping pattern, falsifying an unresolved UNKNOWN/HOLD."
+      "condition": "Tracked blowoff score prints at or above 75, or at or below 35, at any daily close within 14 days",
+      "what_it_would_mean": "The moderate 56 reading was unstable; blowoff either confirmed or collapsed, so UNKNOWN was not a valid characterization"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
