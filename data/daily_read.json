@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-17T03:46:28.132311-04:00",
+  "_updated": "2026-10-17T04:40:08.030389-04:00",
   "_version": "v2.7",
   "_doctrine": "Empire's daily synthesis packet. Phase + trend + cliff_proximity + analogues + recommendation. Read by perps/kalshi/sniper/Jordan.",
   "sweep_interval_min": 60,
@@ -10,10 +10,18 @@
       "x_intel",
       "jordan_scraper"
     ],
-    "acked": [],
-    "silent": [],
-    "checkin_known": false,
-    "note": "no pre-sweep trigger this cycle; feeder silence not claimed"
+    "acked": [
+      "jordan_scraper",
+      "news_catalyst",
+      "polymarket"
+    ],
+    "silent": [
+      "x_intel"
+    ],
+    "unexpected": [],
+    "checkin_known": true,
+    "all_expected_checked_in": false,
+    "note": "pre-sweep feeders silent (inputs absent, not neutral): ['x_intel']"
   },
   "current_score": 56,
   "current_phase": "Disbelief",
@@ -65,7 +73,7 @@
     "jordan_horse_race_read": "No crown. The forecast is pinned to today's score, so a zero miss is the anchor, not skill. The curated line is 0.6 off right now and about 0.8 off over the last dozen sweeps. The inverse line is just the mirror at 12. This board still does not measure what comes next.",
     "forecast_residual": 0.0,
     "da_residual": 12.0,
-    "j6_residual": 1.1,
+    "j6_residual": 1.3,
     "regime_break": false
   },
   "historical_analogues": [
@@ -92,50 +100,32 @@
     }
   ],
   "active_signal_inputs": {
-    "envelope_count": 327,
+    "envelope_count": 336,
     "by_source": {
       "flow_cycle": 14,
-      "jordan_scraper": 15,
+      "jordan_scraper": 16,
       "news_catalyst": 112,
-      "polymarket": 178,
+      "polymarket": 186,
       "crucix": 8
     },
     "by_severity": {
+      "high": 112,
       "critical": 131,
-      "high": 106,
-      "medium": 84,
-      "low": 6
+      "medium": 86,
+      "low": 7
     },
     "by_direction": {
       "bearish": 96,
       "bullish": 22,
-      "neutral": 17,
-      "ambiguous": 192
+      "neutral": 18,
+      "ambiguous": 200
     },
-    "weighted_bullish_score": 6.576,
-    "weighted_bearish_score": 15.848,
+    "weighted_bullish_score": 6.337,
+    "weighted_bearish_score": 15.846,
     "net_signal": "bearish",
     "confluence_clusters": [
       {
-        "synthetic_envelope_id": "flow_confluence_1792223188_b781d0",
-        "window": "15min",
-        "direction": "bearish",
-        "source_count": 2,
-        "sources": [
-          "crucix",
-          "flow_cycle"
-        ],
-        "strength": 3.054,
-        "severity": "critical",
-        "summary": "2-source bearish confluence (15min window): 4-source bearish confluence (6h window): 3-source bearish confluence (1h window)",
-        "member_envelope_ids": [
-          "flow_confluence_1792222417_7e489b",
-          "crucix_energy_1792223187_9d55d8",
-          "crucix_sustained_energy_1792223187_0453a1"
-        ]
-      },
-      {
-        "synthetic_envelope_id": "flow_confluence_1792223188_9cf4cb",
+        "synthetic_envelope_id": "flow_confluence_1792226408_f67bd3",
         "window": "1h",
         "direction": "bearish",
         "source_count": 2,
@@ -143,17 +133,19 @@
           "crucix",
           "flow_cycle"
         ],
-        "strength": 3.054,
+        "strength": 4.325,
         "severity": "critical",
         "summary": "2-source bearish confluence (1h window): 4-source bearish confluence (6h window): 3-source bearish confluence (1h window)",
         "member_envelope_ids": [
-          "flow_confluence_1792222417_7e489b",
-          "crucix_energy_1792223187_9d55d8",
-          "crucix_sustained_energy_1792223187_0453a1"
+          "flow_confluence_1792223188_959548",
+          "flow_confluence_1792223188_9cf4cb",
+          "flow_confluence_1792223188_b781d0",
+          "crucix_energy_1792226407_6f3b74",
+          "crucix_sustained_energy_1792226407_770168"
         ]
       },
       {
-        "synthetic_envelope_id": "flow_confluence_1792223188_1de107",
+        "synthetic_envelope_id": "flow_confluence_1792226408_f0a619",
         "window": "6h",
         "direction": "bullish",
         "source_count": 2,
@@ -161,21 +153,21 @@
           "flow_cycle",
           "polymarket"
         ],
-        "strength": 3.204,
+        "strength": 3.126,
         "severity": "critical",
         "summary": "2-source bullish confluence (6h window): 3-source bullish confluence (6h window): 3-source bullish confluence (6h window)",
         "member_envelope_ids": [
-          "flow_confluence_1792210599_d421b1",
           "flow_confluence_1792214393_e17d16",
           "flow_confluence_1792218269_1dd5ef",
           "flow_confluence_1792222417_151ad3",
+          "flow_confluence_1792223188_1de107",
           "polymarket_1792206189_c1f4f3",
           "polymarket_1792208456_1dbe97",
           "polymarket_1792209357_eb6719"
         ]
       },
       {
-        "synthetic_envelope_id": "flow_confluence_1792223188_959548",
+        "synthetic_envelope_id": "flow_confluence_1792226408_a3a852",
         "window": "6h",
         "direction": "bearish",
         "source_count": 4,
@@ -185,13 +177,10 @@
           "news_catalyst",
           "polymarket"
         ],
-        "strength": 14.572,
+        "strength": 14.928,
         "severity": "critical",
-        "summary": "4-source bearish confluence (6h window): 3-source bearish confluence (1h window): [geo_conflict] Iran Is Giving Houthis T",
+        "summary": "4-source bearish confluence (6h window): 2-source bearish confluence (1h window): [geo_conflict] Middle East latest: Oil ",
         "member_envelope_ids": [
-          "flow_confluence_1792210599_0db1af",
-          "flow_confluence_1792210599_7d15db",
-          "flow_confluence_1792210599_9de248",
           "flow_confluence_1792214393_3f7c33",
           "flow_confluence_1792214393_864718",
           "flow_confluence_1792214393_ec7ff6",
@@ -199,6 +188,9 @@
           "flow_confluence_1792218269_7740c5",
           "flow_confluence_1792218269_d3cc48",
           "flow_confluence_1792222417_7e489b",
+          "flow_confluence_1792223188_959548",
+          "flow_confluence_1792223188_9cf4cb",
+          "flow_confluence_1792223188_b781d0",
           "news_catalyst_1792206206_6b0f36",
           "news_catalyst_1792206206_701527",
           "news_catalyst_1792206206_ecc4bf",
@@ -215,15 +207,15 @@
           "news_catalyst_1792217852_fcb47a",
           "polymarket_1792208456_0f4ac2",
           "polymarket_1792209357_254887",
-          "crucix_energy_1792223187_9d55d8",
-          "crucix_sustained_energy_1792223187_0453a1"
+          "crucix_energy_1792226407_6f3b74",
+          "crucix_sustained_energy_1792226407_770168"
         ]
       }
     ],
     "regime_break_envelopes": [],
     "top_envelopes_by_weight": [
       {
-        "id": "crucix_sustained_energy_1792223187_0453a1",
+        "id": "crucix_sustained_energy_1792226407_770168",
         "headline": "[crucix:sustained_narrative] energy persistent across 20 sweeps (max strength 10/10, current 10/10)",
         "weight": 1.275,
         "source": "crucix",
@@ -232,7 +224,7 @@
         "severity": "critical"
       },
       {
-        "id": "crucix_sustained_macro_1792223187_f3aeae",
+        "id": "crucix_sustained_macro_1792226407_31f62a",
         "headline": "[crucix:sustained_narrative] macro persistent across 20 sweeps (max strength 10/10, current 10/10)",
         "weight": 1.275,
         "source": "crucix",
@@ -241,7 +233,7 @@
         "severity": "critical"
       },
       {
-        "id": "crucix_sustained_social_1792223187_5e9bb0",
+        "id": "crucix_sustained_social_1792226407_d64f81",
         "headline": "[crucix:sustained_narrative] social persistent across 20 sweeps (max strength 8/10, current 7/10)",
         "weight": 1.275,
         "source": "crucix",
@@ -250,25 +242,25 @@
         "severity": "critical"
       },
       {
-        "id": "flow_confluence_1792222417_7e489b",
-        "headline": "4-source bearish confluence (6h window): 3-source bearish confluence (1h window): [geo_conflict] Iran Is Giving Houthis T",
-        "weight": 0.929,
-        "source": "flow_cycle",
-        "tier": "S",
+        "id": "crucix_energy_1792226407_6f3b74",
+        "headline": "[crucix:energy] strength=10/10 keywords=[oil, gas, crude, wti, brent] \u2014 oil spike = war narrative = geo tokens. Also SOL perp watch",
+        "weight": 0.85,
+        "source": "crucix",
+        "tier": "A",
         "direction": "bearish",
         "severity": "critical"
       },
       {
-        "id": "polymarket_drift_1792198546_082470",
-        "headline": "[polymarket:sustained_drift] Will SC Recife win on 2026-10-16? \u2014 DOWN -37.0pts over 4 scans (consistency 75%, long)",
-        "weight": 0.859,
-        "source": "polymarket",
+        "id": "crucix_macro_1792226407_a1b8a3",
+        "headline": "[crucix:macro] strength=10/10 keywords=[fed, rate, inflation, cpi, unemployment] \u2014 macro event \u2014 BTC reacts first, memes follow. Check flow cycle",
+        "weight": 0.85,
+        "source": "crucix",
         "tier": "A",
         "direction": "ambiguous",
         "severity": "critical"
       }
     ],
-    "_synthesized_at": "2026-10-17T03:46:27.755266-04:00",
+    "_synthesized_at": "2026-10-17T04:40:07.339211-04:00",
     "legacy_invariants": [
       {
         "source": "invariants",
@@ -327,14 +319,14 @@
   },
   "cycle_signals": {
     "ma_200w": {
-      "btc_ratio": 1.223,
+      "btc_ratio": 1.222,
       "btc_zone": "early_mid_bull",
-      "note": "BTC 1.223x 200wk MA ($66,845) \u2014 early_mid_bull"
+      "note": "BTC 1.222x 200wk MA ($66,844) \u2014 early_mid_bull"
     },
     "pi_cycle": {
       "ratio": 0.474,
       "signal": "far_from_top",
-      "note": "Pi Cycle 0.474x (111DMA $72,875 vs 2x350DMA $153,823) \u2014 far from top \u2014 plenty of upside"
+      "note": "Pi Cycle 0.474x (111DMA $72,875 vs 2x350DMA $153,822) \u2014 far from top \u2014 plenty of upside"
     },
     "funding_reset": {
       "phase": "NEUTRAL",
@@ -343,7 +335,7 @@
     },
     "realized_price": {
       "ratio": 1.55,
-      "note": "BTC $81,620 vs realized $52,512 (1.55x) \u2014 above cost basis (mid cycle)"
+      "note": "BTC $81,602 vs realized $52,501 (1.55x) \u2014 above cost basis (mid cycle)"
     },
     "retail": {
       "app_presence": 21.3,
