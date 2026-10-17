@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-16T21:01:52.377287-04:00",
+  "updated_at": "2026-10-17T00:17:04.944082-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "SPX daily close finishes at least 2.5% above its 20-day high within 14 days",
-      "what_it_would_mean": "The mini_top_2019_jun analog failed; a breakout means HOLD/UNKNOWN missed an identifiable upside resolution"
+      "condition": "S&P 500 closes at a new 20-day high and is up more than 3% from today's close within 14 days, with NYSE advance/decline line also at a new 20-day high",
+      "what_it_would_mean": "The mini_top_2019_jun analog fails: price and breadth confirm continuation, so UNKNOWN/HOLD was wrong and the call should have been risk-on"
     },
     {
       "id": 2,
-      "condition": "SPX closes at least 4% below the signal-date close on a day when VIX also closes above 22, within 14 days",
-      "what_it_would_mean": "Risk-off resolved decisively; HOLD was the wrong signal and the phase was identifiable as a confirmed top"
+      "condition": "S&P 500 falls more than 4% peak-to-trough within 14 days and VIX closes above 25 on the same session as the low",
+      "what_it_would_mean": "The top already resolved into a selloff; HOLD was wrong because risk should have been reduced rather than left unresolved"
     },
     {
       "id": 3,
-      "condition": "Tracked blowoff score prints at or above 75, or at or below 35, at any daily close within 14 days",
-      "what_it_would_mean": "The moderate 56 reading was unstable; blowoff either confirmed or collapsed, so UNKNOWN was not a valid characterization"
+      "condition": "Pattern similarity to mini_top_2019_jun drops below 60% and blowoff score moves outside 40-70 (either below 40 or above 75) before day 14",
+      "what_it_would_mean": "The 77% match and score of 56 that justified an unknown hold no longer describe the tape, so that verdict is invalidated"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
