@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-18T04:37:44.292905-04:00",
+  "updated_at": "2026-10-18T07:53:10.287673-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days, the S&P 500 closes at least 3.5% above its close on the signal date and ends the window above its prior 20-day high, while the share of S&P 500 members above their 50-day moving average rises by at least 8 percentage points.",
-      "what_it_would_mean": "The mini_top_2019_jun analog failed. Price and breadth confirmed continuation, so UNKNOWN phase and HOLD were wrong; the call should have been bullish continuation."
+      "condition": "S&P 500 closes at least 3% above its trailing 20-day high on two separate sessions within 14 days, with NYSE advancing issues above 70% of total issues on both of those days and VIX closing below 14 on the second day.",
+      "what_it_would_mean": "A breadth-confirmed breakout to new highs would falsify both HOLD and the mini-top analog: June 2019-style mini tops do not resolve as immediate upside thrusts, so UNKNOWN/HOLD would have been the wrong call."
     },
     {
       "id": 2,
-      "condition": "Within 14 days, the S&P 500 closes at least 4.0% below its close on the signal date, the VIX closes above 24 on at least three sessions, and US high-yield OAS widens by at least 50 basis points from the signal-date level.",
-      "what_it_would_mean": "The suspected mini-top resolved into a confirmed risk-off break. HOLD/UNKNOWN missed an observable directional selloff and should have been a risk-off call."
+      "condition": "S&P 500 closes more than 4% below its 50-day moving average, VIX closes above 25, and US high-yield OAS widens by at least 50 basis points versus the level on the day of this verdict, all within 14 days.",
+      "what_it_would_mean": "A volatility-and-credit-confirmed breakdown would exceed a mini top and force a risk-off verdict, proving that HOLD/UNKNOWN failed to capture an already-developing drawdown."
     },
     {
       "id": 3,
-      "condition": "Within 14 days, the US 10-year yield moves at least 35 basis points from its signal-date close in either direction, the 2s10s spread changes by at least 20 basis points, and S&P 500 10-day realized volatility exceeds 22%.",
-      "what_it_would_mean": "A rates-and-volatility regime shift large enough to resolve phase uncertainty occurred, falsifying both UNKNOWN and HOLD because the tape no longer matches an unresolved mini-top."
+      "condition": "The 60-trading-day daily-return correlation of the S&P 500 path to the mini_top_2019_jun template falls below 0.50, or the 10-year US Treasury yield moves more than 30 basis points in either direction from the verdict-day close while 10-day realized equity volatility stays below 12.",
+      "what_it_would_mean": "The pattern match that is propping up an unresolved HOLD would be statistically broken, so retaining UNKNOWN solely on a 77% June 2019 mini-top similarity would be invalidated."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
