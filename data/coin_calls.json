@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-18T00:18:07.370516-04:00",
+  "_updated": "2026-10-18T01:23:20.976998-04:00",
   "calls": {
     "BTC": {
       "direction": "SHORT",
@@ -11,7 +11,7 @@
       "source": "jordan",
       "opened_at": "2026-10-17T03:46:27.332218-04:00",
       "mechanical_confluence": {
-        "direction": "LONG",
+        "direction": "FLAT",
         "conviction": "medium",
         "score": 1.8,
         "votes": [
@@ -23,9 +23,9 @@
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 20.5,
+      "probe_age_hours": 21.6,
       "probe_agrees_with_live_stance": true,
-      "probe_note": "explicit override, frozen 20.5h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
+      "probe_note": "explicit override, frozen 21.6h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
       "advisory": {
         "size_hint": 1.0,
         "flags": [
@@ -37,7 +37,7 @@
         "committed": false,
         "why": [
           "chop tape: committed calls lost over 24h in chop",
-          "same SHORT on all 3 coins: prefer SOL (strongest mechanical agreement)"
+          "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
@@ -57,7 +57,7 @@
         "conviction": "high",
         "score": 4.1,
         "votes": [
-          "ETH 200wk 0.952x AT FLOOR \u2192 long",
+          "ETH 200wk 0.951x AT FLOOR \u2192 long",
           "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
           "projection +1.1% \u2192 long"
@@ -65,9 +65,9 @@
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 20.5,
+      "probe_age_hours": 21.6,
       "probe_agrees_with_live_stance": true,
-      "probe_note": "explicit override, frozen 20.5h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
+      "probe_note": "explicit override, frozen 21.6h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
       "advisory": {
         "size_hint": 1.0,
         "flags": [
@@ -78,11 +78,10 @@
         "phase": "Disbelief",
         "committed": false,
         "why": [
-          "chop tape: committed calls lost over 24h in chop",
-          "same SHORT on all 3 coins: prefer SOL (strongest mechanical agreement)"
+          "chop tape: committed calls lost over 24h in chop"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
-        "preferred": false
+        "preferred": true
       }
     },
     "SOL": {
@@ -97,20 +96,19 @@
       "mechanical_confluence": {
         "direction": "LONG",
         "conviction": "high",
-        "score": 5.1,
+        "score": 4.1,
         "votes": [
-          "SOL 200wk 0.927x AT FLOOR \u2192 long",
+          "SOL 200wk 0.924x AT FLOOR \u2192 long",
           "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
-          "SOL funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
           "projection +1.3% \u2192 long"
         ]
       },
       "horizon_hours": 72,
       "probe_locked": true,
-      "probe_age_hours": 20.5,
+      "probe_age_hours": 21.6,
       "probe_agrees_with_live_stance": true,
-      "probe_note": "explicit override, frozen 20.5h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
+      "probe_note": "explicit override, frozen 21.6h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
       "advisory": {
         "size_hint": 1.0,
         "flags": [
@@ -123,15 +121,16 @@
         "committed": false,
         "why": [
           "chop tape: committed calls lost over 24h in chop",
-          "mechanical-only long on SOL or F&G>=60 lost in the backtest"
+          "mechanical-only long on SOL or F&G>=60 lost in the backtest",
+          "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
-        "preferred": true
+        "preferred": false
       }
     }
   },
   "advisory_rules": {
-    "_updated": "2026-10-18T00:18:07.530316-04:00",
+    "_updated": "2026-10-18T01:23:21.168798-04:00",
     "size_hint": "1.5x committed in Panic/Anxiety or strong/trend tape; 1.0x in chop (+chop_caution)",
     "drop_reference_only": "mechanical-only longs on SOL or with F&G >= 60",
     "same_call_all_3": "flag; prefer the coin with the strongest mechanical agreement",
