@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-18T14:22:33.460360-04:00",
+  "updated_at": "2026-10-18T17:38:06.265545-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4% above the verdict-day close and VIX closes at or below 16 on the same session within 14 days",
-      "what_it_would_mean": "The August 2024 bottom analog has already confirmed; UNKNOWN/HOLD was wrong and the correct call was risk-on."
+      "condition": "S&P 500 closes at least 4.0% above its level at the time of this verdict on any session within 14 days, with VIX closing below 15 on that same day",
+      "what_it_would_mean": "A decisive upside resolution of the bottom_2024_aug analog occurred; HOLD/UNKNOWN was wrong because a long signal was already valid"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5% below the verdict-day close, or VIX closes at or above 30, within 14 days",
-      "what_it_would_mean": "The 76% bottom_2024_aug match failed; UNKNOWN/HOLD missed a breakdown and the correct call was risk-off."
+      "condition": "Rolling pattern similarity to bottom_2024_aug falls to 50% or below on the engine's own match score within 14 days",
+      "what_it_would_mean": "The analog anchoring the unknown phase broke; UNKNOWN can no longer be justified by that pattern match"
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by at least 75 bps from the verdict-day level, or the blowoff score prints at or above 65, within 14 days",
-      "what_it_would_mean": "Cross-asset stress or a blowoff regime contradicts both the moderate blowoff score of 38 and the bottom-analog HOLD; the unknown/hold verdict is invalidated."
+      "condition": "Blowoff score prints at or above 70, or US high-yield OAS widens by 75 bps or more versus the spread at the time of this verdict, within 14 days",
+      "what_it_would_mean": "Regime left the neutral band\u2014either a blowoff top or a credit-stress break\u2014so HOLD is falsified as the correct signal"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
