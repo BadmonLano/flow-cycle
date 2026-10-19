@@ -1,149 +1,180 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
+      "stablecoin_growth",
       "dxy_weakness"
     ],
     "diverging_factors": [
       "vix",
       "btc_momentum_30d",
-      "gold_strength"
+      "gold_strength",
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Disbelief",
+    "phase": "Hope",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.58,
+    "confidence": 0.63,
     "next_move": {
-      "predicted_phase": "Disbelief",
+      "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is neutral, and fear/greed at 59 sits in Disbelief, while extreme skew, exchange netflow, and weak CVD are warnings without a price breaker.",
-      "confirmed_if": "BTC holds the range with 30d momentum staying near 50 and fear/greed remaining 50-65",
-      "invalidated_if": "Fear/greed breaks under 45 with funding turning negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive"
+      "reasoning": "Coil, not a thrill replay: 30d change is only +1.34% with momentum at 52 and funding neutral, and the downside stress (exchange netflow 100, options skew 100, CVD 26) has not broken price, so no rung change is justified.",
+      "confirmed_if": "BTC stays range-bound and fear_greed holds roughly 47-62 with funding remaining near flat",
+      "invalidated_if": "Price breaks down while CVD stays weak and netflow/skew remain extreme, or breaks up with 30d momentum and funding lifting together",
+      "predicted_phase_clamped_from": "Complacency",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is",
-    "brain": "analyst"
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"stablecoin_growth\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.63,\n  \"next_move\": {\n    \"predicted_phase\": \"Complacency\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Coil, not a thrill replay: 30d change is only +",
+    "brain": "analyst",
+    "phase_clamped_from": "Complacency"
   },
   "classifier": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
+      "stablecoin_growth",
       "dxy_weakness"
     ],
     "diverging_factors": [
       "vix",
       "btc_momentum_30d",
-      "gold_strength"
+      "gold_strength",
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Disbelief",
+    "phase": "Hope",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.58,
+    "confidence": 0.63,
     "next_move": {
-      "predicted_phase": "Disbelief",
+      "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is neutral, and fear/greed at 59 sits in Disbelief, while extreme skew, exchange netflow, and weak CVD are warnings without a price breaker.",
-      "confirmed_if": "BTC holds the range with 30d momentum staying near 50 and fear/greed remaining 50-65",
-      "invalidated_if": "Fear/greed breaks under 45 with funding turning negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive"
+      "reasoning": "Coil, not a thrill replay: 30d change is only +1.34% with momentum at 52 and funding neutral, and the downside stress (exchange netflow 100, options skew 100, CVD 26) has not broken price, so no rung change is justified.",
+      "confirmed_if": "BTC stays range-bound and fear_greed holds roughly 47-62 with funding remaining near flat",
+      "invalidated_if": "Price breaks down while CVD stays weak and netflow/skew remain extreme, or breaks up with 30d momentum and funding lifting together",
+      "predicted_phase_clamped_from": "Complacency",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is",
-    "brain": "analyst"
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"stablecoin_growth\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.63,\n  \"next_move\": {\n    \"predicted_phase\": \"Complacency\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Coil, not a thrill replay: 30d change is only +",
+    "brain": "analyst",
+    "phase_clamped_from": "Complacency"
   },
   "analyst": {
     "top_matching_factors": [
-      "etf_flows",
       "btc_dom_fade",
+      "stablecoin_growth",
       "dxy_weakness"
     ],
     "diverging_factors": [
       "vix",
       "btc_momentum_30d",
-      "gold_strength"
+      "gold_strength",
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Disbelief",
+    "phase": "Hope",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.58,
+    "confidence": 0.63,
     "next_move": {
-      "predicted_phase": "Disbelief",
+      "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is neutral, and fear/greed at 59 sits in Disbelief, while extreme skew, exchange netflow, and weak CVD are warnings without a price breaker.",
-      "confirmed_if": "BTC holds the range with 30d momentum staying near 50 and fear/greed remaining 50-65",
-      "invalidated_if": "Fear/greed breaks under 45 with funding turning negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive"
+      "reasoning": "Coil, not a thrill replay: 30d change is only +1.34% with momentum at 52 and funding neutral, and the downside stress (exchange netflow 100, options skew 100, CVD 26) has not broken price, so no rung change is justified.",
+      "confirmed_if": "BTC stays range-bound and fear_greed holds roughly 47-62 with funding remaining near flat",
+      "invalidated_if": "Price breaks down while CVD stays weak and netflow/skew remain extreme, or breaks up with 30d momentum and funding lifting together",
+      "predicted_phase_clamped_from": "Complacency",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is",
-    "brain": "analyst"
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"stablecoin_growth\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.63,\n  \"next_move\": {\n    \"predicted_phase\": \"Complacency\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Coil, not a thrill replay: 30d change is only +",
+    "brain": "analyst",
+    "phase_clamped_from": "Complacency"
   },
   "narrative": {
     "headline": "Awaiting Jordan headline",
-    "narrative": "Measured only. Phase Disbelief. BTC $82,320. Fear and greed 59. mini_top_2019_jun at 76% is an analog name, not a current event. No fresh Jordan headline in the last 3h.",
+    "narrative": "Measured only. Phase Hope. BTC $82,493. Fear and greed 59. mini_top_2019_jun at 76% is an analog name, not a current event. No fresh Jordan headline in the last 3h.",
     "author": "measured_stub",
     "brain": "measured_stub",
     "confidence": 0.3
   },
   "consensus": {
     "final_signal": "CAUTION",
-    "final_phase": "Disbelief",
+    "final_phase": "Hope",
     "alert_tier": "MED",
     "consensus_confidence": 0.55,
-    "key_reasoning": "Analyst anchors on Disbelief coil with flat momentum, neutral funding and F&G 59; 76% mini_top analog is noted but does not relocate the live rung. Narrative concurs on Disbelief with low conviction and no fresh breaker, so CAUTION/HOLD is the coherent call.",
+    "key_reasoning": "Analyst leads with Hope/CAUTION in a sideways coil; 76% mini_top_2019_jun analog is noted but diverging factors and weak momentum keep it from a top-call upgrade. Narrative conf is too low to override the higher-trust analyst HOLD bias.",
     "disagreements_noted": [
-      "Narrative confidence far lower (0.3) and provides almost no forward signal beyond restating Disbelief",
-      "Pattern label BLOWOFF_TOP vs analyst explicit coil/not-thrill-top framing"
+      "Analyst forward predicted_phase=Complacency violates \u00b11 rung rule from Hope; judge corrects to current rung",
+      "Narrative low-conf (0.3) vs analyst 0.63; blowoff-top label vs analyst coil/diverging read"
     ],
     "next_move": {
-      "predicted_phase": "Disbelief",
+      "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score sits in the Disbelief band with 30d momentum near 50 and no confirmed breaker; base rate favors coil continuation over forced direction.",
-      "brains_agree": "Yes on current phase Disbelief and non-directional stance; narrative too sparse to split on forward path",
-      "confirmed_if": "BTC holds range, 30d momentum stays near 50, fear/greed 50-65",
-      "invalidated_if": "Fear/greed breaks under 45 with funding negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive",
+      "reasoning": "Coil regime with flat funding, muted 30d momentum and unbroken downside stress supports no rung change; HOLD is the base-rate call.",
+      "brains_agree": "partial: both sit on Hope now, but analyst illegally jumped to Complacency while narrative offered no forward phase",
+      "confirmed_if": "BTC stays range-bound, fear_greed 47-62, funding near flat",
+      "invalidated_if": "Price breaks down with weak CVD and extreme netflow/skew, or breaks up with 30d momentum and funding rising together",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 88.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Disbelief\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.55,\n  \"key_reasoning\": \"Analyst anchors on Disbelief coil with flat momentum, neutral funding and F&G 59; 76% mini_top analog is noted but does not relocate the live rung. Narrative concurs on Disbelief with low conviction and no fresh breaker, so CAUTION/HOLD is the coherent call.\",\n  \"disagreements_noted\": [\n    \"Narrative confidence far lower (0.3) and provides almost no forward sig",
+    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.55,\n  \"key_reasoning\": \"Analyst leads with Hope/CAUTION in a sideways coil; 76% mini_top_2019_jun analog is noted but diverging factors and weak momentum keep it from a top-call upgrade. Narrative conf is too low to override the higher-trust analyst HOLD bias.\",\n  \"disagreements_noted\": [\n    \"Analyst forward predicted_phase=Complacency violates \u00b11 rung rule from Hope; judge corrects to cur",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.44,
+    "brains_avg_confidence": 0.465,
     "brain_reads": {
       "analyst": {
         "signal": "CAUTION",
-        "phase": "Disbelief",
+        "phase": "Hope",
         "verdict": "DIVERGING",
-        "confidence": 0.58,
+        "confidence": 0.63,
         "next_move": {
-          "predicted_phase": "Disbelief",
+          "predicted_phase": "Hope",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is neutral, and fear/greed at 59 sits in Disbelief, while extreme skew, exchange netflow, and weak CVD are warnings without a price breaker.",
-          "confirmed_if": "BTC holds the range with 30d momentum staying near 50 and fear/greed remaining 50-65",
-          "invalidated_if": "Fear/greed breaks under 45 with funding turning negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive"
+          "reasoning": "Coil, not a thrill replay: 30d change is only +1.34% with momentum at 52 and funding neutral, and the downside stress (exchange netflow 100, options skew 100, CVD 26) has not broken price, so no rung change is justified.",
+          "confirmed_if": "BTC stays range-bound and fear_greed holds roughly 47-62 with funding remaining near flat",
+          "invalidated_if": "Price breaks down while CVD stays weak and netflow/skew remain extreme, or breaks up with 30d momentum and funding lifting together",
+          "predicted_phase_clamped_from": "Complacency",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
         "headline": "Awaiting Jordan headline",
-        "phase": "Disbelief",
+        "phase": "Hope",
         "confidence": 0.3,
         "next_move": null
       },
       "judge": {
         "signal": "CAUTION",
-        "phase": "Disbelief",
+        "phase": "Hope",
         "confidence": 0.55,
         "next_move": {
-          "predicted_phase": "Disbelief",
+          "predicted_phase": "Hope",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Score sits in the Disbelief band with 30d momentum near 50 and no confirmed breaker; base rate favors coil continuation over forced direction.",
-          "brains_agree": "Yes on current phase Disbelief and non-directional stance; narrative too sparse to split on forward path",
-          "confirmed_if": "BTC holds range, 30d momentum stays near 50, fear/greed 50-65",
-          "invalidated_if": "Fear/greed breaks under 45 with funding negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive",
+          "reasoning": "Coil regime with flat funding, muted 30d momentum and unbroken downside stress supports no rung change; HOLD is the base-rate call.",
+          "brains_agree": "partial: both sit on Hope now, but analyst illegally jumped to Complacency while narrative offered no forward phase",
+          "confirmed_if": "BTC stays range-bound, fear_greed 47-62, funding near flat",
+          "invalidated_if": "Price breaks down with weak CVD and extreme netflow/skew, or breaks up with 30d momentum and funding rising together",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 88.0,
           "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -160,15 +191,19 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Disbelief",
-      "confidence": 0.58,
+      "phase": "Hope",
+      "confidence": 0.63,
       "next_move": {
-        "predicted_phase": "Disbelief",
+        "predicted_phase": "Hope",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "This is a coil, not a thrill-top: 30d momentum is flat (+1.3%, factor 52), funding is neutral, and fear/greed at 59 sits in Disbelief, while extreme skew, exchange netflow, and weak CVD are warnings without a price breaker.",
-        "confirmed_if": "BTC holds the range with 30d momentum staying near 50 and fear/greed remaining 50-65",
-        "invalidated_if": "Fear/greed breaks under 45 with funding turning negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive"
+        "reasoning": "Coil, not a thrill replay: 30d change is only +1.34% with momentum at 52 and funding neutral, and the downside stress (exchange netflow 100, options skew 100, CVD 26) has not broken price, so no rung change is justified.",
+        "confirmed_if": "BTC stays range-bound and fear_greed holds roughly 47-62 with funding remaining near flat",
+        "invalidated_if": "Price breaks down while CVD stays weak and netflow/skew remain extreme, or breaks up with 30d momentum and funding lifting together",
+        "predicted_phase_clamped_from": "Complacency",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
@@ -180,13 +215,16 @@
       "signal": "CAUTION",
       "confidence": 0.55,
       "next_move": {
-        "predicted_phase": "Disbelief",
+        "predicted_phase": "Hope",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Score sits in the Disbelief band with 30d momentum near 50 and no confirmed breaker; base rate favors coil continuation over forced direction.",
-        "brains_agree": "Yes on current phase Disbelief and non-directional stance; narrative too sparse to split on forward path",
-        "confirmed_if": "BTC holds range, 30d momentum stays near 50, fear/greed 50-65",
-        "invalidated_if": "Fear/greed breaks under 45 with funding negative and momentum rolling over, or momentum reclaims above 70 with ETF flows turning positive",
+        "reasoning": "Coil regime with flat funding, muted 30d momentum and unbroken downside stress supports no rung change; HOLD is the base-rate call.",
+        "brains_agree": "partial: both sit on Hope now, but analyst illegally jumped to Complacency while narrative offered no forward phase",
+        "confirmed_if": "BTC stays range-bound, fear_greed 47-62, funding near flat",
+        "invalidated_if": "Price breaks down with weak CVD and extreme netflow/skew, or breaks up with 30d momentum and funding rising together",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 88.0,
         "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -194,6 +232,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-19T07:57:32.640871-04:00",
+  "timestamp": "2026-10-19T09:01:59.318069-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
