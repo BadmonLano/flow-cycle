@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-18T23:09:37.919209-04:00",
+  "updated_at": "2026-10-19T00:23:23.085367-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days, the S&P 500 closes at least 3% above its highest close of the 20 sessions ending on the verdict date, and the share of S&P 500 members above their 50-day moving average is at least 8 percentage points higher than on the verdict date.",
-      "what_it_would_mean": "A breakout with broadening participation breaks the mini_top_2019_jun analog, so UNKNOWN/HOLD is wrong and the phase is an upside continuation, not an unresolved top."
+      "condition": "Primary equity index closes at least 4% above the high of the current pattern-match window within 14 days, and similarity to mini_top_2019_jun falls below 50%.",
+      "what_it_would_mean": "The June 2019 mini-top analog failed; upside continuation would make UNKNOWN/HOLD the wrong call."
     },
     {
       "id": 2,
-      "condition": "Within 14 days, the S&P 500 closes at least 4% below the verdict-date close and the VIX has at least one daily close at or above 22.",
-      "what_it_would_mean": "The mini-top analog has resolved into a real risk-off drawdown, so HOLD is the wrong signal and the verdict can no longer stay UNKNOWN."
+      "condition": "Primary equity index falls 6% or more from the latest close within 14 days and VIX closes above 30.",
+      "what_it_would_mean": "Phase is no longer unknown; a confirmed risk-off break means HOLD was too passive."
     },
     {
       "id": 3,
-      "condition": "Within 14 days, ICE BofA US High Yield OAS widens by at least 50 basis points from the verdict-date level, or the engine blowoff score prints at or above 75 or at or below 35.",
-      "what_it_would_mean": "Either credit stress or a decisive blowoff-score regime shift falsifies the moderate 55 blowoff read and the unresolved HOLD, forcing a directional phase call."
+      "condition": "Blowoff score prints at or above 75, or at or below 30, within 14 days.",
+      "what_it_would_mean": "The moderate 55 reading that supports an indeterminate hold is invalidated \u2014 either blowoff is confirmed or the blowoff thesis is dead."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
