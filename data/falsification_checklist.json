@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-19T10:13:30.286044-04:00",
+  "updated_at": "2026-10-19T13:30:48.635965-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4% above its current 20-day closing high within 14 days, and on that same close the NYSE cumulative advance-decline line is also at a new 20-day high",
-      "what_it_would_mean": "A breadth-confirmed upside breakout falsifies both the mini_top_2019_jun analog and UNKNOWN/HOLD: the phase was continuation, not an unresolved top."
+      "condition": "Within 14 days, the S&P 500 closes at least 3.0% above its close on the session this verdict was issued, prints a new 63-trading-day high on that close, and the VIX closes at or below 14 on the same day.",
+      "what_it_would_mean": "The 76% mini_top_2019_jun match and the indeterminate HOLD are false: price and vol resolved as a risk-on breakout, so UNKNOWN was the wrong call."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 6% below today's close within 14 days, with VIX closing above 28 on the same session",
-      "what_it_would_mean": "A volatility-confirmed drawdown falsifies UNKNOWN/HOLD: the 75% mini-top match was already a sell, and the phase was distribution rather than unknown."
+      "condition": "Within 14 days, the S&P 500 closes at least 4.0% below its close on the session this verdict was issued, and ICE BofA US High Yield OAS is at least 50 basis points wider than on that same session.",
+      "what_it_would_mean": "The mini-top analog has confirmed in equities and credit, so HOLD/UNKNOWN is invalidated; the correct signal was risk-off, not an unresolved hold."
     },
     {
       "id": 3,
-      "condition": "US 10-year Treasury yield moves at least 35 basis points from today's close within 14 days, and investment-grade credit OAS moves at least 15 basis points in the same risk direction over that window",
-      "what_it_would_mean": "A joint rates-and-credit regime break makes the macro phase identifiable, so UNKNOWN and a passive HOLD were the wrong call."
+      "condition": "Within 14 days, the US 10-year Treasury yield moves at least 30 basis points from its close on the session this verdict was issued (either direction) and the DXY moves at least 1.5% over that same window.",
+      "what_it_would_mean": "A rates-and-dollar regime break of that size resolves the macro uncertainty the UNKNOWN verdict depends on, so a non-committal HOLD is no longer defensible."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
