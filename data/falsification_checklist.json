@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-19T06:54:16.694367-04:00",
+  "updated_at": "2026-10-19T10:13:30.286044-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 calendar days, the S&P 500 cash index closes at least 4.0% above today's close on the same session that the Cboe VIX closes at or below 14.0.",
-      "what_it_would_mean": "A low-vol upside break resolves the tape as risk-on continuation, so UNKNOWN/HOLD and the mini_top_2019_jun analog are wrong."
+      "condition": "S&P 500 closes at least 4% above its current 20-day closing high within 14 days, and on that same close the NYSE cumulative advance-decline line is also at a new 20-day high",
+      "what_it_would_mean": "A breadth-confirmed upside breakout falsifies both the mini_top_2019_jun analog and UNKNOWN/HOLD: the phase was continuation, not an unresolved top."
     },
     {
       "id": 2,
-      "condition": "Within 14 calendar days, the S&P 500 cash index closes at least 6.0% below today's close on the same session that the Cboe VIX closes at or above 28.0.",
-      "what_it_would_mean": "The decline is a real risk-off break, not a June-2019-style mini-top, so HOLD understated downside and the verdict should not have stayed UNKNOWN."
+      "condition": "S&P 500 closes at least 6% below today's close within 14 days, with VIX closing above 28 on the same session",
+      "what_it_would_mean": "A volatility-confirmed drawdown falsifies UNKNOWN/HOLD: the 75% mini-top match was already a sell, and the phase was distribution rather than unknown."
     },
     {
       "id": 3,
-      "condition": "Within 14 calendar days, the ICE BofA US High Yield Index option-adjusted spread widens by 125 basis points or more from today's close.",
-      "what_it_would_mean": "Credit stress marks an acute regime break that a blowoff score of 55 and a HOLD signal failed to capture, invalidating the current call."
+      "condition": "US 10-year Treasury yield moves at least 35 basis points from today's close within 14 days, and investment-grade credit OAS moves at least 15 basis points in the same risk direction over that window",
+      "what_it_would_mean": "A joint rates-and-credit regime break makes the macro phase identifiable, so UNKNOWN and a passive HOLD were the wrong call."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
