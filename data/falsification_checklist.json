@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-18T20:52:36.478677-04:00",
+  "updated_at": "2026-10-18T23:09:37.919209-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index closes at least 3.0% above its verdict-date close and prints a new 63-session high, with VIX closing at or below 13.5 on the same session, within 14 calendar days",
-      "what_it_would_mean": "The mini_top_2019_jun analog and HOLD are wrong: price confirmed upside continuation rather than a stall or top, so UNKNOWN failed to name a risk-on breakout phase"
+      "condition": "Within 14 days, the S&P 500 closes at least 3% above its highest close of the 20 sessions ending on the verdict date, and the share of S&P 500 members above their 50-day moving average is at least 8 percentage points higher than on the verdict date.",
+      "what_it_would_mean": "A breakout with broadening participation breaks the mini_top_2019_jun analog, so UNKNOWN/HOLD is wrong and the phase is an upside continuation, not an unresolved top."
     },
     {
       "id": 2,
-      "condition": "S&P 500 cash index closes at least 5.0% below its verdict-date close and VIX closes at or above 25 on that same session, within 14 calendar days",
-      "what_it_would_mean": "A decisive risk-off regime was observable; UNKNOWN phase and HOLD are wrong because the tape resolved into a confirmed selloff the mini-top pattern should have called, not left unclassified"
+      "condition": "Within 14 days, the S&P 500 closes at least 4% below the verdict-date close and the VIX has at least one daily close at or above 22.",
+      "what_it_would_mean": "The mini-top analog has resolved into a real risk-off drawdown, so HOLD is the wrong signal and the verdict can no longer stay UNKNOWN."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS either tightens by 40 basis points or more, or widens by 75 basis points or more, versus the verdict-date official daily close, within 14 calendar days",
-      "what_it_would_mean": "Credit left the ambiguous band consistent with a 55 blowoff score and an unknown phase; tightening invalidates the caution embedded in HOLD, widening invalidates HOLD by requiring a named stress/risk-off call"
+      "condition": "Within 14 days, ICE BofA US High Yield OAS widens by at least 50 basis points from the verdict-date level, or the engine blowoff score prints at or above 75 or at or below 35.",
+      "what_it_would_mean": "Either credit stress or a decisive blowoff-score regime shift falsifies the moderate 55 blowoff read and the unresolved HOLD, forcing a directional phase call."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
