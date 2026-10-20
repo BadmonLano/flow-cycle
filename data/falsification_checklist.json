@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-19T20:03:35.417175-04:00",
+  "updated_at": "2026-10-19T23:18:56.218983-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at a new all-time high on at least 3 sessions within 14 days and finishes the window up more than 4%, while the VIX closes below 14 on the final session",
-      "what_it_would_mean": "The mini-top analog and HOLD are wrong: price and volatility resolved into confirmed risk-on continuation, so phase is no longer unknown"
+      "condition": "Within 14 days, the S&P 500 cash index closes at least 4% below its lowest close of the prior 20 sessions on the same day the VIX closes above 25.",
+      "what_it_would_mean": "A fresh equity low with a fear spike breaks the bottom_2024_aug analogue and shows the HOLD/UNKNOWN call missed an active risk-off breakdown."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes more than 6% below its level at the start of the 14-day window and the VIX closes above 28 on the same day",
-      "what_it_would_mean": "The unknown/HOLD call is wrong: the tape resolved into a clear risk-off break rather than an unresolved mini-top stall"
+      "condition": "Within 14 days, the S&P 500 cash index closes at least 6% above its highest close of the prior 20 sessions while the NYSE cumulative advance-decline line makes a new 20-session high.",
+      "what_it_would_mean": "A breadth-confirmed upside break resolves the tape bullishly, so an unresolved HOLD/UNKNOWN verdict is no longer tenable."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS moves by more than 75 basis points in either direction versus the start of the window (widen or tighten) within 14 days",
-      "what_it_would_mean": "Credit no longer confirms an ambiguous hold: a move that large forces a directional regime call and breaks the 76% mini_top_2019_jun stalemate"
+      "condition": "Within 14 days, ICE BofA US High Yield OAS widens by 75 basis points or more from the window's starting level, or the engine blowoff score prints at or above 70.",
+      "what_it_would_mean": "Either credit stress or a melt-up acceleration invalidates the moderate blowoff reading of 39 and the stable unknown/hold regime."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
