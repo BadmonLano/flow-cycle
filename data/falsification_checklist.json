@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-20T12:22:09.990540-04:00",
+  "updated_at": "2026-10-20T15:38:59.457588-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Blowoff score closes at or above 70 on any session within 14 days",
-      "what_it_would_mean": "A blowoff regime above 70 contradicts the moderate 39 reading and the bottom_2024_aug analog, so HOLD/UNKNOWN would be the wrong regime call"
+      "condition": "S&P 500 total return is at least +7% versus the verdict-day close within 14 calendar days, and VIX closes at or below 15 on the final session of that window.",
+      "what_it_would_mean": "The bottom_2024_aug analog resolved into a confirmed risk-on rebound. HOLD/UNKNOWN would be wrong because the path was directional enough to require a long/risk-on call."
     },
     {
       "id": 2,
-      "condition": "Pattern match to bottom_2024_aug falls below 40% and the tracked equity index closes at a new 60-day low",
-      "what_it_would_mean": "The 76% bottom similarity would be invalidated and the tape would be a breakdown, not an unresolved hold"
+      "condition": "S&P 500 total return is -7% or worse versus the verdict-day close within 14 calendar days, and ICE BofA US High Yield OAS widens by at least 50 basis points versus the verdict-day close.",
+      "what_it_would_mean": "Price and credit stress extended instead of basing. The 75% match to bottom_2024_aug and the HOLD would be invalidated; the correct call would have been risk-off."
     },
     {
       "id": 3,
-      "condition": "Tracked equity index closes more than 6% above today's close and above its prior 50-day high, with VIX closing below 14",
-      "what_it_would_mean": "Uncertainty would have resolved into a confirmed upside breakout, so HOLD/UNKNOWN would have been the wrong signal"
+      "condition": "VIX closes at or above 30 on at least two sessions in the next 14 calendar days, and the 10-year Treasury yield moves at least 30 basis points from the verdict-day close in either direction.",
+      "what_it_would_mean": "A named vol-and-rates regime break occurred. Phase could no longer stay Unknown and signal could no longer stay HOLD; blowoff score 39 would also be inconsistent with that stress impulse."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
