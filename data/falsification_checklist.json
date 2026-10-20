@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-20T09:05:12.491442-04:00",
+  "updated_at": "2026-10-20T12:22:09.990540-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index closes at least 4% below its lowest close of the prior 20 sessions within the next 14 days",
-      "what_it_would_mean": "The bottom_2024_aug analog failed: that template stabilized and reversed rather than breaking to a fresh swing low, so a HOLD on an unresolved bottom-like setup is wrong and the tape has resolved risk-off"
+      "condition": "Blowoff score closes at or above 70 on any session within 14 days",
+      "what_it_would_mean": "A blowoff regime above 70 contradicts the moderate 39 reading and the bottom_2024_aug analog, so HOLD/UNKNOWN would be the wrong regime call"
     },
     {
       "id": 2,
-      "condition": "VIX closes above 28 on any session in the next 14 days and high-yield OAS widens by 40 bps or more versus today's level",
-      "what_it_would_mean": "Stress has already repriced beyond the contained August 2024 bottom path, so UNKNOWN/HOLD is invalidated: the regime is an active risk event, not a watch-and-wait bottom analog"
+      "condition": "Pattern match to bottom_2024_aug falls below 40% and the tracked equity index closes at a new 60-day low",
+      "what_it_would_mean": "The 76% bottom similarity would be invalidated and the tape would be a breakdown, not an unresolved hold"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 65 and the S&P 500 closes at a new 52-week high within the next 14 days",
-      "what_it_would_mean": "Price and the blowoff metric resolved as continuation/blowoff, not a 76% match to bottom_2024_aug, so both the pattern match and the HOLD are false"
+      "condition": "Tracked equity index closes more than 6% above today's close and above its prior 50-day high, with VIX closing below 14",
+      "what_it_would_mean": "Uncertainty would have resolved into a confirmed upside breakout, so HOLD/UNKNOWN would have been the wrong signal"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
