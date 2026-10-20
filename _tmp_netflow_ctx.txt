@@ -1,0 +1,24 @@
+ange_reserves != null) {
+        const d7 = data.btc_exchange_reserves_chg_7d;
+        setv('btcReserves',
+          Math.round(data.btc_exchange_reserves).toLocaleString() +
+            (d7 != null ? '  ·  ' + (d7 >= 0 ? '+' : '') + Math.round(d7) + ' 7d' : ''),
+          d7 == null ? '' : d7 > 0 ? 'down' : d7 < 0 ? 'up' : '',
+          (data.btc_exchange_reserves_read || '') +
+            (data.exchange_netflow_24h_usd != null
+              ? '  |  all-asset USD flow 24h: ' +
+                (data.exchange_netflow_24h_usd >= 0 ? '+' : '') +
+                Math.round(data.exchange_netflow_24h_usd / 1e6) + 'M'
+              : ''));
+      }
+    })();
+
+    if (data.brain_consensus) {
+      const bc = data.brain_consensus;
+      document.getElementById('brainHeadline').textContent = publicCardText(bc.headline, 'Awaiting a front-page read');
+      document.getElementById('brainNarrative').textContent = publicCardText(bc.narrative, '');
+      const tEl = document.getElementById('brainTier');
+      tEl.textContent = bc.alert_tier || 'LOW';
+      tEl.className = 'tier-badge ' + (bc.alert_tier || 'low').toLowerCase();
+      const br = bc.brain_reads || {};
+      const setRead = (id, metaI

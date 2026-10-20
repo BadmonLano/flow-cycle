@@ -1,0 +1,53 @@
+t a headline and not news.
+// Lano 2026-10-14: that text never renders on the public card.
+function isInternalNotPublic(text) {
+  const s = String(text || '').toLowerCase().replace(/_/g, ' ');
+  if (!s.trim()) return true;
+  const status = [
+    'tape is unchanged', 'tape unchanged', 'tape did not move',
+    'tape has not moved', 'nothing new moved', 'nothing moved',
+    'no change on the tape', 'the tape did not'
+  ];
+  if (status.some(p => s.includes(p))) return true;
+  const bare = s.replace(/[^a-z ]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (['unchanged', 'the tape is unchanged', 'tape unchanged', 'no change'].includes(bare)) return true;
+  const desk = [
+    'no size', 'size add', 'dies if', 'not the entry', 'down micro',
+    'is the upgrade', 'reclaims and holds', 'no size-up', 'no size up'
+  ];
+  if (desk.some(p => s.includes(p))) return true;
+  if (/\b8\d{4}\b/.test(s)) return true;
+  return false;
+}
+window.isInternalNotPublic = isInternalNotPublic;
+function publicCardText(text, fallback) {
+  const t = text == null ? '' : String(text);
+  if (!t.trim() || isInternalNotPublic(t)) return fallback;
+  return t;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA FETCHERS - Direct from CoinGecko / alternative.me for realtime prices
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchNews() {
+  try {
+    const res = await fetch('data/editorial_calls.json?t=' + Date.now());
+    if (!res.ok) throw new Error('no file');
+    const d = await res.json();
+    const calls = (d && d.calls) || {};
+    const nr = calls.news_read;
+    const items = nr && (nr.value || nr);
+    // When curation is cleared or absent the rail said "awaiting" and showed
+    // nothing, which is honest but useless - and it made clearing feel worse than
+    // leaving stale lines up. The mechanical draft (built from signal_contracts,
+    // the venue of record) fills that space as a CLEARLY LABELLED backstop.
+    //
+    // label, and no cause→effect framing, because the effect line IS the curation.
+    const draft = d.mechanical_draft;
+    const drawDraft = (why) => {
+      if (!draft || !(draft.items || []).length) return '';
+      return `<div style="margin-top:8px;padding:7px;border-radius:4px;
+                  background:rgba(107,122,144,0.10);border-left:2px solid #6b7a90;">
+        <div style="font-size:0.62em;color:#6b7a90;letter-spacing:0.08em;text-transform:uppercase;">
+          machine draft · not Jordan's read${why ? ' · ' + why : ''}</div>
+        ${draft.items.map(i => `<div style="font-siz
