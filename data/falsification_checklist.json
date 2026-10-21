@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-21T03:57:33.325410-04:00",
+  "updated_at": "2026-10-21T07:13:07.005455-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days the S&P 500 closes at least 4.0% below its highest close of the prior 20 sessions and also closes below its 50-day moving average.",
-      "what_it_would_mean": "The mini-top analogue resolved into a completed breakdown, so UNKNOWN/HOLD was wrong: the phase was a topping reversal and the correct signal was risk-off, not flat."
+      "condition": "S&P 500 closes at least 3.0% above its level on the verdict date and finishes the 14-day window at a new 20-day high, with NYSE advancing issues exceeding declining issues on at least 8 of those 14 sessions.",
+      "what_it_would_mean": "A held breakout with confirming breadth invalidates both HOLD and the mini_top_2019_jun analogue: price resolved into continuation, not an unresolved top."
     },
     {
       "id": 2,
-      "condition": "Within 14 days the S&P 500 closes at a new 63-day high on the same day the NYSE cumulative advance-decline line closes at a 63-day high and spot VIX closes below 14.",
-      "what_it_would_mean": "The 76% match to mini_top_2019_jun is invalidated by confirmed upside continuation, so UNKNOWN/HOLD was wrong: the regime was risk-on, not an unresolved top."
+      "condition": "S&P 500 closes 6.0% or more below its level on the verdict date at any point in the next 14 days, with VIX closing above 25 on the same session.",
+      "what_it_would_mean": "A drawdown of that size with a volatility spike exceeds a June-2019-style mini-top pause and invalidates HOLD; the correct call would have been risk-off, not unknown."
     },
     {
       "id": 3,
-      "condition": "Within 14 days spot VIX closes above VIX3M on at least two sessions and ICE BofA US High Yield OAS widens by 50 basis points or more from its level on the verdict date.",
-      "what_it_would_mean": "Cross-asset stress has named the regime, so UNKNOWN is falsified and HOLD was wrong because de-risking, not a flat stance, was required."
+      "condition": "Pattern similarity to mini_top_2019_jun falls below 50% and the blowoff score moves outside 40-70 (either below 40 or above 70) before day 14, while the engine still has no phase label other than Unknown.",
+      "what_it_would_mean": "The quantitative basis for the current caution has broken and a phase should have been assigned; remaining UNKNOWN/HOLD after that shift proves the verdict failed to update."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
