@@ -1,95 +1,98 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "etf_flows"
     ],
     "diverging_factors": [
       "vix",
       "btc_momentum_30d",
+      "funding",
       "gold_strength",
-      "funding"
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.6,
+    "confidence": 0.58,
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, funding 51), so the rung does not move; the distribution cluster (CVD 17, skew 100, netflow 100, dead ETF flows, retail sentiment 86 with velocity 18) is a risk, not a breaker, and a coil that breaks \u00b12pts in only 29% of windows does not justify forcing a rung change.",
-      "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-      "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+      "reasoning": "Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d change 0%, momentum 50, funding flat \u2014 and the downside cluster (exchange netflow 100, CVD 15, options skew 100, gold 80) has not broken price or the calm VIX 16.7, so a rung change is a forced guess this window does not support.",
+      "confirmed_if": "BTC stays range-bound with 30d momentum held in the 40-60 band and fear_greed remaining roughly 55-72",
+      "invalidated_if": "Momentum breaks under 35 and fear_greed falls through 50 while exchange inflows stay extreme (down to Disbelief), or momentum reclaims above 70 with funding positive and CVD recovering (up to Optimism)",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.6,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, fund",
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"etf_flows\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"funding\", \"gold_strength\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d chang",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "etf_flows"
     ],
     "diverging_factors": [
       "vix",
       "btc_momentum_30d",
+      "funding",
       "gold_strength",
-      "funding"
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.6,
+    "confidence": 0.58,
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, funding 51), so the rung does not move; the distribution cluster (CVD 17, skew 100, netflow 100, dead ETF flows, retail sentiment 86 with velocity 18) is a risk, not a breaker, and a coil that breaks \u00b12pts in only 29% of windows does not justify forcing a rung change.",
-      "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-      "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+      "reasoning": "Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d change 0%, momentum 50, funding flat \u2014 and the downside cluster (exchange netflow 100, CVD 15, options skew 100, gold 80) has not broken price or the calm VIX 16.7, so a rung change is a forced guess this window does not support.",
+      "confirmed_if": "BTC stays range-bound with 30d momentum held in the 40-60 band and fear_greed remaining roughly 55-72",
+      "invalidated_if": "Momentum breaks under 35 and fear_greed falls through 50 while exchange inflows stay extreme (down to Disbelief), or momentum reclaims above 70 with funding positive and CVD recovering (up to Optimism)",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.6,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, fund",
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"etf_flows\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"funding\", \"gold_strength\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d chang",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "etf_flows"
     ],
     "diverging_factors": [
       "vix",
       "btc_momentum_30d",
+      "funding",
       "gold_strength",
-      "funding"
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
     "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.6,
+    "confidence": 0.58,
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, funding 51), so the rung does not move; the distribution cluster (CVD 17, skew 100, netflow 100, dead ETF flows, retail sentiment 86 with velocity 18) is a risk, not a breaker, and a coil that breaks \u00b12pts in only 29% of windows does not justify forcing a rung change.",
-      "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-      "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+      "reasoning": "Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d change 0%, momentum 50, funding flat \u2014 and the downside cluster (exchange netflow 100, CVD 15, options skew 100, gold 80) has not broken price or the calm VIX 16.7, so a rung change is a forced guess this window does not support.",
+      "confirmed_if": "BTC stays range-bound with 30d momentum held in the 40-60 band and fear_greed remaining roughly 55-72",
+      "invalidated_if": "Momentum breaks under 35 and fear_greed falls through 50 while exchange inflows stay extreme (down to Disbelief), or momentum reclaims above 70 with funding positive and CVD recovering (up to Optimism)",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"gold_strength\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.6,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, fund",
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"etf_flows\"],\n  \"diverging_factors\": [\"vix\", \"btc_momentum_30d\", \"funding\", \"gold_strength\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d chang",
     "brain": "analyst"
   },
   "narrative": {
@@ -104,41 +107,42 @@
     "final_signal": "CAUTION",
     "final_phase": "Hope",
     "alert_tier": "MED",
-    "consensus_confidence": 0.65,
-    "key_reasoning": "F&G 68 anchors the Hope band with a flat coil leg; the 75.5% mini-top analog plus dead ETF flows, weak CVD, and session lows support CAUTION without a rung change. Analyst HOLD is the skilled default given only 29% of windows break \u00b12pts.",
+    "consensus_confidence": 0.62,
+    "key_reasoning": "Analyst (higher trust) places emotion in Hope with a sideways coil and CAUTION amid diverging downside factors that have not yet broken price; narrative confirms a failed 84k hold and complex-wide fade with OI washout, reinforcing caution without a clean regime break. 75% mini-top analog is notable but not actionable enough for REDUCE given flat 30d momentum and calm VIX.",
     "disagreements_noted": [
-      "Narrative stresses immediate spot decline to session lows and OI flush across BTC/ETH/SOL; Analyst holds Hope/SIDEWAYS coil with medium-conviction HOLD and treats distribution as risk not breaker"
+      "Analyst frames a coil/HOLD inside Hope with medium conviction; narrative emphasizes session-low breakdown and deleveraging without an explicit forward phase call",
+      "Pattern match labels BLOWOFF_TOP while live tape still shows range-bound 30d change and untriggered downside cluster"
     ],
     "next_move": {
       "predicted_phase": "Hope",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score remains inside Hope (63-70) with flat 30d momentum and coil base rate; distribution cluster is a risk flag, not yet a confirmed breaker to Disbelief or Optimism.",
-      "brains_agree": "partial \u2014 Analyst explicit Hope/HOLD; Narrative bearish on session tape without a formal forward phase call",
-      "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-      "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+      "reasoning": "Score sits in Hope with a documented coil (0% 30d, flat funding, VIX 16.7); base rate favors HOLD until momentum or fear_greed actually breaks the stated bands.",
+      "brains_agree": "Partial \u2014 analyst explicitly HOLD/Hope; narrative bearish on the print but does not force a rung change, so consensus stays HOLD",
+      "confirmed_if": "BTC remains range-bound, 30d momentum holds 40-60, fear_greed stays ~55-72",
+      "invalidated_if": "Momentum <35 and fear_greed <50 with persistent exchange inflows (down to Disbelief), or momentum >70 with positive funding and CVD recovery (up to Optimism)",
       "direction_geometry_would_be": "UP",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 87.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.65,\n  \"key_reasoning\": \"F&G 68 anchors the Hope band with a flat coil leg; the 75.5% mini-top analog plus dead ETF flows, weak CVD, and session lows support CAUTION without a rung change. Analyst HOLD is the skilled default given only 29% of windows break \u00b12pts.\",\n  \"disagreements_noted\": [\n    \"Narrative stresses immediate spot decline to session lows and OI flush across BTC/ETH/SOL; Analy",
+    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.62,\n  \"key_reasoning\": \"Analyst (higher trust) places emotion in Hope with a sideways coil and CAUTION amid diverging downside factors that have not yet broken price; narrative confirms a failed 84k hold and complex-wide fade with OI washout, reinforcing caution without a clean regime break. 75% mini-top analog is notable but not actionable enough for REDUCE given flat 30d momentum and calm",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.65,
+    "brains_avg_confidence": 0.64,
     "brain_reads": {
       "analyst": {
         "signal": "CAUTION",
         "phase": "Hope",
         "verdict": "DIVERGING",
-        "confidence": 0.6,
+        "confidence": 0.58,
         "next_move": {
           "predicted_phase": "Hope",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, funding 51), so the rung does not move; the distribution cluster (CVD 17, skew 100, netflow 100, dead ETF flows, retail sentiment 86 with velocity 18) is a risk, not a breaker, and a coil that breaks \u00b12pts in only 29% of windows does not justify forcing a rung change.",
-          "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-          "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+          "reasoning": "Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d change 0%, momentum 50, funding flat \u2014 and the downside cluster (exchange netflow 100, CVD 15, options skew 100, gold 80) has not broken price or the calm VIX 16.7, so a rung change is a forced guess this window does not support.",
+          "confirmed_if": "BTC stays range-bound with 30d momentum held in the 40-60 band and fear_greed remaining roughly 55-72",
+          "invalidated_if": "Momentum breaks under 35 and fear_greed falls through 50 while exchange inflows stay extreme (down to Disbelief), or momentum reclaims above 70 with funding positive and CVD recovering (up to Optimism)",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
@@ -153,15 +157,15 @@
       "judge": {
         "signal": "CAUTION",
         "phase": "Hope",
-        "confidence": 0.65,
+        "confidence": 0.62,
         "next_move": {
           "predicted_phase": "Hope",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Score remains inside Hope (63-70) with flat 30d momentum and coil base rate; distribution cluster is a risk flag, not yet a confirmed breaker to Disbelief or Optimism.",
-          "brains_agree": "partial \u2014 Analyst explicit Hope/HOLD; Narrative bearish on session tape without a formal forward phase call",
-          "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-          "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+          "reasoning": "Score sits in Hope with a documented coil (0% 30d, flat funding, VIX 16.7); base rate favors HOLD until momentum or fear_greed actually breaks the stated bands.",
+          "brains_agree": "Partial \u2014 analyst explicitly HOLD/Hope; narrative bearish on the print but does not force a rung change, so consensus stays HOLD",
+          "confirmed_if": "BTC remains range-bound, 30d momentum holds 40-60, fear_greed stays ~55-72",
+          "invalidated_if": "Momentum <35 and fear_greed <50 with persistent exchange inflows (down to Disbelief), or momentum >70 with positive funding and CVD recovery (up to Optimism)",
           "direction_geometry_would_be": "UP",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
@@ -182,14 +186,14 @@
   "brain_reads": {
     "analyst": {
       "phase": "Hope",
-      "confidence": 0.6,
+      "confidence": 0.58,
       "next_move": {
         "predicted_phase": "Hope",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "F&G 68 sits inside the Hope band (63-70) and the leg is flat (30d 0%, momentum 50, funding 51), so the rung does not move; the distribution cluster (CVD 17, skew 100, netflow 100, dead ETF flows, retail sentiment 86 with velocity 18) is a risk, not a breaker, and a coil that breaks \u00b12pts in only 29% of windows does not justify forcing a rung change.",
-        "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-        "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+        "reasoning": "Emotion sits in Hope (fear_greed 68) but the tape is a coil \u2014 30d change 0%, momentum 50, funding flat \u2014 and the downside cluster (exchange netflow 100, CVD 15, options skew 100, gold 80) has not broken price or the calm VIX 16.7, so a rung change is a forced guess this window does not support.",
+        "confirmed_if": "BTC stays range-bound with 30d momentum held in the 40-60 band and fear_greed remaining roughly 55-72",
+        "invalidated_if": "Momentum breaks under 35 and fear_greed falls through 50 while exchange inflows stay extreme (down to Disbelief), or momentum reclaims above 70 with funding positive and CVD recovering (up to Optimism)",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
@@ -202,15 +206,15 @@
     },
     "judge": {
       "signal": "CAUTION",
-      "confidence": 0.65,
+      "confidence": 0.62,
       "next_move": {
         "predicted_phase": "Hope",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Score remains inside Hope (63-70) with flat 30d momentum and coil base rate; distribution cluster is a risk flag, not yet a confirmed breaker to Disbelief or Optimism.",
-        "brains_agree": "partial \u2014 Analyst explicit Hope/HOLD; Narrative bearish on session tape without a formal forward phase call",
-        "confirmed_if": "30d momentum stays 40-60 and F&G holds 60-75 with CVD and ETF flows still dead",
-        "invalidated_if": "momentum lifts above 65 with CVD and ETF flows turning up (Optimism) or momentum drops below 40 and F&G breaks under 55 (Disbelief)",
+        "reasoning": "Score sits in Hope with a documented coil (0% 30d, flat funding, VIX 16.7); base rate favors HOLD until momentum or fear_greed actually breaks the stated bands.",
+        "brains_agree": "Partial \u2014 analyst explicitly HOLD/Hope; narrative bearish on the print but does not force a rung change, so consensus stays HOLD",
+        "confirmed_if": "BTC remains range-bound, 30d momentum holds 40-60, fear_greed stays ~55-72",
+        "invalidated_if": "Momentum <35 and fear_greed <50 with persistent exchange inflows (down to Disbelief), or momentum >70 with positive funding and CVD recovery (up to Optimism)",
         "direction_geometry_would_be": "UP",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
@@ -221,6 +225,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-22T00:34:21.670856-04:00",
+  "timestamp": "2026-10-22T01:40:26.037535-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
