@@ -1,162 +1,174 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "btc_momentum_30d",
       "vix",
-      "funding"
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
-    "regime_direction": "RISK_OFF",
+    "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.52,
+    "confidence": 0.58,
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
-      "conviction": "low",
-      "reasoning": "Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~52 in the 47-54 band), but the breaker is supply hitting exchanges (netflow 92, reserves 97) with CVD at 6 and 30d momentum only 39 \u2014 distribution under still-greedy sentiment, not a confirmed impulse, so the lean is one rung down and nothing further.",
-      "confirmed_if": "BTC loses the recent range and Fear & Greed slips under 55 while exchange netflow stays elevated and CVD remains suppressed",
-      "invalidated_if": "CVD reverses toward neutral-positive, spot ETF flows turn up, and BTC reclaims the 30-day high \u2014 a squeeze that holds Complacency or lifts it",
-      "predicted_phase_clamped_from": "Anxiety"
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h windows move the score \u00b12), while the June 2019 thrill thrust is absent (momentum 39 vs 85, funding negative, MVRV 29) \u2014 CVD 8, exchange netflow 90 and maxed retail/skew are risk flags, not a confirmed rung break.",
+      "confirmed_if": "Fear & Greed holds roughly 60-72 and BTC stays range-bound without a funding or 30d-momentum thrust",
+      "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD still suppressed (down to Disbelief), or funding flips firmly positive with Fear & Greed above ~75 and momentum reclaims (up to Optimism)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"vix\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"DOWN\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~5",
-    "brain": "analyst",
-    "phase_clamped_from": "Complacency"
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"vix\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h",
+    "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "btc_momentum_30d",
       "vix",
-      "funding"
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
-    "regime_direction": "RISK_OFF",
+    "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.52,
+    "confidence": 0.58,
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
-      "conviction": "low",
-      "reasoning": "Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~52 in the 47-54 band), but the breaker is supply hitting exchanges (netflow 92, reserves 97) with CVD at 6 and 30d momentum only 39 \u2014 distribution under still-greedy sentiment, not a confirmed impulse, so the lean is one rung down and nothing further.",
-      "confirmed_if": "BTC loses the recent range and Fear & Greed slips under 55 while exchange netflow stays elevated and CVD remains suppressed",
-      "invalidated_if": "CVD reverses toward neutral-positive, spot ETF flows turn up, and BTC reclaims the 30-day high \u2014 a squeeze that holds Complacency or lifts it",
-      "predicted_phase_clamped_from": "Anxiety"
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h windows move the score \u00b12), while the June 2019 thrill thrust is absent (momentum 39 vs 85, funding negative, MVRV 29) \u2014 CVD 8, exchange netflow 90 and maxed retail/skew are risk flags, not a confirmed rung break.",
+      "confirmed_if": "Fear & Greed holds roughly 60-72 and BTC stays range-bound without a funding or 30d-momentum thrust",
+      "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD still suppressed (down to Disbelief), or funding flips firmly positive with Fear & Greed above ~75 and momentum reclaims (up to Optimism)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"vix\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"DOWN\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~5",
-    "brain": "analyst",
-    "phase_clamped_from": "Complacency"
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"vix\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h",
+    "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
-      "etf_flows",
+      "fear_greed",
       "btc_dom_fade",
-      "fear_greed"
+      "dxy_weakness"
     ],
     "diverging_factors": [
       "btc_momentum_30d",
       "vix",
-      "funding"
+      "funding",
+      "mvrv_zscore"
     ],
     "oracle_verdict": "DIVERGING",
     "phase": "Hope",
-    "regime_direction": "RISK_OFF",
+    "regime_direction": "SIDEWAYS",
     "classifier_signal": "CAUTION",
-    "confidence": 0.52,
+    "confidence": 0.58,
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
-      "conviction": "low",
-      "reasoning": "Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~52 in the 47-54 band), but the breaker is supply hitting exchanges (netflow 92, reserves 97) with CVD at 6 and 30d momentum only 39 \u2014 distribution under still-greedy sentiment, not a confirmed impulse, so the lean is one rung down and nothing further.",
-      "confirmed_if": "BTC loses the recent range and Fear & Greed slips under 55 while exchange netflow stays elevated and CVD remains suppressed",
-      "invalidated_if": "CVD reverses toward neutral-positive, spot ETF flows turn up, and BTC reclaims the 30-day high \u2014 a squeeze that holds Complacency or lifts it",
-      "predicted_phase_clamped_from": "Anxiety"
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h windows move the score \u00b12), while the June 2019 thrill thrust is absent (momentum 39 vs 85, funding negative, MVRV 29) \u2014 CVD 8, exchange netflow 90 and maxed retail/skew are risk flags, not a confirmed rung break.",
+      "confirmed_if": "Fear & Greed holds roughly 60-72 and BTC stays range-bound without a funding or 30d-momentum thrust",
+      "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD still suppressed (down to Disbelief), or funding flips firmly positive with Fear & Greed above ~75 and momentum reclaims (up to Optimism)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"etf_flows\", \"btc_dom_fade\", \"fear_greed\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"vix\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.52,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"DOWN\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~5",
-    "brain": "analyst",
-    "phase_clamped_from": "Complacency"
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_dom_fade\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"vix\", \"funding\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Hope\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h",
+    "brain": "analyst"
   },
   "narrative": {
     "headline": "Nasdaq Falls To 25,968.07 From 26,058.7 As The VIX Rises To 19.78 From 18.99",
     "narrative": "The Nasdaq fell to 25,968.07 from 26,058.7, and the S&P 500 fell to 7,647.08 from 7,660.71, widening its loss to 1.42 percent from 1.24 percent. The VIX rose to 19.78 from 18.99. The equity pipe is the cash mark on listed stock prices, and the VIX pipe is the price of protection on those indexes, so stock prices were marked down while hedges were marked up.",
     "author": "jordan",
-    "voice": "newsroom",
     "brain": "jordan",
     "jordan_written_at": "2026-10-22T15:21:26-04:00",
     "confidence": 0.7
   },
   "consensus": {
     "final_signal": "CAUTION",
-    "final_phase": "Complacency",
+    "final_phase": "Hope",
     "alert_tier": "MED",
-    "consensus_confidence": 0.58,
-    "key_reasoning": "Score ~52 anchors Complacency; exchange intake surge (Binance/Bitget led) plus 74.4% mini_top_2019_jun match confirm distribution under still-elevated sentiment, not a fresh impulse. Analyst correctly leans one rung down to Anxiety with low conviction while surface greed masks supply.",
+    "consensus_confidence": 0.61,
+    "key_reasoning": "Score 68 anchors Hope with only \u00b11 legal adjacency; coil base rate (29% break) plus diverging momentum/funding/MVRV keep the live call as CAUTION/HOLD, not a rung break. 74.4% mini-top analog and equity/VIX weakness are risk flags, not confirmation of Thrill or a directional thrust.",
     "disagreements_noted": [
-      "Analyst labeled current phase Hope (illegal vs score ~52 Complacency band); corrected to Complacency per \u00b11 rung rule",
-      "Narrative supplies flow facts only (no explicit phase/signal); aligns with analyst distribution thesis but does not independently call forward phase"
+      "Analyst: Hope/SIDEWAYS coil with CAUTION and HOLD forward",
+      "Narrative: equities marked down and VIX bid (near-term risk-off tone) without an explicit phase/signal",
+      "Pattern match labels BLOWOFF_TOP while live factors (momentum 39, negative funding, MVRV 29) explicitly lack the 2019 thrust"
     ],
     "next_move": {
       "predicted_phase": "Hope",
-      "direction": "UP",
-      "conviction": "low",
-      "reasoning": "Net exchange intake rising with suppressed CVD and soft 30d momentum under greedy F&G is classic distribution into Complacency, so the skilled lean is one rung down only.",
-      "brains_agree": "Partial agree: both flag supply/intake risk; analyst explicitly calls Anxiety/DOWN low-conviction, narrative is silent on phase so no full lock",
-      "confirmed_if": "BTC loses recent range, Fear & Greed slips under 55, exchange netflow stays elevated and CVD remains suppressed",
-      "invalidated_if": "CVD turns neutral-positive, spot ETF flows reverse up, and BTC reclaims the 30-day high holding Complacency or lifting it",
-      "predicted_phase_clamped_from": "Anxiety",
-      "confidence_pct": 76.0,
-      "confidence_basis": "1/1 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.3/1.0"
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Coil statistics and absent thrust factors make HOLD the graded call; stay in Hope until Fear & Greed or momentum actually breaks the band.",
+      "brains_agree": "Partial \u2014 both cautionary (analyst explicit CAUTION/HOLD; narrative describes Nasdaq weakness/VIX rise) but narrative does not affirm Hope phase or coil HOLD",
+      "confirmed_if": "Fear & Greed holds ~60-72 and BTC remains range-bound without funding or 30d-momentum thrust",
+      "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD suppressed (to Disbelief), or funding flips positive with Fear & Greed above ~75 and momentum reclaim (to Optimism)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+      "confidence_pct": 85.0,
+      "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Complacency\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Score ~52 anchors Complacency; exchange intake surge (Binance/Bitget led) plus 74.4% mini_top_2019_jun match confirm distribution under still-elevated sentiment, not a fresh impulse. Analyst correctly leans one rung down to Anxiety with low conviction while surface greed masks supply.\",\n  \"disagreements_noted\": [\n    \"Analyst labeled current phase Hope (illega",
+    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Hope\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.61,\n  \"key_reasoning\": \"Score 68 anchors Hope with only \u00b11 legal adjacency; coil base rate (29% break) plus diverging momentum/funding/MVRV keep the live call as CAUTION/HOLD, not a rung break. 74.4% mini-top analog and equity/VIX weakness are risk flags, not confirmation of Thrill or a directional thrust.\",\n  \"disagreements_noted\": [\n    \"Analyst: Hope/SIDEWAYS coil with CAUTION and HOLD f",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.61,
+    "brains_avg_confidence": 0.64,
     "brain_reads": {
       "analyst": {
         "signal": "CAUTION",
         "phase": "Hope",
         "verdict": "DIVERGING",
-        "confidence": 0.52,
+        "confidence": 0.58,
         "next_move": {
           "predicted_phase": "Hope",
-          "direction": "UP",
-          "conviction": "low",
-          "reasoning": "Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~52 in the 47-54 band), but the breaker is supply hitting exchanges (netflow 92, reserves 97) with CVD at 6 and 30d momentum only 39 \u2014 distribution under still-greedy sentiment, not a confirmed impulse, so the lean is one rung down and nothing further.",
-          "confirmed_if": "BTC loses the recent range and Fear & Greed slips under 55 while exchange netflow stays elevated and CVD remains suppressed",
-          "invalidated_if": "CVD reverses toward neutral-positive, spot ETF flows turn up, and BTC reclaims the 30-day high \u2014 a squeeze that holds Complacency or lifts it",
-          "predicted_phase_clamped_from": "Anxiety"
+          "direction": "HOLD",
+          "conviction": "medium",
+          "reasoning": "Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h windows move the score \u00b12), while the June 2019 thrill thrust is absent (momentum 39 vs 85, funding negative, MVRV 29) \u2014 CVD 8, exchange netflow 90 and maxed retail/skew are risk flags, not a confirmed rung break.",
+          "confirmed_if": "Fear & Greed holds roughly 60-72 and BTC stays range-bound without a funding or 30d-momentum thrust",
+          "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD still suppressed (down to Disbelief), or funding flips firmly positive with Fear & Greed above ~75 and momentum reclaims (up to Optimism)",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
         "headline": "Nasdaq Falls To 25,968.07 From 26,058.7 As The VIX Rises To 19.78 From 18.99",
-        "phase": "Complacency",
+        "phase": "Hope",
         "confidence": 0.7,
         "next_move": null
       },
       "judge": {
         "signal": "CAUTION",
-        "phase": "Complacency",
-        "confidence": 0.58,
+        "phase": "Hope",
+        "confidence": 0.61,
         "next_move": {
           "predicted_phase": "Hope",
-          "direction": "UP",
-          "conviction": "low",
-          "reasoning": "Net exchange intake rising with suppressed CVD and soft 30d momentum under greedy F&G is classic distribution into Complacency, so the skilled lean is one rung down only.",
-          "brains_agree": "Partial agree: both flag supply/intake risk; analyst explicitly calls Anxiety/DOWN low-conviction, narrative is silent on phase so no full lock",
-          "confirmed_if": "BTC loses recent range, Fear & Greed slips under 55, exchange netflow stays elevated and CVD remains suppressed",
-          "invalidated_if": "CVD turns neutral-positive, spot ETF flows reverse up, and BTC reclaims the 30-day high holding Complacency or lifting it",
-          "predicted_phase_clamped_from": "Anxiety",
-          "confidence_pct": 76.0,
-          "confidence_basis": "1/1 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.3/1.0"
+          "direction": "HOLD",
+          "conviction": "medium",
+          "reasoning": "Coil statistics and absent thrust factors make HOLD the graded call; stay in Hope until Fear & Greed or momentum actually breaks the band.",
+          "brains_agree": "Partial \u2014 both cautionary (analyst explicit CAUTION/HOLD; narrative describes Nasdaq weakness/VIX rise) but narrative does not affirm Hope phase or coil HOLD",
+          "confirmed_if": "Fear & Greed holds ~60-72 and BTC remains range-bound without funding or 30d-momentum thrust",
+          "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD suppressed (to Disbelief), or funding flips positive with Fear & Greed above ~75 and momentum reclaim (to Optimism)",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+          "confidence_pct": 85.0,
+          "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
       },
       "legacy": {
@@ -172,15 +184,17 @@
   "brain_reads": {
     "analyst": {
       "phase": "Hope",
-      "confidence": 0.52,
+      "confidence": 0.58,
       "next_move": {
         "predicted_phase": "Hope",
-        "direction": "UP",
-        "conviction": "low",
-        "reasoning": "Surface is a complacent drift (F&G 68, raw VIX 19.8, funding already slightly negative, score ~52 in the 47-54 band), but the breaker is supply hitting exchanges (netflow 92, reserves 97) with CVD at 6 and 30d momentum only 39 \u2014 distribution under still-greedy sentiment, not a confirmed impulse, so the lean is one rung down and nothing further.",
-        "confirmed_if": "BTC loses the recent range and Fear & Greed slips under 55 while exchange netflow stays elevated and CVD remains suppressed",
-        "invalidated_if": "CVD reverses toward neutral-positive, spot ETF flows turn up, and BTC reclaims the 30-day high \u2014 a squeeze that holds Complacency or lifts it",
-        "predicted_phase_clamped_from": "Anxiety"
+        "direction": "HOLD",
+        "conviction": "medium",
+        "reasoning": "Live sentiment at 68 sits in the Hope band and this is a coil (only 29% of recent 12h windows move the score \u00b12), while the June 2019 thrill thrust is absent (momentum 39 vs 85, funding negative, MVRV 29) \u2014 CVD 8, exchange netflow 90 and maxed retail/skew are risk flags, not a confirmed rung break.",
+        "confirmed_if": "Fear & Greed holds roughly 60-72 and BTC stays range-bound without a funding or 30d-momentum thrust",
+        "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD still suppressed (down to Disbelief), or funding flips firmly positive with Fear & Greed above ~75 and momentum reclaims (up to Optimism)",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
@@ -190,23 +204,25 @@
     },
     "judge": {
       "signal": "CAUTION",
-      "confidence": 0.58,
+      "confidence": 0.61,
       "next_move": {
         "predicted_phase": "Hope",
-        "direction": "UP",
-        "conviction": "low",
-        "reasoning": "Net exchange intake rising with suppressed CVD and soft 30d momentum under greedy F&G is classic distribution into Complacency, so the skilled lean is one rung down only.",
-        "brains_agree": "Partial agree: both flag supply/intake risk; analyst explicitly calls Anxiety/DOWN low-conviction, narrative is silent on phase so no full lock",
-        "confirmed_if": "BTC loses recent range, Fear & Greed slips under 55, exchange netflow stays elevated and CVD remains suppressed",
-        "invalidated_if": "CVD turns neutral-positive, spot ETF flows reverse up, and BTC reclaims the 30-day high holding Complacency or lifting it",
-        "predicted_phase_clamped_from": "Anxiety",
-        "confidence_pct": 76.0,
-        "confidence_basis": "1/1 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.3/1.0"
+        "direction": "HOLD",
+        "conviction": "medium",
+        "reasoning": "Coil statistics and absent thrust factors make HOLD the graded call; stay in Hope until Fear & Greed or momentum actually breaks the band.",
+        "brains_agree": "Partial \u2014 both cautionary (analyst explicit CAUTION/HOLD; narrative describes Nasdaq weakness/VIX rise) but narrative does not affirm Hope phase or coil HOLD",
+        "confirmed_if": "Fear & Greed holds ~60-72 and BTC remains range-bound without funding or 30d-momentum thrust",
+        "invalidated_if": "Fear & Greed breaks under ~55 with price accelerating lower and CVD suppressed (to Disbelief), or funding flips positive with Fear & Greed above ~75 and momentum reclaim (to Optimism)",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Hope, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+        "confidence_pct": 85.0,
+        "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-22T14:52:19.584608-04:00",
+  "timestamp": "2026-10-22T15:56:29.780876-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
