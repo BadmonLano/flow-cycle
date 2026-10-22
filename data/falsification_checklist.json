@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-22T06:05:50.426953-04:00",
+  "updated_at": "2026-10-22T09:22:07.873171-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days the S&P 500 closes at a new 52-week high and is up at least 4% from today's close, with the VIX closing below 14 on that same day.",
-      "what_it_would_mean": "The mini-top analog and UNKNOWN/HOLD call are wrong: price resolved as a confirmed upside breakout, not an unresolved top."
+      "condition": "S&P 500 closes at least 3.5% above its verdict-day close within 14 calendar days and finishes that window at a 20-day closing high, while similarity to mini_top_2019_jun prints below 45%.",
+      "what_it_would_mean": "The mini-top analog was a false positive and the phase resolved to upside continuation, so UNKNOWN/HOLD was the wrong call."
     },
     {
       "id": 2,
-      "condition": "Within 14 days the S&P 500 closes at least 5% below today's close and US high-yield OAS widens by at least 50 basis points versus today's level.",
-      "what_it_would_mean": "HOLD is wrong: the June-2019-style mini top resolved into a clear risk-off drawdown that required a sell, not a hold."
+      "condition": "S&P 500 closes at least 5% below the highest close of the 10 sessions before the verdict within 14 calendar days, and VIX closes above 24 on that same session.",
+      "what_it_would_mean": "The 74% mini_top_2019_jun match resolved into a confirmed risk-off break, so HOLD was wrong and UNKNOWN was no longer defensible."
     },
     {
       "id": 3,
-      "condition": "For 5 consecutive sessions within 14 days, more than 70% of S&P 500 constituents close above their 50-day moving average and the NYSE advance-decline line closes at a new 52-week high.",
-      "what_it_would_mean": "The unknown topping regime is invalidated: breadth confirms a broad advance, so the phase is risk-on continuation rather than an unresolved mini top."
+      "condition": "Blowoff score reaches 80 or higher and, inside the same 14-day window, the S&P 500 closes at least 4% below the intraday high of the session on which the score first printed 80.",
+      "what_it_would_mean": "A blowoff score of 56 was mis-specified; a completed blowoff top occurred, invalidating both the UNKNOWN phase label and the HOLD signal."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
