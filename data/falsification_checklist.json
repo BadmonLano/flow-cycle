@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-21T23:29:26.482792-04:00",
+  "updated_at": "2026-10-22T02:49:25.285227-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 3.5% above its signal-date close and ends the 14-day window still above that threshold, with NYSE advance/decline positive on at least 8 of the 10 sessions.",
-      "what_it_would_mean": "The mini_top_2019_jun analog failed: price resolved as trend continuation, so UNKNOWN/HOLD was the wrong call and the 74% top match was not operative."
+      "condition": "S&P 500 closes at least 2.5% above its prior 20-day closing high within 14 days, with that breakout day's volume above its 20-day average",
+      "what_it_would_mean": "A confirmed upside breakout would kill the mini_top_2019_jun analog and show HOLD was wrong; the tape resolved risk-on, not unknown/topping"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5% below its signal-date close on any session in the next 14 days, and VIX closes above 22 on that same day.",
-      "what_it_would_mean": "A realized risk-off break occurred rather than an unresolved mini-top; HOLD and UNKNOWN failed to flag a downside move that was already visible in price and volatility."
+      "condition": "S&P 500 closes more than 6% below its rolling 20-day high and VIX closes above 25 on the same day, within 14 days",
+      "what_it_would_mean": "A deep, volatility-confirmed break is not a June-2019-style mini top; HOLD and the 75% pattern match would be invalidated in favor of an active risk-off call"
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by 50 basis points or more versus the signal-date level within 14 days, or tightens by 40 basis points or more over the same window.",
-      "what_it_would_mean": "Credit confirmed a directional regime (stress or renewed risk appetite) that price pattern uncertainty did not capture, invalidating both the HOLD and the unresolved mini-top read, including the moderate blowoff score of 57."
+      "condition": "Blowoff score prints outside 40-70 (below 40 or above 70) and similarity to mini_top_2019_jun falls below 40%, both observed in the same 14-day window",
+      "what_it_would_mean": "The moderate-blowoff mini-top template that justifies UNKNOWN/HOLD no longer fits; the current verdict would be falsified by a regime the analog does not describe"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
