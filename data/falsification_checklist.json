@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-22T09:22:07.873171-04:00",
+  "updated_at": "2026-10-22T12:43:43.265530-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 3.5% above its verdict-day close within 14 calendar days and finishes that window at a 20-day closing high, while similarity to mini_top_2019_jun prints below 45%.",
-      "what_it_would_mean": "The mini-top analog was a false positive and the phase resolved to upside continuation, so UNKNOWN/HOLD was the wrong call."
+      "condition": "S&P 500 closes at least 4% above its highest close of the prior 20 sessions on any day in the next 14 days, with VIX closing below 14 on that same day",
+      "what_it_would_mean": "A clean upside break with suppressed volatility would resolve UNKNOWN to trend continuation and invalidate both HOLD and the mini_top_2019_jun analogy"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5% below the highest close of the 10 sessions before the verdict within 14 calendar days, and VIX closes above 24 on that same session.",
-      "what_it_would_mean": "The 74% mini_top_2019_jun match resolved into a confirmed risk-off break, so HOLD was wrong and UNKNOWN was no longer defensible."
+      "condition": "S&P 500 closes at least 6% below its highest close of the prior 20 sessions within 14 days, and US high-yield OAS widens by at least 50 bps versus the level on the day of this verdict",
+      "what_it_would_mean": "A fast equity drawdown plus credit stress would resolve UNKNOWN to a confirmed risk-off top, proving HOLD was the wrong signal"
     },
     {
       "id": 3,
-      "condition": "Blowoff score reaches 80 or higher and, inside the same 14-day window, the S&P 500 closes at least 4% below the intraday high of the session on which the score first printed 80.",
-      "what_it_would_mean": "A blowoff score of 56 was mis-specified; a completed blowoff top occurred, invalidating both the UNKNOWN phase label and the HOLD signal."
+      "condition": "Pattern similarity to mini_top_2019_jun falls below 40% and the blowoff score prints either below 30 or above 80 on the engine's next scored session within 14 days",
+      "what_it_would_mean": "The June 2019 mini-top template and the moderate blowoff reading (57) would both be broken, so the current UNKNOWN/HOLD call would no longer be supported by the stated evidence"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
