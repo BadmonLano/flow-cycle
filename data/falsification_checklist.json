@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-22T16:01:22.882862-04:00",
+  "updated_at": "2026-10-22T19:16:57.024953-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes the 14-day window at least +4.0% versus today's close, with the NYSE cumulative advance-decline line at a new 3-month high and VIX closing below 14",
-      "what_it_would_mean": "Phase is no longer unknown and HOLD is wrong: price and breadth confirm continuation, not a June-2019-style mini top, so the 74% mini_top_2019_jun analog is invalidated"
+      "condition": "S&P 500 closes at least 5% above its latest close within 14 calendar days and finishes the window above its 20-day high",
+      "what_it_would_mean": "A sustained breakout invalidates both HOLD and the mini_top_2019_jun analog; the tape was a continuation, so UNKNOWN should have resolved to risk-on"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes the 14-day window at least -4.0% versus today's close, with VIX closing above 22 and US high-yield OAS wider by at least 40 bps versus today's close",
-      "what_it_would_mean": "UNKNOWN/HOLD is falsified because the tape has resolved into confirmed risk-off; sitting flat missed a completed top rather than an unresolved setup"
+      "condition": "S&P 500 closes at least 6% below its latest close, or VIX closes above 30, within 14 calendar days",
+      "what_it_would_mean": "A realized risk-off move of that size invalidates HOLD/UNKNOWN; the mini-top was already in and the correct signal was defensive, not wait-and-see"
     },
     {
       "id": 3,
-      "condition": "Engine pattern similarity to mini_top_2019_jun falls below 50% and blowoff score prints either at or above 75 or at or below 35 at any daily close in the next 14 days",
-      "what_it_would_mean": "The clustering premise behind UNKNOWN is broken: the June 2019 mini-top analog no longer holds and blowoff is no longer mid-range, so the call must be reclassified rather than held"
+      "condition": "ICE BofA US High Yield OAS widens by 75 basis points or more from its latest reading within 14 calendar days while the blowoff score stays at or below 57",
+      "what_it_would_mean": "Credit stress of that magnitude without a blowoff reading shows the 76% mini-top match mis-specified the regime; UNKNOWN/HOLD failed to flag an already-breaking credit market"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
