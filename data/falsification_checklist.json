@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-21T20:14:42.691605-04:00",
+  "updated_at": "2026-10-21T23:29:26.482792-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index posts two consecutive daily closes at a new 52-week high and at least 2.5% above its highest close of the prior 20 sessions within 14 days.",
-      "what_it_would_mean": "The mini_top_2019_jun analogue is invalidated; price resolved as a breakout, so UNKNOWN/HOLD was the wrong call and should have been risk-on."
+      "condition": "S&P 500 closes at least 3.5% above its signal-date close and ends the 14-day window still above that threshold, with NYSE advance/decline positive on at least 8 of the 10 sessions.",
+      "what_it_would_mean": "The mini_top_2019_jun analog failed: price resolved as trend continuation, so UNKNOWN/HOLD was the wrong call and the 74% top match was not operative."
     },
     {
       "id": 2,
-      "condition": "S&P 500 falls 6% or more from the verdict-date close within 14 days, and on the session that breach is first reached the VIX closes above 25.",
-      "what_it_would_mean": "The mini-top resolved into a selloff fast enough that staying HOLD/UNKNOWN was wrong; the signal should have been risk-off."
+      "condition": "S&P 500 closes at least 5% below its signal-date close on any session in the next 14 days, and VIX closes above 22 on that same day.",
+      "what_it_would_mean": "A realized risk-off break occurred rather than an unresolved mini-top; HOLD and UNKNOWN failed to flag a downside move that was already visible in price and volatility."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by 75 basis points or more versus the verdict-date level within 14 days, while the S&P 500 is down at least 3% over the same window.",
-      "what_it_would_mean": "Cross-asset stress confirmed a real top rather than an unresolved pattern, falsifying both the UNKNOWN verdict and the HOLD signal."
+      "condition": "ICE BofA US High Yield OAS widens by 50 basis points or more versus the signal-date level within 14 days, or tightens by 40 basis points or more over the same window.",
+      "what_it_would_mean": "Credit confirmed a directional regime (stress or renewed risk appetite) that price pattern uncertainty did not capture, invalidating both the HOLD and the unresolved mini-top read, including the moderate blowoff score of 57."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
