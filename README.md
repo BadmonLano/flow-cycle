@@ -91,8 +91,8 @@ Raw URL pattern: `https://raw.githubusercontent.com/BadmonLano/flow-cycle/main/d
 
 ## License
 
-Copyright (c) 2026 Bentayga Empire LLC. All rights reserved.
-The data may be viewed and cited with attribution to [theflowcycle.com](https://theflowcycle.com). The code and engine are proprietary. See [LICENSE](LICENSE).
+MIT License. Copyright (c) 2026 Bentayga Empire LLC.
+The code in this repo is released under the MIT License. See [LICENSE](LICENSE). Data may be cited with attribution to [theflowcycle.com](https://theflowcycle.com).
 
 ## Links
 
