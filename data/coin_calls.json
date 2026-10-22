@@ -1,117 +1,245 @@
 {
-  "_updated": "2026-10-22T04:57:56.196598-04:00",
+  "_updated": "2026-10-22T06:05:30.042889-04:00",
   "calls": {
     "BTC": {
-      "direction": "FLAT",
-      "entry": null,
-      "tp": null,
-      "sl": null,
-      "horizon": "12h",
-      "note": "stop at 82300 printed. spot is 82174. that long is done. not a new ticket.",
-      "source": "jordan",
-      "opened_at": "2026-10-22T04:57:56.007053-04:00",
+      "direction": "SHORT",
+      "entry": 81809.98,
+      "tp": 80820.93,
+      "sl": 82799.03,
+      "levels_from": "j6",
+      "levels_note": "levels from j6 (7d race: fc 2.35% vs j6 2.18%) - j6 tighter by 0.17pt",
+      "race_dir_hit_fc": 67.44,
+      "race_dir_hit_j6": 67.44,
+      "race_dir_veto": false,
+      "race_margin_pts": -0.17,
+      "race_epsilon_pts": 0.35,
+      "race_pick_reason": "j6 tighter by 0.17pt",
+      "race_within_epsilon": true,
+      "race_fc_err": 2.35,
+      "race_j6_err": 2.18,
+      "race_da_err": 5.13,
+      "race_n": 66,
+      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
+      "tp_mode": "vol_sized",
+      "tp_distance_pct": 1.21,
+      "horizon": "10.9h",
+      "horizon_hours": 10.87,
+      "source": "jordan_committed",
+      "conviction": "medium",
+      "confluence_score": 2.8,
+      "confluence_votes": [
+        "BTC 200wk 1.219x mid \u2192 neutral",
+        "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
+        "BTC funding negative (squeeze fuel) \u2192 long",
+        "pi cycle far from top \u2192 room to run long",
+        "projection +0.7% \u2192 flat"
+      ],
+      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit btc_call in the editorial packet to adjust levels/direction.",
+      "confluence_centered": 1.758,
+      "confluence_baseline": 1.042,
+      "projection_tp": 82375.91,
+      "projection_sl": 80173.78,
+      "vol_daily_pct": 1.796,
+      "vol_horizon_pct": 1.209,
+      "sl_distance_pct": 1.21,
+      "levels_rebuilt_on_flip": {
+        "from_direction": "LONG",
+        "to_direction": "SHORT",
+        "old_tp": 84354.89,
+        "old_sl": 79265.06,
+        "method": "mirrored around entry - same implied move size, opposite side"
+      },
+      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
+      "mirrored_from": {
+        "live_call": "down_micro",
+        "stamped_at": "2026-10-22T04:57:59.305850-04:00"
+      },
       "mechanical_confluence": {
-        "direction": "FLAT",
-        "conviction": "medium",
-        "score": 1.92,
+        "direction": "LONG",
+        "conviction": null,
+        "score": 2.8,
         "votes": [
           "BTC 200wk 1.219x mid \u2192 neutral",
-          "bottom still ahead (HUNTING_BOTTOM, conf 0.4) \u2192 short",
+          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "BTC funding negative (squeeze fuel) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +1.7% \u2192 long"
+          "projection +0.7% \u2192 flat"
         ]
       },
-      "horizon_hours": 72,
-      "probe_locked": true,
-      "probe_age_hours": 0.0,
-      "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. No live stance to compare against.",
+      "opened_at": "2026-10-22T06:05:30.042889-04:00",
       "advisory": {
-        "size_hint": null,
-        "flags": [],
-        "regime_24h": "trend",
+        "size_hint": 1.0,
+        "flags": [
+          "drop_reference_only",
+          "same_call_all_3"
+        ],
+        "regime_24h": null,
         "phase": "Disbelief",
-        "committed": false,
-        "why": [],
-        "_rule": "advisory only - never sizes, opens or closes a trade"
+        "committed": true,
+        "why": [
+          "mechanical-only long on SOL or F&G>=60 lost in the backtest",
+          "same SHORT on all 3 coins: prefer SOL (strongest mechanical agreement)"
+        ],
+        "_rule": "advisory only - never sizes, opens or closes a trade",
+        "preferred": false
       }
     },
     "ETH": {
-      "direction": "LONG",
-      "entry": 2462,
-      "tp": 2525,
-      "sl": 2426,
-      "horizon": "12h",
-      "note": "open long is from 2462. spot is 2437. stop is 2426, about 11 away. not a new ticket.",
-      "source": "jordan",
-      "opened_at": "2026-10-20T12:21:47.386339-04:00",
+      "direction": "SHORT",
+      "entry": 2403.59,
+      "tp": 2337.66,
+      "sl": 2469.52,
+      "levels_from": "j6",
+      "levels_note": "direction flipped but levels could not be rebuilt - DO NOT SIZE off these",
+      "race_dir_hit_fc": 65.71,
+      "race_dir_hit_j6": 65.71,
+      "race_dir_veto": false,
+      "race_margin_pts": -0.35,
+      "race_epsilon_pts": 0.35,
+      "race_pick_reason": "j6 tighter by 0.35pt",
+      "race_within_epsilon": false,
+      "race_fc_err": 4.15,
+      "race_j6_err": 3.8,
+      "race_da_err": 5.64,
+      "race_n": 66,
+      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
+      "tp_mode": "vol_sized",
+      "tp_distance_pct": 2.74,
+      "horizon": "10.9h",
+      "horizon_hours": 10.87,
+      "source": "jordan_committed",
+      "conviction": "medium",
+      "confluence_score": 3.3,
+      "confluence_votes": [
+        "ETH 200wk 0.944x AT FLOOR \u2192 long",
+        "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
+        "pi cycle far from top \u2192 room to run long",
+        "projection +1.0% \u2192 flat"
+      ],
+      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit eth_call in the editorial packet to adjust levels/direction.",
+      "confluence_centered": 0.748,
+      "confluence_baseline": 2.552,
+      "projection_tp": null,
+      "projection_sl": null,
+      "levels_stale": true,
+      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
+      "vol_daily_pct": 4.075,
+      "vol_horizon_pct": 2.743,
+      "sl_distance_pct": 2.74,
+      "mirrored_from": {
+        "live_call": "down_micro",
+        "stamped_at": "2026-10-22T04:57:59.305850-04:00"
+      },
       "mechanical_confluence": {
         "direction": "FLAT",
-        "conviction": "medium",
-        "score": 2.42,
+        "conviction": null,
+        "score": 3.3,
         "votes": [
-          "ETH 200wk 0.945x AT FLOOR \u2192 long",
-          "bottom still ahead (HUNTING_BOTTOM, conf 0.4) \u2192 short",
+          "ETH 200wk 0.944x AT FLOOR \u2192 long",
+          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +2.3% \u2192 long"
+          "projection +1.0% \u2192 flat"
         ]
       },
-      "horizon_hours": 72,
-      "probe_locked": true,
-      "probe_age_hours": 40.6,
-      "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 40.6h - a probe outlives the 12h stance on purpose. No live stance to compare against.",
+      "opened_at": "2026-10-22T06:05:30.042889-04:00",
       "advisory": {
         "size_hint": 1.0,
-        "flags": [],
-        "regime_24h": "trend",
+        "flags": [
+          "same_call_all_3"
+        ],
+        "regime_24h": null,
         "phase": "Disbelief",
-        "committed": false,
-        "why": [],
-        "_rule": "advisory only - never sizes, opens or closes a trade"
-      },
-      "resolved": true,
-      "resolved_result": "loss"
+        "committed": true,
+        "why": [
+          "same SHORT on all 3 coins: prefer SOL (strongest mechanical agreement)"
+        ],
+        "_rule": "advisory only - never sizes, opens or closes a trade",
+        "preferred": false
+      }
     },
     "SOL": {
-      "direction": "FLAT",
-      "entry": null,
-      "tp": null,
-      "sl": null,
-      "horizon": "12h",
-      "note": "stop at 105.23 printed. spot is 104.59. that long is done. not a new ticket.",
-      "source": "jordan",
-      "opened_at": "2026-10-22T03:52:56.183368-04:00",
+      "direction": "SHORT",
+      "entry": 104.06,
+      "tp": 100.53,
+      "sl": 107.59,
+      "levels_from": "j6",
+      "levels_note": "levels from j6 (7d race: fc 4.28% vs j6 3.93%) - j6 tighter by 0.35pt",
+      "race_dir_hit_fc": 67.43,
+      "race_dir_hit_j6": 67.43,
+      "race_dir_veto": false,
+      "race_margin_pts": -0.35,
+      "race_epsilon_pts": 0.35,
+      "race_pick_reason": "j6 tighter by 0.35pt",
+      "race_within_epsilon": false,
+      "race_fc_err": 4.28,
+      "race_j6_err": 3.93,
+      "race_da_err": 7.08,
+      "race_n": 66,
+      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
+      "tp_mode": "vol_sized",
+      "tp_distance_pct": 3.4,
+      "horizon": "10.9h",
+      "horizon_hours": 10.87,
+      "source": "jordan_committed",
+      "conviction": "medium",
+      "confluence_score": 4.1,
+      "confluence_votes": [
+        "SOL 200wk 0.923x AT FLOOR \u2192 long",
+        "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
+        "pi cycle far from top \u2192 room to run long",
+        "projection +1.2% \u2192 long"
+      ],
+      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit sol_call in the editorial packet to adjust levels/direction.",
+      "confluence_centered": 1.509,
+      "confluence_baseline": 2.591,
+      "projection_tp": 105.26,
+      "projection_sl": 101.97,
+      "vol_daily_pct": 5.046,
+      "vol_horizon_pct": 3.397,
+      "sl_distance_pct": 3.4,
+      "levels_rebuilt_on_flip": {
+        "from_direction": "LONG",
+        "to_direction": "SHORT",
+        "old_tp": 113.15,
+        "old_sl": 94.96,
+        "method": "mirrored around entry - same implied move size, opposite side"
+      },
+      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
+      "mirrored_from": {
+        "live_call": "down_micro",
+        "stamped_at": "2026-10-22T04:57:59.305850-04:00"
+      },
       "mechanical_confluence": {
-        "direction": "FLAT",
-        "conviction": "medium",
-        "score": 2.42,
+        "direction": "LONG",
+        "conviction": null,
+        "score": 4.1,
         "votes": [
-          "SOL 200wk 0.919x AT FLOOR \u2192 long",
-          "bottom still ahead (HUNTING_BOTTOM, conf 0.4) \u2192 short",
+          "SOL 200wk 0.923x AT FLOOR \u2192 long",
+          "top not in yet (HUNTING_TOP, conf 1.0) \u2192 long",
           "pi cycle far from top \u2192 room to run long",
-          "projection +2.6% \u2192 long"
+          "projection +1.2% \u2192 long"
         ]
       },
-      "horizon_hours": 72,
-      "probe_locked": true,
-      "probe_age_hours": 1.1,
-      "probe_agrees_with_live_stance": null,
-      "probe_note": "explicit override, frozen 1.1h - a probe outlives the 12h stance on purpose. No live stance to compare against.",
+      "opened_at": "2026-10-22T06:05:30.042889-04:00",
       "advisory": {
-        "size_hint": null,
-        "flags": [],
-        "regime_24h": "trend",
+        "size_hint": 1.0,
+        "flags": [
+          "drop_reference_only",
+          "same_call_all_3"
+        ],
+        "regime_24h": null,
         "phase": "Disbelief",
-        "committed": false,
-        "why": [],
-        "_rule": "advisory only - never sizes, opens or closes a trade"
+        "committed": true,
+        "why": [
+          "mechanical-only long on SOL or F&G>=60 lost in the backtest"
+        ],
+        "_rule": "advisory only - never sizes, opens or closes a trade",
+        "preferred": true
       }
     }
   },
   "advisory_rules": {
-    "_updated": "2026-10-22T04:57:56.176598-04:00",
+    "_updated": "2026-10-22T06:05:30.255420-04:00",
     "size_hint": "1.5x committed in Panic/Anxiety or strong/trend tape; 1.0x in chop (+chop_caution)",
     "drop_reference_only": "mechanical-only longs on SOL or with F&G >= 60",
     "same_call_all_3": "flag; prefer the coin with the strongest mechanical agreement",
@@ -129,17 +257,13 @@
       "calls.<COIN>.levels_stale"
     ],
     "do_not_size_when": {
-      "BTC": [
-        "FLAT - a stance, not a ticket; there are no levels to ride",
-        "no TP/SL on the row"
-      ],
-      "SOL": [
-        "FLAT - a stance, not a ticket; there are no levels to ride",
-        "no TP/SL on the row"
+      "ETH": [
+        "levels_stale - direction flipped without a level rebuild"
       ]
     },
     "safe_to_size": [
-      "ETH"
+      "BTC",
+      "SOL"
     ],
     "_rule": "Size only from a call that is locked, directional, carries both levels, and has hours_left > 0. A row existing is not a call being tradeable - awaiting_jordan and FLAT are honest states that must never be sized."
   }
