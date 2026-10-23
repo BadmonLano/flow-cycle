@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-23T01:50:30.996683-04:00",
+  "updated_at": "2026-10-23T05:06:05.342425-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index closes at least 6% below its day-0 close of this 14-day window",
-      "what_it_would_mean": "Price has broken the drawdown range of a bottom_2024_aug-style base, so a HOLD aligned with that bottom analog is wrong and the tape is still in an active downtrend"
+      "condition": "Pattern match to bottom_2024_aug stays at or above 75% and the tracked risk index closes at least 3% above its 20-day high within 14 days",
+      "what_it_would_mean": "The bottom analog has confirmed with a breakout, so UNKNOWN phase and HOLD are wrong; the call should have been a bullish bottom."
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days",
-      "what_it_would_mean": "Regime has left the subdued bottom-like reading (score 38) and entered a blowoff/top regime, falsifying both the bottom pattern match and the HOLD"
+      "condition": "Pattern match to bottom_2024_aug falls below 45% and the tracked risk index closes at least 5% below its 14-day low within 14 days",
+      "what_it_would_mean": "The bottom analog has failed into a breakdown, so UNKNOWN/HOLD missed a resolved bearish regime and should have been risk-off."
     },
     {
       "id": 3,
-      "condition": "US high-yield option-adjusted spread widens by 75 basis points or more versus day 0, or VIX closes above 28 on two consecutive sessions",
-      "what_it_would_mean": "Credit or volatility stress has exceeded a normal bottoming shakeout, so the market is not tracking a stable Aug 2024 bottom analog and HOLD is invalidated"
+      "condition": "Blowoff score prints at or above 70, or at or below 15, on any session in the next 14 days",
+      "what_it_would_mean": "The moderate 38 reading that justified HOLD was wrong; an extreme blowoff regime requires a directional chase-or-fade signal, not hold."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
