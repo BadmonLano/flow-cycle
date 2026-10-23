@@ -1,19 +1,7 @@
 {
-  "_updated": "2026-10-23T02:53:35.475223-04:00",
+  "_updated": "2026-10-23T03:56:32.054442-04:00",
   "_doctrine": "Mechanical confluence vs Jordan's calls, graded direction-only over a 24h horizon (1.5% move threshold; FLAT = correct if it stayed range-bound). Observational scoreboard \u2014 changes nothing about execution. If mechanical consistently beats Jordan when they diverge, that's signal to reweight or recalibrate.",
   "open": [
-    {
-      "asset": "SOL",
-      "opened_at": "2026-10-22T03:52:56.414570-04:00",
-      "entry_price": 104.205,
-      "mechanical_direction": "LONG",
-      "jordan_direction": "FLAT",
-      "jordan_source": "jordan",
-      "jordan_voice": "explicit_probe",
-      "jordan_is_real_call": true,
-      "mechanical_conviction": "high",
-      "mechanical_score": 4.1
-    },
     {
       "asset": "BTC",
       "opened_at": "2026-10-22T04:57:56.208605-04:00",
@@ -73,6 +61,18 @@
       "jordan_is_real_call": true,
       "mechanical_conviction": "medium",
       "mechanical_score": 2.42
+    },
+    {
+      "asset": "SOL",
+      "opened_at": "2026-10-23T03:56:32.054442-04:00",
+      "entry_price": 104.185,
+      "mechanical_direction": "SHORT",
+      "jordan_direction": "FLAT",
+      "jordan_source": "jordan",
+      "jordan_voice": "explicit_probe",
+      "jordan_is_real_call": true,
+      "mechanical_conviction": "low",
+      "mechanical_score": 0.9
     }
   ],
   "_queue_health": {
@@ -3091,6 +3091,33 @@
       "mechanical_tradeable": null,
       "regime": "strong",
       "decided": true
+    },
+    {
+      "asset": "SOL",
+      "opened_at": "2026-10-22T03:52:56.414570-04:00",
+      "entry_price": 104.205,
+      "mechanical_direction": "LONG",
+      "jordan_direction": "FLAT",
+      "jordan_source": "jordan",
+      "jordan_voice": "explicit_probe",
+      "jordan_is_real_call": true,
+      "mechanical_conviction": "high",
+      "mechanical_score": 4.1,
+      "close_price": 104.39,
+      "moved_pct": 0.18,
+      "mechanical_result": "scratch",
+      "jordan_result": "win",
+      "diverged": true,
+      "graded_at": "2026-10-23T03:56:32.054442-04:00",
+      "grader": "v3_true_horizon",
+      "close_source": "binance_5m_nearest_open_plus_24h",
+      "close_gap_h": 0.034,
+      "best_intraday_favorable_move": null,
+      "tradeable": null,
+      "mechanical_best_intraday_favorable_move": 1.03,
+      "mechanical_tradeable": false,
+      "regime": "chop",
+      "decided": true
     }
   ],
   "tally": {
@@ -3154,26 +3181,26 @@
       "mech": {
         "win": 94,
         "total": 158,
-        "scratch": 242
+        "scratch": 243
       },
       "jordan": {
-        "win": 76,
-        "total": 144,
+        "win": 77,
+        "total": 145,
         "scratch": 256
       },
       "diverged": {
         "mech_win": 45,
-        "jordan_win": 27,
-        "total": 86,
-        "decided": 40,
+        "jordan_win": 28,
+        "total": 87,
+        "decided": 41,
         "scratch_rounds": 3,
-        "flat_chop_wins": 5,
+        "flat_chop_wins": 6,
         "decided_mech_win": 19,
-        "decided_jordan_win": 14
+        "decided_jordan_win": 15
       },
       "dir_pairs": {
         "FLAT-vs-LONG": 17,
-        "LONG-vs-FLAT": 11,
+        "LONG-vs-FLAT": 12,
         "LONG-vs-SHORT": 8,
         "FLAT-vs-SHORT": 7
       }
@@ -3229,16 +3256,16 @@
         "mech": {
           "win": 4,
           "decided": 8,
-          "scratch": 0,
+          "scratch": 1,
           "wr_pct": 50.0
         },
         "jordan": {
-          "win": 5,
-          "decided": 7,
+          "win": 6,
+          "decided": 8,
           "scratch": 1,
-          "wr_pct": 71.4
+          "wr_pct": 75.0
         },
-        "rounds": 8
+        "rounds": 9
       }
     },
     "30d": {
@@ -3276,22 +3303,22 @@
         "mech": {
           "win": 6,
           "decided": 20,
-          "scratch": 9,
+          "scratch": 10,
           "wr_pct": 30.0
         },
         "jordan": {
-          "win": 15,
-          "decided": 23,
+          "win": 16,
+          "decided": 24,
           "scratch": 6,
-          "wr_pct": 65.2
+          "wr_pct": 66.7
         },
-        "rounds": 29
+        "rounds": 30
       }
     }
   },
   "mech_pressure": {
     "dirs_seen": {
-      "LONG": 73,
+      "LONG": 74,
       "FLAT": 69
     },
     "monotone": false,
@@ -3325,21 +3352,21 @@
     },
     "SOL": {
       "mechanical_wr": 59.5,
-      "jordan_wr": 52.8,
+      "jordan_wr": 53.1,
       "mechanical_record": "94/158",
-      "jordan_record": "76/144",
+      "jordan_record": "77/145",
       "when_diverged": {
         "mechanical_won": 45,
-        "jordan_won": 27,
-        "total": 86,
-        "mechanical_edge_pct": 20.9
+        "jordan_won": 28,
+        "total": 87,
+        "mechanical_edge_pct": 19.5
       }
     }
   },
   "_health": {
-    "last_sweep": "2026-10-23T02:53:35.475223-04:00",
+    "last_sweep": "2026-10-23T03:56:32.054442-04:00",
     "open_snapshots": 6,
-    "resolved_total": 142,
+    "resolved_total": 143,
     "quarantined_this_sweep": 0
   },
   "_quarantined": []
