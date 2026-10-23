@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-22T19:16:57.024953-04:00",
+  "updated_at": "2026-10-22T22:32:20.056093-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 5% above its latest close within 14 calendar days and finishes the window above its 20-day high",
-      "what_it_would_mean": "A sustained breakout invalidates both HOLD and the mini_top_2019_jun analog; the tape was a continuation, so UNKNOWN should have resolved to risk-on"
+      "condition": "S&P 500 closes at least 4.0% above the verdict-day close within 14 calendar days, and VIX closes below 16.0 on that same session.",
+      "what_it_would_mean": "UNKNOWN/HOLD is wrong: price and vol resolved into a confirmed risk-on regime, so the correct signal was long, not flat, and the bottom_2024_aug analog had already completed."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 6% below its latest close, or VIX closes above 30, within 14 calendar days",
-      "what_it_would_mean": "A realized risk-off move of that size invalidates HOLD/UNKNOWN; the mini-top was already in and the correct signal was defensive, not wait-and-see"
+      "condition": "S&P 500 closes at least 5.0% below the verdict-day close within 14 calendar days, or US high-yield OAS widens by 50 basis points or more versus the verdict-day level.",
+      "what_it_would_mean": "HOLD and the 77% bottom_2024_aug match are invalidated: a fresh equity or credit drawdown of this size means the analog bottom failed and the correct signal was risk-off."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by 75 basis points or more from its latest reading within 14 calendar days while the blowoff score stays at or below 57",
-      "what_it_would_mean": "Credit stress of that magnitude without a blowoff reading shows the 76% mini-top match mis-specified the regime; UNKNOWN/HOLD failed to flag an already-breaking credit market"
+      "condition": "US 10-year yield closes at least 35 basis points away from the verdict-day yield (either direction) within 14 calendar days, and DXY closes at least 1.5% away from the verdict-day close in that same window.",
+      "what_it_would_mean": "A rates-and-dollar regime break occurred. UNKNOWN/HOLD is falsified because a repricing of this size is an observable macro regime that required a directional signal, not an unresolved flat call. Blowoff score 39 is also stale if that move is a late-cycle rates shock rather than a contained bottom."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
