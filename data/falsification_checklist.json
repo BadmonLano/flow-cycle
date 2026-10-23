@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-23T08:19:22.972243-04:00",
+  "updated_at": "2026-10-23T11:31:49.928426-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4.0% above or below its close on the signal date, and that break holds for 3 consecutive daily closes within 14 days.",
-      "what_it_would_mean": "A sustained directional resolution would prove HOLD/UNKNOWN wrong: the tape was not unresolved, it was already in a committed trend."
+      "condition": "S&P 500 cash index closes at least 4.0% below its lowest daily close of the prior 20 sessions on any session within the next 14 calendar days",
+      "what_it_would_mean": "A fresh breakdown of that size would break the bottom_2024_aug analog and force a directional risk-off call, so UNKNOWN/HOLD would be wrong"
     },
     {
       "id": 2,
-      "condition": "VIX closes above 28 for 3 consecutive sessions, or US high-yield OAS widens by 75 bps or more versus the signal-date level, within 14 days.",
-      "what_it_would_mean": "A confirmed stress regime would invalidate both HOLD and the 77% bottom_2024_aug analog, which requires volatility crush and contained credit, not an active risk-off break."
+      "condition": "CBOE VIX closes above 28 on three consecutive trading days within the next 14 calendar days",
+      "what_it_would_mean": "A sustained vol regime shift of that magnitude is inconsistent with a hold in an unresolved bottom analog and would invalidate the current signal"
     },
     {
       "id": 3,
-      "condition": "Nasdaq-100 gains at least 8% over any rolling 10 sessions inside the 14-day window while its daily RSI(14) closes above 75.",
-      "what_it_would_mean": "A parabolic equity impulse would falsify the moderate blowoff score of 38 and show the call missed an active blowoff rather than an unknown/hold state."
+      "condition": "ICE BofA US High Yield OAS widens by 75 basis points or more from today's close, measured on any day within the next 14 calendar days",
+      "what_it_would_mean": "Credit stress of that size would disconfirm the 77% bottom_2024_aug match and a blowoff score of 38 as a stable hold, proving the unknown verdict false"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
