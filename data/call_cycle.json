@@ -121,28 +121,13 @@
       "_unvalidated": true
     },
     "bank_sensor": {
-      "fires": true,
-      "status": "BANK_RANGE_BREAK",
-      "suggestion": "banked_flip",
+      "fires": false,
+      "status": "clock_short",
+      "suggestion": "held",
       "_unvalidated": true,
-      "reason": "bank",
-      "favoured_pct": 0.0,
-      "gave_back_pp": 0.0,
-      "peak_at_hour": null,
-      "elapsed_hours": 9.77,
-      "net_pct_so_far": 0.653,
-      "swing_pct": 0.653,
-      "material_band_pct": 0.609,
-      "time_left_min": 134,
-      "suggested_direction": "up",
-      "reading": "flat broke the range (+0.65% vs band 0.61%). bank the flat (interim grade locks) and restamp up for the remaining 134m. binding:false. nothing auto-revises.",
-      "_thresholds": {
-        "fav_min_pct": 0.25,
-        "giveback_min_pp": 0.35,
-        "stall_hours": 1.5,
-        "min_left_min": 120
-      },
-      "_caveat": "BANK SENSOR. advisory only. never auto-restamps. unused bullet at the boundary is the miss of the lever, not discipline."
+      "reason": null,
+      "reading": "only 64m left. bank needs >=120m so the second leg is not a coin flip.",
+      "time_left_min": 64
     },
     "live_bullet_last_check_iso": "2026-10-23T03:56:04.953647-04:00",
     "live_bullet_drift_vs_call_pct": 0.494,
@@ -25592,10 +25577,10 @@
     "next_boundary_iso": "2026-10-23T06:10:06.190882-04:00",
     "slot_id": "2026-10-22-PM",
     "stamped_at": "2026-10-22T18:10:06.165880-04:00",
-    "stamped_ago_min": 585,
-    "seconds_left": 8041,
-    "minutes_left": 134,
-    "hours_left": 2.2,
+    "stamped_ago_min": 655,
+    "seconds_left": 3899,
+    "minutes_left": 64,
+    "hours_left": 1.1,
     "as_of": "2026-10-22T18:10:06.165880-04:00",
     "invalidate_if": [
       "btc reclaim 83300",
@@ -25603,10 +25588,10 @@
     ],
     "revision_available": true,
     "bullet": "loaded",
-    "live_bullet_last_check_iso": "2026-10-23T02:53:08.910151-04:00",
-    "live_bullet_drift_vs_call_pct": 0.327,
+    "live_bullet_last_check_iso": "2026-10-23T03:56:04.953647-04:00",
+    "live_bullet_drift_vs_call_pct": 0.494,
     "carried": false,
-    "note": "2.2h left in this 12h window (anchored to the call stamp). BANK: first wave in. banked_flip suggested. spend the bullet or hold. Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
+    "note": "1.1h left in this 12h window (anchored to the call stamp). Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
   },
   "no_calls": [
     {
@@ -26625,9 +26610,10 @@
   ],
   "revision_prompt_fired": true,
   "revision_read_snapshot": {
-    "reason": "structure",
-    "at": "2026-10-22T21:23:46.037909-04:00",
-    "clock_left_min": 526
+    "reason": "state_flip",
+    "at": "2026-10-23T05:05:07.221304-04:00",
+    "clock_left_min": 64,
+    "flip": "clock_band"
   },
   "offline_windows": [
     {
@@ -26906,7 +26892,7 @@
   "call_state": {
     "state": "LIVE",
     "since": "2026-10-22T18:10:06.196879-04:00",
-    "sweeps_in_state": 9,
+    "sweeps_in_state": 10,
     "_meaning": "stamped, clock running"
   },
   "bakeoff": {
@@ -26932,9 +26918,9 @@
   },
   "revision_fire_state": {
     "in_material_band": false,
-    "bank_sensor": true,
-    "clock_band": "normal",
-    "at": "2026-10-23T03:56:04.939647-04:00"
+    "bank_sensor": false,
+    "clock_band": "short",
+    "at": "2026-10-23T05:05:07.221304-04:00"
   },
   "bank_read_snapshot": {
     "reason": "bank",
