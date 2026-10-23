@@ -1,17 +1,17 @@
 {
-  "_updated": "2026-10-23T05:05:35.274619-04:00",
+  "_updated": "2026-10-23T06:09:21.289971-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-23T05:05:35.299617-04:00",
+      "made_at": "2026-10-23T06:09:21.318973-04:00",
       "score_at_call": 38,
       "phase_at_call": "Denial",
       "predicted_phase": "Anxiety",
-      "direction": "UP",
-      "conviction": "low",
-      "reasoning": "Surface calm masks demand gap and positioning extremes, so base case is grind lower or chop inside Anxiety until flows or F&G confirm.",
-      "confirmed_if": "F&G breaks under 40, 30d decline extends, funding flat-to-negative, ETF flows stay near 0",
-      "invalidated_if": "ETF flows rebound well off 1 and F&G lifts through 60 with options skew normalizing",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Coil at score 50 with neutral tape favors holding the Complacency rung until F&G or flows print a clean break rather than forcing a directional rung change.",
+      "confirmed_if": "Fear & Greed holds 45-55 and BTC stays range-bound with 30d change near flat and funding neutral",
+      "invalidated_if": "F&G breaks below 40 with exchange inflows and long liquidations (down to Anxiety) or F&G >60 with ETF flows turning positive (up to Disbelief)",
       "signals_at_call": {
         "fear_greed": 50,
         "btc_funding": 0.0018,
@@ -19,7 +19,7 @@
         "net_liquidity_chg_4w": 30982.0,
         "btc_dom": 59.95870358779104,
         "etf_net_total_musd": -487.07,
-        "vix": 19.0
+        "vix": 19.55
       }
     }
   ],
@@ -3838,40 +3838,6 @@
   },
   "superseded": [
     {
-      "made_at": "2026-08-14T05:38:42.229759-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Anxiety",
-      "predicted_phase": "Denial",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The 0% directional movement over 72 12h windows confirms a coil with no breaker visible \u2014 fed_liquidity at 0 and VIX at 70 create macro pressure but locked exchange reserves (97th percentile) and long-term cycle support (pi_cycle 90, ma_200w 95) prevent collapse, trapping price in Denial until a catalyst forces the coil to break.",
-      "confirmed_if": "btc_momentum_30d breaks above 55 with stablecoin_growth recovering above 50 and fed_liquidity ticking off 0 \u2014 this would validate the narrative's accumulation thesis and move phase to Disbelief",
-      "invalidated_if": "mvrv_zscore drops below 15 with no bid OR VIX spikes above 80 accompanied by btc_exchange_reserves_pct_30d dropping (supply panic-selling into macro shock) \u2014 this would break the coil downward through Denial into Panic",
-      "signals_at_call": {
-        "fear_greed": 29,
-        "btc_funding": 0.0085,
-        "mvrv_zscore": 0.3699,
-        "net_liquidity_chg_4w": -190805.0,
-        "btc_dom": 56.090432478940166,
-        "etf_net_total_musd": -61.16,
-        "vix": 14.55
-      },
-      "superseded_at": "2026-08-14T07:42:48.200786-04:00",
-      "superseded_by": {
-        "predicted_phase": "Capitulation",
-        "direction": "HOLD"
-      },
-      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
-      "graded_at": "2026-08-14T08:44:52.323479-04:00",
-      "window_hours_actual": 2.07,
-      "partial_window": true,
-      "score_at_close": 39,
-      "realized_direction": "HOLD",
-      "direction_hit": true,
-      "score_delta": 0,
-      "grade_note": "graded on the 2.07h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
-    },
-    {
       "made_at": "2026-08-14T07:42:48.200786-04:00",
       "score_at_call": 39,
       "phase_at_call": "Anxiety",
@@ -7243,12 +7209,46 @@
         "predicted_phase": "Anxiety",
         "direction": "UP"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-10-23T06:09:21.288975-04:00",
+      "window_hours_actual": 3.26,
+      "partial_window": true,
+      "score_at_close": 38,
+      "realized_direction": "HOLD",
+      "direction_hit": true,
+      "score_delta": 0,
+      "grade_note": "graded on the 3.26h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-10-23T05:05:35.299617-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Denial",
+      "predicted_phase": "Anxiety",
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Surface calm masks demand gap and positioning extremes, so base case is grind lower or chop inside Anxiety until flows or F&G confirm.",
+      "confirmed_if": "F&G breaks under 40, 30d decline extends, funding flat-to-negative, ETF flows stay near 0",
+      "invalidated_if": "ETF flows rebound well off 1 and F&G lifts through 60 with options skew normalizing",
+      "signals_at_call": {
+        "fear_greed": 50,
+        "btc_funding": 0.0018,
+        "mvrv_zscore": 0.9227,
+        "net_liquidity_chg_4w": 30982.0,
+        "btc_dom": 59.95870358779104,
+        "etf_net_total_musd": -487.07,
+        "vix": 19.0
+      },
+      "superseded_at": "2026-10-23T06:09:21.317972-04:00",
+      "superseded_by": {
+        "predicted_phase": "Anxiety",
+        "direction": "HOLD"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
-    "hit": 82,
-    "total": 140,
+    "hit": 83,
+    "total": 141,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
