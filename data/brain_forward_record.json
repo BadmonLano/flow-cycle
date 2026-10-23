@@ -1,28 +1,26 @@
 {
-  "_updated": "2026-10-23T16:56:37.857200-04:00",
+  "_updated": "2026-10-23T18:04:12.154223-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-23T06:09:21.318973-04:00",
+      "made_at": "2026-10-23T18:04:12.182226-04:00",
       "score_at_call": 38,
       "phase_at_call": "Denial",
-      "predicted_phase": "Complacency",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "Coil at score 50 with neutral tape favors holding the Complacency rung until F&G or flows print a clean break rather than forcing a directional rung change.",
-      "confirmed_if": "Fear & Greed holds 45-55 and BTC stays range-bound with 30d change near flat and funding neutral",
-      "invalidated_if": "F&G breaks below 40 with exchange inflows and long liquidations (down to Anxiety) or F&G >60 with ETF flows turning positive (up to Disbelief)",
+      "predicted_phase": "Anxiety",
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Positioning extremes and exchange intake lean resolution lower inside/near Anxiety without permission to jump rungs on the bottom analog.",
+      "confirmed_if": "F&G slips through 45, 30d drawdown extends, ETF flows stay near zero, exchange netflow remains extreme",
+      "invalidated_if": "ETF flows rebound and price reclaims upside with F&G through 55",
       "signals_at_call": {
         "fear_greed": 50,
         "btc_funding": 0.0018,
         "mvrv_zscore": 0.9227,
         "net_liquidity_chg_4w": 30982.0,
-        "btc_dom": 59.95870358779104,
+        "btc_dom": 59.446967671004145,
         "etf_net_total_musd": -487.07,
-        "vix": 19.55
-      },
-      "phase_flicker_count": 3,
-      "last_phase_flicker_at": "2026-10-23T16:56:37.888417-04:00"
+        "vix": 19.45
+      }
     }
   ],
   "resolved": [
@@ -3840,40 +3838,6 @@
   },
   "superseded": [
     {
-      "made_at": "2026-08-14T07:42:48.200786-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Anxiety",
-      "predicted_phase": "Capitulation",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The coil regime (fed_liquidity at 0, dvol at 1, VIX percentile 70) keeps price pinned while sentiment drifts from Denial toward Disbelief as the August floor holds, but no breaker is visible to force a directional move.",
-      "confirmed_if": "Score holds 55-62 (Disbelief band) through next 2-3 windows OR fed_liquidity rises above 15 with stablecoin_growth turning positive",
-      "invalidated_if": "VIX spikes above 20 with DXY breaking 100.5 sending score toward Anxiety (47-54) OR btc_momentum_30d breaks above 55 with etf_flows recovering above 50 sending score toward Hope (63-70)",
-      "signals_at_call": {
-        "fear_greed": 29,
-        "btc_funding": 0.006,
-        "mvrv_zscore": 0.3699,
-        "net_liquidity_chg_4w": -190805.0,
-        "btc_dom": 56.11569307419783,
-        "etf_net_total_musd": -61.16,
-        "vix": 14.53
-      },
-      "superseded_at": "2026-08-14T08:44:52.339507-04:00",
-      "superseded_by": {
-        "predicted_phase": "Denial",
-        "direction": "HOLD"
-      },
-      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
-      "graded_at": "2026-08-14T09:47:12.023044-04:00",
-      "window_hours_actual": 1.03,
-      "partial_window": true,
-      "score_at_close": 39,
-      "realized_direction": "HOLD",
-      "direction_hit": true,
-      "score_delta": 0,
-      "grade_note": "graded on the 1.03h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
-    },
-    {
       "made_at": "2026-08-14T08:44:52.339507-04:00",
       "score_at_call": 39,
       "phase_at_call": "Anxiety",
@@ -7254,6 +7218,34 @@
       "direction_hit": false,
       "score_delta": 0,
       "grade_note": "graded on the 1.06h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-10-23T06:09:21.318973-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Denial",
+      "predicted_phase": "Complacency",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Coil at score 50 with neutral tape favors holding the Complacency rung until F&G or flows print a clean break rather than forcing a directional rung change.",
+      "confirmed_if": "Fear & Greed holds 45-55 and BTC stays range-bound with 30d change near flat and funding neutral",
+      "invalidated_if": "F&G breaks below 40 with exchange inflows and long liquidations (down to Anxiety) or F&G >60 with ETF flows turning positive (up to Disbelief)",
+      "signals_at_call": {
+        "fear_greed": 50,
+        "btc_funding": 0.0018,
+        "mvrv_zscore": 0.9227,
+        "net_liquidity_chg_4w": 30982.0,
+        "btc_dom": 59.95870358779104,
+        "etf_net_total_musd": -487.07,
+        "vix": 19.55
+      },
+      "phase_flicker_count": 3,
+      "last_phase_flicker_at": "2026-10-23T16:56:37.888417-04:00",
+      "superseded_at": "2026-10-23T18:04:12.181226-04:00",
+      "superseded_by": {
+        "predicted_phase": "Anxiety",
+        "direction": "UP"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {

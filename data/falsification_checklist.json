@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-23T14:49:42.164001-04:00",
+  "updated_at": "2026-10-23T18:04:38.188508-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 6% above today's close within 14 days, with VIX closing below 14 on the same day",
-      "what_it_would_mean": "A decisive risk-on breakout with crushed volatility would show this is not an unresolved bottom-like hold; the UNKNOWN/HOLD call would be wrong because the regime had already resolved bullish"
+      "condition": "S&P 500 cash index closes at least 5.0% below its close on day 0 of this window on any session within 14 days, and that close is also below the August 5, 2024 intraday low analog (the reference trough in the bottom_2024_aug pattern).",
+      "what_it_would_mean": "The 78% bottom_2024_aug match is invalidated: price has broken the pattern's recovery structure rather than basing, so UNKNOWN/HOLD is wrong and the correct call is downside continuation, not a hold through a bottom."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5% below today's close within 14 days and VIX closes above 28 on that day",
-      "what_it_would_mean": "A fresh vol-shock drawdown would break the 78% bottom_2024_aug analog and prove HOLD wrong, because price and volatility would have confirmed an active risk-off regime rather than a stable unknown phase"
+      "condition": "S&P 500 cash index closes at least 6.0% above its day-0 close within 14 days AND VIX closes below 14.0 on the same session or the session after.",
+      "what_it_would_mean": "The tape has resolved the unknown into a confirmed risk-on recovery, not a hold. Staying HOLD through a >6% rally with volatility crushed would mean the engine missed a completed bottom and a directional long signal."
     },
     {
       "id": 3,
-      "condition": "US high-yield OAS widens by 75 basis points or more versus today's close within 14 days, while the 10-year Treasury yield moves at least 40 basis points in either direction",
-      "what_it_would_mean": "A joint credit-and-rates regime break would invalidate UNKNOWN/HOLD: macro stress or a rates shock large enough to force a directional call would have occurred, so standing aside as if the phase were still unidentified would be false"
+      "condition": "ICE BofA US High Yield OAS widens by at least 75 basis points versus its day-0 level at any point in the next 14 days, or the 10-year US Treasury yield moves at least 40 basis points from its day-0 close in either direction with the S&P 500 down at least 3.0% over the same span.",
+      "what_it_would_mean": "Cross-asset stress or a rates shock has broken the low-blowoff (score 38), range-bound hold regime. A 75bp credit widening or a 40bp yield shock coincident with equity weakness falsifies both the bottom-repair analog and the HOLD signal."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
