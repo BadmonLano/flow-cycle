@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-24T14:19:32.136924-04:00",
+  "_updated": "2026-10-24T15:24:27.204750-04:00",
   "calls": {
     "BTC": {
       "direction": "SHORT",
@@ -74,7 +74,11 @@
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
-      }
+      },
+      "age_hours": 1.08,
+      "hours_left": 7.35,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "ETH": {
       "direction": "SHORT",
@@ -147,15 +151,19 @@
         "flags": [
           "same_call_all_3"
         ],
-        "regime_24h": "strong",
+        "regime_24h": "trend",
         "phase": "Denial",
         "committed": true,
         "why": [
-          "committed in Denial / strong tape"
+          "committed in Denial / trend tape"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": true
-      }
+      },
+      "age_hours": 1.08,
+      "hours_left": 7.35,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "SOL": {
       "direction": "SHORT",
@@ -229,21 +237,25 @@
           "drop_reference_only",
           "same_call_all_3"
         ],
-        "regime_24h": "strong",
+        "regime_24h": "trend",
         "phase": "Denial",
         "committed": true,
         "why": [
-          "committed in Denial / strong tape",
+          "committed in Denial / trend tape",
           "mechanical-only long on SOL or F&G>=60 lost in the backtest",
           "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
-      }
+      },
+      "age_hours": 1.08,
+      "hours_left": 7.35,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     }
   },
   "advisory_rules": {
-    "_updated": "2026-10-24T14:19:32.416967-04:00",
+    "_updated": "2026-10-24T15:24:27.273752-04:00",
     "size_hint": "1.5x committed in Panic/Anxiety or strong/trend tape; 1.0x in chop (+chop_caution)",
     "drop_reference_only": "mechanical-only longs on SOL or with F&G >= 60",
     "same_call_all_3": "flag; prefer the coin with the strongest mechanical agreement",
