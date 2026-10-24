@@ -2,8 +2,8 @@
   "oracle": {
     "top_matching_factors": [
       "fear_greed",
-      "vix",
-      "funding"
+      "btc_momentum_30d",
+      "vix"
     ],
     "diverging_factors": [
       "etf_flows",
@@ -13,26 +13,29 @@
     "oracle_verdict": "APPROACHING",
     "phase": "Panic",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
+    "classifier_signal": "HOLD",
     "confidence": 0.75,
     "next_move": {
-      "predicted_phase": "Denial",
-      "direction": "DOWN",
+      "predicted_phase": "Panic",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cautious optimism, while retail noise sentiment and exchange netflow at extremes suggest growing participation, pushing the market toward a tentative recovery phase.",
-      "confirmed_if": "BTC price rises above $85,000 with a 30d momentum reversal above 0%",
-      "invalidated_if": "BTC price drops below $75,000 with a 30d momentum below -5%",
-      "predicted_phase_clamped_from": "Hope"
+      "reasoning": "The market is in a phase of early recovery skepticism (Disbelief), with fear and greed indicators rising but ETF flows and stablecoin growth diverging. The pattern analog from bottom_2024_aug suggests a cautious hold as the market tests conviction, with no clear directional bias yet.",
+      "confirmed_if": "btc_momentum_30d increases above 50 and fear_greed rises above 60",
+      "invalidated_if": "etf_flows drop below 0 or stablecoin_growth falls below 25",
+      "predicted_phase_clamped_from": "Disbelief",
+      "direction_geometry_would_be": "DOWN",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"vix\", \"funding\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cau",
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"vix\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The market is in a phase of early recovery skepticism (Disbelief), with fear and greed",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "classifier": {
     "top_matching_factors": [
       "fear_greed",
-      "vix",
-      "funding"
+      "btc_momentum_30d",
+      "vix"
     ],
     "diverging_factors": [
       "etf_flows",
@@ -42,26 +45,29 @@
     "oracle_verdict": "APPROACHING",
     "phase": "Panic",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
+    "classifier_signal": "HOLD",
     "confidence": 0.75,
     "next_move": {
-      "predicted_phase": "Denial",
-      "direction": "DOWN",
+      "predicted_phase": "Panic",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cautious optimism, while retail noise sentiment and exchange netflow at extremes suggest growing participation, pushing the market toward a tentative recovery phase.",
-      "confirmed_if": "BTC price rises above $85,000 with a 30d momentum reversal above 0%",
-      "invalidated_if": "BTC price drops below $75,000 with a 30d momentum below -5%",
-      "predicted_phase_clamped_from": "Hope"
+      "reasoning": "The market is in a phase of early recovery skepticism (Disbelief), with fear and greed indicators rising but ETF flows and stablecoin growth diverging. The pattern analog from bottom_2024_aug suggests a cautious hold as the market tests conviction, with no clear directional bias yet.",
+      "confirmed_if": "btc_momentum_30d increases above 50 and fear_greed rises above 60",
+      "invalidated_if": "etf_flows drop below 0 or stablecoin_growth falls below 25",
+      "predicted_phase_clamped_from": "Disbelief",
+      "direction_geometry_would_be": "DOWN",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"vix\", \"funding\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cau",
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"vix\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The market is in a phase of early recovery skepticism (Disbelief), with fear and greed",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
   "analyst": {
     "top_matching_factors": [
       "fear_greed",
-      "vix",
-      "funding"
+      "btc_momentum_30d",
+      "vix"
     ],
     "diverging_factors": [
       "etf_flows",
@@ -71,18 +77,21 @@
     "oracle_verdict": "APPROACHING",
     "phase": "Panic",
     "regime_direction": "RISK_ON",
-    "classifier_signal": "LONG",
+    "classifier_signal": "HOLD",
     "confidence": 0.75,
     "next_move": {
-      "predicted_phase": "Denial",
-      "direction": "DOWN",
+      "predicted_phase": "Panic",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cautious optimism, while retail noise sentiment and exchange netflow at extremes suggest growing participation, pushing the market toward a tentative recovery phase.",
-      "confirmed_if": "BTC price rises above $85,000 with a 30d momentum reversal above 0%",
-      "invalidated_if": "BTC price drops below $75,000 with a 30d momentum below -5%",
-      "predicted_phase_clamped_from": "Hope"
+      "reasoning": "The market is in a phase of early recovery skepticism (Disbelief), with fear and greed indicators rising but ETF flows and stablecoin growth diverging. The pattern analog from bottom_2024_aug suggests a cautious hold as the market tests conviction, with no clear directional bias yet.",
+      "confirmed_if": "btc_momentum_30d increases above 50 and fear_greed rises above 60",
+      "invalidated_if": "etf_flows drop below 0 or stablecoin_growth falls below 25",
+      "predicted_phase_clamped_from": "Disbelief",
+      "direction_geometry_would_be": "DOWN",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"vix\", \"funding\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Hope\",\n    \"direction\": \"UP\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cau",
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"btc_momentum_30d\", \"vix\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Disbelief\",\n  \"regime_direction\": \"RISK_ON\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.75,\n  \"next_move\": {\n    \"predicted_phase\": \"Disbelief\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The market is in a phase of early recovery skepticism (Disbelief), with fear and greed",
     "brain": "analyst",
     "phase_clamped_from": "Disbelief"
   },
@@ -95,42 +104,46 @@
     "confidence": 0.7
   },
   "consensus": {
-    "final_signal": "LONG",
+    "final_signal": "HOLD",
     "final_phase": "Panic",
-    "alert_tier": "HIGH",
+    "alert_tier": "MED",
     "consensus_confidence": 0.72,
-    "key_reasoning": "Analyst anchors at Panic with a LONG/RISK_ON read and 77.4% match to the Aug 2024 accumulation bottom; exchange intake flipping positive (Bitstamp inflow) supports stabilizing participation without contradicting the bottoming regime. Next phase is capped at \u00b11 rung from Panic, so Denial\u2014not Hope\u2014is the only valid upward step.",
+    "key_reasoning": "Analyst anchors at Panic with HOLD and RISK_ON while 77.4% bottom_2024_aug analog supports accumulation without a clear breakout; narrative exchange intake rise is constructive but not decisive enough to upgrade signal. Hard \u00b11 rung rule keeps phase at Panic and blocks the analyst\u2019s illegal jump to Disbelief.",
     "disagreements_noted": [
-      "Analyst forward-calls Hope (rung 8) which violates \u00b11 rung from Panic; narrative supplies flow facts only and no explicit phase/signal"
+      "Analyst forward call to Disbelief (rung 7) violates \u00b11 rung rule from Panic (rung 3)",
+      "Narrative supplies flow color only\u2014no explicit phase or signal\u2014so no full agreement on forward path"
     ],
     "next_move": {
       "predicted_phase": "Denial",
-      "direction": "DOWN",
+      "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Fear/VIX relief plus rising clean-asset intake and bottom analog favor one rung up the ladder into Denial, not a skip to Hope.",
-      "brains_agree": "split \u2014 analyst wants Hope/UP; narrative silent on phase; consensus clips to Denial (+1) per ladder rule",
-      "confirmed_if": "BTC holds above $85,000 with 30d momentum reversing above 0% and intake staying positive",
-      "invalidated_if": "BTC breaks below $75,000 with 30d momentum under -5% and renewed exchange outflows",
+      "reasoning": "Bottom analog plus rising clean-asset intake favor a one-rung grind higher into Denial, yet diverging ETF/stablecoin factors and mid-range conviction keep the call as HOLD rather than forced long.",
+      "brains_agree": "No\u2014analyst projected Disbelief/HOLD; narrative silent on phase; consensus overrides to Denial/HOLD under rung discipline",
+      "confirmed_if": "btc_momentum_30d rises above 50 and fear_greed clears 60 while exchange intake stays positive",
+      "invalidated_if": "etf_flows turn negative or stablecoin_growth drops below 25 with VIX spike",
       "confidence_pct": 82.0,
-      "confidence_basis": "1/1 independent brains back DOWN (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+      "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"Panic\",\n  \"alert_tier\": \"HIGH\",\n  \"consensus_confidence\": 0.72,\n  \"key_reasoning\": \"Analyst anchors at Panic with a LONG/RISK_ON read and 77.4% match to the Aug 2024 accumulation bottom; exchange intake flipping positive (Bitstamp inflow) supports stabilizing participation without contradicting the bottoming regime. Next phase is capped at \u00b11 rung from Panic, so Denial\u2014not Hope\u2014is the only valid upward step.\",\n  \"disagreements_noted\": [\n    \"Analyst ",
+    "raw_response": "{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Panic\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.72,\n  \"key_reasoning\": \"Analyst anchors at Panic with HOLD and RISK_ON while 77.4% bottom_2024_aug analog supports accumulation without a clear breakout; narrative exchange intake rise is constructive but not decisive enough to upgrade signal. Hard \u00b11 rung rule keeps phase at Panic and blocks the analyst\u2019s illegal jump to Disbelief.\",\n  \"disagreements_noted\": [\n    \"Analyst forward call to Di",
     "brain": "consensus_judge",
     "brains_avg_confidence": 0.725,
     "brain_reads": {
       "analyst": {
-        "signal": "LONG",
+        "signal": "HOLD",
         "phase": "Panic",
         "verdict": "APPROACHING",
         "confidence": 0.75,
         "next_move": {
-          "predicted_phase": "Denial",
-          "direction": "DOWN",
+          "predicted_phase": "Panic",
+          "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cautious optimism, while retail noise sentiment and exchange netflow at extremes suggest growing participation, pushing the market toward a tentative recovery phase.",
-          "confirmed_if": "BTC price rises above $85,000 with a 30d momentum reversal above 0%",
-          "invalidated_if": "BTC price drops below $75,000 with a 30d momentum below -5%",
-          "predicted_phase_clamped_from": "Hope"
+          "reasoning": "The market is in a phase of early recovery skepticism (Disbelief), with fear and greed indicators rising but ETF flows and stablecoin growth diverging. The pattern analog from bottom_2024_aug suggests a cautious hold as the market tests conviction, with no clear directional bias yet.",
+          "confirmed_if": "btc_momentum_30d increases above 50 and fear_greed rises above 60",
+          "invalidated_if": "etf_flows drop below 0 or stablecoin_growth falls below 25",
+          "predicted_phase_clamped_from": "Disbelief",
+          "direction_geometry_would_be": "DOWN",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
@@ -140,19 +153,19 @@
         "next_move": null
       },
       "judge": {
-        "signal": "LONG",
+        "signal": "HOLD",
         "phase": "Panic",
         "confidence": 0.72,
         "next_move": {
           "predicted_phase": "Denial",
-          "direction": "DOWN",
+          "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Fear/VIX relief plus rising clean-asset intake and bottom analog favor one rung up the ladder into Denial, not a skip to Hope.",
-          "brains_agree": "split \u2014 analyst wants Hope/UP; narrative silent on phase; consensus clips to Denial (+1) per ladder rule",
-          "confirmed_if": "BTC holds above $85,000 with 30d momentum reversing above 0% and intake staying positive",
-          "invalidated_if": "BTC breaks below $75,000 with 30d momentum under -5% and renewed exchange outflows",
+          "reasoning": "Bottom analog plus rising clean-asset intake favor a one-rung grind higher into Denial, yet diverging ETF/stablecoin factors and mid-range conviction keep the call as HOLD rather than forced long.",
+          "brains_agree": "No\u2014analyst projected Disbelief/HOLD; narrative silent on phase; consensus overrides to Denial/HOLD under rung discipline",
+          "confirmed_if": "btc_momentum_30d rises above 50 and fear_greed clears 60 while exchange intake stays positive",
+          "invalidated_if": "etf_flows turn negative or stablecoin_growth drops below 25 with VIX spike",
           "confidence_pct": 82.0,
-          "confidence_basis": "1/1 independent brains back DOWN (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+          "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
       },
       "legacy": {
@@ -170,13 +183,16 @@
       "phase": "Panic",
       "confidence": 0.75,
       "next_move": {
-        "predicted_phase": "Denial",
-        "direction": "DOWN",
+        "predicted_phase": "Panic",
+        "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Fear & Greed and VIX have both risen sharply from the bottom, signaling a shift from skepticism to cautious optimism, while retail noise sentiment and exchange netflow at extremes suggest growing participation, pushing the market toward a tentative recovery phase.",
-        "confirmed_if": "BTC price rises above $85,000 with a 30d momentum reversal above 0%",
-        "invalidated_if": "BTC price drops below $75,000 with a 30d momentum below -5%",
-        "predicted_phase_clamped_from": "Hope"
+        "reasoning": "The market is in a phase of early recovery skepticism (Disbelief), with fear and greed indicators rising but ETF flows and stablecoin growth diverging. The pattern analog from bottom_2024_aug suggests a cautious hold as the market tests conviction, with no clear directional bias yet.",
+        "confirmed_if": "btc_momentum_30d increases above 50 and fear_greed rises above 60",
+        "invalidated_if": "etf_flows drop below 0 or stablecoin_growth falls below 25",
+        "predicted_phase_clamped_from": "Disbelief",
+        "direction_geometry_would_be": "DOWN",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
@@ -185,23 +201,23 @@
       "next_move": null
     },
     "judge": {
-      "signal": "LONG",
+      "signal": "HOLD",
       "confidence": 0.72,
       "next_move": {
         "predicted_phase": "Denial",
-        "direction": "DOWN",
+        "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Fear/VIX relief plus rising clean-asset intake and bottom analog favor one rung up the ladder into Denial, not a skip to Hope.",
-        "brains_agree": "split \u2014 analyst wants Hope/UP; narrative silent on phase; consensus clips to Denial (+1) per ladder rule",
-        "confirmed_if": "BTC holds above $85,000 with 30d momentum reversing above 0% and intake staying positive",
-        "invalidated_if": "BTC breaks below $75,000 with 30d momentum under -5% and renewed exchange outflows",
+        "reasoning": "Bottom analog plus rising clean-asset intake favor a one-rung grind higher into Denial, yet diverging ETF/stablecoin factors and mid-range conviction keep the call as HOLD rather than forced long.",
+        "brains_agree": "No\u2014analyst projected Disbelief/HOLD; narrative silent on phase; consensus overrides to Denial/HOLD under rung discipline",
+        "confirmed_if": "btc_momentum_30d rises above 50 and fear_greed clears 60 while exchange intake stays positive",
+        "invalidated_if": "etf_flows turn negative or stablecoin_growth drops below 25 with VIX spike",
         "confidence_pct": 82.0,
-        "confidence_basis": "1/1 independent brains back DOWN (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+        "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-24T00:23:33.401770-04:00",
+  "timestamp": "2026-10-24T01:29:41.526989-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
