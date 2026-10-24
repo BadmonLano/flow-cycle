@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-24T06:54:43.455729-04:00",
+  "updated_at": "2026-10-24T10:10:44.084831-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes more than 4% above or below its level at the start of the 14-day window on any session, with the move confirmed by a second close beyond that threshold",
-      "what_it_would_mean": "A resolved directional trend of that size falsifies UNKNOWN/HOLD: the regime is no longer undecided and sitting out missed a clear move"
+      "condition": "Within 14 days, tracked similarity to bottom_2024_aug falls below 50% and the primary risk index prints a new 20-session closing low.",
+      "what_it_would_mean": "The bottom analog anchoring UNKNOWN/HOLD is broken; a directional risk-off call was required instead of hold."
     },
     {
       "id": 2,
-      "condition": "Pattern-match similarity to bottom_2024_aug falls below 50% or rises above 90% and stays there for 3 consecutive sessions",
-      "what_it_would_mean": "The analog either breaks (below 50%, so the bottom template no longer applies) or confirms (above 90%), so an unresolved UNKNOWN call is no longer tenable"
+      "condition": "Blowoff score closes at or above 70 on any session in the next 14 days.",
+      "what_it_would_mean": "Regime is a blowoff, not an August-2024-style base, so UNKNOWN/HOLD tied to that bottom pattern is false."
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints above 70, or high-yield OAS widens by more than 50 bps from the start of the window",
-      "what_it_would_mean": "Either a blowoff regime or a credit-stress regime has replaced the current non-call, invalidating both the low blowoff reading (38) and the HOLD"
+      "condition": "The primary risk index closes at least 6% above its level at the start of this 14-day window and above its prior 50-session closing high.",
+      "what_it_would_mean": "The 77% bottom match resolved into a confirmed upside break; remaining UNKNOWN/HOLD missed a completed long signal."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
