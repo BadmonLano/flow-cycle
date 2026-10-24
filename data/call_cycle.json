@@ -126,15 +126,15 @@
     "carried": false,
     "revision_of_window_start": "2026-10-24T10:45:11.923146-04:00",
     "fade_sensor": {
-      "fires": false,
-      "status": "watching",
+      "fires": true,
+      "status": "FADE_SHAPE",
       "_unvalidated": true,
       "peak_pct_so_far": 0.0,
       "favoured_pct": -0.0,
-      "gave_back_pp": 0.243,
+      "gave_back_pp": 0.627,
       "peak_at_hour": 1.06,
-      "elapsed_hours": 7.54,
-      "reading": "nothing decisive yet (-0.00% your way at 7.54h).",
+      "elapsed_hours": 7.56,
+      "reading": "this call peaked 1.06h in (-0.00% your way) and has given back 0.63pp since. In the 19-call backfill that shape preceded a MISS 5 times out of 6.",
       "_caveat": "UNVALIDATED. This rule was fitted to 13 directional calls and has never been tested on data nobody tuned it on. It is a reading, not an instruction - the revision lever is still yours, and spending it on a sensor this young is a bet on the sensor, not on the tape.",
       "_thresholds": {
         "peak_before_h": 3.0,
@@ -148,7 +148,8 @@
       "_unvalidated": true,
       "reason": null,
       "reading": "bullet already spent this window. second-leg is live. no bank ask."
-    }
+    },
+    "fade_sensor_fired_at": "2026-10-24T19:41:33.051723-04:00"
   },
   "revision_used": true,
   "graded": [
@@ -27108,9 +27109,9 @@
     "next_boundary_iso": "2026-10-24T22:45:11.923146-04:00",
     "slot_id": "2026-10-24-AM",
     "stamped_at": "2026-10-24T12:07:51.364000-04:00",
-    "stamped_ago_min": 452,
-    "seconds_left": 11102,
-    "minutes_left": 185,
+    "stamped_ago_min": 453,
+    "seconds_left": 11018,
+    "minutes_left": 183,
     "hours_left": 3.1,
     "as_of": "2026-10-24T12:07:51.364000-04:00",
     "invalidate_if": [
@@ -28138,12 +28139,11 @@
       "_archived_epoch": "2026-07-27"
     }
   ],
-  "revision_prompt_fired": false,
+  "revision_prompt_fired": true,
   "revision_read_snapshot": {
-    "reason": "state_flip",
-    "at": "2026-10-24T09:02:10.462136-04:00",
-    "clock_left_min": 13,
-    "flip": "clock_band"
+    "reason": "drift",
+    "at": "2026-10-24T19:41:33.062165-04:00",
+    "clock_left_min": 183
   },
   "offline_windows": [
     {
@@ -28422,7 +28422,7 @@
   "call_state": {
     "state": "LIVE",
     "since": "2026-10-24T10:45:11.936152-04:00",
-    "sweeps_in_state": 11,
+    "sweeps_in_state": 12,
     "_meaning": "stamped, clock running"
   },
   "bakeoff": {
@@ -28438,5 +28438,11 @@
     "verdict": "jordan ahead",
     "_basis": "decided rounds only; scratch weeks are not scored as ties"
   },
-  "bank_prompt_fired": false
+  "bank_prompt_fired": false,
+  "revision_fire_state": {
+    "in_material_band": true,
+    "bank_sensor": false,
+    "clock_band": "normal",
+    "at": "2026-10-24T19:41:33.063165-04:00"
+  }
 }
