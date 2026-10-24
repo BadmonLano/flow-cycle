@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-24T10:10:44.084831-04:00",
+  "updated_at": "2026-10-24T11:56:07.444404-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days, tracked similarity to bottom_2024_aug falls below 50% and the primary risk index prints a new 20-session closing low.",
-      "what_it_would_mean": "The bottom analog anchoring UNKNOWN/HOLD is broken; a directional risk-off call was required instead of hold."
+      "condition": "S&P 500 cash index closes at least 6.0% below its signal-date close within the next 14 calendar days",
+      "what_it_would_mean": "A breakdown of that size resolves the unknown phase as risk-off and proves HOLD wrong; the 76% bottom_2024_aug match would be invalidated, not merely unconfirmed."
     },
     {
       "id": 2,
-      "condition": "Blowoff score closes at or above 70 on any session in the next 14 days.",
-      "what_it_would_mean": "Regime is a blowoff, not an August-2024-style base, so UNKNOWN/HOLD tied to that bottom pattern is false."
+      "condition": "S&P 500 closes at least 5.0% above its signal-date close and CBOE VIX closes below 14.0 on the same session within 14 days",
+      "what_it_would_mean": "A price thrust plus vol crush would confirm the bottom analog and force a risk-on call, falsifying both UNKNOWN and HOLD."
     },
     {
       "id": 3,
-      "condition": "The primary risk index closes at least 6% above its level at the start of this 14-day window and above its prior 50-session closing high.",
-      "what_it_would_mean": "The 77% bottom match resolved into a confirmed upside break; remaining UNKNOWN/HOLD missed a completed long signal."
+      "condition": "ICE BofA US High Yield OAS widens by 75 basis points or more versus its signal-date level within 14 days",
+      "what_it_would_mean": "A credit-spread blowout of that size would show the blowoff score of 41 and the bottom-pattern match were misleading, invalidating a neutral hold in favor of stress."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
