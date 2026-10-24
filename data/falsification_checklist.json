@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-23T18:04:38.188508-04:00",
+  "updated_at": "2026-10-23T21:16:07.330604-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index closes at least 5.0% below its close on day 0 of this window on any session within 14 days, and that close is also below the August 5, 2024 intraday low analog (the reference trough in the bottom_2024_aug pattern).",
-      "what_it_would_mean": "The 78% bottom_2024_aug match is invalidated: price has broken the pattern's recovery structure rather than basing, so UNKNOWN/HOLD is wrong and the correct call is downside continuation, not a hold through a bottom."
+      "condition": "The S&P 500 index closes above 5,200 on at least 3 consecutive trading days within the next 14 days",
+      "what_it_would_mean": "This would indicate strong bullish momentum, contradicting the current HOLD signal and suggesting a potential blowoff top rather than a continuation of the bottoming pattern."
     },
     {
       "id": 2,
-      "condition": "S&P 500 cash index closes at least 6.0% above its day-0 close within 14 days AND VIX closes below 14.0 on the same session or the session after.",
-      "what_it_would_mean": "The tape has resolved the unknown into a confirmed risk-on recovery, not a hold. Staying HOLD through a >6% rally with volatility crushed would mean the engine missed a completed bottom and a directional long signal."
+      "condition": "The 20-day moving average of the VIX (Volatility Index) drops below 12 within the next 14 days",
+      "what_it_would_mean": "A significant decline in volatility would suggest reduced fear in the market, which could invalidate the current HOLD signal by indicating a shift toward bullish sentiment and a potential end to the bottoming phase."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by at least 75 basis points versus its day-0 level at any point in the next 14 days, or the 10-year US Treasury yield moves at least 40 basis points from its day-0 close in either direction with the S&P 500 down at least 3.0% over the same span.",
-      "what_it_would_mean": "Cross-asset stress or a rates shock has broken the low-blowoff (score 38), range-bound hold regime. A 75bp credit widening or a 40bp yield shock coincident with equity weakness falsifies both the bottom-repair analog and the HOLD signal."
+      "condition": "The number of new highs on the NYSE exceeds 150 in a single day within the next 14 days",
+      "what_it_would_mean": "This would indicate a broad market rally, which would contradict the current HOLD signal and suggest that the market is moving away from the bottoming pattern and toward a new uptrend."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
