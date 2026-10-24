@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-24T03:40:09.334538-04:00",
+  "updated_at": "2026-10-24T06:54:43.455729-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index closes more than 4.0% above or below its close on the day of this verdict within the next 14 calendar days",
-      "what_it_would_mean": "A decisive directional move resolves the UNKNOWN phase into a clear up or down regime and makes HOLD the wrong signal"
+      "condition": "S&P 500 closes more than 4% above or below its level at the start of the 14-day window on any session, with the move confirmed by a second close beyond that threshold",
+      "what_it_would_mean": "A resolved directional trend of that size falsifies UNKNOWN/HOLD: the regime is no longer undecided and sitting out missed a clear move"
     },
     {
       "id": 2,
-      "condition": "Pattern-match similarity to bottom_2024_aug falls below 40% on the engine's own score within 14 days",
-      "what_it_would_mean": "The August 2024 bottom analog that frames this read is broken, so an UNKNOWN verdict resting on that resemblance is invalidated"
+      "condition": "Pattern-match similarity to bottom_2024_aug falls below 50% or rises above 90% and stays there for 3 consecutive sessions",
+      "what_it_would_mean": "The analog either breaks (below 50%, so the bottom template no longer applies) or confirms (above 90%), so an unresolved UNKNOWN call is no longer tenable"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or at or below 15, on any daily reading in the next 14 days",
-      "what_it_would_mean": "A mid-range blowoff score of 39 no longer describes the tape; the regime is either a climax or clearly not one, so the indeterminate HOLD call is wrong"
+      "condition": "Blowoff score prints above 70, or high-yield OAS widens by more than 50 bps from the start of the window",
+      "what_it_would_mean": "Either a blowoff regime or a credit-stress regime has replaced the current non-call, invalidating both the low blowoff reading (38) and the HOLD"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
