@@ -1,0 +1,40 @@
+lines 33200 hits 39
+8122:    "options_skew":         "Deribit public metrics",
+9182:        venues.append({"name": c.get("name"), "clean_assets_usd": round(clean, 2),
+9190:    venues.sort(key=lambda v: v["clean_assets_usd"], reverse=True)
+9213:        "exchange_reserves_source":   "defillama_cexs_clean_assets_usd",
+9352:async def fetch_options_skew() -> dict:
+9432:                "options_skew":            round(skew, 2),
+9433:                "options_skew_put_iv":     round(p[2], 2),
+9434:                "options_skew_call_iv":    round(c[2], 2),
+9435:                "options_skew_put_strike": p[0],
+9436:                "options_skew_call_strike": c[0],
+9437:                "options_skew_expiry":     exp.isoformat(),
+9438:                "options_skew_spot":       round(spot, 2),
+9439:                "options_skew_method":     "moneyness_proxy_10pct_otm",
+9469:        out["options_skew_read"] = "downside heavily bid (institutional hedging / fear)"
+9471:        out["options_skew_read"] = "puts bid over calls (mild fear)"
+9473:        out["options_skew_read"] = "calls heavily bid (upside chase / euphoria)"
+9475:        out["options_skew_read"] = "calls bid over puts (mild greed)"
+9477:        out["options_skew_read"] = "balanced"
+9479:    log(f"options skew: {skew:+.2f} vol pts ({out['options_skew_read']}) "
+9999:    _sk = data.get("options_skew")
+10004:            _factors["options_skew"] = int(round(max(0.0, min(100.0,
+10628:    # including options_skew at 100, exchange_netflow at 100 and reserves at 97.
+11916:JORDAN_HEADLINE_FILE = os.path.join(SITE_DATA, "jordan_headline.json")
+11917:JORDAN_HEADLINE_MAX_AGE_H = 3.0
+11949:def _load_jordan_headline():
+11951:    raw = load_json(JORDAN_HEADLINE_FILE, {}) or {}
+11967:    if age_h > JORDAN_HEADLINE_MAX_AGE_H:
+11968:        log(f"jordan headline stale ({age_h:.1f}h > {JORDAN_HEADLINE_MAX_AGE_H:g}h), public card will not use it", "WARN")
+11989:            f"No fresh Jordan headline in the last {JORDAN_HEADLINE_MAX_AGE_H:g}h."
+12001:    jordan = _load_jordan_headline()
+14099:               "options_skew", "options_skew_read", "options_skew_expiry",
+14100:               "options_skew_put_strike", "options_skew_call_strike",
+20571:        fetch_options_skew(),          # 2026-08-07 - Deribit public skew + DVOL, free
+23615:        "name": "options_skew",
+23927:        "options_skew":             ["options_skew", "btc_options_skew"],
+23952:        "options_skew":             ["options_skew"],
+26050:            if _pos.get("options_skew") is not None:
+26054:                    f"  - OPTIONS SKEW: {_pos['options_skew']:+.1f} vol pts - "
+26055:                    f"{_pos.get('options_skew_read', '')}{_dv}")
