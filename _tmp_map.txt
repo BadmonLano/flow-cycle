@@ -1,0 +1,40 @@
+HUMANIZE_MAP = {
+  etf_net_total: 'ETF net flows', mvrv_zscore: 'MVRV z-score', fear_greed: 'fear & greed',
+  stablecoin_growth: 'stablecoin growth', stablecoin_total: 'stablecoin supply',
+  gold_strength: 'gold strength', dxy_weakness: 'dollar weakness', dxy: 'dollar index',
+  btc_funding: 'BTC funding', eth_funding: 'ETH funding', btc_oi_total: 'BTC open interest',
+  btc_oi: 'BTC open interest', active_addresses: 'active addresses', lth_supply: 'long-term-holder supply',
+  btc_momentum: 'BTC momentum', funding_rate: 'funding rate', daily_read: 'daily read',
+  risk_on: 'risk-on', risk_off: 'risk-off', sustained_narrative: 'sustained narrative',
+  geo_political: 'geopolitics', regime_direction: 'regime direction', classifier_signal: 'signal',
+};
+function humanize(s) {
+  if (!s || typeof s !== 'string') return s;
+  let out = s.replace(/\[crucix:([a-z_]+)\]/gi, (m, p1) => (HUMANIZE_MAP[p1] || p1.replace(/_/g, ' ')));
+  for (const [k, v] of Object.entries(HUMANIZE_MAP)) {
+    out = out.replace(new RegExp('\\b' + k + '\\b', 'gi'), v);
+  }
+  out = out.replace(/\b([a-z]+_[a-z_]+)\b/g, (m) => m.replace(/_/g, ' '));  // any leftover snake_case
+  return out;
+}
+// Toggle button shows on/off state, defaults to off so chart loads clean.
+// User clicks ◌ AI Markers button to enable, sees ◉ AI Markers when on.
+let showMarkers = false;
+let showPrediction = true;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WEEKLY DATE GENERATION (preserved)
+// ═══════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════
+// DAILY TIME-SERIES MODEL (rebuild — replaces the old 2017-2028 weekly grid)
+// ═══════════════════════════════════════════════════════════════════════════
+// The chart is now a proper Chart.js time series. Every dataset is an array of
+// {x: 'YYYY-MM-DD', y: value} points carrying their own date, so:
+//   - history renders one point PER DAY from chart_history.json (real data),
+//     stops at today, never projects forward
+//     a rolling 2 years (they re-anchor every day as new history lands)
+//   - hover reads date/fg/phase straight off the point — no weekly-index lookup,
+//     so F&G/phase show correctly per day
+//   - the x-axis is driven by real dates: pan/zoom is always truthful, and the
+//     1M/3M/6M/1Y/2Y/ALL buttons window the view + adapt tick density.
+// No hardcoded weeklyDates, no knownPoints interpolation. Data is the sourc
