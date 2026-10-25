@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-25T06:31:37.896048-04:00",
+  "_updated": "2026-10-25T07:34:38.494646-04:00",
   "calls": {
     "BTC": {
       "direction": "SHORT",
@@ -80,7 +80,11 @@
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
-      }
+      },
+      "age_hours": 1.05,
+      "hours_left": 4.45,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "ETH": {
       "direction": "SHORT",
@@ -147,20 +151,25 @@
       },
       "opened_at": "2026-10-25T06:31:37.896048-04:00",
       "advisory": {
-        "size_hint": 1.5,
+        "size_hint": 1.0,
         "flags": [
+          "chop_caution",
           "same_call_all_3"
         ],
-        "regime_24h": "trend",
+        "regime_24h": "chop",
         "phase": "Anxiety",
         "committed": true,
         "why": [
-          "committed in Anxiety / trend tape",
+          "chop tape: committed calls lost over 24h in chop",
           "same SHORT on all 3 coins: prefer SOL (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
-      }
+      },
+      "age_hours": 1.05,
+      "hours_left": 4.45,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "SOL": {
       "direction": "SHORT",
@@ -245,14 +254,14 @@
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": true
       },
-      "age_hours": 5.44,
-      "hours_left": 5.5,
+      "age_hours": 6.49,
+      "hours_left": 4.45,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     }
   },
   "advisory_rules": {
-    "_updated": "2026-10-25T06:31:38.080571-04:00",
+    "_updated": "2026-10-25T07:34:38.568650-04:00",
     "size_hint": "1.5x committed in Panic/Anxiety or strong/trend tape; 1.0x in chop (+chop_caution)",
     "drop_reference_only": "mechanical-only longs on SOL or with F&G >= 60",
     "same_call_all_3": "flag; prefer the coin with the strongest mechanical agreement",
