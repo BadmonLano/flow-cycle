@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-25T16:14:47.639609-04:00",
+  "updated_at": "2026-10-25T19:30:14.939005-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "SPX closes at least 4.0% below its close on the verdict date on any session within 14 days, and VIX closes above 28 on that same session.",
-      "what_it_would_mean": "A disorderly break lower with a volatility spike falsifies both HOLD and the bottom_2024_aug analog; the correct call would have been risk-off, not unknown/flat."
+      "condition": "S&P 500 cash index closes at least 4.0% above today's close on any session within 14 days, with VIX closing below 16 on the same day",
+      "what_it_would_mean": "A confirmed upside resolution would falsify HOLD/UNKNOWN: the bottom_2024_aug analogue would have already triggered and a flat call would have missed a directional long."
     },
     {
       "id": 2,
-      "condition": "ICE BofA US High Yield OAS widens by 50 bps or more versus the verdict-date close, and the US 10-year yield rises by 30 bps or more over the same 14-day window.",
-      "what_it_would_mean": "A simultaneous credit and rates shock did not confirm the Aug 2024 bottom template; pattern match to bottom_2024_aug is invalidated and UNKNOWN/HOLD missed a regime break."
+      "condition": "S&P 500 cash index closes more than 3.0% below the lowest daily close of the prior 20 sessions, and VIX closes above 28 on that same day",
+      "what_it_would_mean": "A fresh breakdown with a vol spike would falsify both the 77% bottom_2024_aug match and HOLD: the pattern would be a failed base, not an unresolved bottom."
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 65 on any day in the next 14 days while SPX is up at least 3.0% from the verdict-date close and VIX closes below 14.",
-      "what_it_would_mean": "A low-vol melt-up with an elevated blowoff score contradicts a bottom setup (score 38, 77% bottom match); the verdict should have resolved to late-cycle blowoff, not UNKNOWN/HOLD."
+      "condition": "HY OAS (ICE BofA US High Yield option-adjusted spread) widens by 75 bps or more versus today's close and stays at least 50 bps wider on the day-14 close",
+      "what_it_would_mean": "Persistent credit stress would falsify UNKNOWN/HOLD by forcing a risk-off regime call; a bottom analogue cannot remain unresolved if credit confirms stress rather than repair."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
