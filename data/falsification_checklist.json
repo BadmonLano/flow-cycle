@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-25T09:45:25.957883-04:00",
+  "updated_at": "2026-10-25T12:57:39.161673-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 5.0% above today's close within 14 days, and VIX closes below 15 on the same day",
-      "what_it_would_mean": "The bottom_2024_aug analog confirmed; UNKNOWN/HOLD was wrong because the correct call was risk-on"
+      "condition": "S&P 500 closes at least 3.0% above its lowest close of the prior 10 sessions on 5 or more of the next 14 sessions, while VIX closes below 16 on the same days",
+      "what_it_would_mean": "The bottom_2024_aug analog confirmed as a completed low and a risk-on phase; HOLD/UNKNOWN was the wrong call because a long signal was already justified"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 3.0% below the August 2024 pattern trough (the reference low used in the 77% match) on any session in the next 14 days",
-      "what_it_would_mean": "The bottom pattern is invalidated; UNKNOWN/HOLD was wrong because the correct call was breakdown/risk-off"
+      "condition": "S&P 500 prints a closing low more than 4.0% below its lowest close of the prior 20 sessions, or ICE BofA US High Yield OAS widens by 50 bps or more from today's level",
+      "what_it_would_mean": "The 77% bottom_2024_aug match failed; price action is a breakdown, not a base, so UNKNOWN/HOLD concealed a clear risk-off verdict"
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by 75 basis points or more from today's level, or the blowoff score prints at or above 70, within 14 days",
-      "what_it_would_mean": "The moderate blowoff (39) and quiet-bottom framing failed; a stress regime arrived and HOLD was the wrong signal"
+      "condition": "VIX closes above 30 on any session in the next 14 days, or the US 10-year yield moves 40 bps or more in either direction from today's close",
+      "what_it_would_mean": "A named volatility or rates regime shift resolved the unknown phase; staying at HOLD with a blowoff score of 39 would be falsified by an observable stress or reflation break"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
