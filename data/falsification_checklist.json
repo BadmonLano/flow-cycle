@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-24T20:49:28.680793-04:00",
+  "updated_at": "2026-10-25T00:01:48.489632-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days the S&P 500 closes at least 5% above its lowest close of the prior 20 sessions and the VIX closes below 15 for three consecutive sessions.",
-      "what_it_would_mean": "The Aug-2024-style bottom analog resolved into a confirmed risk-on rally, so UNKNOWN/HOLD was too indecisive and a bullish call was required."
+      "condition": "Pattern similarity to bottom_2024_aug falls below 50% and a competing non-bottom pattern (top, continuation, or breakdown) prints similarity above 75% on the same engine snapshot within 14 days",
+      "what_it_would_mean": "The August 2024 bottom analog anchoring UNKNOWN/HOLD is no longer the dominant match, so the unresolved hold is wrong and a directional verdict should have been issued"
     },
     {
       "id": 2,
-      "condition": "Within 14 days the S&P 500 closes more than 4% below its lowest close of the prior 20 sessions on the same day ICE BofA US High Yield OAS (or CDX HY) widens by at least 50 basis points from its level at the start of the window.",
-      "what_it_would_mean": "Price and credit broke the bottom_2024_aug template; the 77% pattern match and HOLD were wrong and the phase is a breakdown, not an unresolved bottom."
+      "condition": "Blowoff score prints at or above 65 on any session within 14 days while the primary risk asset closes at a new 20-session high",
+      "what_it_would_mean": "A blowoff/late-cycle regime is active, which contradicts an unknown bottoming phase and a HOLD; the call should have been exhaustion or late-cycle, not UNKNOWN"
     },
     {
       "id": 3,
-      "condition": "Within 14 days either the blowoff score prints at or above 70, or a scheduled CPI release or FOMC decision produces a single-session S&P 500 move of at least 3% with the VIX closing above 30.",
-      "what_it_would_mean": "The regime left the moderate, non-blowoff unknown state (score 39, phase Unknown); HOLD failed because a decisive directional or stress regime was already identifiable."
+      "condition": "The primary risk asset closes more than 3% below the trough of the bottom_2024_aug analog window and stays below that level for 3 consecutive sessions within 14 days",
+      "what_it_would_mean": "The bottom analog has failed in price; remaining UNKNOWN/HOLD is wrong because the pattern is invalidated and the signal should have flipped to risk-off"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
