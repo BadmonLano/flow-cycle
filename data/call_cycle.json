@@ -116,10 +116,10 @@
       "_unvalidated": true,
       "peak_pct_so_far": -0.833,
       "favoured_pct": 0.833,
-      "gave_back_pp": 0.0,
+      "gave_back_pp": 0.338,
       "peak_at_hour": 5.36,
-      "elapsed_hours": 6.49,
-      "reading": "holding - +0.83% your way, only 0.00pp handed back. Hits in the backfill averaged 0.26pp giveback.",
+      "elapsed_hours": 7.54,
+      "reading": "holding - +0.83% your way, only 0.34pp handed back. Hits in the backfill averaged 0.26pp giveback.",
       "_caveat": "UNVALIDATED. This rule was fitted to 13 directional calls and has never been tested on data nobody tuned it on. It is a reading, not an instruction - the revision lever is still yours, and spending it on a sensor this young is a bet on the sensor, not on the tape.",
       "_thresholds": {
         "peak_before_h": 3.0,
@@ -127,20 +127,21 @@
       }
     },
     "bank_sensor": {
-      "fires": false,
-      "status": "watching",
-      "suggestion": "held",
+      "fires": true,
+      "status": "BANK_FIRST_WAVE",
+      "suggestion": "banked_flat",
       "_unvalidated": true,
-      "reason": null,
+      "reason": "bank",
       "peak_pct_so_far": -0.833,
       "favoured_pct": 0.833,
-      "gave_back_pp": 0.0,
+      "gave_back_pp": 0.338,
       "peak_at_hour": 5.36,
-      "elapsed_hours": 6.49,
-      "net_pct_so_far": -0.833,
-      "stalled": false,
-      "time_left_min": 330,
-      "reading": "wave still going. +0.83% your way, only 0.00pp handed back. hold unless you can name the next leg.",
+      "elapsed_hours": 7.54,
+      "net_pct_so_far": -0.495,
+      "stalled": true,
+      "time_left_min": 267,
+      "suggested_direction": "flat",
+      "reading": "first wave in. +0.83% your way, peaked 5.36h in, stalled 2.2h off the peak. 267m left. bank this down_micro (interim grade locks) and restamp flat for the remainder. that is the double hit. binding:false. nothing auto-revises.",
       "_thresholds": {
         "fav_min_pct": 0.25,
         "giveback_min_pp": 0.35,
@@ -149,13 +150,17 @@
       },
       "_caveat": "BANK SENSOR. advisory only. never auto-restamps. unused bullet at the boundary is the miss of the lever, not discipline."
     },
-    "live_bullet_last_check_iso": "2026-10-25T06:31:07.357061-04:00",
-    "live_bullet_drift_vs_call_pct": -0.743,
+    "live_bullet_last_check_iso": "2026-10-25T07:34:10.393964-04:00",
+    "live_bullet_drift_vs_call_pct": -0.405,
     "bank_sensor_fired_at": "2026-10-25T04:19:25.400143-04:00",
     "mid_bank": {
       "armed": true,
       "armed_at_hour": 6.49,
-      "armed_fav_pct": 0.833
+      "armed_fav_pct": 0.833,
+      "banked": true,
+      "banked_at_hour": 7.54,
+      "banked_pct": 0.495,
+      "peak_fav_pct": 0.833
     }
   },
   "revision_used": false,
@@ -27497,20 +27502,20 @@
     "next_boundary_iso": "2026-10-25T12:01:48.577631-04:00",
     "slot_id": "2026-10-24-PM",
     "stamped_at": "2026-10-25T00:01:48.551630-04:00",
-    "stamped_ago_min": 389,
-    "seconds_left": 19841,
-    "minutes_left": 330,
-    "hours_left": 5.5,
+    "stamped_ago_min": 452,
+    "seconds_left": 16058,
+    "minutes_left": 267,
+    "hours_left": 4.5,
     "as_of": "2026-10-25T00:01:48.551630-04:00",
     "invalidate_if": [
       "dies if btc reclaims 81200"
     ],
     "revision_available": true,
     "bullet": "loaded",
-    "live_bullet_last_check_iso": "2026-10-25T05:23:15.095491-04:00",
-    "live_bullet_drift_vs_call_pct": -0.197,
+    "live_bullet_last_check_iso": "2026-10-25T06:31:07.357061-04:00",
+    "live_bullet_drift_vs_call_pct": -0.743,
     "carried": false,
-    "note": "5.5h left in this 12h window (anchored to the call stamp). Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
+    "note": "4.5h left in this 12h window (anchored to the call stamp). BANK: first wave in. banked_flat suggested. spend the bullet or hold. Your 1 re-stamp is still available. restamp grades this call NOW and rides the remainder of stamp+12h (never a fresh 12h, never an AM/PM line). unused reset is a miss of the lever."
   },
   "no_calls": [
     {
@@ -28810,7 +28815,7 @@
   "call_state": {
     "state": "LIVE",
     "since": "2026-10-25T00:01:48.587636-04:00",
-    "sweeps_in_state": 6,
+    "sweeps_in_state": 7,
     "_meaning": "stamped, clock running"
   },
   "bakeoff": {
@@ -28828,22 +28833,22 @@
   },
   "bank_prompt_fired": true,
   "live_bullet": {
-    "last_check_iso": "2026-10-25T06:31:07.357061-04:00",
+    "last_check_iso": "2026-10-25T07:34:10.393964-04:00",
     "call_id": "c_bec780340ab4",
-    "drift_vs_call_pct": -0.743,
-    "time_left_min": 330,
+    "drift_vs_call_pct": -0.405,
+    "time_left_min": 267,
     "clock_band": "normal"
   },
   "bank_read_snapshot": {
-    "reason": "bank",
-    "at": "2026-10-25T04:19:25.425144-04:00",
+    "reason": "state_flip_bank",
+    "at": "2026-10-25T07:34:10.384964-04:00",
     "suggestion": "banked_flat",
-    "clock_left_min": 462
+    "clock_left_min": 267
   },
   "revision_fire_state": {
     "in_material_band": false,
-    "bank_sensor": false,
+    "bank_sensor": true,
     "clock_band": "normal",
-    "at": "2026-10-25T06:31:07.349059-04:00"
+    "at": "2026-10-25T07:34:10.385964-04:00"
   }
 }
