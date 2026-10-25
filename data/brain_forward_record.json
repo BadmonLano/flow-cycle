@@ -1,28 +1,26 @@
 {
-  "_updated": "2026-10-25T07:34:38.722171-04:00",
+  "_updated": "2026-10-25T08:38:18.391621-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-24T19:41:29.912024-04:00",
-      "score_at_call": 39,
-      "phase_at_call": "Anxiety",
-      "predicted_phase": "Complacency",
+      "made_at": "2026-10-25T08:38:18.418146-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Score and tape remain inside the Complacency band with no confirmed range break; coil dominates despite latent downside from dead ETF flows and rising venue intake.",
-      "confirmed_if": "BTC stays rangebound and fear_greed holds roughly 45-55 with no sustained ETF-flow or volatility shock",
-      "invalidated_if": "A clean range break that pushes fear_greed through 46 or 55, or an ETF-flow/VIX impulse that forces the score into Anxiety or Disbelief",
+      "reasoning": "Score sits in low-conviction drift near the Complacency ceiling with the bottom analog diverging, so the rung holds rather than breaks until flows or F&G decide.",
+      "confirmed_if": "Fear & Greed stays inside 47-54 and 30d momentum holds the low-40s with price continuing to chop rather than trend",
+      "invalidated_if": "F&G breaks below 46 with momentum_30d under 35 and ETF flows still dead (down into Anxiety), or ETF flows reverse sharply higher with momentum back above 55 (up into Disbelief)",
       "signals_at_call": {
-        "fear_greed": 51,
-        "btc_funding": 0.0043,
-        "mvrv_zscore": 0.9178,
+        "fear_greed": 54,
+        "btc_funding": 0.0037,
+        "mvrv_zscore": 0.935,
         "net_liquidity_chg_4w": 30982.0,
-        "btc_dom": 59.52214089974556,
+        "btc_dom": 60.10700123156501,
         "etf_net_total_musd": -487.07,
         "vix": 19.45
-      },
-      "phase_flicker_count": 6,
-      "last_phase_flicker_at": "2026-10-25T03:14:43.915461-04:00"
+      }
     }
   ],
   "resolved": [
@@ -3810,33 +3808,70 @@
       "forward_path_class": "clean_hit",
       "score_travel": 1.0,
       "honest_coil": false
+    },
+    {
+      "made_at": "2026-10-24T19:41:29.912024-04:00",
+      "score_at_call": 39,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Complacency",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Score and tape remain inside the Complacency band with no confirmed range break; coil dominates despite latent downside from dead ETF flows and rising venue intake.",
+      "confirmed_if": "BTC stays rangebound and fear_greed holds roughly 45-55 with no sustained ETF-flow or volatility shock",
+      "invalidated_if": "A clean range break that pushes fear_greed through 46 or 55, or an ETF-flow/VIX impulse that forces the score into Anxiety or Disbelief",
+      "signals_at_call": {
+        "fear_greed": 51,
+        "btc_funding": 0.0043,
+        "mvrv_zscore": 0.9178,
+        "net_liquidity_chg_4w": 30982.0,
+        "btc_dom": 59.52214089974556,
+        "etf_net_total_musd": -487.07,
+        "vix": 19.45
+      },
+      "phase_flicker_count": 6,
+      "last_phase_flicker_at": "2026-10-25T03:14:43.915461-04:00",
+      "graded_at": "2026-10-25T08:38:18.391621-04:00",
+      "score_at_horizon": 38,
+      "score_at_grade": 38,
+      "score_delta": -1,
+      "realized_dir": "HOLD",
+      "realized_phase": "Denial",
+      "direction_hit": true,
+      "contradicted_by_prose": false,
+      "contradiction_note": null,
+      "transition_predicted": true,
+      "transition_hit": false,
+      "autopsy": "",
+      "forward_path_class": "clean_hit",
+      "score_travel": 1.0,
+      "honest_coil": false
     }
   ],
   "tally": {
     "direction": {
-      "hit": 32,
-      "total": 115
+      "hit": 33,
+      "total": 116
     },
     "transition": {
       "hit": 5,
-      "total": 98
+      "total": 99
     }
   },
-  "direction_hit_rate_pct": 27.8,
-  "direction_record": "32/115",
+  "direction_hit_rate_pct": 28.4,
+  "direction_record": "33/116",
   "transition_hit_rate_pct": 5.1,
-  "transition_record": "5/98",
-  "direction_hit_rate_7d_pct": 50.0,
-  "direction_record_7d": "4/8",
-  "transition_hit_rate_7d_pct": 14.3,
-  "transition_record_7d": "1/7",
+  "transition_record": "5/99",
+  "direction_hit_rate_7d_pct": 55.6,
+  "direction_record_7d": "5/9",
+  "transition_hit_rate_7d_pct": 12.5,
+  "transition_record_7d": "1/8",
   "splits_7d": {
-    "hold_record": "4/8",
+    "hold_record": "5/9",
     "move_record": "0/0",
     "when_they_said_move_it_moved_pct": null,
     "mover_windows_7d": 4,
-    "windows_7d": 8,
-    "regime_note": "score actually moved in 4 of 8 graded windows this week"
+    "windows_7d": 9,
+    "regime_note": "score actually moved in 4 of 9 graded windows this week"
   },
   "superseded": [
     {
