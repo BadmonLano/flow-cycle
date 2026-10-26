@@ -1,0 +1,123 @@
+======== 157700
+════
+async function fetchMacro() {
+  try {
+    const res = await fetch('data/macro.json?t=' + Date.now());
+    const data = await res.json();
+
+    // Engine status
+    if (data._updated) {
+      const ts = new Date(data._updated);
+      const ageMin = (serverNow() - ts.getTime()) / 60000;
+      const dot = document.getElementById('liveDot');
+      const lbl = document.getElementById('liveLabel');
+      const tsEl = document.getElementById('engineTs');
+      if (ageMin < 45) { dot.className = 'live-dot'; lbl.className = 'live-label'; lbl.textContent = 'Live'; }
+      else if (ageMin < 120) { dot.className = 'live-dot stale'; lbl.className = 'live-label stale'; lbl.textContent = 'Stale'; }
+      else { dot.className = 'live-dot down'; lbl.className = 'live-label down'; lbl.textContent = 'Offline'; }
+      // v2.7: human-readable age (m / h / d), instead of giant minute count
+      let ageStr;
+      if (ageMin < 1)        ageStr = 'just now';
+      else if (ageMin < 60)  ageStr = `${Math.floor(ageMin)}m ago`;
+      else if (ageMin < 1440) ageStr = `${Math.floor(ageMin/60)}h ago`;
+      else if (ageMin < 43200) ageStr = `${Math.floor(ageMin/1440)}d ago`;
+      else ageStr = `${Math.floor(ageMin/43200)}mo ago`;
+      tsEl.textContent = `· updated ${ageStr}`;
+      // Color the timestamp to match staleness
+      if (ageMin < 45) tsEl.style.color = '#00e5a0';
+      else if (ageMin < 120) tsEl.style.color = '#f5c518';
+      else tsEl.style.color = '#ff4d6a';
+    }
+
+    // Legacy fields (preserved)
+    if (data.gold)       { document.getElementById('gold').textContent = '$' + data.gold; document.getElementById('goldChg').innerHTML = chgHTML(data.gold_chg); }
+    if (data.silver)     { document.getElementById('silver').textContent = '$' + data.silver; document.getElementById('silverChg').innerHTML = chgHTML(data.silver_chg); }
+    if (data.oil)        { document.getElementById('oil').textContent = '$' + data.oil; document.getElementById('oilChg').innerHTML = chgHTML(data.oil_chg); }
+    if (data.sp500)      { document.getElementById('sp500').textContent = data.sp500.toLocaleString(); document.getElementById('sp500Chg').innerHTML = chgHTML(data.sp500_chg); }
+    if (data.v
+
+======== 168400
+round(data.exchange_netflow_24h_usd / 1e6) + 'M'
+              : ''));
+      }
+    })();
+
+    if (data.brain_consensus) {
+      const bc = data.brain_consensus;
+      document.getElementById('brainHeadline').textContent = publicCardText(bc.headline, 'Awaiting a front-page read');
+      document.getElementById('brainNarrative').textContent = publicCardText(bc.narrative, '');
+      const tEl = document.getElementById('brainTier');
+      tEl.textContent = bc.alert_tier || 'LOW';
+      tEl.className = 'tier-badge ' + (bc.alert_tier || 'low').toLowerCase();
+      const br = bc.brain_reads || {};
+      const setRead = (id, metaId, val, conf) => {
+        const e = document.getElementById(id);
+        if (e) { e.textContent = val || '--'; e.className = 'sig-val ' + String(val||'').toLowerCase(); }
+        const m = document.getElementById(metaId);
+        if (m) m.textContent = (conf != null) ? `conf ${(conf*100).toFixed(0)}%` : '--';
+      };
+      if (br.analyst) setRead('analystRead','analystMeta', (br.analyst.signal||'--') + (br.analyst.phase ? ' · '+br.analyst.phase : ''), br.analyst.confidence);
+      if (br.judge)   setRead('judgeRead','judgeMeta', (br.judge.signal||'--') + (br.judge.phase ? ' · '+br.judge.phase : ''), br.judge.confidence);
+      if (br.narrative) {
+        const e=document.getElementById('narrativeRead'); if(e) e.textContent = publicCardText(br.narrative.headline, '--');
+        const m=document.getElementById('narrativeMeta');
+        if(m) {
+          const _np = br.narrative.phase ? br.narrative.phase : '';
+          const _nc = (br.narrative.confidence!=null) ? `conf ${(br.narrative.confidence*100).toFixed(0)}%` : '';
+          m.textContent = [_np, _nc].filter(Boolean).join(' · ') || '--';
+        }
+      }
+    }
+
+    // Legacy math — the 4th read
+    if (data.blowoff_signal) {
+      const e = document.getElementById('legacyRead');
+      if (e) { e.textContent = data.blowoff_signal; e.className = 'sig-val ' + data.blowoff_signal.toLowerCase(); }
+      const m = document.getElementById('legacyMeta');
+      if (m) {
+        const _lph = (data.brain_consensus && data.brain_consensus.brain_reads
+                      && data.brain_consensus.br
+
+======== 303400
+ven though the brains were running fine.
+  // This reads the real file and reshapes it into what the panel render expects.
+  try {
+    const res = await fetch('data/brain_consensus.json?t=' + Date.now());
+    if (!res.ok) { console.log('brain_consensus.json not yet available'); return; }
+    const raw = await res.json();
+    const c  = raw.consensus || {};
+    const br = c.brain_reads || {};
+
+    const headlineEl = document.getElementById('brainHeadline');
+    if (headlineEl) headlineEl.textContent = humanize(publicCardText(
+      (br.narrative && br.narrative.headline) || (raw.narrative && raw.narrative.headline) || '',
+      'Awaiting a front-page read'));
+
+    const narrEl = document.getElementById('brainNarrative');
+    if (narrEl) narrEl.textContent = humanize(publicCardText(
+      (raw.narrative && raw.narrative.narrative) || '',
+      publicCardText(c.key_reasoning, '')));
+
+    const tEl = document.getElementById('brainTier');
+    if (tEl) { tEl.textContent = c.alert_tier || 'LOW'; tEl.className = 'tier-badge ' + String(c.alert_tier || 'low').toLowerCase(); }
+
+    const setRead = (id, metaId, val, conf) => {
+      const e = document.getElementById(id);
+      if (e) { e.textContent = val || '--'; e.className = 'sig-val ' + String(val || '').toLowerCase(); }
+      const m = document.getElementById(metaId);
+      if (m) m.textContent = (conf != null) ? `conf ${(conf * 100).toFixed(0)}%` : '--';
+    };
+    // shows current read + where that brain thinks it goes next. Quiet when no call.
+    const addForward = (metaId, nm) => {
+      const m = document.getElementById(metaId);
+      if (!m || !nm || !nm.direction) return;
+      const dir = (nm.direction || 'HOLD').toUpperCase();
+      const col = dir === 'UP' ? 'var(--green)' : dir === 'DOWN' ? 'var(--red)' : 'var(--muted)';
+      const arrow = dir === 'UP' ? '↑' : dir === 'DOWN' ? '↓' : '→';
+      // (outlook, no phase). Handle both so all three brains show a forward line, not just
+      // the phase-predictors. Wider/fuller line that fills the card.
+      const tail = (nm.confidence_pct != null) ? ` · ${nm.confidence_pct}%`
+                 : (nm.conviction ? ` · ${nm.conviction}` : '');
+      let body;
+     
+

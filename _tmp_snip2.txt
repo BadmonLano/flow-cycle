@@ -1,0 +1,47 @@
+function publicCardText(text, fallback) {
+  const t = text == null ? '' : String(text);
+  if (!t.trim() || isInternalNotPublic(t)) return fallback;
+  return t;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA FETCHERS - Direct from CoinGecko / alternative.me for realtime prices
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchNews() {
+  try {
+    const res = await fetch('data/editorial_calls.json?t=' + Date.now());
+    if (!res.ok) throw new Error('no file');
+    const d = await res.json();
+    const calls = (d && d.calls) || {};
+    const nr = calls.news_read;
+    const items = nr && (nr.value || nr);
+    // When curation is cleared or absent the rail said "awaiting" and showed
+    // nothing, which is honest but useless - and it made clearing feel worse than
+    // leaving stale lines up. The mechanical draft (built from signal_contracts,
+    // the venue of record) fills that space as a CLEARLY LABELLED backstop.
+    //
+    // label, and no cause→effect framing, because the effect line IS the curation.
+    const draft = d.mechanical_draft;
+    const drawDraft = (why) => {
+      if (!draft || !(draft.items || []).length) return '';
+      return `<div style="margin-top:8px;padding:7px;border-radius:4px;
+                  background:rgba(107,122,144,0.10);border-left:2px solid #6b7a90;">
+        <div style="font-size:0.62em;color:#6b7a90;letter-spacing:0.08em;text-transform:uppercase;">
+          machine draft · not Jordan's read${why ? ' · ' + why : ''}</div>
+        ${draft.items.map(i => `<div style="font-size:0.8em;margin-top:3px;color:var(--muted);">
+          <span style="color:${i.severity === 'critical' ? '#ff4d6a' : i.severity === 'high' ? '#f5c518' : 'var(--muted)'};
+                       font-size:0.85em;">[${_escapeHtml(i.severity || '?')}]</span>
+          ${_escapeHtml(i.headline)}</div>`).join('')}
+        <div style="font-size:0.68em;color:var(--muted);margin-top:4px;opacity:.8;">
+          top ${draft.items.length} of ${draft.candidates} live catalyst envelopes — what the pipe is seeing,
+          not what he says it means.</div>
+      </div>`;
+    };
+
+    if (!Array.isArray(items) || !items.length) {
+      document.getElementById('newsBody').innerHTML =
+        '<span style="color:var(--muted)">Awaiting Jordan\'s read — surfaces when news actually moves the tape.</span>'
+        + drawDraft('curated rail is empty');
+      return;
+    }
+    const ag
