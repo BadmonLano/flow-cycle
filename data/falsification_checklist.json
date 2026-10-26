@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-25T22:53:46.079443-04:00",
+  "updated_at": "2026-10-26T02:09:09.147947-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "SPX closes more than 5% above today's close within 14 days while VIX closes below 14 and pattern similarity to bottom_2024_aug rises above 90%",
-      "what_it_would_mean": "HOLD/UNKNOWN was wrong: the August-2024 bottom analog was already actionable and the correct signal was long, not flat"
+      "condition": "S&P 500 closes at a new all-time high and the engine blowoff score prints above 70 within 14 days",
+      "what_it_would_mean": "A confirmed melt-up breaks the bottom_2024_aug analog and turns UNKNOWN/HOLD into a late-cycle blowoff, so flat is the wrong call"
     },
     {
       "id": 2,
-      "condition": "SPX closes more than 6% below today's close within 14 days and VIX closes above 30 on the same day",
-      "what_it_would_mean": "The bottom-pattern HOLD was wrong: price action invalidated the bottom_2024_aug analog and the correct call was risk-off, not unknown"
+      "condition": "VIX closes above 35 and high-yield OAS widens by more than 150 bps from today's level within 14 days",
+      "what_it_would_mean": "A clear capitulation/risk-off regime resolves UNKNOWN into an actionable stress signal, so HOLD is invalidated"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or similarity to bottom_2024_aug falls below 40% while similarity to any tracked top/blowoff pattern exceeds it",
-      "what_it_would_mean": "The regime label behind UNKNOWN/HOLD is false: the tape is a blowoff or a broken bottom analog, so staying unclassified on that pattern is no longer defensible"
+      "condition": "10-year UST yield moves more than 40 bps and SPX moves more than 5% in the risk-off direction (yields up, equities down) or risk-on direction (yields down, equities up) over the same 14 days",
+      "what_it_would_mean": "A joint rates-equity regime break supplies a directional macro verdict, proving the current UNKNOWN/HOLD call false"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
