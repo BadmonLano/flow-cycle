@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-25T22:46:19.624193-04:00",
+  "_updated": "2026-10-25T22:53:26.232462-04:00",
   "calls": {
     "BTC": {
       "direction": "SHORT",
@@ -69,69 +69,74 @@
         "committed": true,
         "why": [
           "committed in Denial / trend tape",
-          "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
+          "same SHORT on all 3 coins: prefer SOL (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
-      }
+      },
+      "age_hours": 0.12,
+      "hours_left": 3.13,
+      "locked": true,
+      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
     "ETH": {
       "direction": "SHORT",
-      "entry": 2352.99,
-      "tp": 2311.31,
-      "sl": 2394.67,
+      "entry": 2297.5,
+      "tp": 2275.33,
+      "sl": 2319.67,
       "levels_from": "j6",
-      "levels_note": "levels from j6 (7d race: fc 6.96% vs j6 6.64%) - j6 tighter by 0.32pt",
-      "race_dir_hit_fc": 1.5,
-      "race_dir_hit_j6": 1.5,
+      "levels_note": "direction flipped but levels could not be rebuilt - DO NOT SIZE off these",
+      "race_dir_hit_fc": 1.05,
+      "race_dir_hit_j6": 1.05,
       "race_dir_veto": false,
-      "race_margin_pts": -0.32,
+      "race_margin_pts": -0.24,
       "race_epsilon_pts": 0.35,
-      "race_pick_reason": "j6 tighter by 0.32pt",
+      "race_pick_reason": "j6 tighter by 0.24pt",
       "race_within_epsilon": true,
-      "race_fc_err": 6.96,
-      "race_j6_err": 6.64,
-      "race_da_err": 2.18,
-      "race_n": 78,
+      "race_fc_err": 6.81,
+      "race_j6_err": 6.57,
+      "race_da_err": 2.12,
+      "race_n": 79,
       "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
       "tp_mode": "vol_sized",
-      "tp_distance_pct": 1.77,
-      "horizon": "10.9h",
-      "horizon_hours": 10.94,
+      "tp_distance_pct": 0.96,
+      "horizon": "3.1h",
+      "horizon_hours": 3.13,
       "source": "jordan_committed",
       "conviction": "medium",
-      "confluence_score": 0.9,
+      "confluence_score": 1.7,
       "confluence_votes": [
-        "ETH 200wk 0.924x AT FLOOR \u2192 long",
+        "ETH 200wk 0.902x AT FLOOR \u2192 long",
         "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
         "pi cycle far from top \u2192 room to run long",
-        "projection +0.3% \u2192 flat"
+        "projection +4.0% \u2192 long"
       ],
       "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit eth_call in the editorial packet to adjust levels/direction.",
-      "confluence_centered": -1.008,
-      "confluence_baseline": 1.908,
-      "projection_tp": 2282.4,
-      "projection_sl": 2400.05,
-      "vol_daily_pct": 2.624,
-      "vol_horizon_pct": 1.772,
-      "sl_distance_pct": 1.77,
+      "confluence_centered": -0.177,
+      "confluence_baseline": 1.877,
+      "projection_tp": null,
+      "projection_sl": null,
+      "levels_stale": true,
       "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
+      "vol_daily_pct": 2.672,
+      "vol_horizon_pct": 0.965,
+      "sl_distance_pct": 0.96,
       "mirrored_from": {
         "live_call": "down_micro",
         "stamped_at": "2026-10-25T14:01:10.777120-04:00"
       },
       "mechanical_confluence": {
-        "direction": "SHORT",
+        "direction": "FLAT",
         "conviction": null,
-        "score": 0.9,
+        "score": 1.7,
         "votes": [
-          "ETH 200wk 0.924x AT FLOOR \u2192 long",
+          "ETH 200wk 0.902x AT FLOOR \u2192 long",
           "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
           "pi cycle far from top \u2192 room to run long",
-          "projection +0.3% \u2192 flat"
+          "projection +4.0% \u2192 long"
         ]
       },
-      "opened_at": "2026-10-25T15:04:49.798042-04:00",
+      "opened_at": "2026-10-25T22:53:26.232462-04:00",
       "advisory": {
         "size_hint": 1.5,
         "flags": [
@@ -141,17 +146,12 @@
         "phase": "Denial",
         "committed": true,
         "why": [
-          "committed in Denial / trend tape"
+          "committed in Denial / trend tape",
+          "same SHORT on all 3 coins: prefer SOL (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
-        "preferred": true
-      },
-      "age_hours": 7.69,
-      "hours_left": 3.25,
-      "locked": true,
-      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded.",
-      "resolved": true,
-      "resolved_result": "win"
+        "preferred": false
+      }
     },
     "SOL": {
       "direction": "SHORT",
@@ -219,20 +219,19 @@
         "phase": "Denial",
         "committed": true,
         "why": [
-          "committed in Denial / trend tape",
-          "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
+          "committed in Denial / trend tape"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
-        "preferred": false
+        "preferred": true
       },
-      "age_hours": 7.69,
-      "hours_left": 3.25,
+      "age_hours": 7.81,
+      "hours_left": 3.13,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     }
   },
   "advisory_rules": {
-    "_updated": "2026-10-25T22:46:19.605186-04:00",
+    "_updated": "2026-10-25T22:53:26.366463-04:00",
     "size_hint": "1.5x committed in Panic/Anxiety or strong/trend tape; 1.0x in chop (+chop_caution)",
     "drop_reference_only": "mechanical-only longs on SOL or with F&G >= 60",
     "same_call_all_3": "flag; prefer the coin with the strongest mechanical agreement",
@@ -252,10 +251,12 @@
     "do_not_size_when": {
       "BTC": [
         "levels_stale - direction flipped without a level rebuild"
+      ],
+      "ETH": [
+        "levels_stale - direction flipped without a level rebuild"
       ]
     },
     "safe_to_size": [
-      "ETH",
       "SOL"
     ],
     "_rule": "Size only from a call that is locked, directional, carries both levels, and has hours_left > 0. A row existing is not a call being tradeable - awaiting_jordan and FLAT are honest states that must never be sized."

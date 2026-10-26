@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-25T22:46:41.134968-04:00",
+  "updated_at": "2026-10-25T22:53:46.079443-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least +4.0% above the session close on the day of this verdict within the next 14 calendar days, and VIX closes below 14 on that same day",
-      "what_it_would_mean": "The 78% bottom_2024_aug analog confirmed with a decisive risk-on follow-through; UNKNOWN/HOLD was wrong because a long signal was the correct call"
+      "condition": "SPX closes more than 5% above today's close within 14 days while VIX closes below 14 and pattern similarity to bottom_2024_aug rises above 90%",
+      "what_it_would_mean": "HOLD/UNKNOWN was wrong: the August-2024 bottom analog was already actionable and the correct signal was long, not flat"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least -4.0% below the session close on the day of this verdict within the next 14 calendar days, or US high-yield OAS widens by 75 basis points or more versus that same session",
-      "what_it_would_mean": "The bottom analog failed and the tape resolved risk-off; UNKNOWN/HOLD was wrong because a short or risk-off signal was the correct call"
+      "condition": "SPX closes more than 6% below today's close within 14 days and VIX closes above 30 on the same day",
+      "what_it_would_mean": "The bottom-pattern HOLD was wrong: price action invalidated the bottom_2024_aug analog and the correct call was risk-off, not unknown"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints 70 or higher on any session in the next 14 calendar days, or pattern similarity to bottom_2024_aug falls to 55% or below while the S&P 500 makes a new 20-session closing low",
-      "what_it_would_mean": "Either a blowoff regime or a broken bottom analog replaced the moderate, unresolved setup; the HOLD premised on blowoff 38 and a 78% bottom match is invalidated"
+      "condition": "Blowoff score prints at or above 70, or similarity to bottom_2024_aug falls below 40% while similarity to any tracked top/blowoff pattern exceeds it",
+      "what_it_would_mean": "The regime label behind UNKNOWN/HOLD is false: the tape is a blowoff or a broken bottom analog, so staying unclassified on that pattern is no longer defensible"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
