@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-26T13:55:49.793576-04:00",
+  "_updated": "2026-10-26T15:04:53.634939-04:00",
   "calls": {
     "BTC": {
       "direction": "SHORT",
@@ -62,19 +62,21 @@
       "advisory": {
         "size_hint": 1.0,
         "flags": [
+          "chop_caution",
           "same_call_all_3"
         ],
-        "regime_24h": null,
+        "regime_24h": "chop",
         "phase": "Denial",
         "committed": true,
         "why": [
+          "chop tape: committed calls lost over 24h in chop",
           "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
       },
-      "age_hours": 1.05,
-      "hours_left": 1.27,
+      "age_hours": 2.2,
+      "hours_left": 0.12,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
@@ -137,19 +139,21 @@
       },
       "opened_at": "2026-10-26T04:14:52.473407-04:00",
       "advisory": {
-        "size_hint": 1.0,
+        "size_hint": 1.5,
         "flags": [
           "same_call_all_3"
         ],
-        "regime_24h": null,
+        "regime_24h": "trend",
         "phase": "Denial",
         "committed": true,
-        "why": [],
+        "why": [
+          "committed in Denial / trend tape"
+        ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": true
       },
-      "age_hours": 9.68,
-      "hours_left": 1.28,
+      "age_hours": 10.83,
+      "hours_left": 0.13,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     },
@@ -214,25 +218,27 @@
       "advisory": {
         "size_hint": 1.0,
         "flags": [
+          "chop_caution",
           "same_call_all_3"
         ],
-        "regime_24h": null,
+        "regime_24h": "chop",
         "phase": "Denial",
         "committed": true,
         "why": [
+          "chop tape: committed calls lost over 24h in chop",
           "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
         ],
         "_rule": "advisory only - never sizes, opens or closes a trade",
         "preferred": false
       },
-      "age_hours": 9.68,
-      "hours_left": 1.28,
+      "age_hours": 10.83,
+      "hours_left": 0.13,
       "locked": true,
       "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
     }
   },
   "advisory_rules": {
-    "_updated": "2026-10-26T13:55:49.865577-04:00",
+    "_updated": "2026-10-26T15:04:53.700938-04:00",
     "size_hint": "1.5x committed in Panic/Anxiety or strong/trend tape; 1.0x in chop (+chop_caution)",
     "drop_reference_only": "mechanical-only longs on SOL or with F&G >= 60",
     "same_call_all_3": "flag; prefer the coin with the strongest mechanical agreement",
