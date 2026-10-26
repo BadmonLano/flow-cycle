@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-26T15:05:24.918944-04:00",
+  "updated_at": "2026-10-26T18:19:13.336452-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4% above today's close within 14 days and VIX closes below 15 on three consecutive sessions",
-      "what_it_would_mean": "The bottom_2024_aug analog resolved risk-on; UNKNOWN/HOLD was wrong because a long call was the correct verdict"
+      "condition": "SPX closes more than 5% below its level at this verdict and finishes at least one session under its 200-day moving average within 14 days",
+      "what_it_would_mean": "The bottom_2024_aug analogue failed; UNKNOWN/HOLD was wrong because the tape resolved into a breakdown, not an unresolved bottom"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 4% below today's close within 14 days and VIX closes above 25",
-      "what_it_would_mean": "The bottom analog failed and a defensive call was required; HOLD/UNKNOWN missed a clear risk-off resolution"
+      "condition": "VIX closes above 30 on three consecutive sessions, or spot VIX exceeds VIX3M by more than 5 points on a close, within 14 days",
+      "what_it_would_mean": "Stress re-accelerated instead of basing; the 77% bottom match and HOLD are invalidated by a fresh vol regime, not a completed August-2024-style low"
     },
     {
       "id": 3,
-      "condition": "US high-yield OAS widens by at least 50 bps from today's level within 14 days while the S&P 500 is down at least 3%",
-      "what_it_would_mean": "Credit stress broke the benign bottom pattern the 77% match implied, so a HOLD with no directional verdict was falsified"
+      "condition": "Blowoff score prints at or above 65, or SPX gains more than 6% in 14 days while more than 80% of S&P 500 members close above their 20-day moving average",
+      "what_it_would_mean": "The unresolved HOLD was wrong because price resolved into a confirmed risk-on thrust or blowoff, not a still-unknown regime"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
