@@ -1,40 +1,24 @@
 {
   "ok": true,
-  "_updated": "2026-10-23T00:40:07.219689-04:00",
+  "_updated": "2026-10-26T01:00:27.593179-04:00",
   "version": 2,
   "recommendation": "no_change",
   "suggested_weights": {},
   "diffs": [],
   "directional": {
     "ok": true,
-    "samples": 2886,
-    "sample_source": "daily_1d",
-    "graded_oos_samples": 2288,
-    "effective_n_oos": 2288.0,
-    "walk_forward_folds": 5,
-    "free_parameters": 13,
-    "samples_per_parameter": 176.0,
-    "overfit_risk": "OK",
+    "samples": 102,
+    "sample_source": "intraday_2h_store_12h_nonoverlap",
+    "graded_oos_samples": 58,
+    "effective_n_oos": 58.0,
+    "walk_forward_folds": 6,
+    "free_parameters": 16,
+    "samples_per_parameter": 3.6,
+    "overfit_risk": "SEVERE",
     "dropped_factors": [
       {
         "factor": "lth_supply",
         "reason": "muted or too little history (0% coverage)"
-      },
-      {
-        "factor": "btc_oi_total",
-        "reason": "muted or too little history (3% coverage)"
-      },
-      {
-        "factor": "btc_funding",
-        "reason": "muted or too little history (3% coverage)"
-      },
-      {
-        "factor": "eth_funding",
-        "reason": "muted or too little history (3% coverage)"
-      },
-      {
-        "factor": "fed_balance",
-        "reason": "muted or too little history (21% coverage)"
       },
       {
         "factor": "pvp_ratio",
@@ -46,7 +30,15 @@
       },
       {
         "factor": "btc_chg",
-        "reason": "muted or too little history (2% coverage)"
+        "reason": "muted or too little history (0% coverage)"
+      },
+      {
+        "factor": "uranium",
+        "reason": "muted or too little history (0% coverage)"
+      },
+      {
+        "factor": "fertilizer",
+        "reason": "muted or too little history (0% coverage)"
       },
       {
         "factor": "baltic_dry",
@@ -54,52 +46,48 @@
       },
       {
         "factor": "gold_chg",
-        "reason": "muted or too little history (3% coverage)"
+        "reason": "muted or too little history (0% coverage)"
       },
       {
         "factor": "silver_chg",
-        "reason": "muted or too little history (3% coverage)"
+        "reason": "muted or too little history (0% coverage)"
       },
       {
         "factor": "copper_chg",
-        "reason": "muted or too little history (3% coverage)"
+        "reason": "muted or too little history (0% coverage)"
       },
       {
         "factor": "oil_chg",
-        "reason": "muted or too little history (3% coverage)"
-      },
-      {
-        "factor": "ma_200w_factor",
-        "reason": "muted or too little history (2% coverage)"
+        "reason": "muted or too little history (0% coverage)"
       },
       {
         "factor": "pi_cycle_factor",
-        "reason": "muted or too little history (2% coverage)"
+        "reason": "muted or too little history (0% coverage)"
       },
       {
         "factor": "realized_price_factor",
-        "reason": "muted or too little history (2% coverage)"
+        "reason": "muted or too little history (0% coverage)"
       },
       {
         "factor": "funding_reset_factor",
-        "reason": "muted or too little history (2% coverage)"
+        "reason": "muted or too little history (0% coverage)"
       }
     ],
-    "oos_hit_rate_fitted_pct": 50.96,
-    "oos_hit_rate_current_pct": 50.96,
-    "oos_hit_rate_baseline_pct": 52.01,
-    "oos_edge_vs_baseline_pts": -1.05,
+    "oos_hit_rate_fitted_pct": 53.45,
+    "oos_hit_rate_current_pct": 53.45,
+    "oos_hit_rate_baseline_pct": 50.0,
+    "oos_edge_vs_baseline_pts": 3.45,
     "oos_edge_ci90_pts": [
-      -3.15,
-      1.05
+      -8.62,
+      15.52
     ],
-    "permutation_p": 0.267,
-    "oos_logloss_fitted": 0.6938,
-    "oos_logloss_current": 0.6938,
-    "oos_logloss_baseline": 0.6941,
-    "hit_rate_before_pct": 50.96,
-    "hit_rate_after_pct": 50.96,
-    "best_null_pct": 52.01,
+    "permutation_p": 0.429,
+    "oos_logloss_fitted": 0.6941,
+    "oos_logloss_current": 0.6934,
+    "oos_logloss_baseline": 0.695,
+    "hit_rate_before_pct": 53.45,
+    "hit_rate_after_pct": 53.45,
+    "best_null_pct": 50.0,
     "beats_null": false,
     "passes_gate": false,
     "recommendation": "no_change",
@@ -136,15 +124,15 @@
       "funding_reset_factor": 3.5
     },
     "diff_vs_current": {},
-    "verdict": "NO CHANGE. Out of sample the fitted weights hit 50.96% vs a 52.01% baseline (edge -1.05 pts, 90% CI -3.15..1.05, perm p=0.267; log-loss 0.6938 vs baseline 0.6941). That does not clear the 3.0-pt bar, so the current weights stay."
+    "verdict": "NO CHANGE. Out of sample the fitted weights hit 53.45% vs a 50.0% baseline (edge 3.45 pts, 90% CI -8.62..15.52, perm p=0.429; log-loss 0.6941 vs baseline 0.695). That does not clear the 3.0-pt bar, so the current weights stay."
   },
   "score_fit": {
     "ok": true,
-    "_updated": "2026-10-23T00:39:47.574157-04:00",
-    "samples": 2515,
-    "effective_n": 86.2,
+    "_updated": "2026-10-26T01:00:25.695437-04:00",
+    "samples": 2518,
+    "effective_n": 86.4,
     "free_parameters": 13,
-    "samples_per_parameter": 6.63,
+    "samples_per_parameter": 6.65,
     "overfit_risk": "HIGH",
     "dropped_factors": [
       {
@@ -269,31 +257,15 @@
       }
     ]
   },
-  "samples": 2515,
+  "samples": 2518,
   "error_before": 13.39,
   "error_after": 13.26,
   "improvement": 0.13,
-  "overfit_risk": "OK",
+  "overfit_risk": "SEVERE",
   "dropped_factors": [
     {
       "factor": "lth_supply",
       "reason": "muted or too little history (0% coverage)"
-    },
-    {
-      "factor": "btc_oi_total",
-      "reason": "muted or too little history (3% coverage)"
-    },
-    {
-      "factor": "btc_funding",
-      "reason": "muted or too little history (3% coverage)"
-    },
-    {
-      "factor": "eth_funding",
-      "reason": "muted or too little history (3% coverage)"
-    },
-    {
-      "factor": "fed_balance",
-      "reason": "muted or too little history (21% coverage)"
     },
     {
       "factor": "pvp_ratio",
@@ -305,7 +277,15 @@
     },
     {
       "factor": "btc_chg",
-      "reason": "muted or too little history (2% coverage)"
+      "reason": "muted or too little history (0% coverage)"
+    },
+    {
+      "factor": "uranium",
+      "reason": "muted or too little history (0% coverage)"
+    },
+    {
+      "factor": "fertilizer",
+      "reason": "muted or too little history (0% coverage)"
     },
     {
       "factor": "baltic_dry",
@@ -313,35 +293,31 @@
     },
     {
       "factor": "gold_chg",
-      "reason": "muted or too little history (3% coverage)"
+      "reason": "muted or too little history (0% coverage)"
     },
     {
       "factor": "silver_chg",
-      "reason": "muted or too little history (3% coverage)"
+      "reason": "muted or too little history (0% coverage)"
     },
     {
       "factor": "copper_chg",
-      "reason": "muted or too little history (3% coverage)"
+      "reason": "muted or too little history (0% coverage)"
     },
     {
       "factor": "oil_chg",
-      "reason": "muted or too little history (3% coverage)"
-    },
-    {
-      "factor": "ma_200w_factor",
-      "reason": "muted or too little history (2% coverage)"
+      "reason": "muted or too little history (0% coverage)"
     },
     {
       "factor": "pi_cycle_factor",
-      "reason": "muted or too little history (2% coverage)"
+      "reason": "muted or too little history (0% coverage)"
     },
     {
       "factor": "realized_price_factor",
-      "reason": "muted or too little history (2% coverage)"
+      "reason": "muted or too little history (0% coverage)"
     },
     {
       "factor": "funding_reset_factor",
-      "reason": "muted or too little history (2% coverage)"
+      "reason": "muted or too little history (0% coverage)"
     }
   ],
   "_WARNING": "NO CHANGE recommended: the directional fit does not beat the baseline out of sample by the required margin.",
@@ -350,12 +326,12 @@
     "max_delta": 0,
     "count": 0
   },
-  "last_fit_at": "2026-10-23T00:40:07.219689-04:00",
+  "last_fit_at": "2026-10-26T01:00:27.593179-04:00",
   "fit_interval_days": 3,
-  "next_due_at": "2026-10-26T00:40:07.219689-04:00",
+  "next_due_at": "2026-10-29T01:00:27.593179-04:00",
   "already_live_overlap": 0,
   "would_change": 0,
   "accept_is_noop": true,
   "accept_note": "accepting this changes nothing.",
-  "runtime_s": 24.6
+  "runtime_s": 7.3
 }
