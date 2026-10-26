@@ -1,5 +1,3 @@
-t a headline and not news.
-// Lano 2026-10-14: that text never renders on the public card.
 function isInternalNotPublic(text) {
   const s = String(text || '').toLowerCase().replace(/_/g, ' ');
   if (!s.trim()) return true;
@@ -50,4 +48,32 @@ async function fetchNews() {
                   background:rgba(107,122,144,0.10);border-left:2px solid #6b7a90;">
         <div style="font-size:0.62em;color:#6b7a90;letter-spacing:0.08em;text-transform:uppercase;">
           machine draft · not Jordan's read${why ? ' · ' + why : ''}</div>
-        ${draft.items.map(i => `<div style="font-siz
+        ${draft.items.map(i => `<div style="font-size:0.8em;margin-top:3px;color:var(--muted);">
+          <span style="color:${i.severity === 'critical' ? '#ff4d6a' : i.severity === 'high' ? '#f5c518' : 'var(--muted)'};
+                       font-size:0.85em;">[${_escapeHtml(i.severity || '?')}]</span>
+          ${_escapeHtml(i.headline)}</div>`).join('')}
+        <div style="font-size:0.68em;color:var(--muted);margin-top:4px;opacity:.8;">
+          top ${draft.items.length} of ${draft.candidates} live catalyst envelopes — what the pipe is seeing,
+          not what he says it means.</div>
+      </div>`;
+    };
+
+    if (!Array.isArray(items) || !items.length) {
+      document.getElementById('newsBody').innerHTML =
+        '<span style="color:var(--muted)">Awaiting Jordan\'s read — surfaces when news actually moves the tape.</span>'
+        + drawDraft('curated rail is empty');
+      return;
+    }
+    const ago = (ts) => {
+      try { const m = Math.floor((serverNow() - Date.parse(ts)) / 60000);
+        if (m < 60) return m + 'm ago'; const h = Math.floor(m/60);
+        if (h < 24) return h + 'h ago'; return Math.floor(h/24) + 'd ago'; } catch { return ''; }
+    };
+    let html = '';
+
+    // The card had no age gate at all - only a muted "2d ago" beside a headline,
+    // so 48-hour-old curation rendered as a normal, current card. MVJ got a stale
+    // banner after its 6-day freeze; this one never did.
+    //
+    // Age comes from the CONTENT clock (called_at / item ts), never from the file.
+    // 08-11 07:45 while
