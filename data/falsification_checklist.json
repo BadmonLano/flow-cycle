@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-26T05:22:14.759664-04:00",
+  "updated_at": "2026-10-26T08:37:16.410128-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 14-day total return finishes beyond +6.0% or -6.0% from the close on the day of this verdict",
-      "what_it_would_mean": "A HOLD/UNKNOWN call is invalidated because a decisive directional regime was already in force and a flat stance missed a large, observable move"
+      "condition": "S&P 500 closes at least 4% above its close on the day of this verdict within 10 trading sessions, and VIX closes below 14 on at least 3 of those sessions.",
+      "what_it_would_mean": "The 78% bottom_2024_aug analog resolved into a confirmed risk-on impulse; HOLD/UNKNOWN was wrong because a long signal was required."
     },
     {
       "id": 2,
-      "condition": "ICE BofA US High Yield OAS widens by more than 75 bps or tightens by more than 40 bps versus the verdict-day level, with the move holding on the day-14 close",
-      "what_it_would_mean": "Credit confirmed a clear risk-off or risk-on impulse, so the macro state was not unknowable and HOLD was the wrong signal"
+      "condition": "S&P 500 closes at least 5% below its close on the day of this verdict within 14 calendar days, and ICE BofA US High Yield OAS widens by at least 75 bps versus that same day's close.",
+      "what_it_would_mean": "The bottom analog failed and stress transmitted into credit; HOLD/UNKNOWN was wrong because a risk-off signal was required."
     },
     {
       "id": 3,
-      "condition": "Pattern similarity to bottom_2024_aug falls below 45% or the blowoff score prints at or above 70 on any session in the next 14 days",
-      "what_it_would_mean": "The August-2024 bottom analog that justified uncertainty has broken, either by failed resemblance or by a blowoff regime the 38 score did not capture"
+      "condition": "Blowoff score prints at or above 70 on any session in the next 14 calendar days, or the US 10-year yield moves at least 40 bps from its close on the day of this verdict in either direction while DXY moves at least 2% in the same window.",
+      "what_it_would_mean": "A regime break (blowoff or rates/dollar shock) made the tape decidable; remaining at UNKNOWN/HOLD was invalidated."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
