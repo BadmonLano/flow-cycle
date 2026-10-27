@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-27T00:50:46.210926-04:00",
+  "updated_at": "2026-10-27T04:06:31.970960-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 5.0% above or at least 5.0% below its verdict-date close on any session within 14 calendar days",
-      "what_it_would_mean": "HOLD/UNKNOWN assumes no resolvable directional regime; a \u00b15% close-to-close move proves a trend was already in force and the hold was false"
+      "condition": "S&P 500 closes at least 7% below today's close within 14 days, with at least 3 consecutive daily closes below its 200-day moving average.",
+      "what_it_would_mean": "The 78% bottom_2024_aug analog is a failed bottom, not an unresolved base. UNKNOWN/HOLD is wrong because the correct call was risk-off, not wait."
     },
     {
       "id": 2,
-      "condition": "CBOE VIX closes above 35 on any session, or closes below 13.0 on a day the S&P 500 also prints a 20-session closing high, within 14 calendar days",
-      "what_it_would_mean": "Either print leaves the ambiguous vol band consistent with an unresolved bottom_2024_aug analog; stress above 35 or complacent new highs would have required a non-HOLD signal"
+      "condition": "S&P 500 closes at least 5% above today's close within 14 days, VIX closes below 13 on the same day, and NYSE cumulative advance-decline makes a 20-session high.",
+      "what_it_would_mean": "The bottom pattern has already confirmed into a risk-on trend. UNKNOWN/HOLD is wrong because the correct call was long, not flat."
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or pattern similarity to bottom_2024_aug falls to 40% or below, on any daily update within 14 calendar days",
-      "what_it_would_mean": "A score of 38 and 78% bottom-analog match defined the unknown state; a blowoff-threshold breach or analog collapse shows that classification was already wrong"
+      "condition": "VIX closes above 40 on any session in the next 14 days, or ICE BofA US High Yield OAS widens by at least 100 basis points from its latest reading.",
+      "what_it_would_mean": "This is a stress regime, not a contained August-2024-style bottom. The pattern match and HOLD are invalidated; ambiguity has resolved to crisis/risk-off."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
