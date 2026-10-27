@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-26T18:19:13.336452-04:00",
+  "updated_at": "2026-10-26T21:34:01.162226-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "SPX closes more than 5% below its level at this verdict and finishes at least one session under its 200-day moving average within 14 days",
-      "what_it_would_mean": "The bottom_2024_aug analogue failed; UNKNOWN/HOLD was wrong because the tape resolved into a breakdown, not an unresolved bottom"
+      "condition": "S&P 500 cash closes 6% or more below its verdict-date close within 14 days, and VIX closes above 30 on that same session",
+      "what_it_would_mean": "The bottom_2024_aug analog and HOLD are wrong: price and vol confirm a breakdown, not an unresolved base"
     },
     {
       "id": 2,
-      "condition": "VIX closes above 30 on three consecutive sessions, or spot VIX exceeds VIX3M by more than 5 points on a close, within 14 days",
-      "what_it_would_mean": "Stress re-accelerated instead of basing; the 77% bottom match and HOLD are invalidated by a fresh vol regime, not a completed August-2024-style low"
+      "condition": "ICE BofA US High Yield option-adjusted spread widens by 150 basis points or more versus its verdict-date level within 14 days",
+      "what_it_would_mean": "Credit stress exceeds a successful August 2024-style bottom, so the 77% bottom match and UNKNOWN/HOLD stance are invalidated"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 65, or SPX gains more than 6% in 14 days while more than 80% of S&P 500 members close above their 20-day moving average",
-      "what_it_would_mean": "The unresolved HOLD was wrong because price resolved into a confirmed risk-on thrust or blowoff, not a still-unknown regime"
+      "condition": "Nasdaq-100 closes at a new 20-day high and the blowoff score prints at or above 70 on the same day within 14 days",
+      "what_it_would_mean": "The tape has resolved risk-on into a blowoff, not a holdable bottom analog, so UNKNOWN/HOLD is the wrong call"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
