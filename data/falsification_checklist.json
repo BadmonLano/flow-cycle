@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-27T07:19:28.918426-04:00",
+  "updated_at": "2026-10-27T10:32:53.534036-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4.0% above the verdict-session close within 14 days, and VIX closes at or below 15 on three consecutive sessions",
-      "what_it_would_mean": "The HOLD/UNKNOWN call missed a completed bottom and risk-on resolution; the Aug-2024-bottom analog should have been a long, not a hold."
+      "condition": "S&P 500 closes at least 5% above the reference close within 14 days, and the NYSE advance-decline line makes a 20-session high on the same window.",
+      "what_it_would_mean": "The bottom_2024_aug analog is confirming with price and breadth, so UNKNOWN/HOLD is wrong and the call should have been risk-on."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5.0% below the verdict-session close within 14 days, and VIX closes at or above 28 on the same session",
-      "what_it_would_mean": "The base failed. Similarity to bottom_2024_aug does not describe a holdable bottom; the correct call was risk-off, not UNKNOWN/HOLD."
+      "condition": "S&P 500 closes at least 5% below the reference close and makes a new 3-month low, while VIX closes above 28 on the same day.",
+      "what_it_would_mean": "The bottom pattern is rejected by a volatility-confirmed breakdown, so HOLD is wrong and the call should have been risk-off."
     },
     {
       "id": 3,
-      "condition": "Pattern-match similarity to bottom_2024_aug falls below 45%, or the blowoff score prints at or above 65, within 14 days",
-      "what_it_would_mean": "The features supporting the current UNKNOWN/HOLD verdict no longer hold, so that call is invalidated whether the regime resolved into a blowoff or a non-bottom pattern."
+      "condition": "ICE BofA US high-yield OAS widens by at least 75 bps from the reference reading within 14 days, and pattern similarity to bottom_2024_aug falls below 50%.",
+      "what_it_would_mean": "Credit stress plus loss of the bottom analog invalidates both the 77% pattern match and the UNKNOWN/HOLD stance."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
