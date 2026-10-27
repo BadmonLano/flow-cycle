@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-27T10:32:53.534036-04:00",
+  "updated_at": "2026-10-27T13:49:25.075751-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 5% above the reference close within 14 days, and the NYSE advance-decline line makes a 20-session high on the same window.",
-      "what_it_would_mean": "The bottom_2024_aug analog is confirming with price and breadth, so UNKNOWN/HOLD is wrong and the call should have been risk-on."
+      "condition": "S&P 500 closes at a new 52-week high on the same day the VIX closes below 14, and NYSE net breadth is positive on at least 8 of the next 10 sessions",
+      "what_it_would_mean": "The bottom_2024_aug analog has confirmed into a risk-on trend, so UNKNOWN/HOLD is wrong and the verdict must become a directional long/uptrend call"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5% below the reference close and makes a new 3-month low, while VIX closes above 28 on the same day.",
-      "what_it_would_mean": "The bottom pattern is rejected by a volatility-confirmed breakdown, so HOLD is wrong and the call should have been risk-off."
+      "condition": "S&P 500 closes more than 5% below its 50-day moving average while the VIX closes above 28 and ICE BofA US high-yield OAS widens by at least 75 bps from the level on the day of this verdict",
+      "what_it_would_mean": "A vol-and-credit breakdown has killed the bottom pattern match, so HOLD is wrong and the verdict must become risk-off rather than unknown"
     },
     {
       "id": 3,
-      "condition": "ICE BofA US high-yield OAS widens by at least 75 bps from the reference reading within 14 days, and pattern similarity to bottom_2024_aug falls below 50%.",
-      "what_it_would_mean": "Credit stress plus loss of the bottom analog invalidates both the 77% pattern match and the UNKNOWN/HOLD stance."
+      "condition": "Blowoff score prints at or above 70, 10-year US real yields rise by at least 25 bps from the level on the day of this verdict, and the CBOE equity put/call ratio closes below 0.60",
+      "what_it_would_mean": "The tape is a late-cycle blowoff, not an August-2024-style bottom, so the UNKNOWN bottom-leaning hold is the wrong regime call"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
