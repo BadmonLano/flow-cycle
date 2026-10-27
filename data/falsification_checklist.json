@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-26T21:34:01.162226-04:00",
+  "updated_at": "2026-10-27T00:50:46.210926-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash closes 6% or more below its verdict-date close within 14 days, and VIX closes above 30 on that same session",
-      "what_it_would_mean": "The bottom_2024_aug analog and HOLD are wrong: price and vol confirm a breakdown, not an unresolved base"
+      "condition": "S&P 500 closes at least 5.0% above or at least 5.0% below its verdict-date close on any session within 14 calendar days",
+      "what_it_would_mean": "HOLD/UNKNOWN assumes no resolvable directional regime; a \u00b15% close-to-close move proves a trend was already in force and the hold was false"
     },
     {
       "id": 2,
-      "condition": "ICE BofA US High Yield option-adjusted spread widens by 150 basis points or more versus its verdict-date level within 14 days",
-      "what_it_would_mean": "Credit stress exceeds a successful August 2024-style bottom, so the 77% bottom match and UNKNOWN/HOLD stance are invalidated"
+      "condition": "CBOE VIX closes above 35 on any session, or closes below 13.0 on a day the S&P 500 also prints a 20-session closing high, within 14 calendar days",
+      "what_it_would_mean": "Either print leaves the ambiguous vol band consistent with an unresolved bottom_2024_aug analog; stress above 35 or complacent new highs would have required a non-HOLD signal"
     },
     {
       "id": 3,
-      "condition": "Nasdaq-100 closes at a new 20-day high and the blowoff score prints at or above 70 on the same day within 14 days",
-      "what_it_would_mean": "The tape has resolved risk-on into a blowoff, not a holdable bottom analog, so UNKNOWN/HOLD is the wrong call"
+      "condition": "Blowoff score prints at or above 70, or pattern similarity to bottom_2024_aug falls to 40% or below, on any daily update within 14 calendar days",
+      "what_it_would_mean": "A score of 38 and 78% bottom-analog match defined the unknown state; a blowoff-threshold breach or analog collapse shows that classification was already wrong"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
