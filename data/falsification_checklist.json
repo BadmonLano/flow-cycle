@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-27T04:06:31.970960-04:00",
+  "updated_at": "2026-10-27T07:19:28.918426-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 7% below today's close within 14 days, with at least 3 consecutive daily closes below its 200-day moving average.",
-      "what_it_would_mean": "The 78% bottom_2024_aug analog is a failed bottom, not an unresolved base. UNKNOWN/HOLD is wrong because the correct call was risk-off, not wait."
+      "condition": "S&P 500 closes at least 4.0% above the verdict-session close within 14 days, and VIX closes at or below 15 on three consecutive sessions",
+      "what_it_would_mean": "The HOLD/UNKNOWN call missed a completed bottom and risk-on resolution; the Aug-2024-bottom analog should have been a long, not a hold."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5% above today's close within 14 days, VIX closes below 13 on the same day, and NYSE cumulative advance-decline makes a 20-session high.",
-      "what_it_would_mean": "The bottom pattern has already confirmed into a risk-on trend. UNKNOWN/HOLD is wrong because the correct call was long, not flat."
+      "condition": "S&P 500 closes at least 5.0% below the verdict-session close within 14 days, and VIX closes at or above 28 on the same session",
+      "what_it_would_mean": "The base failed. Similarity to bottom_2024_aug does not describe a holdable bottom; the correct call was risk-off, not UNKNOWN/HOLD."
     },
     {
       "id": 3,
-      "condition": "VIX closes above 40 on any session in the next 14 days, or ICE BofA US High Yield OAS widens by at least 100 basis points from its latest reading.",
-      "what_it_would_mean": "This is a stress regime, not a contained August-2024-style bottom. The pattern match and HOLD are invalidated; ambiguity has resolved to crisis/risk-off."
+      "condition": "Pattern-match similarity to bottom_2024_aug falls below 45%, or the blowoff score prints at or above 65, within 14 days",
+      "what_it_would_mean": "The features supporting the current UNKNOWN/HOLD verdict no longer hold, so that call is invalidated whether the regime resolved into a blowoff or a non-bottom pattern."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
