@@ -1,241 +1,114 @@
 {
-  "_updated": "2026-10-27T13:48:57.572464-04:00",
+  "_updated": "2026-10-27T14:53:50.169428-04:00",
   "calls": {
     "BTC": {
-      "direction": "SHORT",
-      "entry": 80599,
-      "tp": 80156.48,
-      "sl": 81041.52,
-      "levels_from": "j6",
-      "levels_note": "direction flipped but levels could not be rebuilt - DO NOT SIZE off these",
-      "race_dir_hit_fc": 0.33,
-      "race_dir_hit_j6": 0.33,
-      "race_dir_veto": false,
-      "race_margin_pts": -0.05,
-      "race_epsilon_pts": 0.35,
-      "race_pick_reason": "j6 tighter by 0.05pt",
-      "race_within_epsilon": true,
-      "race_fc_err": 6.04,
-      "race_j6_err": 5.99,
-      "race_da_err": 1.3,
-      "race_n": 85,
-      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
-      "tp_mode": "vol_sized",
-      "tp_distance_pct": 0.55,
-      "horizon": "5.5h",
-      "horizon_hours": 5.51,
-      "source": "jordan_committed",
-      "conviction": "medium",
-      "confluence_score": 0.2,
-      "confluence_votes": [
-        "BTC 200wk 1.196x mid \u2192 neutral",
-        "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
-        "pi cycle far from top \u2192 room to run long",
-        "projection +3.8% \u2192 long"
-      ],
-      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit btc_call in the editorial packet to adjust levels/direction.",
-      "confluence_centered": -0.018,
-      "confluence_baseline": 0.218,
-      "projection_tp": null,
-      "projection_sl": null,
-      "levels_stale": true,
-      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
-      "vol_daily_pct": 1.146,
-      "vol_horizon_pct": 0.549,
-      "sl_distance_pct": 0.55,
-      "mirrored_from": {
-        "live_call": "down_micro",
-        "stamped_at": "2026-10-27T07:19:28.969427-04:00"
-      },
+      "direction": "FLAT",
+      "entry": null,
+      "tp": null,
+      "sl": null,
+      "horizon": "12h",
+      "note": "no ticket. bitcoin is 80527. flat means no separate coin ticket. the book is the flat remainder after 80200 held. dies if 81200 holds or 79800 fails.",
+      "source": "jordan",
+      "opened_at": "2026-10-27T14:53:50.169428-04:00",
       "mechanical_confluence": {
         "direction": "FLAT",
-        "conviction": null,
+        "conviction": "low",
         "score": 0.2,
         "votes": [
-          "BTC 200wk 1.196x mid \u2192 neutral",
+          "BTC 200wk 1.195x mid \u2192 neutral",
           "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
           "pi cycle far from top \u2192 room to run long",
           "projection +3.8% \u2192 long"
         ]
       },
-      "opened_at": "2026-10-27T13:48:57.572464-04:00",
+      "horizon_hours": 72,
+      "probe_locked": true,
+      "probe_age_hours": 0.0,
+      "probe_agrees_with_live_stance": true,
+      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
       "advisory": {
-        "size_hint": 1.0,
-        "flags": [
-          "chop_caution",
-          "same_call_all_3"
-        ],
+        "size_hint": null,
+        "flags": [],
         "regime_24h": "chop",
         "phase": "Denial",
-        "committed": true,
-        "why": [
-          "chop tape: committed calls lost over 24h in chop",
-          "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
-        ],
-        "_rule": "advisory only - never sizes, opens or closes a trade",
-        "preferred": false
+        "committed": false,
+        "why": [],
+        "_rule": "advisory only - never sizes, opens or closes a trade"
       }
     },
     "ETH": {
-      "direction": "SHORT",
-      "entry": 2315.82,
-      "tp": 2276.04,
-      "sl": 2355.6,
-      "levels_from": "j6",
-      "levels_note": "direction flipped but levels could not be rebuilt - DO NOT SIZE off these",
-      "race_dir_hit_fc": 0.17,
-      "race_dir_hit_j6": 0.17,
-      "race_dir_veto": false,
-      "race_margin_pts": -0.12,
-      "race_epsilon_pts": 0.35,
-      "race_pick_reason": "j6 tighter by 0.12pt",
-      "race_within_epsilon": true,
-      "race_fc_err": 7.73,
-      "race_j6_err": 7.61,
-      "race_da_err": 1.22,
-      "race_n": 84,
-      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
-      "tp_mode": "vol_sized",
-      "tp_distance_pct": 1.72,
-      "horizon": "11.0h",
-      "horizon_hours": 10.96,
-      "source": "jordan_committed",
-      "conviction": "medium",
-      "confluence_score": 0.9,
-      "confluence_votes": [
-        "ETH 200wk 0.909x AT FLOOR \u2192 long",
-        "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
-        "pi cycle far from top \u2192 room to run long",
-        "projection +0.6% \u2192 flat"
-      ],
-      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit eth_call in the editorial packet to adjust levels/direction.",
-      "confluence_centered": -0.868,
-      "confluence_baseline": 1.768,
-      "projection_tp": null,
-      "projection_sl": null,
-      "levels_stale": true,
-      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
-      "vol_daily_pct": 2.542,
-      "vol_horizon_pct": 1.718,
-      "sl_distance_pct": 1.72,
-      "mirrored_from": {
-        "live_call": "down_micro",
-        "stamped_at": "2026-10-27T07:19:28.969427-04:00"
-      },
+      "direction": "FLAT",
+      "entry": null,
+      "tp": null,
+      "sl": null,
+      "horizon": "12h",
+      "note": "no ticket. ether is 2348. follows the bitcoin book. no fresh levels.",
+      "source": "jordan",
+      "opened_at": "2026-10-27T14:53:50.169428-04:00",
       "mechanical_confluence": {
         "direction": "FLAT",
-        "conviction": null,
-        "score": 0.9,
+        "conviction": "medium",
+        "score": 1.7,
         "votes": [
-          "ETH 200wk 0.909x AT FLOOR \u2192 long",
+          "ETH 200wk 0.918x AT FLOOR \u2192 long",
           "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
           "pi cycle far from top \u2192 room to run long",
-          "projection +0.6% \u2192 flat"
+          "projection +4.4% \u2192 long"
         ]
       },
-      "opened_at": "2026-10-27T08:21:58.846636-04:00",
+      "horizon_hours": 72,
+      "probe_locked": true,
+      "probe_age_hours": 0.0,
+      "probe_agrees_with_live_stance": true,
+      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
       "advisory": {
-        "size_hint": 1.0,
-        "flags": [
-          "chop_caution",
-          "same_call_all_3"
-        ],
+        "size_hint": null,
+        "flags": [],
         "regime_24h": "chop",
         "phase": "Denial",
-        "committed": true,
-        "why": [
-          "chop tape: committed calls lost over 24h in chop"
-        ],
-        "_rule": "advisory only - never sizes, opens or closes a trade",
-        "preferred": true
-      },
-      "age_hours": 5.45,
-      "hours_left": 5.51,
-      "locked": true,
-      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
+        "committed": false,
+        "why": [],
+        "_rule": "advisory only - never sizes, opens or closes a trade"
+      }
     },
     "SOL": {
-      "direction": "SHORT",
-      "entry": 100.06,
-      "tp": 97.29,
-      "sl": 102.83,
-      "levels_from": "j6",
-      "levels_note": "direction flipped but levels could not be rebuilt - DO NOT SIZE off these",
-      "race_dir_hit_fc": 0.47,
-      "race_dir_hit_j6": 0.47,
-      "race_dir_veto": false,
-      "race_margin_pts": -0.12,
-      "race_epsilon_pts": 0.35,
-      "race_pick_reason": "j6 tighter by 0.12pt",
-      "race_within_epsilon": true,
-      "race_fc_err": 8.72,
-      "race_j6_err": 8.6,
-      "race_da_err": 1.7,
-      "race_n": 84,
-      "race_err_mode": "exponential_blend_0.7_prior_0.3_new",
-      "tp_mode": "vol_sized",
-      "tp_distance_pct": 2.77,
-      "horizon": "11.0h",
-      "horizon_hours": 10.96,
-      "source": "jordan_committed",
-      "conviction": "medium",
-      "confluence_score": 0.9,
-      "confluence_votes": [
-        "SOL 200wk 0.885x AT FLOOR \u2192 long",
-        "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
-        "pi cycle far from top \u2192 room to run long",
-        "projection +0.7% \u2192 flat"
-      ],
-      "reason": "echoes Jordan's committed down_micro \u2014 one voice: leverage direction = committed move = coin call. Set an explicit sol_call in the editorial packet to adjust levels/direction.",
-      "confluence_centered": -0.907,
-      "confluence_baseline": 1.807,
-      "projection_tp": null,
-      "projection_sl": null,
-      "levels_stale": true,
-      "horizon_policy": "committed echo - rides the stance window it mirrors, not the 72h probe default. The ticket dies when the opinion does.",
-      "vol_daily_pct": 4.097,
-      "vol_horizon_pct": 2.768,
-      "sl_distance_pct": 2.77,
-      "mirrored_from": {
-        "live_call": "down_micro",
-        "stamped_at": "2026-10-27T07:19:28.969427-04:00"
-      },
+      "direction": "FLAT",
+      "entry": null,
+      "tp": null,
+      "sl": null,
+      "horizon": "12h",
+      "note": "no ticket. sol is 100.97. follows the bitcoin book. no fresh levels.",
+      "source": "jordan",
+      "opened_at": "2026-10-27T14:53:50.169428-04:00",
       "mechanical_confluence": {
         "direction": "FLAT",
-        "conviction": null,
-        "score": 0.9,
+        "conviction": "medium",
+        "score": 1.7,
         "votes": [
-          "SOL 200wk 0.885x AT FLOOR \u2192 long",
+          "SOL 200wk 0.891x AT FLOOR \u2192 long",
           "bottom still ahead (HUNTING_BOTTOM, conf 1.0) \u2192 short",
           "pi cycle far from top \u2192 room to run long",
-          "projection +0.7% \u2192 flat"
+          "projection +5.0% \u2192 long"
         ]
       },
-      "opened_at": "2026-10-27T08:21:58.846636-04:00",
+      "horizon_hours": 72,
+      "probe_locked": true,
+      "probe_age_hours": 0.0,
+      "probe_agrees_with_live_stance": true,
+      "probe_note": "explicit override, frozen 0.0h - a probe outlives the 12h stance on purpose. Still agrees with your live stance.",
       "advisory": {
-        "size_hint": 1.0,
-        "flags": [
-          "chop_caution",
-          "same_call_all_3"
-        ],
+        "size_hint": null,
+        "flags": [],
         "regime_24h": "chop",
         "phase": "Denial",
-        "committed": true,
-        "why": [
-          "chop tape: committed calls lost over 24h in chop",
-          "same SHORT on all 3 coins: prefer ETH (strongest mechanical agreement)"
-        ],
-        "_rule": "advisory only - never sizes, opens or closes a trade",
-        "preferred": false
-      },
-      "age_hours": 5.45,
-      "hours_left": 5.51,
-      "locked": true,
-      "lock_note": "frozen until it resolves or expires - entry/TP/SL ride to the outcome. A ticket whose levels move mid-flight cannot be graded."
+        "committed": false,
+        "why": [],
+        "_rule": "advisory only - never sizes, opens or closes a trade"
+      }
     }
   },
   "advisory_rules": {
-    "_updated": "2026-10-27T13:48:57.709989-04:00",
+    "_updated": "2026-10-27T14:53:50.358950-04:00",
     "size_hint": "1.5x committed in Panic/Anxiety or strong/trend tape; 1.0x in chop (+chop_caution)",
     "drop_reference_only": "mechanical-only longs on SOL or with F&G >= 60",
     "same_call_all_3": "flag; prefer the coin with the strongest mechanical agreement",
@@ -254,13 +127,16 @@
     ],
     "do_not_size_when": {
       "BTC": [
-        "levels_stale - direction flipped without a level rebuild"
+        "FLAT - a stance, not a ticket; there are no levels to ride",
+        "no TP/SL on the row"
       ],
       "ETH": [
-        "levels_stale - direction flipped without a level rebuild"
+        "FLAT - a stance, not a ticket; there are no levels to ride",
+        "no TP/SL on the row"
       ],
       "SOL": [
-        "levels_stale - direction flipped without a level rebuild"
+        "FLAT - a stance, not a ticket; there are no levels to ride",
+        "no TP/SL on the row"
       ]
     },
     "safe_to_size": [],
