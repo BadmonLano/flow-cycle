@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-27T17:05:25.782120-04:00",
+  "updated_at": "2026-10-27T20:19:34.022025-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes down at least 7% from today's close within 14 days and finishes the window below its 50-day moving average.",
-      "what_it_would_mean": "The bottom_2024_aug analog and HOLD are wrong: price action is a breakdown, not an unresolved bottom, so UNKNOWN/HOLD should have been a risk-off call."
+      "condition": "S&P 500 closes at least 5% above its close on the day of this verdict, with NYSE advance/decline positive on at least 8 of the next 10 sessions and VIX closing below 14",
+      "what_it_would_mean": "A confirmed risk-on thrust would show the bottom_2024_aug analog already resolved into an uptrend, so UNKNOWN/HOLD was the wrong call and a long signal was required"
     },
     {
       "id": 2,
-      "condition": "ICE BofA US High Yield OAS widens by at least 100 bps versus today and VIX closes at or above 28 on at least 3 sessions in the next 14 days.",
-      "what_it_would_mean": "Credit and volatility have entered a stress regime, falsifying both the moderate blowoff score of 38 and the benign unknown-phase HOLD."
+      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days, or S&P 500 closes 8% or more below its close on the day of this verdict with VIX closing above 28",
+      "what_it_would_mean": "Either a blowoff regime or a breakdown would replace the indeterminate state, proving HOLD incorrect because a directional extreme was already in progress"
     },
     {
       "id": 3,
-      "condition": "S&P 500 gains at least 5% and prints a new 52-week high within 14 days, with NYSE advancing issues above 70% of issues traded on the breakout day.",
-      "what_it_would_mean": "Phase is confirmed markup/blowoff, not an August-2024-style bottom, so UNKNOWN, HOLD, and a blowoff score of 38 are all invalidated."
+      "condition": "Pattern match to bottom_2024_aug falls to 40% or below while match to any single competing labeled regime (top, continuation, or crash) rises to 70% or above",
+      "what_it_would_mean": "The analog underpinning the unknown phase would be rejected by the engine's own pattern scores, so the UNKNOWN verdict could no longer be maintained"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
