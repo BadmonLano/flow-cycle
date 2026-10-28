@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-28T12:45:05.012089-04:00",
+  "updated_at": "2026-10-28T16:02:08.838561-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index prints a daily close below 5119.26 (the 5 Aug 2024 intraday low that defines the bottom_2024_aug analog) within 14 days",
-      "what_it_would_mean": "The 77% bottom_2024_aug match is broken; the unresolved-bottom framing behind UNKNOWN/HOLD is false and a breakdown, not a hold, was the correct call"
+      "condition": "Within 14 days, pattern similarity to bottom_2024_aug rises from 76% to at least 90% and the S&P 500 closes at least 4% above its close on the verdict date.",
+      "what_it_would_mean": "The August 2024 bottom analog confirmed into a tradable low. UNKNOWN/HOLD was wrong because the tape resolved into a long, not an unresolved hold."
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days while the S&P 500 also closes at a new 52-week high",
-      "what_it_would_mean": "Regime is a blowoff top, not a low-blowoff (38) bottom analog in an unknown phase; HOLD is invalidated because the signal should have flipped to risk-off"
+      "condition": "Within 14 days, the S&P 500 closes at least 5% below its close on the verdict date and pattern similarity to bottom_2024_aug falls to 50% or below.",
+      "what_it_would_mean": "The bottom analog failed and price resolved into a breakdown. UNKNOWN/HOLD was wrong because the regime was a continuation lower, not an ambiguous base."
     },
     {
       "id": 3,
-      "condition": "VIX closes above 30 and ICE BofA US High Yield OAS widens by 75 basis points or more versus its close on the session immediately before this 14-day window",
-      "what_it_would_mean": "Phase is no longer unknown; a decisive risk-off regime was observable, so a flat HOLD verdict is falsified"
+      "condition": "Within 14 days, blowoff score prints at or above 70, or the VIX closes above 28 for three consecutive sessions.",
+      "what_it_would_mean": "The moderate-blowoff (38) unknown regime was false. A stress or blowoff state arrived, so HOLD was the wrong call during a decisive volatility regime."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
