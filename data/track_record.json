@@ -1,5 +1,5 @@
 {
-  "_updated": "2026-10-28T06:03:04.257606-04:00",
+  "_updated": "2026-10-28T06:04:12.490239-04:00",
   "offline_days": 6,
   "offline_dates": [
     "2026-09-28",
@@ -9,25 +9,25 @@
     "2026-10-03",
     "2026-10-04"
   ],
-  "graded_days": 95,
-  "graded_sessions": 95,
+  "graded_days": 96,
+  "graded_sessions": 96,
   "hits": 36,
   "partials": 24,
-  "misses": 35,
-  "hit_rate_pct": 51,
-  "direction_accuracy_ex_partials_pct": 50.7,
-  "expectancy_net_pct": 0.194,
+  "misses": 36,
+  "hit_rate_pct": 50,
+  "direction_accuracy_ex_partials_pct": 50.0,
+  "expectancy_net_pct": 0.183,
   "coverage_pct": 100.0,
   "coverage_detail": {
-    "completed_committed_windows": 94,
+    "completed_committed_windows": 95,
     "explicit_sitouts": 0,
-    "denominator": 94,
+    "denominator": 95,
     "coverage_pct": 100.0,
     "basis": "completed_windows_plus_explicit_sitouts",
     "ignored_auto_no_calls": 44,
     "_note": "coverage = completed 12h committed windows / (those windows + explicit sit-outs). Auto-logged AM/PM no-calls and empty awaiting time are not holes. Historical graded rows are untouched.",
-    "slots_with_decision": 94,
-    "elapsed_slots": 94,
+    "slots_with_decision": 95,
+    "elapsed_slots": 95,
     "logged_no_calls": 0
   },
   "no_calls": 44,
@@ -35,20 +35,20 @@
   "legacy_excluded": 41,
   "unpriced_excluded": 0,
   "path_split": {
-    "worked_then_failed": 38,
+    "worked_then_failed": 39,
     "never_worked": 16,
     "worked_and_held": 13,
     "held_still": 10,
     "round_trip": 4,
     "never_still": 12,
     "unknown": 2,
-    "soft_misses": 12
+    "soft_misses": 13
   },
   "projection_reality": {
     "move_arrived": 0,
     "move_half_arrived": 0,
     "move_never_existed": 0,
-    "not_measurable": 95
+    "not_measurable": 96
   },
   "path_split_note": "Reads the tape path, not the close. worked_then_failed means the call was right first and gave it back - a timing/exit lesson, not a read lesson. never_worked means the tape never moved his way. Flat calls use held_still / round_trip / never_still (not unknown). The headline hit rate is unchanged by any of this.",
   "unpriced_note": "A call the engine could not price - usually a mid-window basis flip when the cap feed rate-limits. Since 2026-08-08 the grader re-prices both ends on BTC-only rather than voiding the call, so this should stay at 0.",
@@ -59,9 +59,9 @@
       "together": {
         "hit": 24,
         "partial": 18,
-        "miss": 22,
-        "n": 64,
-        "hit_rate_pct": 51.6
+        "miss": 23,
+        "n": 65,
+        "hit_rate_pct": 50.8
       },
       "alts_leading": {
         "hit": 2,
@@ -103,18 +103,18 @@
       "down_micro": {
         "hit": 21,
         "partial": 4,
-        "miss": 11,
-        "n": 36,
-        "hit_rate_pct": 63.9
+        "miss": 12,
+        "n": 37,
+        "hit_rate_pct": 62.2
       }
     },
     "by_call_source": {
       "daily_call": {
         "hit": 36,
         "partial": 24,
-        "miss": 35,
-        "n": 95,
-        "hit_rate_pct": 50.5
+        "miss": 36,
+        "n": 96,
+        "hit_rate_pct": 50.0
       }
     }
   },
@@ -138,25 +138,6 @@
       "path_points": 10,
       "bullet_status": "unused",
       "revision_used": false
-    },
-    {
-      "date": "2026-10-22",
-      "slot": "12h",
-      "predicted": "down_micro",
-      "actual_pct": -0.39,
-      "grade": "hit",
-      "phase": null,
-      "peak_pct": -0.347,
-      "peak_favoured_pct": 0.347,
-      "swing_pct": null,
-      "flat_round_trip": null,
-      "gave_back_pct": 0.0,
-      "path_verdict": "worked_and_held",
-      "peak_at_hour": 2.22,
-      "path_backfilled": null,
-      "path_points": 2,
-      "bullet_status": "spent",
-      "revision_used": true
     },
     {
       "date": "2026-10-23",
@@ -385,6 +366,25 @@
       "path_points": 6,
       "bullet_status": "spent",
       "revision_used": true
+    },
+    {
+      "date": "2026-10-28",
+      "slot": "12h\u00b7rev",
+      "predicted": "down_micro",
+      "actual_pct": 0.563,
+      "grade": "miss",
+      "phase": null,
+      "peak_pct": -0.178,
+      "peak_favoured_pct": 0.178,
+      "swing_pct": null,
+      "flat_round_trip": null,
+      "gave_back_pct": 0.694,
+      "path_verdict": "worked_then_failed",
+      "peak_at_hour": 5.44,
+      "path_backfilled": null,
+      "path_points": 8,
+      "bullet_status": "spent",
+      "revision_used": true
     }
   ],
   "horse_race_trend": {
@@ -393,7 +393,7 @@
     "j6_avg_residual": 4.6,
     "j6_direction": [
       "flat",
-      0.1
+      0.3
     ],
     "snapshots": 12
   },

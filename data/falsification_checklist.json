@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-28T02:50:00.641576-04:00",
+  "updated_at": "2026-10-28T06:04:10.754561-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes down more than 6% from today's close within 14 days and finishes the window below its lowest close of the prior 20 sessions",
-      "what_it_would_mean": "The 77% bottom_2024_aug analog and HOLD are wrong: price has broken the basing structure, so the correct call was risk-off, not unknown."
+      "condition": "S&P 500 closes more than 4% above or below its level at the start of the 14-day window on any session",
+      "what_it_would_mean": "A move of that size resolves the phase, so UNKNOWN plus HOLD is wrong \u2014 the tape has already chosen a direction."
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 65 on any session in the next 14 days while the S&P 500 also makes a new 20-day closing high",
-      "what_it_would_mean": "The moderate 38 blowoff reading and bottom-pattern match are invalidated: the tape is a late-cycle blowoff, not an August-2024-style bottom, so HOLD/UNKNOWN missed a euphoric top regime."
+      "condition": "Pattern similarity to bottom_2024_aug falls below 50% on the tracked match score",
+      "what_it_would_mean": "The only partial analog supporting patience has broken, so a hold justified by that 77% match is invalidated."
     },
     {
       "id": 3,
-      "condition": "VIX closes below 13 and at least 90% of S&P 500 constituents close above their 20-day moving average on the same session within 14 days",
-      "what_it_would_mean": "A confirmed breadth-and-vol thrust resolves the ambiguity to risk-on; UNKNOWN and HOLD are falsified because the bottom analog had already turned into a buyable regime."
+      "condition": "Blowoff score prints at or above 70, or at or below 15, on any daily reading in the window",
+      "what_it_would_mean": "A score of 38 is a mid-range non-event; an extreme reading means the regime is a blowoff or a washed-out reset, not an unresolved hold."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
