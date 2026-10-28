@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-28T06:04:10.754561-04:00",
+  "updated_at": "2026-10-28T09:27:33.689959-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes more than 4% above or below its level at the start of the 14-day window on any session",
-      "what_it_would_mean": "A move of that size resolves the phase, so UNKNOWN plus HOLD is wrong \u2014 the tape has already chosen a direction."
+      "condition": "S&P 500 cash index closes at least 4.0% below its level at the start of this 14-day window and finishes below the August 2024 analog swing low on a closing basis",
+      "what_it_would_mean": "The 77% bottom_2024_aug match is false; a fresh breakdown means this is an active downtrend, so UNKNOWN/HOLD failed"
     },
     {
       "id": 2,
-      "condition": "Pattern similarity to bottom_2024_aug falls below 50% on the tracked match score",
-      "what_it_would_mean": "The only partial analog supporting patience has broken, so a hold justified by that 77% match is invalidated."
+      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days",
+      "what_it_would_mean": "A blowoff at that level contradicts the moderate 38 reading and a bottom-pattern hold; the tape would be a late-cycle blowoff, not an unresolved bottom analog"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or at or below 15, on any daily reading in the window",
-      "what_it_would_mean": "A score of 38 is a mid-range non-event; an extreme reading means the regime is a blowoff or a washed-out reset, not an unresolved hold."
+      "condition": "VIX closes below 12.5 for three consecutive sessions while the S&P 500 makes a new 20-day closing high and pattern similarity to bottom_2024_aug falls below 50%",
+      "what_it_would_mean": "The market has already left the bottom analog for a low-vol uptrend, so the correct call was directional risk-on rather than UNKNOWN/HOLD"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
