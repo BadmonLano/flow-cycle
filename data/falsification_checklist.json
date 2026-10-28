@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-27T20:19:34.022025-04:00",
+  "updated_at": "2026-10-27T23:33:34.502266-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 5% above its close on the day of this verdict, with NYSE advance/decline positive on at least 8 of the next 10 sessions and VIX closing below 14",
-      "what_it_would_mean": "A confirmed risk-on thrust would show the bottom_2024_aug analog already resolved into an uptrend, so UNKNOWN/HOLD was the wrong call and a long signal was required"
+      "condition": "Primary risk index (SPX or the engine's tracked equity benchmark) closes more than 5% below the bottom_2024_aug template reference low within 14 days",
+      "what_it_would_mean": "The 76% bottom analog is invalidated; price has broken the prior-bottom structure the HOLD/UNKNOWN call is leaning on"
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days, or S&P 500 closes 8% or more below its close on the day of this verdict with VIX closing above 28",
-      "what_it_would_mean": "Either a blowoff regime or a breakdown would replace the indeterminate state, proving HOLD incorrect because a directional extreme was already in progress"
+      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days",
+      "what_it_would_mean": "Regime is a blowoff, not a moderate 38 hold; the current non-directional call is wrong"
     },
     {
       "id": 3,
-      "condition": "Pattern match to bottom_2024_aug falls to 40% or below while match to any single competing labeled regime (top, continuation, or crash) rises to 70% or above",
-      "what_it_would_mean": "The analog underpinning the unknown phase would be rejected by the engine's own pattern scores, so the UNKNOWN verdict could no longer be maintained"
+      "condition": "Pattern similarity to bottom_2024_aug falls below 50% while similarity to a named breakdown or continuation-lower pattern rises above 75%",
+      "what_it_would_mean": "UNKNOWN is resolved against the bottom template; the hold predicated on that match no longer holds"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
