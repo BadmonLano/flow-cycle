@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-27T23:33:34.502266-04:00",
+  "updated_at": "2026-10-28T02:50:00.641576-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Primary risk index (SPX or the engine's tracked equity benchmark) closes more than 5% below the bottom_2024_aug template reference low within 14 days",
-      "what_it_would_mean": "The 76% bottom analog is invalidated; price has broken the prior-bottom structure the HOLD/UNKNOWN call is leaning on"
+      "condition": "S&P 500 closes down more than 6% from today's close within 14 days and finishes the window below its lowest close of the prior 20 sessions",
+      "what_it_would_mean": "The 77% bottom_2024_aug analog and HOLD are wrong: price has broken the basing structure, so the correct call was risk-off, not unknown."
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days",
-      "what_it_would_mean": "Regime is a blowoff, not a moderate 38 hold; the current non-directional call is wrong"
+      "condition": "Blowoff score prints at or above 65 on any session in the next 14 days while the S&P 500 also makes a new 20-day closing high",
+      "what_it_would_mean": "The moderate 38 blowoff reading and bottom-pattern match are invalidated: the tape is a late-cycle blowoff, not an August-2024-style bottom, so HOLD/UNKNOWN missed a euphoric top regime."
     },
     {
       "id": 3,
-      "condition": "Pattern similarity to bottom_2024_aug falls below 50% while similarity to a named breakdown or continuation-lower pattern rises above 75%",
-      "what_it_would_mean": "UNKNOWN is resolved against the bottom template; the hold predicated on that match no longer holds"
+      "condition": "VIX closes below 13 and at least 90% of S&P 500 constituents close above their 20-day moving average on the same session within 14 days",
+      "what_it_would_mean": "A confirmed breadth-and-vol thrust resolves the ambiguity to risk-on; UNKNOWN and HOLD are falsified because the bottom analog had already turned into a buyable regime."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
