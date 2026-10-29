@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-29T03:33:45.952043-04:00",
+  "updated_at": "2026-10-29T06:51:33.000326-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes more than 4% above or below its level at the start of this 14-day window on any session, and holds that break on the following close",
-      "what_it_would_mean": "A decisive directional move occurred, so UNKNOWN plus HOLD was the wrong call; a long or short signal was required"
+      "condition": "S&P 500 total return is at least +6% over the next 14 calendar days and VIX closes below 15 on the final session",
+      "what_it_would_mean": "The bottom_2024_aug analog would have resolved into a confirmed risk-on reversal, so UNKNOWN/HOLD would be false \u2014 the correct call would have been a long/bottom confirmation, not indecision"
     },
     {
       "id": 2,
-      "condition": "Pattern similarity to bottom_2024_aug falls below 40% and the tracked equity index undercuts its recent 20-day low by more than 2%",
-      "what_it_would_mean": "The bottom analog that justified standing aside has broken; the setup is a failed base, not an unresolved bottom"
+      "condition": "S&P 500 total return is -5% or worse over the next 14 calendar days and ICE BofA US High Yield OAS widens by at least 75 basis points versus today",
+      "what_it_would_mean": "The 76% bottom_2024_aug match would be invalidated by a credit-confirmed breakdown rather than a base, so HOLD/UNKNOWN would be wrong \u2014 the regime would be risk-off, not an unresolved bottom"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints above 70 or below 20 for two consecutive sessions, with VIX moving more than 8 points in the same direction as that score shift",
-      "what_it_would_mean": "The moderate 40 blowoff reading misclassified the regime; the tape entered either a blowoff or a volatility shock, invalidating a neutral hold"
+      "condition": "Blowoff score prints at or above 65 within 14 days while the 10-year US Treasury yield moves at least 40 basis points from today's close in either direction",
+      "what_it_would_mean": "A identifiable rates-plus-blowoff regime would have replaced an unknown phase, falsifying both UNKNOWN and the low blowoff reading of 39 that supported a non-directional HOLD"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
