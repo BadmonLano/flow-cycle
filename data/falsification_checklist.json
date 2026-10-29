@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-29T00:06:31.127620-04:00",
+  "updated_at": "2026-10-29T00:17:54.655840-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4.0% above its close on the signal date within 14 days, and VIX closes below 16 on at least 3 sessions in that window.",
-      "what_it_would_mean": "The bottom_2024_aug analog resolved into a confirmed risk-on rebound; UNKNOWN/HOLD was wrong because the tape had already turned and a long bias was required."
+      "condition": "S&P 500 closes at least 4% above the verdict-date close and VIX closes below 14 on three consecutive sessions within 14 days",
+      "what_it_would_mean": "The bottom_2024_aug analog has already confirmed a durable risk-on reversal, so UNKNOWN/HOLD was the wrong call and should have been a long/risk-on verdict."
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 3.5% below its close on the signal date and prints a lower low than the swing low used in the bottom_2024_aug match, with VIX closing above 30 at least once in the same 14 days.",
-      "what_it_would_mean": "The 75% bottom-pattern match was a false positive; the setup broke down, so UNKNOWN/HOLD missed a resolved risk-off regime."
+      "condition": "S&P 500 closes at least 5% below the verdict-date close, or high-yield OAS widens by 75 bps or more versus the verdict-date level, within 14 days",
+      "what_it_would_mean": "The bottom analog is broken by fresh downside or credit stress, so HOLD was wrong and the correct call was risk-off rather than an unresolved bottom."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by 60 basis points or more versus the signal-date level within 14 days, or the 10-year US Treasury yield moves 35 basis points or more in either direction inside any 5 trading days while the MOVE index closes above 120.",
-      "what_it_would_mean": "Credit or rates forced a regime break that a passive HOLD cannot survive; UNKNOWN is invalidated because the macro shock defined the call."
+      "condition": "Pattern similarity to bottom_2024_aug falls below 50%, or the blowoff score rises from 38 to above 65, within 14 days",
+      "what_it_would_mean": "The analog that justified standing aside no longer holds, so UNKNOWN/HOLD is invalidated and must be replaced by a directional verdict."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."

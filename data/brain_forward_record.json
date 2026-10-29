@@ -1,23 +1,23 @@
 {
-  "_updated": "2026-10-29T00:06:03.158145-04:00",
+  "_updated": "2026-10-29T00:17:37.664143-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-29T00:06:03.198995-04:00",
-      "score_at_call": 40,
-      "phase_at_call": "Anxiety",
+      "made_at": "2026-10-29T00:17:37.690714-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Denial",
       "predicted_phase": "Anxiety",
-      "direction": "UP",
-      "conviction": "low",
-      "reasoning": "Named breaker is live post-FOMC drift overlapping opex with extreme exchange_netflow/reserves/skew and dead etf_flows; coil base rate keeps conviction low because a ~1% event move often fails to clear a full rung.",
-      "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
-      "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Coil base rate (\u00b12 score break only 7% of recent 12h windows) plus analyst confirmation that inflows/ETF/opex are price-dip bias not yet a rung-breaker keeps phase inside 47-54.",
+      "confirmed_if": "Phase score stays inside 47-54 and BTC fails to reclaim 80k through opex and the 72h post-FOMC window",
+      "invalidated_if": "Score leaves 47-54 \u2014 daily close above 80k into Disbelief or flush below 47 into Anxiety",
       "signals_at_call": {
         "fear_greed": 51,
         "btc_funding": 0.0049,
         "mvrv_zscore": 0.9074,
         "net_liquidity_chg_4w": 30993.0,
-        "btc_dom": null,
+        "btc_dom": 59.47744264848125,
         "etf_net_total_musd": -487.07,
         "vix": 16.91
       }
@@ -4085,40 +4085,6 @@
   },
   "superseded": [
     {
-      "made_at": "2026-08-15T18:30:19.469349-04:00",
-      "score_at_call": 40,
-      "phase_at_call": "Anxiety",
-      "predicted_phase": "Denial",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The coil is statistically undeniable at 0/72 windows moving \u00b12+ points, and neither brain has identified a live breaker \u2014 HOLD with conviction is the skilled call, not a hedge.",
-      "confirmed_if": "BTC breaks $65K with funding climbing above 0.01% and ETF flows turning positive \u2014 signals Hope phase entry and squeeze initiation",
-      "invalidated_if": "BTC breaks $60K with VIX spiking above 20 and exchange netflow flipping negative (inflows) \u2014 signals Panic phase entry and flush acceleration",
-      "signals_at_call": {
-        "fear_greed": 34,
-        "btc_funding": 0.0053,
-        "mvrv_zscore": 0.3697,
-        "net_liquidity_chg_4w": -190805.0,
-        "btc_dom": null,
-        "etf_net_total_musd": -57.63,
-        "vix": 14.25
-      },
-      "superseded_at": "2026-08-15T19:32:04.216700-04:00",
-      "superseded_by": {
-        "predicted_phase": "Capitulation",
-        "direction": "HOLD"
-      },
-      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
-      "graded_at": "2026-08-15T20:33:51.273212-04:00",
-      "window_hours_actual": 1.03,
-      "partial_window": true,
-      "score_at_close": 40,
-      "realized_direction": "HOLD",
-      "direction_hit": true,
-      "score_delta": 0,
-      "grade_note": "graded on the 1.03h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
-    },
-    {
       "made_at": "2026-08-15T19:32:04.216700-04:00",
       "score_at_call": 40,
       "phase_at_call": "Anxiety",
@@ -7500,12 +7466,46 @@
         "predicted_phase": "Anxiety",
         "direction": "UP"
       },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
+      "graded_at": "2026-10-29T00:17:37.663139-04:00",
+      "window_hours_actual": 11.36,
+      "partial_window": false,
+      "score_at_close": 38,
+      "realized_direction": "HOLD",
+      "direction_hit": true,
+      "score_delta": 0,
+      "grade_note": "graded on the 11.36h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-10-29T00:06:03.198995-04:00",
+      "score_at_call": 40,
+      "phase_at_call": "Anxiety",
+      "predicted_phase": "Anxiety",
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Named breaker is live post-FOMC drift overlapping opex with extreme exchange_netflow/reserves/skew and dead etf_flows; coil base rate keeps conviction low because a ~1% event move often fails to clear a full rung.",
+      "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+      "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100",
+      "signals_at_call": {
+        "fear_greed": 51,
+        "btc_funding": 0.0049,
+        "mvrv_zscore": 0.9074,
+        "net_liquidity_chg_4w": 30993.0,
+        "btc_dom": null,
+        "etf_net_total_musd": -487.07,
+        "vix": 16.91
+      },
+      "superseded_at": "2026-10-29T00:17:37.690714-04:00",
+      "superseded_by": {
+        "predicted_phase": "Anxiety",
+        "direction": "HOLD"
+      },
       "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
-    "hit": 88,
-    "total": 152,
+    "hit": 89,
+    "total": 153,
     "_note": "graded on partial windows (view changed before the horizon). Kept OUT of the headline rate so the two measurements are not blended, but recorded because flip-flop days are exactly the evidence the old code was deleting."
   }
 }
