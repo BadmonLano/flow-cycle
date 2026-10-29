@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-29T00:17:54.655840-04:00",
+  "updated_at": "2026-10-29T03:33:45.952043-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4% above the verdict-date close and VIX closes below 14 on three consecutive sessions within 14 days",
-      "what_it_would_mean": "The bottom_2024_aug analog has already confirmed a durable risk-on reversal, so UNKNOWN/HOLD was the wrong call and should have been a long/risk-on verdict."
+      "condition": "S&P 500 closes more than 4% above or below its level at the start of this 14-day window on any session, and holds that break on the following close",
+      "what_it_would_mean": "A decisive directional move occurred, so UNKNOWN plus HOLD was the wrong call; a long or short signal was required"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 5% below the verdict-date close, or high-yield OAS widens by 75 bps or more versus the verdict-date level, within 14 days",
-      "what_it_would_mean": "The bottom analog is broken by fresh downside or credit stress, so HOLD was wrong and the correct call was risk-off rather than an unresolved bottom."
+      "condition": "Pattern similarity to bottom_2024_aug falls below 40% and the tracked equity index undercuts its recent 20-day low by more than 2%",
+      "what_it_would_mean": "The bottom analog that justified standing aside has broken; the setup is a failed base, not an unresolved bottom"
     },
     {
       "id": 3,
-      "condition": "Pattern similarity to bottom_2024_aug falls below 50%, or the blowoff score rises from 38 to above 65, within 14 days",
-      "what_it_would_mean": "The analog that justified standing aside no longer holds, so UNKNOWN/HOLD is invalidated and must be replaced by a directional verdict."
+      "condition": "Blowoff score prints above 70 or below 20 for two consecutive sessions, with VIX moving more than 8 points in the same direction as that score shift",
+      "what_it_would_mean": "The moderate 40 blowoff reading misclassified the regime; the tape entered either a blowoff or a volatility shock, invalidating a neutral hold"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
