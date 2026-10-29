@@ -1,0 +1,1581 @@
+{
+  "_updated": "2026-10-28T23:51:49.793709",
+  "_doctrine": "Next-day calendar + volatility patterns, BTC daily closes from indicator_history, 2024-01-02 -> 2026-10-28 (1001 graded days). Guards: support>=8, lift>=1.3x, one-sided binomial p<0.05. 2172 hypotheses tested; survives_multiple_testing = Bonferroni p<0.05/tests (PROVEN). Others are THIN (watching). Signal only - never sizes or opens a trade.",
+  "graded_days": 1001,
+  "big_move_threshold_pct": 2.3,
+  "base_rates": {
+    "next-day UP": 0.5054945054945055,
+    "next-day BIG move (|ret| >= 2.30%)": 0.25074925074925075,
+    "next-day BIG UP (>= +2.30%)": 0.13186813186813187,
+    "next-day BIG DOWN (<= -2.30%)": 0.11888111888111888
+  },
+  "tests": 2172,
+  "patterns": [
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Sun"
+        }
+      ],
+      "target": "next-day UP",
+      "support": 40,
+      "hits": 31,
+      "precision": 0.775,
+      "base_rate": 0.505,
+      "lift": 1.53,
+      "p_value": 0.00043,
+      "mean_next_day_ret_pct": 1.51,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Sun: next-day UP 31/40 (78% vs base 50%, 1.53x, p=0.0004, mean next-day +1.51%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 250,
+      "hits": 85,
+      "precision": 0.34,
+      "base_rate": 0.251,
+      "lift": 1.36,
+      "p_value": 0.001,
+      "mean_next_day_ret_pct": 0.17,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high: next-day BIG move (|ret| >= 2.30%) 85/250 (34% vs base 25%, 1.36x, p=0.0010, mean next-day +0.17%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 83,
+      "hits": 33,
+      "precision": 0.398,
+      "base_rate": 0.251,
+      "lift": 1.59,
+      "p_value": 0.00228,
+      "mean_next_day_ret_pct": 0.17,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND vol7=high: next-day BIG move (|ret| >= 2.30%) 33/83 (40% vs base 25%, 1.59x, p=0.0023, mean next-day +0.17%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Wed"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 38,
+      "hits": 11,
+      "precision": 0.289,
+      "base_rate": 0.119,
+      "lift": 2.43,
+      "p_value": 0.00373,
+      "mean_next_day_ret_pct": -0.67,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Wed: next-day BIG DOWN (<= -2.30%) 11/38 (29% vs base 12%, 2.43x, p=0.0037, mean next-day -0.67%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Sun"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 40,
+      "hits": 12,
+      "precision": 0.3,
+      "base_rate": 0.132,
+      "lift": 2.27,
+      "p_value": 0.00429,
+      "mean_next_day_ret_pct": 1.51,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Sun: next-day BIG UP (>= +2.30%) 12/40 (30% vs base 13%, 2.27x, p=0.0043, mean next-day +1.51%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 15,
+      "hits": 9,
+      "precision": 0.6,
+      "base_rate": 0.251,
+      "lift": 2.39,
+      "p_value": 0.00429,
+      "mean_next_day_ret_pct": -0.55,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND weekday=Tue: next-day BIG move (|ret| >= 2.30%) 9/15 (60% vs base 25%, 2.39x, p=0.0043, mean next-day -0.55%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Mon"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 15,
+      "hits": 6,
+      "precision": 0.4,
+      "base_rate": 0.119,
+      "lift": 3.36,
+      "p_value": 0.00543,
+      "mean_next_day_ret_pct": -0.97,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND weekday=Mon: next-day BIG DOWN (<= -2.30%) 6/15 (40% vs base 12%, 3.36x, p=0.0054, mean next-day -0.97%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "cpi",
+          "bin": "after"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Thu"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 14,
+      "hits": 6,
+      "precision": 0.429,
+      "base_rate": 0.132,
+      "lift": 3.25,
+      "p_value": 0.00611,
+      "mean_next_day_ret_pct": 1.29,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When cpi=after AND weekday=Thu: next-day BIG UP (>= +2.30%) 6/14 (43% vs base 13%, 3.25x, p=0.0061, mean next-day +1.29%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "weekday",
+          "bin": "Sun"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 143,
+      "hits": 30,
+      "precision": 0.21,
+      "base_rate": 0.132,
+      "lift": 1.59,
+      "p_value": 0.00642,
+      "mean_next_day_ret_pct": 0.46,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When weekday=Sun: next-day BIG UP (>= +2.30%) 30/143 (21% vs base 13%, 1.59x, p=0.0064, mean next-day +0.46%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Wed"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 38,
+      "hits": 17,
+      "precision": 0.447,
+      "base_rate": 0.251,
+      "lift": 1.78,
+      "p_value": 0.00652,
+      "mean_next_day_ret_pct": -0.67,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Wed: next-day BIG move (|ret| >= 2.30%) 17/38 (45% vs base 25%, 1.78x, p=0.0065, mean next-day -0.67%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 37,
+      "hits": 11,
+      "precision": 0.297,
+      "base_rate": 0.132,
+      "lift": 2.25,
+      "p_value": 0.00661,
+      "mean_next_day_ret_pct": 0.98,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid low AND weekday=Tue: next-day BIG UP (>= +2.30%) 11/37 (30% vs base 13%, 2.25x, p=0.0066, mean next-day +0.98%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Thu"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 33,
+      "hits": 15,
+      "precision": 0.455,
+      "base_rate": 0.251,
+      "lift": 1.81,
+      "p_value": 0.00869,
+      "mean_next_day_ret_pct": 0.25,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Thu: next-day BIG move (|ret| >= 2.30%) 15/33 (46% vs base 25%, 1.81x, p=0.0087, mean next-day +0.25%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        },
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 22,
+      "hits": 11,
+      "precision": 0.5,
+      "base_rate": 0.251,
+      "lift": 1.99,
+      "p_value": 0.01021,
+      "mean_next_day_ret_pct": -0.35,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=mid low AND month_pos=first3: next-day BIG move (|ret| >= 2.30%) 11/22 (50% vs base 25%, 1.99x, p=0.0102, mean next-day -0.35%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Thu"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 34,
+      "hits": 10,
+      "precision": 0.294,
+      "base_rate": 0.132,
+      "lift": 2.23,
+      "p_value": 0.01022,
+      "mean_next_day_ret_pct": 0.76,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND weekday=Thu: next-day BIG UP (>= +2.30%) 10/34 (29% vs base 13%, 2.23x, p=0.0102, mean next-day +0.76%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 46,
+      "hits": 19,
+      "precision": 0.413,
+      "base_rate": 0.251,
+      "lift": 1.65,
+      "p_value": 0.01151,
+      "mean_next_day_ret_pct": 0.32,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND prev_move=mid low: next-day BIG move (|ret| >= 2.30%) 19/46 (41% vs base 25%, 1.65x, p=0.0115, mean next-day +0.32%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 56,
+      "hits": 13,
+      "precision": 0.232,
+      "base_rate": 0.119,
+      "lift": 1.95,
+      "p_value": 0.01278,
+      "mean_next_day_ret_pct": -0.3,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND vol7=high: next-day BIG DOWN (<= -2.30%) 13/56 (23% vs base 12%, 1.95x, p=0.0128, mean next-day -0.30%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 46,
+      "hits": 12,
+      "precision": 0.261,
+      "base_rate": 0.132,
+      "lift": 1.98,
+      "p_value": 0.01409,
+      "mean_next_day_ret_pct": 0.32,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND prev_move=mid low: next-day BIG UP (>= +2.30%) 12/46 (26% vs base 13%, 1.98x, p=0.0141, mean next-day +0.32%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day UP",
+      "support": 51,
+      "hits": 34,
+      "precision": 0.667,
+      "base_rate": 0.505,
+      "lift": 1.32,
+      "p_value": 0.01472,
+      "mean_next_day_ret_pct": 0.65,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND prev_move=mid high: next-day UP 34/51 (67% vs base 50%, 1.32x, p=0.0147, mean next-day +0.65%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 41,
+      "hits": 17,
+      "precision": 0.415,
+      "base_rate": 0.251,
+      "lift": 1.65,
+      "p_value": 0.01569,
+      "mean_next_day_ret_pct": 0.57,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid low AND vol7=high: next-day BIG move (|ret| >= 2.30%) 17/41 (42% vs base 25%, 1.65x, p=0.0157, mean next-day +0.57%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "cpi",
+          "bin": "after"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 26,
+      "hits": 8,
+      "precision": 0.308,
+      "base_rate": 0.132,
+      "lift": 2.33,
+      "p_value": 0.01573,
+      "mean_next_day_ret_pct": 0.78,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When cpi=after: next-day BIG UP (>= +2.30%) 8/26 (31% vs base 13%, 2.33x, p=0.0157, mean next-day +0.78%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "cpi",
+          "bin": "after"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 26,
+      "hits": 8,
+      "precision": 0.308,
+      "base_rate": 0.132,
+      "lift": 2.33,
+      "p_value": 0.01573,
+      "mean_next_day_ret_pct": 0.78,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND cpi=after: next-day BIG UP (>= +2.30%) 8/26 (31% vs base 13%, 2.33x, p=0.0157, mean next-day +0.78%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 26,
+      "hits": 8,
+      "precision": 0.308,
+      "base_rate": 0.132,
+      "lift": 2.33,
+      "p_value": 0.01573,
+      "mean_next_day_ret_pct": 1.11,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=mid low AND weekday=Tue: next-day BIG UP (>= +2.30%) 8/26 (31% vs base 13%, 2.33x, p=0.0157, mean next-day +1.11%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 35,
+      "hits": 15,
+      "precision": 0.429,
+      "base_rate": 0.251,
+      "lift": 1.71,
+      "p_value": 0.01621,
+      "mean_next_day_ret_pct": -0.02,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND month_pos=first3: next-day BIG move (|ret| >= 2.30%) 15/35 (43% vs base 25%, 1.71x, p=0.0162, mean next-day -0.02%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 52,
+      "hits": 12,
+      "precision": 0.231,
+      "base_rate": 0.119,
+      "lift": 1.94,
+      "p_value": 0.01715,
+      "mean_next_day_ret_pct": -0.5,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=mid low AND vol7=mid high: next-day BIG DOWN (<= -2.30%) 12/52 (23% vs base 12%, 1.94x, p=0.0171, mean next-day -0.50%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Mon"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 15,
+      "hits": 8,
+      "precision": 0.533,
+      "base_rate": 0.251,
+      "lift": 2.13,
+      "p_value": 0.01762,
+      "mean_next_day_ret_pct": -0.97,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND weekday=Mon: next-day BIG move (|ret| >= 2.30%) 8/15 (53% vs base 25%, 2.13x, p=0.0176, mean next-day -0.97%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 250,
+      "hits": 45,
+      "precision": 0.18,
+      "base_rate": 0.132,
+      "lift": 1.36,
+      "p_value": 0.01856,
+      "mean_next_day_ret_pct": 0.17,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high: next-day BIG UP (>= +2.30%) 45/250 (18% vs base 13%, 1.36x, p=0.0186, mean next-day +0.17%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 35,
+      "hits": 9,
+      "precision": 0.257,
+      "base_rate": 0.119,
+      "lift": 2.16,
+      "p_value": 0.01865,
+      "mean_next_day_ret_pct": -0.02,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND month_pos=first3: next-day BIG DOWN (<= -2.30%) 9/35 (26% vs base 12%, 2.16x, p=0.0186, mean next-day -0.02%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 35,
+      "hits": 9,
+      "precision": 0.257,
+      "base_rate": 0.119,
+      "lift": 2.16,
+      "p_value": 0.01865,
+      "mean_next_day_ret_pct": -0.56,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=mid low AND prev_move=high: next-day BIG DOWN (<= -2.30%) 9/35 (26% vs base 12%, 2.16x, p=0.0186, mean next-day -0.56%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 22,
+      "hits": 7,
+      "precision": 0.318,
+      "base_rate": 0.132,
+      "lift": 2.41,
+      "p_value": 0.01939,
+      "mean_next_day_ret_pct": 0.85,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND vol7=high: next-day BIG UP (>= +2.30%) 7/22 (32% vs base 13%, 2.41x, p=0.0194, mean next-day +0.85%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Wed"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 47,
+      "hits": 11,
+      "precision": 0.234,
+      "base_rate": 0.119,
+      "lift": 1.97,
+      "p_value": 0.01985,
+      "mean_next_day_ret_pct": -0.59,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND weekday=Wed: next-day BIG DOWN (<= -2.30%) 11/47 (23% vs base 12%, 1.97x, p=0.0198, mean next-day -0.59%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 144,
+      "hits": 47,
+      "precision": 0.326,
+      "base_rate": 0.251,
+      "lift": 1.3,
+      "p_value": 0.02516,
+      "mean_next_day_ret_pct": 0.36,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When weekday=Tue: next-day BIG move (|ret| >= 2.30%) 47/144 (33% vs base 25%, 1.30x, p=0.0252, mean next-day +0.36%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 31,
+      "hits": 8,
+      "precision": 0.258,
+      "base_rate": 0.119,
+      "lift": 2.17,
+      "p_value": 0.02536,
+      "mean_next_day_ret_pct": -0.52,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND prev_move=high: next-day BIG DOWN (<= -2.30%) 8/31 (26% vs base 12%, 2.17x, p=0.0254, mean next-day -0.52%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 15,
+      "hits": 5,
+      "precision": 0.333,
+      "base_rate": 0.119,
+      "lift": 2.8,
+      "p_value": 0.02554,
+      "mean_next_day_ret_pct": -0.55,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND weekday=Tue: next-day BIG DOWN (<= -2.30%) 5/15 (33% vs base 12%, 2.80x, p=0.0255, mean next-day -0.55%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 40,
+      "hits": 16,
+      "precision": 0.4,
+      "base_rate": 0.251,
+      "lift": 1.6,
+      "p_value": 0.02696,
+      "mean_next_day_ret_pct": 0.65,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND weekday=Tue: next-day BIG move (|ret| >= 2.30%) 16/40 (40% vs base 25%, 1.60x, p=0.0270, mean next-day +0.65%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 40,
+      "hits": 16,
+      "precision": 0.4,
+      "base_rate": 0.251,
+      "lift": 1.6,
+      "p_value": 0.02696,
+      "mean_next_day_ret_pct": 0.19,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=mid low AND vol7=high: next-day BIG move (|ret| >= 2.30%) 16/40 (40% vs base 25%, 1.60x, p=0.0270, mean next-day +0.19%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Sun"
+        }
+      ],
+      "target": "next-day UP",
+      "support": 37,
+      "hits": 25,
+      "precision": 0.676,
+      "base_rate": 0.505,
+      "lift": 1.34,
+      "p_value": 0.02747,
+      "mean_next_day_ret_pct": 0.38,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND weekday=Sun: next-day UP 25/37 (68% vs base 50%, 1.34x, p=0.0275, mean next-day +0.38%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "last2"
+        },
+        {
+          "factor": "vol7",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 16,
+      "hits": 8,
+      "precision": 0.5,
+      "base_rate": 0.251,
+      "lift": 1.99,
+      "p_value": 0.0276,
+      "mean_next_day_ret_pct": -0.56,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=last2 AND vol7=mid high: next-day BIG move (|ret| >= 2.30%) 8/16 (50% vs base 25%, 1.99x, p=0.0276, mean next-day -0.56%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "cpi",
+          "bin": "eve"
+        },
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 8,
+      "hits": 5,
+      "precision": 0.625,
+      "base_rate": 0.251,
+      "lift": 2.49,
+      "p_value": 0.02765,
+      "mean_next_day_ret_pct": 1.18,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When cpi=eve AND mom7=mid low: next-day BIG move (|ret| >= 2.30%) 5/8 (62% vs base 25%, 2.49x, p=0.0277, mean next-day +1.18%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 37,
+      "hits": 15,
+      "precision": 0.405,
+      "base_rate": 0.251,
+      "lift": 1.62,
+      "p_value": 0.02793,
+      "mean_next_day_ret_pct": 0.98,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid low AND weekday=Tue: next-day BIG move (|ret| >= 2.30%) 15/37 (40% vs base 25%, 1.62x, p=0.0279, mean next-day +0.98%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Sun"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 34,
+      "hits": 9,
+      "precision": 0.265,
+      "base_rate": 0.132,
+      "lift": 2.01,
+      "p_value": 0.02866,
+      "mean_next_day_ret_pct": 1.07,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=high AND weekday=Sun: next-day BIG UP (>= +2.30%) 9/34 (26% vs base 13%, 2.01x, p=0.0287, mean next-day +1.07%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 34,
+      "hits": 9,
+      "precision": 0.265,
+      "base_rate": 0.132,
+      "lift": 2.01,
+      "p_value": 0.02866,
+      "mean_next_day_ret_pct": 0.81,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Tue: next-day BIG UP (>= +2.30%) 9/34 (26% vs base 13%, 2.01x, p=0.0287, mean next-day +0.81%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Thu"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 34,
+      "hits": 14,
+      "precision": 0.412,
+      "base_rate": 0.251,
+      "lift": 1.64,
+      "p_value": 0.0288,
+      "mean_next_day_ret_pct": 0.76,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND weekday=Thu: next-day BIG move (|ret| >= 2.30%) 14/34 (41% vs base 25%, 1.64x, p=0.0288, mean next-day +0.76%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Wed"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 34,
+      "hits": 14,
+      "precision": 0.412,
+      "base_rate": 0.251,
+      "lift": 1.64,
+      "p_value": 0.0288,
+      "mean_next_day_ret_pct": 0.19,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid high AND weekday=Wed: next-day BIG move (|ret| >= 2.30%) 14/34 (41% vs base 25%, 1.64x, p=0.0288, mean next-day +0.19%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 34,
+      "hits": 14,
+      "precision": 0.412,
+      "base_rate": 0.251,
+      "lift": 1.64,
+      "p_value": 0.0288,
+      "mean_next_day_ret_pct": 0.81,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Tue: next-day BIG move (|ret| >= 2.30%) 14/34 (41% vs base 25%, 1.64x, p=0.0288, mean next-day +0.81%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 31,
+      "hits": 13,
+      "precision": 0.419,
+      "base_rate": 0.251,
+      "lift": 1.67,
+      "p_value": 0.02954,
+      "mean_next_day_ret_pct": -0.52,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND prev_move=high: next-day BIG move (|ret| >= 2.30%) 13/31 (42% vs base 25%, 1.67x, p=0.0295, mean next-day -0.52%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 56,
+      "hits": 12,
+      "precision": 0.214,
+      "base_rate": 0.119,
+      "lift": 1.8,
+      "p_value": 0.02976,
+      "mean_next_day_ret_pct": -0.26,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid low AND vol7=mid high: next-day BIG DOWN (<= -2.30%) 12/56 (21% vs base 12%, 1.80x, p=0.0298, mean next-day -0.26%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day UP",
+      "support": 27,
+      "hits": 19,
+      "precision": 0.704,
+      "base_rate": 0.505,
+      "lift": 1.39,
+      "p_value": 0.02977,
+      "mean_next_day_ret_pct": 0.86,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND prev_move=mid high: next-day UP 19/27 (70% vs base 50%, 1.39x, p=0.0298, mean next-day +0.86%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 22,
+      "hits": 10,
+      "precision": 0.455,
+      "base_rate": 0.251,
+      "lift": 1.81,
+      "p_value": 0.0301,
+      "mean_next_day_ret_pct": 0.85,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3 AND vol7=high: next-day BIG move (|ret| >= 2.30%) 10/22 (46% vs base 25%, 1.81x, p=0.0301, mean next-day +0.85%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "weekday",
+          "bin": "Wed"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 143,
+      "hits": 25,
+      "precision": 0.175,
+      "base_rate": 0.119,
+      "lift": 1.47,
+      "p_value": 0.03115,
+      "mean_next_day_ret_pct": -0.21,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When weekday=Wed: next-day BIG DOWN (<= -2.30%) 25/143 (18% vs base 12%, 1.47x, p=0.0312, mean next-day -0.21%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 250,
+      "hits": 40,
+      "precision": 0.16,
+      "base_rate": 0.119,
+      "lift": 1.35,
+      "p_value": 0.03181,
+      "mean_next_day_ret_pct": 0.17,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high: next-day BIG DOWN (<= -2.30%) 40/250 (16% vs base 12%, 1.35x, p=0.0318, mean next-day +0.17%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "last2"
+        },
+        {
+          "factor": "vol7",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 16,
+      "hits": 5,
+      "precision": 0.312,
+      "base_rate": 0.119,
+      "lift": 2.63,
+      "p_value": 0.03359,
+      "mean_next_day_ret_pct": -0.56,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=last2 AND vol7=mid high: next-day BIG DOWN (<= -2.30%) 5/16 (31% vs base 12%, 2.63x, p=0.0336, mean next-day -0.56%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 83,
+      "hits": 16,
+      "precision": 0.193,
+      "base_rate": 0.119,
+      "lift": 1.62,
+      "p_value": 0.03421,
+      "mean_next_day_ret_pct": 0.17,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND vol7=high: next-day BIG DOWN (<= -2.30%) 16/83 (19% vs base 12%, 1.62x, p=0.0342, mean next-day +0.17%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "vol7",
+          "bin": "high"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Thu"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 33,
+      "hits": 8,
+      "precision": 0.242,
+      "base_rate": 0.119,
+      "lift": 2.04,
+      "p_value": 0.03607,
+      "mean_next_day_ret_pct": 0.25,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When vol7=high AND weekday=Thu: next-day BIG DOWN (<= -2.30%) 8/33 (24% vs base 12%, 2.04x, p=0.0361, mean next-day +0.25%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "weekday",
+          "bin": "Tue"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 144,
+      "hits": 27,
+      "precision": 0.188,
+      "base_rate": 0.132,
+      "lift": 1.42,
+      "p_value": 0.03678,
+      "mean_next_day_ret_pct": 0.36,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When weekday=Tue: next-day BIG UP (>= +2.30%) 27/144 (19% vs base 13%, 1.42x, p=0.0368, mean next-day +0.36%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 41,
+      "hits": 10,
+      "precision": 0.244,
+      "base_rate": 0.132,
+      "lift": 1.85,
+      "p_value": 0.03711,
+      "mean_next_day_ret_pct": 0.57,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid low AND vol7=high: next-day BIG UP (>= +2.30%) 10/41 (24% vs base 13%, 1.85x, p=0.0371, mean next-day +0.57%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "cpi",
+          "bin": "after"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Thu"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 14,
+      "hits": 7,
+      "precision": 0.5,
+      "base_rate": 0.251,
+      "lift": 1.99,
+      "p_value": 0.03886,
+      "mean_next_day_ret_pct": 1.29,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When cpi=after AND weekday=Thu: next-day BIG move (|ret| >= 2.30%) 7/14 (50% vs base 25%, 1.99x, p=0.0389, mean next-day +1.29%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        },
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 22,
+      "hits": 6,
+      "precision": 0.273,
+      "base_rate": 0.119,
+      "lift": 2.29,
+      "p_value": 0.03909,
+      "mean_next_day_ret_pct": -0.35,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=mid low AND month_pos=first3: next-day BIG DOWN (<= -2.30%) 6/22 (27% vs base 12%, 2.29x, p=0.0391, mean next-day -0.35%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "month_pos",
+          "bin": "first3"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 99,
+      "hits": 33,
+      "precision": 0.333,
+      "base_rate": 0.251,
+      "lift": 1.33,
+      "p_value": 0.04051,
+      "mean_next_day_ret_pct": 0.1,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When month_pos=first3: next-day BIG move (|ret| >= 2.30%) 33/99 (33% vs base 25%, 1.33x, p=0.0405, mean next-day +0.10%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "cpi",
+          "bin": "after"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 26,
+      "hits": 11,
+      "precision": 0.423,
+      "base_rate": 0.251,
+      "lift": 1.69,
+      "p_value": 0.0409,
+      "mean_next_day_ret_pct": 0.78,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When cpi=after: next-day BIG move (|ret| >= 2.30%) 11/26 (42% vs base 25%, 1.69x, p=0.0409, mean next-day +0.78%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "cpi",
+          "bin": "after"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 26,
+      "hits": 11,
+      "precision": 0.423,
+      "base_rate": 0.251,
+      "lift": 1.69,
+      "p_value": 0.0409,
+      "mean_next_day_ret_pct": 0.78,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND cpi=after: next-day BIG move (|ret| >= 2.30%) 11/26 (42% vs base 25%, 1.69x, p=0.0409, mean next-day +0.78%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "high"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 113,
+      "hits": 37,
+      "precision": 0.327,
+      "base_rate": 0.251,
+      "lift": 1.31,
+      "p_value": 0.04098,
+      "mean_next_day_ret_pct": 0.04,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=high AND vol7=high: next-day BIG move (|ret| >= 2.30%) 37/113 (33% vs base 25%, 1.31x, p=0.0410, mean next-day +0.04%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 250,
+      "hits": 43,
+      "precision": 0.172,
+      "base_rate": 0.132,
+      "lift": 1.3,
+      "p_value": 0.04103,
+      "mean_next_day_ret_pct": 0.15,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low: next-day BIG UP (>= +2.30%) 43/250 (17% vs base 13%, 1.30x, p=0.0410, mean next-day +0.15%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 65,
+      "hits": 23,
+      "precision": 0.354,
+      "base_rate": 0.251,
+      "lift": 1.41,
+      "p_value": 0.04152,
+      "mean_next_day_ret_pct": 0.2,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND prev_move=mid high: next-day BIG move (|ret| >= 2.30%) 23/65 (35% vs base 25%, 1.41x, p=0.0415, mean next-day +0.20%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG UP (>= +2.30%)",
+      "support": 83,
+      "hits": 17,
+      "precision": 0.205,
+      "base_rate": 0.132,
+      "lift": 1.55,
+      "p_value": 0.04165,
+      "mean_next_day_ret_pct": 0.17,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=low AND vol7=high: next-day BIG UP (>= +2.30%) 17/83 (20% vs base 13%, 1.55x, p=0.0416, mean next-day +0.17%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 55,
+      "hits": 20,
+      "precision": 0.364,
+      "base_rate": 0.251,
+      "lift": 1.45,
+      "p_value": 0.04166,
+      "mean_next_day_ret_pct": -0.18,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND prev_move=mid low: next-day BIG move (|ret| >= 2.30%) 20/55 (36% vs base 25%, 1.45x, p=0.0417, mean next-day -0.18%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid high"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 55,
+      "hits": 20,
+      "precision": 0.364,
+      "base_rate": 0.251,
+      "lift": 1.45,
+      "p_value": 0.04166,
+      "mean_next_day_ret_pct": 0.01,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid high AND vol7=high: next-day BIG move (|ret| >= 2.30%) 20/55 (36% vs base 25%, 1.45x, p=0.0417, mean next-day +0.01%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "mom7",
+          "bin": "mid low"
+        },
+        {
+          "factor": "weekday",
+          "bin": "Wed"
+        }
+      ],
+      "target": "next-day BIG DOWN (<= -2.30%)",
+      "support": 41,
+      "hits": 9,
+      "precision": 0.22,
+      "base_rate": 0.119,
+      "lift": 1.85,
+      "p_value": 0.04845,
+      "mean_next_day_ret_pct": -0.29,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When mom7=mid low AND weekday=Wed: next-day BIG DOWN (<= -2.30%) 9/41 (22% vs base 12%, 1.85x, p=0.0485, mean next-day -0.29%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "mom7",
+          "bin": "low"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 46,
+      "hits": 17,
+      "precision": 0.37,
+      "base_rate": 0.251,
+      "lift": 1.47,
+      "p_value": 0.04966,
+      "mean_next_day_ret_pct": 0.26,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND mom7=low: next-day BIG move (|ret| >= 2.30%) 17/46 (37% vs base 25%, 1.47x, p=0.0497, mean next-day +0.26%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "any_macro",
+          "bin": "yes"
+        },
+        {
+          "factor": "vol7",
+          "bin": "high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 56,
+      "hits": 20,
+      "precision": 0.357,
+      "base_rate": 0.251,
+      "lift": 1.42,
+      "p_value": 0.04996,
+      "mean_next_day_ret_pct": -0.3,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When any_macro=yes AND vol7=high: next-day BIG move (|ret| >= 2.30%) 20/56 (36% vs base 25%, 1.42x, p=0.0500, mean next-day -0.30%) - THIN"
+    },
+    {
+      "conditions": [
+        {
+          "factor": "prev_move",
+          "bin": "mid low"
+        },
+        {
+          "factor": "vol7",
+          "bin": "mid high"
+        }
+      ],
+      "target": "next-day BIG move (|ret| >= 2.30%)",
+      "support": 56,
+      "hits": 20,
+      "precision": 0.357,
+      "base_rate": 0.251,
+      "lift": 1.42,
+      "p_value": 0.04996,
+      "mean_next_day_ret_pct": -0.26,
+      "survives_multiple_testing": false,
+      "spurious_risk": true,
+      "description": "When prev_move=mid low AND vol7=mid high: next-day BIG move (|ret| >= 2.30%) 20/56 (36% vs base 25%, 1.42x, p=0.0500, mean next-day -0.26%) - THIN"
+    }
+  ]
+}

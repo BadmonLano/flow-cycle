@@ -1,99 +1,84 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "btc_dom_fade",
       "dxy_weakness",
-      "mvrv_zscore"
+      "mvrv_zscore",
+      "gold_strength"
     ],
     "diverging_factors": [
       "etf_flows",
-      "vix",
+      "stablecoin_growth",
       "fear_greed"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Anxiety",
+    "phase": "Complacency",
     "regime_direction": "SIDEWAYS",
-    "classifier_signal": "CAUTION",
-    "confidence": 0.58,
+    "classifier_signal": "SHORT",
+    "confidence": 0.45,
     "next_move": {
       "predicted_phase": "Anxiety",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift) and this is a coil (only 7% of recent windows moved \u00b12), with no single breaker: downside stress (ETF flows at 1, options skew 100, crowded longs 85, exchange netflow 78, CVD 17) is offset by fed liquidity 80 and an intact 200w trend, so the Aug-2024 bottom analog does not relocate the current rung.",
-      "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-      "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays pinned at extreme (down into Anxiety)",
-      "predicted_phase_clamped_from": "Complacency",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the Aug-2024 disbelief bottom the 74.7% match superficially echoes; the named breaker is the live post-FOMC 72h window (BTC lower 15/22, median -0.98%) overlapping opex in 28h (up only 36%) plus distribution (etf_flows 1, exchange_netflow 95, reserves 97, cvd 17, skew 100, longs 88) \u2014 tactical short vs 79737, invalid above 80000, conviction low because a ~1% event drift often fails to clear an 8-point rung and a thin any_macro/prev_move print still leans next-day up.",
+      "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+      "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100"
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"dxy_weakness\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Complacency\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift)",
-    "brain": "analyst",
-    "phase_clamped_from": "Complacency"
+    "raw_response": "{\n  \"top_matching_factors\": [\"dxy_weakness\", \"mvrv_zscore\", \"gold_strength\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.45,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"DOWN\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the",
+    "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
-      "btc_dom_fade",
       "dxy_weakness",
-      "mvrv_zscore"
+      "mvrv_zscore",
+      "gold_strength"
     ],
     "diverging_factors": [
       "etf_flows",
-      "vix",
+      "stablecoin_growth",
       "fear_greed"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Anxiety",
+    "phase": "Complacency",
     "regime_direction": "SIDEWAYS",
-    "classifier_signal": "CAUTION",
-    "confidence": 0.58,
+    "classifier_signal": "SHORT",
+    "confidence": 0.45,
     "next_move": {
       "predicted_phase": "Anxiety",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift) and this is a coil (only 7% of recent windows moved \u00b12), with no single breaker: downside stress (ETF flows at 1, options skew 100, crowded longs 85, exchange netflow 78, CVD 17) is offset by fed liquidity 80 and an intact 200w trend, so the Aug-2024 bottom analog does not relocate the current rung.",
-      "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-      "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays pinned at extreme (down into Anxiety)",
-      "predicted_phase_clamped_from": "Complacency",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the Aug-2024 disbelief bottom the 74.7% match superficially echoes; the named breaker is the live post-FOMC 72h window (BTC lower 15/22, median -0.98%) overlapping opex in 28h (up only 36%) plus distribution (etf_flows 1, exchange_netflow 95, reserves 97, cvd 17, skew 100, longs 88) \u2014 tactical short vs 79737, invalid above 80000, conviction low because a ~1% event drift often fails to clear an 8-point rung and a thin any_macro/prev_move print still leans next-day up.",
+      "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+      "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100"
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"dxy_weakness\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Complacency\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift)",
-    "brain": "analyst",
-    "phase_clamped_from": "Complacency"
+    "raw_response": "{\n  \"top_matching_factors\": [\"dxy_weakness\", \"mvrv_zscore\", \"gold_strength\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.45,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"DOWN\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the",
+    "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
-      "btc_dom_fade",
       "dxy_weakness",
-      "mvrv_zscore"
+      "mvrv_zscore",
+      "gold_strength"
     ],
     "diverging_factors": [
       "etf_flows",
-      "vix",
+      "stablecoin_growth",
       "fear_greed"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Anxiety",
+    "phase": "Complacency",
     "regime_direction": "SIDEWAYS",
-    "classifier_signal": "CAUTION",
-    "confidence": 0.58,
+    "classifier_signal": "SHORT",
+    "confidence": 0.45,
     "next_move": {
       "predicted_phase": "Anxiety",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift) and this is a coil (only 7% of recent windows moved \u00b12), with no single breaker: downside stress (ETF flows at 1, options skew 100, crowded longs 85, exchange netflow 78, CVD 17) is offset by fed liquidity 80 and an intact 200w trend, so the Aug-2024 bottom analog does not relocate the current rung.",
-      "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-      "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays pinned at extreme (down into Anxiety)",
-      "predicted_phase_clamped_from": "Complacency",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the Aug-2024 disbelief bottom the 74.7% match superficially echoes; the named breaker is the live post-FOMC 72h window (BTC lower 15/22, median -0.98%) overlapping opex in 28h (up only 36%) plus distribution (etf_flows 1, exchange_netflow 95, reserves 97, cvd 17, skew 100, longs 88) \u2014 tactical short vs 79737, invalid above 80000, conviction low because a ~1% event drift often fails to clear an 8-point rung and a thin any_macro/prev_move print still leans next-day up.",
+      "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+      "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100"
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"dxy_weakness\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"etf_flows\", \"vix\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Complacency\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift)",
-    "brain": "analyst",
-    "phase_clamped_from": "Complacency"
+    "raw_response": "{\n  \"top_matching_factors\": [\"dxy_weakness\", \"mvrv_zscore\", \"gold_strength\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"fear_greed\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Complacency\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.45,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"DOWN\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the",
+    "brain": "analyst"
   },
   "narrative": {
     "headline": "Oil Rises 2.07 Percent To $101.97 While Precious Metals Slip",
@@ -104,76 +89,64 @@
     "confidence": 0.7
   },
   "consensus": {
-    "final_signal": "CAUTION",
-    "final_phase": "Anxiety",
+    "final_signal": "SHORT",
+    "final_phase": "Complacency",
     "alert_tier": "MED",
-    "consensus_confidence": 0.58,
-    "key_reasoning": "Live score sits in/near the Complacency band with a confirmed coil (only 7% of windows moved \u00b12), so the 76.4% Aug-2024 bottom analog does not relocate the rung or justify a directional smash. Analyst CAUTION/HOLD is the honest call while ETF flows, CVD and F&G remain mixed and no breaker is visible.",
+    "consensus_confidence": 0.48,
+    "key_reasoning": "Live score cluster (~50-52) anchors Complacency per the \u00b11 rung rule, so the 74.7% Aug-2024 bottom analog cannot relocate phase; post-FOMC 72h window (BTC lower 15/22) plus opex in 28h and distribution prints support the analyst's tactical short with low conviction.",
     "disagreements_noted": [
-      "Analyst flags crypto-cycle Anxiety/Complacency coil with CAUTION; Narrative Writer only describes oil up / precious metals down with no cycle-phase call",
-      "Analyst top-level phase=Anxiety vs own forward text placing live score in Complacency band"
+      "Analyst flags DIVERGING crypto microstructure short while Narrative only describes oil up / precious metals slip with no BTC phase or direction call",
+      "Pattern match labels ACCUMULATION_BOTTOM but score band forbids calling bottom rungs"
     ],
     "next_move": {
       "predicted_phase": "Anxiety",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "Coil base rate dominates: downside stress (ETF flows, skew, crowded longs) is offset by fed liquidity and intact 200w trend, so score is expected to stay inside the current band unless a named breaker hits.",
-      "brains_agree": "No \u2014 analyst explicitly HOLD/Complacency; narrative has no forward phase call (commodity pipe rotation only)",
-      "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-      "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays extreme (down into deeper Anxiety)",
-      "predicted_phase_clamped_from": "Complacency",
-      "direction_geometry_would_be": "UP",
-      "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-      "confidence_pct": 88.0,
-      "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Named breaker is live post-FOMC drift overlapping opex with extreme exchange_netflow/reserves/skew and dead etf_flows; coil base rate keeps conviction low because a ~1% event move often fails to clear a full rung.",
+      "brains_agree": "No \u2014 analyst explicitly calls Anxiety/DOWN/SHORT; narrative is silent on BTC forward phase and only covers energy vs metals flows",
+      "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+      "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100",
+      "confidence_pct": 79.0,
+      "confidence_basis": "1/1 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.3/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Live score sits in/near the Complacency band with a confirmed coil (only 7% of windows moved \u00b12), so the 76.4% Aug-2024 bottom analog does not relocate the rung or justify a directional smash. Analyst CAUTION/HOLD is the honest call while ETF flows, CVD and F&G remain mixed and no breaker is visible.\",\n  \"disagreements_noted\": [\n    \"Analyst flags crypto-cycle Anx",
+    "raw_response": "{\n  \"final_signal\": \"SHORT\",\n  \"final_phase\": \"Complacency\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.48,\n  \"key_reasoning\": \"Live score cluster (~50-52) anchors Complacency per the \u00b11 rung rule, so the 74.7% Aug-2024 bottom analog cannot relocate phase; post-FOMC 72h window (BTC lower 15/22) plus opex in 28h and distribution prints support the analyst's tactical short with low conviction.\",\n  \"disagreements_noted\": [\n    \"Analyst flags DIVERGING crypto microstructure short while Narra",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.64,
+    "brains_avg_confidence": 0.575,
     "brain_reads": {
       "analyst": {
-        "signal": "CAUTION",
-        "phase": "Anxiety",
+        "signal": "SHORT",
+        "phase": "Complacency",
         "verdict": "DIVERGING",
-        "confidence": 0.58,
+        "confidence": 0.45,
         "next_move": {
           "predicted_phase": "Anxiety",
-          "direction": "HOLD",
-          "conviction": "medium",
-          "reasoning": "Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift) and this is a coil (only 7% of recent windows moved \u00b12), with no single breaker: downside stress (ETF flows at 1, options skew 100, crowded longs 85, exchange netflow 78, CVD 17) is offset by fed liquidity 80 and an intact 200w trend, so the Aug-2024 bottom analog does not relocate the current rung.",
-          "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-          "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays pinned at extreme (down into Anxiety)",
-          "predicted_phase_clamped_from": "Complacency",
-          "direction_geometry_would_be": "UP",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+          "direction": "UP",
+          "conviction": "low",
+          "reasoning": "Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the Aug-2024 disbelief bottom the 74.7% match superficially echoes; the named breaker is the live post-FOMC 72h window (BTC lower 15/22, median -0.98%) overlapping opex in 28h (up only 36%) plus distribution (etf_flows 1, exchange_netflow 95, reserves 97, cvd 17, skew 100, longs 88) \u2014 tactical short vs 79737, invalid above 80000, conviction low because a ~1% event drift often fails to clear an 8-point rung and a thin any_macro/prev_move print still leans next-day up.",
+          "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+          "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100"
         }
       },
       "narrative": {
         "headline": "Oil Rises 2.07 Percent To $101.97 While Precious Metals Slip",
-        "phase": "Anxiety",
+        "phase": "Complacency",
         "confidence": 0.7,
         "next_move": null
       },
       "judge": {
-        "signal": "CAUTION",
-        "phase": "Anxiety",
-        "confidence": 0.58,
+        "signal": "SHORT",
+        "phase": "Complacency",
+        "confidence": 0.48,
         "next_move": {
           "predicted_phase": "Anxiety",
-          "direction": "HOLD",
-          "conviction": "medium",
-          "reasoning": "Coil base rate dominates: downside stress (ETF flows, skew, crowded longs) is offset by fed liquidity and intact 200w trend, so score is expected to stay inside the current band unless a named breaker hits.",
-          "brains_agree": "No \u2014 analyst explicitly HOLD/Complacency; narrative has no forward phase call (commodity pipe rotation only)",
-          "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-          "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays extreme (down into deeper Anxiety)",
-          "predicted_phase_clamped_from": "Complacency",
-          "direction_geometry_would_be": "UP",
-          "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-          "confidence_pct": 88.0,
-          "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+          "direction": "UP",
+          "conviction": "low",
+          "reasoning": "Named breaker is live post-FOMC drift overlapping opex with extreme exchange_netflow/reserves/skew and dead etf_flows; coil base rate keeps conviction low because a ~1% event move often fails to clear a full rung.",
+          "brains_agree": "No \u2014 analyst explicitly calls Anxiety/DOWN/SHORT; narrative is silent on BTC forward phase and only covers energy vs metals flows",
+          "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+          "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100",
+          "confidence_pct": 79.0,
+          "confidence_basis": "1/1 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.3/1.0"
         }
       },
       "legacy": {
@@ -188,19 +161,15 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Anxiety",
-      "confidence": 0.58,
+      "phase": "Complacency",
+      "confidence": 0.45,
       "next_move": {
         "predicted_phase": "Anxiety",
-        "direction": "HOLD",
-        "conviction": "medium",
-        "reasoning": "Live score sits in the Complacency band (F&G 51, funding flat, VIX 16.9, 30d -3.8% drift) and this is a coil (only 7% of recent windows moved \u00b12), with no single breaker: downside stress (ETF flows at 1, options skew 100, crowded longs 85, exchange netflow 78, CVD 17) is offset by fed liquidity 80 and an intact 200w trend, so the Aug-2024 bottom analog does not relocate the current rung.",
-        "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-        "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays pinned at extreme (down into Anxiety)",
-        "predicted_phase_clamped_from": "Complacency",
-        "direction_geometry_would_be": "UP",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "direction": "UP",
+        "conviction": "low",
+        "reasoning": "Score cluster (fear_greed 51, momentum 50, funding 52) anchors Complacency, not the Aug-2024 disbelief bottom the 74.7% match superficially echoes; the named breaker is the live post-FOMC 72h window (BTC lower 15/22, median -0.98%) overlapping opex in 28h (up only 36%) plus distribution (etf_flows 1, exchange_netflow 95, reserves 97, cvd 17, skew 100, longs 88) \u2014 tactical short vs 79737, invalid above 80000, conviction low because a ~1% event drift often fails to clear an 8-point rung and a thin any_macro/prev_move print still leans next-day up.",
+        "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+        "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100"
       }
     },
     "narrative": {
@@ -209,27 +178,23 @@
       "next_move": null
     },
     "judge": {
-      "signal": "CAUTION",
-      "confidence": 0.58,
+      "signal": "SHORT",
+      "confidence": 0.48,
       "next_move": {
         "predicted_phase": "Anxiety",
-        "direction": "HOLD",
-        "conviction": "medium",
-        "reasoning": "Coil base rate dominates: downside stress (ETF flows, skew, crowded longs) is offset by fed liquidity and intact 200w trend, so score is expected to stay inside the current band unless a named breaker hits.",
-        "brains_agree": "No \u2014 analyst explicitly HOLD/Complacency; narrative has no forward phase call (commodity pipe rotation only)",
-        "confirmed_if": "F&G holds 45-55 and 30d momentum stays inside roughly -8% to +5% while ETF flows remain dead-to-flat",
-        "invalidated_if": "ETF flows and CVD turn up together with F&G through 60 (up into Disbelief) or price breaks down with F&G under 40 while skew stays extreme (down into deeper Anxiety)",
-        "predicted_phase_clamped_from": "Complacency",
-        "direction_geometry_would_be": "UP",
-        "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
-        "confidence_pct": 88.0,
-        "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
+        "direction": "UP",
+        "conviction": "low",
+        "reasoning": "Named breaker is live post-FOMC drift overlapping opex with extreme exchange_netflow/reserves/skew and dead etf_flows; coil base rate keeps conviction low because a ~1% event move often fails to clear a full rung.",
+        "brains_agree": "No \u2014 analyst explicitly calls Anxiety/DOWN/SHORT; narrative is silent on BTC forward phase and only covers energy vs metals flows",
+        "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+        "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100",
+        "confidence_pct": 79.0,
+        "confidence_basis": "1/1 independent brains back UP (judge excluded - it is the call, not a vote); conviction 0.3/1.0"
       }
     }
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-28T23:31:46.355119-04:00",
+  "timestamp": "2026-10-29T00:01:23.183633-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
