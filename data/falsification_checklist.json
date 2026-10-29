@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-28T19:16:34.544211-04:00",
+  "updated_at": "2026-10-28T22:29:02.283117-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes at least 4.0% above its close on the verdict date within 14 calendar days, and VIX closes below 15 on the same day",
-      "what_it_would_mean": "The bottom_2024_aug analog resolved into a fast risk-on squeeze; HOLD/UNKNOWN was wrong because the directional long was already the correct call"
+      "condition": "S&P 500 cash index closes more than 4.0% above its level on the signal date on any session within 14 days, with the move confirmed by a same-day close in the Nasdaq-100 also up more than 4.0%",
+      "what_it_would_mean": "A decisive upside break would show the Aug-2024-bottom analog already resolved bullishly, so UNKNOWN/HOLD was the wrong call and a long signal should have been issued"
     },
     {
       "id": 2,
-      "condition": "S&P 500 closes at least 6.0% below its close on the verdict date within 14 calendar days",
-      "what_it_would_mean": "Price action broke the August 2024 bottom template, which did not extend into a fresh leg down of that size; the 77% bottom match and the HOLD are invalidated by downside continuation"
+      "condition": "S&P 500 cash index closes more than 6.0% below its level on the signal date within 14 days, or the Cboe VIX index closes above 32 on any session in that window",
+      "what_it_would_mean": "A failed-bottom breakdown or volatility spike would invalidate both the 76% bottom_2024_aug match and the HOLD, because the analog would have broken and risk should have been cut or flipped short"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or pattern similarity to bottom_2024_aug falls to 40% or below while similarity to any non-bottom regime pattern prints at or above 70%",
-      "what_it_would_mean": "The engine's own tracked scores leave the unknown/hold zone: either a blowoff regime or a different named pattern is now the dominant match, so UNKNOWN is no longer tenable"
+      "condition": "Blowoff score prints at or above 70 on any daily reading within 14 days, or pattern similarity to bottom_2024_aug falls below 50% on the engine's own match score",
+      "what_it_would_mean": "Either a blowoff regime or a collapse of the stated pattern match would prove the current UNKNOWN/HOLD verdict was anchored to a setup that no longer exists"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
