@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-28T22:29:02.283117-04:00",
+  "updated_at": "2026-10-29T00:06:31.127620-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash index closes more than 4.0% above its level on the signal date on any session within 14 days, with the move confirmed by a same-day close in the Nasdaq-100 also up more than 4.0%",
-      "what_it_would_mean": "A decisive upside break would show the Aug-2024-bottom analog already resolved bullishly, so UNKNOWN/HOLD was the wrong call and a long signal should have been issued"
+      "condition": "S&P 500 closes at least 4.0% above its close on the signal date within 14 days, and VIX closes below 16 on at least 3 sessions in that window.",
+      "what_it_would_mean": "The bottom_2024_aug analog resolved into a confirmed risk-on rebound; UNKNOWN/HOLD was wrong because the tape had already turned and a long bias was required."
     },
     {
       "id": 2,
-      "condition": "S&P 500 cash index closes more than 6.0% below its level on the signal date within 14 days, or the Cboe VIX index closes above 32 on any session in that window",
-      "what_it_would_mean": "A failed-bottom breakdown or volatility spike would invalidate both the 76% bottom_2024_aug match and the HOLD, because the analog would have broken and risk should have been cut or flipped short"
+      "condition": "S&P 500 closes at least 3.5% below its close on the signal date and prints a lower low than the swing low used in the bottom_2024_aug match, with VIX closing above 30 at least once in the same 14 days.",
+      "what_it_would_mean": "The 75% bottom-pattern match was a false positive; the setup broke down, so UNKNOWN/HOLD missed a resolved risk-off regime."
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70 on any daily reading within 14 days, or pattern similarity to bottom_2024_aug falls below 50% on the engine's own match score",
-      "what_it_would_mean": "Either a blowoff regime or a collapse of the stated pattern match would prove the current UNKNOWN/HOLD verdict was anchored to a setup that no longer exists"
+      "condition": "ICE BofA US High Yield OAS widens by 60 basis points or more versus the signal-date level within 14 days, or the 10-year US Treasury yield moves 35 basis points or more in either direction inside any 5 trading days while the MOVE index closes above 120.",
+      "what_it_would_mean": "Credit or rates forced a regime break that a passive HOLD cannot survive; UNKNOWN is invalidated because the macro shock defined the call."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."

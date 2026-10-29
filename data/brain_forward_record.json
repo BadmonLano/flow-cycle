@@ -1,25 +1,25 @@
 {
-  "_updated": "2026-10-28T23:32:20.666676-04:00",
+  "_updated": "2026-10-29T00:06:03.158145-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-28T12:44:37.738962-04:00",
-      "score_at_call": 38,
-      "phase_at_call": "Denial",
+      "made_at": "2026-10-29T00:06:03.198995-04:00",
+      "score_at_call": 40,
+      "phase_at_call": "Anxiety",
       "predicted_phase": "Anxiety",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "Coil regime with F&G ~51 and mild drift sits at the Anxiety/Complacency boundary; base rate favors HOLD until extremes actually break price.",
-      "confirmed_if": "F&G holds 45-58, 30d momentum stays drift-like (-8% to +5%), ETF flows dead without a price break",
-      "invalidated_if": "F&G breaks under 40 with accelerating downside (stay/revisit Anxiety) or ETF flows rebound and F&G clears 62 (Disbelief)",
+      "direction": "UP",
+      "conviction": "low",
+      "reasoning": "Named breaker is live post-FOMC drift overlapping opex with extreme exchange_netflow/reserves/skew and dead etf_flows; coil base rate keeps conviction low because a ~1% event move often fails to clear a full rung.",
+      "confirmed_if": "Opex-day close below 79700 with funding rolling over and exchange_netflow still extreme while etf_flows stay dead",
+      "invalidated_if": "BTC accepts and holds above 80000 with etf_flows lifting off 1 and options_skew backing off 100",
       "signals_at_call": {
         "fear_greed": 51,
-        "btc_funding": 0.0079,
-        "mvrv_zscore": 1.0065,
-        "net_liquidity_chg_4w": 30983.0,
-        "btc_dom": 59.46313403371283,
+        "btc_funding": 0.0049,
+        "mvrv_zscore": 0.9074,
+        "net_liquidity_chg_4w": 30993.0,
+        "btc_dom": null,
         "etf_net_total_musd": -487.07,
-        "vix": 17.36
+        "vix": 16.91
       }
     }
   ],
@@ -4085,40 +4085,6 @@
   },
   "superseded": [
     {
-      "made_at": "2026-08-15T16:26:07.659115-04:00",
-      "score_at_call": 40,
-      "phase_at_call": "Anxiety",
-      "predicted_phase": "Capitulation",
-      "direction": "HOLD",
-      "conviction": "medium",
-      "reasoning": "The coil has produced 0 directional moves in 72 windows and 0/10 analyst calls \u2014 HOLD with conviction is the skilled call until a breaker emerges (funding <0.003% + CVD_pct_30d >40 + VIX <12 confirms upside; VIX >18 + DXY >101 + negative funding confirms downside).",
-      "confirmed_if": "BTC funding drops below 0.003% with CVD_pct_30d breaking above 40 and VIX falling below 12 \u2014 resolves macro uncertainty and confirms bottom analog recovery thesis",
-      "invalidated_if": "VIX spikes above 18 with DXY breaking 101 and BTC funding turning negative \u2014 confirms divergent macro factors are dominant and threatens phase drop to Anxiety or Panic",
-      "signals_at_call": {
-        "fear_greed": 34,
-        "btc_funding": 0.0053,
-        "mvrv_zscore": 0.3697,
-        "net_liquidity_chg_4w": -190805.0,
-        "btc_dom": null,
-        "etf_net_total_musd": -57.63,
-        "vix": 14.25
-      },
-      "superseded_at": "2026-08-15T18:30:19.468347-04:00",
-      "superseded_by": {
-        "predicted_phase": "Denial",
-        "direction": "HOLD"
-      },
-      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock.",
-      "graded_at": "2026-08-15T19:32:04.198664-04:00",
-      "window_hours_actual": 2.07,
-      "partial_window": true,
-      "score_at_close": 40,
-      "realized_direction": "HOLD",
-      "direction_hit": true,
-      "score_delta": 0,
-      "grade_note": "graded on the 2.07h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
-    },
-    {
       "made_at": "2026-08-15T18:30:19.469349-04:00",
       "score_at_call": 40,
       "phase_at_call": "Anxiety",
@@ -7509,6 +7475,32 @@
       "direction_hit": false,
       "score_delta": 0,
       "grade_note": "graded on the 1.05h window it ACTUALLY ran before being superseded, not a full 12.0h horizon. Counted separately from the headline rate - a view that was replaced early is real evidence, but it is not the same measurement."
+    },
+    {
+      "made_at": "2026-10-28T12:44:37.738962-04:00",
+      "score_at_call": 38,
+      "phase_at_call": "Denial",
+      "predicted_phase": "Anxiety",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Coil regime with F&G ~51 and mild drift sits at the Anxiety/Complacency boundary; base rate favors HOLD until extremes actually break price.",
+      "confirmed_if": "F&G holds 45-58, 30d momentum stays drift-like (-8% to +5%), ETF flows dead without a price break",
+      "invalidated_if": "F&G breaks under 40 with accelerating downside (stay/revisit Anxiety) or ETF flows rebound and F&G clears 62 (Disbelief)",
+      "signals_at_call": {
+        "fear_greed": 51,
+        "btc_funding": 0.0079,
+        "mvrv_zscore": 1.0065,
+        "net_liquidity_chg_4w": 30983.0,
+        "btc_dom": 59.46313403371283,
+        "etf_net_total_musd": -487.07,
+        "vix": 17.36
+      },
+      "superseded_at": "2026-10-29T00:06:03.197993-04:00",
+      "superseded_by": {
+        "predicted_phase": "Anxiety",
+        "direction": "UP"
+      },
+      "closed_reason": "the brains changed their view. Graded on the window it actually ran, then closed - an opinion nobody holds any more should not keep accruing clock."
     }
   ],
   "superseded_tally": {
