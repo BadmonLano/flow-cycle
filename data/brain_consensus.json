@@ -2,82 +2,91 @@
   "oracle": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "mvrv_zscore",
-      "stablecoin_growth"
+      "fear_greed",
+      "dxy_weakness"
     ],
     "diverging_factors": [
-      "dxy_weakness",
-      "vix",
-      "funding"
+      "etf_flows",
+      "stablecoin_growth",
+      "vix"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Denial",
+    "phase": "Anxiety",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "SHORT",
-    "confidence": 0.54,
+    "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with longs still at the 99th pct is refusal of the dip, not a rung-change breaker \u2014 while the separate price lean is SHORT versus $78,484 into OPEX (36% up-day base rate, CVD 6, ETF/fed liquidity at 0-1).",
-      "confirmed_if": "12h phase score stays within \u00b12 and inside Denial while OPEX settles lower without a CVD or funding reversal",
-      "invalidated_if": "score breaks \u00b12 points out of the Denial/Panic-Anxiety neighborhood, or BTC reclaims and holds above $78,484 with CVD flipping up and options skew mean-reverting"
+      "reasoning": "Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no rung-breaker is confirmed; the price side is still SHORT while BTC holds below 80,000 because the Aug-2024 bottom fuel is missing (ETF flows 1, stablecoin growth 18, fed liquidity 1, CVD 6) into an OPEX day that closed up only 36% of the time.",
+      "confirmed_if": "BTC stays rangebound under 80,000 through OPEX and fear/greed holds ~25-40 with funding still near flat and ETF flows still dead",
+      "invalidated_if": "A reclaim and hold above 80,000 with CVD and ETF flows turning up (skew-unwind squeeze into Complacency), or a funding flip negative plus fear/greed under 20 that actually drops the score into Denial",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"vix\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.54,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with l",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"fear_greed\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "mvrv_zscore",
-      "stablecoin_growth"
+      "fear_greed",
+      "dxy_weakness"
     ],
     "diverging_factors": [
-      "dxy_weakness",
-      "vix",
-      "funding"
+      "etf_flows",
+      "stablecoin_growth",
+      "vix"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Denial",
+    "phase": "Anxiety",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "SHORT",
-    "confidence": 0.54,
+    "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with longs still at the 99th pct is refusal of the dip, not a rung-change breaker \u2014 while the separate price lean is SHORT versus $78,484 into OPEX (36% up-day base rate, CVD 6, ETF/fed liquidity at 0-1).",
-      "confirmed_if": "12h phase score stays within \u00b12 and inside Denial while OPEX settles lower without a CVD or funding reversal",
-      "invalidated_if": "score breaks \u00b12 points out of the Denial/Panic-Anxiety neighborhood, or BTC reclaims and holds above $78,484 with CVD flipping up and options skew mean-reverting"
+      "reasoning": "Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no rung-breaker is confirmed; the price side is still SHORT while BTC holds below 80,000 because the Aug-2024 bottom fuel is missing (ETF flows 1, stablecoin growth 18, fed liquidity 1, CVD 6) into an OPEX day that closed up only 36% of the time.",
+      "confirmed_if": "BTC stays rangebound under 80,000 through OPEX and fear/greed holds ~25-40 with funding still near flat and ETF flows still dead",
+      "invalidated_if": "A reclaim and hold above 80,000 with CVD and ETF flows turning up (skew-unwind squeeze into Complacency), or a funding flip negative plus fear/greed under 20 that actually drops the score into Denial",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"vix\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.54,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with l",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"fear_greed\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "mvrv_zscore",
-      "stablecoin_growth"
+      "fear_greed",
+      "dxy_weakness"
     ],
     "diverging_factors": [
-      "dxy_weakness",
-      "vix",
-      "funding"
+      "etf_flows",
+      "stablecoin_growth",
+      "vix"
     ],
     "oracle_verdict": "DIVERGING",
-    "phase": "Denial",
+    "phase": "Anxiety",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "SHORT",
-    "confidence": 0.54,
+    "confidence": 0.55,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with longs still at the 99th pct is refusal of the dip, not a rung-change breaker \u2014 while the separate price lean is SHORT versus $78,484 into OPEX (36% up-day base rate, CVD 6, ETF/fed liquidity at 0-1).",
-      "confirmed_if": "12h phase score stays within \u00b12 and inside Denial while OPEX settles lower without a CVD or funding reversal",
-      "invalidated_if": "score breaks \u00b12 points out of the Denial/Panic-Anxiety neighborhood, or BTC reclaims and holds above $78,484 with CVD flipping up and options skew mean-reverting"
+      "reasoning": "Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no rung-breaker is confirmed; the price side is still SHORT while BTC holds below 80,000 because the Aug-2024 bottom fuel is missing (ETF flows 1, stablecoin growth 18, fed liquidity 1, CVD 6) into an OPEX day that closed up only 36% of the time.",
+      "confirmed_if": "BTC stays rangebound under 80,000 through OPEX and fear/greed holds ~25-40 with funding still near flat and ETF flows still dead",
+      "invalidated_if": "A reclaim and hold above 80,000 with CVD and ETF flows turning up (skew-unwind squeeze into Complacency), or a funding flip negative plus fear/greed under 20 that actually drops the score into Denial",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"vix\", \"funding\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.54,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with l",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"fear_greed\", \"dxy_weakness\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.55,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no",
     "brain": "analyst"
   },
   "narrative": {
@@ -90,60 +99,70 @@
   },
   "consensus": {
     "final_signal": "SHORT",
-    "final_phase": "Denial",
+    "final_phase": "Anxiety",
     "alert_tier": "MED",
-    "consensus_confidence": 0.55,
-    "key_reasoning": "Higher-trust analyst SHORT into OPEX (36% up-day base, price lean vs 78484, RISK_OFF Denial) outweighs narrative accumulation/outflow framing; phase score is a pure coil so the rung does not move. Bottom analog at 79.2% is noted as forward context only and does not relocate current phase or flip the near-term side.",
+    "consensus_confidence": 0.58,
+    "key_reasoning": "Analyst (higher trust) keeps price SHORT below 80k into OPEX (historically up only 36%) with missing bottom fuel and RISK_OFF coil; 78% Aug-2024 analog is forward-looking only and cannot lift the live Anxiety rung. Exchange outflows read as accumulation but CVD remains seller-controlled and diverging factors (etf_flows/stablecoin) block a long flip.",
     "disagreements_noted": [
-      "Analyst: SHORT / Denial / RISK_OFF vs Narrative: exchange outflows as accumulation + 79.2% bottom_2022_may_luna constructive bias"
+      "Analyst signal=SHORT/RISK_OFF vs Narrative accumulation-bottom framing from $7B exchange outflows",
+      "Pattern match 78% ACCUMULATION_BOTTOM vs live phase still Anxiety with dead ETF/stablecoin fuel"
     ],
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "0/71 windows moved \u00b12 on phase score \u2014 coil makes HOLD the graded call; no breaker named, so Denial stays while price can still lean short into OPEX.",
-      "brains_agree": "No \u2014 analyst forward is phase HOLD + price SHORT; narrative implies accumulation/bottom bias without matching the short-term side",
-      "confirmed_if": "12h phase score stays within \u00b12 inside Denial (Panic-Anxiety neighborhood) and OPEX settles lower without CVD or funding reversal",
-      "invalidated_if": "score breaks \u00b12 out of Denial/Panic-Anxiety or BTC reclaims and holds above 78484 with CVD flipping up and skew mean-reverting",
+      "reasoning": "Score is a statistical coil (1% of 12h windows moved \u00b12); no rung-breaker confirmed, so HOLD the phase while price bias stays SHORT under 80k through OPEX.",
+      "brains_agree": "No \u2014 analyst forward is HOLD/Anxiety with price SHORT; narrative implies accumulation bottom that would eventually climb the ladder",
+      "confirmed_if": "BTC stays rangebound under 80k through OPEX, fear/greed 25-40, funding flat, ETF flows still dead",
+      "invalidated_if": "Reclaim-and-hold above 80k with CVD and ETF flows turning up, or funding flip negative plus fear/greed under 20 that drops score into Denial",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 88.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"SHORT\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.55,\n  \"key_reasoning\": \"Higher-trust analyst SHORT into OPEX (36% up-day base, price lean vs 78484, RISK_OFF Denial) outweighs narrative accumulation/outflow framing; phase score is a pure coil so the rung does not move. Bottom analog at 79.2% is noted as forward context only and does not relocate current phase or flip the near-term side.\",\n  \"disagreements_noted\": [\n    \"Analyst: SHORT / D",
+    "raw_response": "{\n  \"final_signal\": \"SHORT\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Analyst (higher trust) keeps price SHORT below 80k into OPEX (historically up only 36%) with missing bottom fuel and RISK_OFF coil; 78% Aug-2024 analog is forward-looking only and cannot lift the live Anxiety rung. Exchange outflows read as accumulation but CVD remains seller-controlled and diverging factors (etf_flows/stablecoin) block a long flip.\",\n  \"disagreemen",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.62,
+    "brains_avg_confidence": 0.625,
     "brain_reads": {
       "analyst": {
         "signal": "SHORT",
-        "phase": "Denial",
+        "phase": "Anxiety",
         "verdict": "DIVERGING",
-        "confidence": 0.54,
+        "confidence": 0.55,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Anxiety",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with longs still at the 99th pct is refusal of the dip, not a rung-change breaker \u2014 while the separate price lean is SHORT versus $78,484 into OPEX (36% up-day base rate, CVD 6, ETF/fed liquidity at 0-1).",
-          "confirmed_if": "12h phase score stays within \u00b12 and inside Denial while OPEX settles lower without a CVD or funding reversal",
-          "invalidated_if": "score breaks \u00b12 points out of the Denial/Panic-Anxiety neighborhood, or BTC reclaims and holds above $78,484 with CVD flipping up and options skew mean-reverting"
+          "reasoning": "Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no rung-breaker is confirmed; the price side is still SHORT while BTC holds below 80,000 because the Aug-2024 bottom fuel is missing (ETF flows 1, stablecoin growth 18, fed liquidity 1, CVD 6) into an OPEX day that closed up only 36% of the time.",
+          "confirmed_if": "BTC stays rangebound under 80,000 through OPEX and fear/greed holds ~25-40 with funding still near flat and ETF flows still dead",
+          "invalidated_if": "A reclaim and hold above 80,000 with CVD and ETF flows turning up (skew-unwind squeeze into Complacency), or a funding flip negative plus fear/greed under 20 that actually drops the score into Denial",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
         "headline": "Crypto Exchanges Shed $7.096 Billion As Coins Leave Venues",
-        "phase": "Denial",
+        "phase": "Anxiety",
         "confidence": 0.7,
         "next_move": null
       },
       "judge": {
         "signal": "SHORT",
-        "phase": "Denial",
-        "confidence": 0.55,
+        "phase": "Anxiety",
+        "confidence": 0.58,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Anxiety",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "0/71 windows moved \u00b12 on phase score \u2014 coil makes HOLD the graded call; no breaker named, so Denial stays while price can still lean short into OPEX.",
-          "brains_agree": "No \u2014 analyst forward is phase HOLD + price SHORT; narrative implies accumulation/bottom bias without matching the short-term side",
-          "confirmed_if": "12h phase score stays within \u00b12 inside Denial (Panic-Anxiety neighborhood) and OPEX settles lower without CVD or funding reversal",
-          "invalidated_if": "score breaks \u00b12 out of Denial/Panic-Anxiety or BTC reclaims and holds above 78484 with CVD flipping up and skew mean-reverting",
+          "reasoning": "Score is a statistical coil (1% of 12h windows moved \u00b12); no rung-breaker confirmed, so HOLD the phase while price bias stays SHORT under 80k through OPEX.",
+          "brains_agree": "No \u2014 analyst forward is HOLD/Anxiety with price SHORT; narrative implies accumulation bottom that would eventually climb the ladder",
+          "confirmed_if": "BTC stays rangebound under 80k through OPEX, fear/greed 25-40, funding flat, ETF flows still dead",
+          "invalidated_if": "Reclaim-and-hold above 80k with CVD and ETF flows turning up, or funding flip negative plus fear/greed under 20 that drops score into Denial",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 88.0,
           "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -160,15 +179,18 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Denial",
-      "confidence": 0.54,
+      "phase": "Anxiety",
+      "confidence": 0.55,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Anxiety",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Phase score is a coil (0/71 windows beyond \u00b12) so the rung stays Denial \u2014 sentiment at 30 with longs still at the 99th pct is refusal of the dip, not a rung-change breaker \u2014 while the separate price lean is SHORT versus $78,484 into OPEX (36% up-day base rate, CVD 6, ETF/fed liquidity at 0-1).",
-        "confirmed_if": "12h phase score stays within \u00b12 and inside Denial while OPEX settles lower without a CVD or funding reversal",
-        "invalidated_if": "score breaks \u00b12 points out of the Denial/Panic-Anxiety neighborhood, or BTC reclaims and holds above $78,484 with CVD flipping up and options skew mean-reverting"
+        "reasoning": "Phase score is a coil (only 1% of recent 12h windows moved \u00b12, and HOLD is 9/9 lately), so no rung-breaker is confirmed; the price side is still SHORT while BTC holds below 80,000 because the Aug-2024 bottom fuel is missing (ETF flows 1, stablecoin growth 18, fed liquidity 1, CVD 6) into an OPEX day that closed up only 36% of the time.",
+        "confirmed_if": "BTC stays rangebound under 80,000 through OPEX and fear/greed holds ~25-40 with funding still near flat and ETF flows still dead",
+        "invalidated_if": "A reclaim and hold above 80,000 with CVD and ETF flows turning up (skew-unwind squeeze into Complacency), or a funding flip negative plus fear/greed under 20 that actually drops the score into Denial",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
@@ -178,15 +200,18 @@
     },
     "judge": {
       "signal": "SHORT",
-      "confidence": 0.55,
+      "confidence": 0.58,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Anxiety",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "0/71 windows moved \u00b12 on phase score \u2014 coil makes HOLD the graded call; no breaker named, so Denial stays while price can still lean short into OPEX.",
-        "brains_agree": "No \u2014 analyst forward is phase HOLD + price SHORT; narrative implies accumulation/bottom bias without matching the short-term side",
-        "confirmed_if": "12h phase score stays within \u00b12 inside Denial (Panic-Anxiety neighborhood) and OPEX settles lower without CVD or funding reversal",
-        "invalidated_if": "score breaks \u00b12 out of Denial/Panic-Anxiety or BTC reclaims and holds above 78484 with CVD flipping up and skew mean-reverting",
+        "reasoning": "Score is a statistical coil (1% of 12h windows moved \u00b12); no rung-breaker confirmed, so HOLD the phase while price bias stays SHORT under 80k through OPEX.",
+        "brains_agree": "No \u2014 analyst forward is HOLD/Anxiety with price SHORT; narrative implies accumulation bottom that would eventually climb the ladder",
+        "confirmed_if": "BTC stays rangebound under 80k through OPEX, fear/greed 25-40, funding flat, ETF flows still dead",
+        "invalidated_if": "Reclaim-and-hold above 80k with CVD and ETF flows turning up, or funding flip negative plus fear/greed under 20 that drops score into Denial",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 88.0,
         "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -194,6 +219,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-30T02:31:47.260263-04:00",
+  "timestamp": "2026-10-30T03:40:52.663203-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
