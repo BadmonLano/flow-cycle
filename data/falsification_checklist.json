@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-29T19:59:07.503840-04:00",
+  "updated_at": "2026-10-29T23:19:08.537761-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes 5% or more below today's close and finishes the 14-day window below its 50-day moving average",
-      "what_it_would_mean": "The 77% bottom_2024_aug analog fails; this is a breakdown, not an unresolved base, so UNKNOWN/HOLD is wrong"
+      "condition": "The engine's primary risk index closes 8% or more below today's close within 14 days and finishes below the August 2024 analog invalidation low (the swing low that defines bottom_2024_aug).",
+      "what_it_would_mean": "The bottom analog failed. UNKNOWN/HOLD was wrong; the correct call was risk-off, not a hold on a bottom-like pattern."
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 while the Nasdaq-100 makes a new 30-day closing high",
-      "what_it_would_mean": "The moderate blowoff reading of 38 is invalidated and the regime is an extension, not a holdable base"
+      "condition": "Blowoff score prints at or above 70 on three consecutive tracked sessions within 14 days.",
+      "what_it_would_mean": "Regime is a blowoff/top, not a 37-score bottom analog. The HOLD and the 78% bottom_2024_aug match are invalidated."
     },
     {
       "id": 3,
-      "condition": "Pattern similarity to bottom_2024_aug falls below 45% and VIX closes above 25 for three consecutive sessions",
-      "what_it_would_mean": "The bottom-pattern premise behind the unknown hold is falsified; risk-off has resolved the call"
+      "condition": "Pattern-match similarity to bottom_2024_aug falls below 40% while similarity to any tracked top or breakdown template rises above 75% within 14 days.",
+      "what_it_would_mean": "The bottom identification was false. UNKNOWN anchored on that analog is the wrong verdict; the tape resolved into a top/breakdown regime."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
