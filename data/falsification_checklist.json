@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-30T16:02:39.209504-04:00",
+  "updated_at": "2026-10-30T19:23:00.881994-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "BTC closes the 14-day window at least 12% below the window open, and the close is not at least 8% above the window low.",
-      "what_it_would_mean": "The May 2022 Luna-bottom analog failed. A washout without reversal means this is a breakdown, so UNKNOWN/HOLD was the wrong call."
+      "condition": "Within 14 days the primary tracked risk asset prints a daily close more than 10% below the swing low that generated the bottom_2022_may_luna match, on volume above its 20-day average.",
+      "what_it_would_mean": "The Luna-style capitulation base is wrong; price is in downside continuation, so HOLD/UNKNOWN is invalidated and the call should be risk-off, not a bottom analog."
     },
     {
       "id": 2,
-      "condition": "SPX gains at least 5% over the next 14 days, VIX prints a daily close at or below 15, and the blowoff score rises from 37 to at least 65.",
-      "what_it_would_mean": "Regime resolved as a risk-on blowoff, not an unresolved bottom. HOLD missed a directional melt-up and the bottom-pattern match is invalidated."
+      "condition": "Within 14 days the same asset closes more than 18% above that swing low and reclaims the pre-match breakdown level, while blowoff score rises from 37 to above 65.",
+      "what_it_would_mean": "The post-crash base/hold read is already late; regime has flipped to an upside impulse, so UNKNOWN/HOLD and the bottom-pattern match are both false."
     },
     {
       "id": 3,
-      "condition": "A top-5 USD stablecoin prints below $0.97 for more than 4 consecutive hours on a major venue, BTC perpetual funding on a major exchange prints at or below -0.05% per 8h, and BTC then reclaims its pre-event level before day 14.",
-      "what_it_would_mean": "A Luna-style capitulation bottom completed and reversed. The pattern resolved bullish, so UNKNOWN/HOLD was falsified by a confirmed long."
+      "condition": "Over the next 14 days, 7-day realized volatility falls below the 30th percentile of the prior 90 days and daily true range stays under 2% on at least 10 of 14 sessions.",
+      "what_it_would_mean": "The tape is a low-vol drift, not a May-2022 Luna capitulation base, so the 79% pattern match and the HOLD justified by it are invalidated."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
