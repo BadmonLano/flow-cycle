@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-29T23:19:08.537761-04:00",
+  "updated_at": "2026-10-30T02:36:24.250611-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "The engine's primary risk index closes 8% or more below today's close within 14 days and finishes below the August 2024 analog invalidation low (the swing low that defines bottom_2024_aug).",
-      "what_it_would_mean": "The bottom analog failed. UNKNOWN/HOLD was wrong; the correct call was risk-off, not a hold on a bottom-like pattern."
+      "condition": "Bitcoin's daily close is more than 18% above its close on day 0 of this window, and 7-day realized volatility is lower than the prior 7-day realized volatility",
+      "what_it_would_mean": "A sustained upside resolution with cooling volatility would show the Luna-bottom analog already confirmed as a reversal, so UNKNOWN plus HOLD would be the wrong call"
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 on three consecutive tracked sessions within 14 days.",
-      "what_it_would_mean": "Regime is a blowoff/top, not a 37-score bottom analog. The HOLD and the 78% bottom_2024_aug match are invalidated."
+      "condition": "Bitcoin's daily close is more than 20% below its close on day 0, or any top-5 USD stablecoin by market cap trades below $0.95 for more than 24 consecutive hours",
+      "what_it_would_mean": "A continuation cascade or a fresh peg break would show this is not a holdable May-2022-style bottom, so the 79% pattern match and HOLD signal would be invalidated"
     },
     {
       "id": 3,
-      "condition": "Pattern-match similarity to bottom_2024_aug falls below 40% while similarity to any tracked top or breakdown template rises above 75% within 14 days.",
-      "what_it_would_mean": "The bottom identification was false. UNKNOWN anchored on that analog is the wrong verdict; the tape resolved into a top/breakdown regime."
+      "condition": "The engine's blowoff score prints at or above 70, or similarity to bottom_2022_may_luna falls to 40% or below, within 14 days",
+      "what_it_would_mean": "A climax reading or a broken analog would falsify the current UNKNOWN/HOLD state, which depends on a moderate blowoff score of 37 and a 79% Luna-bottom match"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
