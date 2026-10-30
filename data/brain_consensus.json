@@ -2,146 +2,172 @@
   "oracle": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "stablecoin_growth",
-      "mvrv_zscore"
+      "mvrv_zscore",
+      "stablecoin_growth"
     ],
     "diverging_factors": [
       "dxy_weakness",
-      "btc_momentum_30d"
+      "btc_momentum_30d",
+      "funding",
+      "vix",
+      "etf_flows"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Denial",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Panic",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "SHORT",
-    "confidence": 0.46,
+    "confidence": 0.44,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10), so Denial holds even after the -4.75% OPEX shock; tactical SHORT is the price call below $76,500 because CVD is at 0, ETF flows and Fed liquidity are at 1, and longs are crowded at the 100th percentile, which is liquidation fuel rather than a completed rung change.",
-      "confirmed_if": "BTC stays inside $74,000-$79,000 for the next 12h and fear_greed holds 25-35 while funding stays non-negative",
-      "invalidated_if": "BTC reclaims and holds $78,500 (kills the short) or loses $74,000 with funding flipping negative and fear_greed under 20 (that is the Panic rung, kills the phase hold)"
+      "reasoning": "Fear & Greed at 30 anchors the live score in Panic (24-31) after the -5.25% OPEX shock, and a \u00b12 score break has only a 3% 12h base rate, so the rung holds even though CVD at 0, long/short at 100, dead ETF/Fed liquidity and DVOL at 99 are a real downside cluster that has not yet cleared the coil.",
+      "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum remains near 50 without a second liquidation leg or a full retrace of the dump.",
+      "invalidated_if": "A second forced-selling leg drives Fear & Greed into the mid-teens with funding flipping negative (Capitulation), or the dump is fully retraced and Fear & Greed reclaims above 32 (Denial).",
+      "direction_geometry_would_be": "DOWN",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.46,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10)",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\", \"funding\", \"vix\", \"etf_flows\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Panic\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.44,\n  \"next_move\": {\n    \"predicted_phase\": \"Panic\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Fear & Greed at 30 anchors the live score in Panic (24-31) afte",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "stablecoin_growth",
-      "mvrv_zscore"
+      "mvrv_zscore",
+      "stablecoin_growth"
     ],
     "diverging_factors": [
       "dxy_weakness",
-      "btc_momentum_30d"
+      "btc_momentum_30d",
+      "funding",
+      "vix",
+      "etf_flows"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Denial",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Panic",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "SHORT",
-    "confidence": 0.46,
+    "confidence": 0.44,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10), so Denial holds even after the -4.75% OPEX shock; tactical SHORT is the price call below $76,500 because CVD is at 0, ETF flows and Fed liquidity are at 1, and longs are crowded at the 100th percentile, which is liquidation fuel rather than a completed rung change.",
-      "confirmed_if": "BTC stays inside $74,000-$79,000 for the next 12h and fear_greed holds 25-35 while funding stays non-negative",
-      "invalidated_if": "BTC reclaims and holds $78,500 (kills the short) or loses $74,000 with funding flipping negative and fear_greed under 20 (that is the Panic rung, kills the phase hold)"
+      "reasoning": "Fear & Greed at 30 anchors the live score in Panic (24-31) after the -5.25% OPEX shock, and a \u00b12 score break has only a 3% 12h base rate, so the rung holds even though CVD at 0, long/short at 100, dead ETF/Fed liquidity and DVOL at 99 are a real downside cluster that has not yet cleared the coil.",
+      "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum remains near 50 without a second liquidation leg or a full retrace of the dump.",
+      "invalidated_if": "A second forced-selling leg drives Fear & Greed into the mid-teens with funding flipping negative (Capitulation), or the dump is fully retraced and Fear & Greed reclaims above 32 (Denial).",
+      "direction_geometry_would_be": "DOWN",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.46,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10)",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\", \"funding\", \"vix\", \"etf_flows\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Panic\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.44,\n  \"next_move\": {\n    \"predicted_phase\": \"Panic\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Fear & Greed at 30 anchors the live score in Panic (24-31) afte",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "stablecoin_growth",
-      "mvrv_zscore"
+      "mvrv_zscore",
+      "stablecoin_growth"
     ],
     "diverging_factors": [
       "dxy_weakness",
-      "btc_momentum_30d"
+      "btc_momentum_30d",
+      "funding",
+      "vix",
+      "etf_flows"
     ],
-    "oracle_verdict": "DIVERGING",
-    "phase": "Denial",
+    "oracle_verdict": "APPROACHING",
+    "phase": "Panic",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "SHORT",
-    "confidence": 0.46,
+    "confidence": 0.44,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10), so Denial holds even after the -4.75% OPEX shock; tactical SHORT is the price call below $76,500 because CVD is at 0, ETF flows and Fed liquidity are at 1, and longs are crowded at the 100th percentile, which is liquidation fuel rather than a completed rung change.",
-      "confirmed_if": "BTC stays inside $74,000-$79,000 for the next 12h and fear_greed holds 25-35 while funding stays non-negative",
-      "invalidated_if": "BTC reclaims and holds $78,500 (kills the short) or loses $74,000 with funding flipping negative and fear_greed under 20 (that is the Panic rung, kills the phase hold)"
+      "reasoning": "Fear & Greed at 30 anchors the live score in Panic (24-31) after the -5.25% OPEX shock, and a \u00b12 score break has only a 3% 12h base rate, so the rung holds even though CVD at 0, long/short at 100, dead ETF/Fed liquidity and DVOL at 99 are a real downside cluster that has not yet cleared the coil.",
+      "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum remains near 50 without a second liquidation leg or a full retrace of the dump.",
+      "invalidated_if": "A second forced-selling leg drives Fear & Greed into the mid-teens with funding flipping negative (Capitulation), or the dump is fully retraced and Fear & Greed reclaims above 32 (Denial).",
+      "direction_geometry_would_be": "DOWN",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"stablecoin_growth\", \"mvrv_zscore\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.46,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10)",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"stablecoin_growth\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\", \"funding\", \"vix\", \"etf_flows\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Panic\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"SHORT\",\n  \"confidence\": 0.44,\n  \"next_move\": {\n    \"predicted_phase\": \"Panic\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Fear & Greed at 30 anchors the live score in Panic (24-31) afte",
     "brain": "analyst"
   },
   "narrative": {
-    "headline": "Bitcoin Longs Crowd To A 30-Day Extreme As The Ratio Rises To 2.88",
-    "narrative": "Bitcoin's long-short ratio rose 1.19 over 24 hours to 2.88, the 99.9th percentile of its 30-day range and equal to the period high. That pipe is crowded leverage across the majors: Ethereum's ratio rose 0.66 to 2.76, the 92.8th percentile, and Solana's rose 0.55 to 3.49, the 99.0th percentile. Cumulative volume delta sat at the floor of its 30-day range, sellers firmly in control, while Bitcoin traded near 77k.",
-    "author": "jordan",
-    "brain": "jordan",
-    "jordan_written_at": "2026-10-30T12:15:00-04:00",
-    "confidence": 0.7
+    "headline": "Awaiting Jordan headline",
+    "narrative": "Measured only. Phase Panic. BTC $76,728. Fear and greed 30. bottom_2022_may_luna at 79% is an analog name, not a current event. No fresh Jordan headline in the last 3h.",
+    "author": "measured_stub",
+    "brain": "measured_stub",
+    "confidence": 0.3
   },
   "consensus": {
     "final_signal": "SHORT",
-    "final_phase": "Denial",
+    "final_phase": "Panic",
     "alert_tier": "MED",
-    "consensus_confidence": 0.55,
-    "key_reasoning": "Crowded longs at 30d extremes plus CVD at the floor and post-OPEX -4.75% support the analyst's tactical SHORT while the score remains coiled in Denial; the 79.4% Luna-bottom analog is a forward path hint only and does not relocate the live rung.",
+    "consensus_confidence": 0.42,
+    "key_reasoning": "Fear & Greed 30 anchors Panic after the -5.25% OPEX shock; analyst SHORT/RISK_OFF is the higher-trust lean while the 79% luna-bottom analog only informs what may follow, not the live rung. Coil base rate (3% for \u00b12 score) keeps the phase pinned and blocks any aggressive add.",
     "disagreements_noted": [
-      "Analyst explicit SHORT + Denial hold vs narrative descriptive long-crowding story without a phase/signal call",
-      "79.4% ACCUMULATION_BOTTOM pattern match leans constructive longer-term while live flow (CVD floor, crowded longs) is RISK_OFF/short-biased"
+      "Analyst signal SHORT vs 79% accumulation-bottom pattern that historically precedes recovery",
+      "Narrative low-energy factual only (0.3 conf) vs analyst directional SHORT"
     ],
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Only 3% of 12h windows move the score \u00b12, so Denial holds in the coil; crowded longs and flat CVD are liquidation fuel for price, not a completed rung change.",
-      "brains_agree": "partial \u2014 both read crowded leverage / seller control as bearish pressure; analyst alone supplies phase=Denial and tactical SHORT, narrative supplies no forward phase",
-      "confirmed_if": "BTC stays inside $74,000-$79,000 next 12h, fear_greed 25-35, funding non-negative",
-      "invalidated_if": "BTC reclaims and holds $78,500 (kills short) or loses $74,000 with funding negative and fear_greed under 20 (Panic rung)",
+      "reasoning": "Live score sits inside Panic band with only 3% 12h break rate; downside cluster (dead ETF/Fed liquidity, DVOL 99) has not yet forced the next leg, so the rung holds.",
+      "brains_agree": "yes on phase Panic; analyst explicit forward HOLD, narrative silent on forward so no split",
+      "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum near 50 with no second liquidation leg and no full dump retrace",
+      "invalidated_if": "Second forced-selling leg pushes Fear & Greed into mid-teens with funding negative (Capitulation), or full retrace reclaiming Fear & Greed >32 (Denial)",
+      "direction_geometry_would_be": "DOWN",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 88.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"SHORT\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.55,\n  \"key_reasoning\": \"Crowded longs at 30d extremes plus CVD at the floor and post-OPEX -4.75% support the analyst's tactical SHORT while the score remains coiled in Denial; the 79.4% Luna-bottom analog is a forward path hint only and does not relocate the live rung.\",\n  \"disagreements_noted\": [\n    \"Analyst explicit SHORT + Denial hold vs narrative descriptive long-crowding story without",
+    "raw_response": "{\n  \"final_signal\": \"SHORT\",\n  \"final_phase\": \"Panic\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.42,\n  \"key_reasoning\": \"Fear & Greed 30 anchors Panic after the -5.25% OPEX shock; analyst SHORT/RISK_OFF is the higher-trust lean while the 79% luna-bottom analog only informs what may follow, not the live rung. Coil base rate (3% for \u00b12 score) keeps the phase pinned and blocks any aggressive add.\",\n  \"disagreements_noted\": [\n    \"Analyst signal SHORT vs 79% accumulation-bottom pattern that",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.58,
+    "brains_avg_confidence": 0.37,
     "brain_reads": {
       "analyst": {
         "signal": "SHORT",
-        "phase": "Denial",
-        "verdict": "DIVERGING",
-        "confidence": 0.46,
+        "phase": "Panic",
+        "verdict": "APPROACHING",
+        "confidence": 0.44,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Panic",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10), so Denial holds even after the -4.75% OPEX shock; tactical SHORT is the price call below $76,500 because CVD is at 0, ETF flows and Fed liquidity are at 1, and longs are crowded at the 100th percentile, which is liquidation fuel rather than a completed rung change.",
-          "confirmed_if": "BTC stays inside $74,000-$79,000 for the next 12h and fear_greed holds 25-35 while funding stays non-negative",
-          "invalidated_if": "BTC reclaims and holds $78,500 (kills the short) or loses $74,000 with funding flipping negative and fear_greed under 20 (that is the Panic rung, kills the phase hold)"
+          "reasoning": "Fear & Greed at 30 anchors the live score in Panic (24-31) after the -5.25% OPEX shock, and a \u00b12 score break has only a 3% 12h base rate, so the rung holds even though CVD at 0, long/short at 100, dead ETF/Fed liquidity and DVOL at 99 are a real downside cluster that has not yet cleared the coil.",
+          "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum remains near 50 without a second liquidation leg or a full retrace of the dump.",
+          "invalidated_if": "A second forced-selling leg drives Fear & Greed into the mid-teens with funding flipping negative (Capitulation), or the dump is fully retraced and Fear & Greed reclaims above 32 (Denial).",
+          "direction_geometry_would_be": "DOWN",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
-        "headline": "Bitcoin Longs Crowd To A 30-Day Extreme As The Ratio Rises To 2.88",
-        "phase": "Denial",
-        "confidence": 0.7,
+        "headline": "Awaiting Jordan headline",
+        "phase": "Panic",
+        "confidence": 0.3,
         "next_move": null
       },
       "judge": {
         "signal": "SHORT",
-        "phase": "Denial",
-        "confidence": 0.55,
+        "phase": "Panic",
+        "confidence": 0.42,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Panic",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Only 3% of 12h windows move the score \u00b12, so Denial holds in the coil; crowded longs and flat CVD are liquidation fuel for price, not a completed rung change.",
-          "brains_agree": "partial \u2014 both read crowded leverage / seller control as bearish pressure; analyst alone supplies phase=Denial and tactical SHORT, narrative supplies no forward phase",
-          "confirmed_if": "BTC stays inside $74,000-$79,000 next 12h, fear_greed 25-35, funding non-negative",
-          "invalidated_if": "BTC reclaims and holds $78,500 (kills short) or loses $74,000 with funding negative and fear_greed under 20 (Panic rung)",
+          "reasoning": "Live score sits inside Panic band with only 3% 12h break rate; downside cluster (dead ETF/Fed liquidity, DVOL 99) has not yet forced the next leg, so the rung holds.",
+          "brains_agree": "yes on phase Panic; analyst explicit forward HOLD, narrative silent on forward so no split",
+          "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum near 50 with no second liquidation leg and no full dump retrace",
+          "invalidated_if": "Second forced-selling leg pushes Fear & Greed into mid-teens with funding negative (Capitulation), or full retrace reclaiming Fear & Greed >32 (Denial)",
+          "direction_geometry_would_be": "DOWN",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 88.0,
           "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -158,33 +184,39 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Denial",
-      "confidence": 0.46,
+      "phase": "Panic",
+      "confidence": 0.44,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Panic",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "The phase score is in a coil (only 3% of 12h windows move \u00b12, and recent HOLD calls are 10/10), so Denial holds even after the -4.75% OPEX shock; tactical SHORT is the price call below $76,500 because CVD is at 0, ETF flows and Fed liquidity are at 1, and longs are crowded at the 100th percentile, which is liquidation fuel rather than a completed rung change.",
-        "confirmed_if": "BTC stays inside $74,000-$79,000 for the next 12h and fear_greed holds 25-35 while funding stays non-negative",
-        "invalidated_if": "BTC reclaims and holds $78,500 (kills the short) or loses $74,000 with funding flipping negative and fear_greed under 20 (that is the Panic rung, kills the phase hold)"
+        "reasoning": "Fear & Greed at 30 anchors the live score in Panic (24-31) after the -5.25% OPEX shock, and a \u00b12 score break has only a 3% 12h base rate, so the rung holds even though CVD at 0, long/short at 100, dead ETF/Fed liquidity and DVOL at 99 are a real downside cluster that has not yet cleared the coil.",
+        "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum remains near 50 without a second liquidation leg or a full retrace of the dump.",
+        "invalidated_if": "A second forced-selling leg drives Fear & Greed into the mid-teens with funding flipping negative (Capitulation), or the dump is fully retraced and Fear & Greed reclaims above 32 (Denial).",
+        "direction_geometry_would_be": "DOWN",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
-      "headline": "Bitcoin Longs Crowd To A 30-Day Extreme As The Ratio Rises To 2.88",
-      "confidence": 0.7,
+      "headline": "Awaiting Jordan headline",
+      "confidence": 0.3,
       "next_move": null
     },
     "judge": {
       "signal": "SHORT",
-      "confidence": 0.55,
+      "confidence": 0.42,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Panic",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Only 3% of 12h windows move the score \u00b12, so Denial holds in the coil; crowded longs and flat CVD are liquidation fuel for price, not a completed rung change.",
-        "brains_agree": "partial \u2014 both read crowded leverage / seller control as bearish pressure; analyst alone supplies phase=Denial and tactical SHORT, narrative supplies no forward phase",
-        "confirmed_if": "BTC stays inside $74,000-$79,000 next 12h, fear_greed 25-35, funding non-negative",
-        "invalidated_if": "BTC reclaims and holds $78,500 (kills short) or loses $74,000 with funding negative and fear_greed under 20 (Panic rung)",
+        "reasoning": "Live score sits inside Panic band with only 3% 12h break rate; downside cluster (dead ETF/Fed liquidity, DVOL 99) has not yet forced the next leg, so the rung holds.",
+        "brains_agree": "yes on phase Panic; analyst explicit forward HOLD, narrative silent on forward so no split",
+        "confirmed_if": "Fear & Greed stays 24-31 and 30d momentum near 50 with no second liquidation leg and no full dump retrace",
+        "invalidated_if": "Second forced-selling leg pushes Fear & Greed into mid-teens with funding negative (Capitulation), or full retrace reclaiming Fear & Greed >32 (Denial)",
+        "direction_geometry_would_be": "DOWN",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 88.0,
         "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -192,6 +224,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-30T14:51:20.481919-04:00",
+  "timestamp": "2026-10-30T15:55:21.822500-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
