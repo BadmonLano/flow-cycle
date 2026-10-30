@@ -1,28 +1,26 @@
 {
-  "_updated": "2026-10-30T12:42:35.714299-04:00",
+  "_updated": "2026-10-30T13:47:14.123840-04:00",
   "_doctrine": "Brain forward-prediction record. DIRECTION = did up/down/hold call match the 12h score move (2pt noise band). TRANSITION = when a rung CHANGE was predicted, did that exact rung get reached (harder, graded separately). Misses carry an autopsy naming which live signal misled. The SITE shows the 7-day rolling rate (what to trust now); full history is stored + all-time rates kept. Rides into the trading packets so Jordan reasons against the brains' actual forward track record.",
   "open": [
     {
-      "made_at": "2026-10-30T01:27:28.091949-04:00",
+      "made_at": "2026-10-30T13:47:14.154839-04:00",
       "score_at_call": 37,
       "phase_at_call": "Denial",
       "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Coil base rate (0/72) supplies no rung-change breaker; OPEX and flow data justify a price-side short without relocating the phase score outside 39-46.",
-      "confirmed_if": "Phase score remains 39-46 over next 12h and BTC fails to reclaim/hold 80000 through OPEX settlement",
-      "invalidated_if": "BTC reclaims and holds above 80000 post-expiry, or phase score exits 39-46",
+      "reasoning": "Falling leg still inside the 24-31 Panic band; \u00b12 score moves occur in only 3% of 12h windows so the honest call is hold the rung until a breaker prints.",
+      "confirmed_if": "Next 12h phase score stays within \u00b12 and fear holds 24-31 while BTC fails to reclaim $80k",
+      "invalidated_if": "BTC reclaims $81.5k with CVD lifting off 0 (short killed, Denial), or fear breaks under 24 with funding turning negative (rung slips to Capitulation)",
       "signals_at_call": {
         "fear_greed": 30,
         "btc_funding": 0.0013,
         "mvrv_zscore": 0.8918,
         "net_liquidity_chg_4w": -48438.0,
-        "btc_dom": 59.51781593279397,
+        "btc_dom": 59.27690426498549,
         "etf_net_total_musd": -487.07,
-        "vix": 17.2
-      },
-      "phase_flicker_count": 7,
-      "last_phase_flicker_at": "2026-10-30T12:42:35.736330-04:00"
+        "vix": 21.01
+      }
     }
   ],
   "resolved": [
@@ -4131,33 +4129,70 @@
       "forward_path_class": "clean_hit",
       "score_travel": 1.0,
       "honest_coil": false
+    },
+    {
+      "made_at": "2026-10-30T01:27:28.091949-04:00",
+      "score_at_call": 37,
+      "phase_at_call": "Denial",
+      "predicted_phase": "Panic",
+      "direction": "HOLD",
+      "conviction": "medium",
+      "reasoning": "Coil base rate (0/72) supplies no rung-change breaker; OPEX and flow data justify a price-side short without relocating the phase score outside 39-46.",
+      "confirmed_if": "Phase score remains 39-46 over next 12h and BTC fails to reclaim/hold 80000 through OPEX settlement",
+      "invalidated_if": "BTC reclaims and holds above 80000 post-expiry, or phase score exits 39-46",
+      "signals_at_call": {
+        "fear_greed": 30,
+        "btc_funding": 0.0013,
+        "mvrv_zscore": 0.8918,
+        "net_liquidity_chg_4w": -48438.0,
+        "btc_dom": 59.51781593279397,
+        "etf_net_total_musd": -487.07,
+        "vix": 17.2
+      },
+      "phase_flicker_count": 7,
+      "last_phase_flicker_at": "2026-10-30T12:42:35.736330-04:00",
+      "graded_at": "2026-10-30T13:47:14.123840-04:00",
+      "score_at_horizon": 37,
+      "score_at_grade": 37,
+      "score_delta": 0,
+      "realized_dir": "HOLD",
+      "realized_phase": "Denial",
+      "direction_hit": true,
+      "contradicted_by_prose": false,
+      "contradiction_note": null,
+      "transition_predicted": true,
+      "transition_hit": false,
+      "autopsy": "",
+      "forward_path_class": "clean_hit",
+      "score_travel": 0.0,
+      "honest_coil": false
     }
   ],
   "tally": {
     "direction": {
-      "hit": 41,
-      "total": 124
+      "hit": 42,
+      "total": 125
     },
     "transition": {
       "hit": 5,
-      "total": 107
+      "total": 108
     }
   },
-  "direction_hit_rate_pct": 33.1,
-  "direction_record": "41/124",
-  "transition_hit_rate_pct": 4.7,
-  "transition_record": "5/107",
+  "direction_hit_rate_pct": 33.6,
+  "direction_record": "42/125",
+  "transition_hit_rate_pct": 4.6,
+  "transition_record": "5/108",
   "direction_hit_rate_7d_pct": 100.0,
-  "direction_record_7d": "9/9",
+  "direction_record_7d": "10/10",
   "transition_hit_rate_7d_pct": 0.0,
-  "transition_record_7d": "0/9",
+  "transition_record_7d": "0/10",
   "splits_7d": {
-    "hold_record": "9/9",
+    "hold_record": "10/10",
     "move_record": "0/0",
     "when_they_said_move_it_moved_pct": null,
     "mover_windows_7d": 0,
-    "windows_7d": 9,
-    "regime_note": "score actually moved in 0 of 9 graded windows this week \u2014 a coil; HOLD is the honest default and a directional call is a breaker claim"
+    "windows_7d": 10,
+    "regime_note": "score actually moved in 0 of 10 graded windows this week \u2014 a coil; HOLD is the honest default and a directional call is a breaker claim"
   },
   "superseded": [
     {
