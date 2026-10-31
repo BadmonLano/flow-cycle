@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-30T19:23:00.881994-04:00",
+  "updated_at": "2026-10-30T22:42:15.372928-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days the primary tracked risk asset prints a daily close more than 10% below the swing low that generated the bottom_2022_may_luna match, on volume above its 20-day average.",
-      "what_it_would_mean": "The Luna-style capitulation base is wrong; price is in downside continuation, so HOLD/UNKNOWN is invalidated and the call should be risk-off, not a bottom analog."
+      "condition": "Primary risk asset (BTC if crypto-led, else SPX) closes \u226512% above today's close and finishes above its 50-day moving average for 5 consecutive sessions within 14 days",
+      "what_it_would_mean": "HOLD/UNKNOWN is wrong: the tape already resolved into an uptrend, so a May-2022-Luna capitulation-bottom analog no longer describes the regime"
     },
     {
       "id": 2,
-      "condition": "Within 14 days the same asset closes more than 18% above that swing low and reclaims the pre-match breakdown level, while blowoff score rises from 37 to above 65.",
-      "what_it_would_mean": "The post-crash base/hold read is already late; regime has flipped to an upside impulse, so UNKNOWN/HOLD and the bottom-pattern match are both false."
+      "condition": "Primary risk asset prints a daily close \u226510% below the low of the window that produced the 79% bottom_2022_may_luna match",
+      "what_it_would_mean": "The bottom-pattern call is invalidated: the analog's local low failed and the market is still in an unresolved decline, not a washout bottom"
     },
     {
       "id": 3,
-      "condition": "Over the next 14 days, 7-day realized volatility falls below the 30th percentile of the prior 90 days and daily true range stays under 2% on at least 10 of 14 sessions.",
-      "what_it_would_mean": "The tape is a low-vol drift, not a May-2022 Luna capitulation base, so the 79% pattern match and the HOLD justified by it are invalidated."
+      "condition": "Blowoff score prints \u226570, or 30-day realized vol falls below 25 while perpetual funding stays positive (>0.03% per 8h) for 5 straight days",
+      "what_it_would_mean": "Capitulation-bottom similarity is false: positioning and vol show euphoria or a completed squeeze, not a Luna-style bottom, so HOLD on that pattern is the wrong call"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
