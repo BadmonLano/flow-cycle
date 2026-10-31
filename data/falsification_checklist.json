@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-30T22:42:15.372928-04:00",
+  "updated_at": "2026-10-31T02:04:33.811653-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Primary risk asset (BTC if crypto-led, else SPX) closes \u226512% above today's close and finishes above its 50-day moving average for 5 consecutive sessions within 14 days",
-      "what_it_would_mean": "HOLD/UNKNOWN is wrong: the tape already resolved into an uptrend, so a May-2022-Luna capitulation-bottom analog no longer describes the regime"
+      "condition": "The primary risk proxy (SPX or BTC, whichever the engine tracks as the pattern anchor) closes the 14-day window with a cumulative return beyond +10% or below -10% versus today's close.",
+      "what_it_would_mean": "A double-digit directional close falsifies HOLD and UNKNOWN: the tape has resolved into a trend, so an indecision/hold call is wrong."
     },
     {
       "id": 2,
-      "condition": "Primary risk asset prints a daily close \u226510% below the low of the window that produced the 79% bottom_2022_may_luna match",
-      "what_it_would_mean": "The bottom-pattern call is invalidated: the analog's local low failed and the market is still in an unresolved decline, not a washout bottom"
+      "condition": "Pattern similarity to bottom_2022_may_luna falls from 78% to below 50%, or price prints a new 30-day high while 7-day realized volatility is lower than the prior 30-day average (no capitulation vol spike).",
+      "what_it_would_mean": "The Luna-bottom analogue is broken: either the match collapses or price advances without the capitulation signature that defined May 2022, so the pattern-based unknown phase is invalidated."
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints \u226570, or 30-day realized vol falls below 25 while perpetual funding stays positive (>0.03% per 8h) for 5 straight days",
-      "what_it_would_mean": "Capitulation-bottom similarity is false: positioning and vol show euphoria or a completed squeeze, not a Luna-style bottom, so HOLD on that pattern is the wrong call"
+      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days, or credit spreads (HY OAS) widen by 75 bps or more from today's level.",
+      "what_it_would_mean": "A blowoff-score spike reclassifies the regime as a blowoff rather than an unresolved Luna-style base; a 75 bp spread blowout reclassifies it as stress/breakdown. Either outcome falsifies the moderate 38 score and the UNKNOWN/HOLD stance."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
