@@ -1,9 +1,28 @@
 {
-  "_updated": "2026-10-30T23:45:12.217253-04:00",
+  "_updated": "2026-10-31T00:49:35.286711-04:00",
   "_doctrine": "Patterns FIRING right now (today's factor bins match a mined pattern). firing[] = PROVEN patterns (>=5 separate historical turns) \u2014 real confirmation signals to weigh. watching[] = THIN patterns (3-4 turns) that also match today but haven't earned a live voice yet. Observational; never auto-gates.",
-  "firing": [],
+  "firing": [
+    {
+      "description": "When fear_greed = mid low AND lumber = mid low, a BTC bottom followed within 30 days (66% precision, 5 separate turns, 38 total days, 3.0x lift)",
+      "precedes": "BTC bottom",
+      "precision": 0.658,
+      "lift": 3.02,
+      "distinct_events": 5,
+      "conditions": [
+        {
+          "factor": "fear_greed",
+          "bin": "mid low"
+        },
+        {
+          "factor": "lumber",
+          "bin": "mid low"
+        }
+      ],
+      "proven": true
+    }
+  ],
   "watching": [],
-  "firing_count": 0,
+  "firing_count": 1,
   "watching_count": 0,
   "mined_count": 13,
   "proven_count": 2,
@@ -31,7 +50,7 @@
     "dxy": "high",
     "fear_greed": "mid low",
     "fed_balance": "mid high",
-    "lumber": "low",
+    "lumber": "mid low",
     "natgas": "mid high",
     "net_liquidity_bn": "mid low",
     "oil": "high",
@@ -40,16 +59,5 @@
     "us_m2": "high",
     "yield_spread_10_2": "mid high"
   },
-  "mine_age_days": null,
-  "nearest_miss": {
-    "pattern": null,
-    "outcome": null,
-    "proven": true,
-    "unreadable_factors": [],
-    "wrong_bins": [
-      "lumber is low, needs mid low"
-    ],
-    "distance": 1
-  },
-  "why_quiet": "genuinely quiet: every mined factor read cleanly and no pattern's bins match today. This is the engine working."
+  "mine_age_days": null
 }
