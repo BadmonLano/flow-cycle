@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-10-31T21:54:13.797128-04:00",
+  "updated_at": "2026-11-01T01:11:42.068720-04:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "BTC closes more than 18% below its level at this reading within 14 days, and that close is also below the local swing low used as support in the bottom_2022_may_luna analog.",
-      "what_it_would_mean": "The 80% bottom-pattern match is wrong: price has broken the analog's support, so this is not a holdable base and the HOLD/UNKNOWN call failed to flag a breakdown."
+      "condition": "Within 14 days, the engine's primary risk proxy prints a daily close more than 8% below its lowest close of the prior 20 sessions, and 20-day realized volatility rises above 80 annualized.",
+      "what_it_would_mean": "The bottom_2022_may_luna analog failed to hold. UNKNOWN/HOLD is wrong; the regime is an active breakdown, not an unresolved base."
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days while BTC is up at least 12% from this reading on that same session.",
-      "what_it_would_mean": "The moderate blowoff score of 37 and the HOLD signal are invalidated: the tape has become a blowoff advance, not a Luna-style bottom consolidation."
+      "condition": "Within 14 days, the primary risk proxy records two consecutive daily closes above its 50-day moving average while pattern similarity to bottom_2022_may_luna rises above 90% and blowoff score stays below 50.",
+      "what_it_would_mean": "The bottom pattern confirmed instead of staying ambiguous. UNKNOWN/HOLD is wrong; the correct call is risk-on, not sit-out."
     },
     {
       "id": 3,
-      "condition": "SPX closes at a new 20-day high and VIX closes below 16 on the same day, with both conditions holding for at least 3 consecutive sessions inside the 14-day window.",
-      "what_it_would_mean": "Risk appetite has clearly re-risked; a persistent HOLD/UNKNOWN verdict is falsified because the market has confirmed a risk-on trend the call did not take."
+      "condition": "Within 14 days, US high-yield OAS widens by 75 basis points or more from today's level, or the US Dollar Index posts a daily close above 108.",
+      "what_it_would_mean": "Macro stress, not a Luna-style crypto capitulation bottom, is the driver. The 78% bottom match and HOLD are invalidated; the verdict must shift to macro-risk-off."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
