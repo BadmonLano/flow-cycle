@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-01T13:23:14.475464-05:00",
+  "updated_at": "2026-11-01T16:40:07.199352-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Blowoff score prints >= 70 on any session in the next 14 days while the primary risk proxy (BTC or SPX, whichever the engine uses as the pattern anchor) closes >= 10% above its signal-date close.",
-      "what_it_would_mean": "The subdued bottom analog and HOLD are wrong: price and positioning are in a blowoff advance, not a May-2022-style base."
+      "condition": "Within 14 days, BTC closes 20% or more below today's close AND VIX closes above 35 on the same day.",
+      "what_it_would_mean": "The May 2022 Luna-bottom analog is wrong: this is an ongoing crash, not a formed low, so UNKNOWN/HOLD is too passive and the 78% bottom match is invalidated."
     },
     {
       "id": 2,
-      "condition": "The same primary risk proxy closes >= 15% below its signal-date close within 14 days and that close is a new 90-day low.",
-      "what_it_would_mean": "The 78% match to bottom_2022_may_luna is not a completed bottom; active downside invalidates both the bottom read and HOLD (the correct call was risk-off)."
+      "condition": "Within 14 days, SPX closes 8% or more above today's close AND VIX closes below 16.",
+      "what_it_would_mean": "The low already resolved into a sustained risk-on reversal, so HOLD/UNKNOWN missed a completed bottom and the call is falsified to the upside."
     },
     {
       "id": 3,
-      "condition": "Pattern-match similarity to bottom_2022_may_luna falls below 45% and similarity to any single non-bottom regime label (blowoff_top or trend_continuation) rises to >= 75% before day 14.",
-      "what_it_would_mean": "The Luna-bottom analog that justified UNKNOWN/HOLD has broken; the engine is in a different regime and the current verdict is falsified."
+      "condition": "Within 14 days, the blowoff score prints at or above 70 AND high-yield OAS tightens by 50 bps or more from today's level.",
+      "what_it_would_mean": "Regime has flipped from a tentative bottom analog to a melt-up/blowoff, so both the bottom_2022_may_luna match and the HOLD signal are wrong."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
