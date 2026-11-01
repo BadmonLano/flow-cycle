@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-01T01:11:42.068720-04:00",
+  "updated_at": "2026-11-01T03:32:26.789314-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days, the engine's primary risk proxy prints a daily close more than 8% below its lowest close of the prior 20 sessions, and 20-day realized volatility rises above 80 annualized.",
-      "what_it_would_mean": "The bottom_2022_may_luna analog failed to hold. UNKNOWN/HOLD is wrong; the regime is an active breakdown, not an unresolved base."
+      "condition": "Within 14 days the primary risk proxy used for the bottom_2022_may_luna match (BTC if crypto-led, else SPX) closes at least 12% below the pattern-match anchor close and below its prior 20-day swing low, on a day when volume is above its 30-day average.",
+      "what_it_would_mean": "The Luna-style local-bottom analogy is false; price is in continuation lower, so UNKNOWN/HOLD was the wrong call and the phase should have been breakdown, not an unresolved bottom."
     },
     {
       "id": 2,
-      "condition": "Within 14 days, the primary risk proxy records two consecutive daily closes above its 50-day moving average while pattern similarity to bottom_2022_may_luna rises above 90% and blowoff score stays below 50.",
-      "what_it_would_mean": "The bottom pattern confirmed instead of staying ambiguous. UNKNOWN/HOLD is wrong; the correct call is risk-on, not sit-out."
+      "condition": "Within 14 days that same proxy closes at least 8% above the pattern-match anchor and above its 50-day moving average, with the breakout-day close in the top quartile of its range and volume above the 30-day average.",
+      "what_it_would_mean": "The bottom was already in and confirmed; staying UNKNOWN with a HOLD signal missed a resolved risk-on turn and is therefore invalidated."
     },
     {
       "id": 3,
-      "condition": "Within 14 days, US high-yield OAS widens by 75 basis points or more from today's level, or the US Dollar Index posts a daily close above 108.",
-      "what_it_would_mean": "Macro stress, not a Luna-style crypto capitulation bottom, is the driver. The 78% bottom match and HOLD are invalidated; the verdict must shift to macro-risk-off."
+      "condition": "Within 14 days VIX closes above 30 with VIX above VIX3M (inverted term structure) on at least two sessions, or US high-yield OAS widens by 75 basis points or more from the anchor date.",
+      "what_it_would_mean": "Cross-asset stress has left the moderate-blowoff regime implied by a blowoff score of 38; a calm HOLD pending a crypto-style bottom is incompatible with a volatility or credit shock."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
