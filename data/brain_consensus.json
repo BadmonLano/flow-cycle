@@ -2,148 +2,163 @@
   "oracle": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "mvrv_zscore",
-      "gold_strength"
+      "gold_strength",
+      "fear_greed"
     ],
     "diverging_factors": [
-      "dxy_weakness",
-      "funding",
-      "vix"
+      "etf_flows",
+      "stablecoin_growth"
     ],
-    "oracle_verdict": "APPROACHING",
-    "phase": "Denial",
-    "regime_direction": "RISK_OFF",
-    "classifier_signal": "CAUTION",
-    "confidence": 0.62,
+    "oracle_verdict": "DIVERGING",
+    "phase": "Anxiety",
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.68,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the extremes cancel \u2014 mid-low fear and a 30d bottom analog versus neutral funding, dead ETF/Fed liquidity, and crowded longs \u2014 so there is no named breaker to leave Denial.",
-      "confirmed_if": "BTC stays inside roughly a 1.5% range through the weekend and fear/funding do not shock, leaving the cycle score within \u00b12 of here.",
-      "invalidated_if": "A score break of \u00b12 or more: either a fear flush (F&G into the low-20s with funding flipping negative) or a squeeze that lifts 30d momentum and ETF flows together."
+      "reasoning": "This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% of recent 12h windows moved the score \u00b12, while the Aug-2024 bottom rhyme fails on ETF flows and stablecoin growth so it is not a near-term phase trigger.",
+      "confirmed_if": "BTC stays range-bound with fear_greed pinned in the high-20s to mid-40s and funding remains near flat",
+      "invalidated_if": "A range break with etf_flows turning up and fear_greed above 50 (up) or a liquidity air-pocket with fear_greed under 20 and VIX spiking (down)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"gold_strength\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"funding\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the ex",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"gold_strength\", \"fear_greed\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.68,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% ",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "mvrv_zscore",
-      "gold_strength"
+      "gold_strength",
+      "fear_greed"
     ],
     "diverging_factors": [
-      "dxy_weakness",
-      "funding",
-      "vix"
+      "etf_flows",
+      "stablecoin_growth"
     ],
-    "oracle_verdict": "APPROACHING",
-    "phase": "Denial",
-    "regime_direction": "RISK_OFF",
-    "classifier_signal": "CAUTION",
-    "confidence": 0.62,
+    "oracle_verdict": "DIVERGING",
+    "phase": "Anxiety",
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.68,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the extremes cancel \u2014 mid-low fear and a 30d bottom analog versus neutral funding, dead ETF/Fed liquidity, and crowded longs \u2014 so there is no named breaker to leave Denial.",
-      "confirmed_if": "BTC stays inside roughly a 1.5% range through the weekend and fear/funding do not shock, leaving the cycle score within \u00b12 of here.",
-      "invalidated_if": "A score break of \u00b12 or more: either a fear flush (F&G into the low-20s with funding flipping negative) or a squeeze that lifts 30d momentum and ETF flows together."
+      "reasoning": "This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% of recent 12h windows moved the score \u00b12, while the Aug-2024 bottom rhyme fails on ETF flows and stablecoin growth so it is not a near-term phase trigger.",
+      "confirmed_if": "BTC stays range-bound with fear_greed pinned in the high-20s to mid-40s and funding remains near flat",
+      "invalidated_if": "A range break with etf_flows turning up and fear_greed above 50 (up) or a liquidity air-pocket with fear_greed under 20 and VIX spiking (down)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"gold_strength\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"funding\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the ex",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"gold_strength\", \"fear_greed\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.68,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% ",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
       "btc_dom_fade",
-      "mvrv_zscore",
-      "gold_strength"
+      "gold_strength",
+      "fear_greed"
     ],
     "diverging_factors": [
-      "dxy_weakness",
-      "funding",
-      "vix"
+      "etf_flows",
+      "stablecoin_growth"
     ],
-    "oracle_verdict": "APPROACHING",
-    "phase": "Denial",
-    "regime_direction": "RISK_OFF",
-    "classifier_signal": "CAUTION",
-    "confidence": 0.62,
+    "oracle_verdict": "DIVERGING",
+    "phase": "Anxiety",
+    "regime_direction": "SIDEWAYS",
+    "classifier_signal": "HOLD",
+    "confidence": 0.68,
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the extremes cancel \u2014 mid-low fear and a 30d bottom analog versus neutral funding, dead ETF/Fed liquidity, and crowded longs \u2014 so there is no named breaker to leave Denial.",
-      "confirmed_if": "BTC stays inside roughly a 1.5% range through the weekend and fear/funding do not shock, leaving the cycle score within \u00b12 of here.",
-      "invalidated_if": "A score break of \u00b12 or more: either a fear flush (F&G into the low-20s with funding flipping negative) or a squeeze that lifts 30d momentum and ETF flows together."
+      "reasoning": "This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% of recent 12h windows moved the score \u00b12, while the Aug-2024 bottom rhyme fails on ETF flows and stablecoin growth so it is not a near-term phase trigger.",
+      "confirmed_if": "BTC stays range-bound with fear_greed pinned in the high-20s to mid-40s and funding remains near flat",
+      "invalidated_if": "A range break with etf_flows turning up and fear_greed above 50 (up) or a liquidity air-pocket with fear_greed under 20 and VIX spiking (down)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"mvrv_zscore\", \"gold_strength\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"funding\", \"vix\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.62,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the ex",
+    "raw_response": "{\n  \"top_matching_factors\": [\"btc_dom_fade\", \"gold_strength\", \"fear_greed\"],\n  \"diverging_factors\": [\"etf_flows\", \"stablecoin_growth\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.68,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% ",
     "brain": "analyst"
   },
   "narrative": {
     "headline": "Awaiting Jordan headline",
-    "narrative": "Measured only. Phase Denial. BTC $77,449. Fear and greed 30. bottom_2022_may_luna at 80% is an analog name, not a current event. No fresh Jordan headline in the last 3h.",
+    "narrative": "Measured only. Phase Anxiety. BTC $77,505. Fear and greed 34. bottom_2024_aug at 78% is an analog name, not a current event. No fresh Jordan headline in the last 3h.",
     "author": "measured_stub",
     "brain": "measured_stub",
     "confidence": 0.3
   },
   "consensus": {
-    "final_signal": "CAUTION",
-    "final_phase": "Denial",
+    "final_signal": "HOLD",
+    "final_phase": "Anxiety",
     "alert_tier": "MED",
     "consensus_confidence": 0.58,
-    "key_reasoning": "Both brains anchor on Denial with a coil regime (score \u00b12 in only 3% of recent 12h windows) and no macro catalyst inside 24h; the 79.6% bottom_2022_may_luna analog and mid-low fear are accumulation context, not a breaker out of Denial. Extremes cancel (btc_dom_fade/mvrv/gold vs neutral funding and dead ETF/Fed liquidity), so CAUTION with HOLD is the graded call.",
+    "key_reasoning": "Both brains anchor on Anxiety with a coil regime: flat 30d momentum, no near-term macro catalysts, and the 78% Aug-2024 bottom analog fails on etf_flows and stablecoin_growth so it is not a phase trigger. Statistically only 3% of recent 12h windows moved the score \u00b12, making HOLD the graded call.",
     "disagreements_noted": [
-      "Analyst conf 0.62 with structured CAUTION/HOLD forward call vs narrative conf 0.3 and passive 'awaiting headline' framing",
-      "Narrative supplies no independent signal or direction beyond restating Denial"
+      "Analyst confidence 0.68 vs narrative 0.3 (narrative is passive/headline-absent)",
+      "Analyst flags diverging etf_flows/stablecoin_growth; narrative does not engage factors"
     ],
     "next_move": {
-      "predicted_phase": "Denial",
+      "predicted_phase": "Anxiety",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Coil base rate dominates: no named breaker (fear flush or ETF/momentum squeeze) is present, so score stays inside Denial band.",
-      "brains_agree": "Yes on current phase Denial; analyst explicitly HOLD, narrative silent on direction but consistent with measured/wait stance",
-      "confirmed_if": "BTC holds roughly a 1.5% range through the weekend and fear/funding do not shock, keeping cycle score within \u00b12",
-      "invalidated_if": "Score break \u00b12 or more via fear flush (F&G low-20s + funding negative) or squeeze lifting 30d momentum with ETF flows",
+      "reasoning": "Coil conditions dominate: no breaker catalyst inside 24h, fear_greed mid-low, and bottom analog invalidated by flow divergences, so score stays range-bound.",
+      "brains_agree": "Yes on current Anxiety and non-directional stance; narrative offers no separate forward call beyond measured hold",
+      "confirmed_if": "BTC stays range-bound with fear_greed pinned high-20s to mid-40s and funding near flat",
+      "invalidated_if": "Range break with etf_flows turning up and fear_greed above 50 (up) or liquidity air-pocket with fear_greed under 20 and VIX spike (down)",
+      "direction_geometry_would_be": "UP",
+      "direction_kept_as_hold": true,
+      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 88.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Both brains anchor on Denial with a coil regime (score \u00b12 in only 3% of recent 12h windows) and no macro catalyst inside 24h; the 79.6% bottom_2022_may_luna analog and mid-low fear are accumulation context, not a breaker out of Denial. Extremes cancel (btc_dom_fade/mvrv/gold vs neutral funding and dead ETF/Fed liquidity), so CAUTION with HOLD is the graded call.\",\n",
+    "raw_response": "{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.58,\n  \"key_reasoning\": \"Both brains anchor on Anxiety with a coil regime: flat 30d momentum, no near-term macro catalysts, and the 78% Aug-2024 bottom analog fails on etf_flows and stablecoin_growth so it is not a phase trigger. Statistically only 3% of recent 12h windows moved the score \u00b12, making HOLD the graded call.\",\n  \"disagreements_noted\": [\n    \"Analyst confidence 0.68 vs narrative ",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.46,
+    "brains_avg_confidence": 0.49,
     "brain_reads": {
       "analyst": {
-        "signal": "CAUTION",
-        "phase": "Denial",
-        "verdict": "APPROACHING",
-        "confidence": 0.62,
+        "signal": "HOLD",
+        "phase": "Anxiety",
+        "verdict": "DIVERGING",
+        "confidence": 0.68,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Anxiety",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the extremes cancel \u2014 mid-low fear and a 30d bottom analog versus neutral funding, dead ETF/Fed liquidity, and crowded longs \u2014 so there is no named breaker to leave Denial.",
-          "confirmed_if": "BTC stays inside roughly a 1.5% range through the weekend and fear/funding do not shock, leaving the cycle score within \u00b12 of here.",
-          "invalidated_if": "A score break of \u00b12 or more: either a fear flush (F&G into the low-20s with funding flipping negative) or a squeeze that lifts 30d momentum and ETF flows together."
+          "reasoning": "This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% of recent 12h windows moved the score \u00b12, while the Aug-2024 bottom rhyme fails on ETF flows and stablecoin growth so it is not a near-term phase trigger.",
+          "confirmed_if": "BTC stays range-bound with fear_greed pinned in the high-20s to mid-40s and funding remains near flat",
+          "invalidated_if": "A range break with etf_flows turning up and fear_greed above 50 (up) or a liquidity air-pocket with fear_greed under 20 and VIX spiking (down)",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
         "headline": "Awaiting Jordan headline",
-        "phase": "Denial",
+        "phase": "Anxiety",
         "confidence": 0.3,
         "next_move": null
       },
       "judge": {
-        "signal": "CAUTION",
-        "phase": "Denial",
+        "signal": "HOLD",
+        "phase": "Anxiety",
         "confidence": 0.58,
         "next_move": {
-          "predicted_phase": "Denial",
+          "predicted_phase": "Anxiety",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Coil base rate dominates: no named breaker (fear flush or ETF/momentum squeeze) is present, so score stays inside Denial band.",
-          "brains_agree": "Yes on current phase Denial; analyst explicitly HOLD, narrative silent on direction but consistent with measured/wait stance",
-          "confirmed_if": "BTC holds roughly a 1.5% range through the weekend and fear/funding do not shock, keeping cycle score within \u00b12",
-          "invalidated_if": "Score break \u00b12 or more via fear flush (F&G low-20s + funding negative) or squeeze lifting 30d momentum with ETF flows",
+          "reasoning": "Coil conditions dominate: no breaker catalyst inside 24h, fear_greed mid-low, and bottom analog invalidated by flow divergences, so score stays range-bound.",
+          "brains_agree": "Yes on current Anxiety and non-directional stance; narrative offers no separate forward call beyond measured hold",
+          "confirmed_if": "BTC stays range-bound with fear_greed pinned high-20s to mid-40s and funding near flat",
+          "invalidated_if": "Range break with etf_flows turning up and fear_greed above 50 (up) or liquidity air-pocket with fear_greed under 20 and VIX spike (down)",
+          "direction_geometry_would_be": "UP",
+          "direction_kept_as_hold": true,
+          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 88.0,
           "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -160,15 +175,18 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Denial",
-      "confidence": 0.62,
+      "phase": "Anxiety",
+      "confidence": 0.68,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Anxiety",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "This is a coil (score \u00b12 in only 3% of recent 12h windows, no macro print inside 24h) and the extremes cancel \u2014 mid-low fear and a 30d bottom analog versus neutral funding, dead ETF/Fed liquidity, and crowded longs \u2014 so there is no named breaker to leave Denial.",
-        "confirmed_if": "BTC stays inside roughly a 1.5% range through the weekend and fear/funding do not shock, leaving the cycle score within \u00b12 of here.",
-        "invalidated_if": "A score break of \u00b12 or more: either a fear flush (F&G into the low-20s with funding flipping negative) or a squeeze that lifts 30d momentum and ETF flows together."
+        "reasoning": "This is a coil, not a breaker: 30d momentum is flat, no Fed/CPI/jobs/expiry inside 24h, and only 3% of recent 12h windows moved the score \u00b12, while the Aug-2024 bottom rhyme fails on ETF flows and stablecoin growth so it is not a near-term phase trigger.",
+        "confirmed_if": "BTC stays range-bound with fear_greed pinned in the high-20s to mid-40s and funding remains near flat",
+        "invalidated_if": "A range break with etf_flows turning up and fear_greed above 50 (up) or a liquidity air-pocket with fear_greed under 20 and VIX spiking (down)",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
@@ -177,16 +195,19 @@
       "next_move": null
     },
     "judge": {
-      "signal": "CAUTION",
+      "signal": "HOLD",
       "confidence": 0.58,
       "next_move": {
-        "predicted_phase": "Denial",
+        "predicted_phase": "Anxiety",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Coil base rate dominates: no named breaker (fear flush or ETF/momentum squeeze) is present, so score stays inside Denial band.",
-        "brains_agree": "Yes on current phase Denial; analyst explicitly HOLD, narrative silent on direction but consistent with measured/wait stance",
-        "confirmed_if": "BTC holds roughly a 1.5% range through the weekend and fear/funding do not shock, keeping cycle score within \u00b12",
-        "invalidated_if": "Score break \u00b12 or more via fear flush (F&G low-20s + funding negative) or squeeze lifting 30d momentum with ETF flows",
+        "reasoning": "Coil conditions dominate: no breaker catalyst inside 24h, fear_greed mid-low, and bottom analog invalidated by flow divergences, so score stays range-bound.",
+        "brains_agree": "Yes on current Anxiety and non-directional stance; narrative offers no separate forward call beyond measured hold",
+        "confirmed_if": "BTC stays range-bound with fear_greed pinned high-20s to mid-40s and funding near flat",
+        "invalidated_if": "Range break with etf_flows turning up and fear_greed above 50 (up) or liquidity air-pocket with fear_greed under 20 and VIX spike (down)",
+        "direction_geometry_would_be": "UP",
+        "direction_kept_as_hold": true,
+        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 88.0,
         "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -194,6 +215,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-10-31T19:38:17.531953-04:00",
+  "timestamp": "2026-10-31T20:41:40.871180-04:00",
   "architecture": "3-brain-sequential-v2.4"
 }
