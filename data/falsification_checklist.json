@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-01T06:49:33.364190-05:00",
+  "updated_at": "2026-11-01T10:07:03.616724-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "BTC-USD closes 18% or more below its close on the verdict date within the next 14 calendar days.",
-      "what_it_would_mean": "The 80% match to bottom_2022_may_luna is wrong: that analog is a completed washout base, and an 18%+ slide is continuation, not a holdable bottom, so HOLD/UNKNOWN missed a downside regime."
+      "condition": "BTC closes more than 18% above its signal-date close and finishes the 14-day window above its 20-day high on rising spot volume (20-day volume above its 30-day average).",
+      "what_it_would_mean": "The 78% Luna-bottom analogue resolved into a tradable low. UNKNOWN/HOLD was wrong; the correct call was a long/bottom, not flat."
     },
     {
       "id": 2,
-      "condition": "The engine blowoff score prints at or above 70 on any session in the next 14 days.",
-      "what_it_would_mean": "A score of 37 cannot be a post-crash base if euphoria scores 70+; the low-blowoff Luna-bottom template is invalidated and HOLD was the wrong call versus a directional blowoff."
+      "condition": "BTC prints a new 60-day low and closes more than 12% below the signal-date low, with the 14-day return worse than -12%.",
+      "what_it_would_mean": "The bottom_2022_may_luna match failed. Price did not base; it broke down. UNKNOWN/HOLD missed a clear risk-off regime."
     },
     {
       "id": 3,
-      "condition": "On the same session within 14 days, the S&P 500 closes at a new 52-week high and the VIX closes below 14.",
-      "what_it_would_mean": "Risk has resolved to a confirmed risk-on regime, so UNKNOWN/HOLD is falsified: a long-risk signal was identifiable and the bottom-analog indecision was incorrect."
+      "condition": "VIX closes above 35 on at least two sessions in the next 14 days, or the blowoff score prints at or above 70.",
+      "what_it_would_mean": "The tape left the moderate, unclassified state (blowoff 38, phase Unknown). A stress or blowoff regime was identifiable, so HOLD/UNKNOWN is falsified."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
