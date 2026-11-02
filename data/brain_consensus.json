@@ -2,167 +2,169 @@
   "oracle": {
     "top_matching_factors": [
       "mvrv_zscore",
-      "gold_strength",
-      "etf_flows"
+      "btc_dom_fade",
+      "gold_strength"
     ],
     "diverging_factors": [
       "dxy_weakness",
-      "btc_momentum_30d",
-      "funding"
+      "funding",
+      "fear_greed",
+      "vix"
     ],
-    "oracle_verdict": "APPROACHING",
-    "phase": "Anxiety",
+    "oracle_verdict": "DIVERGING",
+    "phase": "Denial",
     "regime_direction": "SIDEWAYS",
-    "classifier_signal": "HOLD",
-    "confidence": 0.58,
+    "classifier_signal": "CAUTION",
+    "confidence": 0.64,
     "next_move": {
-      "predicted_phase": "Anxiety",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exactly flat and no named breaker \u2014 bullish CVD/200w structure is offset by dead ETF flows, skew at 100, and Fed liquidity at 1, so the score stays in Anxiety.",
-      "confirmed_if": "Fear & Greed holds roughly 32-46 and 30d momentum stays near flat over the next 12-24h windows, with no ETF-flow or liquidity impulse.",
-      "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down (toward Denial/Panic) or reclaims above ~50 with ETF flows turning up (toward Complacency).",
-      "direction_geometry_would_be": "UP",
+      "reasoning": "Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent 12h windows moved \u00b12 \u2014 with no single breaker: CVD 92 and still-positive funding offset dead ETF flows and fed_liquidity at 1, so the rung does not change.",
+      "confirmed_if": "Phase score holds inside 32-38 and BTC stays range-bound with funding near flat and no range-breaking volume.",
+      "invalidated_if": "Fear & Greed breaks under ~25 with funding flipping negative on a fast down-day (Panic), or Fear & Greed lifts through ~46 with ETF flows turning positive (Anxiety).",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"gold_strength\", \"etf_flows\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\", \"funding\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exact",
+    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"btc_dom_fade\", \"gold_strength\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"funding\", \"fear_greed\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.64,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent",
     "brain": "analyst"
   },
   "classifier": {
     "top_matching_factors": [
       "mvrv_zscore",
-      "gold_strength",
-      "etf_flows"
+      "btc_dom_fade",
+      "gold_strength"
     ],
     "diverging_factors": [
       "dxy_weakness",
-      "btc_momentum_30d",
-      "funding"
+      "funding",
+      "fear_greed",
+      "vix"
     ],
-    "oracle_verdict": "APPROACHING",
-    "phase": "Anxiety",
+    "oracle_verdict": "DIVERGING",
+    "phase": "Denial",
     "regime_direction": "SIDEWAYS",
-    "classifier_signal": "HOLD",
-    "confidence": 0.58,
+    "classifier_signal": "CAUTION",
+    "confidence": 0.64,
     "next_move": {
-      "predicted_phase": "Anxiety",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exactly flat and no named breaker \u2014 bullish CVD/200w structure is offset by dead ETF flows, skew at 100, and Fed liquidity at 1, so the score stays in Anxiety.",
-      "confirmed_if": "Fear & Greed holds roughly 32-46 and 30d momentum stays near flat over the next 12-24h windows, with no ETF-flow or liquidity impulse.",
-      "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down (toward Denial/Panic) or reclaims above ~50 with ETF flows turning up (toward Complacency).",
-      "direction_geometry_would_be": "UP",
+      "reasoning": "Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent 12h windows moved \u00b12 \u2014 with no single breaker: CVD 92 and still-positive funding offset dead ETF flows and fed_liquidity at 1, so the rung does not change.",
+      "confirmed_if": "Phase score holds inside 32-38 and BTC stays range-bound with funding near flat and no range-breaking volume.",
+      "invalidated_if": "Fear & Greed breaks under ~25 with funding flipping negative on a fast down-day (Panic), or Fear & Greed lifts through ~46 with ETF flows turning positive (Anxiety).",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"gold_strength\", \"etf_flows\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\", \"funding\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exact",
+    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"btc_dom_fade\", \"gold_strength\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"funding\", \"fear_greed\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.64,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent",
     "brain": "analyst"
   },
   "analyst": {
     "top_matching_factors": [
       "mvrv_zscore",
-      "gold_strength",
-      "etf_flows"
+      "btc_dom_fade",
+      "gold_strength"
     ],
     "diverging_factors": [
       "dxy_weakness",
-      "btc_momentum_30d",
-      "funding"
+      "funding",
+      "fear_greed",
+      "vix"
     ],
-    "oracle_verdict": "APPROACHING",
-    "phase": "Anxiety",
+    "oracle_verdict": "DIVERGING",
+    "phase": "Denial",
     "regime_direction": "SIDEWAYS",
-    "classifier_signal": "HOLD",
-    "confidence": 0.58,
+    "classifier_signal": "CAUTION",
+    "confidence": 0.64,
     "next_move": {
-      "predicted_phase": "Anxiety",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exactly flat and no named breaker \u2014 bullish CVD/200w structure is offset by dead ETF flows, skew at 100, and Fed liquidity at 1, so the score stays in Anxiety.",
-      "confirmed_if": "Fear & Greed holds roughly 32-46 and 30d momentum stays near flat over the next 12-24h windows, with no ETF-flow or liquidity impulse.",
-      "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down (toward Denial/Panic) or reclaims above ~50 with ETF flows turning up (toward Complacency).",
-      "direction_geometry_would_be": "UP",
+      "reasoning": "Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent 12h windows moved \u00b12 \u2014 with no single breaker: CVD 92 and still-positive funding offset dead ETF flows and fed_liquidity at 1, so the rung does not change.",
+      "confirmed_if": "Phase score holds inside 32-38 and BTC stays range-bound with funding near flat and no range-breaking volume.",
+      "invalidated_if": "Fear & Greed breaks under ~25 with funding flipping negative on a fast down-day (Panic), or Fear & Greed lifts through ~46 with ETF flows turning positive (Anxiety).",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"gold_strength\", \"etf_flows\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"btc_momentum_30d\", \"funding\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Anxiety\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"HOLD\",\n  \"confidence\": 0.58,\n  \"next_move\": {\n    \"predicted_phase\": \"Anxiety\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exact",
+    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"btc_dom_fade\", \"gold_strength\"],\n  \"diverging_factors\": [\"dxy_weakness\", \"funding\", \"fear_greed\", \"vix\"],\n  \"oracle_verdict\": \"DIVERGING\",\n  \"phase\": \"Denial\",\n  \"regime_direction\": \"SIDEWAYS\",\n  \"classifier_signal\": \"CAUTION\",\n  \"confidence\": 0.64,\n  \"next_move\": {\n    \"predicted_phase\": \"Denial\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"medium\",\n    \"reasoning\": \"Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent",
     "brain": "analyst"
   },
   "narrative": {
     "headline": "Oil Falls 3.39 Percent To $100.59 As The S&P 500 Drops 1.82 Percent",
     "narrative": "Crude oil fell 3.39 percent to $100.59, money leaving the energy pipe. The S&P 500 fell 1.82 percent to 7,580.07, the equity pipe selling with energy, while silver rose 2.12 percent to $50.14, a bid in the precious-metals pipe. Gold rose 0.42 percent to $3,915.4 and copper rose 0.79 percent to $6.51, so the metals pipes took the bid the oil market gave up.",
     "author": "jordan",
-    "voice": "newsroom",
-    "brain": "measured_stub",
-    "confidence": 0.3
+    "brain": "jordan",
+    "jordan_written_at": "2026-11-02T00:15:00-05:00",
+    "confidence": 0.7
   },
   "consensus": {
-    "final_signal": "HOLD",
-    "final_phase": "Anxiety",
+    "final_signal": "CAUTION",
+    "final_phase": "Denial",
     "alert_tier": "MED",
-    "consensus_confidence": 0.55,
-    "key_reasoning": "Score is coiled in Anxiety with flat 30d momentum, dead ETF flows, and no breaker; both brains anchor on Anxiety and the 75.9% bottom analog only names a possible later path, not a present phase jump. Statistically honest call in a 3% coil regime is HOLD until Fear & Greed or flows impulse.",
+    "consensus_confidence": 0.66,
+    "key_reasoning": "Live score ~37 anchors Denial with a tight coil (only 3% of 12h windows \u00b12); analyst CAUTION/HOLD is the higher-trust read and no breaker (funding still positive, dead ETF flows offset by CVD) has fired. 78% bottom_2022 analog and metals bid vs oil/S&P weakness are noted but cannot relocate the rung or override the coil base rate.",
     "disagreements_noted": [
-      "Narrative confidence very low (0.3) and non-directional vs analyst medium-conviction HOLD; no phase disagreement"
+      "Analyst: sideways Denial coil, CAUTION/HOLD; Narrative: risk-off equity/oil pipe with precious/industrial metals bid (no explicit phase or directional trade call)"
     ],
     "next_move": {
-      "predicted_phase": "Anxiety",
+      "predicted_phase": "Denial",
       "direction": "HOLD",
       "conviction": "medium",
-      "reasoning": "Coil (score \u00b12 pts in only 3% of recent 12h windows) with offsetting bullish structure vs dead flows/liquidity keeps the rung pinned; no named breaker visible.",
-      "brains_agree": "yes on current Anxiety phase and non-directional stance; narrative supplies no independent forward call",
-      "confirmed_if": "Fear & Greed holds ~32-46 and 30d momentum stays near flat over next 12-24h with no ETF-flow or liquidity impulse",
-      "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down, or reclaims above ~50 with ETF flows turning up",
-      "direction_geometry_would_be": "UP",
+      "reasoning": "Coil base rate dominates: score inside 32-38 Denial band, no single breaker, so statistically honest call is hold the rung until funding/Fear&Greed or volume breaks the range.",
+      "brains_agree": "partial \u2014 analyst explicit HOLD/Denial; narrative silent on phase/direction and only paints cross-asset flow (oil/S&P down, metals up)",
+      "confirmed_if": "Phase score holds 32-38, BTC range-bound, funding near flat, no range-breaking volume",
+      "invalidated_if": "Fear&Greed <25 with funding negative on a fast down-day (Panic) OR Fear&Greed >46 with ETF flows positive (Anxiety)",
+      "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
-      "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+      "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 88.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Anxiety\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.55,\n  \"key_reasoning\": \"Score is coiled in Anxiety with flat 30d momentum, dead ETF flows, and no breaker; both brains anchor on Anxiety and the 75.9% bottom analog only names a possible later path, not a present phase jump. Statistically honest call in a 3% coil regime is HOLD until Fear & Greed or flows impulse.\",\n  \"disagreements_noted\": [\"Narrative confidence very low (0.3) and non-dire",
+    "raw_response": "{\n  \"final_signal\": \"CAUTION\",\n  \"final_phase\": \"Denial\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.66,\n  \"key_reasoning\": \"Live score ~37 anchors Denial with a tight coil (only 3% of 12h windows \u00b12); analyst CAUTION/HOLD is the higher-trust read and no breaker (funding still positive, dead ETF flows offset by CVD) has fired. 78% bottom_2022 analog and metals bid vs oil/S&P weakness are noted but cannot relocate the rung or override the coil base rate.\",\n  \"disagreements_noted\": [\n    \"",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.44,
+    "brains_avg_confidence": 0.67,
     "brain_reads": {
       "analyst": {
-        "signal": "HOLD",
-        "phase": "Anxiety",
-        "verdict": "APPROACHING",
-        "confidence": 0.58,
+        "signal": "CAUTION",
+        "phase": "Denial",
+        "verdict": "DIVERGING",
+        "confidence": 0.64,
         "next_move": {
-          "predicted_phase": "Anxiety",
+          "predicted_phase": "Denial",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exactly flat and no named breaker \u2014 bullish CVD/200w structure is offset by dead ETF flows, skew at 100, and Fed liquidity at 1, so the score stays in Anxiety.",
-          "confirmed_if": "Fear & Greed holds roughly 32-46 and 30d momentum stays near flat over the next 12-24h windows, with no ETF-flow or liquidity impulse.",
-          "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down (toward Denial/Panic) or reclaims above ~50 with ETF flows turning up (toward Complacency).",
-          "direction_geometry_would_be": "UP",
+          "reasoning": "Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent 12h windows moved \u00b12 \u2014 with no single breaker: CVD 92 and still-positive funding offset dead ETF flows and fed_liquidity at 1, so the rung does not change.",
+          "confirmed_if": "Phase score holds inside 32-38 and BTC stays range-bound with funding near flat and no range-breaking volume.",
+          "invalidated_if": "Fear & Greed breaks under ~25 with funding flipping negative on a fast down-day (Panic), or Fear & Greed lifts through ~46 with ETF flows turning positive (Anxiety).",
+          "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+          "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
         }
       },
       "narrative": {
         "headline": "Oil Falls 3.39 Percent To $100.59 As The S&P 500 Drops 1.82 Percent",
-        "narrative": "Crude oil fell 3.39 percent to $100.59, money leaving the energy pipe. The S&P 500 fell 1.82 percent to 7,580.07, the equity pipe selling with energy, while silver rose 2.12 percent to $50.14, a bid in the precious-metals pipe. Gold rose 0.42 percent to $3,915.4 and copper rose 0.79 percent to $6.51, so the metals pipes took the bid the oil market gave up.",
-        "phase": "Anxiety",
-        "confidence": 0.3,
+        "phase": "Denial",
+        "confidence": 0.7,
         "next_move": null
       },
       "judge": {
-        "signal": "HOLD",
-        "phase": "Anxiety",
-        "confidence": 0.55,
+        "signal": "CAUTION",
+        "phase": "Denial",
+        "confidence": 0.66,
         "next_move": {
-          "predicted_phase": "Anxiety",
+          "predicted_phase": "Denial",
           "direction": "HOLD",
           "conviction": "medium",
-          "reasoning": "Coil (score \u00b12 pts in only 3% of recent 12h windows) with offsetting bullish structure vs dead flows/liquidity keeps the rung pinned; no named breaker visible.",
-          "brains_agree": "yes on current Anxiety phase and non-directional stance; narrative supplies no independent forward call",
-          "confirmed_if": "Fear & Greed holds ~32-46 and 30d momentum stays near flat over next 12-24h with no ETF-flow or liquidity impulse",
-          "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down, or reclaims above ~50 with ETF flows turning up",
-          "direction_geometry_would_be": "UP",
+          "reasoning": "Coil base rate dominates: score inside 32-38 Denial band, no single breaker, so statistically honest call is hold the rung until funding/Fear&Greed or volume breaks the range.",
+          "brains_agree": "partial \u2014 analyst explicit HOLD/Denial; narrative silent on phase/direction and only paints cross-asset flow (oil/S&P down, metals up)",
+          "confirmed_if": "Phase score holds 32-38, BTC range-bound, funding near flat, no range-breaking volume",
+          "invalidated_if": "Fear&Greed <25 with funding negative on a fast down-day (Panic) OR Fear&Greed >46 with ETF flows positive (Anxiety)",
+          "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
-          "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+          "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
           "confidence_pct": 88.0,
           "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
         }
@@ -179,40 +181,39 @@
   },
   "brain_reads": {
     "analyst": {
-      "phase": "Anxiety",
-      "confidence": 0.58,
+      "phase": "Denial",
+      "confidence": 0.64,
       "next_move": {
-        "predicted_phase": "Anxiety",
+        "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "This is a coil (score moved \u00b12 pts in only 3% of recent 12h windows) with BTC 30d exactly flat and no named breaker \u2014 bullish CVD/200w structure is offset by dead ETF flows, skew at 100, and Fed liquidity at 1, so the score stays in Anxiety.",
-        "confirmed_if": "Fear & Greed holds roughly 32-46 and 30d momentum stays near flat over the next 12-24h windows, with no ETF-flow or liquidity impulse.",
-        "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down (toward Denial/Panic) or reclaims above ~50 with ETF flows turning up (toward Complacency).",
-        "direction_geometry_would_be": "UP",
+        "reasoning": "Live score sits ~37 inside Denial (32-38) and the tape is a coil \u2014 only 3% of recent 12h windows moved \u00b12 \u2014 with no single breaker: CVD 92 and still-positive funding offset dead ETF flows and fed_liquidity at 1, so the rung does not change.",
+        "confirmed_if": "Phase score holds inside 32-38 and BTC stays range-bound with funding near flat and no range-breaking volume.",
+        "invalidated_if": "Fear & Greed breaks under ~25 with funding flipping negative on a fast down-day (Panic), or Fear & Greed lifts through ~46 with ETF flows turning positive (Anxiety).",
+        "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
+        "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
       }
     },
     "narrative": {
       "headline": "Oil Falls 3.39 Percent To $100.59 As The S&P 500 Drops 1.82 Percent",
-      "narrative": "Crude oil fell 3.39 percent to $100.59, money leaving the energy pipe. The S&P 500 fell 1.82 percent to 7,580.07, the equity pipe selling with energy, while silver rose 2.12 percent to $50.14, a bid in the precious-metals pipe. Gold rose 0.42 percent to $3,915.4 and copper rose 0.79 percent to $6.51, so the metals pipes took the bid the oil market gave up.",
-      "confidence": 0.3,
+      "confidence": 0.7,
       "next_move": null
     },
     "judge": {
-      "signal": "HOLD",
-      "confidence": 0.55,
+      "signal": "CAUTION",
+      "confidence": 0.66,
       "next_move": {
-        "predicted_phase": "Anxiety",
+        "predicted_phase": "Denial",
         "direction": "HOLD",
         "conviction": "medium",
-        "reasoning": "Coil (score \u00b12 pts in only 3% of recent 12h windows) with offsetting bullish structure vs dead flows/liquidity keeps the rung pinned; no named breaker visible.",
-        "brains_agree": "yes on current Anxiety phase and non-directional stance; narrative supplies no independent forward call",
-        "confirmed_if": "Fear & Greed holds ~32-46 and 30d momentum stays near flat over next 12-24h with no ETF-flow or liquidity impulse",
-        "invalidated_if": "Fear & Greed breaks under ~25 with momentum rolling down, or reclaims above ~50 with ETF flows turning up",
-        "direction_geometry_would_be": "UP",
+        "reasoning": "Coil base rate dominates: score inside 32-38 Denial band, no single breaker, so statistically honest call is hold the rung until funding/Fear&Greed or volume breaks the range.",
+        "brains_agree": "partial \u2014 analyst explicit HOLD/Denial; narrative silent on phase/direction and only paints cross-asset flow (oil/S&P down, metals up)",
+        "confirmed_if": "Phase score holds 32-38, BTC range-bound, funding near flat, no range-breaking volume",
+        "invalidated_if": "Fear&Greed <25 with funding negative on a fast down-day (Panic) OR Fear&Greed >46 with ETF flows positive (Anxiety)",
+        "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
-        "clamp_note": "the clamp moved the rung to Anxiety, whose midpoint implies UP - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
+        "clamp_note": "the clamp moved the rung to Denial, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
         "confidence_pct": 88.0,
         "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.6/1.0"
       }
@@ -220,6 +221,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-11-01T23:39:07.984336-05:00",
+  "timestamp": "2026-11-02T00:42:31.826649-05:00",
   "architecture": "3-brain-sequential-v2.4"
 }
