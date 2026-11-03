@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-02T21:32:58.762555-05:00",
+  "updated_at": "2026-11-03T00:54:35.914555-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days, similarity to bottom_2022_may_luna falls below 50% and any non-bottom pattern (blowoff_top, mid_cycle_rally, or continuation_breakdown) prints at or above 70%.",
-      "what_it_would_mean": "The Luna-bottom analog that justifies UNKNOWN/HOLD is broken; the engine is matching a different regime, so the current call is wrong."
+      "condition": "Benchmark price (the series used for the bottom_2022_may_luna match) closes more than 12% below the swing low that anchored that match, on a daily close, within 14 days.",
+      "what_it_would_mean": "The May-2022-style bottom analog is broken; price is in continuation lower, so UNKNOWN/HOLD is false and the call must resolve bearish rather than as a formed base."
     },
     {
       "id": 2,
-      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days while the primary risk proxy closes at a 20-day high.",
-      "what_it_would_mean": "A score of 36 is not a subdued bottom; the tape is a blowoff, so both the bottom-pattern read and the HOLD signal are invalidated."
+      "condition": "Pattern similarity to bottom_2022_may_luna falls below 50% while similarity to any non-bottom template (continuation_down or distribution_top) rises above 70%, measured on the same engine pattern score.",
+      "what_it_would_mean": "The 78% bottom match was a false analog; the dominant pattern is no longer a base, so the UNKNOWN verdict tied to that match is invalidated."
     },
     {
       "id": 3,
-      "condition": "The primary risk proxy closes more than 12% below the lowest close of the current pattern-match window, and implied vol (VIX or the proxy's 30-day implied vol) makes a new 30-day high, within 14 days.",
-      "what_it_would_mean": "This is not a May-2022-style exhaustion low; capitulation is still extending, so UNKNOWN phase and HOLD are the wrong call."
+      "condition": "Blowoff score prints at or above 70, or the benchmark reclaims its 50-day moving average and holds above it for 5 consecutive daily closes with volume at least 1.5x the 20-day average.",
+      "what_it_would_mean": "Either a blowoff regime has replaced the low-37 reading, or the range has already resolved higher; HOLD/UNKNOWN is no longer tenable because the tape has left the unresolved-base state."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
