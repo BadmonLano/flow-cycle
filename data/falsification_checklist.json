@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-03T07:31:08.443948-05:00",
+  "updated_at": "2026-11-03T10:50:26.870287-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Benchmark (BTC) daily close \u226510% below the swing low that anchors the bottom_2022_may_luna analog, on volume above the 20-day average, within 14 days",
-      "what_it_would_mean": "The 78% bottom analog failed; this is continuation, not a base, so UNKNOWN/HOLD was the wrong call and the signal should have been risk-off"
+      "condition": "Blowoff score closes above 70 (from 36) on any session in the next 14 days while the engine's primary risk basket is up more than 8% from today's close",
+      "what_it_would_mean": "The tape is a late-cycle blowoff, not an unresolved base; UNKNOWN/HOLD and the bottom_2022_may_luna analog are both wrong"
     },
     {
       "id": 2,
-      "condition": "Benchmark rallies \u226515% from that same anchor low and closes above its 50-day moving average within 14 days",
-      "what_it_would_mean": "The Luna-style bottom already resolved into a reclaim; phase is no longer Unknown and HOLD missed a confirmed long"
+      "condition": "Pattern match to bottom_2022_may_luna falls below 50% and the primary risk asset closes more than 12% below the anchor low used for that match",
+      "what_it_would_mean": "The May-2022 bottom analog has failed; downside was the classifiable regime and HOLD/UNKNOWN missed a breakdown"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints \u226560, or a top-5 stablecoin trades \u22651% off peg for 24 consecutive hours, within 14 days",
-      "what_it_would_mean": "Phase is no longer Unknown: either a blowoff regime or a fresh systemic break, so the UNKNOWN verdict is false"
+      "condition": "Pattern match to bottom_2022_may_luna stays at or above 80% and the primary risk asset closes more than 10% above the analog low with VIX below 16",
+      "what_it_would_mean": "The bottom analog confirmed; the correct call was risk-on, so UNKNOWN/HOLD is invalidated by a resolved bullish regime"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
