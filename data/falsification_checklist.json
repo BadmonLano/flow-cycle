@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-03T14:11:38.365467-05:00",
+  "updated_at": "2026-11-03T17:30:52.580184-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "BTC prints two consecutive daily closes more than 8% above the 14-day range high in place at this verdict, with perpetual funding averaging above +0.03% per 8h on those two days.",
-      "what_it_would_mean": "The unresolved bottom analog resolved into a confirmed reversal. HOLD and UNKNOWN are wrong; the correct call is risk-on, not wait."
+      "condition": "S&P 500 cash close is at least 6% above or at least 6% below its close on the day of this verdict, on any session within 14 days",
+      "what_it_would_mean": "A move of that size would show the UNKNOWN/HOLD call missed a resolved directional regime rather than a genuine non-call"
     },
     {
       "id": 2,
-      "condition": "BTC prints a daily close more than 12% below the swing low that produced the 78% match to bottom_2022_may_luna, on rising volume versus the 20-day average.",
-      "what_it_would_mean": "The May 2022 Luna-bottom similarity is a failed local low, not a base. UNKNOWN/HOLD is wrong; the path is breakdown continuation."
+      "condition": "Rolling pattern similarity to bottom_2022_may_luna prints below 50% on the engine's own match score before day 14",
+      "what_it_would_mean": "The 78% Luna-bottom analog would be invalidated, so the phase label tied to that match cannot stand"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or BTC 7-day realized volatility exceeds 80% annualized while aggregate stablecoin market cap falls more than 3% in 14 days.",
-      "what_it_would_mean": "The moderate blowoff reading (37) and the hold-for-clarity stance are invalidated; the regime is a disorderly unwind or chase, not an unresolved bottom."
+      "condition": "Blowoff score prints at or above 70, or VIX closes above 35 on two consecutive sessions, within 14 days",
+      "what_it_would_mean": "Either print would show the low-blowoff HOLD regime was already wrong and a stress or melt-up phase had taken over"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
