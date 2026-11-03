@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-02T18:10:44.909007-05:00",
+  "updated_at": "2026-11-02T21:32:58.762555-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 closes more than 6% below its lowest close of the prior 20 sessions on any day in the next 14 days",
-      "what_it_would_mean": "The bottom_2024_aug analog failed; price broke the base instead of holding, so UNKNOWN/HOLD was the wrong call"
+      "condition": "Within 14 days, similarity to bottom_2022_may_luna falls below 50% and any non-bottom pattern (blowoff_top, mid_cycle_rally, or continuation_breakdown) prints at or above 70%.",
+      "what_it_would_mean": "The Luna-bottom analog that justifies UNKNOWN/HOLD is broken; the engine is matching a different regime, so the current call is wrong."
     },
     {
       "id": 2,
-      "condition": "VIX closes above 40 on at least 3 sessions in the next 14 days and does not close back below 25 within those 14 days",
-      "what_it_would_mean": "Stress did not mean-revert like the August 2024 bottom; the pattern match is invalid and HOLD should have been risk-off"
+      "condition": "Blowoff score prints at or above 70 on any session in the next 14 days while the primary risk proxy closes at a 20-day high.",
+      "what_it_would_mean": "A score of 36 is not a subdued bottom; the tape is a blowoff, so both the bottom-pattern read and the HOLD signal are invalidated."
     },
     {
       "id": 3,
-      "condition": "ICE BofA US High Yield OAS widens by more than 75 bps from its level at the start of the window and is still at least 50 bps wider on day 14",
-      "what_it_would_mean": "Credit confirmed a regime break rather than a tradable bottom, falsifying both the 77% bottom pattern match and the HOLD signal"
+      "condition": "The primary risk proxy closes more than 12% below the lowest close of the current pattern-match window, and implied vol (VIX or the proxy's 30-day implied vol) makes a new 30-day high, within 14 days.",
+      "what_it_would_mean": "This is not a May-2022-style exhaustion low; capitulation is still extending, so UNKNOWN phase and HOLD are the wrong call."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
