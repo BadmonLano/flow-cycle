@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-03T00:54:35.914555-05:00",
+  "updated_at": "2026-11-03T04:13:05.245770-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Benchmark price (the series used for the bottom_2022_may_luna match) closes more than 12% below the swing low that anchored that match, on a daily close, within 14 days.",
-      "what_it_would_mean": "The May-2022-style bottom analog is broken; price is in continuation lower, so UNKNOWN/HOLD is false and the call must resolve bearish rather than as a formed base."
+      "condition": "BTC 14-day return finishes above +18% with perpetual funding positive on at least 5 of those days and cumulative spot-exchange net outflows greater than $1B",
+      "what_it_would_mean": "A confirmed reversal, not an unresolved Luna-bottom analog, so UNKNOWN/HOLD should have been a bottom/long call"
     },
     {
       "id": 2,
-      "condition": "Pattern similarity to bottom_2022_may_luna falls below 50% while similarity to any non-bottom template (continuation_down or distribution_top) rises above 70%, measured on the same engine pattern score.",
-      "what_it_would_mean": "The 78% bottom match was a false analog; the dominant pattern is no longer a base, so the UNKNOWN verdict tied to that match is invalidated."
+      "condition": "BTC 14-day return finishes below -18% and price prints a daily close under the rolling 90-day low",
+      "what_it_would_mean": "The May-2022 bottom template has failed into a fresh breakdown, so UNKNOWN/HOLD should have been a continuation/risk-off call"
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or the benchmark reclaims its 50-day moving average and holds above it for 5 consecutive daily closes with volume at least 1.5x the 20-day average.",
-      "what_it_would_mean": "Either a blowoff regime has replaced the low-37 reading, or the range has already resolved higher; HOLD/UNKNOWN is no longer tenable because the tape has left the unresolved-base state."
+      "condition": "Blowoff score closes above 70, or VIX closes above 35 for 3 consecutive sessions while 30-day BTC-SPX correlation falls below 0.20",
+      "what_it_would_mean": "Regime has left the low-blowoff unknown phase\u2014either a blowoff or a decorrelated stress event\u2014so the 78% bottom_2022_may_luna hold is invalidated"
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
