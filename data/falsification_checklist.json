@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-03T17:30:52.580184-05:00",
+  "updated_at": "2026-11-03T20:49:34.375952-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "S&P 500 cash close is at least 6% above or at least 6% below its close on the day of this verdict, on any session within 14 days",
-      "what_it_would_mean": "A move of that size would show the UNKNOWN/HOLD call missed a resolved directional regime rather than a genuine non-call"
+      "condition": "BTC daily close finishes at least 12% above the close on the day this verdict was issued, at any point in the next 14 days.",
+      "what_it_would_mean": "The May-2022-style bottom analogue has already resolved upward. HOLD/UNKNOWN is wrong because the tape forced a directional long call."
     },
     {
       "id": 2,
-      "condition": "Rolling pattern similarity to bottom_2022_may_luna prints below 50% on the engine's own match score before day 14",
-      "what_it_would_mean": "The 78% Luna-bottom analog would be invalidated, so the phase label tied to that match cannot stand"
+      "condition": "BTC prints a daily close at least 10% below the lowest daily close of the prior 20 sessions within the next 14 days.",
+      "what_it_would_mean": "The bottom_2022_may_luna pattern match failed. A hold-for-bottom stance is invalidated and the correct call is continued downside, not UNKNOWN."
     },
     {
       "id": 3,
-      "condition": "Blowoff score prints at or above 70, or VIX closes above 35 on two consecutive sessions, within 14 days",
-      "what_it_would_mean": "Either print would show the low-blowoff HOLD regime was already wrong and a stress or melt-up phase had taken over"
+      "condition": "Blowoff score prints at or above 65, or VIX closes above 32 while SPX is down at least 6% from today's close, within 14 days.",
+      "what_it_would_mean": "Either a blowoff regime or a clear risk-off phase has been identified. A blowoff score of 38 and an Unknown phase can no longer justify HOLD."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
