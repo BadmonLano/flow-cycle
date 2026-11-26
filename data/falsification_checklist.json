@@ -1,23 +1,23 @@
 {
-  "updated_at": "2026-11-04T00:07:06.521559-05:00",
+  "updated_at": "2026-11-26T15:06:34.262270-05:00",
   "current_verdict": "UNKNOWN",
   "current_phase": "Unknown",
   "current_signal": "HOLD",
   "falsification_conditions": [
     {
       "id": 1,
-      "condition": "Within 14 days the tracked risk proxy (BTC if this book is crypto, otherwise SPX) closes at least 8% below the bottom_2022_may_luna capitulation-low reference, and pattern similarity to that analog falls below 40%.",
-      "what_it_would_mean": "The Luna-style bottom template the UNKNOWN/HOLD is sitting on has failed; the state is an active breakdown, not an unresolved bottom, so HOLD is the wrong call."
+      "condition": "The primary risk asset in the bottom_2022_may_luna analog (BTC) closes more than 12% below the pattern-anchor low on any daily close within 14 days, with 7-day realized volatility above the analog's recovery-band high.",
+      "what_it_would_mean": "The 86% bottom match is false: price is still in an active liquidation, so UNKNOWN/HOLD is wrong and the call should have been risk-off, not a base."
     },
     {
       "id": 2,
-      "condition": "Within 14 days the same proxy closes at least 12% above the post-capitulation range high that anchors the pattern, with 10-day realized volatility at least 25% lower than the prior 10 sessions.",
-      "what_it_would_mean": "Direction has resolved risk-on and the bottom is confirmed; remaining UNKNOWN with a HOLD signal is falsified because the correct call was long."
+      "condition": "That same asset closes above its 20-day high for 3 consecutive sessions and is up at least 15% from the pattern-anchor low within 14 days, on volume above its 20-day average on at least 2 of those 3 days.",
+      "what_it_would_mean": "The unresolved phase has resolved to markup; HOLD is invalidated and the signal should have flipped long rather than staying unknown."
     },
     {
       "id": 3,
-      "condition": "Within 14 days blowoff score prints at or above 70, or VIX closes above 35 (crypto book: DVOL/BVIV above 90) while US HY OAS widens more than 75 bps from the current level.",
-      "what_it_would_mean": "Regime has left the moderate-stress bottoming setup (blowoff 38, Luna-washout analog) and entered a fresh panic; treating this as a holdable bottom watch is invalidated."
+      "condition": "Blowoff score prints at or above 65 on any daily reading within 14 days while price remains within 5% of the pattern-anchor low.",
+      "what_it_would_mean": "The low blowoff-score (33) bottom read is wrong: stress is re-accelerating at the lows, so the Luna-bottom analog and the HOLD verdict do not hold."
     }
   ],
   "doctrine": "If you can't list what would prove your call wrong, you don't have a real call."
