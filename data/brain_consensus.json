@@ -1,11 +1,12 @@
 {
   "oracle": {
     "top_matching_factors": [
-      "mvrv_zscore",
       "fear_greed",
+      "mvrv_zscore",
       "btc_dom_fade"
     ],
     "diverging_factors": [
+      "btc_momentum_30d",
       "funding",
       "dxy_weakness"
     ],
@@ -13,28 +14,31 @@
     "phase": "Panic",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "LONG",
-    "confidence": 0.42,
+    "confidence": 0.4,
     "next_move": {
       "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "low",
-      "reasoning": "Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bottom, so the 85.9% Anger analog is the destination not the current rung; the factor blend sits near 30 in the Panic band, OPEX in 10h is a volatility event not a direction, and the thin Thursday upside skew plus F&G 11 / skew 100 is the bounce signal a prior HOLD missed \u2014 no clean breaker to change rungs, so stay Panic and express the forced side as long from $60,420.",
-      "confirmed_if": "BTC holds $60,000 through OPEX and reclaims $62,500 with fear still under 20 and no new 30d momentum low",
-      "invalidated_if": "Daily close below $58,000 with funding still non-negative and ETF flows stuck at 1, which would mean the flush is unfinished and the score has slipped to Capitulation",
+      "reasoning": "Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and funding is neutral rather than washed out, so the score stays in Depression instead of stepping to Anger or up a rung.",
+      "confirmed_if": "BTC holds above $60,000 through Friday OPEX with funding staying non-negative and options skew pinned near the extreme",
+      "invalidated_if": "daily close below $60,000 with funding flipping negative and 30d momentum rolling down toward the analog washout",
+      "predicted_phase_clamped_from": "Depression",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"funding\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Panic\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Panic\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bo",
-    "brain": "analyst"
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"mvrv_zscore\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"funding\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Depression\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.4,\n  \"next_move\": {\n    \"predicted_phase\": \"Depression\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and",
+    "brain": "analyst",
+    "phase_clamped_from": "Depression"
   },
   "classifier": {
     "top_matching_factors": [
-      "mvrv_zscore",
       "fear_greed",
+      "mvrv_zscore",
       "btc_dom_fade"
     ],
     "diverging_factors": [
+      "btc_momentum_30d",
       "funding",
       "dxy_weakness"
     ],
@@ -42,28 +46,31 @@
     "phase": "Panic",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "LONG",
-    "confidence": 0.42,
+    "confidence": 0.4,
     "next_move": {
       "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "low",
-      "reasoning": "Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bottom, so the 85.9% Anger analog is the destination not the current rung; the factor blend sits near 30 in the Panic band, OPEX in 10h is a volatility event not a direction, and the thin Thursday upside skew plus F&G 11 / skew 100 is the bounce signal a prior HOLD missed \u2014 no clean breaker to change rungs, so stay Panic and express the forced side as long from $60,420.",
-      "confirmed_if": "BTC holds $60,000 through OPEX and reclaims $62,500 with fear still under 20 and no new 30d momentum low",
-      "invalidated_if": "Daily close below $58,000 with funding still non-negative and ETF flows stuck at 1, which would mean the flush is unfinished and the score has slipped to Capitulation",
+      "reasoning": "Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and funding is neutral rather than washed out, so the score stays in Depression instead of stepping to Anger or up a rung.",
+      "confirmed_if": "BTC holds above $60,000 through Friday OPEX with funding staying non-negative and options skew pinned near the extreme",
+      "invalidated_if": "daily close below $60,000 with funding flipping negative and 30d momentum rolling down toward the analog washout",
+      "predicted_phase_clamped_from": "Depression",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"funding\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Panic\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Panic\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bo",
-    "brain": "analyst"
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"mvrv_zscore\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"funding\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Depression\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.4,\n  \"next_move\": {\n    \"predicted_phase\": \"Depression\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and",
+    "brain": "analyst",
+    "phase_clamped_from": "Depression"
   },
   "analyst": {
     "top_matching_factors": [
-      "mvrv_zscore",
       "fear_greed",
+      "mvrv_zscore",
       "btc_dom_fade"
     ],
     "diverging_factors": [
+      "btc_momentum_30d",
       "funding",
       "dxy_weakness"
     ],
@@ -71,68 +78,73 @@
     "phase": "Panic",
     "regime_direction": "RISK_OFF",
     "classifier_signal": "LONG",
-    "confidence": 0.42,
+    "confidence": 0.4,
     "next_move": {
       "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "low",
-      "reasoning": "Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bottom, so the 85.9% Anger analog is the destination not the current rung; the factor blend sits near 30 in the Panic band, OPEX in 10h is a volatility event not a direction, and the thin Thursday upside skew plus F&G 11 / skew 100 is the bounce signal a prior HOLD missed \u2014 no clean breaker to change rungs, so stay Panic and express the forced side as long from $60,420.",
-      "confirmed_if": "BTC holds $60,000 through OPEX and reclaims $62,500 with fear still under 20 and no new 30d momentum low",
-      "invalidated_if": "Daily close below $58,000 with funding still non-negative and ETF flows stuck at 1, which would mean the flush is unfinished and the score has slipped to Capitulation",
+      "reasoning": "Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and funding is neutral rather than washed out, so the score stays in Depression instead of stepping to Anger or up a rung.",
+      "confirmed_if": "BTC holds above $60,000 through Friday OPEX with funding staying non-negative and options skew pinned near the extreme",
+      "invalidated_if": "daily close below $60,000 with funding flipping negative and 30d momentum rolling down toward the analog washout",
+      "predicted_phase_clamped_from": "Depression",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
     },
-    "raw_response": "{\n  \"top_matching_factors\": [\"mvrv_zscore\", \"fear_greed\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"funding\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Panic\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.42,\n  \"next_move\": {\n    \"predicted_phase\": \"Panic\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bo",
-    "brain": "analyst"
+    "raw_response": "{\n  \"top_matching_factors\": [\"fear_greed\", \"mvrv_zscore\", \"btc_dom_fade\"],\n  \"diverging_factors\": [\"btc_momentum_30d\", \"funding\", \"dxy_weakness\"],\n  \"oracle_verdict\": \"APPROACHING\",\n  \"phase\": \"Depression\",\n  \"regime_direction\": \"RISK_OFF\",\n  \"classifier_signal\": \"LONG\",\n  \"confidence\": 0.4,\n  \"next_move\": {\n    \"predicted_phase\": \"Depression\",\n    \"direction\": \"HOLD\",\n    \"conviction\": \"low\",\n    \"reasoning\": \"Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and",
+    "brain": "analyst",
+    "phase_clamped_from": "Depression"
   },
   "narrative": {
     "headline": "Silver Rises 4.01 Percent to $41.66 as Precious Metals Draw the Bid",
     "narrative": "Silver rose 4.01 percent to $41.66, money moving into the precious-metals pipe, the haven channel. Gold rose 1.58 percent to $3,591.5 on that same pipe. Oil rose 1.36 percent to $84.82, and the energy pipe took a bid beside the metals.",
     "author": "jordan",
-    "voice": "newsroom",
-    "brain": "measured_stub",
-    "confidence": 0.3
+    "brain": "jordan",
+    "jordan_written_at": "2026-11-26T19:15:00-05:00",
+    "confidence": 0.7
   },
   "consensus": {
-    "final_signal": "LONG",
+    "final_signal": "HOLD",
     "final_phase": "Panic",
     "alert_tier": "MED",
-    "consensus_confidence": 0.38,
-    "key_reasoning": "Both brains anchor on Panic with factor blend near 30 and 85.9% Luna-bottom analog as destination not current rung; OPEX in 10h forces a side and F&G 11 plus thin Thursday upside skew support the analyst LONG from 60420 over flat.",
+    "consensus_confidence": 0.45,
+    "key_reasoning": "82.5% Luna-bottom match and analyst LONG bias are undercut by 0.4 confidence, flat 30d momentum, neutral funding, and OPEX inside 8h forcing no free flat; haven bid in metals supports RISK_OFF but does not clear a directional side.",
     "disagreements_noted": [
-      "Analyst issues explicit LONG with low-conviction HOLD forward; narrative is measured-only with no directional call"
+      "Analyst forward phase Depression is 2 rungs below Panic (illegal); narrative supplies no phase/signal only metals haven flow",
+      "Analyst signal LONG vs forward direction HOLD; narrative silent on BTC direction"
     ],
     "next_move": {
       "predicted_phase": "Panic",
       "direction": "HOLD",
       "conviction": "low",
-      "reasoning": "Leg still down and funding/ETF flows not at bottom extremes, so stay on Panic rung and hold the long expression unless 58k fails or 62.5k reclaims with fear still crushed.",
-      "brains_agree": "yes on current Panic phase; narrative silent on forward direction so analyst HOLD/LONG carries",
-      "confirmed_if": "BTC holds 60000 through OPEX and reclaims 62500 with fear under 20 and no new 30d momentum low",
-      "invalidated_if": "Daily close below 58000 with funding non-negative and ETF flows stuck, slipping score to Capitulation",
+      "reasoning": "Score remains in Panic band with incomplete washout; only one rung down to Capitulation is legal while awaiting OPEX and funding confirmation.",
+      "brains_agree": "No \u2014 analyst wants Depression/HOLD low-conviction; narrative has no forward phase call",
+      "confirmed_if": "BTC holds above 60000 through OPEX with funding non-negative and skew still extreme",
+      "invalidated_if": "Daily close below 60000 with funding negative and 30d momentum rolling over",
+      "predicted_phase_clamped_from": "Capitulation",
       "direction_geometry_would_be": "DOWN",
       "direction_kept_as_hold": true,
       "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
       "confidence_pct": 53.0,
       "confidence_basis": "1/1 independent brains back HOLD (judge excluded - it is the call, not a vote); conviction 0.3/1.0"
     },
-    "raw_response": "{\n  \"final_signal\": \"LONG\",\n  \"final_phase\": \"Panic\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.38,\n  \"key_reasoning\": \"Both brains anchor on Panic with factor blend near 30 and 85.9% Luna-bottom analog as destination not current rung; OPEX in 10h forces a side and F&G 11 plus thin Thursday upside skew support the analyst LONG from 60420 over flat.\",\n  \"disagreements_noted\": [\n    \"Analyst issues explicit LONG with low-conviction HOLD forward; narrative is measured-only with no directio",
+    "raw_response": "{\n  \"final_signal\": \"HOLD\",\n  \"final_phase\": \"Panic\",\n  \"alert_tier\": \"MED\",\n  \"consensus_confidence\": 0.45,\n  \"key_reasoning\": \"82.5% Luna-bottom match and analyst LONG bias are undercut by 0.4 confidence, flat 30d momentum, neutral funding, and OPEX inside 8h forcing no free flat; haven bid in metals supports RISK_OFF but does not clear a directional side.\",\n  \"disagreements_noted\": [\n    \"Analyst forward phase Depression is 2 rungs below Panic (illegal); narrative supplies no phase/signal onl",
     "brain": "consensus_judge",
-    "brains_avg_confidence": 0.36,
+    "brains_avg_confidence": 0.55,
     "brain_reads": {
       "analyst": {
         "signal": "LONG",
         "phase": "Panic",
         "verdict": "APPROACHING",
-        "confidence": 0.42,
+        "confidence": 0.4,
         "next_move": {
           "predicted_phase": "Panic",
           "direction": "HOLD",
           "conviction": "low",
-          "reasoning": "Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bottom, so the 85.9% Anger analog is the destination not the current rung; the factor blend sits near 30 in the Panic band, OPEX in 10h is a volatility event not a direction, and the thin Thursday upside skew plus F&G 11 / skew 100 is the bounce signal a prior HOLD missed \u2014 no clean breaker to change rungs, so stay Panic and express the forced side as long from $60,420.",
-          "confirmed_if": "BTC holds $60,000 through OPEX and reclaims $62,500 with fear still under 20 and no new 30d momentum low",
-          "invalidated_if": "Daily close below $58,000 with funding still non-negative and ETF flows stuck at 1, which would mean the flush is unfinished and the score has slipped to Capitulation",
+          "reasoning": "Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and funding is neutral rather than washed out, so the score stays in Depression instead of stepping to Anger or up a rung.",
+          "confirmed_if": "BTC holds above $60,000 through Friday OPEX with funding staying non-negative and options skew pinned near the extreme",
+          "invalidated_if": "daily close below $60,000 with funding flipping negative and 30d momentum rolling down toward the analog washout",
+          "predicted_phase_clamped_from": "Depression",
           "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
@@ -140,25 +152,23 @@
       },
       "narrative": {
         "headline": "Silver Rises 4.01 Percent to $41.66 as Precious Metals Draw the Bid",
-        "narrative": "Silver rose 4.01 percent to $41.66, money moving into the precious-metals pipe, the haven channel. Gold rose 1.58 percent to $3,591.5 on that same pipe. Oil rose 1.36 percent to $84.82, and the energy pipe took a bid beside the metals.",
-        "author": "jordan",
-        "voice": "newsroom",
         "phase": "Panic",
-        "confidence": 0.3,
+        "confidence": 0.7,
         "next_move": null
       },
       "judge": {
-        "signal": "LONG",
+        "signal": "HOLD",
         "phase": "Panic",
-        "confidence": 0.38,
+        "confidence": 0.45,
         "next_move": {
           "predicted_phase": "Panic",
           "direction": "HOLD",
           "conviction": "low",
-          "reasoning": "Leg still down and funding/ETF flows not at bottom extremes, so stay on Panic rung and hold the long expression unless 58k fails or 62.5k reclaims with fear still crushed.",
-          "brains_agree": "yes on current Panic phase; narrative silent on forward direction so analyst HOLD/LONG carries",
-          "confirmed_if": "BTC holds 60000 through OPEX and reclaims 62500 with fear under 20 and no new 30d momentum low",
-          "invalidated_if": "Daily close below 58000 with funding non-negative and ETF flows stuck, slipping score to Capitulation",
+          "reasoning": "Score remains in Panic band with incomplete washout; only one rung down to Capitulation is legal while awaiting OPEX and funding confirmation.",
+          "brains_agree": "No \u2014 analyst wants Depression/HOLD low-conviction; narrative has no forward phase call",
+          "confirmed_if": "BTC holds above 60000 through OPEX with funding non-negative and skew still extreme",
+          "invalidated_if": "Daily close below 60000 with funding negative and 30d momentum rolling over",
+          "predicted_phase_clamped_from": "Capitulation",
           "direction_geometry_would_be": "DOWN",
           "direction_kept_as_hold": true,
           "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
@@ -179,14 +189,15 @@
   "brain_reads": {
     "analyst": {
       "phase": "Panic",
-      "confidence": 0.42,
+      "confidence": 0.4,
       "next_move": {
         "predicted_phase": "Panic",
         "direction": "HOLD",
         "conviction": "low",
-        "reasoning": "Leg is still down (-25% in 30d, momentum 7 vs 18 at the Luna print) and funding/ETF flows have not reached that bottom, so the 85.9% Anger analog is the destination not the current rung; the factor blend sits near 30 in the Panic band, OPEX in 10h is a volatility event not a direction, and the thin Thursday upside skew plus F&G 11 / skew 100 is the bounce signal a prior HOLD missed \u2014 no clean breaker to change rungs, so stay Panic and express the forced side as long from $60,420.",
-        "confirmed_if": "BTC holds $60,000 through OPEX and reclaims $62,500 with fear still under 20 and no new 30d momentum low",
-        "invalidated_if": "Daily close below $58,000 with funding still non-negative and ETF flows stuck at 1, which would mean the flush is unfinished and the score has slipped to Capitulation",
+        "reasoning": "Fear and MVRV already match the Luna-bottom fingerprint, but 30d momentum is flat and funding is neutral rather than washed out, so the score stays in Depression instead of stepping to Anger or up a rung.",
+        "confirmed_if": "BTC holds above $60,000 through Friday OPEX with funding staying non-negative and options skew pinned near the extreme",
+        "invalidated_if": "daily close below $60,000 with funding flipping negative and 30d momentum rolling down toward the analog washout",
+        "predicted_phase_clamped_from": "Depression",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim."
@@ -194,23 +205,21 @@
     },
     "narrative": {
       "headline": "Silver Rises 4.01 Percent to $41.66 as Precious Metals Draw the Bid",
-      "narrative": "Silver rose 4.01 percent to $41.66, money moving into the precious-metals pipe, the haven channel. Gold rose 1.58 percent to $3,591.5 on that same pipe. Oil rose 1.36 percent to $84.82, and the energy pipe took a bid beside the metals.",
-      "author": "jordan",
-      "voice": "newsroom",
-      "confidence": 0.3,
+      "confidence": 0.7,
       "next_move": null
     },
     "judge": {
-      "signal": "LONG",
-      "confidence": 0.38,
+      "signal": "HOLD",
+      "confidence": 0.45,
       "next_move": {
         "predicted_phase": "Panic",
         "direction": "HOLD",
         "conviction": "low",
-        "reasoning": "Leg still down and funding/ETF flows not at bottom extremes, so stay on Panic rung and hold the long expression unless 58k fails or 62.5k reclaims with fear still crushed.",
-        "brains_agree": "yes on current Panic phase; narrative silent on forward direction so analyst HOLD/LONG carries",
-        "confirmed_if": "BTC holds 60000 through OPEX and reclaims 62500 with fear under 20 and no new 30d momentum low",
-        "invalidated_if": "Daily close below 58000 with funding non-negative and ETF flows stuck, slipping score to Capitulation",
+        "reasoning": "Score remains in Panic band with incomplete washout; only one rung down to Capitulation is legal while awaiting OPEX and funding confirmation.",
+        "brains_agree": "No \u2014 analyst wants Depression/HOLD low-conviction; narrative has no forward phase call",
+        "confirmed_if": "BTC holds above 60000 through OPEX with funding non-negative and skew still extreme",
+        "invalidated_if": "Daily close below 60000 with funding negative and 30d momentum rolling over",
+        "predicted_phase_clamped_from": "Capitulation",
         "direction_geometry_would_be": "DOWN",
         "direction_kept_as_hold": true,
         "clamp_note": "the clamp moved the rung to Panic, whose midpoint implies DOWN - but the brain said HOLD and that is its call. Geometry may refine a direction the brain meant, never invent one it did not. Recorded as phase drift, not a MOVE claim.",
@@ -221,6 +230,6 @@
   },
   "_alias_note": "oracle and classifier are ALIASES of analyst, kept for back-compat since the oracle+classifier roles merged into one brain. There are THREE voices: analyst, narrative, judge. Counting the top-level keys counts one brain three times.",
   "voices": 3,
-  "timestamp": "2026-11-26T18:23:42.038469-05:00",
+  "timestamp": "2026-11-26T19:36:35.740284-05:00",
   "architecture": "3-brain-sequential-v2.4"
 }
